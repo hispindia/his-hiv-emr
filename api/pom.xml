@@ -2,14 +2,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.openmrs.module</groupId>
-		<artifactId>kenyaemr</artifactId>
-		<version>15.1-SNAPSHOT</version>
+		<artifactId>myanmaremr</artifactId>
+		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>kenyaemr-api</artifactId>
-    <version>15.1-SNAPSHOT</version>
+	<artifactId>myanmaremr-api</artifactId>
+    <version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>KenyaEMR Module API</name>
+	<name>MyanmarEMR Module API</name>
 	<description>API project for KenyaEMR Module</description>
 	
 	<build>

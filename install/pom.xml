@@ -3,14 +3,14 @@
 
 	<parent>
 		<groupId>org.openmrs.module</groupId>
-		<artifactId>kenyaemr</artifactId>
-		<version>15.1-SNAPSHOT</version>
+		<artifactId>myanmaremr</artifactId>
+		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>kenyaemr-install</artifactId>
-  <version>15.1-SNAPSHOT</version>
+	<artifactId>myanmaremr-install</artifactId>
+  <version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>KenyaEMR Installation (optional)</name>
+	<name>MyanmarEMR Installation (optional)</name>
 	<description>Installation tools for KenyaEMR</description>
 
 	<properties>
