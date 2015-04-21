@@ -40,7 +40,7 @@
 			<dependencies>
 				<dependency>
 					<groupId>org.openmrs.module</groupId>
-					<artifactId>kenyaemr-omod</artifactId>
+					<artifactId>myanmaremr-omod</artifactId>
 					<version>${project.parent.version}</version>
 				</dependency>
 			</dependencies>
