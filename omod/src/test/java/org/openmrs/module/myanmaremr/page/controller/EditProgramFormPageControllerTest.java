@@ -69,7 +69,7 @@ public class EditProgramFormPageControllerTest extends BaseModuleWebContextSensi
 
 		// Check with no previous submission of the family form
 		String result = controller.controller("test.app", enrollment, HivMetadata._Form.FAMILY_HISTORY, "test.html");
-		Assert.assertThat(result, is("redirect:kemyanmarr/enterForm.page?formUuid=7efa0ee0-6617-4cd7-8310-9f95dfee7a82&appId=test.app&patientId=7&returnUrl=test.html"));
+		Assert.assertThat(result, is("redirect:kenyaemr/enterForm.page?formUuid=7efa0ee0-6617-4cd7-8310-9f95dfee7a82&appId=test.app&patientId=7&returnUrl=test.html"));
 
 		// Record submission of family history form on day prior to enrollment
 		TestUtils.saveEncounter(TestUtils.getPatient(7), familyHistory, TestUtils.date(2012, 4, 30));

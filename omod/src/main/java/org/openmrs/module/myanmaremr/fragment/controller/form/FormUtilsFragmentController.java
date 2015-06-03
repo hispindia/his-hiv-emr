@@ -32,7 +32,7 @@ public class FormUtilsFragmentController {
 	 */
 	@SharedAction
 	public SimpleObject deleteEncounter(@RequestParam("encounterId") Encounter encounter) {
-		Context.getEncounterService().voidEncounter(encounter, "KemyanmarR");
+		Context.getEncounterService().voidEncounter(encounter, "KenyaEMR");
 		return SimpleObject.create("encounterId", encounter.getEncounterId());
 	}
 }

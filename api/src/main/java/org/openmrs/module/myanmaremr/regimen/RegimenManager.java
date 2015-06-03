@@ -54,7 +54,7 @@ public class RegimenManager implements ContentManager {
 	private Map<String, List<RegimenDefinitionGroup>> regimenGroups = new LinkedHashMap<String, List<RegimenDefinitionGroup>>();
 
 	/**
-	 * @see org.openmrs.module.kemyanmarre.ContentManager#getPriority()
+	 * @see org.openmrs.module.kenyacore.ContentManager#getPriority()
 	 */
 	@Override
 	public int getPriority() {

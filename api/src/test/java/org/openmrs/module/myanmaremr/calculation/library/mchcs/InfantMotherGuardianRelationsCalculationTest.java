@@ -43,7 +43,7 @@ public class InfantMotherGuardianRelationsCalculationTest extends BaseModuleCont
 
 	/**
 	 * @verifies all mother and/or guardian relations for a patient
-	 * @see org.openmrs.module.kemyanmarr.calculation.library.mchcs.InfantMotherGuardianRelationsCalculation#evaluate (
+	 * @see org.openmrs.module.kenyaemr.calculation.library.mchcs.InfantMotherGuardianRelationsCalculation#evaluate (
 	 *      java.util.Collection, java.util.Map, org.openmrs.calculation.patient.PatientCalculationContext)
 	 */
 	@Test

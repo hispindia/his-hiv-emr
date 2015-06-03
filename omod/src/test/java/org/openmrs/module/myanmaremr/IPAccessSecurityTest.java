@@ -36,7 +36,7 @@ public class IPAccessSecurityTest extends BaseModuleWebContextSensitiveTest {
 	}
 
 	/**
-	 * @see org.openmrs.module.kemyanmarr.IPAccessSecurity
+	 * @see org.openmrs.module.kenyaemr.IPAccessSecurity
 	 */
 	@Test
 	public void test() throws Exception {

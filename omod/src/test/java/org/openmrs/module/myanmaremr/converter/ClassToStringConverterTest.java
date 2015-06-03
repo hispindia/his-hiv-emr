@@ -32,6 +32,6 @@ public class ClassToStringConverterTest {
 	@Test
 	public void convert_shouldConvertClass() {
 		Assert.assertThat(converter.convert(null), is(""));
-		Assert.assertThat(converter.convert(this.getClass()), is("org.openmrs.module.kenyaemr.converter.ClassToStringConverterTest"));
+		Assert.assertThat(converter.convert(this.getClass()), is("org.openmrs.module.myanmaremr.converter.ClassToStringConverterTest"));
 	}
 }

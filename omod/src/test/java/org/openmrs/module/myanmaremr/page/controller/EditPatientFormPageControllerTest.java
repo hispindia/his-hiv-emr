@@ -49,7 +49,7 @@ public class EditPatientFormPageControllerTest extends BaseModuleWebContextSensi
 	}
 
 	/**
-	 * @see org.openmrs.module.kemyanmarr.page.controller.EditProgramFormPageController#controller(String, org.openmrs.PatientProgram, String, String)
+	 * @see org.openmrs.module.kenyaemr.page.controller.EditProgramFormPageController#controller(String, org.openmrs.PatientProgram, String, String)
 	 */
 	@Test
 	public void controller() {
