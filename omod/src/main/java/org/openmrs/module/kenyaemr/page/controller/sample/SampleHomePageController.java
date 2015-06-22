@@ -14,41 +14,20 @@
 
 package org.openmrs.module.kenyaemr.page.controller.sample;
 
-import org.openmrs.Patient;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openmrs.module.kenyaemr.EmrConstants;
-import org.openmrs.module.kenyaemr.EmrWebConstants;
 import org.openmrs.module.kenyaui.annotation.AppPage;
-import org.openmrs.module.reporting.common.DateUtil;
-import org.openmrs.ui.framework.SimpleObject;
-import org.openmrs.ui.framework.UiUtils;
-import org.openmrs.ui.framework.page.PageModel;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.Date;
 
 /**
  * Homepage for the registration app
  */
 @AppPage(EmrConstants.APP_SAMPLE)
 public class SampleHomePageController {
+	Log log = LogFactory.getLog(SampleHomePageController.class);
 
-	public String controller(UiUtils ui,
-							 @RequestParam(required = false, value = "scheduleDate") Date scheduleDate,
-	                         PageModel model) {
-
-		Patient patient = (Patient) model.getAttribute(EmrWebConstants.MODEL_ATTR_CURRENT_PATIENT);
-
-		// Get the date for schedule view
-		if (scheduleDate == null) {
-			scheduleDate = new Date();
-		}
-		scheduleDate = DateUtil.getStartOfDay(scheduleDate);
-		model.addAttribute("scheduleDate", scheduleDate);
-
-		if (patient != null) {
-			return "redirect:" + ui.pageLink(EmrConstants.MODULE_ID, "registration/registrationViewPatient", SimpleObject.create("patientId", patient.getId()));
-		} else {
-			return null;
-		}
+	public void controller() {
+		log.info("in SampleHomePageController");
 	}
+	
 }
