@@ -61,6 +61,7 @@ public class CommonMetadata extends AbstractMetadataBundle {
 	}
 
 	public static final class _PersonAttributeType {
+		public static final String FATHER_NAME = "20d98e55-796c-4d41-ae07-fca1bcc1a10f";
 		public static final String NEXT_OF_KIN_ADDRESS = "7cf22bec-d90a-46ad-9f48-035952261294";
 		public static final String NEXT_OF_KIN_CONTACT = "342a1d39-c541-4b29-8818-930916f4c2dc";
 		public static final String NEXT_OF_KIN_NAME = "830bef6d-b01f-449d-9f8d-ac0fede8dbd3";

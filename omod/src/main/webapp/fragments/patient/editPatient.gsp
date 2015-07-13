@@ -7,6 +7,10 @@
 					[ object: command, property: "personName.givenName", label: "First name *" ],
 					[ object: command, property: "personName.middleName", label: "Other name(s)" ]
 			],
+			
+			[
+					[ object: command, property: "fatherName", label: "Father's Name" ]
+			],
 	]
 
 	def otherDemogFieldRows = [

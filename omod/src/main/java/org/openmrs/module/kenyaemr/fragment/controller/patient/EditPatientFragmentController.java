@@ -172,6 +172,8 @@ public class EditPatientFragmentController {
 		private String nextOfKinContact;
 		private String nextOfKinAddress;
 		private String subChiefName;
+		
+		private String fatherName;
 
 		/**
 		 * Creates an edit form for a new patient
@@ -369,6 +371,8 @@ public class EditPatientFragmentController {
 				}
 				toSave.addName(personName);
 			}
+			
+			//toSave.
 
 			if (anyChanges(toSave.getPersonAddress(), personAddress, "address1", "address2", "address5", "address6", "countyDistrict","address3","cityVillage","stateProvince","country","postalCode","address4")) {
 				if (toSave.getPersonAddress() != null) {
@@ -388,6 +392,7 @@ public class EditPatientFragmentController {
 			wrapper.setNextOfKinContact(nextOfKinContact);
 			wrapper.setNextOfKinAddress(nextOfKinAddress);
 			wrapper.setSubChiefName(subChiefName);
+			wrapper.getPerson().setFatherName(fatherName);
 
 			// Make sure everyone gets an OpenMRS ID
 			PatientIdentifierType openmrsIdType = MetadataUtils.existing(PatientIdentifierType.class, CommonMetadata._PatientIdentifierType.OPENMRS_ID);
@@ -740,5 +745,14 @@ public class EditPatientFragmentController {
 		public void setSubChiefName(String subChiefName) {
 			this.subChiefName = subChiefName;
 		}
+
+		public String getFatherName() {
+			return fatherName;
+		}
+
+		public void setFatherName(String fatherName) {
+			this.fatherName = fatherName;
+		}
+		
 	}
 }
