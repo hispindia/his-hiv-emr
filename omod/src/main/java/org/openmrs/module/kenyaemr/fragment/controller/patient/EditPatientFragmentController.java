@@ -267,6 +267,7 @@ public class EditPatientFragmentController {
 		public void validate(Object target, Errors errors) {
 			require(errors, "personName.givenName");
 			//require(errors, "personName.familyName");
+			require(errors, "fatherName");
 			require(errors, "gender");
 			require(errors, "birthdate");
 
