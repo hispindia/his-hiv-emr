@@ -266,7 +266,7 @@ public class EditPatientFragmentController {
 		@Override
 		public void validate(Object target, Errors errors) {
 			require(errors, "personName.givenName");
-			require(errors, "personName.familyName");
+			//require(errors, "personName.familyName");
 			require(errors, "gender");
 			require(errors, "birthdate");
 
@@ -365,10 +365,12 @@ public class EditPatientFragmentController {
 			toSave.setDeathDate(deathDate);
 			toSave.setCauseOfDeath(dead ? Dictionary.getConcept(CAUSE_OF_DEATH_PLACEHOLDER) : null);
 
-			if (anyChanges(toSave.getPersonName(), personName, "givenName", "familyName")) {
+			if (anyChanges(toSave.getPersonName(), personName, "givenName")) {
 				if (toSave.getPersonName() != null) {
 					voidData(toSave.getPersonName());
 				}
+				personName.setGivenName(personName.getGivenName());
+				personName.setFamilyName("(NULL)");
 				toSave.addName(personName);
 			}
 			

@@ -14,13 +14,10 @@
 	<div class="ke-panel-frame" id="ng-similarpatients" ng-controller="SimilarPatients" ng-init="init('${ currentApp.id }', 'kenyaemr', 'registration/registrationViewPatient')">
 		<script type="text/javascript">
 			jQuery(function() {
-				jQuery('input[name="personName.givenName"], input[name="personName.familyName"]').change(function() {
+				jQuery('input[name="personName.givenName"]').change(function() {
 					var givenName = jQuery('input[name="personName.givenName"]').val();
-					var familyName = jQuery('input[name="personName.familyName"]').val();
-
 					kenyaui.updateController('ng-similarpatients', function(scope) {
 						scope.givenName = givenName;
-						scope.familyName = familyName;
 						scope.refresh();
 					});
 				});

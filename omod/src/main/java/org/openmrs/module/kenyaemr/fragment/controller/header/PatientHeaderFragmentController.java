@@ -35,6 +35,8 @@ public class PatientHeaderFragmentController {
 
 		model.addAttribute("patient", patient);
 		
+		model.addAttribute("patientName", patient.getGivenName());
+		
 		AppDescriptor currentApp = kenyaUi.getCurrentApp(pageRequest);
 
 		if (currentApp != null) {

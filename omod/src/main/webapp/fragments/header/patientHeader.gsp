@@ -16,7 +16,7 @@
 		<div style="float: left; padding-right: 5px">
 			<img width="32" height="32" ng-src="{{ iconUrl }}" />
 		</div>
-		<span class="ke-patient-name">{{ patient.name }}</span><br/>
+		<span class="ke-patient-name">${patientName}</span><br/>
 		<span class="ke-patient-gender">{{ patient.gender | keGender }}</span>,
 		<span class="ke-patient-age">{{ patient.age }} <small>(${ kenyaui.formatPersonBirthdate(patient) })</small></span>
 	</div>
