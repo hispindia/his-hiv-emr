@@ -108,7 +108,7 @@
 			<table>
 				<tr>
 					<td valign="top">
-						<label class="ke-field-label">Sex *</label>
+						<label class="ke-field-label">Gender *</label>
 						<span class="ke-field-content">
 							<input type="radio" name="gender" value="F" id="gender-F" ${ command.gender == 'F' ? 'checked="checked"' : '' }/> Female
 							<input type="radio" name="gender" value="M" id="gender-M" ${ command.gender == 'M' ? 'checked="checked"' : '' }/> Male
@@ -175,7 +175,7 @@ ${ ui.includeFragment("kenyaui", "widget/dialogForm", [
 		buttonConfig: [ id: "from-age-button", label: "from age", iconProvider: "kenyaui", icon: "glyphs/calculate.png" ],
 		dialogConfig: [ heading: "Calculate Birthdate", width: 40, height: 40 ],
 		fields: [
-				[ label: "Age in years", formFieldName: "age", class: java.lang.Integer ],
+				[ label: "Age in y/m/w/d", formFieldName: "age", class: java.lang.String ],
 				[ label: "On date", formFieldName: "now", class: java.util.Date, initialValue: new Date() ]
 		],
 		fragmentProvider: "kenyaemr",

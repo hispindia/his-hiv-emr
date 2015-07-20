@@ -149,12 +149,30 @@ public class EmrUtilsFragmentController {
 	 * @param age the age
 	 * @return the ISO8601 formatted birthdate
 	 */
-	public SimpleObject birthdateFromAge(@RequestParam(value = "age") Integer age,
+	public SimpleObject birthdateFromAge(@RequestParam(value = "age") String text,
 										 @RequestParam(value = "now", required = false) Date now,
 										 @SpringBean KenyaUiUtils kenyaui) {
+		/*
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(now != null ? now : new Date());
 		cal.add(Calendar.YEAR, -age);
+		*/
+		
+		text = text.toLowerCase();
+		String ageStr = text.substring(0, text.length() - 1);
+		String type = text.substring(text.length() - 1);
+		int age = Integer.parseInt(ageStr);
+		
+		Calendar cal = Calendar.getInstance();
+		if (type.equalsIgnoreCase("y")) {
+			cal.add(Calendar.YEAR, -age);
+		} else if (type.equalsIgnoreCase("m")) {
+			cal.add(Calendar.MONTH, -age);
+		} else if (type.equalsIgnoreCase("w")) {
+			cal.add(Calendar.WEEK_OF_YEAR, -age);
+		} else if (type.equalsIgnoreCase("d")) {
+			cal.add(Calendar.DATE, -age);
+		}
 		return SimpleObject.create("birthdate", kenyaui.formatDateParam(cal.getTime()));
 	}
 }
