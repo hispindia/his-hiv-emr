@@ -15,6 +15,13 @@
 package org.openmrs.module.kenyaemr.fragment.controller.patient;
 
 import org.apache.commons.lang.StringUtils;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+import org.jaxen.JaxenException;
+import org.jaxen.XPath;
+import org.jaxen.dom4j.Dom4jXPath;
 import org.openmrs.Concept;
 import org.openmrs.Location;
 import org.openmrs.Obs;
@@ -48,6 +55,8 @@ import org.openmrs.util.OpenmrsUtil;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -758,4 +767,71 @@ public class EditPatientFragmentController {
 		}
 		
 	}
+	
+	/*
+	public void getAddressData(FragmentModel model) throws MalformedURLException, DocumentException, JaxenException {
+		File addressFile = new File(OpenmrsUtil.getApplicationDataDirectory() + "kenyaaddresshierarchy.xml");
+		if (addressFile.exists()) {
+			SAXReader reader = new SAXReader();
+			Document document = reader.read(addressFile.toURI().toURL());
+			XPath distSelector = new Dom4jXPath("//country/county");
+			@SuppressWarnings("rawtypes")
+			List countyList = distSelector.selectNodes(document);
+			String[] countyArr = new String[countyList.size()];
+			String[] subcountyArr = new String[countyList.size()];
+			String location="";
+			
+			if (countyList.size() > 0) {
+				for (int i = 0; i < countyList.size(); i++) {
+					
+					countyArr[i] = ((Element) countyList.get(i)).attributeValue("name");
+					@SuppressWarnings("rawtypes")
+					List subcountyList = ((Element) countyList.get(i)).elements("subcounty");
+					
+					String countyName=((Element) countyList.get(i)).attributeValue("name");
+					location=location+countyName;
+					
+					
+					String subcountyName=((Element) subcountyList.get(0)).attributeValue("name");
+					location=location+"/"+subcountyName;
+					subcountyArr[i] = ((Element) subcountyList.get(0)).attributeValue("name") + ",";
+					@SuppressWarnings("rawtypes")
+					List locationList = ((Element) subcountyList.get(0)).elements("location");
+					for(int k = 0; k < (locationList.size()); k++) {
+						String locationName=((Element) locationList.get(k)).attributeValue("name");
+						location=location+"."+locationName;
+					}
+						
+					
+					for (int j = 1; j < (subcountyList.size()-1); j++) {
+					subcountyName=((Element) subcountyList.get(j)).attributeValue("name");
+					location=location+"/"+subcountyName;
+					subcountyArr[i] += ((Element) subcountyList.get(j)).attributeValue("name") + ",";
+					locationList = ((Element) subcountyList.get(j)).elements("location");
+					for(int k = 0; k < (locationList.size()); k++) {
+						String locationName=((Element) locationList.get(k)).attributeValue("name");
+						location=location+"."+locationName;
+						}	
+					}
+					
+					subcountyName=((Element) subcountyList.get((subcountyList.size()-1))).attributeValue("name");
+					location=location+"/"+subcountyName;
+					subcountyArr[i] += ((Element) subcountyList.get((subcountyList.size()-1))).attributeValue("name") + ",";
+					locationList = ((Element) subcountyList.get((subcountyList.size()-1))).elements("location");
+					for(int k = 0; k < (locationList.size()); k++) {
+						String locationName=((Element) locationList.get(k)).attributeValue("name");
+						location=location+"."+locationName;
+					}
+					
+					if(i<countyList.size()-1){
+						location=location+"@";
+					}
+				}
+			}
+			model.addAttribute("districts", countyArr);
+			model.addAttribute("upazilas", subcountyArr);
+			model.addAttribute("location", location);
+			
+		}
+	}*/
 }
