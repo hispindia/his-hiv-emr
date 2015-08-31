@@ -167,7 +167,7 @@
         
         <div>
         <tr>
-        <td>County:</td>
+        <td>State / Region:</td>
         <td>
         <select ng-model="myCounty" ng-options="county for county in counties" ng-blur="countySelection(myCounty)"></select>
         </td>
@@ -176,7 +176,7 @@
         
         <div>
         <tr>
-        <td>Sub County:</td>
+        <td>Township:</td>
         <td>
         <select ng-model="mySubCounty" ng-options="subcounty for subcounty in subcounties" ng-blur="subCountySelection(myCounty,mySubCounty)"></select>
         </td>
@@ -185,7 +185,7 @@
         
         <div>
         <tr>
-        <td>Location:</td>
+        <td>Town / Village:</td>
         <td>
         <select ng-model="myLocation" ng-options="location for location in locations"></select>
         </td>
