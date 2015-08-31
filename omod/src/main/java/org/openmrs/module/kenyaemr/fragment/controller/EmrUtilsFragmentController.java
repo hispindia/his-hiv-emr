@@ -16,6 +16,13 @@ package org.openmrs.module.kenyaemr.fragment.controller;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+import org.jaxen.JaxenException;
+import org.jaxen.XPath;
+import org.jaxen.dom4j.Dom4jXPath;
 import org.openmrs.Concept;
 import org.openmrs.Patient;
 import org.openmrs.Relationship;
@@ -38,10 +45,17 @@ import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.action.SuccessResult;
+import org.openmrs.util.OpenmrsUtil;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Fragment actions generally useful for KenyaEMR
@@ -174,5 +188,151 @@ public class EmrUtilsFragmentController {
 			cal.add(Calendar.DATE, -age);
 		}
 		return SimpleObject.create("birthdate", kenyaui.formatDateParam(cal.getTime()));
+	}
+	
+	public SimpleObject addressHierarchy(@RequestParam(value= "county", required = false) String county,
+			@RequestParam(value= "subcounty", required = false) String subcounty,@SpringBean KenyaUiUtils kenyaUi) {
+		
+		Map<String,List> subCountyMap= new LinkedHashMap<String,List>();
+		
+		Map<String,List> locationMap= new LinkedHashMap<String,List>();
+		
+		String[] countyArr = null ;
+		
+		File addressFile = new File(OpenmrsUtil.getApplicationDataDirectory()
+				+ "myanmaraddresshierarchy.xml");
+		if (addressFile.exists()) {
+			SAXReader reader = new SAXReader();
+			Document document = null;
+			try {
+				document = reader.read(addressFile.toURI().toURL());
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (DocumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			XPath distSelector = null;
+			try {
+				distSelector = new Dom4jXPath("//country/county");
+			} catch (JaxenException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			@SuppressWarnings("rawtypes")
+			List countyList = null;
+			try {
+				countyList = distSelector.selectNodes(document);
+			} catch (JaxenException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			 countyArr = new String[countyList.size()];
+			String[] subcountyArr = new String[countyList.size()];
+
+			if (countyList.size() > 0) {
+				for (int i = 0; i < countyList.size(); i++) {
+					
+					List<String> subCountyList=new LinkedList<String>();
+
+					countyArr[i] = ((Element) countyList.get(i))
+							.attributeValue("name");
+					@SuppressWarnings("rawtypes")
+					List subcountyList = ((Element) countyList.get(i))
+							.elements("subcounty");
+
+					String countyName = ((Element) countyList.get(i))
+							.attributeValue("name");
+
+					String subcountyName = ((Element) subcountyList.get(0))
+							.attributeValue("name");
+					
+					subcountyArr[i] = ((Element) subcountyList.get(0))
+							.attributeValue("name") + ",";
+					
+					//
+					subCountyList.add(subcountyName);
+					
+					@SuppressWarnings("rawtypes")
+					List locationList = ((Element) subcountyList.get(0))
+							.elements("location");
+					//
+					List<String> locList1=new LinkedList<String>();
+					for (int k = 0; k < (locationList.size()); k++) {
+						
+						String locationName = ((Element) locationList.get(k))
+								.attributeValue("name");
+						//
+						locList1.add(locationName);
+						
+					}
+					locationMap.put(countyName+subcountyName, locList1);
+
+					for (int j = 1; j < (subcountyList.size() - 1); j++) {
+						
+						subcountyName = ((Element) subcountyList.get(j))
+								.attributeValue("name");
+						//
+						subCountyList.add(subcountyName);
+						
+						subcountyArr[i] += ((Element) subcountyList.get(j))
+								.attributeValue("name") + ",";
+						locationList = ((Element) subcountyList.get(j))
+								.elements("location");
+						//
+						List<String> locList2=new LinkedList<String>();
+						for (int k = 0; k < (locationList.size()); k++) {
+							
+							String locationName = ((Element) locationList
+									.get(k)).attributeValue("name");
+							//
+							locList2.add(locationName);
+						}
+						//
+						locationMap.put(countyName+subcountyName, locList2);
+					}
+
+					subcountyName = ((Element) subcountyList.get((subcountyList
+							.size() - 1))).attributeValue("name");
+					//
+					subCountyList.add(subcountyName);
+					subCountyMap.put(countyName, subCountyList);
+					
+					subcountyArr[i] += ((Element) subcountyList
+							.get((subcountyList.size() - 1)))
+							.attributeValue("name")
+							+ ",";
+					locationList = ((Element) subcountyList.get((subcountyList
+							.size() - 1))).elements("location");
+					//
+					List<String> locList3=new LinkedList<String>();
+					for (int k = 0; k < (locationList.size()); k++) {
+						
+						String locationName = ((Element) locationList.get(k))
+								.attributeValue("name");
+						
+						//
+						locList3.add(locationName);
+					}
+					locationMap.put(countyName+subcountyName, locList3);
+
+				}
+			}
+		}
+		
+		
+		if(county.equals("")){
+			return SimpleObject.create("county",countyArr);	
+		}
+		else{
+			if(subcounty.equals("")){
+				return SimpleObject.create("subcounty",subCountyMap.get(county));
+			}
+			else{
+		    return SimpleObject.create("location",locationMap.get(county+subcounty));
+			}
+		}
+		
 	}
 }

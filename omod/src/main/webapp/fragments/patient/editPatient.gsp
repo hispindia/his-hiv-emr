@@ -1,5 +1,7 @@
 <%
 	ui.decorateWith("kenyaui", "panel", [ heading: (config.heading ?: "Edit Patient"), frameOnly: true ])
+	
+	ui.includeJavascript("kenyaemr", "controllers/addresshierarchy.js")
 
 	def nameFields = [
 			[
@@ -159,6 +161,40 @@
 		</fieldset>
 
 	</div>
+	
+	<div ng-app>
+    <div ng-controller="AddresshierarchyCtrl">
+        
+        <div>
+        <tr>
+        <td>County:</td>
+        <td>
+        <select ng-model="myCounty" ng-options="county for county in counties" ng-blur="countySelection(myCounty)"></select>
+        </td>
+        </tr>
+        </div>
+        
+        <div>
+        <tr>
+        <td>Sub County:</td>
+        <td>
+        <select ng-model="mySubCounty" ng-options="subcounty for subcounty in subcounties" ng-blur="subCountySelection(myCounty,mySubCounty)"></select>
+        </td>
+        </tr>
+        </div>
+        
+        <div>
+        <tr>
+        <td>Location:</td>
+        <td>
+        <select ng-model="myLocation" ng-options="location for location in locations"></select>
+        </td>
+        </tr>
+        </div>
+        
+    </div>
+    </div>
+	
 	<div class="ke-panel-footer">
 		<button type="submit">
 			<img src="${ ui.resourceLink("kenyaui", "images/glyphs/ok.png") }" /> ${ command.original ? "Save Changes" : "Create Patient" }
