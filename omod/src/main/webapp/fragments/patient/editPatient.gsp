@@ -161,15 +161,13 @@
 		</fieldset>
 
 	</div>
-	
-	<div ng-app>
-    <div ng-controller="AddresshierarchyCtrl">
+    <div ng-controller="AddresshierarchyCtrl" data-ng-init="init()">
         
         <div>
         <tr>
         <td>State / Region:</td>
         <td>
-        <select ng-model="myCounty" ng-options="county for county in counties" ng-blur="countySelection(myCounty)"></select>
+        <select ng-model="myCounty" ng-options="county for county in counties" ng-change="countySelection(myCounty)"></select>
         </td>
         </tr>
         </div>
@@ -178,7 +176,7 @@
         <tr>
         <td>Township:</td>
         <td>
-        <select ng-model="mySubCounty" ng-options="subcounty for subcounty in subcounties" ng-blur="subCountySelection(myCounty,mySubCounty)"></select>
+        <select ng-model="mySubCounty" ng-options="subcounty for subcounty in subcounties" ng-change="subCountySelection(myCounty,mySubCounty)"></select>
         </td>
         </tr>
         </div>
@@ -191,8 +189,6 @@
         </td>
         </tr>
         </div>
-        
-    </div>
     </div>
 	
 	<div class="ke-panel-footer">

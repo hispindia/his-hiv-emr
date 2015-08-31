@@ -319,6 +319,8 @@ public class EmrUtilsFragmentController {
 
 				}
 			}
+		} else {
+			log.error("address file does not exist");
 		}
 		
 		
