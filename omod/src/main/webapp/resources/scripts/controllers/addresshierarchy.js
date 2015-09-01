@@ -3,24 +3,24 @@
 kenyaemrApp.controller('AddresshierarchyCtrl', ['$scope', function($scope) {
 
 	
-	$scope.countySelection = function(myCounty) {
-		jq.getJSON('/' + OPENMRS_CONTEXT_PATH + '/kenyaemr/emrUtils/addressHierarchy.action',{ county: myCounty})
+	$scope.stateSelection = function(myState) {
+		jq.getJSON('/' + OPENMRS_CONTEXT_PATH + '/kenyaemr/emrUtils/addressHierarchy.action',{ state: myState})
 		.done(function(data) {
 			
 			$scope.$apply(function(){ 
-				$scope.subcounties = data.subcounty;
-				console.debug("$scope.subcounties = data.subcounty;");
+				$scope.townships = data.township;
+				console.debug("$scope.townships = data.township;");
 			});
 			
 	    });
 	};
 	
-	$scope.subCountySelection = function(myCounty,mySubCounty) {
-		jq.getJSON('/' + OPENMRS_CONTEXT_PATH + '/kenyaemr/emrUtils/addressHierarchy.action',{ county: myCounty,subcounty: mySubCounty})
+	$scope.townshipSelection = function(myState,myTownship) {
+		jq.getJSON('/' + OPENMRS_CONTEXT_PATH + '/kenyaemr/emrUtils/addressHierarchy.action',{ state: myState,township: myTownship})
 		.done(function(data) {
 			$scope.$apply(function(){ 
-				$scope.locations = data.location;
-				console.debug("$scope.locations = data.location;");
+				$scope.villages = data.village;
+				console.debug("$scope.villages = data.village;");
 			});
 	    });
 	};
@@ -29,8 +29,8 @@ kenyaemrApp.controller('AddresshierarchyCtrl', ['$scope', function($scope) {
 		jq.getJSON('/' + OPENMRS_CONTEXT_PATH + '/kenyaemr/emrUtils/addressHierarchy.action')
 	    .done(function(data) {
 	    	$scope.$apply(function(){ 
-	    		$scope.counties = data.county;
-		    	console.debug("$scope.counties = data.county;");
+	    		$scope.states = data.state;
+		    	console.debug("$scope.states = data.state;");
 			});
 	    	
 	    });

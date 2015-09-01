@@ -167,7 +167,7 @@
         <tr>
         <td>State / Region:</td>
         <td>
-        <select ng-model="myCounty" ng-options="county for county in counties" ng-change="countySelection(myCounty)"></select>
+        <select ng-model="myState" ng-options="state for state in states" ng-change="stateSelection(myState)"></select>
         </td>
         </tr>
         </div>
@@ -176,7 +176,7 @@
         <tr>
         <td>Township:</td>
         <td>
-        <select ng-model="mySubCounty" ng-options="subcounty for subcounty in subcounties" ng-change="subCountySelection(myCounty,mySubCounty)"></select>
+        <select ng-model="myTownship" ng-options="township for township in townships" ng-change="townshipSelection(myState,myTownship)"></select>
         </td>
         </tr>
         </div>
@@ -185,7 +185,7 @@
         <tr>
         <td>Town / Village:</td>
         <td>
-        <select ng-model="myLocation" ng-options="location for location in locations"></select>
+        <select ng-model="myVillage" ng-options="village for village in villages"></select>
         </td>
         </tr>
         </div>
