@@ -4,7 +4,7 @@
 	ui.includeJavascript("kenyaemr", "controllers/patient.js")
 
 	def menuItems = [
-			[ label: "Back to previous step", iconProvider: "kenyaui", icon: "buttons/back.png", href: ui.pageLink("kenyaemr", "registration/createPatient") ]
+			[ label: "Back to previous step", iconProvider: "kenyaui", icon: "buttons/back.png", href: ui.pageLink("kenyaemr", "registration/registrationHome") ]
 	]
 %>
 <div class="ke-page-sidebar">
@@ -35,5 +35,5 @@
 </div>
 
 <div class="ke-page-content">
-	${ ui.includeFragment("kenyaemr", "patient/editPatient", [ person: person, heading: "Step 2: Register Patient" ]) }
+	${ ui.includeFragment("kenyaemr", "patient/editPatient", [ person: person, heading: "Register Patient" ]) }
 </div>

@@ -51,9 +51,12 @@ import org.openmrs.ui.framework.annotation.BindParams;
 import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.annotation.MethodParam;
 import org.openmrs.ui.framework.fragment.FragmentModel;
+import org.openmrs.util.OpenmrsConstants;
 import org.openmrs.util.OpenmrsUtil;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.openmrs.GlobalProperty;
+import java.util.Random;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -91,7 +94,9 @@ public class EditPatientFragmentController {
 		model.addAttribute("civilStatusConcept", Dictionary.getConcept(Dictionary.CIVIL_STATUS));
 		model.addAttribute("occupationConcept", Dictionary.getConcept(Dictionary.OCCUPATION));
 		model.addAttribute("educationConcept", Dictionary.getConcept(Dictionary.EDUCATION));
-
+		model.addAttribute("ingoConcept", Dictionary.getConcept(Dictionary.INGO_NAME));
+		model.addAttribute("enrollmentList", Dictionary.getConcept(Dictionary.ENROLLMENT_STATUS));
+		
 		// Create list of education answer concepts
 		List<Concept> educationOptions = new ArrayList<Concept>();
 		educationOptions.add(Dictionary.getConcept(Dictionary.NONE));
@@ -114,8 +119,62 @@ public class EditPatientFragmentController {
 		List<Concept> causeOfDeathOptions = new ArrayList<Concept>();
 		causeOfDeathOptions.add(Dictionary.getConcept(Dictionary.UNKNOWN));
 		model.addAttribute("causeOfDeathOptions", causeOfDeathOptions);
+		
+		//Algorithm to generate system generated patient Identifier
+		Calendar now = Calendar.getInstance();
+		String shortName = Context.getAdministrationService().getGlobalProperty(OpenmrsConstants.GLOBAL_PROPERTY_PATIENT_IDENTIFIER_PREFIX);
+ 
+		String noCheck = shortName + String.valueOf(now.get(Calendar.YEAR)).substring(2, 4)
+		        + String.valueOf(now.get(Calendar.MONTH) + 1) + String.valueOf(now.get(Calendar.DATE))
+		        				
+		        + String.valueOf(now.get(Calendar.HOUR)) + String.valueOf(now.get(Calendar.MINUTE))
+		        + String.valueOf(now.get(Calendar.SECOND))
+		        + String.valueOf(new Random().nextInt(9999-999+1));
+		
+	
+		if(patient != null){
+			PatientWrapper wrapper = new PatientWrapper(patient);
+			model.addAttribute("patientIdentifier",wrapper.getSystemPatientId());
+		}
+		else{
+			model.addAttribute("patientIdentifier",noCheck + "-" + generateCheckdigit(noCheck));	
+		}
+		
+			
 	}
 
+	
+	/*
+	 * Using the Luhn Algorithm to generate check digits
+	 * 
+	 * @param idWithoutCheckdigit
+	 * 
+	 * @return idWithCheckdigit
+	 */
+	private static int generateCheckdigit(String input) {
+		int factor = 2;
+		int sum = 0;
+		int n = 10;
+		int length = input.length();
+		
+		if (!input.matches("[\\w]+"))
+			throw new RuntimeException("Invalid character in patient id: " + input);
+		// Work from right to left
+		for (int i = length - 1; i >= 0; i--) {
+			int codePoint = input.charAt(i) - 48;
+			// slight openmrs peculiarity to Luhn's algorithm
+			int accum = factor * codePoint - (factor - 1) * (int) (codePoint / 5) * 9;
+			
+			// Alternate the "factor"
+			factor = (factor == 2) ? 1 : 2;
+			
+			sum += accum;
+		}
+		
+		int remainder = sum % n;
+		return (n - remainder) % n;
+	}
+	
 	/**
 	 * Saves the patient being edited by this form
 	 * @param form the edit patient form
@@ -164,15 +223,23 @@ public class EditPatientFragmentController {
 		private PersonAddress personAddress;
 		private Concept maritalStatus;
 		private Concept occupation;
+		private Concept ingoTypeConcept;
+		private Concept enrollmentName;
 		private Concept education;
 		private Obs savedMaritalStatus;
 		private Obs savedOccupation;
+		private Obs savedIngoTypeConcept;
+		private Obs savedEnrollmentNameConcept;
 		private Obs savedEducation;
 		private Boolean dead = false;
 		private Date deathDate;
 
 		private String nationalIdNumber;
 		private String patientClinicNumber;
+		private String artRegistrationNumber;
+		private String preArtRegistrationNumber;
+		private String napArtRegistrationNumber;
+		private String systemPatientId;
 		private String uniquePatientNumber;
 
 		private String telephoneContact;
@@ -182,6 +249,7 @@ public class EditPatientFragmentController {
 		private String nextOfKinAddress;
 		private String subChiefName;
 		
+		private Integer identifierCount;		
 		private String fatherName;
 
 		/**
@@ -232,9 +300,13 @@ public class EditPatientFragmentController {
 
 			PatientWrapper wrapper = new PatientWrapper(patient);
 
-			patientClinicNumber = wrapper.getPatientClinicNumber();
+			artRegistrationNumber = wrapper.getArtRegistrationNumber();
+			preArtRegistrationNumber = wrapper.getPreArtRegistrationNumber();
+			napArtRegistrationNumber = wrapper.getNapArtRegistrationNumber();
+			systemPatientId = wrapper.getSystemPatientId();
+			
 			uniquePatientNumber = wrapper.getUniquePatientNumber();
-			nationalIdNumber = wrapper.getNationalIdNumber();
+			
 
 			nameOfNextOfKin = wrapper.getNextOfKinName();
 			nextOfKinRelationship = wrapper.getNextOfKinRelationship();
@@ -250,6 +322,16 @@ public class EditPatientFragmentController {
 			savedOccupation = getLatestObs(patient, Dictionary.OCCUPATION);
 			if (savedOccupation != null) {
 				occupation = savedOccupation.getValueCoded();
+			}
+			
+			savedIngoTypeConcept = getLatestObs(patient, Dictionary.INGO_NAME);
+			if (savedIngoTypeConcept != null) {
+				ingoTypeConcept = savedIngoTypeConcept.getValueCoded();
+			}
+			
+			savedEnrollmentNameConcept = getLatestObs(patient, Dictionary.ENROLLMENT_STATUS);
+			if (savedEnrollmentNameConcept != null) {
+				enrollmentName = savedEnrollmentNameConcept.getValueCoded();
 			}
 
 			savedEducation = getLatestObs(patient, Dictionary.EDUCATION);
@@ -304,11 +386,32 @@ public class EditPatientFragmentController {
 			}
 
 			validateField(errors, "personAddress");
-
-			validateIdentifierField(errors, "nationalIdNumber", CommonMetadata._PatientIdentifierType.NATIONAL_ID);
-			validateIdentifierField(errors, "patientClinicNumber", CommonMetadata._PatientIdentifierType.PATIENT_CLINIC_NUMBER);
+		
+//			validateIdentifierField(errors, "nationalIdNumber", CommonMetadata._PatientIdentifierType.NATIONAL_ID);
+//			validateIdentifierField(errors, "patientClinicNumber", CommonMetadata._PatientIdentifierType.PATIENT_CLINIC_NUMBER);
+			identifierCount=0;
+			validateIdentifierField(errors, "artRegistrationNumber", CommonMetadata._PatientIdentifierType.ART_REGISTRATION_NUMBER);
+			validateIdentifierField(errors, "preArtRegistrationNumber", CommonMetadata._PatientIdentifierType.PRE_ART_REGISTRATION_NUMBER);
+			validateIdentifierField(errors, "napArtRegistrationNumber", CommonMetadata._PatientIdentifierType.NAP_ART_REGISTRATION_NUMBER);
+			
+			//Check, not more than two identifier number get entered
+			if(identifierCount > 2){
+				errors.rejectValue("systemPatientId", "At max only two registration numbers can be entered.");
+			}
+			
+		//	validateIdentifierField(errors, "systemPatientId", CommonMetadata._PatientIdentifierType.SYSTEM_PATIENT_ID);
 			validateIdentifierField(errors, "uniquePatientNumber", HivMetadata._PatientIdentifierType.UNIQUE_PATIENT_NUMBER);
-
+			
+		//Check INGO name is entered, if INGO number is entered
+			String value = (String) errors.getFieldValue("artRegistrationNumber");
+			if(!value.isEmpty()){
+				require(errors, "ingoTypeConcept");			
+			}
+			
+			if(ingoTypeConcept != null){
+				require(errors, "artRegistrationNumber");
+			}
+			
 			// check birth date against future dates and really old dates
 			if (birthdate != null) {
 				if (birthdate.after(new Date()))
@@ -348,6 +451,7 @@ public class EditPatientFragmentController {
 				if (Context.getPatientService().isIdentifierInUseByAnotherPatient(stub)) {
 					errors.rejectValue(field, "In use by another patient");
 				}
+				identifierCount++;
 			}
 		}
 
@@ -394,10 +498,14 @@ public class EditPatientFragmentController {
 			}
 
 			PatientWrapper wrapper = new PatientWrapper(toSave);
-
+			
 			wrapper.getPerson().setTelephoneContact(telephoneContact);
-			wrapper.setNationalIdNumber(nationalIdNumber, location);
-			wrapper.setPatientClinicNumber(patientClinicNumber, location);
+//			wrapper.setNationalIdNumber(nationalIdNumber, location);
+//			wrapper.setPatientClinicNumber(patientClinicNumber, location);
+			wrapper.setPreArtRegistrationNumber(preArtRegistrationNumber, location);
+			wrapper.setArtRegistrationNumber(artRegistrationNumber, location);
+			wrapper.setNapArtRegistrationNumber(napArtRegistrationNumber, location);
+			wrapper.setSystemPatientId(systemPatientId, location);
 			wrapper.setUniquePatientNumber(uniquePatientNumber, location);
 			wrapper.setNextOfKinName(nameOfNextOfKin);
 			wrapper.setNextOfKinRelationship(nextOfKinRelationship);
@@ -433,8 +541,10 @@ public class EditPatientFragmentController {
 
 			handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.CIVIL_STATUS), savedMaritalStatus, maritalStatus);
 			handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.OCCUPATION), savedOccupation, occupation);
+			handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.INGO_NAME), savedIngoTypeConcept, ingoTypeConcept);
+			handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.ENROLLMENT_STATUS), savedEnrollmentNameConcept, enrollmentName);
 			handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.EDUCATION), savedEducation, education);
-
+			
 			for (Obs o : obsToVoid) {
 				Context.getObsService().voidObs(o, "KenyaEMR edit patient");
 			}
@@ -516,21 +626,69 @@ public class EditPatientFragmentController {
 		public void setPersonName(PersonName personName) {
 			this.personName = personName;
 		}
+		
+		public Concept getIngoTypeConcept() {
+			return ingoTypeConcept;
+		}
+
+		public void setIngoTypeConcept(Concept ingoTypeConcept) {
+			this.ingoTypeConcept = ingoTypeConcept;
+		}
+		
+		public Concept getEnrollmentName() {
+			return enrollmentName;
+		}
+
+		public void setEnrollmentName(Concept enrollmentName) {
+			this.enrollmentName = enrollmentName;
+		}
+
+		public String getArtRegistrationNumber() {
+			return artRegistrationNumber;
+		}
+
+		public void setArtRegistrationNumber(String artRegistrationNumber) {
+			this.artRegistrationNumber = artRegistrationNumber;
+		}
+
+		public String getPreArtRegistrationNumber() {
+			return preArtRegistrationNumber;
+		}
+
+		public void setPreArtRegistrationNumber(String preArtRegistrationNumber) {
+			this.preArtRegistrationNumber = preArtRegistrationNumber;
+		}
+
+		public String getNapArtRegistrationNumber() {
+			return napArtRegistrationNumber;
+		}
+
+		public void setNapArtRegistrationNumber(String napArtRegistrationNumber) {
+			this.napArtRegistrationNumber = napArtRegistrationNumber;
+		}
+
+		public String getSystemPatientId() {
+			return systemPatientId;
+		}
+
+		public void setSystemPatientId(String systemPatientId) {
+			this.systemPatientId = systemPatientId;
+		}
 
 		/**
 		 * @return the patientClinicNumber
-		 */
+	
 		public String getPatientClinicNumber() {
 			return patientClinicNumber;
 		}
-
+	 */
 		/**
 		 * @param patientClinicNumber the patientClinicNumber to set
-		 */
+		
 		public void setPatientClinicNumber(String patientClinicNumber) {
 			this.patientClinicNumber = patientClinicNumber;
 		}
-
+ */
 		/**
 		 * @return the hivIdNumber
 		 */
@@ -547,19 +705,19 @@ public class EditPatientFragmentController {
 
 		/**
 		 * @return the nationalIdNumber
-		 */
+		
 		public String getNationalIdNumber() {
 			return nationalIdNumber;
 		}
-
+ */
 		/**
 		 * @param nationalIdNumber the nationalIdNumber to set
-		 */
+		
 		public void setNationalIdNumber(String nationalIdNumber) {
 
 			this.nationalIdNumber = nationalIdNumber;
 		}
-
+ */
 		/**
 		 * @return the birthdate
 		 */

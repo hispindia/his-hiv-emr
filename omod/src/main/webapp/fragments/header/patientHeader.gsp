@@ -23,11 +23,18 @@
 	
 	<div style="float: left; width: 30%; text-align: center">
 		<div ng-repeat="identifier in patient.identifiers">
-			<span class="ke-identifier-type">{{ identifier.identifierType }}</span>
-			<span class="ke-identifier-value">{{ identifier.identifier }}</span>
+				<span class="ke-identifier-type">{{ identifier.identifierType }} :</span>
+				<span class="ke-identifier-value">{{ identifier.identifier }}</span>
+		</div>
+		<div>
+			<% if( ingoName!='') { %>
+			
+			<span class="ke-ingo-type">NAME OF INGO : </span>
+			<span class="ke-ingo-name">${ ingoName}</span>
+			<% } %>
 		</div>
 	</div>
-
+	
 	<div style="float: right">
 		<button class="ke-compact" title="Close this patient chart" onclick="ke_closeChart()"><img src="${ ui.resourceLink("kenyaui", "images/glyphs/close.png") }"/> Close</button>
 	</div>

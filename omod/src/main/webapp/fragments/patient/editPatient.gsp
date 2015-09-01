@@ -13,6 +13,13 @@
 			],
 	]
 
+	def ingoNameFields = [
+		[
+				[ object: command, property: "ingoTypeConcept", label:"", config: [ style: "list", answerTo: ingoConcept ] ],
+			]	
+	]
+
+
 	def otherDemogFieldRows = [
 			[
 					[ object: command, property: "maritalStatus", label: "Marital status", config: [ style: "list", options: maritalStatusOptions ] ],
@@ -27,14 +34,17 @@
 
 	def nextOfKinFieldRows = [
 			[
-					[ object: command, property: "nameOfNextOfKin", label: "Next of kin name" ],
-					[ object: command, property: "nextOfKinRelationship", label: "Next of kin relationship" ]
-			],
-			[
-					[ object: command, property: "nextOfKinContact", label: "Next of kin contact" ],
-					[ object: command, property: "nextOfKinAddress", label: "Next of kin address" ]
+					[ object: command, property: "nameOfNextOfKin", label: "Name" ],
+					[ object: command, property: "nextOfKinAddress", label: "Physical Address" ],
+					[ object: command, property: "nextOfKinContact", label: "Contact Number" ]
 			]
 	]
+	
+	def enrollmentStatus = [
+			[
+					[ object: command, property: "enrollmentName", label: "Status at enrollment", config: [ style: "list", answerTo: enrollmentList ] ],
+			]
+	] 
 
 	def addressFieldRows = [
 			[
@@ -87,14 +97,30 @@
 					</tr>
 				<% } %>
 				<tr>
-					<td class="ke-field-label">Patient Clinic Number</td>
-					<td>${ ui.includeFragment("kenyaui", "widget/field", [ object: command, property: "patientClinicNumber" ]) }</td>
-					<td class="ke-field-instructions"><% if (!command.patientClinicNumber) { %>(if available)<% } %></td>
+					<td class="ke-field-label">Pre ART Registration Number</td>
+					<td>${ ui.includeFragment("kenyaui", "widget/field", [ object: command, property: "preArtRegistrationNumber" ]) }</td>
+					<td class="ke-field-instructions"><% if (!command.preArtRegistrationNumber) { %>(if available)<% } %></td>
 				</tr>
 				<tr>
-					<td class="ke-field-label">National ID Number</td>
-					<td>${ ui.includeFragment("kenyaui", "widget/field", [ object: command, property: "nationalIdNumber" ]) }</td>
-					<td class="ke-field-instructions"><% if (!command.nationalIdNumber) { %>(if available)<% } %></td>
+					<td class="ke-field-label">NAP ART Registration Number</td>
+					<td>${ ui.includeFragment("kenyaui", "widget/field", [ object: command, property: "napArtRegistrationNumber" ]) }</td>
+					<td class="ke-field-instructions"><% if (!command.napArtRegistrationNumber) { %>(if available)<% } %></td>
+				</tr>
+				<tr>
+					<td class="ke-field-label">INGO ART Registration Number</td>
+					<td>${ ui.includeFragment("kenyaui", "widget/field", [ object: command, property: "artRegistrationNumber" ]) }</td>
+					<td class="ke-field-instructions"><% if (!command.artRegistrationNumber) { %>(if available)<% } %></td>
+					
+					<td class="ke-field-label"> INGO NAME </td>
+					<td>	<% ingoNameFields.each { %>
+							${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }<% } 
+						%> </td> 
+				</tr>
+				<tr>
+					<td class="ke-field-label"><b>Patient ID*</b></td>
+					<td><input name="systemPatientId" style="width: 260px" value=${ patientIdentifier} readonly autocomplete="off" ></td>
+					
+					
 				</tr>
 			</table>
 
@@ -152,9 +178,18 @@
 		</fieldset>
 
 		<fieldset>
-			<legend>Next of Kin Details</legend>
+			<legend>Treatment Supporter's</legend>
 
 			 <% nextOfKinFieldRows.each { %>
+			   ${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
+			 <% } %>
+
+		</fieldset>
+
+		<fieldset>
+			<legend>Enrollment Status</legend>
+
+			 <% enrollmentStatus.each { %>
 			   ${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
 			 <% } %>
 
@@ -192,9 +227,13 @@
     </div>
 	
 	<div class="ke-panel-footer">
-		<button type="submit">
+		<button  type="submit">
+			<img src="${ ui.resourceLink("kenyaui", "images/glyphs/ok.png") }" /> ${ command.original ? "Save Changes" : "Create Patient and Check In" }
+		</button>
+		<button type="submit" style="float: right;">
 			<img src="${ ui.resourceLink("kenyaui", "images/glyphs/ok.png") }" /> ${ command.original ? "Save Changes" : "Create Patient" }
 		</button>
+		
 		<% if (config.returnUrl) { %>
 		<button type="button" class="cancel-button"><img src="${ ui.resourceLink("kenyaui", "images/glyphs/cancel.png") }" /> Cancel</button>
 		<% } %>
