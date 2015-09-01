@@ -70,6 +70,72 @@ public class PatientWrapper extends AbstractPatientWrapper {
 	public void setPatientClinicNumber(String value, Location location) {
 		setAsIdentifier(CommonMetadata._PatientIdentifierType.PATIENT_CLINIC_NUMBER, value, location);
 	}
+	
+	public void setPreArtRegistrationNumber(String value, Location location) {
+		setAsIdentifier(CommonMetadata._PatientIdentifierType.PRE_ART_REGISTRATION_NUMBER, value, location);
+	}
+
+	/**
+	 * Gets the Pre Art Registration Number
+	 * @return the identifier value
+	 */
+	public String getPreArtRegistrationNumber() {
+		return getAsIdentifier(CommonMetadata._PatientIdentifierType.PRE_ART_REGISTRATION_NUMBER);
+	}
+	
+	/**
+	 * Gets the Nap Art Registration Number
+	 * @return the identifier value
+	 */
+	public String getNapArtRegistrationNumber() {
+		return getAsIdentifier(CommonMetadata._PatientIdentifierType.NAP_ART_REGISTRATION_NUMBER);
+	}
+
+	/**
+	 * Sets the Art Registration Number
+	 * @param value the identifier value
+	 * @param location the identifier location
+	 */	
+	public void setArtRegistrationNumber(String value, Location location) {
+		setAsIdentifier(CommonMetadata._PatientIdentifierType.ART_REGISTRATION_NUMBER, value, location);
+	}
+
+	/**
+	 * Gets the Art Registration Number
+	 * @return the identifier value
+	 */
+	public String getArtRegistrationNumber() {
+		return getAsIdentifier(CommonMetadata._PatientIdentifierType.ART_REGISTRATION_NUMBER);
+	}
+	
+	/**
+	 * Sets the SystemPatientId
+	 * @param value the identifier value
+	 * @param location the identifier location
+	 */	
+	public void setSystemPatientId(String value, Location location) {
+		setAsIdentifier(CommonMetadata._PatientIdentifierType.SYSTEM_PATIENT_ID, value, location);
+	}
+
+	/**
+	 * Gets the SystemPatientId
+	 * @return the identifier value
+	 */
+	public String getSystemPatientId() {
+		return getAsIdentifier(CommonMetadata._PatientIdentifierType.SYSTEM_PATIENT_ID);
+	}
+	
+		
+
+	/**
+	 * Sets the Nap Art Registration Number
+	 * @param value the identifier value
+	 * @param location the identifier location
+	 */	
+	public void setNapArtRegistrationNumber(String value, Location location) {
+		setAsIdentifier(CommonMetadata._PatientIdentifierType.NAP_ART_REGISTRATION_NUMBER, value, location);
+	}
+
 
 	/**
 	 * Gets the unique patient number

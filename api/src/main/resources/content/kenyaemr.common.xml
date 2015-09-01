@@ -58,13 +58,40 @@
 		<property name="targetUuid" value="${metadata.identifiertype.NATIONAL_ID}" />
 		<property name="order" value="100" />
 	</bean>
-
+	
 	<!-- Patient Clinic Number -->
 	<bean id="kenyaemr.common.identifier.pcn" class="org.openmrs.module.kenyacore.identifier.IdentifierDescriptor">
 		<property name="targetUuid" value="${metadata.identifiertype.PATIENT_CLINIC_NUMBER}" />
 		<property name="order" value="200" />
 	</bean>
+	
+	
+	<!--PRE ART REGISTRATION NUMBER --> 
+	<bean id="kenyaemr.common.identifier.preArtRegistrationNumber" class="org.openmrs.module.kenyacore.identifier.IdentifierDescriptor">
+		<property name="targetUuid" value="${metadata.identifiertype.PRE_ART_REGISTRATION_NUMBER}" />
+		<property name="order" value="100" />
+	</bean>
 
+	<!--NAP ART REGISTRATION NUMBER --> 
+	<bean id="kenyaemr.common.identifier.napArtRegistrationNumber" class="org.openmrs.module.kenyacore.identifier.IdentifierDescriptor">
+		<property name="targetUuid" value="${metadata.identifiertype.NAP_ART_REGISTRATION_NUMBER}" />
+		<property name="order" value="100" />
+	</bean>
+	
+	<!--ART REGISTRATION NUMBER --> 
+	<bean id="kenyaemr.common.identifier.artRegistrationNumber" class="org.openmrs.module.kenyacore.identifier.IdentifierDescriptor">
+		<property name="targetUuid" value="${metadata.identifiertype.ART_REGISTRATION_NUMBER}" />
+		<property name="order" value="100" />
+	</bean>
+	
+	<!-- System generated Patient Id --> 
+	<bean id="kenyaemr.common.identifier.systemPatientId" class="org.openmrs.module.kenyacore.identifier.IdentifierDescriptor">
+		<property name="targetUuid" value="${metadata.identifiertype.SYSTEM_PATIENT_ID}" />
+		<property name="order" value="100" />
+	</bean>
+
+
+	
 	<!-- Old Identification Number -->
 	<bean id="kenyaemr.common.identifier.old" class="org.openmrs.module.kenyacore.identifier.IdentifierDescriptor">
 		<property name="targetUuid" value="${metadata.identifiertype.OLD}" />

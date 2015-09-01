@@ -58,6 +58,10 @@ public class CommonMetadata extends AbstractMetadataBundle {
 		public static final String OLD_ID = Metadata.IdentifierType.OLD;
 		public static final String OPENMRS_ID = Metadata.IdentifierType.MEDICAL_RECORD_NUMBER;
 		public static final String PATIENT_CLINIC_NUMBER = Metadata.IdentifierType.PATIENT_CLINIC_NUMBER;
+		public static final String PRE_ART_REGISTRATION_NUMBER = Metadata.IdentifierType.PRE_ART_REGISTRATION_NUMBER;
+		public static final String NAP_ART_REGISTRATION_NUMBER = Metadata.IdentifierType.NAP_ART_REGISTRATION_NUMBER;
+		public static final String ART_REGISTRATION_NUMBER = Metadata.IdentifierType.ART_REGISTRATION_NUMBER;
+		public static final String SYSTEM_PATIENT_ID = Metadata.IdentifierType.SYSTEM_PATIENT_ID;
 	}
 
 	public static final class _PersonAttributeType {
