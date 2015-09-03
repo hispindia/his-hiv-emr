@@ -48,26 +48,8 @@
 
 	def addressFieldRows = [
 			[
-					[ object: command, property: "telephoneContact", label: "Telephone contact" ]
-			],
-			[
-					[ object: command, property: "personAddress.address1", label: "Postal Address", config: [ size: 60 ] ],
-					[ object: command, property: "personAddress.country", label: "County", config: [ size: 60 ] ],
-					[ object: command, property: "subChiefName", label: "Subchief name" ]
-			],
-			[
-					[ object: command, property: "personAddress.address3", label: "School/Employer Address",config: [ size: 60 ] ],
-					[ object: command, property: "personAddress.countyDistrict", label: "District" ],
-					[ object: command, property: "personAddress.stateProvince", label: "Province", config: [ size: 60 ] ]
-			],
-			[		[ object: command, property: "personAddress.address6", label: "Location" ],
-					[ object: command, property: "personAddress.address5", label: "Sub-location" ],
-					[ object: command, property: "personAddress.address4", label: "Division", config: [ size: 60 ] ]
-			],
-			[
-					[ object: command, property: "personAddress.cityVillage", label: "Village/Estate" ],
-					[ object: command, property: "personAddress.address2", label: "Landmark" ],
-					[ object: command, property: "personAddress.postalCode", label: "House/Plot Number" ]
+					[ object: command, property: "personAddress.address1", label: "Physical Address", config: [ size: 60 ] ],
+					[ object: command, property: "telephoneContact", label: "Contact Number" ]
 			]
 	]
 %>
@@ -175,6 +157,34 @@
 				${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
 			<% } %>
 
+		<div ng-controller="AddresshierarchyCtrl" data-ng-init="init()">
+        <table>
+        <tr>
+        
+        <td valign="top">
+        <label class="ke-field-label">State / Region:</label>
+        <span class="ke-field-content">
+        <select style="width: 180px;" name="personAddress.stateProvince" ng-model="myState" ng-options="state for state in states track by state" ng-change="stateSelection(myState)"></select>
+        </span>
+        </td>
+        
+        <td valign="top">
+        <label class="ke-field-label">Township:</label>
+        <span class="ke-field-content">
+        <select style="width: 180px;" name="personAddress.countyDistrict" ng-model="myTownship" ng-options="township for township in townships track by township" ng-change="townshipSelection(myState,myTownship)"></select>
+        </span>
+        </td>
+        
+        <td valign="top">
+        <label class="ke-field-label">Town / Village:</label>
+        <span class="ke-field-content">
+        <select style="width: 180px;"name="personAddress.cityVillage" ng-model="myVillage" ng-options="village for village in villages track by village"></select>
+        </span>
+        </td>
+     
+        </tr>
+        </table>
+        </div>
 		</fieldset>
 
 		<fieldset>
@@ -196,35 +206,6 @@
 		</fieldset>
 
 	</div>
-    <div ng-controller="AddresshierarchyCtrl" data-ng-init="init()">
-        
-        <div>
-        <tr>
-        <td>State / Region:</td>
-        <td>
-        <select ng-model="myState" ng-options="state for state in states" ng-change="stateSelection(myState)"></select>
-        </td>
-        </tr>
-        </div>
-        
-        <div>
-        <tr>
-        <td>Township:</td>
-        <td>
-        <select ng-model="myTownship" ng-options="township for township in townships" ng-change="townshipSelection(myState,myTownship)"></select>
-        </td>
-        </tr>
-        </div>
-        
-        <div>
-        <tr>
-        <td>Town / Village:</td>
-        <td>
-        <select ng-model="myVillage" ng-options="village for village in villages"></select>
-        </td>
-        </tr>
-        </div>
-    </div>
 	
 	<div class="ke-panel-footer">
 		<button  type="submit">
@@ -288,3 +269,6 @@ ${ ui.includeFragment("kenyaui", "widget/dialogForm", [
 		kenyaui.setRadioField('patient-birthdate-estimated', 'true');
 	}
 </script>
+<style>
+
+</style>
