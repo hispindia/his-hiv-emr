@@ -5,12 +5,8 @@
 
 	def nameFields = [
 			[
-					[ object: command, property: "personName.givenName", label: "Patient's Name *" ]
-			],
-			
-			[
-					[ object: command, property: "fatherName", label: "Father's Name *" ]
-			],
+					[ object: command, property: "personName.givenName", label: "Patient's Name *" ],	[ object: command, property: "fatherName", label: "Father's Name *" ]
+			]
 	]
 
 	def ingoNameFields = [
@@ -43,7 +39,11 @@
 	def enrollmentStatus = [
 			[
 					[ object: command, property: "enrollmentName", label: "Status at enrollment", config: [ style: "list", answerTo: enrollmentList ] ],
-			]
+					[ object: command, property: "entryPoint", label: "Entry Point *", config: [ style: "list", answerTo: entryPointList ] ],
+					[ object: command, property: "otherEntryPoint", label: "If other, Please specify" ],
+					[ object: command, property: "previousClinicName", label: "Previous Clinic Name*"],
+					[ object: command, property: "transferredInDate", label: "Transferred In Date " ]
+			]		
 	] 
 
 	def addressFieldRows = [
@@ -101,8 +101,6 @@
 				<tr>
 					<td class="ke-field-label"><b>Patient ID*</b></td>
 					<td><input name="systemPatientId" style="width: 260px" value=${ patientIdentifier} readonly autocomplete="off" ></td>
-					
-					
 				</tr>
 			</table>
 
@@ -197,26 +195,71 @@
 		</fieldset>
 
 		<fieldset>
-			<legend>Enrollment Status</legend>
+			<legend>Enrollment Status & Patient Source</legend>
 
 			 <% enrollmentStatus.each { %>
 			   ${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
 			 <% } %>
 
 		</fieldset>
+		
+			<fieldset>
+			<legend>HIV Testing</legend>
+
+			<table>
+				<tr>
+					<td valign="top">
+						<label class="ke-field-label">Have you performed HIV confirmatory test previously? *</label>
+						<span class="ke-field-content" >
+							<input type="radio" name="hivTestPerformed" value="Yes" id="hivTestPerformed-Yes" onClick="getDateAndPlace();" ${ command.hivTestPerformed == 'Yes' ? 'checked="checked"' : '' }/> Yes
+							<input type="radio" name="hivTestPerformed" value="No" id="hivTestPerformed-No" onClick="getDateAndPlace();" ${ command.hivTestPerformed == 'No' ? 'checked="checked"' : '' }/> No
+							<span id="hivTestPerformed-Yes-error" class="error" style="display: none"></span>
+							<span id="hivTestPerformed-No-error" class="error" style="display: none"></span>
+						</span>
+					</td>
+					<td valign="top"></td>
+					<td valign="top" id="hivTestPerformedDate">
+						<label class="ke-field-label">If yes, Date of Test</label>
+						<span class="ke-field-content">
+							${ ui.includeFragment("kenyaui", "widget/field", [id: "patient-hivTestPerformedDate", object: command, property: "hivTestPerformedDate" ]) }
+						</span>
+					</td>
+					<td valign="top"></td>
+					<td valign="top"  id="hivTestPerformedPlace">
+						<label class="ke-field-label">Place</label>
+						<span class="ke-field-content">
+							${ ui.includeFragment("kenyaui", "widget/field", [ object: command, property: "hivTestPerformedPlace" ]) }
+						</span>	
+					</td>
+					<td valign="top" id="checkInField">
+						<span class="ke-field-content">
+							<input name="checkInType" id="checkInType" ${ command.checkInType == '1' ? '1' : '0' }/> 
+						</span>		
+					</td>
+				</tr>
+			</table>
+
+			
+
+		</fieldset>
 
 	</div>
 	
 	<div class="ke-panel-footer">
-		<button  type="submit">
-			<img src="${ ui.resourceLink("kenyaui", "images/glyphs/ok.png") }" /> ${ command.original ? "Save Changes" : "Create Patient and Check In" }
-		</button>
-		<button type="submit" style="float: right;">
-			<img src="${ ui.resourceLink("kenyaui", "images/glyphs/ok.png") }" /> ${ command.original ? "Save Changes" : "Create Patient" }
-		</button>
-		
+		<% if (command.original) { %>
+			<button onClick="checkIn(0)" type="submit">
+				<img src="${ ui.resourceLink("kenyaui", "images/glyphs/ok.png") }" /> ${"Save Changes" }
+			</button>		
+		<% } else {%>
+			<button onClick="checkIn(1)" type="submit">
+				<img src="${ ui.resourceLink("kenyaui", "images/glyphs/ok.png") }" /> ${ "Create Patient and Check In" }
+			</button>
+			<button onClick="checkIn(0)" type="submit" style="float: right;">
+				<img src="${ ui.resourceLink("kenyaui", "images/glyphs/ok.png") }" /> ${ "Create Patient" }
+			</button>
+		<% } %>
 		<% if (config.returnUrl) { %>
-		<button type="button" class="cancel-button"><img src="${ ui.resourceLink("kenyaui", "images/glyphs/cancel.png") }" /> Cancel</button>
+			<button type="button" class="cancel-button"><img src="${ ui.resourceLink("kenyaui", "images/glyphs/cancel.png") }" /> Cancel</button>
 		<% } %>
 	</div>
 	
@@ -240,9 +283,25 @@ ${ ui.includeFragment("kenyaui", "widget/dialogForm", [
 ]) }
 
 <script type="text/javascript">
+jQuery(document).ready(function(){
+	 document.getElementById('checkInField').style.display='none';
+	var hivTestPerformedYes = document.getElementById('hivTestPerformed-Yes').checked; 
+			if(hivTestPerformedYes==true)
+			{
+			  document.getElementById('hivTestPerformedDate').style.display='';
+			  document.getElementById('hivTestPerformedPlace').style.display=''; 
+			}
+			else
+			{
+			  document.getElementById('hivTestPerformedDate').style.display='none';
+  			  document.getElementById('hivTestPerformedPlace').style.display='none'; 
+			}
+	});
+	
+
 	jQuery(function() {
 		jQuery('#from-age-button').appendTo(jQuery('#from-age-button-placeholder'));
-
+		
 		jQuery('#edit-patient-form .cancel-button').click(function() {
 			ui.navigate('${ config.returnUrl }');
 		});
@@ -253,7 +312,12 @@ ${ ui.includeFragment("kenyaui", "widget/dialogForm", [
 					<% if (config.returnUrl) { %>
 					ui.navigate('${ config.returnUrl }');
 					<% } else { %>
-					ui.navigate('kenyaemr', 'registration/registrationViewPatient', { patientId: data.id });
+					
+					 if (document.getElementById('checkInType').value==1) { 
+						ui.navigate('kenyaemr', 'registration/registrationHome');
+						} else { 
+						ui.navigate('kenyaemr', 'registration/registrationViewPatient', { patientId: data.id });
+					 } 
 					<% } %>
 				} else {
 					kenyaui.notifyError('Saving patient was successful, but unexpected response');
@@ -261,6 +325,24 @@ ${ ui.includeFragment("kenyaui", "widget/dialogForm", [
 			}
 		});
 	});
+	
+	function checkIn(check){
+		document.getElementById('checkInType').value = check;
+	}
+
+	function getDateAndPlace(){
+			var hivTestPerformedYes = document.getElementById('hivTestPerformed-Yes').checked; 
+			if(hivTestPerformedYes==true)
+			{
+			  document.getElementById('hivTestPerformedDate').style.display='';
+			  document.getElementById('hivTestPerformedPlace').style.display=''; 
+			}
+			else
+			{
+			  document.getElementById('hivTestPerformedDate').style.display='none';
+  			  document.getElementById('hivTestPerformedPlace').style.display='none'; 
+			}
+	};
 
 	function updateBirthdate(data) {
 		var birthdate = new Date(data.birthdate);
