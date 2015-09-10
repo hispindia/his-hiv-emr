@@ -14,6 +14,8 @@
 
 package org.openmrs.module.kenyaemr.metadata;
 
+import java.util.Date;
+
 import org.openmrs.PatientIdentifierType.LocationBehavior;
 import org.openmrs.PersonAttributeType;
 import org.openmrs.module.idgen.validator.LuhnMod25IdentifierValidator;
@@ -73,6 +75,11 @@ public class CommonMetadata extends AbstractMetadataBundle {
 		public static final String SUBCHIEF_NAME = "40fa0c9c-7415-43ff-a4eb-c7c73d7b1a7a";
 		public static final String TELEPHONE_CONTACT = "b2c38640-2603-4629-aebd-3b54f33f1e3a";
 		public static final String EMAIL_ADDRESS = "b8d0b331-1d2d-4a9a-b741-1816f498bdb6";
+		public static final String PREVIOUS_CLINIC_NAME = "200eac3d-30ef-4a84-b463-643a3215a634";
+		public static final String  HIV_TEST_PERFORMED = "496fae44-0f1c-40e0-be46-eeb7bb915a17";
+		public static final String  HIV_TEST_PERFORMED_PLACE = "9791c7e0-aedc-442c-a122-da1aae9ea53a";
+		public static final String  HIV_TEST_PERFORMED_DATE = "dc107e00-2f24-4f55-a23c-c7b733b5387f";
+		
 	}
 
 	public static final class _Provider {
@@ -136,6 +143,18 @@ public class CommonMetadata extends AbstractMetadataBundle {
 				String.class, null, false, 3.0, _PersonAttributeType.SUBCHIEF_NAME));
 		install(personAttributeType("Next of kin name", "Name of patient's next of kin",
 				String.class, null, false, 4.0, _PersonAttributeType.NEXT_OF_KIN_NAME));
+	
+		install(personAttributeType("Previous Clinic Name", "Name of previous clinic trnsferred from for patient",
+				String.class, null, false, 4.0, _PersonAttributeType.PREVIOUS_CLINIC_NAME));
+		install(personAttributeType("Previous Hiv test performed", "Patient performed any HIV test previously",
+				String.class, null, false, 4.0, _PersonAttributeType.HIV_TEST_PERFORMED));
+		install(personAttributeType("Previous Hiv test performed place", "Place of patient's HIV test previously performed",
+				String.class, null, false, 4.0, _PersonAttributeType.HIV_TEST_PERFORMED_PLACE));
+		install(personAttributeType("Previous Hiv test performed date", "Date of patient's HIV test previously performed",
+				Date.class, null, false, 4.0, _PersonAttributeType.HIV_TEST_PERFORMED_DATE));
+		
+		
+		
 		install(personAttributeType("Next of kin relationship", "Next of kin relationship to the patient",
 				String.class, null, false, 4.1, _PersonAttributeType.NEXT_OF_KIN_RELATIONSHIP));
 		install(personAttributeType("Next of kin contact", "Telephone contact of patient's next of kin",

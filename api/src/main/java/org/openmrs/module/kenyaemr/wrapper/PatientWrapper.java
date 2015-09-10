@@ -14,6 +14,8 @@
 
 package org.openmrs.module.kenyaemr.wrapper;
 
+import java.util.Date;
+
 import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.module.kenyacore.wrapper.AbstractPatientWrapper;
@@ -249,4 +251,70 @@ public class PatientWrapper extends AbstractPatientWrapper {
 	public void setSubChiefName(String value) {
 		setAsAttribute(CommonMetadata._PersonAttributeType.SUBCHIEF_NAME, value);
 	}
+	
+	/**
+	 * Gets the previous clinic name
+	 * @return the name
+	 */
+	public String getPreviousClinicName() {
+		return getAsAttribute(CommonMetadata._PersonAttributeType.PREVIOUS_CLINIC_NAME);
+	}
+
+	/**
+	 * Sets the previous clinic name
+	 * @param value the name
+	 */
+	public void setPreviousClinicName(String value) {
+		setAsAttribute(CommonMetadata._PersonAttributeType.PREVIOUS_CLINIC_NAME, value);
+	}
+	
+	/**
+	 * Gets the previous hiv test performed status
+	 * @return the name
+	 */
+	public String getPreviousHivTestStatus() {
+		return getAsAttribute(CommonMetadata._PersonAttributeType.HIV_TEST_PERFORMED);
+	}
+
+	/**
+	 * Sets the previous hiv test performed status
+	 * @param value the name
+	 */
+	public void setPreviousHivTestStatus(String value) {
+		setAsAttribute(CommonMetadata._PersonAttributeType.HIV_TEST_PERFORMED, value);
+	}
+	
+	/**
+	 * Gets the previous hiv test performed place
+	 * @return the name
+	 */
+	public String getPreviousHivTestPlace() {
+		return getAsAttribute(CommonMetadata._PersonAttributeType.HIV_TEST_PERFORMED_PLACE);
+	}
+
+	/**
+	 * Sets the previous hiv test performed place
+	 * @param value the name
+	 */
+	public void setPreviousHivTestPlace(String value) {
+		setAsAttribute(CommonMetadata._PersonAttributeType.HIV_TEST_PERFORMED_PLACE, value);
+	}
+	
+	/**
+	 * Gets the previous hiv test performed date
+	 * @return the date
+	 */
+	public String getPreviousHivTestDate() {
+		return getAsAttribute(CommonMetadata._PersonAttributeType.HIV_TEST_PERFORMED_DATE);
+	}
+
+	/**
+	 * Sets the previous hiv test performed date
+	 * @param value the date
+	 */
+	public void setPreviousHivTestDate(String value) {
+		setAsAttribute(CommonMetadata._PersonAttributeType.HIV_TEST_PERFORMED_DATE, value);
+	}
+	
+	
 }
