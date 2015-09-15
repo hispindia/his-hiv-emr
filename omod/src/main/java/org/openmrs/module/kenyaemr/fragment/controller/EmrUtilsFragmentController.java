@@ -23,6 +23,7 @@ import org.dom4j.io.SAXReader;
 import org.jaxen.JaxenException;
 import org.jaxen.XPath;
 import org.jaxen.dom4j.Dom4jXPath;
+import org.json.simple.JSONObject;
 import org.openmrs.Concept;
 import org.openmrs.Patient;
 import org.openmrs.Relationship;
@@ -190,10 +191,11 @@ public class EmrUtilsFragmentController {
 		return SimpleObject.create("birthdate", kenyaui.formatDateParam(cal.getTime()));
 	}
 	
-	public SimpleObject addressHierarchy(@RequestParam(value= "state", required = false) String state,
-			@RequestParam(value= "township", required = false) String township,@SpringBean KenyaUiUtils kenyaUi) {
+	public JSONObject addressHierarchy(@RequestParam(value= "state", required = false) String state,
+			@RequestParam(value= "township", required = false) String township,
+			@RequestParam(value= "patientId", required = false) Patient patient,@SpringBean KenyaUiUtils kenyaUi) {
 		
-		Map<String,List> townshipMap= new LinkedHashMap<String,List>();
+        Map<String,List> townshipMap= new LinkedHashMap<String,List>();
 		
 		Map<String,List> villageMap= new LinkedHashMap<String,List>();
 		
@@ -324,15 +326,32 @@ public class EmrUtilsFragmentController {
 		}
 		
 		
+		JSONObject stateJson = new JSONObject();
+		JSONObject townshipJson = new JSONObject();
+		JSONObject villageJson = new JSONObject();
+		
+		if(patient!= null){
+		System.out.println("WWWWWWWWWWWW"+patient.getPersonAddress().getStateProvince());
+		stateJson.put("selectedState", patient.getPersonAddress().getStateProvince());
+		stateJson.put("townshipListForSelectedState", townshipMap.get(patient.getPersonAddress().getStateProvince()));
+		stateJson.put("selectedtownship", patient.getPersonAddress().getCountyDistrict());
+		stateJson.put("villageListForSelectedTownship", villageMap.get(patient.getPersonAddress().getStateProvince()+patient.getPersonAddress().getCountyDistrict()));
+		stateJson.put("selectedvillage", patient.getPersonAddress().getCityVillage());
+		}
+	
 		if(state.equals("")){
-			return SimpleObject.create("state",stateArr);	
+			stateJson.put("state", stateArr);
+			return stateJson;	
+			
 		}
 		else{
 			if(township.equals("")){
-				return SimpleObject.create("township",townshipMap.get(state));
+				townshipJson.put("township",townshipMap.get(state));
+				return townshipJson;
 			}
 			else{
-		    return SimpleObject.create("village",villageMap.get(state+township));
+				villageJson.put("village",villageMap.get(state+township));
+		        return villageJson;
 			}
 		}
 		

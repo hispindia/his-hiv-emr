@@ -160,21 +160,21 @@
         <tr>
         
         <td valign="top">
-        <label class="ke-field-label">State / Region:</label>
+        <label class="ke-field-label">State / Region</label>
         <span class="ke-field-content">
         <select style="width: 180px;" name="personAddress.stateProvince" ng-model="myState" ng-options="state for state in states track by state" ng-change="stateSelection(myState)"></select>
         </span>
         </td>
         
         <td valign="top">
-        <label class="ke-field-label">Township:</label>
+        <label class="ke-field-label">Township</label>
         <span class="ke-field-content">
         <select style="width: 180px;" name="personAddress.countyDistrict" ng-model="myTownship" ng-options="township for township in townships track by township" ng-change="townshipSelection(myState,myTownship)"></select>
         </span>
         </td>
         
         <td valign="top">
-        <label class="ke-field-label">Town / Village:</label>
+        <label class="ke-field-label">Town / Village</label>
         <span class="ke-field-content">
         <select style="width: 180px;"name="personAddress.cityVillage" ng-model="myVillage" ng-options="village for village in villages track by village"></select>
         </span>
@@ -283,6 +283,7 @@ ${ ui.includeFragment("kenyaui", "widget/dialogForm", [
 ]) }
 
 <script type="text/javascript">
+var patientId=${patientId};
 jQuery(document).ready(function(){
 	 document.getElementById('checkInField').style.display='none';
 	var hivTestPerformedYes = document.getElementById('hivTestPerformed-Yes').checked; 

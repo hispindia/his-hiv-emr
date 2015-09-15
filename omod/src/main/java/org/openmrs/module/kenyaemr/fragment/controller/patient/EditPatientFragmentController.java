@@ -14,14 +14,15 @@
 
 package org.openmrs.module.kenyaemr.fragment.controller.patient;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+
 import org.apache.commons.lang.StringUtils;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
-import org.jaxen.JaxenException;
-import org.jaxen.XPath;
-import org.jaxen.dom4j.Dom4jXPath;
 import org.openmrs.Concept;
 import org.openmrs.Location;
 import org.openmrs.Obs;
@@ -40,7 +41,6 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.idgen.service.IdentifierSourceService;
 import org.openmrs.module.kenyaemr.Dictionary;
 import org.openmrs.module.kenyaemr.api.KenyaEmrService;
-import org.openmrs.module.kenyaemr.fragment.controller.RegistrationUtilFragmentController.StartVisitValidator;
 import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
 import org.openmrs.module.kenyaemr.metadata.HivMetadata;
 import org.openmrs.module.kenyaemr.validator.TelephoneNumberValidator;
@@ -57,19 +57,7 @@ import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.openmrs.util.OpenmrsConstants;
 import org.openmrs.util.OpenmrsUtil;
 import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.openmrs.GlobalProperty;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Random;
-import java.io.File;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Controller for creating and editing patients in the registration app
@@ -142,9 +130,11 @@ public class EditPatientFragmentController {
 		if(patient != null){
 			PatientWrapper wrapper = new PatientWrapper(patient);
 			model.addAttribute("patientIdentifier",wrapper.getSystemPatientId());
+			model.addAttribute("patientId",wrapper.getTarget().getPatientId());
 		}
 		else{
-			model.addAttribute("patientIdentifier",noCheck + "-" + generateCheckdigit(noCheck));	
+			model.addAttribute("patientIdentifier",noCheck + "-" + generateCheckdigit(noCheck));
+			model.addAttribute("patientId",null);
 		}
 		
 			
@@ -332,6 +322,7 @@ public class EditPatientFragmentController {
 			previousClinicName= wrapper.getPreviousClinicName();
 			hivTestPerformed=wrapper.getPreviousHivTestStatus();
 			hivTestPerformedPlace=wrapper.getPreviousHivTestPlace();
+			fatherName = wrapper.getFatherName();
 			
 	      try 
 		      {  

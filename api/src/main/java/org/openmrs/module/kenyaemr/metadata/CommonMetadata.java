@@ -161,6 +161,8 @@ public class CommonMetadata extends AbstractMetadataBundle {
 				String.class, null, false, 4.2, _PersonAttributeType.NEXT_OF_KIN_CONTACT));
 		install(personAttributeType("Next of kin address", "Address of patient's next of kin",
 				String.class, null, false, 4.3, _PersonAttributeType.NEXT_OF_KIN_ADDRESS));
+		install(personAttributeType("Father's Name", "First or last name of this person's father",
+				String.class, null, false, 4.4, _PersonAttributeType.FATHER_NAME));
 
 		install(relationshipType("Guardian", "Dependant", "One that guards, watches over, or protects", _RelationshipType.GUARDIAN_DEPENDANT));
 		install(relationshipType("Partner", "Partner", "A spouse is a partner in a marriage, civil union, domestic partnership or common-law marriage a male spouse is a husband and a female spouse is a wife", _RelationshipType.PARTNER));

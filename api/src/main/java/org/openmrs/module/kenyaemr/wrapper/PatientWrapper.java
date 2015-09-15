@@ -316,5 +316,11 @@ public class PatientWrapper extends AbstractPatientWrapper {
 		setAsAttribute(CommonMetadata._PersonAttributeType.HIV_TEST_PERFORMED_DATE, value);
 	}
 	
-	
+	public String getFatherName() {
+		return getAsAttribute(CommonMetadata._PersonAttributeType.FATHER_NAME);
+	}
+
+	public void setFatherName(String value) {
+		setAsAttribute(CommonMetadata._PersonAttributeType.FATHER_NAME, value);
+	}
 }
