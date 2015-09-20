@@ -14,6 +14,23 @@
 
 package org.openmrs.module.kenyaemr.fragment.controller;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,27 +46,22 @@ import org.openmrs.Visit;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.LocationService;
 import org.openmrs.api.context.Context;
+import org.openmrs.calculation.patient.PatientCalculationContext;
+import org.openmrs.calculation.patient.PatientCalculationService;
+import org.openmrs.calculation.result.CalculationResultMap;
+import org.openmrs.calculation.result.ListResult;
 import org.openmrs.module.kenyacore.CoreConstants;
+import org.openmrs.module.kenyacore.calculation.CalculationUtils;
+import org.openmrs.module.kenyaemr.CommonUtils;
 import org.openmrs.module.kenyaemr.api.KenyaEmrService;
+import org.openmrs.module.kenyaemr.calculation.library.ScheduledVisitOnDayCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.VisitsOnDayCalculation;
 import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
-import org.openmrs.ui.framework.fragment.action.FailureResult;
 import org.openmrs.util.OpenmrsConstants;
 import org.openmrs.util.PersonByNameComparator;
 import org.openmrs.web.user.CurrentUsers;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Fragment actions specifically for searching for OpenMRS objects
@@ -84,6 +96,7 @@ public class SearchFragmentController {
 									   @RequestParam(value = "which", required = false, defaultValue = "all") String which,
 									   UiUtils ui) {
 
+		log.error("search normal");
 		// Return empty list if we don't have enough input to search on
 		if (StringUtils.isBlank(query) && "all".equals(which)) {
 			return Collections.emptyList();
@@ -137,6 +150,159 @@ public class SearchFragmentController {
 
 			simplePatients.add(simplePatient);
 		}
+
+		return simplePatients;
+	}
+	
+	private  Date parseDate(String s) throws ParseException {
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		if (s == null || s.length() == 0) {
+			return null;
+		} else {
+			if (s.length() == 10) {
+				s += " 00:00:00";
+			}
+			return df.parse(s);
+		}
+	}
+	
+	
+	/**
+	 * Searches for patients by name, identifier, age, visit status
+	 * @param query the name or identifier
+	 * @param which all|checked-in|non-accounts
+	 * @param ui the UI utils
+	 * @return the simple patients
+	 */
+	public List<SimpleObject> patientsWithDate(@RequestParam(value = "date", required = false) String date,
+										@RequestParam(value = "q", required = false) String query,
+									   @RequestParam(value = "which", required = false, defaultValue = "all") String which,
+									   UiUtils ui) {
+		log.error("in patientsWithDate() " +date);
+		System.out.println("fuck");
+		try {
+			Date scheduledDate = parseDate(date);
+			log.error("scheduleDate: "+scheduledDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// Return empty list if we don't have enough input to search on
+		if (StringUtils.isBlank(query) && "all".equals(which) && StringUtils.isBlank(date)) {
+			return Collections.emptyList();
+		}
+
+		// Run main patient search query based on id/name
+		List<Patient> matchedByNameOrID = Context.getPatientService().getPatients(query);
+
+		// Gather up active visits for all patients. These are attached to the returned patient representations.
+		Map<Patient, Visit> patientActiveVisits = getActiveVisitsByPatients();
+
+		List<Patient> matched = new ArrayList<Patient>();
+
+		// If query wasn't long enough to be searched on, and they've requested checked-in patients, return the list
+		// of checked in patients
+		if (StringUtils.isBlank(query) && "checked-in".equals(which)) {
+			matched.addAll(patientActiveVisits.keySet());
+			Collections.sort(matched, new PersonByNameComparator()); // Sort by person name
+		}
+		else {
+			if ("all".equals(which)) {
+				matched = matchedByNameOrID;
+			}
+			else if ("checked-in".equals(which)) {
+				for (Patient patient : matchedByNameOrID) {
+					if (patientActiveVisits.containsKey(patient)) {
+						matched.add(patient);
+					}
+				}
+			}
+			else if ("non-accounts".equals(which)) {
+				Set<Person> accounts = new HashSet<Person>();
+				accounts.addAll(getUsersByPersons(query).keySet());
+				accounts.addAll(getProvidersByPersons(query).keySet());
+
+				for (Patient patient : matchedByNameOrID) {
+					if (!accounts.contains(patient)) {
+						matched.add(patient);
+					}
+				}
+			}
+		}
+		
+		
+
+		// query by scheduled date
+		if (StringUtils.isNotEmpty(date)) {
+			PatientCalculationService cs = Context.getService(PatientCalculationService.class);
+			Set<Integer> allPatients = new HashSet<Integer>();
+			if (!matched.isEmpty()) {
+				for (Patient p : matched) {
+					allPatients.add(p.getPatientId());
+				}
+			} else {
+				allPatients = Context.getPatientSetService().getAllPatients().getMemberIds();
+			}
+			
+	
+	
+			Map<String, Object> params = new HashMap<String, Object>();
+	
+			params.put("date", date);
+	
+			PatientCalculationContext calcContext = cs.createCalculationContext();
+	
+	
+			Set<Integer> scheduled = CalculationUtils.patientsThatPass(cs.evaluate(allPatients, new ScheduledVisitOnDayCalculation(), params, calcContext));
+	
+			System.out.println("scheduled: "+scheduled.toString());
+	
+			CalculationResultMap actual = cs.evaluate(scheduled, new VisitsOnDayCalculation(), params, calcContext);
+			
+			// Sort patients and convert to simple objects
+			List<Patient> scheduledPatients = Context.getPatientSetService().getPatients(scheduled);
+	
+			Collections.sort(scheduledPatients, new PersonByNameComparator());
+	
+	
+			List<SimpleObject> simplified = new ArrayList<SimpleObject>();
+	
+			for (Patient p : scheduledPatients) {
+	
+				SimpleObject so = ui.simplifyObject(p);
+		
+		
+		
+				ListResult visitsResult = (ListResult) actual.get(p.getPatientId());
+		
+		
+				List<Visit> visits = CalculationUtils.extractResultValues(visitsResult);
+		
+		
+				so.put("visits", ui.simplifyCollection(visits));
+		
+		
+		
+				simplified.add(so);
+		
+	
+			}
+		}
+
+
+		// Simplify and attach active visits to patient objects
+		List<SimpleObject> simplePatients = new ArrayList<SimpleObject>();
+		for (Patient patient : matched) {
+			SimpleObject simplePatient = ui.simplifyObject(patient);
+
+			Visit activeVisit = patientActiveVisits.get(patient);
+			simplePatient.put("activeVisit", activeVisit != null ? ui.simplifyObject(activeVisit) : null);
+
+			simplePatients.add(simplePatient);
+		}
+		
+
 
 		return simplePatients;
 	}

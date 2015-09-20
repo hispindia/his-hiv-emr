@@ -63,6 +63,7 @@
 				<ref bean="kenyaemr.app.intake" />
 				<ref bean="kenyaemr.app.clinician" />
 				<ref bean="kenyaemr.app.chart" />
+				<ref bean="kenyaemr.app.manangePatient" />
 			</set>
 		</property>
 		<property name="icon" value="kenyaui:forms/generic.png" />

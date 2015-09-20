@@ -26,6 +26,20 @@ kenyaemrApp.service('PatientService', function ($rootScope) {
 });
 
 /**
+ * Patient service2 
+ * Support search with date field
+ */
+kenyaemrApp.service('PatientService2', function ($rootScope) {
+
+	/**
+	 * Broadcasts new patient search parameters
+	 */
+	this.updateSearch = function(query, which, date) {
+		$rootScope.$broadcast('patient-search2', { query: query, which: which, date: date });
+	};
+});
+
+/**
  * Controller for patient search form
  */
 kenyaemrApp.controller('PatientSearchForm', ['$scope', 'PatientService', function($scope, patientService) {
@@ -40,6 +54,30 @@ kenyaemrApp.controller('PatientSearchForm', ['$scope', 'PatientService', functio
 	$scope.updateSearch = function() {
 		patientService.updateSearch($scope.query, $scope.which);
 	};
+}]);
+
+/**
+ * Controller for patient search form with Date field
+ */
+kenyaemrApp.controller('PatientSearchForm2', ['$scope', 'PatientService2', function($scope, patientService) {
+
+	$scope.query = '';
+
+	$scope.init = function(which) {
+		$scope.which = which;
+		$scope.date='';
+		$scope.$evalAsync($scope.updateSearch); // initiate an initial search
+	};
+
+	$scope.updateSearch = function() {
+//		var scheduleDate = jQuery("#scheduledDate").val();//$.datepicker.formatDate($.datepicker.W3C, date) 
+		var scheduledDate = jQuery("#scheduledDate").val();
+		console.debug(scheduledDate);
+//		var date = parseDateFromStringToJs('dd-mm-yyyy', scheduledDate);
+//		console.debug(date);
+		patientService.updateSearch($scope.query, $scope.which, scheduledDate);
+	};
+	
 }]);
 
 /**
@@ -69,12 +107,32 @@ kenyaemrApp.controller('PatientSearchResults', ['$scope', '$http', function($sco
 		$scope.which = data.which;
 		$scope.refresh();
 	});
+	
+	/**
+	 * Listens for the 'patient-search2' event
+	 */
+	$scope.$on('patient-search2', function(event, data) {
+		$scope.query = data.query;
+		$scope.which = data.which;
+		$scope.date = data.date;
+		$scope.refresh2();
+	});
 
 	/**
 	 * Refreshes the person search
 	 */
 	$scope.refresh = function() {
 		$http.get(ui.fragmentActionLink('kenyaemr', 'search', 'patients', { appId: $scope.appId, q: $scope.query, which: $scope.which })).
+			success(function(data) {
+				$scope.results = data;
+			});
+	};
+	
+	/**
+	 * Refreshes the person search
+	 */
+	$scope.refresh2 = function() {
+		$http.get(ui.fragmentActionLink('kenyaemr', 'search', 'patientsWithDate', { appId: $scope.appId, q: $scope.query, which: $scope.which, date: $scope.date })).
 			success(function(data) {
 				$scope.results = data;
 			});
@@ -86,6 +144,12 @@ kenyaemrApp.controller('PatientSearchResults', ['$scope', '$http', function($sco
 	 */
 	$scope.onResultClick = function(patient) {
 		ui.navigate($scope.pageProvider, $scope.page, { patientId: patient.id });
+	};
+	
+	$scope.onResultClickNewPatient = function(patient, appId, formId, returnUrl) {
+		var link =  ui.pageLink("kenyaemr", "enterForm", {patientId: patient.id, formUuid: formId, appId: appId, returnUrl: returnUrl });
+		ui.navigate(link); 
+		//ui.navigate($scope.pageProvider, 'managePatient/personalHistoryForm', { patientId: patient.id });
 	};
 
 }]);

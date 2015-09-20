@@ -101,6 +101,7 @@ public class PatientUtilsFragmentController {
 		PatientCalculationContext calcContext = cs.createCalculationContext();
 
 		Set<Integer> scheduled = CalculationUtils.patientsThatPass(cs.evaluate(allPatients, new ScheduledVisitOnDayCalculation(), params, calcContext));
+		System.out.println("scheduled: "+scheduled.toString());
 		CalculationResultMap actual = cs.evaluate(scheduled, new VisitsOnDayCalculation(), params, calcContext);
 
 		// Sort patients and convert to simple objects
