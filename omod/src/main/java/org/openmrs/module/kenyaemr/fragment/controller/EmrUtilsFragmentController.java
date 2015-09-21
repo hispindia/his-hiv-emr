@@ -331,7 +331,6 @@ public class EmrUtilsFragmentController {
 		JSONObject villageJson = new JSONObject();
 		
 		if(patient!= null){
-		System.out.println("WWWWWWWWWWWW"+patient.getPersonAddress().getStateProvince());
 		stateJson.put("selectedState", patient.getPersonAddress().getStateProvince());
 		stateJson.put("townshipListForSelectedState", townshipMap.get(patient.getPersonAddress().getStateProvince()));
 		stateJson.put("selectedtownship", patient.getPersonAddress().getCountyDistrict());
@@ -341,8 +340,7 @@ public class EmrUtilsFragmentController {
 	
 		if(state.equals("")){
 			stateJson.put("state", stateArr);
-			return stateJson;	
-			
+			return stateJson;		
 		}
 		else{
 			if(township.equals("")){

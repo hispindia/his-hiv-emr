@@ -10,6 +10,7 @@ kenyaemrApp.controller('AddresshierarchyCtrl', ['$scope', function($scope) {
 			$scope.$apply(function(){ 
 				$scope.townships = data.township;
 				//console.debug("$scope.townships = data.township;");
+				$scope.villages = "";
 			});
 			
 	    });
