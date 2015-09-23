@@ -24,6 +24,9 @@ import java.util.Random;
 
 import org.apache.commons.lang.StringUtils;
 import org.openmrs.Concept;
+import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
+import org.openmrs.Form;
 import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
@@ -58,6 +61,7 @@ import org.openmrs.util.OpenmrsConstants;
 import org.openmrs.util.OpenmrsUtil;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestParam;
+import java.util.Map;
 
 /**
  * Controller for creating and editing patients in the registration app
@@ -187,6 +191,7 @@ public class EditPatientFragmentController {
 		if (patient.getPersonId().equals(Context.getAuthenticatedUser().getPerson().getPersonId())) {
 			Context.refreshAuthenticatedUser();
 		}
+
 
 		return SimpleObject.create("id", patient.getId());
 	}
@@ -328,7 +333,6 @@ public class EditPatientFragmentController {
 		      {  
 	    	  String datestr=wrapper.getPreviousHivTestDate();
 		      DateFormat formatter; 
-		      Date date; 
 		      formatter = new SimpleDateFormat("dd-MMMM-yyyy");
 		      hivTestPerformedDate = (Date)formatter.parse(datestr);
 		      }
@@ -643,7 +647,51 @@ public class EditPatientFragmentController {
 				visit.setVisitType(MetadataUtils.existing(VisitType.class, CommonMetadata._VisitType.OUTPATIENT));
 				
 				visit.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
-				Context.getVisitService().saveVisit(visit);
+				Visit visitSave = Context.getVisitService().saveVisit(visit);
+				
+				EncounterType hivEnrollEncType = MetadataUtils.existing(EncounterType.class, HivMetadata._EncounterType.HIV_ENROLLMENT);
+				Encounter hivEnrollmentEncounter = new Encounter();
+				
+				hivEnrollmentEncounter.setEncounterType(hivEnrollEncType);
+				hivEnrollmentEncounter.setPatient(ret);
+				hivEnrollmentEncounter.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
+				hivEnrollmentEncounter.setDateCreated(new Date());
+				hivEnrollmentEncounter.setEncounterDatetime(new Date());
+				hivEnrollmentEncounter.setForm(MetadataUtils.existing(Form.class, HivMetadata._Form.HIV_ENROLLMENT));
+				hivEnrollmentEncounter.setVisit(visitSave);
+				hivEnrollmentEncounter.setVoided(false);
+				Context.getEncounterService().saveEncounter(hivEnrollmentEncounter);
+
+				
+				PatientProgram patientProgram = new PatientProgram();
+				patientProgram.setPatient(ret);
+				patientProgram.setProgram(MetadataUtils.existing(Program.class, HivMetadata._Program.HIV));
+				patientProgram.setDateEnrolled(new Date());
+				patientProgram.setDateCreated(new Date());
+				Context.getProgramWorkflowService().savePatientProgram(patientProgram);
+			}
+			
+			else{
+				EncounterType hivEnrollEncType = MetadataUtils.existing(EncounterType.class, HivMetadata._EncounterType.HIV_ENROLLMENT);
+				Encounter hivEnrollmentEncounter = new Encounter();
+				
+				hivEnrollmentEncounter.setEncounterType(hivEnrollEncType);
+				hivEnrollmentEncounter.setPatient(ret);
+				hivEnrollmentEncounter.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
+				hivEnrollmentEncounter.setDateCreated(new Date());
+				hivEnrollmentEncounter.setEncounterDatetime(new Date());
+				hivEnrollmentEncounter.setForm(MetadataUtils.existing(Form.class, HivMetadata._Form.HIV_ENROLLMENT));
+				hivEnrollmentEncounter.setVoided(false);
+				Context.getEncounterService().saveEncounter(hivEnrollmentEncounter);
+
+				
+				PatientProgram patientProgram = new PatientProgram();
+				patientProgram.setPatient(ret);
+				patientProgram.setProgram(MetadataUtils.existing(Program.class, HivMetadata._Program.HIV));
+				patientProgram.setDateEnrolled(new Date());
+				patientProgram.setDateCreated(new Date());
+				Context.getProgramWorkflowService().savePatientProgram(patientProgram);
+				
 			}
 			
 			return ret;
