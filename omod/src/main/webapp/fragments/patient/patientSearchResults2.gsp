@@ -14,8 +14,8 @@ formUuid=e4b506c1-7379-42b6-a374-284469cba8da
 
 	def heading = config.heading ?: "Matching Patients"
 	
-	//def formUuid = "e4b506c1-7379-42b6-a374-284469cba8da"
-	def formUuid = "7efa0ee0-6617-4cd7-8310-9f95dfee7a82";
+	// def formUuid = "7efa0ee0-6617-4cd7-8310-9f95dfee7a82"  family history
+	def formUuid =  "d1db31d0-b415-4788-a233-e4000bf4d108" // personal history 
 	
 %>
 <div class="ke-panel-frame" ng-controller="PatientSearchResults" ng-init="init('${ currentApp.id }', '${ config.pageProvider }', '${ config.page }')">

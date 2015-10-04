@@ -73,8 +73,9 @@ public class EnterHtmlFormFragmentController {
 
 		// Get form from either the encounter or the form UUID
 		Form form = (encounter != null) ? encounter.getForm() : Context.getFormService().getFormByUuid(formUuid);
+		log.error("form: "+form);
 		FormDescriptor formDescriptor = formManager.getFormDescriptor(form);
-
+		log.error("formDescriptor: "+formDescriptor);
 		CoreUtils.checkAccess(formDescriptor, kenyaUi.getCurrentApp(pageRequest));
 
 		// Get html form from database or UI resource

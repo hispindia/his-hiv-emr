@@ -69,6 +69,21 @@
 		<property name="icon" value="kenyaui:forms/generic.png" />
 		<property name="htmlform" value="kenyaemr:hiv/hivEnrollment.html" />
 	</bean>
+	
+	<bean id="kenyaemr.hiv.form.personalHistory" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+		<property name="targetUuid" value="d1db31d0-b415-4788-a233-e4000bf4d108" />
+		<property name="apps">
+			<set>
+				<ref bean="kenyaemr.app.registration" />
+				<ref bean="kenyaemr.app.intake" />
+				<ref bean="kenyaemr.app.clinician" />
+				<ref bean="kenyaemr.app.chart" />
+				<ref bean="kenyaemr.app.manangePatient" />
+			</set>
+		</property>
+		<property name="icon" value="kenyaui:forms/generic.png" />
+		<property name="htmlform" value="kenyaemr:hiv/hivPersonalHistory.html" />
+	</bean>
 
 	<!-- Clinical Encounter - HIV Addendum -->
 	<bean id="kenyaemr.hiv.form.clinicalEncounterAddendum" class="org.openmrs.module.kenyacore.form.FormDescriptor">

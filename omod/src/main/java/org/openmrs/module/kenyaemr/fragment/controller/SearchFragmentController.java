@@ -179,9 +179,9 @@ public class SearchFragmentController {
 									   @RequestParam(value = "which", required = false, defaultValue = "all") String which,
 									   UiUtils ui) {
 		log.error("in patientsWithDate() " +date);
-		System.out.println("fuck");
+		Date scheduledDate = null;
 		try {
-			Date scheduledDate = parseDate(date);
+			scheduledDate = parseDate(date);
 			log.error("scheduleDate: "+scheduledDate);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -231,7 +231,7 @@ public class SearchFragmentController {
 			}
 		}
 		
-		
+		List<SimpleObject> simplePatients = new ArrayList<SimpleObject>();
 
 		// query by scheduled date
 		if (StringUtils.isNotEmpty(date)) {
@@ -249,7 +249,7 @@ public class SearchFragmentController {
 	
 			Map<String, Object> params = new HashMap<String, Object>();
 	
-			params.put("date", date);
+			params.put("date", scheduledDate);
 	
 			PatientCalculationContext calcContext = cs.createCalculationContext();
 	
@@ -266,7 +266,7 @@ public class SearchFragmentController {
 			Collections.sort(scheduledPatients, new PersonByNameComparator());
 	
 	
-			List<SimpleObject> simplified = new ArrayList<SimpleObject>();
+			simplePatients = new ArrayList<SimpleObject>();
 	
 			for (Patient p : scheduledPatients) {
 	
@@ -284,23 +284,25 @@ public class SearchFragmentController {
 		
 		
 		
-				simplified.add(so);
+				simplePatients.add(so);
 		
 	
+			}
+		} else {
+			// Simplify and attach active visits to patient objects
+			
+			for (Patient patient : matched) {
+				SimpleObject simplePatient = ui.simplifyObject(patient);
+
+				Visit activeVisit = patientActiveVisits.get(patient);
+				simplePatient.put("activeVisit", activeVisit != null ? ui.simplifyObject(activeVisit) : null);
+
+				simplePatients.add(simplePatient);
 			}
 		}
 
 
-		// Simplify and attach active visits to patient objects
-		List<SimpleObject> simplePatients = new ArrayList<SimpleObject>();
-		for (Patient patient : matched) {
-			SimpleObject simplePatient = ui.simplifyObject(patient);
-
-			Visit activeVisit = patientActiveVisits.get(patient);
-			simplePatient.put("activeVisit", activeVisit != null ? ui.simplifyObject(activeVisit) : null);
-
-			simplePatients.add(simplePatient);
-		}
+		
 		
 
 
