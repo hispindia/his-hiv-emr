@@ -5,13 +5,16 @@
 
 	def nameFields = [
 			[
-					[ object: command, property: "personName.givenName", label: "Patient's Name *" ]
-			],
-			
-			[
-					[ object: command, property: "fatherName", label: "Father's Name *" ]
-			],
+					[ object: command, property: "personName.givenName", label: "Patient's Name *" ],	[ object: command, property: "fatherName", label: "Father's Name *" ]
+			]
 	]
+
+	def ingoNameFields = [
+		[
+				[ object: command, property: "ingoTypeConcept", label:"", config: [ style: "list", answerTo: ingoConcept ] ],
+			]	
+	]
+
 
 	def otherDemogFieldRows = [
 			[
@@ -27,37 +30,26 @@
 
 	def nextOfKinFieldRows = [
 			[
-					[ object: command, property: "nameOfNextOfKin", label: "Next of kin name" ],
-					[ object: command, property: "nextOfKinRelationship", label: "Next of kin relationship" ]
-			],
-			[
-					[ object: command, property: "nextOfKinContact", label: "Next of kin contact" ],
-					[ object: command, property: "nextOfKinAddress", label: "Next of kin address" ]
+					[ object: command, property: "nameOfNextOfKin", label: "Name" ],
+					[ object: command, property: "nextOfKinAddress", label: "Physical Address" ],
+					[ object: command, property: "nextOfKinContact", label: "Contact Number" ]
 			]
 	]
+	
+	def enrollmentStatus = [
+			[
+					[ object: command, property: "enrollmentName", label: "Status at enrollment", config: [ style: "list", answerTo: enrollmentList ] ],
+					[ object: command, property: "entryPoint", label: "Entry Point *", config: [ style: "list", answerTo: entryPointList ] ],
+					[ object: command, property: "otherEntryPoint", label: "If other, Please specify" ],
+					[ object: command, property: "previousClinicName", label: "Previous Clinic Name*"],
+					[ object: command, property: "transferredInDate", label: "Transferred In Date " ]
+			]		
+	] 
 
 	def addressFieldRows = [
 			[
-					[ object: command, property: "telephoneContact", label: "Telephone contact" ]
-			],
-			[
-					[ object: command, property: "personAddress.address1", label: "Postal Address", config: [ size: 60 ] ],
-					[ object: command, property: "personAddress.country", label: "County", config: [ size: 60 ] ],
-					[ object: command, property: "subChiefName", label: "Subchief name" ]
-			],
-			[
-					[ object: command, property: "personAddress.address3", label: "School/Employer Address",config: [ size: 60 ] ],
-					[ object: command, property: "personAddress.countyDistrict", label: "District" ],
-					[ object: command, property: "personAddress.stateProvince", label: "Province", config: [ size: 60 ] ]
-			],
-			[		[ object: command, property: "personAddress.address6", label: "Location" ],
-					[ object: command, property: "personAddress.address5", label: "Sub-location" ],
-					[ object: command, property: "personAddress.address4", label: "Division", config: [ size: 60 ] ]
-			],
-			[
-					[ object: command, property: "personAddress.cityVillage", label: "Village/Estate" ],
-					[ object: command, property: "personAddress.address2", label: "Landmark" ],
-					[ object: command, property: "personAddress.postalCode", label: "House/Plot Number" ]
+					[ object: command, property: "personAddress.address1", label: "Physical Address", config: [ size: 60 ] ],
+					[ object: command, property: "telephoneContact", label: "Contact Number" ]
 			]
 	]
 %>
@@ -87,14 +79,28 @@
 					</tr>
 				<% } %>
 				<tr>
-					<td class="ke-field-label">Patient Clinic Number</td>
-					<td>${ ui.includeFragment("kenyaui", "widget/field", [ object: command, property: "patientClinicNumber" ]) }</td>
-					<td class="ke-field-instructions"><% if (!command.patientClinicNumber) { %>(if available)<% } %></td>
+					<td class="ke-field-label">Pre ART Registration Number</td>
+					<td>${ ui.includeFragment("kenyaui", "widget/field", [ object: command, property: "preArtRegistrationNumber" ]) }</td>
+					<td class="ke-field-instructions"><% if (!command.preArtRegistrationNumber) { %>(if available)<% } %></td>
 				</tr>
 				<tr>
-					<td class="ke-field-label">National ID Number</td>
-					<td>${ ui.includeFragment("kenyaui", "widget/field", [ object: command, property: "nationalIdNumber" ]) }</td>
-					<td class="ke-field-instructions"><% if (!command.nationalIdNumber) { %>(if available)<% } %></td>
+					<td class="ke-field-label">NAP ART Registration Number</td>
+					<td>${ ui.includeFragment("kenyaui", "widget/field", [ object: command, property: "napArtRegistrationNumber" ]) }</td>
+					<td class="ke-field-instructions"><% if (!command.napArtRegistrationNumber) { %>(if available)<% } %></td>
+				</tr>
+				<tr>
+					<td class="ke-field-label">INGO ART Registration Number</td>
+					<td>${ ui.includeFragment("kenyaui", "widget/field", [ object: command, property: "artRegistrationNumber" ]) }</td>
+					<td class="ke-field-instructions"><% if (!command.artRegistrationNumber) { %>(if available)<% } %></td>
+					
+					<td class="ke-field-label"> INGO NAME </td>
+					<td>	<% ingoNameFields.each { %>
+							${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }<% } 
+						%> </td> 
+				</tr>
+				<tr>
+					<td class="ke-field-label"><b>Patient ID*</b></td>
+					<td><input name="systemPatientId" style="width: 260px" value=${ patientIdentifier} readonly autocomplete="off" ></td>
 				</tr>
 			</table>
 
@@ -149,10 +155,38 @@
 				${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
 			<% } %>
 
+		<div ng-controller="AddresshierarchyCtrl" data-ng-init="init()">
+        <table>
+        <tr>
+        
+        <td valign="top">
+        <label class="ke-field-label">State / Region</label>
+        <span class="ke-field-content">
+        <select style="width: 180px;" name="personAddress.stateProvince" ng-model="myState" ng-options="state for state in states track by state" ng-change="stateSelection(myState)"></select>
+        </span>
+        </td>
+        
+        <td valign="top">
+        <label class="ke-field-label">Township</label>
+        <span class="ke-field-content">
+        <select style="width: 180px;" name="personAddress.countyDistrict" ng-model="myTownship" ng-options="township for township in townships track by township" ng-change="townshipSelection(myState,myTownship)"></select>
+        </span>
+        </td>
+        
+        <td valign="top">
+        <label class="ke-field-label">Town / Village</label>
+        <span class="ke-field-content">
+        <select style="width: 180px;"name="personAddress.cityVillage" ng-model="myVillage" ng-options="village for village in villages track by village"></select>
+        </span>
+        </td>
+     
+        </tr>
+        </table>
+        </div>
 		</fieldset>
 
 		<fieldset>
-			<legend>Next of Kin Details</legend>
+			<legend>Treatment Supporter's</legend>
 
 			 <% nextOfKinFieldRows.each { %>
 			   ${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
@@ -160,43 +194,72 @@
 
 		</fieldset>
 
+		<fieldset>
+			<legend>Enrollment Status & Patient Source</legend>
+
+			 <% enrollmentStatus.each { %>
+			   ${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
+			 <% } %>
+
+		</fieldset>
+		
+			<fieldset>
+			<legend>HIV Testing</legend>
+
+			<table>
+				<tr>
+					<td valign="top">
+						<label class="ke-field-label">Have you performed HIV confirmatory test previously? *</label>
+						<span class="ke-field-content" >
+							<input type="radio" name="hivTestPerformed" value="Yes" id="hivTestPerformed-Yes" onClick="getDateAndPlace();" ${ command.hivTestPerformed == 'Yes' ? 'checked="checked"' : '' }/> Yes
+							<input type="radio" name="hivTestPerformed" value="No" id="hivTestPerformed-No" onClick="getDateAndPlace();" ${ command.hivTestPerformed == 'No' ? 'checked="checked"' : '' }/> No
+							<span id="hivTestPerformed-Yes-error" class="error" style="display: none"></span>
+							<span id="hivTestPerformed-No-error" class="error" style="display: none"></span>
+						</span>
+					</td>
+					<td valign="top"></td>
+					<td valign="top" id="hivTestPerformedDate">
+						<label class="ke-field-label">If yes, Date of Test</label>
+						<span class="ke-field-content">
+							${ ui.includeFragment("kenyaui", "widget/field", [id: "patient-hivTestPerformedDate", object: command, property: "hivTestPerformedDate" ]) }
+						</span>
+					</td>
+					<td valign="top"></td>
+					<td valign="top"  id="hivTestPerformedPlace">
+						<label class="ke-field-label">Place</label>
+						<span class="ke-field-content">
+							${ ui.includeFragment("kenyaui", "widget/field", [ object: command, property: "hivTestPerformedPlace" ]) }
+						</span>	
+					</td>
+					<td valign="top" id="checkInField">
+						<span class="ke-field-content">
+							<input name="checkInType" id="checkInType" ${ command.checkInType == '1' ? '1' : '0' }/> 
+						</span>		
+					</td>
+				</tr>
+			</table>
+
+			
+
+		</fieldset>
+
 	</div>
-    <div ng-controller="AddresshierarchyCtrl" data-ng-init="init()">
-        
-        <div>
-        <tr>
-        <td>State / Region:</td>
-        <td>
-        <select ng-model="myCounty" ng-options="county for county in counties" ng-change="countySelection(myCounty)"></select>
-        </td>
-        </tr>
-        </div>
-        
-        <div>
-        <tr>
-        <td>Township:</td>
-        <td>
-        <select ng-model="mySubCounty" ng-options="subcounty for subcounty in subcounties" ng-change="subCountySelection(myCounty,mySubCounty)"></select>
-        </td>
-        </tr>
-        </div>
-        
-        <div>
-        <tr>
-        <td>Town / Village:</td>
-        <td>
-        <select ng-model="myLocation" ng-options="location for location in locations"></select>
-        </td>
-        </tr>
-        </div>
-    </div>
 	
 	<div class="ke-panel-footer">
-		<button type="submit">
-			<img src="${ ui.resourceLink("kenyaui", "images/glyphs/ok.png") }" /> ${ command.original ? "Save Changes" : "Create Patient" }
-		</button>
+		<% if (command.original) { %>
+			<button onClick="checkIn(0)" type="submit">
+				<img src="${ ui.resourceLink("kenyaui", "images/glyphs/ok.png") }" /> ${"Save Changes" }
+			</button>		
+		<% } else {%>
+			<button onClick="checkIn(1)" type="submit">
+				<img src="${ ui.resourceLink("kenyaui", "images/glyphs/ok.png") }" /> ${ "Create Patient and Check In" }
+			</button>
+			<button onClick="checkIn(0)" type="submit" style="float: right;">
+				<img src="${ ui.resourceLink("kenyaui", "images/glyphs/ok.png") }" /> ${ "Create Patient" }
+			</button>
+		<% } %>
 		<% if (config.returnUrl) { %>
-		<button type="button" class="cancel-button"><img src="${ ui.resourceLink("kenyaui", "images/glyphs/cancel.png") }" /> Cancel</button>
+			<button type="button" class="cancel-button"><img src="${ ui.resourceLink("kenyaui", "images/glyphs/cancel.png") }" /> Cancel</button>
 		<% } %>
 	</div>
 	
@@ -220,9 +283,26 @@ ${ ui.includeFragment("kenyaui", "widget/dialogForm", [
 ]) }
 
 <script type="text/javascript">
+var patientId=${patientId};
+jQuery(document).ready(function(){
+	 document.getElementById('checkInField').style.display='none';
+	var hivTestPerformedYes = document.getElementById('hivTestPerformed-Yes').checked; 
+			if(hivTestPerformedYes==true)
+			{
+			  document.getElementById('hivTestPerformedDate').style.display='';
+			  document.getElementById('hivTestPerformedPlace').style.display=''; 
+			}
+			else
+			{
+			  document.getElementById('hivTestPerformedDate').style.display='none';
+  			  document.getElementById('hivTestPerformedPlace').style.display='none'; 
+			}
+	});
+	
+
 	jQuery(function() {
 		jQuery('#from-age-button').appendTo(jQuery('#from-age-button-placeholder'));
-
+		
 		jQuery('#edit-patient-form .cancel-button').click(function() {
 			ui.navigate('${ config.returnUrl }');
 		});
@@ -233,7 +313,12 @@ ${ ui.includeFragment("kenyaui", "widget/dialogForm", [
 					<% if (config.returnUrl) { %>
 					ui.navigate('${ config.returnUrl }');
 					<% } else { %>
-					ui.navigate('kenyaemr', 'registration/registrationViewPatient', { patientId: data.id });
+					
+					 if (document.getElementById('checkInType').value==1) { 
+						ui.navigate('kenyaemr', 'registration/registrationHome');
+						} else { 
+						ui.navigate('kenyaemr', 'registration/registrationViewPatient', { patientId: data.id });
+					 } 
 					<% } %>
 				} else {
 					kenyaui.notifyError('Saving patient was successful, but unexpected response');
@@ -241,6 +326,24 @@ ${ ui.includeFragment("kenyaui", "widget/dialogForm", [
 			}
 		});
 	});
+	
+	function checkIn(check){
+		document.getElementById('checkInType').value = check;
+	}
+
+	function getDateAndPlace(){
+			var hivTestPerformedYes = document.getElementById('hivTestPerformed-Yes').checked; 
+			if(hivTestPerformedYes==true)
+			{
+			  document.getElementById('hivTestPerformedDate').style.display='';
+			  document.getElementById('hivTestPerformedPlace').style.display=''; 
+			}
+			else
+			{
+			  document.getElementById('hivTestPerformedDate').style.display='none';
+  			  document.getElementById('hivTestPerformedPlace').style.display='none'; 
+			}
+	};
 
 	function updateBirthdate(data) {
 		var birthdate = new Date(data.birthdate);
@@ -249,3 +352,6 @@ ${ ui.includeFragment("kenyaui", "widget/dialogForm", [
 		kenyaui.setRadioField('patient-birthdate-estimated', 'true');
 	}
 </script>
+<style>
+
+</style>

@@ -38,18 +38,18 @@ public class HivCompletionSummaryFragmentController {
 
 		Map<String, Object> dataPoints = new LinkedHashMap<String, Object>();
 
-		dataPoints.put("Completed", enrollment.getDateCompleted());
+		dataPoints.put("End of Follow up Date", enrollment.getDateCompleted());
 
 		if (showClinicalData && enrollment.getOutcome() != null) {
 			dataPoints.put("Outcome", enrollment.getOutcome());
 		}
-
+		
 		if (encounter != null) {
 			EncounterWrapper wrapper = new EncounterWrapper(encounter);
 
-			Obs reasonObs = wrapper.firstObs(Dictionary.getConcept(Dictionary.REASON_FOR_PROGRAM_DISCONTINUATION));
+			Obs reasonObs = wrapper.firstObs(Dictionary.getConcept(Dictionary.DATE_LAST_VISIT));
 			if (reasonObs != null) {
-				dataPoints.put("Reason", reasonObs.getValueCoded());
+				dataPoints.put("Last Dat of Visit", reasonObs.getValueDatetime());
 			}
 		}
 

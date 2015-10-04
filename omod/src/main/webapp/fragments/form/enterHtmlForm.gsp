@@ -36,8 +36,20 @@
 	function submitHtmlForm() {
 		kenyahfe.submitForm('${ command.returnUrl }');
 	}
+
+	/*
+	 * For HIV Enrollment submit form directly 
+	 */
+	 jQuery(document).ready(function(){
+		var formId='${ command.form.uuid }';
+	 	if(formId=="e4b506c1-7379-42b6-a374-284469cba8da"){
+	 		kenyahfe.submitForm('${ command.returnUrl }');
+		 	}	
+		});
+	
 </script>
 
+ 
 <div id="${ config.id }" <% if (config.style) { %>style="${ config.style }"<% } %>>
 
 	<div style="display: none">

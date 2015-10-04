@@ -48,7 +48,7 @@
 	 * Performs submission of the current HTML form
 	 */
 	function doFormSubmission(returnUrl) {
-		kenyaui.openLoadingDialog({ message: 'Submitting form...' });
+		kenyaui.openLoadingDialog({ message: 'Submitting ...' });
 
 		var form = $('#htmlform');
 

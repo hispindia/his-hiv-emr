@@ -23,6 +23,7 @@ import org.dom4j.io.SAXReader;
 import org.jaxen.JaxenException;
 import org.jaxen.XPath;
 import org.jaxen.dom4j.Dom4jXPath;
+import org.json.simple.JSONObject;
 import org.openmrs.Concept;
 import org.openmrs.Patient;
 import org.openmrs.Relationship;
@@ -190,14 +191,15 @@ public class EmrUtilsFragmentController {
 		return SimpleObject.create("birthdate", kenyaui.formatDateParam(cal.getTime()));
 	}
 	
-	public SimpleObject addressHierarchy(@RequestParam(value= "county", required = false) String county,
-			@RequestParam(value= "subcounty", required = false) String subcounty,@SpringBean KenyaUiUtils kenyaUi) {
+	public JSONObject addressHierarchy(@RequestParam(value= "state", required = false) String state,
+			@RequestParam(value= "township", required = false) String township,
+			@RequestParam(value= "patientId", required = false) Patient patient,@SpringBean KenyaUiUtils kenyaUi) {
 		
-		Map<String,List> subCountyMap= new LinkedHashMap<String,List>();
+        Map<String,List> townshipMap= new LinkedHashMap<String,List>();
 		
-		Map<String,List> locationMap= new LinkedHashMap<String,List>();
+		Map<String,List> villageMap= new LinkedHashMap<String,List>();
 		
-		String[] countyArr = null ;
+		String[] stateArr = null ;
 		
 		File addressFile = new File(OpenmrsUtil.getApplicationDataDirectory()
 				+ "myanmaraddresshierarchy.xml");
@@ -213,109 +215,109 @@ public class EmrUtilsFragmentController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			XPath distSelector = null;
+			XPath stateSelector = null;
 			try {
-				distSelector = new Dom4jXPath("//country/county");
+				stateSelector = new Dom4jXPath("//country/state");
 			} catch (JaxenException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			@SuppressWarnings("rawtypes")
-			List countyList = null;
+			List stateList = null;
 			try {
-				countyList = distSelector.selectNodes(document);
+				stateList = stateSelector.selectNodes(document);
 			} catch (JaxenException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			 countyArr = new String[countyList.size()];
-			String[] subcountyArr = new String[countyList.size()];
+			 stateArr = new String[stateList.size()];
+			 String[] townshipArr = new String[stateList.size()];
 
-			if (countyList.size() > 0) {
-				for (int i = 0; i < countyList.size(); i++) {
+			if (stateList.size() > 0) {
+				for (int i = 0; i < stateList.size(); i++) {
 					
-					List<String> subCountyList=new LinkedList<String>();
+					List<String> townshipList=new LinkedList<String>();
 
-					countyArr[i] = ((Element) countyList.get(i))
+					stateArr[i] = ((Element) stateList.get(i))
 							.attributeValue("name");
 					@SuppressWarnings("rawtypes")
-					List subcountyList = ((Element) countyList.get(i))
-							.elements("subcounty");
+					List townshpList = ((Element) stateList.get(i))
+							.elements("township");
 
-					String countyName = ((Element) countyList.get(i))
+					String stateName = ((Element) stateList.get(i))
 							.attributeValue("name");
 
-					String subcountyName = ((Element) subcountyList.get(0))
+					String townshipName = ((Element) townshpList.get(0))
 							.attributeValue("name");
 					
-					subcountyArr[i] = ((Element) subcountyList.get(0))
+					townshipArr[i] = ((Element) townshpList.get(0))
 							.attributeValue("name") + ",";
 					
 					//
-					subCountyList.add(subcountyName);
+					townshipList.add(townshipName);
 					
 					@SuppressWarnings("rawtypes")
-					List locationList = ((Element) subcountyList.get(0))
-							.elements("location");
+					List villageList = ((Element) townshpList.get(0))
+							.elements("village");
 					//
-					List<String> locList1=new LinkedList<String>();
-					for (int k = 0; k < (locationList.size()); k++) {
+					List<String> villageList1=new LinkedList<String>();
+					for (int k = 0; k < (villageList.size()); k++) {
 						
-						String locationName = ((Element) locationList.get(k))
+						String villageName = ((Element) villageList.get(k))
 								.attributeValue("name");
 						//
-						locList1.add(locationName);
+						villageList1.add(villageName);
 						
 					}
-					locationMap.put(countyName+subcountyName, locList1);
+					villageMap.put(stateName+townshipName, villageList1);
 
-					for (int j = 1; j < (subcountyList.size() - 1); j++) {
+					for (int j = 1; j < (townshpList.size() - 1); j++) {
 						
-						subcountyName = ((Element) subcountyList.get(j))
+						townshipName = ((Element) townshpList.get(j))
 								.attributeValue("name");
 						//
-						subCountyList.add(subcountyName);
+						townshipList.add(townshipName);
 						
-						subcountyArr[i] += ((Element) subcountyList.get(j))
+						townshipArr[i] += ((Element) townshpList.get(j))
 								.attributeValue("name") + ",";
-						locationList = ((Element) subcountyList.get(j))
-								.elements("location");
+						villageList = ((Element) townshpList.get(j))
+								.elements("village");
 						//
-						List<String> locList2=new LinkedList<String>();
-						for (int k = 0; k < (locationList.size()); k++) {
+						List<String> villageList2=new LinkedList<String>();
+						for (int k = 0; k < (villageList.size()); k++) {
 							
-							String locationName = ((Element) locationList
+							String villageName = ((Element) villageList
 									.get(k)).attributeValue("name");
 							//
-							locList2.add(locationName);
+							villageList2.add(villageName);
 						}
 						//
-						locationMap.put(countyName+subcountyName, locList2);
+						villageMap.put(stateName+townshipName, villageList2);
 					}
 
-					subcountyName = ((Element) subcountyList.get((subcountyList
+					townshipName = ((Element) townshpList.get((townshpList
 							.size() - 1))).attributeValue("name");
 					//
-					subCountyList.add(subcountyName);
-					subCountyMap.put(countyName, subCountyList);
+					townshipList.add(townshipName);
+					townshipMap.put(stateName, townshipList);
 					
-					subcountyArr[i] += ((Element) subcountyList
-							.get((subcountyList.size() - 1)))
+					townshipArr[i] += ((Element) townshpList
+							.get((townshpList.size() - 1)))
 							.attributeValue("name")
 							+ ",";
-					locationList = ((Element) subcountyList.get((subcountyList
-							.size() - 1))).elements("location");
+					villageList = ((Element) townshpList.get((townshpList
+							.size() - 1))).elements("village");
 					//
-					List<String> locList3=new LinkedList<String>();
-					for (int k = 0; k < (locationList.size()); k++) {
+					List<String> villageList3=new LinkedList<String>();
+					for (int k = 0; k < (villageList.size()); k++) {
 						
-						String locationName = ((Element) locationList.get(k))
+						String villageName = ((Element) villageList.get(k))
 								.attributeValue("name");
 						
 						//
-						locList3.add(locationName);
+						villageList3.add(villageName);
 					}
-					locationMap.put(countyName+subcountyName, locList3);
+					villageMap.put(stateName+townshipName, villageList3);
 
 				}
 			}
@@ -324,15 +326,30 @@ public class EmrUtilsFragmentController {
 		}
 		
 		
-		if(county.equals("")){
-			return SimpleObject.create("county",countyArr);	
+		JSONObject stateJson = new JSONObject();
+		JSONObject townshipJson = new JSONObject();
+		JSONObject villageJson = new JSONObject();
+		
+		if(patient!= null){
+		stateJson.put("selectedState", patient.getPersonAddress().getStateProvince());
+		stateJson.put("townshipListForSelectedState", townshipMap.get(patient.getPersonAddress().getStateProvince()));
+		stateJson.put("selectedtownship", patient.getPersonAddress().getCountyDistrict());
+		stateJson.put("villageListForSelectedTownship", villageMap.get(patient.getPersonAddress().getStateProvince()+patient.getPersonAddress().getCountyDistrict()));
+		stateJson.put("selectedvillage", patient.getPersonAddress().getCityVillage());
+		}
+	
+		if(state.equals("")){
+			stateJson.put("state", stateArr);
+			return stateJson;		
 		}
 		else{
-			if(subcounty.equals("")){
-				return SimpleObject.create("subcounty",subCountyMap.get(county));
+			if(township.equals("")){
+				townshipJson.put("township",townshipMap.get(state));
+				return townshipJson;
 			}
 			else{
-		    return SimpleObject.create("location",locationMap.get(county+subcounty));
+				villageJson.put("village",villageMap.get(state+township));
+		        return villageJson;
 			}
 		}
 		

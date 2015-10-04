@@ -14,6 +14,8 @@
 
 package org.openmrs.module.kenyaemr.metadata;
 
+import java.util.Date;
+
 import org.openmrs.PatientIdentifierType.LocationBehavior;
 import org.openmrs.PersonAttributeType;
 import org.openmrs.module.idgen.validator.LuhnMod25IdentifierValidator;
@@ -58,6 +60,10 @@ public class CommonMetadata extends AbstractMetadataBundle {
 		public static final String OLD_ID = Metadata.IdentifierType.OLD;
 		public static final String OPENMRS_ID = Metadata.IdentifierType.MEDICAL_RECORD_NUMBER;
 		public static final String PATIENT_CLINIC_NUMBER = Metadata.IdentifierType.PATIENT_CLINIC_NUMBER;
+		public static final String PRE_ART_REGISTRATION_NUMBER = Metadata.IdentifierType.PRE_ART_REGISTRATION_NUMBER;
+		public static final String NAP_ART_REGISTRATION_NUMBER = Metadata.IdentifierType.NAP_ART_REGISTRATION_NUMBER;
+		public static final String ART_REGISTRATION_NUMBER = Metadata.IdentifierType.ART_REGISTRATION_NUMBER;
+		public static final String SYSTEM_PATIENT_ID = Metadata.IdentifierType.SYSTEM_PATIENT_ID;
 	}
 
 	public static final class _PersonAttributeType {
@@ -69,6 +75,11 @@ public class CommonMetadata extends AbstractMetadataBundle {
 		public static final String SUBCHIEF_NAME = "40fa0c9c-7415-43ff-a4eb-c7c73d7b1a7a";
 		public static final String TELEPHONE_CONTACT = "b2c38640-2603-4629-aebd-3b54f33f1e3a";
 		public static final String EMAIL_ADDRESS = "b8d0b331-1d2d-4a9a-b741-1816f498bdb6";
+		public static final String PREVIOUS_CLINIC_NAME = "200eac3d-30ef-4a84-b463-643a3215a634";
+		public static final String  HIV_TEST_PERFORMED = "496fae44-0f1c-40e0-be46-eeb7bb915a17";
+		public static final String  HIV_TEST_PERFORMED_PLACE = "9791c7e0-aedc-442c-a122-da1aae9ea53a";
+		public static final String  HIV_TEST_PERFORMED_DATE = "dc107e00-2f24-4f55-a23c-c7b733b5387f";
+		
 	}
 
 	public static final class _Provider {
@@ -96,7 +107,7 @@ public class CommonMetadata extends AbstractMetadataBundle {
 		install(encounterType("Consultation", "Collection of clinical data during the main consultation", _EncounterType.CONSULTATION));
 		install(encounterType("Lab Results", "Collection of laboratory results", _EncounterType.LAB_RESULTS));
 		install(encounterType("Registration", "Initial data collection for a patient, not specific to any program", _EncounterType.REGISTRATION));
-		install(encounterType("Triage", "Collection of limited data prior to a more thorough examination", _EncounterType.TRIAGE));
+		install(encounterType("Record Vitals", "Collection of limited vital data for better examination", _EncounterType.TRIAGE));
 
 		install(form("Clinical Encounter", null, _EncounterType.CONSULTATION, "1", _Form.CLINICAL_ENCOUNTER));
 		install(form("Lab Results", null, _EncounterType.LAB_RESULTS, "1", _Form.LAB_RESULTS));
@@ -104,7 +115,7 @@ public class CommonMetadata extends AbstractMetadataBundle {
 		install(form("Other Medications", "Recording of non-regimen medications", _EncounterType.CONSULTATION, "1", _Form.OTHER_MEDICATIONS));
 		install(form("Progress Note", "For additional information - mostly complaints and examination findings.", _EncounterType.CONSULTATION, "1", _Form.PROGRESS_NOTE));
 		install(form("Surgical and Medical History", null, _EncounterType.REGISTRATION, "1", _Form.SURGICAL_AND_MEDICAL_HISTORY));
-		install(form("Triage", null, _EncounterType.TRIAGE, "1", _Form.TRIAGE));
+		install(form("Record Vitals", null, _EncounterType.TRIAGE, "1", _Form.TRIAGE));
 
 		install(globalProperty(EmrConstants.GP_DEFAULT_LOCATION, "The facility for which this installation is configured",
 				LocationDatatype.class, null, null));
@@ -132,12 +143,26 @@ public class CommonMetadata extends AbstractMetadataBundle {
 				String.class, null, false, 3.0, _PersonAttributeType.SUBCHIEF_NAME));
 		install(personAttributeType("Next of kin name", "Name of patient's next of kin",
 				String.class, null, false, 4.0, _PersonAttributeType.NEXT_OF_KIN_NAME));
+	
+		install(personAttributeType("Previous Clinic Name", "Name of previous clinic trnsferred from for patient",
+				String.class, null, false, 4.0, _PersonAttributeType.PREVIOUS_CLINIC_NAME));
+		install(personAttributeType("Previous Hiv test performed", "Patient performed any HIV test previously",
+				String.class, null, false, 4.0, _PersonAttributeType.HIV_TEST_PERFORMED));
+		install(personAttributeType("Previous Hiv test performed place", "Place of patient's HIV test previously performed",
+				String.class, null, false, 4.0, _PersonAttributeType.HIV_TEST_PERFORMED_PLACE));
+		install(personAttributeType("Previous Hiv test performed date", "Date of patient's HIV test previously performed",
+				Date.class, null, false, 4.0, _PersonAttributeType.HIV_TEST_PERFORMED_DATE));
+		
+		
+		
 		install(personAttributeType("Next of kin relationship", "Next of kin relationship to the patient",
 				String.class, null, false, 4.1, _PersonAttributeType.NEXT_OF_KIN_RELATIONSHIP));
 		install(personAttributeType("Next of kin contact", "Telephone contact of patient's next of kin",
 				String.class, null, false, 4.2, _PersonAttributeType.NEXT_OF_KIN_CONTACT));
 		install(personAttributeType("Next of kin address", "Address of patient's next of kin",
 				String.class, null, false, 4.3, _PersonAttributeType.NEXT_OF_KIN_ADDRESS));
+		install(personAttributeType("Father's Name", "First or last name of this person's father",
+				String.class, null, false, 4.4, _PersonAttributeType.FATHER_NAME));
 
 		install(relationshipType("Guardian", "Dependant", "One that guards, watches over, or protects", _RelationshipType.GUARDIAN_DEPENDANT));
 		install(relationshipType("Partner", "Partner", "A spouse is a partner in a marriage, civil union, domestic partnership or common-law marriage a male spouse is a husband and a female spouse is a wife", _RelationshipType.PARTNER));

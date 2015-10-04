@@ -14,15 +14,19 @@
 
 package org.openmrs.module.kenyaemr.fragment.controller.patient;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+
 import org.apache.commons.lang.StringUtils;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
-import org.jaxen.JaxenException;
-import org.jaxen.XPath;
-import org.jaxen.dom4j.Dom4jXPath;
 import org.openmrs.Concept;
+import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
+import org.openmrs.Form;
 import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
@@ -33,6 +37,8 @@ import org.openmrs.Person;
 import org.openmrs.PersonAddress;
 import org.openmrs.PersonName;
 import org.openmrs.Program;
+import org.openmrs.Visit;
+import org.openmrs.VisitType;
 import org.openmrs.api.ProgramWorkflowService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.idgen.service.IdentifierSourceService;
@@ -51,16 +57,11 @@ import org.openmrs.ui.framework.annotation.BindParams;
 import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.annotation.MethodParam;
 import org.openmrs.ui.framework.fragment.FragmentModel;
+import org.openmrs.util.OpenmrsConstants;
 import org.openmrs.util.OpenmrsUtil;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.io.File;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.Map;
 
 /**
  * Controller for creating and editing patients in the registration app
@@ -91,7 +92,10 @@ public class EditPatientFragmentController {
 		model.addAttribute("civilStatusConcept", Dictionary.getConcept(Dictionary.CIVIL_STATUS));
 		model.addAttribute("occupationConcept", Dictionary.getConcept(Dictionary.OCCUPATION));
 		model.addAttribute("educationConcept", Dictionary.getConcept(Dictionary.EDUCATION));
-
+		model.addAttribute("ingoConcept", Dictionary.getConcept(Dictionary.INGO_NAME));
+		model.addAttribute("enrollmentList", Dictionary.getConcept(Dictionary.ENROLLMENT_STATUS));
+		model.addAttribute("entryPointList", Dictionary.getConcept(Dictionary.METHOD_OF_ENROLLMENT));
+		
 		// Create list of education answer concepts
 		List<Concept> educationOptions = new ArrayList<Concept>();
 		educationOptions.add(Dictionary.getConcept(Dictionary.NONE));
@@ -114,8 +118,64 @@ public class EditPatientFragmentController {
 		List<Concept> causeOfDeathOptions = new ArrayList<Concept>();
 		causeOfDeathOptions.add(Dictionary.getConcept(Dictionary.UNKNOWN));
 		model.addAttribute("causeOfDeathOptions", causeOfDeathOptions);
+		
+		//Algorithm to generate system generated patient Identifier
+		Calendar now = Calendar.getInstance();
+		String shortName = Context.getAdministrationService().getGlobalProperty(OpenmrsConstants.GLOBAL_PROPERTY_PATIENT_IDENTIFIER_PREFIX);
+ 
+		String noCheck = shortName + String.valueOf(now.get(Calendar.YEAR)).substring(2, 4)
+		        + String.valueOf(now.get(Calendar.MONTH) + 1) + String.valueOf(now.get(Calendar.DATE))
+		        				
+		        + String.valueOf(now.get(Calendar.HOUR)) + String.valueOf(now.get(Calendar.MINUTE))
+		        + String.valueOf(now.get(Calendar.SECOND))
+		        + String.valueOf(new Random().nextInt(9999-999+1));
+		
+	
+		if(patient != null){
+			PatientWrapper wrapper = new PatientWrapper(patient);
+			model.addAttribute("patientIdentifier",wrapper.getSystemPatientId());
+			model.addAttribute("patientId",wrapper.getTarget().getPatientId());
+		}
+		else{
+			model.addAttribute("patientIdentifier",noCheck + "-" + generateCheckdigit(noCheck));
+			model.addAttribute("patientId",null);
+		}
+		
+			
 	}
 
+	
+	/*
+	 * Using the Luhn Algorithm to generate check digits
+	 * 
+	 * @param idWithoutCheckdigit
+	 * 
+	 * @return idWithCheckdigit
+	 */
+	private static int generateCheckdigit(String input) {
+		int factor = 2;
+		int sum = 0;
+		int n = 10;
+		int length = input.length();
+		
+		if (!input.matches("[\\w]+"))
+			throw new RuntimeException("Invalid character in patient id: " + input);
+		// Work from right to left
+		for (int i = length - 1; i >= 0; i--) {
+			int codePoint = input.charAt(i) - 48;
+			// slight openmrs peculiarity to Luhn's algorithm
+			int accum = factor * codePoint - (factor - 1) * (int) (codePoint / 5) * 9;
+			
+			// Alternate the "factor"
+			factor = (factor == 2) ? 1 : 2;
+			
+			sum += accum;
+		}
+		
+		int remainder = sum % n;
+		return (n - remainder) % n;
+	}
+	
 	/**
 	 * Saves the patient being edited by this form
 	 * @param form the edit patient form
@@ -131,6 +191,7 @@ public class EditPatientFragmentController {
 		if (patient.getPersonId().equals(Context.getAuthenticatedUser().getPerson().getPersonId())) {
 			Context.refreshAuthenticatedUser();
 		}
+
 
 		return SimpleObject.create("id", patient.getId());
 	}
@@ -148,6 +209,7 @@ public class EditPatientFragmentController {
 		} else {
 			return new EditPatientForm(); // For creating patient and person from scratch
 		}
+		
 	}
 
 	/**
@@ -164,15 +226,25 @@ public class EditPatientFragmentController {
 		private PersonAddress personAddress;
 		private Concept maritalStatus;
 		private Concept occupation;
+		private Concept ingoTypeConcept;
+		private Concept enrollmentName;
+		private Concept entryPoint;
 		private Concept education;
 		private Obs savedMaritalStatus;
 		private Obs savedOccupation;
+		private Obs savedIngoTypeConcept;
+		private Obs savedEnrollmentNameConcept;
+		private Obs savedEntryPoint;
 		private Obs savedEducation;
 		private Boolean dead = false;
 		private Date deathDate;
 
-		private String nationalIdNumber;
-		private String patientClinicNumber;
+//		private String nationalIdNumber;
+//		private String patientClinicNumber;
+		private String artRegistrationNumber;
+		private String preArtRegistrationNumber;
+		private String napArtRegistrationNumber;
+		private String systemPatientId;
 		private String uniquePatientNumber;
 
 		private String telephoneContact;
@@ -182,8 +254,16 @@ public class EditPatientFragmentController {
 		private String nextOfKinAddress;
 		private String subChiefName;
 		
+		private Integer identifierCount;		
 		private String fatherName;
-
+		private String otherEntryPoint;
+		private String previousClinicName;
+		private Date transferredInDate;
+		private String hivTestPerformed;
+		private Date hivTestPerformedDate;
+		private String hivTestPerformedPlace;
+		private String checkInType;
+		
 		/**
 		 * Creates an edit form for a new patient
 		 */
@@ -232,16 +312,32 @@ public class EditPatientFragmentController {
 
 			PatientWrapper wrapper = new PatientWrapper(patient);
 
-			patientClinicNumber = wrapper.getPatientClinicNumber();
+			artRegistrationNumber = wrapper.getArtRegistrationNumber();
+			preArtRegistrationNumber = wrapper.getPreArtRegistrationNumber();
+			napArtRegistrationNumber = wrapper.getNapArtRegistrationNumber();
+			systemPatientId = wrapper.getSystemPatientId();
+			
 			uniquePatientNumber = wrapper.getUniquePatientNumber();
-			nationalIdNumber = wrapper.getNationalIdNumber();
 
 			nameOfNextOfKin = wrapper.getNextOfKinName();
 			nextOfKinRelationship = wrapper.getNextOfKinRelationship();
 			nextOfKinContact = wrapper.getNextOfKinContact();
 			nextOfKinAddress = wrapper.getNextOfKinAddress();
 			subChiefName = wrapper.getSubChiefName();
-
+			previousClinicName= wrapper.getPreviousClinicName();
+			hivTestPerformed=wrapper.getPreviousHivTestStatus();
+			hivTestPerformedPlace=wrapper.getPreviousHivTestPlace();
+			fatherName = wrapper.getFatherName();
+			
+	      try 
+		      {  
+	    	  String datestr=wrapper.getPreviousHivTestDate();
+		      DateFormat formatter; 
+		      formatter = new SimpleDateFormat("dd-MMMM-yyyy");
+		      hivTestPerformedDate = (Date)formatter.parse(datestr);
+		      }
+	      catch (Exception e){}
+			
 			savedMaritalStatus = getLatestObs(patient, Dictionary.CIVIL_STATUS);
 			if (savedMaritalStatus != null) {
 				maritalStatus = savedMaritalStatus.getValueCoded();
@@ -251,7 +347,26 @@ public class EditPatientFragmentController {
 			if (savedOccupation != null) {
 				occupation = savedOccupation.getValueCoded();
 			}
+			
+			savedIngoTypeConcept = getLatestObs(patient, Dictionary.INGO_NAME);
+			if (savedIngoTypeConcept != null) {
+				ingoTypeConcept = savedIngoTypeConcept.getValueCoded();
+			}
+			
+			savedEnrollmentNameConcept = getLatestObs(patient, Dictionary.ENROLLMENT_STATUS);
+			if (savedEnrollmentNameConcept != null) {
+				enrollmentName = savedEnrollmentNameConcept.getValueCoded();
+			}
 
+			savedEntryPoint = getLatestObs(patient, Dictionary.METHOD_OF_ENROLLMENT);
+			if (savedEntryPoint != null) {
+				entryPoint = savedEntryPoint.getValueCoded();
+				otherEntryPoint = savedEntryPoint.getValueText();
+				transferredInDate = savedEntryPoint.getValueDate();
+			}
+			
+			
+			
 			savedEducation = getLatestObs(patient, Dictionary.EDUCATION);
 			if (savedEducation != null) {
 				education = savedEducation.getValueCoded();
@@ -274,12 +389,33 @@ public class EditPatientFragmentController {
 		 */
 		@Override
 		public void validate(Object target, Errors errors) {
+			
 			require(errors, "personName.givenName");
 			//require(errors, "personName.familyName");
 			require(errors, "fatherName");
 			require(errors, "gender");
 			require(errors, "birthdate");
-
+			require(errors, "entryPoint");
+			require(errors, "previousClinicName");
+			require(errors, "hivTestPerformed");
+			
+			if (hivTestPerformed!=null && hivTestPerformed.equals("Yes")) {
+				require(errors, "hivTestPerformedPlace");
+				require(errors, "hivTestPerformedDate");
+			}
+			
+			if (transferredInDate != null) {
+				if (transferredInDate.after(new Date())) {
+					errors.rejectValue("transferredInDate", "Cannot be in the future");
+				}
+			}	
+			
+			//Check for Other entry point 
+			if( entryPoint!= null){
+				if(entryPoint.getName().toString().equals("OTHER NON-CODED")){
+					require(errors, "otherEntryPoint");
+				}
+			}	
 			// Require death details if patient is deceased
 			if (dead) {
 				require(errors, "deathDate");
@@ -304,11 +440,32 @@ public class EditPatientFragmentController {
 			}
 
 			validateField(errors, "personAddress");
-
-			validateIdentifierField(errors, "nationalIdNumber", CommonMetadata._PatientIdentifierType.NATIONAL_ID);
-			validateIdentifierField(errors, "patientClinicNumber", CommonMetadata._PatientIdentifierType.PATIENT_CLINIC_NUMBER);
+		
+//			validateIdentifierField(errors, "nationalIdNumber", CommonMetadata._PatientIdentifierType.NATIONAL_ID);
+//			validateIdentifierField(errors, "patientClinicNumber", CommonMetadata._PatientIdentifierType.PATIENT_CLINIC_NUMBER);
+			identifierCount=0;
+			validateIdentifierField(errors, "artRegistrationNumber", CommonMetadata._PatientIdentifierType.ART_REGISTRATION_NUMBER);
+			validateIdentifierField(errors, "preArtRegistrationNumber", CommonMetadata._PatientIdentifierType.PRE_ART_REGISTRATION_NUMBER);
+			validateIdentifierField(errors, "napArtRegistrationNumber", CommonMetadata._PatientIdentifierType.NAP_ART_REGISTRATION_NUMBER);
+			
+			//Check, not more than two identifier number get entered
+			if(identifierCount > 2){
+				errors.rejectValue("systemPatientId", "At max only two registration numbers can be entered.");
+			}
+			
+		//	validateIdentifierField(errors, "systemPatientId", CommonMetadata._PatientIdentifierType.SYSTEM_PATIENT_ID);
 			validateIdentifierField(errors, "uniquePatientNumber", HivMetadata._PatientIdentifierType.UNIQUE_PATIENT_NUMBER);
-
+			
+		//Check INGO name is entered, if INGO number is entered
+			String value = (String) errors.getFieldValue("artRegistrationNumber");
+			if(!value.isEmpty()){
+				require(errors, "ingoTypeConcept");			
+			}
+			
+			if(ingoTypeConcept != null){
+				require(errors, "artRegistrationNumber");
+			}
+			
 			// check birth date against future dates and really old dates
 			if (birthdate != null) {
 				if (birthdate.after(new Date()))
@@ -348,6 +505,7 @@ public class EditPatientFragmentController {
 				if (Context.getPatientService().isIdentifierInUseByAnotherPatient(stub)) {
 					errors.rejectValue(field, "In use by another patient");
 				}
+				identifierCount++;
 			}
 		}
 
@@ -394,16 +552,32 @@ public class EditPatientFragmentController {
 			}
 
 			PatientWrapper wrapper = new PatientWrapper(toSave);
-
+			
 			wrapper.getPerson().setTelephoneContact(telephoneContact);
-			wrapper.setNationalIdNumber(nationalIdNumber, location);
-			wrapper.setPatientClinicNumber(patientClinicNumber, location);
+//			wrapper.setNationalIdNumber(nationalIdNumber, location);
+//			wrapper.setPatientClinicNumber(patientClinicNumber, location);
+			wrapper.setPreArtRegistrationNumber(preArtRegistrationNumber, location);
+			wrapper.setArtRegistrationNumber(artRegistrationNumber, location);
+			wrapper.setNapArtRegistrationNumber(napArtRegistrationNumber, location);
+			wrapper.setSystemPatientId(systemPatientId, location);
 			wrapper.setUniquePatientNumber(uniquePatientNumber, location);
 			wrapper.setNextOfKinName(nameOfNextOfKin);
 			wrapper.setNextOfKinRelationship(nextOfKinRelationship);
 			wrapper.setNextOfKinContact(nextOfKinContact);
 			wrapper.setNextOfKinAddress(nextOfKinAddress);
 			wrapper.setSubChiefName(subChiefName);
+			wrapper.setPreviousClinicName(previousClinicName);
+
+			wrapper.setPreviousHivTestStatus(hivTestPerformed);
+			
+			if (hivTestPerformed.equals("Yes")) {
+				wrapper.setPreviousHivTestPlace(hivTestPerformedPlace);
+				DateFormat testDate = new SimpleDateFormat("dd-MMMM-yyyy");
+				Date capturedTestDate = hivTestPerformedDate;        
+				wrapper.setPreviousHivTestDate(testDate.format(capturedTestDate));
+			}
+				
+			
 			wrapper.getPerson().setFatherName(fatherName);
 
 			// Make sure everyone gets an OpenMRS ID
@@ -433,8 +607,28 @@ public class EditPatientFragmentController {
 
 			handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.CIVIL_STATUS), savedMaritalStatus, maritalStatus);
 			handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.OCCUPATION), savedOccupation, occupation);
+			handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.INGO_NAME), savedIngoTypeConcept, ingoTypeConcept);
+			handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.ENROLLMENT_STATUS), savedEnrollmentNameConcept, enrollmentName);
 			handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.EDUCATION), savedEducation, education);
-
+			
+			//With value text and Date
+			if(transferredInDate!=null){
+				if(entryPoint.getName().toString().equals("OTHER NON-CODED")){
+					handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.METHOD_OF_ENROLLMENT), savedEntryPoint, entryPoint,otherEntryPoint, transferredInDate,0);
+				}
+				else {
+					handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.METHOD_OF_ENROLLMENT), savedEntryPoint, entryPoint,"", transferredInDate,0);
+				}
+			}
+			else{
+				if(entryPoint.getName().toString().equals("OTHER NON-CODED")){
+					handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.METHOD_OF_ENROLLMENT), savedEntryPoint, entryPoint,otherEntryPoint, transferredInDate,1);
+				}
+				else {
+					handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.METHOD_OF_ENROLLMENT), savedEntryPoint, entryPoint,"", transferredInDate,1);
+				}
+			}
+			
 			for (Obs o : obsToVoid) {
 				Context.getObsService().voidObs(o, "KenyaEMR edit patient");
 			}
@@ -442,7 +636,64 @@ public class EditPatientFragmentController {
 			for (Obs o : obsToSave) {
 				Context.getObsService().saveObs(o, "KenyaEMR edit patient");
 			}
+			
+			/*
+			 * To check in directly
+			 */
+			if(checkInType.equals("1")){
+				Visit visit = new Visit();
+				visit.setPatient(ret);
+				visit.setStartDatetime(new Date());
+				visit.setVisitType(MetadataUtils.existing(VisitType.class, CommonMetadata._VisitType.OUTPATIENT));
+				
+				visit.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
+				Visit visitSave = Context.getVisitService().saveVisit(visit);
+				
+				EncounterType hivEnrollEncType = MetadataUtils.existing(EncounterType.class, HivMetadata._EncounterType.HIV_ENROLLMENT);
+				Encounter hivEnrollmentEncounter = new Encounter();
+				
+				hivEnrollmentEncounter.setEncounterType(hivEnrollEncType);
+				hivEnrollmentEncounter.setPatient(ret);
+				hivEnrollmentEncounter.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
+				hivEnrollmentEncounter.setDateCreated(new Date());
+				hivEnrollmentEncounter.setEncounterDatetime(new Date());
+				hivEnrollmentEncounter.setForm(MetadataUtils.existing(Form.class, HivMetadata._Form.HIV_ENROLLMENT));
+				hivEnrollmentEncounter.setVisit(visitSave);
+				hivEnrollmentEncounter.setVoided(false);
+				Context.getEncounterService().saveEncounter(hivEnrollmentEncounter);
 
+				
+				PatientProgram patientProgram = new PatientProgram();
+				patientProgram.setPatient(ret);
+				patientProgram.setProgram(MetadataUtils.existing(Program.class, HivMetadata._Program.HIV));
+				patientProgram.setDateEnrolled(new Date());
+				patientProgram.setDateCreated(new Date());
+				Context.getProgramWorkflowService().savePatientProgram(patientProgram);
+			}
+			
+			else{
+				EncounterType hivEnrollEncType = MetadataUtils.existing(EncounterType.class, HivMetadata._EncounterType.HIV_ENROLLMENT);
+				Encounter hivEnrollmentEncounter = new Encounter();
+				
+				hivEnrollmentEncounter.setEncounterType(hivEnrollEncType);
+				hivEnrollmentEncounter.setPatient(ret);
+				hivEnrollmentEncounter.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
+				hivEnrollmentEncounter.setDateCreated(new Date());
+				hivEnrollmentEncounter.setEncounterDatetime(new Date());
+				hivEnrollmentEncounter.setForm(MetadataUtils.existing(Form.class, HivMetadata._Form.HIV_ENROLLMENT));
+				hivEnrollmentEncounter.setVoided(false);
+				Context.getEncounterService().saveEncounter(hivEnrollmentEncounter);
+
+				
+				PatientProgram patientProgram = new PatientProgram();
+				patientProgram.setPatient(ret);
+				patientProgram.setProgram(MetadataUtils.existing(Program.class, HivMetadata._Program.HIV));
+				patientProgram.setDateEnrolled(new Date());
+				patientProgram.setDateCreated(new Date());
+				Context.getProgramWorkflowService().savePatientProgram(patientProgram);
+				
+			}
+			
 			return ret;
 		}
 
@@ -474,6 +725,31 @@ public class EditPatientFragmentController {
 				}
 			}
 		}
+		
+		protected void handleOncePerPatientObs(Patient patient, List<Obs> obsToSave, List<Obs> obsToVoid, Concept question,
+				 Obs savedObs, Concept newValue, String textValue, Date textDate, int check) {
+				if (!OpenmrsUtil.nullSafeEquals(savedObs != null ? savedObs.getValueCoded() : null, newValue)) {
+					// there was a change
+					if (savedObs != null && newValue == null) {
+						// treat going from a value to null as voiding all past civil status obs
+						obsToVoid.addAll(Context.getObsService().getObservationsByPersonAndConcept(patient, question));
+					}
+				if (newValue != null) {
+					Obs o = new Obs();
+					o.setPerson(patient);
+					o.setConcept(question);
+					o.setObsDatetime(new Date());
+					o.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
+					o.setValueCoded(newValue);
+					o.setValueText(textValue);
+					if(check==0){
+						o.setValueDate(textDate);
+					}
+					obsToSave.add(o);
+				}
+			}
+		}
+		
 
 		public boolean isInHivProgram() {
 			if (original == null || !original.isPatient()) {
@@ -516,21 +792,143 @@ public class EditPatientFragmentController {
 		public void setPersonName(PersonName personName) {
 			this.personName = personName;
 		}
+		
+		public Concept getIngoTypeConcept() {
+			return ingoTypeConcept;
+		}
+
+		public void setIngoTypeConcept(Concept ingoTypeConcept) {
+			this.ingoTypeConcept = ingoTypeConcept;
+		}
+		
+		public Concept getEnrollmentName() {
+			return enrollmentName;
+		}
+
+		public void setEnrollmentName(Concept enrollmentName) {
+			this.enrollmentName = enrollmentName;
+		}
+
+		public Concept getEntryPoint() {
+			return entryPoint;
+		}
+
+		public void setEntryPoint(Concept entryPoint) {
+			this.entryPoint = entryPoint;
+		}
+
+		public String getHivTestPerformedPlace() {
+			return hivTestPerformedPlace;
+		}
+
+		public void setHivTestPerformedPlace(String hivTestPerformedPlace) {
+			this.hivTestPerformedPlace = hivTestPerformedPlace;
+		}
+
+		public Obs getSavedEntryPoint() {
+			return savedEntryPoint;
+		}
+
+		public String getOtherEntryPoint() {
+			return otherEntryPoint;
+		}
+
+		public void setOtherEntryPoint(String otherEntryPoint) {
+			this.otherEntryPoint = otherEntryPoint;
+		}
+
+		public String getPreviousClinicName() {
+			return previousClinicName;
+		}
+
+		public void setPreviousClinicName(String previousClinicName) {
+			this.previousClinicName = previousClinicName;
+		}
+
+		public Date getTransferredInDate() {
+			return transferredInDate;
+		}
+
+		public void setTransferredInDate(Date transferredInDate) {
+			this.transferredInDate = transferredInDate;
+		}
+		
+
+		public String getHivTestPerformed() {
+			return hivTestPerformed;
+		}
+
+		public void setHivTestPerformed(String hivTestPerformed) {
+			this.hivTestPerformed = hivTestPerformed;
+		}
+
+		public Date getHivTestPerformedDate() {
+			return hivTestPerformedDate;
+		}
+
+		public void setHivTestPerformedDate(Date hivTestPerformedDate) {
+			this.hivTestPerformedDate = hivTestPerformedDate;
+		}
+
+		public void setSavedEntryPoint(Obs savedEntryPoint) {
+			this.savedEntryPoint = savedEntryPoint;
+		}
+
+		public String getArtRegistrationNumber() {
+			return artRegistrationNumber;
+		}
+
+		public void setArtRegistrationNumber(String artRegistrationNumber) {
+			this.artRegistrationNumber = artRegistrationNumber;
+		}
+
+		public String getPreArtRegistrationNumber() {
+			return preArtRegistrationNumber;
+		}
+
+		public void setPreArtRegistrationNumber(String preArtRegistrationNumber) {
+			this.preArtRegistrationNumber = preArtRegistrationNumber;
+		}
+
+		public String getNapArtRegistrationNumber() {
+			return napArtRegistrationNumber;
+		}
+
+		public void setNapArtRegistrationNumber(String napArtRegistrationNumber) {
+			this.napArtRegistrationNumber = napArtRegistrationNumber;
+		}
+
+		public String getSystemPatientId() {
+			return systemPatientId;
+		}
+
+		public void setSystemPatientId(String systemPatientId) {
+			this.systemPatientId = systemPatientId;
+		}
+		
+
+		public String getCheckInType() {
+			return checkInType;
+		}
+
+		public void setCheckInType(String checkInType) {
+			this.checkInType = checkInType;
+		}
 
 		/**
 		 * @return the patientClinicNumber
-		 */
+	
 		public String getPatientClinicNumber() {
 			return patientClinicNumber;
 		}
-
+	 */
 		/**
 		 * @param patientClinicNumber the patientClinicNumber to set
-		 */
+		
 		public void setPatientClinicNumber(String patientClinicNumber) {
 			this.patientClinicNumber = patientClinicNumber;
 		}
-
+ */
 		/**
 		 * @return the hivIdNumber
 		 */
@@ -547,19 +945,19 @@ public class EditPatientFragmentController {
 
 		/**
 		 * @return the nationalIdNumber
-		 */
+		
 		public String getNationalIdNumber() {
 			return nationalIdNumber;
 		}
-
+ */
 		/**
 		 * @param nationalIdNumber the nationalIdNumber to set
-		 */
+		
 		public void setNationalIdNumber(String nationalIdNumber) {
 
 			this.nationalIdNumber = nationalIdNumber;
 		}
-
+ */
 		/**
 		 * @return the birthdate
 		 */
@@ -768,70 +1166,4 @@ public class EditPatientFragmentController {
 		
 	}
 	
-	/*
-	public void getAddressData(FragmentModel model) throws MalformedURLException, DocumentException, JaxenException {
-		File addressFile = new File(OpenmrsUtil.getApplicationDataDirectory() + "kenyaaddresshierarchy.xml");
-		if (addressFile.exists()) {
-			SAXReader reader = new SAXReader();
-			Document document = reader.read(addressFile.toURI().toURL());
-			XPath distSelector = new Dom4jXPath("//country/county");
-			@SuppressWarnings("rawtypes")
-			List countyList = distSelector.selectNodes(document);
-			String[] countyArr = new String[countyList.size()];
-			String[] subcountyArr = new String[countyList.size()];
-			String location="";
-			
-			if (countyList.size() > 0) {
-				for (int i = 0; i < countyList.size(); i++) {
-					
-					countyArr[i] = ((Element) countyList.get(i)).attributeValue("name");
-					@SuppressWarnings("rawtypes")
-					List subcountyList = ((Element) countyList.get(i)).elements("subcounty");
-					
-					String countyName=((Element) countyList.get(i)).attributeValue("name");
-					location=location+countyName;
-					
-					
-					String subcountyName=((Element) subcountyList.get(0)).attributeValue("name");
-					location=location+"/"+subcountyName;
-					subcountyArr[i] = ((Element) subcountyList.get(0)).attributeValue("name") + ",";
-					@SuppressWarnings("rawtypes")
-					List locationList = ((Element) subcountyList.get(0)).elements("location");
-					for(int k = 0; k < (locationList.size()); k++) {
-						String locationName=((Element) locationList.get(k)).attributeValue("name");
-						location=location+"."+locationName;
-					}
-						
-					
-					for (int j = 1; j < (subcountyList.size()-1); j++) {
-					subcountyName=((Element) subcountyList.get(j)).attributeValue("name");
-					location=location+"/"+subcountyName;
-					subcountyArr[i] += ((Element) subcountyList.get(j)).attributeValue("name") + ",";
-					locationList = ((Element) subcountyList.get(j)).elements("location");
-					for(int k = 0; k < (locationList.size()); k++) {
-						String locationName=((Element) locationList.get(k)).attributeValue("name");
-						location=location+"."+locationName;
-						}	
-					}
-					
-					subcountyName=((Element) subcountyList.get((subcountyList.size()-1))).attributeValue("name");
-					location=location+"/"+subcountyName;
-					subcountyArr[i] += ((Element) subcountyList.get((subcountyList.size()-1))).attributeValue("name") + ",";
-					locationList = ((Element) subcountyList.get((subcountyList.size()-1))).elements("location");
-					for(int k = 0; k < (locationList.size()); k++) {
-						String locationName=((Element) locationList.get(k)).attributeValue("name");
-						location=location+"."+locationName;
-					}
-					
-					if(i<countyList.size()-1){
-						location=location+"@";
-					}
-				}
-			}
-			model.addAttribute("districts", countyArr);
-			model.addAttribute("upazilas", subcountyArr);
-			model.addAttribute("location", location);
-			
-		}
-	}*/
 }
