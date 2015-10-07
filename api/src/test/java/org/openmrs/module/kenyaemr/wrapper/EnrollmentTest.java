@@ -24,6 +24,7 @@ import org.openmrs.Patient;
 import org.openmrs.Program;
 import org.openmrs.module.kenyacore.test.TestUtils;
 import org.openmrs.module.kenyaemr.Dictionary;
+import org.openmrs.module.kenyaemr.Metadata;
 import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
 import org.openmrs.module.kenyaemr.metadata.TbMetadata;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
@@ -87,7 +88,7 @@ public class EnrollmentTest extends BaseModuleContextSensitiveTest {
 	public void lastEncounter_shouldFindLastEncounterWithType() {
 		Patient patient = TestUtils.getPatient(6);
 		Program tbProgram = MetadataUtils.existing(Program.class, TbMetadata._Program.TB);
-		EncounterType tbScreenEncType = MetadataUtils.existing(EncounterType.class, TbMetadata._EncounterType.TB_SCREENING);
+		EncounterType tbScreenEncType = MetadataUtils.existing(EncounterType.class, Metadata.EncounterType.TB_SCREENING);
 
 		Enrollment enrollment = new Enrollment(TestUtils.enrollInProgram(patient, tbProgram, TestUtils.date(2012, 1, 1), TestUtils.date(2012, 4, 1)));
 

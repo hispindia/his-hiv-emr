@@ -40,7 +40,7 @@ public class TbInitialTreatmentCalculation extends AbstractPatientCalculation {
 	 */
 	@Override
 	public CalculationResultMap evaluate(Collection<Integer> cohort, Map<String, Object> params, PatientCalculationContext context) {
-		//only deal with the alive patients
+		/*		//only deal with the alive patients
 		Set<Integer> alive = Filters.alive(cohort, context);
 		//Patients in tb program
 		CalculationResultMap inProgram = Calculations.lastEncounter(MetadataUtils.existing(EncounterType.class, TbMetadata._EncounterType.TB_ENROLLMENT), alive, context);
@@ -48,9 +48,9 @@ public class TbInitialTreatmentCalculation extends AbstractPatientCalculation {
 		CalculationResultMap treatmentOutcome = Calculations.firstObs(Dictionary.getConcept(Dictionary.TUBERCULOSIS_TREATMENT_OUTCOME), cohort, context);
 		//get the concept of completed treatment
 		Concept completedInitialTreatment = Dictionary.getConcept(Dictionary.TREATMENT_COMPLETE);
-
+*/
 		CalculationResultMap ret = new CalculationResultMap();
-		for(int ptId:cohort){
+	/*	for(int ptId:cohort){
 			boolean completed = false;
 			Encounter tbEnrollmentEncounter = EmrCalculationUtils.encounterResultForPatient(inProgram, ptId);
 			Concept concept = EmrCalculationUtils.codedObsResultForPatient(treatmentOutcome, ptId);
@@ -59,7 +59,7 @@ public class TbInitialTreatmentCalculation extends AbstractPatientCalculation {
 			}
 
 			ret.put(ptId, new BooleanResult(completed, this, context));
-		}
+		}*/
 		return ret;
 	}
 }
