@@ -35,10 +35,12 @@ import org.openmrs.VisitType;
 import org.openmrs.api.VisitService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.kenyaemr.EmrConstants;
+import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
 import org.openmrs.module.kenyaemr.util.EmrUiUtils;
 import org.openmrs.module.kenyaemr.api.KenyaEmrService;
 import org.openmrs.module.kenyaui.annotation.AppAction;
 import org.openmrs.module.kenyaui.annotation.SharedAction;
+import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.BindParams;
@@ -135,7 +137,19 @@ public class RegistrationUtilFragmentController {
 
 		ui.validate(visit, new StartVisitValidator(), "visit");
 
+		Patient patient = visit.getPatient();
+		List<Visit> visitOld = Context.getVisitService().getVisitsByPatient(patient);
+		if (visitOld.size() == 0) {
+			Visit newPatientVisit = new Visit();
+			newPatientVisit.setPatient(patient);
+			newPatientVisit.setStartDatetime(new Date());
+			newPatientVisit.setVisitType(MetadataUtils.existing(VisitType.class, CommonMetadata._VisitType.NEW_PATIENT));
+			newPatientVisit.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
+			Context.getVisitService().saveVisit(newPatientVisit);
+		} 
+		
 		Context.getVisitService().saveVisit(visit);
+		
 		return ui.simplifyObject(visit);
 	}
 	
@@ -167,7 +181,6 @@ public class RegistrationUtilFragmentController {
 		@Override
 		public void validate(Object obj, Errors errors) {
 			Visit visit = (Visit)obj;
-
 			if (Context.getVisitService().getActiveVisitsByPatient(visit.getPatient()).size() > 0) {
 				errors.reject("Patient already has an active visit");
 			}

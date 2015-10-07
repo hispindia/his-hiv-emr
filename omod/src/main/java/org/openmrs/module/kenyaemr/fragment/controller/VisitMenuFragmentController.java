@@ -14,15 +14,18 @@
 
 package org.openmrs.module.kenyaemr.fragment.controller;
 
+import org.openmrs.Encounter;
 import org.openmrs.Patient;
 import org.openmrs.Visit;
 import org.openmrs.VisitType;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
 import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Visit menu (check-in / check-out etc)
@@ -32,12 +35,13 @@ public class VisitMenuFragmentController {
 	public void controller(FragmentModel model, @FragmentParam("patient") Patient patient, @FragmentParam(value = "visit", required = false) Visit visit) {
 
 		model.addAttribute("patient", patient);
-		model.addAttribute("visit", visit);
-
+		model.addAttribute("visit", visit);		
+		
 		Visit newVisit = new Visit();
 		newVisit.setPatient(patient);
 		newVisit.setStartDatetime(new Date());
 		newVisit.setVisitType(MetadataUtils.existing(VisitType.class, CommonMetadata._VisitType.OUTPATIENT));
+		
 		model.addAttribute("newCurrentVisit", newVisit);
 	}
 }

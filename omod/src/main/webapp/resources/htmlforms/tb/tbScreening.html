@@ -12,119 +12,553 @@
   ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
   -->
 <htmlform>
+	<style type="text/css">
+		table.tb {
+			background-color: #FFFFCC;
+			border: 1px solid black;
+		}
+		table.tb1 {
+			border: 1px solid black;
+			vertical-align: baseline;
+			text-align: left;
+			background-color: #FFFFFF;
+		}
+		table.tb1 tr th,table.tb1 tr td{
+			border: 0;
+			padding: 10px;
+		}
 
+	</style>
 	<script type="text/javascript">
-		jq(function() {
-			var valbirthdate = "<lookup  expression="patient.birthdate" />"
-			var valChangedToDateFormat = new Date(valbirthdate).getTime();
+		
+		jq(document).ready(function(){
+			var pbirthdate = new Date("<lookup expression="patient.birthdate" />").getTime();
 
-			beforeSubmit.push(function() {
-				var valonform = getValue('tbrxdate.value');
-				var valChangedToDateFormatOnForm=new Date(valonform).getTime();
+			//check if the date of tb treatment already exists
+			var treatmentDate = "<lookup expression="fn.latestObs(1113).valueDate" />"
+			var treatmentOutcomeDateVal = "<lookup expression="fn.latestObs(159787).valueDate" />"
 
-				//tb rx date should be later than date of birth
-				if (valChangedToDateFormatOnForm &lt; valChangedToDateFormat) {
-					getField('tbrxdate.error').html('TB Rx date, should not be earlier than date of birth').show();
+			//set the value of the treatment date if available
+			setValue('dstartoftreatment.value', treatmentDate);
+			
+			//set the value of the treatment outcome date if available
+			setValue('treatmentoutcomedate.value',treatmentOutcomeDateVal );
+			var pbirthdate = new Date("<lookup expression="patient.birthdate" />").getTime();
+			var dstartoftreatment;
+			var treatmentoutcomedate;
+
+			beforeSubmit.push (function() {
+				
+				datestartoftreatment = new Date(getValue('dstartoftreatment.value')).getTime();
+				dateoftreatmentoutcome = new Date(getValue('treatmentoutcomedate.value')).getTime();
+			
+       			if (datestartoftreatment &lt; pbirthdate) {
+          			jq('#startOfTreatmentDateError').show();
+               		jq('#startOfTreatmentDateError').html('Date start of treatment should be after the birth date');
+                   	return false
+         		}
+          		
+          		if (dateoftreatmentoutcome &lt; pbirthdate) {
+          			 ('Date outcome for TB treatment should be after the birth date');
+          			//sjq('#tbTreatmentOutcomeDateError').show();
+               		//jq('#tbTreatmentOutcomeDateError').html('Date outcome for TB treatment should be after the birth date');
+                   	return false
+         		}
+          		
+          		
+				if (getValue('tbSufferedPatient.value') == 1065){
+	          		var mdrTBValue = getValue('mdrTBValue.value');
+	         		if(mdrTBValue==""){
+	         			alert("Please select MDR-TB Yes or No");
+//	 					jq('#mdr-errors').html("Please select MDR-TB Yes or No");
+						return false;
+	          		}
+				}
+				
+         		var performanceScaleVal = getValue('performanceScale.value');
+          		if (performanceScaleVal == ""){
+					alert("Please Enter Performance scale of Patient");
 					return false;
 				}
-				//tb rx date cannot be same as birth date
-				if (valChangedToDateFormatOnForm  == valChangedToDateFormat) {
-					getField('tbrxdate.error').html('TB Rx date, should not be same as  date of birth').show();
+				
+          		var whoStageVal = getValue('whoStage.value');
+				if (whoStageVal == ""){
+					alert("Please Enter WHO Stage of Patient");
 					return false;
 				}
-				return true;
+
+    			return true;
 			});
+			
+//			var pulmodiv = document.getElementById('iddivPulmonary');
+//			var expulmodiv = document.getElementById('expul');
+			//getting the values of the disease classification option buttons
+				
+				var optValues = getValue('dclassification.value');
+			
+				if (optValues == 42){
+					jq('#expul :input').prop('disabled', true);
+				//	jq('#iddivPulmonary :input').prop('disabled', false);
+				}
+				else if (optValues == 5042 ){
+				//	jq('#iddivPulmonary :input').prop('disabled', true);
+					jq('#expul :input').prop('disabled', false);
+				}
+				else {
+				//	jq('#iddivPulmonary :input').prop('disabled', true);
+					jq('#expul :input').prop('disabled', true);
+				}
+				
+				$('#dclassification input:radio').click(function() {
+					if (jq(this).val() == 42) {
+						jq('#expul :input').prop('disabled', true);
+				//		jq('#iddivPulmonary :input').prop('disabled', false);
+					}
+					if (jq(this).val() == 5042) {
+				//		jq('#iddivPulmonary :input').prop('disabled', true);
+						jq('#expul :input').prop('disabled', false);
+					}
+				});
+				
+				/*
+				Suffered from TB or Not
+				
+				var tbSufferedPatientYesDiv = document.getElementById('tbSufferedPatientYes');
+				var tbSufferedPatientNoDiv = document.getElementById('tbSufferedPatientNo');
+				
+				var tbSufferedPatientValue = getValue('tbSufferedPatient.value');
+				if (tbSufferedPatientValue == 1065){
+					jq('#tbSufferedPatientNo :input').prop('disabled', true);
+					jq('#tbSufferedPatientYes :input').prop('disabled', false);
+				}
+				else if (tbSufferedPatientValue == 1066 ){
+					jq('#tbSufferedPatientYes :input').prop('disabled', true);
+					jq('#tbSufferedPatientNo :input').prop('disabled', false);
+				}
+				else {
+					jq('#tbSufferedPatientYes :input').prop('disabled', true);
+					jq('#tbSufferedPatientNo :input').prop('disabled', true);
+				}
+				
+				$('#tbSufferedPatient input:radio').click(function() {
+					if (jq(this).val() == 1066) {
+						jq('#tbSufferedPatientYes :input').prop('disabled', true);
+						jq('#tbSufferedPatientNo :input').prop('disabled', false);
+					}
+					if (jq(this).val() == 1065) {
+						jq('#tbSufferedPatientNo :input').prop('disabled', true);
+						jq('#tbSufferedPatientYes :input').prop('disabled', false);
+					}
+				});*/
+				
+				/*
+				Opportunistic Infection 
+				*/
+				var opportunisticInfection = getValue('opportunisticInfection.value');
+				if (opportunisticInfection == 1065){
+					jq('#opportunisticInfectionYes :input').prop('disabled', false);
+				}
+				else if (opportunisticInfection == 1066 ){
+					jq('#opportunisticInfectionYes :input').prop('disabled', true);
+					
+				}
+				else {
+					jq('#opportunisticInfectionYes :input').prop('disabled', true);
+				}
+				
+				$('#opportunisticInfection input:radio').click(function() {
+					if (jq(this).val() == 1066) {
+						jq('#opportunisticInfectionYes :input').prop('disabled', true);
+					}
+					if (jq(this).val() == 1065) {
+						jq('#opportunisticInfectionYes :input').prop('disabled', false);
+					}
+				});
+				
 		});
+		
+		
+		
 	</script>
 
 	<div class="ke-form-header">
-		<table width="100%">
+		<table width="80%" align="center">
 			<tr>
-				<td>Date: <encounterDate id="encounter-date" showTime="true" /></td>
-				<td>Location: <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete" /></td>
+				<td  align="left">Date: <encounterDate id="encounter-date" showTime="true"/></td>
+				<td align="right">Location: <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete" /></td>
 			</tr>
 		</table>
 	</div>
 
-	<div class="ke-form-content">
-		<table>
-			<tr>
-				<obsgroup groupingConceptId="1727AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
-					<span style="display: none">
-						<obs conceptId="1728AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="159799AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="checkbox" defaultValue="159799"/>
-					</span>
-					<td>Cough for 2 weeks or more:</td>
-					<td><obs conceptId="1729AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" /></td>
-				</obsgroup>
-			</tr>
-			<tr>
-				<obsgroup groupingConceptId="1727AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
-					<span style="display: none">
-						<obs conceptId="1728AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  answerConceptId="124068AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="checkbox" defaultValue="124068"/>
-					</span>
-					<td>History of close contact with confirmed TB:</td>
-					<td><obs conceptId="1729AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" /></td>
-				</obsgroup>
-			</tr>
-			<tr>
-				<obsgroup groupingConceptId="1727AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
-					<span style="display: none">
-						<obs conceptId="1728AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="145455AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="checkbox" defaultValue="145455"/>
-					</span>
-					<td>Chronic cough?</td>
-					<td><obs conceptId="1729AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" /></td>
-				</obsgroup>
-			</tr>
-			<tr>
-				<obsgroup groupingConceptId="1727AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
-					<span style="display: none">
-						<obs conceptId="1728AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1494AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="checkbox" defaultValue="1494"/>
-					</span>
-					<td>Fever for 2 weeks or more:</td>
-					<td><obs conceptId="1729AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" /></td>
-				</obsgroup>
-			</tr>
-			<tr>
-				<obsgroup groupingConceptId="1727AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
-					<span style="display: none">
-						<obs conceptId="1728AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="832AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="checkbox" defaultValue="832"/>
-					</span>
-					<td>Noticeable weight loss:</td>
-					<td><obs conceptId="1729AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" /></td>
-				</obsgroup>
-			</tr>
-			<tr>
-				<obsgroup groupingConceptId="1727AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
-					<span style="display: none">
-						<obs conceptId="1728AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="120749AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="checkbox" defaultValue="120749"/>
-					</span>
-					<td>Chest Pain or Breathlessness:</td>
-					<td><obs conceptId="1729AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" /></td>
-				</obsgroup>
-			</tr>
-			<tr>
-				<obsgroup groupingConceptId="1727AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
-					<span style="display: none">
-						<obs conceptId="1728AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="133027AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="checkbox" defaultValue="133027"/>
-					</span>
-					<td>Night sweat for 2 weeks or more:</td>
-					<td><obs conceptId="1729AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" /></td>
-				</obsgroup>
-			</tr>
-			<tr>
-				<td colspan="2"><hr/></td>
-			</tr>
+	<div class="ke-form-content" style="select {   width: 40%;   padding: 2px;}">
+		<table align="center"  border="0" class="tb" cellspacing="10" width="80%">
 			<tr>
 				<td colspan="2">
-					<obs conceptId="1659AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText="Resulting TB Status:" answerConceptIds="1660AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,142177AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1662AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160737AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="No Signs,Suspect,TB Rx,Not Done" />
+					<div class="ke-form-instructions">
+						<b>*</b> indicates a required field
+					</div>
+				</td>
+			</tr>
+			<tr align="center" width="100%">
+				<td align="left" colspan="2"><b>1. Is the Patient Suffered from TB?*</b><obs conceptId="162850AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" id="tbSufferedPatient"/> </td>
+			</tr>
+			<tr id="topMost">
+				<td valign="top" width="50%">
+					<div id="tbSufferedPatientYes">
+						<fieldset>
+							<legend>If Yes</legend>
+							
+							<table align="center"  class="tb1" cellspacing="10" width="100%">
+								<tr>
+									<td>MDR-TB* </td>
+									<td><obs conceptId="160039AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" id="mdrTBValue"/></td>
+								</tr>
+								<tr>
+									<td>Disease Classification* </td>
+									<td><obs conceptId="160040AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="42AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5042AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Pulmonary TB,Extra-Pulmonary TB" style="radio" id="dclassification"/></td>
+								</tr>
+								<tr style="outline: thin solid">
+								<!-- 	<td valign="top">
+										<div id="iddivPulmonary">
+										<table>
+												<tr>
+													<td>
+														<obs conceptId="159982AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="703AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,664AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Smear Positive,Smear Negative" style="radio" answerSeparator="&lt;br /&gt;"  id="pulmonaryoptions" />
+													</td>
+												</tr>
+											</table>
+										</div>
+									</td> -->
+									<td colspan="2">
+										<div id="expul">
+											<legend>If Extra-Pulmonary TB:</legend>
+											<table>
+												<tr>
+													<td valign="top">Enter Site</td>
+													<td>
+					
+														<obsgroup groupingConceptId="161357AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+															<obs conceptId="161356AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="autocomplete" answerClasses="Diagnosis" />
+														</obsgroup>
+													</td>
+												</tr>
+											</table>
+										</div>
+									</td>
+									
+								</tr>
+													
+								<tr>
+									<td>Diagnosed By:</td>
+									<td><obs conceptId="162853AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="162851AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162852AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="dropdown"  answerLabels="Bacteriological,Clinical" /></td>
+								</tr>
+								<tr>
+									<td>Drug Sensitivity:</td>
+									<td><obs conceptId="646a021d-14a6-48f5-b4ed-fcacd820b012" labelText=" " answerConceptIds="cdb63a06-7324-45aa-bff5-f7a4c0b4838a,f66353d4-701a-47ae-93df-5e3513a428e9" style="dropdown"  answerLabels="Sensitive,Resistant" /></td>
+								</tr>
+								<tr>
+									<td>TB Registration Number:</td>
+									<td><patient field="identifier" identifierTypeId="d8ee3b8c-a8fc-4d6b-af6a-9423be5f8906" required="false"/></td>
+								</tr>
+								<tr>
+									<td>TB Clinic Name:</td>
+									<td><obs conceptId="e8cdd470-c212-4812-8300-3a2fada2dc5e"/></td>
+								</tr>
+								<tr>
+									<td>Township:</td>
+									<td><obs conceptId="161564AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+								</tr>
+								<tr>
+									<td>TB Treatment Start Date:</td>
+									<td><obs conceptId="1113AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="dstartoftreatment" /></td>
+								</tr>
+								<tr>
+									<td>TB Regimen:</td>
+									<td><obs conceptId="159909AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="2b099b07-8a66-4673-aac7-fc19357af1f4,be738d51-649c-48cb-9960-7d6b775c95d4,f9bc610f-8974-4ff0-bfee-167b9d9edbb1,c191b67d-c21c-4ea2-8773-bcee84d23cf2" style="dropdown"  answerLabels="Initial Regimen,Retreatment,Childhood,Second line drug" /></td>
+								</tr>
+								<tr>
+									<td>TB Treatment Outcome*:</td>
+									<td><obs conceptId="159786AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  style="dropdown" id="treatment_outcome"  answerConceptIds="159791AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160035AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159874AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160034AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160031AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159492AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Cure,Rx Completed,Rx Failure,Died,Default,Transfer Out"/></td>
+								</tr>
+								<tr>
+									<td id ="id_treatment_outcome_date_ttle">Treatment Outcome Date</td>
+									<td id ="id_treatment_outcome_date_value"><obs conceptId="159787AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="treatmentoutcomedate"/></td>
+								</tr>
+							</table>	
+						</fieldset>	
+					</div>				
+				</td>
+				<td valign="top"  width="50%">
+					<div id="tbSufferedPatientNo">
+						<fieldset>
+							<legend>If No</legend>
+							
+							<table align="center"   class="tb1" cellspacing="10" width="100%">
+								<tr>
+									<td>TB Screening:</td>
+									<td>
+										<obs conceptId="159800AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="832AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Weight loss" style="checkbox" />
+									</td>
+									<td>
+										<obs conceptId="159800AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="133027AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Night sweat" style="checkbox" />
+									</td>
+								</tr>
+								<tr>	
+									<td></td>
+									<td>
+										<obs conceptId="159800AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1494AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Fever" style="checkbox" />
+									</td>
+									<td>
+										<obs conceptId="159800AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="159799AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Current cough" style="checkbox" />
+									</td>
+								</tr>
+								<tr>	
+									<td></td>
+									<td>
+										<obs conceptId="159800AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="157524AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Lymph node enlargement" style="checkbox" />
+									</td>
+									<td>
+										<obs conceptId="159800AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="None of above" style="checkbox" />
+									</td>
+					
+								</tr>
+								
+								
+								<tr>
+									<td>Refer to TB center:</td>
+									<td><obs conceptId="162310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" /></td>
+								</tr>
+							</table>
+						</fieldset>		
+					</div>				
+				</td>
+				
+			</tr>
+
+		
+			<tr>
+				<td colspan="2"><hr/><hr/></td>
+			</tr>
+		
+			<tr align="left" width="100%">
+				<td align="left" colspan="2"><b>2. Opportunistic Infections:</b><obs conceptId="3317823c-0d1a-4617-b721-5ac050b1101e" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio"  answerLabels="Yes,No" id="opportunisticInfection"/> </td>
+			</tr>
+			
+			<tr  align="center" width="100%">
+				<td valign="top" colspan="2">
+					<div id="opportunisticInfectionYes">
+						<fieldset>
+								<legend>If Yes</legend>
+									<table align="centre"   class="tb1" cellspacing="10" width="100%">
+										<tr>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="149741AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Acute HIV infection syndrome" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5048AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Cerebral toxoplasmosis" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="145807AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Cervical intra-epithelial neoplasia II" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="145806AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Cervical intra-epithelial neoplasia III" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="142965AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="CMV retinitis" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1294AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Cryptococcal meningitis" style="checkbox" />
+											</td>
+										</tr>	
+										<tr>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="0f6dfd21-fb05-4fad-9009-c5aebec5ef15" answerLabel="Cryptosporidium" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="141900AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Disseminated Mycobacterium avium intracellular disease " style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="d491e243-62ba-4f34-b3fb-7a618a0cd5dc" answerLabel="Extra-intestinal salmonellosis" style="checkbox"  />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="156204AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Extrapulmonary tuberculosis" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="119242AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Gastrointestinal disease" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="117543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Herpes zoster" style="checkbox" />
+											</td>
+										</tr>		
+										<tr>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160442AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV associated dementia" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="67a59aec-acc4-4f5e-b541-d1f3f449e341" answerLabel="HIV associated ITP" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="823AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV associated wasting" style="checkbox" />
+											</td>		
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="146825AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in Burkitt's Lymphoma" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5050AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in failure to thrive" style="checkbox" />
+											</td>											
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160159AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in infectious or parasitic diseases" style="checkbox" />
+											</td>
+										</tr>		
+										<tr>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="156670AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in lymphoid interstitial pneumonitis" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="159988AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in malignant neoplasm" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="62d3db12-f270-4146-b758-20067d37eb8b" answerLabel="HIV disease resulting in multiple diseases classified elsewhere" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="156671AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in multiple infections" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="156672AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in multiple malignant neoplasms" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1f7d8971-183a-437f-85a1-e90aca37a733" answerLabel="HIV disease resulting in other types of non-hodgkin lymphoma" style="checkbox" />
+											</td>
+										</tr>		
+										<tr>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="130364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in persistent generalized lymphadenopathy" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="2a56d1f7-5934-418b-973e-b88753fd68e7" answerLabel="HIV disease resulting in unspecified malignant neoplasm" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160158AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in other condition" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="136458AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Isosporiasis" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="151985AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Kaposi's sarcoma" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="4e94c223-e823-4e78-be73-3271a2ff46be" answerLabel="Microsporidium" style="checkbox" />
+											</td>
+										</tr>	
+										<tr>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="115753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Miliary tuberculosis" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5344AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Mucocutaneous herpes simplex" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="155941AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Non-Hodgkin lymphoma" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5340AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Oesophageal candidiasis" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5337AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Oral hairy leukoplakia" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="e3eb6a37-a3ea-4421-a968-fff55060c6ea" answerLabel="Oral ulceration" style="checkbox" />
+											</td>
+										</tr>		
+										<tr>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="eacea779-8c6f-48ab-9303-adb57d668522" answerLabel="Oropharyngeal candidiasis" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="134044AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Other bacterial infections" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="6a3a4446-cf83-4e71-b00f-296e75e00ae5" answerLabel="Other fungal infections" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="172f846e-c2bb-451b-b198-ce3643b2e5ad" answerLabel="Penicilliosis" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="118983AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Peripheral neuropathy" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="114105AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Pneumococcal pneumonia" style="checkbox" />
+											</td>
+										</tr>	
+										<tr>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5674edce-40fa-4147-b047-12d9b01011f7" answerLabel="Pneumocystis carinii (jeroveci) pneumonia" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1249AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="PPE" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5040AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Primary CNS lymphoma" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5046AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Progressive multifocal leukoencephalopathy" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="42AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Pulmonary tuberculosis" style="checkbox"  />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="4429087c-6a54-4216-9eba-2f702d3c64dd" answerLabel="Recurrent vaginal candidiasis" style="checkbox" />
+											</td>
+										</tr>		
+										<tr>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5354AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Septicaemia" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5938fd91-7f34-4126-a67e-6f1d1b455282" answerLabel="Slim disease" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="112493AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="syphilis" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="145443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Unexplained diarrhea" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="127990AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Unexplained fever" style="checkbox" />
+											</td>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="159214AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Unexplained weight loss" style="checkbox" />
+											</td>
+										</tr>	
+										<tr>
+											<td>
+												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="111639AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Urethritis" style="checkbox" />
+											</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>																												
+									</table>
+										
+						</fieldset>	
+					</div>		
+				</td>	
+			</tr>
+			<tr>
+				<td colspan="2"><hr/><hr/></td>
+			</tr>
+								
+			<tr>
+				<td><b>3. WHO Clinical Stage*:</b>
+					<obs conceptId="5356AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1204AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1205AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1206AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1207AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="dropdown"  answerLabels="WHO STAGE 1,WHO STAGE 2,WHO STAGE 3,WHO STAGE 4" id="whoStage"/>
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2"> <p></p></td>
-			</tr>
-			<tr>
-				<td width="30%" style="text-align: left"><obs  conceptId="1113AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText="TB Rx date: " id="tbrxdate"/> </td>
-				<td><obs conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText="TB Rx:"/></td>
+				<td><b>4. Performance Scale* :</b>
+					<obs conceptId="0247e971-d9c1-439e-ac01-934732962901" labelText=" " answerConceptIds="f16de6c2-da87-44a2-9eaa-0fec441293f9,e56d3440-0072-429e-8ecc-40699aa45271,0aa9be17-b756-4047-a027-268905dcdb12" style="dropdown"  answerLabels="A,B,C" id="performanceScale"/>
+				</td>
 			</tr>
 		</table>
 	</div>
