@@ -14,17 +14,26 @@
 
 package org.openmrs.module.kenyaemr.api.db.hibernate;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.openmrs.Cohort;
+import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
+import org.openmrs.Patient;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.kenyaemr.api.db.KenyaEmrDAO;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Hibernate specific data access functions. This class should not be used directly.
@@ -101,6 +110,23 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				q.setParameter(e.getKey(), e.getValue());
 			}
 		}
+	}
+	
+	/*
+	 * ENCOUNTER
+	 */
+	public Encounter getLastEncounter(Patient patient) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Encounter.class);
+		criteria.add(Restrictions.eq("patient", patient));
+		
+		// Get encountertypes
+		Set<EncounterType> encounterTypes = new HashSet<EncounterType>();
+		encounterTypes.add(Context.getEncounterService().getEncounterType("Initiate ART"));
+		encounterTypes.add(Context.getEncounterService().getEncounterType("Stop ART"));
+		criteria.add(Restrictions.in("encounterType", encounterTypes));
+		criteria.addOrder(Order.desc("dateCreated"));
+		criteria.setMaxResults(1);
+		return (Encounter) criteria.uniqueResult();
 	}
 
 }

@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.openmrs.Encounter;
 import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.Visit;
@@ -100,4 +101,11 @@ public interface KenyaEmrService extends OpenmrsService {
 
 	public List<Object> executeSqlQuery(String query, Map<String, Object> substitutions);
 	public List<Object> executeHqlQuery(String query, Map<String, Object> substitutions);
+	
+	/**
+	 * Get last encounter
+	 * @param patient
+	 * @return
+	 */
+	public Encounter getLastEncounter(Patient patient);
 }

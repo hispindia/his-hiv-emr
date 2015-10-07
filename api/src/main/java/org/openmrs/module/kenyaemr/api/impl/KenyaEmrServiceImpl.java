@@ -16,6 +16,7 @@ package org.openmrs.module.kenyaemr.api.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.Encounter;
 import org.openmrs.GlobalProperty;
 import org.openmrs.Location;
 import org.openmrs.LocationAttributeType;
@@ -262,5 +263,9 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 	@Override
 	public List<Object> executeHqlQuery(String query, Map<String, Object> substitutions) {
 		return dao.executeHqlQuery(query, substitutions);
+	}
+	
+	public Encounter getLastEncounter(Patient patient) {
+		return dao.getLastEncounter(patient);
 	}
 }

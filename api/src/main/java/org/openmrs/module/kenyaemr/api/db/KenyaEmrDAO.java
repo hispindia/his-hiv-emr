@@ -17,10 +17,19 @@ package org.openmrs.module.kenyaemr.api.db;
 import java.util.List;
 import java.util.Map;
 
+import org.openmrs.Encounter;
+import org.openmrs.Patient;
+
 /**
  * Database access functions
  */
 public interface KenyaEmrDAO {
 	public List<Object> executeSqlQuery(String query, Map<String, Object> substitutions);
 	public List<Object> executeHqlQuery(String query, Map<String, Object> substitutions);
+	/**
+	 * Get last encounter
+	 * @param patient
+	 * @return
+	 */
+	public Encounter getLastEncounter(Patient patient);
 }

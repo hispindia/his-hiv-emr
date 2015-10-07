@@ -44,7 +44,10 @@
 		var formId='${ command.form.uuid }';
 	 	if(formId=="e4b506c1-7379-42b6-a374-284469cba8da"){
 	 		kenyahfe.submitForm('${ command.returnUrl }');
-		 	}	
+		 	}
+		 else if(formId=="5f1526f6-64cd-4a90-b4ad-24bb9d2d8709"){
+	 		kenyahfe.submitForm('${ command.returnUrl }');
+		 	}		
 		});
 	
 </script>
@@ -54,7 +57,7 @@
 
 	<div style="display: none">
 		<button id="discard-button" type="button">
-			<img src="${ ui.resourceLink("kenyaui", "images/glyphs/cancel.png") }" /> Discard Changes
+			<img src="${ ui.resourceLink("kenyaui", "images/glyphs/cancel.png") }" /> Cancel
 		</button>
 	</div>
 

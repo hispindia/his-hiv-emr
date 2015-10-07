@@ -14,14 +14,17 @@
 
 package org.openmrs.module.kenyaemr.fragment.controller.program;
 
+import org.openmrs.Encounter;
 import org.openmrs.Patient;
 import org.openmrs.PatientProgram;
 import org.openmrs.Program;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.appframework.domain.AppDescriptor;
 import org.openmrs.module.kenyacore.form.FormDescriptor;
 import org.openmrs.module.kenyacore.form.FormManager;
 import org.openmrs.module.kenyacore.program.ProgramDescriptor;
 import org.openmrs.module.kenyacore.program.ProgramManager;
+import org.openmrs.module.kenyaemr.api.KenyaEmrService;
 import org.openmrs.module.kenyaui.KenyaUiUtils;
 import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
@@ -70,6 +73,9 @@ public class ProgramHistoryFragmentController {
 				patientForms.add(ui.simplifyObject(form.getTarget()));
 			}
 		}
+		
+		Encounter encounter=Context.getService(KenyaEmrService.class).getLastEncounter(patient);
+		String artEncounter=encounter.getEncounterType().getName();
 
 		model.addAttribute("patient", patient);
 		model.addAttribute("program", program);
@@ -80,5 +86,6 @@ public class ProgramHistoryFragmentController {
 		model.addAttribute("patientIsEligible", patientIsEligible);
 		model.addAttribute("currentEnrollment", currentEnrollment);
 		model.addAttribute("enrollments", enrollments);
+		model.addAttribute("artEncounter", artEncounter);
 	}
 }
