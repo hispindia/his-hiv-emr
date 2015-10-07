@@ -646,8 +646,16 @@ public class EditPatientFragmentController {
 				visit.setStartDatetime(new Date());
 				visit.setVisitType(MetadataUtils.existing(VisitType.class, CommonMetadata._VisitType.OUTPATIENT));
 				
+				Visit visit1 = new Visit();
+				visit1.setPatient(ret);
+				visit1.setStartDatetime(new Date());
+				visit1.setVisitType(MetadataUtils.existing(VisitType.class, CommonMetadata._VisitType.NEW_PATIENT));
+				
 				visit.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
 				Visit visitSave = Context.getVisitService().saveVisit(visit);
+				
+				visit1.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
+				Visit visitSave1 = Context.getVisitService().saveVisit(visit1);
 				
 				EncounterType hivEnrollEncType = MetadataUtils.existing(EncounterType.class, HivMetadata._EncounterType.HIV_ENROLLMENT);
 				Encounter hivEnrollmentEncounter = new Encounter();
@@ -672,6 +680,7 @@ public class EditPatientFragmentController {
 			}
 			
 			else{
+			
 				EncounterType hivEnrollEncType = MetadataUtils.existing(EncounterType.class, HivMetadata._EncounterType.HIV_ENROLLMENT);
 				Encounter hivEnrollmentEncounter = new Encounter();
 				
@@ -681,9 +690,9 @@ public class EditPatientFragmentController {
 				hivEnrollmentEncounter.setDateCreated(new Date());
 				hivEnrollmentEncounter.setEncounterDatetime(new Date());
 				hivEnrollmentEncounter.setForm(MetadataUtils.existing(Form.class, HivMetadata._Form.HIV_ENROLLMENT));
+				
 				hivEnrollmentEncounter.setVoided(false);
 				Context.getEncounterService().saveEncounter(hivEnrollmentEncounter);
-
 				
 				PatientProgram patientProgram = new PatientProgram();
 				patientProgram.setPatient(ret);
