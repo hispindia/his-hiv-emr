@@ -39,6 +39,7 @@ public class CommonMetadata extends AbstractMetadataBundle {
 		public static final String LAB_RESULTS = "17a381d1-7e29-406a-b782-aa903b963c28";
 		public static final String REGISTRATION = "de1f9d67-b73e-4e1b-90d0-036166fc6995";
 		public static final String TRIAGE = "d1059fb9-a079-4feb-a749-eedd709ae542";
+		public static final String TB_SCREENING = "ed6dacc9-0827-4c82-86be-53c0d8c449be";
 	}
 
 	public static final class _Form {
@@ -49,6 +50,8 @@ public class CommonMetadata extends AbstractMetadataBundle {
 		public static final String PROGRESS_NOTE = Metadata.Form.PROGRESS_NOTE;
 		public static final String SURGICAL_AND_MEDICAL_HISTORY = Metadata.Form.SURGICAL_AND_MEDICAL_HISTORY;
 		public static final String TRIAGE = Metadata.Form.TRIAGE;
+		public static final String TB_SCREENING = Metadata.Form.TB_SCREENING;
+		
 	}
 
 	public static final class _OrderType {
@@ -97,6 +100,7 @@ public class CommonMetadata extends AbstractMetadataBundle {
 
 	public static final class _VisitType {
 		public static final String OUTPATIENT = "3371a4d4-f66f-4454-a86d-92c7b3da990c";
+		public static final String NEW_PATIENT = "e5eae353-3b3a-4312-8a3b-d75d553547ec";
 	}
 
 	/**
@@ -105,11 +109,13 @@ public class CommonMetadata extends AbstractMetadataBundle {
 	@Override
 	public void install() {
 		install(encounterType("Consultation", "Collection of clinical data during the main consultation", _EncounterType.CONSULTATION));
+		install(encounterType("TB Screening", "Screening of patient for TB", _EncounterType.TB_SCREENING));
 		install(encounterType("Lab Results", "Collection of laboratory results", _EncounterType.LAB_RESULTS));
 		install(encounterType("Registration", "Initial data collection for a patient, not specific to any program", _EncounterType.REGISTRATION));
 		install(encounterType("Record Vitals", "Collection of limited vital data for better examination", _EncounterType.TRIAGE));
 
 		install(form("Clinical Encounter", null, _EncounterType.CONSULTATION, "1", _Form.CLINICAL_ENCOUNTER));
+		install(form("TB, OI and Staging Form", null, _EncounterType.TB_SCREENING, "1", _Form.TB_SCREENING));
 		install(form("Lab Results", null, _EncounterType.LAB_RESULTS, "1", _Form.LAB_RESULTS));
 		install(form("Obstetric History", null, _EncounterType.REGISTRATION, "1", _Form.OBSTETRIC_HISTORY));
 		install(form("Other Medications", "Recording of non-regimen medications", _EncounterType.CONSULTATION, "1", _Form.OTHER_MEDICATIONS));
@@ -171,6 +177,7 @@ public class CommonMetadata extends AbstractMetadataBundle {
 				FormDatatype.class, null, 0, 1, _VisitAttributeType.SOURCE_FORM));
 
 		install(visitType("Outpatient", "Visit where the patient is not admitted to the hospital", _VisitType.OUTPATIENT));
+		install(visitType("NEW PATIENT", "Visit for first time new Patient", _VisitType.NEW_PATIENT));
 
 		uninstall(possible(PersonAttributeType.class, "73d34479-2f9e-4de3-a5e6-1f79a17459bb"), "Became patient identifier"); // National ID attribute type
 	}
