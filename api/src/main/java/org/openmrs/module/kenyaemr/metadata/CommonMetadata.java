@@ -71,6 +71,8 @@ public class CommonMetadata extends AbstractMetadataBundle {
 
 	public static final class _PersonAttributeType {
 		public static final String FATHER_NAME = "20d98e55-796c-4d41-ae07-fca1bcc1a10f";
+		public static final String NATIONAL_ID = "757c803e-98ab-43f7-9932-292703a1a5aa";
+		public static final String PLACE_OF_BIRTH = "2e5e901c-fe07-45c6-b355-d394fc1917ed";
 		public static final String NEXT_OF_KIN_ADDRESS = "7cf22bec-d90a-46ad-9f48-035952261294";
 		public static final String NEXT_OF_KIN_CONTACT = "342a1d39-c541-4b29-8818-930916f4c2dc";
 		public static final String NEXT_OF_KIN_NAME = "830bef6d-b01f-449d-9f8d-ac0fede8dbd3";
@@ -169,6 +171,10 @@ public class CommonMetadata extends AbstractMetadataBundle {
 				String.class, null, false, 4.3, _PersonAttributeType.NEXT_OF_KIN_ADDRESS));
 		install(personAttributeType("Father's Name", "First or last name of this person's father",
 				String.class, null, false, 4.4, _PersonAttributeType.FATHER_NAME));
+		install(personAttributeType("National Id", "National Id for the patient",
+				String.class, null, false, 4.5, _PersonAttributeType.NATIONAL_ID));
+		install(personAttributeType("Place of Birth", "Place of Birth for the patient",
+				String.class, null, false, 4.6, _PersonAttributeType.PLACE_OF_BIRTH));
 
 		install(relationshipType("Guardian", "Dependant", "One that guards, watches over, or protects", _RelationshipType.GUARDIAN_DEPENDANT));
 		install(relationshipType("Partner", "Partner", "A spouse is a partner in a marriage, civil union, domestic partnership or common-law marriage a male spouse is a husband and a female spouse is a wife", _RelationshipType.PARTNER));

@@ -6,7 +6,7 @@
 	<!-- ===================== Program ===================== -->
 
 	<bean id="kenyaemr.art.program" class="org.openmrs.module.kenyacore.program.ProgramDescriptor">
-		<property name="targetUuid" value="${metadata.program.ART_INITIATION}" />
+		<property name="targetUuid" value="${metadata.program.ART}" />
 		<property name="eligibilityCalculation" value="org.openmrs.module.kenyaemr.calculation.library.art.EligibleForArtProgramCalculation" />
 		<property name="defaultEnrollmentForm" ref="kenyaemr.art.form.enrollment" />
 		<property name="defaultCompletionForm" ref="kenyaemr.art.form.completion" />
