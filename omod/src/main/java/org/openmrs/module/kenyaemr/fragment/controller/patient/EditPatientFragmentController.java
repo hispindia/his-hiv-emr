@@ -584,8 +584,8 @@ public class EditPatientFragmentController {
 				
 			
 			wrapper.getPerson().setFatherName(fatherName);
-			wrapper.setNationalId(nationalId);
-			wrapper.setPlaceOfBirth(placeOfBirth);
+			wrapper.getPerson().setNationalId(nationalId);
+			wrapper.getPerson().setPlaceOfBirth(placeOfBirth);
 
 			// Make sure everyone gets an OpenMRS ID
 			PatientIdentifierType openmrsIdType = MetadataUtils.existing(PatientIdentifierType.class, CommonMetadata._PatientIdentifierType.OPENMRS_ID);

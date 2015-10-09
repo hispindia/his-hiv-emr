@@ -70,4 +70,20 @@ public class PersonWrapper extends AbstractPersonWrapper {
 	public void setFatherName(String value) {
 		setAsAttribute(CommonMetadata._PersonAttributeType.FATHER_NAME, value);
 	}
+	
+	public String getNationalId() {
+		return getAsAttribute(CommonMetadata._PersonAttributeType.NATIONAL_ID);
+	}
+
+	public void setNationalId(String value) {
+		setAsAttribute(CommonMetadata._PersonAttributeType.NATIONAL_ID, value);
+	}
+	
+	public String getPlaceOfBirth() {
+		return getAsAttribute(CommonMetadata._PersonAttributeType.PLACE_OF_BIRTH);
+	}
+
+	public void setPlaceOfBirth(String value) {
+		setAsAttribute(CommonMetadata._PersonAttributeType.PLACE_OF_BIRTH, value);
+	}
 }
