@@ -74,8 +74,11 @@ public class ProgramHistoryFragmentController {
 			}
 		}
 		
+		String artEncounter="";
 		Encounter encounter=Context.getService(KenyaEmrService.class).getLastEncounter(patient);
-		String artEncounter=encounter.getEncounterType().getName();
+		if(encounter!=null){
+		artEncounter=encounter.getEncounterType().getName();
+		}
 
 		model.addAttribute("patient", patient);
 		model.addAttribute("program", program);
