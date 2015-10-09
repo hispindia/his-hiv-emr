@@ -1,0 +1,4 @@
+<!-- Patient identifier types used by KenyaEMR, listed A-Z -->
+<refs type="EncounterType">
+	<ref key="TB_SCREENING" uuid="ed6dacc9-0827-4c82-86be-53c0d8c449be" />
+</refs>
