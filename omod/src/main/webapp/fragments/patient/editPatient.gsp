@@ -3,9 +3,21 @@
 	
 	ui.includeJavascript("kenyaemr", "controllers/addresshierarchy.js")
 
-	def nameFields = [
+	def patientNameField = [
 			[
-					[ object: command, property: "personName.givenName", label: "Patient's Name *" ],	[ object: command, property: "fatherName", label: "Father's Name *" ]
+					[ object: command, property: "personName.givenName", label: "Patient's Name *" ]
+			]
+	]
+	
+	def fatherNameField = [
+			[
+					[ object: command, property: "fatherName", label: "Father's Name *" ]
+			]
+	]
+	
+	def nationalId = [
+			[
+					[ object: command, property: "nationalId", label: "National ID Number" ]
 			]
 	]
 
@@ -27,6 +39,12 @@
 					[ object: command, property: "deathDate", label: "Date of death" ]
 			]
 	]
+	
+	def placeOfBirth = [
+			[
+					[ object: command, property: "placeOfBirth", label: "Place Of Birth" ]
+			]
+	]
 
 	def nextOfKinFieldRows = [
 			[
@@ -38,13 +56,23 @@
 	
 	def enrollmentStatus = [
 			[
-					[ object: command, property: "enrollmentName", label: "Status at enrollment", config: [ style: "list", answerTo: enrollmentList ] ],
+					[ object: command, property: "enrollmentName", label: "Status at enrollment", config: [ style: "list", answerTo: enrollmentList ] ]
+			]		
+	]
+	
+	def patientSource1 = [
+			[
 					[ object: command, property: "entryPoint", label: "Entry Point *", config: [ style: "list", answerTo: entryPointList ] ],
-					[ object: command, property: "otherEntryPoint", label: "If other, Please specify" ],
-					[ object: command, property: "previousClinicName", label: "Previous Clinic Name*"],
-					[ object: command, property: "transferredInDate", label: "Transferred In Date " ]
+					[ object: command, property: "otherEntryPoint", label: "If other, Please specify" ]
 			]		
 	] 
+	
+	def patientSource2 = [
+			[
+					[ object: command, property: "previousClinicName", label: "Previous Clinic Name", config: [ width: 350 ] ],
+					[ object: command, property: "transferredInDate", label: "Transferred In Date " , config: [ width: 300 ] ]
+			]		
+	]   
 
 	def addressFieldRows = [
 			[
@@ -109,22 +137,20 @@
 		<fieldset>
 			<legend>Demographics</legend>
 
-			<% nameFields.each { %>
+			<% patientNameField.each { %>
+			${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
+			<% } %>
+			
+			<% fatherNameField.each { %>
+			${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
+			<% } %>
+			
+			<% nationalId.each { %>
 			${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
 			<% } %>
 
 			<table>
 				<tr>
-					<td valign="top">
-						<label class="ke-field-label">Gender *</label>
-						<span class="ke-field-content">
-							<input type="radio" name="gender" value="F" id="gender-F" ${ command.gender == 'F' ? 'checked="checked"' : '' }/> Female
-							<input type="radio" name="gender" value="M" id="gender-M" ${ command.gender == 'M' ? 'checked="checked"' : '' }/> Male
-							<span id="gender-F-error" class="error" style="display: none"></span>
-							<span id="gender-M-error" class="error" style="display: none"></span>
-						</span>
-					</td>
-					<td valign="top"></td>
 					<td valign="top">
 						<label class="ke-field-label">Birthdate *</label>
 						<span class="ke-field-content">
@@ -140,10 +166,21 @@
 						</span>
 					</td>
 				</tr>
+				<tr>
+				<td valign="top">
+						<label class="ke-field-label">Gender *</label>
+						<span class="ke-field-content">
+							<input type="radio" name="gender" value="F" id="gender-F" ${ command.gender == 'F' ? 'checked="checked"' : '' }/> Female
+							<input type="radio" name="gender" value="M" id="gender-M" ${ command.gender == 'M' ? 'checked="checked"' : '' }/> Male
+							<span id="gender-F-error" class="error" style="display: none"></span>
+							<span id="gender-M-error" class="error" style="display: none"></span>
+						</span>
+					</td>
+				</tr>
 			</table>
 
-			<% otherDemogFieldRows.each { %>
-				${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
+			<% placeOfBirth.each { %>
+			${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
 			<% } %>
 
 		</fieldset>
@@ -195,9 +232,22 @@
 		</fieldset>
 
 		<fieldset>
-			<legend>Enrollment Status & Patient Source</legend>
+			<legend>Enrollment Status</legend>
 
 			 <% enrollmentStatus.each { %>
+			   ${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
+			 <% } %>
+
+		</fieldset>
+		
+		<fieldset>
+			<legend>Patient Source</legend>
+
+			 <% patientSource1.each { %>
+			   ${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
+			 <% } %>
+			 
+			 <% patientSource2.each { %>
 			   ${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
 			 <% } %>
 
@@ -352,6 +402,7 @@ jQuery(document).ready(function(){
 		kenyaui.setRadioField('patient-birthdate-estimated', 'true');
 	}
 </script>
+
 <style>
 
 </style>

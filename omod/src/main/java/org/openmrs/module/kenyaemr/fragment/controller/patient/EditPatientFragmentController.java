@@ -264,6 +264,9 @@ public class EditPatientFragmentController {
 		private String hivTestPerformedPlace;
 		private String checkInType;
 		
+		private String nationalId;
+		private String placeOfBirth;
+		
 		/**
 		 * Creates an edit form for a new patient
 		 */
@@ -328,6 +331,8 @@ public class EditPatientFragmentController {
 			hivTestPerformed=wrapper.getPreviousHivTestStatus();
 			hivTestPerformedPlace=wrapper.getPreviousHivTestPlace();
 			fatherName = wrapper.getFatherName();
+			nationalId = wrapper.getNationalId();
+			placeOfBirth = wrapper.getPlaceOfBirth();
 			
 	      try 
 		      {  
@@ -396,7 +401,7 @@ public class EditPatientFragmentController {
 			require(errors, "gender");
 			require(errors, "birthdate");
 			require(errors, "entryPoint");
-			require(errors, "previousClinicName");
+			//require(errors, "previousClinicName");
 			require(errors, "hivTestPerformed");
 			
 			if (hivTestPerformed!=null && hivTestPerformed.equals("Yes")) {
@@ -579,6 +584,8 @@ public class EditPatientFragmentController {
 				
 			
 			wrapper.getPerson().setFatherName(fatherName);
+			wrapper.setNationalId(nationalId);
+			wrapper.setPlaceOfBirth(placeOfBirth);
 
 			// Make sure everyone gets an OpenMRS ID
 			PatientIdentifierType openmrsIdType = MetadataUtils.existing(PatientIdentifierType.class, CommonMetadata._PatientIdentifierType.OPENMRS_ID);
@@ -1171,6 +1178,22 @@ public class EditPatientFragmentController {
 
 		public void setFatherName(String fatherName) {
 			this.fatherName = fatherName;
+		}
+
+		public String getNationalId() {
+			return nationalId;
+		}
+
+		public void setNationalId(String nationalId) {
+			this.nationalId = nationalId;
+		}
+
+		public String getPlaceOfBirth() {
+			return placeOfBirth;
+		}
+
+		public void setPlaceOfBirth(String placeOfBirth) {
+			this.placeOfBirth = placeOfBirth;
 		}
 		
 	}
