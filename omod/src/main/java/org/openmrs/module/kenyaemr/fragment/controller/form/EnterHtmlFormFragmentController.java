@@ -126,8 +126,6 @@ public class EnterHtmlFormFragmentController {
 
 		// TODO formModifiedTimestamp and encounterModifiedTimestamp
 
-		log.warn("returnUrl: "+returnUrl);
-		
 		FormDescriptor formDescriptor = formManager.getFormDescriptor(form);
 
 		CoreUtils.checkAccess(formDescriptor, kenyaUi.getCurrentApp(actionRequest));
