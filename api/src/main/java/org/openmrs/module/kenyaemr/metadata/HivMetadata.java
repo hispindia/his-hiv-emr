@@ -45,6 +45,7 @@ public class HivMetadata extends AbstractMetadataBundle {
 		public static final String MOH_257_ARV_THERAPY = "8f5b3ba5-1677-450f-8445-33b9a38107ae";
 		public static final String MOH_257_VISIT_SUMMARY = "23b4ebbd-29ad-455e-be0e-04aa6bc30798";
 		public static final String HIV_PERSONAL_HISTORY = "d1db31d0-b415-4788-a233-e4000bf4d108";
+		public static final String HIV_DRUG_HISTORY = "5286ae88-85bb-46e8-a2f7-6361f463ffd4";
 	}
 
 	public static final class _PatientIdentifierType {
@@ -72,6 +73,7 @@ public class HivMetadata extends AbstractMetadataBundle {
 		install(form("MOH 257 Visit Summary", null, _EncounterType.HIV_CONSULTATION, "1", _Form.MOH_257_VISIT_SUMMARY));
 		install(form("HIV Discontinuation", null, _EncounterType.HIV_DISCONTINUATION, "1", _Form.HIV_DISCONTINUATION));
 		install(form("HIV Personal History", null, _EncounterType.HIV_ENROLLMENT, "1", _Form.HIV_PERSONAL_HISTORY));
+		install(form("HIV Drug History", null, _EncounterType.HIV_ENROLLMENT, "1", _Form.HIV_DRUG_HISTORY));
 
 		install(patientIdentifierType("Unique Patient Number", "Assigned to every HIV patient", "\\d+", "Facility code followed by sequential number",
 				null, LocationBehavior.NOT_USED, false, _PatientIdentifierType.UNIQUE_PATIENT_NUMBER));

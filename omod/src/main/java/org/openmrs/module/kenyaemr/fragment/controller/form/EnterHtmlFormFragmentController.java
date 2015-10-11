@@ -123,8 +123,11 @@ public class EnterHtmlFormFragmentController {
 						 @SpringBean FormManager formManager,
 						 FragmentActionRequest actionRequest) throws Exception {
 
+
 		// TODO formModifiedTimestamp and encounterModifiedTimestamp
 
+		log.warn("returnUrl: "+returnUrl);
+		
 		FormDescriptor formDescriptor = formManager.getFormDescriptor(form);
 
 		CoreUtils.checkAccess(formDescriptor, kenyaUi.getCurrentApp(actionRequest));
