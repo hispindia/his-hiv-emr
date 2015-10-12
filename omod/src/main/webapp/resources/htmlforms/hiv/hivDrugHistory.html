@@ -21,7 +21,69 @@
 	</div>
 
 	<div class="ke-form-content">
-	Drug history form
+	<table>
+		<tr>
+			<td>Was ART received previously ? </td>
+			<td><obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
+		</tr>
+		<tr>
+			<td>If yes, please specify</td>
+			<td><obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
+		</tr>
+		<tr>
+			<td>If earlier ART, please specify</td>
+			<td><obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<table id="table1" border="1" cellspacing="1" cellpadding="1" width="600">
+					<thead>
+						<tr>
+							<th>S.NO</th>
+							<th>Drug Regimen</th>
+							<th>Place</th>
+							<th>Start Date</th>
+							<th>End Date</th>
+						</tr>
+					</thead>
+					<tbody>
+						<repeat>
+							<template>
+								<obsgroup groupingConceptId="160593AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+									<tr>
+										<td><obs conceptId="160750AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labetText=" "/></td>
+										<td><obs conceptId="160617AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Age"/><obs conceptId="1732AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1734AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1074AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="dropdown" answerLabels="Years,Months" /> </td>
+										<td><obs conceptId="1560AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="970AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,971AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159772AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160273AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,972AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1528AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,975AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,974AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5617AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162221AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160639AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Mother,Father,Grandmother,Grandfather,Sibling,Child,Aunt,Uncle,Spouse/partner,Co-Wife,Guardian,Other" /></td>
+										<td><obs conceptId="1729AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1405AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="dropdown" answerLabels="P,N,E,DK"/></td>
+										<td><obs conceptId="159811AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="dropdown" answerLabels="YES,NO,UNKNOWN"/></td>
+									</tr>
+								</obsgroup>
+							</template>
+							<render n="1" concept=" " />
+							<render n="2" concept=" " />
+						</repeat>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td>Was anti - TB treatment received previously? </td>
+			<td><obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
+		</tr>
+		<tr>
+			<td>Have you ever been screen for TB?</td>
+			<td><obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
+		</tr>
+		<tr>
+			<td>Have you ever tested positive for TB smear?</td>
+			<td><obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
+		</tr>
+		<tr>
+			<td>Are you suffering from MDR-TB?</td>
+			<td><obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
+		</tr>
+	</table>
+
 	</div>
 	
 	<div class="ke-form-footer">
