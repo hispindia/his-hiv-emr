@@ -14,25 +14,23 @@
 
 package org.openmrs.module.kenyaemr.fragment.controller;
 
-import org.openmrs.Encounter;
+import java.util.Date;
+
 import org.openmrs.Patient;
 import org.openmrs.Visit;
 import org.openmrs.VisitType;
-import org.openmrs.api.context.Context;
-import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
+import org.openmrs.module.metadatadeploy.MetadataUtils;
+import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.fragment.FragmentModel;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * Visit menu (check-in / check-out etc)
  */
 public class VisitMenuFragmentController {
 	
-	public void controller(FragmentModel model, @FragmentParam("patient") Patient patient, @FragmentParam(value = "visit", required = false) Visit visit) {
+	public void controller(UiUtils ui,FragmentModel model, @FragmentParam("patient") Patient patient, @FragmentParam(value = "visit", required = false) Visit visit) {
 
 		model.addAttribute("patient", patient);
 		model.addAttribute("visit", visit);		
@@ -42,6 +40,16 @@ public class VisitMenuFragmentController {
 		newVisit.setStartDatetime(new Date());
 		newVisit.setVisitType(MetadataUtils.existing(VisitType.class, CommonMetadata._VisitType.OUTPATIENT));
 		
+		String currenturl=ui.thisUrl();
+		String typeOfUser="";
+		if(currenturl.toLowerCase().contains("registration")){
+			typeOfUser="registration";
+		}
+		else if(currenturl.toLowerCase().contains("clinician")){
+			typeOfUser="clinician";
+		}
+		
 		model.addAttribute("newCurrentVisit", newVisit);
+		model.addAttribute("typeOfUser", typeOfUser);	
 	}
 }

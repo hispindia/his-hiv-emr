@@ -36,7 +36,7 @@
 	</div>
 	
 	<div style="float: right">
-		<button class="ke-compact" title="Close this patient chart" onclick="ke_closeChart()"><img src="${ ui.resourceLink("kenyaui", "images/glyphs/close.png") }"/> Close</button>
+		<button class="ke-compact" title="Close this patient chart" onclick="ke_closeChart()"><img src="${ ui.resourceLink("kenyaui", "images/glyphs/close.png") }"/> Close Dashboard</button>
 	</div>
 
 	<div style="clear: both; height: 5px;"></div>
