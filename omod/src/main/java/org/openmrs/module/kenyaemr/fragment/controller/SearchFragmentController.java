@@ -147,7 +147,8 @@ public class SearchFragmentController {
 
 			Visit activeVisit = patientActiveVisits.get(patient);
 			simplePatient.put("activeVisit", activeVisit != null ? ui.simplifyObject(activeVisit) : null);
-
+			simplePatient.put("patientName", patient.getGivenName());
+			
 			simplePatients.add(simplePatient);
 		}
 
