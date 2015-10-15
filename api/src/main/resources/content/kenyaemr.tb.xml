@@ -86,7 +86,7 @@
 	</bean>
 -->
 	<!-- ===================== Reports ===================== -->
-
+<!-- 
 	<bean id="kenyaemr.tb.report.inProgram" class="org.openmrs.module.kenyacore.report.CalculationReportDescriptor">
 		<property name="targetUuid" value="ed001a42-8462-49d3-8e9d-5c7bedc1806d" />
 		<property name="name" value="Patients in TB program" />
@@ -126,4 +126,5 @@
 		<property name="template" value="kenyaemr:tb/ptbnewsptumsmearnegative2and8.xls" />
 		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
 	</bean>
+	 -->
 </beans>

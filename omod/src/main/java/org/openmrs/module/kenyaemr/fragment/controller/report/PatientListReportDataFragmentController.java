@@ -55,18 +55,33 @@ public class PatientListReportDataFragmentController {
 		Map<String, Integer> summary = new HashedMap();
 
 		int males = 0, females = 0;
+		int child=0;
 		for (DataSetRow row : dataSet.getRows()) {
 			String gender = (String) row.getColumnValue("Sex");
-			if (gender.equals("M")) {
-				++males;
-			} else if (gender.equals("F")) {
-				++females;
+			String age =   row.getColumnValue("Age").toString();
+			System.out.println(row.getColumnValues() );
+			if(Integer.parseInt(age) > 12){
+				if (gender.equals("M")) {
+					++males;
+				} else if (gender.equals("F")) {
+					++females;
+				}
 			}
+			else{
+				++child;
+			}
+				
 		}
 
 		summary.put("total", dataSet.getRows().size());
 		summary.put("males", males);
 		summary.put("females", females);
+		summary.put("child", child);
 		return summary;
+	}
+
+	private int parseInt(String age) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

@@ -18,16 +18,16 @@
 		</property>
 		<property name="reports">
 			<set>
-				<ref bean="kenyaemr.hiv.report.qi.adult.c.tx" />
+			<!--	<ref bean="kenyaemr.hiv.report.qi.adult.c.tx" />
 				<ref bean="kenyaemr.hiv.report.qi.peds.c.tx" />
-				<!--<ref bean="kenyaemr.hiv.report.qi.adult.emtct" />-->
+				<ref bean="kenyaemr.hiv.report.qi.adult.emtct" />
 				<ref bean="kenyaemr.hiv.report.dueForCd4" />
 				<ref bean="kenyaemr.hiv.report.decliningCd4" />
 				<ref bean="kenyaemr.hiv.report.lostToFollowUp" />
 				<ref bean="kenyaemr.hiv.report.neverScreenedForTb" />
 				<ref bean="kenyaemr.hiv.report.eligibleForArt" />
 				<ref bean="kenyaemr.hiv.report.onSecondLineArt" />
-				<ref bean="kenyaemr.hiv.report.neverTakenCtxOrDapsone" />
+				<ref bean="kenyaemr.hiv.report.neverTakenCtxOrDapsone" />-->
 				<!--<ref bean="kenyaemr.hiv.report.artCohortAnalysis.6" />
 				<ref bean="kenyaemr.hiv.report.artCohortAnalysis.12" />
 				<ref bean="kenyaemr.hiv.report.artCohortAnalysis.24" />
@@ -171,13 +171,13 @@
 	</bean>
 
 	<!-- ===================== Reports ===================== -->
-
+<!-- 
 	<bean id="kenyaemr.hiv.report.qi.adult.c.tx" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
 		<property name="targetUuid" value="496a24ee-77e1-4f5e-82ba-bc78f6943537" />
 		<property name="name" value="Quality Improvement - Adult C and Tx" />
 		<property name="description" value="Standards for HIV Care - Adult Care and Treatment" />
 		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
-		<!--<property name="template" value="kenyaemr:hiv/adultCareAndTreatment.xls" />-->
+		<property name="template" value="kenyaemr:hiv/adultCareAndTreatment.xls" />
 	</bean>
 
 	<bean id="kenyaemr.hiv.report.qi.peds.c.tx" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
@@ -285,5 +285,5 @@
 		<property name="template" value="kenyaemr:art/artCohortAnalysis.xls" />
 		<property name="repeatingSection" value="sheet:1,row:11,dataset:artCohortAnalysis" />
 	</bean>
-
+ -->
 </beans>

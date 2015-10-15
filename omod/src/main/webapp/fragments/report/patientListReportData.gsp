@@ -13,7 +13,8 @@
 		<tr>
 			<td style="padding-right: 20px">${ ui.includeFragment("kenyaui", "widget/dataPoint", [ label: "Total", value: summary["total"] ]) }</td>
 			<td style="padding-right: 20px">${ ui.includeFragment("kenyaui", "widget/dataPoint", [ label: "Males", value: summary["males"] ]) }</td>
-			<td>${ ui.includeFragment("kenyaui", "widget/dataPoint", [ label: "Females", value: summary["females"] ]) }</td>
+			<td style="padding-right: 20px">${ ui.includeFragment("kenyaui", "widget/dataPoint", [ label: "Females", value: summary["females"] ]) }</td>
+			<td>${ ui.includeFragment("kenyaui", "widget/dataPoint", [ label: "Child", value: summary["child"] ]) }</td>
 		</tr>
 	</table>
 </fieldset>
@@ -23,9 +24,9 @@
 		<thead>
 		<tr>
 			<th>Name</th>
-			<% nonIdOrNameColumns.each { col -> %>
-			<th>${ col.label }</th>
-			<% } %>
+			<th>Age</th>
+			<th>Gender</th>
+			<th>Patient ID</th>
 		</tr>
 		</thead>
 		<tbody>

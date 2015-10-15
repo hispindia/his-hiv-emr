@@ -16,6 +16,6 @@
 </div>
 <div class="ke-panel-controls">
 	<button type="button" onclick="onEncounterEdit(${ encounter.id })"><img src="${ ui.resourceLink("kenyaui", "images/glyphs/edit.png") }" /> Edit</button>
-	<button type="button" onclick="onEncounterDelete(${ encounter.id })"><img src="${ ui.resourceLink("kenyaui", "images/glyphs/trash.png") }" /> Delete</button>
+<!-- 	<button type="button" onclick="onEncounterDelete(${ encounter.id })"><img src="${ ui.resourceLink("kenyaui", "images/glyphs/trash.png") }" /> Delete</button> -->
 	<button type="button" onclick="kenyaui.closeDialog()"><img src="${ ui.resourceLink("kenyaui", "images/glyphs/close.png") }" /> Close</button>
 </div>
