@@ -34,6 +34,7 @@
 		<property name="apps">
 			<set>
 				<ref bean="kenyaemr.app.registration" />
+				<ref bean="kenyaemr.app.intake" />
 				<ref bean="kenyaemr.app.clinician" />
 				<ref bean="kenyaemr.app.chart" />
 			</set>
@@ -48,6 +49,7 @@
 		<property name="apps">
 			<set>
 				<ref bean="kenyaemr.app.registration" />
+				<ref bean="kenyaemr.app.intake" />
 				<ref bean="kenyaemr.app.clinician" />
 				<ref bean="kenyaemr.app.chart" />
 			</set>
