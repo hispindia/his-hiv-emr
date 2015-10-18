@@ -55,19 +55,49 @@
 	</div>
 
 	<div class="ke-form-content">
+	
+		<table>
+			<tr>
+				<td>Pregnancy</td>
+				<td><obs conceptId="4ccb30a0-8d1b-4ec4-b0de-436b6d528e55"/></td>
+			</tr>
+			<tr>
+				<td>If yes, L.M.P</td>
+				<td><obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+			</tr>
+			<tr>
+				<td>Gravida</td>
+				<td><obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+			</tr>
+			<tr>
+				<td>Parity</td>
+				<td><obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+			</tr>
+			<tr>
+				<td>ANC Number</td>
+				<td><obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+			</tr>
+			<tr>
+				<td>If No, Family Planing</td>
+				<td><obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+			</tr>
+			<tr>
+				<td>If Yes, Method</td>
+				<td><obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+			</tr>
+		</table>
+	
 		<table align="center" class="tb" cellspacing="0">
+		<tr><th colspan="8">Exposed Infant Follow up</th></tr>
 		<tr>
-			<th style="background-color: #696969; color: #ffffff;">Pregnancy<br/>Order</th>
-			<th style="background-color: #696969; color: #ffffff;">Year<br/>(dd/mm/yyyy)</th>
-			<th style="background-color: #696969; color: #ffffff;">Number<br/>of Times<br/>ANC<br/>Attended</th>
-			<th style="background-color: #696969; color: #ffffff;">Place of delivery</th>
-			<th style="background-color: #696969; color: #ffffff;">Maturity<br/>(Weeks)</th>
-			<th style="background-color: #696969; color: #ffffff;">Duration<br/>of<br/>Labor<br/>(Hours)</th>
-			<th style="background-color: #696969; color: #ffffff;">Type of Delivery</th>
-			<th style="background-color: #696969; color: #ffffff;">Birth<br/>Weight<br/>(Kg)</th>
-			<th style="background-color: #696969; color: #ffffff;">Sex</th>
-			<th style="background-color: #696969; color: #ffffff;">Outcome</th>
-			<th style="background-color: #696969; color: #ffffff;">Event's<br/>During<br/>Puerperium</th>
+			<th style="background-color: #696969; color: #ffffff;">Exposed - Infant Name/No.</th>
+			<th style="background-color: #696969; color: #ffffff;">DOB<br/>(dd/mm/yyyy)</th>
+			<th style="background-color: #696969; color: #ffffff;">Infant Feeding Practice At 3 month</th>
+			<th style="background-color: #696969; color: #ffffff;">CPT Started Date</th>
+			<th style="background-color: #696969; color: #ffffff;">HIV Test type</th>
+			<th style="background-color: #696969; color: #ffffff;">Result</th>
+			<th style="background-color: #696969; color: #ffffff;">Final status</th>
+			<th style="background-color: #696969; color: #ffffff;">(If confirmed infected) Unique ID</th>
 		</tr>
 		<repeat>
 		<template>
@@ -101,161 +131,6 @@
 					<td valign="top">
 						<obs conceptId="5916AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
 					</td>
-					<td valign="top">
-						<obs conceptId="1587AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-							 answerConceptIds="1534AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1535AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-							 answerLabels="Male,Female,Other,Unknown"/>
-					</td>
-					<td valign="top">
-						<obs conceptId="159917AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-							 answerConceptIds="159035AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,159916AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,126127AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,48AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-							 answerLabels="Live Birth,Still Birth,Abortion,Miscarriage"/>
-					</td>
-					<td valign="top">
-						<a href="#" id="show-option-{n}">Show |</a>
-						<a href="#" id="hide-option-{n}"> Hide</a>
-
-						<div id="manage-options-{n}" style="display: none">
-							<table>
-								<tr>
-									<td valign="top">
-										<obs conceptId="1576AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerConceptId="1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerLabel="None"
-											 style="checkbox"/>
-									</td>
-								</tr>
-								<tr>
-									<td valign="top">
-										<obs conceptId="1576AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerConceptId="134612AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerLabel="Maternal death"
-											 style="checkbox"/>
-									</td>
-								</tr>
-								<tr>
-									<td valign="top">
-										<obs conceptId="1576AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerConceptId="127592AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerLabel="Retained placenta"
-											 style="checkbox"/>
-									</td>
-								</tr>
-								<tr>
-									<td valign="top">
-										<obs conceptId="1576AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerConceptId="146192AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerLabel="Cardiac arrest"
-											 style="checkbox"/>
-									</td>
-								</tr>
-								<tr>
-									<td valign="top">
-										<obs conceptId="1576AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerConceptId="154223AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerLabel="Neonatal death"
-											 style="checkbox"/>
-									</td>
-								</tr>
-								<tr>
-									<td valign="top">
-										<obs conceptId="1576AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerConceptId="206AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerLabel="Seizure"
-											 style="checkbox"/>
-									</td>
-								</tr>
-								<tr>
-									<td valign="top">
-										<obs conceptId="1576AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerConceptId="140238AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerLabel="Fever"
-											 style="checkbox"/>
-									</td>
-								</tr>
-								<tr>
-									<td valign="top">
-										<obs conceptId="1576AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerConceptId="113195AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerLabel="Obstetrical uterus rupture"
-											 style="checkbox"/>
-									</td>
-								</tr>
-								<tr>
-									<td valign="top">
-										<obs conceptId="1576AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerConceptId="123396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerLabel="Vagina discharge"
-											 style="checkbox"/>
-									</td>
-								</tr>
-								<tr>
-									<td valign="top">
-										<obs conceptId="1576AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerConceptId="139981AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerLabel="Foot-drop"
-											 style="checkbox"/>
-									</td>
-								</tr>
-								<tr>
-									<td valign="top">
-										<obs conceptId="1576AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerConceptId="230AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerLabel="Postpartum hemorrhage"
-											 style="checkbox"/>
-									</td>
-								</tr>
-								<tr>
-									<td valign="top">
-										<obs conceptId="1576AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerConceptId="49AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerLabel="Vesical-vaginal fistula"
-											 style="checkbox"/>
-									</td>
-								</tr>
-								<tr>
-									<td valign="top">
-										<obs conceptId="1576AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerConceptId="117069AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerLabel="Infection specific to perinatal period"
-											 style="checkbox"/>
-									</td>
-								</tr>
-								<tr>
-									<td valign="top">
-										<obs conceptId="1576AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerConceptId="129318AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerLabel="Postpartum psychosis"
-											 style="checkbox"/>
-									</td>
-								</tr>
-								<tr>
-									<td valign="top">
-										<obs conceptId="1576AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerConceptId="135592AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerLabel="Loss of consciousness"
-											 style="checkbox"/>
-									</td>
-								</tr>
-								<tr>
-									<td valign="top">
-										<obs conceptId="1576AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerConceptId="130AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerLabel="Puerperal sepsis"
-											 style="checkbox"/>
-									</td>
-								</tr>
-								<tr>
-									<td valign="top">
-										<obs conceptId="1576AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerConceptId="5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-											 answerLabel="Other (non-coded)"
-											 style="checkbox"/>
-									</td>
-								</tr>
-							</table>
-						</div>
-					</td>
 				</tr>
 			</obsgroup>
 		</template>
@@ -269,11 +144,6 @@
 		<render n="8" concept=" "/>
 		<render n="9" concept=" "/>
 		<render n="10" concept=" "/>
-		<render n="11" concept=" "/>
-		<render n="12" concept=" "/>
-		<render n="13" concept=" "/>
-		<render n="14" concept=" "/>
-		<render n="15" concept=" "/>
 		</repeat>
 		</table>
 	</div>
