@@ -20,8 +20,8 @@
 	}
 
 	config.pageTitle = "KenyaEMR"
-	config.faviconIco = ui.resourceLink("kenyaemr", "images/logos/favicon.ico")
-	config.faviconPng = ui.resourceLink("kenyaemr", "images/logos/favicon.png")
+	config.faviconIco = ui.resourceLink("kenyaemr", "images/logos/MyanmarFavicon.ico")
+	config.faviconPng = ui.resourceLink("kenyaemr", "images/logos/myanmarFavicon.png")
 	config.angularApp = "kenyaemr"
 	
 	ui.decorateWith("kenyaui", "standardPage", config)

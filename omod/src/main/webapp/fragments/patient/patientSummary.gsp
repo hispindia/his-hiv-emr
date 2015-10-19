@@ -1,5 +1,5 @@
 <%
-	ui.decorateWith("kenyaui", "panel", [ heading: "Information", frameOnly: true ])
+	ui.decorateWith("kenyaui", "panel", [ heading: "Patient Details", frameOnly: true ])
 %>
 <div class="ke-panel-content">
 	<div class="ke-stack-item">
@@ -18,6 +18,7 @@
 		<% } %>
 	</div>
 </div>
+<!-- 
 <% if (forms) { %>
 <div class="ke-panel-footer">
 	<% forms.each { form -> %>
@@ -37,3 +38,4 @@
 </div>
 
 <% } %>
+ -->

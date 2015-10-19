@@ -147,7 +147,7 @@ kenyaemrApp.controller('PatientSearchResults', ['$scope', '$http', function($sco
 	};
 	
 	$scope.onResultClickNewPatient = function(patient, appId, formId, returnURL) {
-		if (patient.activeVisit && patient.activeVisit.visitType == 'Outpatient') {
+		if (patient.activeVisit && patient.activeVisit.visitType == 'Follow up visit') {
 			var obstetricFormLink = ui.pageLink("kenyaemr", "enterForm", {patientId: patient.id, formUuid: '8e4e1abf-7c08-4ba8-b6d8-19a9f1ccb6c9', appId: appId, returnUrl: returnURL });
 			var familyFormLink = ui.pageLink("kenyaemr", "enterForm", {patientId: patient.id, formUuid: '7efa0ee0-6617-4cd7-8310-9f95dfee7a82', appId: appId, returnUrl: obstetricFormLink });
 			var drugFormLink = ui.pageLink("kenyaemr", "enterForm", {patientId: patient.id, formUuid: '5286ae88-85bb-46e8-a2f7-6361f463ffd4', appId: appId, returnUrl: familyFormLink });;
