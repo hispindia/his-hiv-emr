@@ -42,6 +42,8 @@
 		</property>
 	</bean>
 
+
+
 	<bean id="kenyaemr.config.regimen" class="org.openmrs.module.kenyaemr.regimen.RegimenConfiguration">
 		<property name="definitionsPath" value="regimens.xml" />
 	</bean>

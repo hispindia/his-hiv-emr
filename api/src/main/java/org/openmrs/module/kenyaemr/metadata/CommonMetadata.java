@@ -149,29 +149,29 @@ public class CommonMetadata extends AbstractMetadataBundle {
 		// Patient only person attributes..
 		install(personAttributeType("Subchief name", "Name of subchief or chief of patient's area",
 				String.class, null, false, 3.0, _PersonAttributeType.SUBCHIEF_NAME));
-		install(personAttributeType("Next of kin name", "Name of patient's next of kin",
+		install(personAttributeType("Treatment Supporter's Name", "Name of patient's next of kin",
 				String.class, null, false, 4.0, _PersonAttributeType.NEXT_OF_KIN_NAME));
 	
 		install(personAttributeType("Previous Clinic Name", "Name of previous clinic trnsferred from for patient",
 				String.class, null, false, 4.0, _PersonAttributeType.PREVIOUS_CLINIC_NAME));
-		install(personAttributeType("Previous Hiv test performed", "Patient performed any HIV test previously",
+		install(personAttributeType("Previous HIV test performed", "Patient performed any HIV test previously",
 				String.class, null, false, 4.0, _PersonAttributeType.HIV_TEST_PERFORMED));
-		install(personAttributeType("Previous Hiv test performed place", "Place of patient's HIV test previously performed",
+		install(personAttributeType("Previous HIV test performed place", "Place of patient's HIV test previously performed",
 				String.class, null, false, 4.0, _PersonAttributeType.HIV_TEST_PERFORMED_PLACE));
-		install(personAttributeType("Previous Hiv test performed date", "Date of patient's HIV test previously performed",
+		install(personAttributeType("Previous HIV test performed date", "Date of patient's HIV test previously performed",
 				Date.class, null, false, 4.0, _PersonAttributeType.HIV_TEST_PERFORMED_DATE));
 		
 		
 		
-		install(personAttributeType("Next of kin relationship", "Next of kin relationship to the patient",
+		install(personAttributeType("Treatment Supporter's Relationship", "Next of kin relationship to the patient",
 				String.class, null, false, 4.1, _PersonAttributeType.NEXT_OF_KIN_RELATIONSHIP));
-		install(personAttributeType("Next of kin contact", "Telephone contact of patient's next of kin",
+		install(personAttributeType("Treatment Supporter's Contact", "Telephone contact of patient's next of kin",
 				String.class, null, false, 4.2, _PersonAttributeType.NEXT_OF_KIN_CONTACT));
-		install(personAttributeType("Next of kin address", "Address of patient's next of kin",
+		install(personAttributeType("Treatment Supporter's Address", "Address of patient's next of kin",
 				String.class, null, false, 4.3, _PersonAttributeType.NEXT_OF_KIN_ADDRESS));
 		install(personAttributeType("Father's Name", "First or last name of this person's father",
 				String.class, null, false, 4.4, _PersonAttributeType.FATHER_NAME));
-		install(personAttributeType("National Id", "National Id for the patient",
+		install(personAttributeType("National ID", "National Id for the patient",
 				String.class, null, false, 4.5, _PersonAttributeType.NATIONAL_ID));
 		install(personAttributeType("Place of Birth", "Place of Birth for the patient",
 				String.class, null, false, 4.6, _PersonAttributeType.PLACE_OF_BIRTH));
@@ -182,7 +182,7 @@ public class CommonMetadata extends AbstractMetadataBundle {
 		install(visitAttributeType("Source form", "The form whose submission created the visit",
 				FormDatatype.class, null, 0, 1, _VisitAttributeType.SOURCE_FORM));
 
-		install(visitType("Outpatient", "Visit where the patient is not admitted to the hospital", _VisitType.OUTPATIENT));
+		install(visitType("Follow up visit", "Visit where the patient is not admitted to the hospital", _VisitType.OUTPATIENT));
 		install(visitType("NEW PATIENT", "Visit for first time new Patient", _VisitType.NEW_PATIENT));
 
 		uninstall(possible(PersonAttributeType.class, "73d34479-2f9e-4de3-a5e6-1f79a17459bb"), "Became patient identifier"); // National ID attribute type
