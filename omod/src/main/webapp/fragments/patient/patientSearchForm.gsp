@@ -7,7 +7,7 @@
 
 	def id = config.id ?: ui.generateId();
 %>
-<form id="${ id }" ng-controller="PatientSearchForm" ng-init="init('${ defaultWhich }')">
+<form id="${ id }" ng-controller="PatientSearchForm2" ng-init="init('${ defaultWhich }')">
 	<label  class="ke-field-label">Which patients</label>
 	<span class="ke-field-content">
 		<input type="radio" ng-model="which" ng-change="updateSearch()" value="all" /> All

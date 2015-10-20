@@ -15,13 +15,6 @@
 
 	<!-- ===================== App descriptors ===================== -->
 
-	<bean id="kenyaemr.app.manangePatient" factory-bean="kenyacore.appFactoryBean" factory-method="createInstance">
-		<constructor-arg value="kenyaemr.managePatient" />
-		<constructor-arg value="Clinician" />
-		<constructor-arg value="kenyaemr/managePatient/managePatient.page" />
-		<constructor-arg value="kenyaui:apps/clinician.png" />
-		<constructor-arg value="100" />
-	</bean>
 	
 	<bean id="kenyaemr.app.registration" factory-bean="kenyacore.appFactoryBean" factory-method="createInstance">
 		<constructor-arg value="kenyaemr.registration" />
