@@ -20,8 +20,10 @@
 				</td>
 				<td width="60%" valign="top" style="padding-left: 5px">
 					${ ui.includeFragment("kenyaemr", "visitMenu", [ patient: currentPatient, visit: activeVisit ]) }
-
+					
 					${ ui.includeFragment("kenyaemr", "program/programCarePanels", [ patient: currentPatient, complete: false, activeOnly: true ]) }
+
+					${ ui.includeFragment("kenyaemr", "program/tb/tbCarePanel", [ patient: currentPatient, complete: false, activeOnly: false ]) }
 
 					<% if (activeVisit) { %>
 					${ ui.includeFragment("kenyaemr", "visitAvailableForms", [ visit: activeVisit ]) }

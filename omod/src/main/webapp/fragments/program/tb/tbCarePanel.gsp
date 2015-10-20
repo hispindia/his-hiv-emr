@@ -3,21 +3,21 @@
 
 	def dataPoints = []
 
-	dataPoints << [ label: "Treatment Number", value: calculations.tbTreatmentNumber ]
-	dataPoints << [ label: "Disease classification", value: calculations.tbDiseaseClassification ]
-	dataPoints << [ label: "Patient classification", value: calculations.tbPatientClassification ]
+
+	dataPoints << [ label: "Site", value: calculations.tbDiseaseSite ]
+	dataPoints << [ label: "TB Status", value: calculations.tbPatientStatus ]
 %>
 
 <div class="ke-stack-item">
 	<% dataPoints.each { print ui.includeFragment("kenyaui", "widget/dataPoint", it) } %>
 </div>
 <div class="ke-stack-item">
-	<% if (activeVisit) { %>
+<!--	<% if (activeVisit) { %>
 	<button type="button" class="ke-compact" onclick="ui.navigate('${ ui.pageLink("kenyaemr", "regimenEditor", [ patientId: currentPatient.id, category: "TB", appId: currentApp.id, returnUrl: ui.thisUrl() ]) }')">
 		<img src="${ ui.resourceLink("kenyaui", "images/glyphs/edit.png") }" />
 	</button>
 	<% } %>
-
+-->
 	<%
 		if (regimenHistory.lastChange) {
 			def lastChange = regimenHistory.lastChangeBeforeNow

@@ -43,13 +43,15 @@ public class TbCarePanelFragmentController {
 		Map<String, Object> calculationResults = new HashMap<String, Object>();
 
 		CalculationResult result = EmrCalculationUtils.evaluateForPatient(TbDiseaseClassificationCalculation.class, null, patient);
-		calculationResults.put("tbDiseaseClassification", result != null ? result.getValue() : null);
+	//	calculationResults.put("tbDiseaseClassification", result != null ? result.getValue() : null);
+		calculationResults.put("tbDiseaseSite", result != null ? result.getValue() : null);
 
 		result = EmrCalculationUtils.evaluateForPatient(TbPatientClassificationCalculation.class, null, patient);
-		calculationResults.put("tbPatientClassification", result != null ? result.getValue() : null);
+	//	calculationResults.put("tbPatientClassification", result != null ? result.getValue() : null);
+		calculationResults.put("tbPatientStatus", result != null ? result.getValue() : null);
 
-		result = EmrCalculationUtils.evaluateForPatient(TbTreatmentNumberCalculation.class, null, patient);
-		calculationResults.put("tbTreatmentNumber", result != null ? result.getValue() : null);
+	//	result = EmrCalculationUtils.evaluateForPatient(TbTreatmentNumberCalculation.class, null, patient);
+	//	calculationResults.put("tbTreatmentNumber", result != null ? result.getValue() : null);
 
 		model.addAttribute("calculations", calculationResults);
 
