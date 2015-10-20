@@ -67,7 +67,7 @@ public class TbMetadata extends AbstractMetadataBundle {
 		install(form("TB Discontinuation", null, _EncounterType.TB_DISCONTINUATION, "1", _Form.TB_COMPLETION));
 		install(form("TB FollowUp" ,null, _EncounterType.TB_CONSULTATION, "1", _Form.TB_FOLLOW_UP));
 
-		install(patientIdentifierType("District Registration Number", "Assigned to every TB patient",
+		install(patientIdentifierType("TB Registration Number", "Assigned to every TB patient",
 				null, null, null,
 				LocationBehavior.NOT_USED, false, _PatientIdentifierType.DISTRICT_REG_NUMBER));
 
