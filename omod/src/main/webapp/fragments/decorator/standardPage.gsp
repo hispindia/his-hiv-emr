@@ -19,7 +19,7 @@
 		config.beforeContent += ui.includeFragment("kenyaemr", "header/visitHeader", [ visit: config.visit ])
 	}
 
-	config.pageTitle = "KenyaEMR"
+	config.pageTitle = "MyanmarEMR"
 	config.faviconIco = ui.resourceLink("kenyaemr", "images/logos/MyanmarFavicon.ico")
 	config.faviconPng = ui.resourceLink("kenyaemr", "images/logos/myanmarFavicon.png")
 	config.angularApp = "kenyaemr"

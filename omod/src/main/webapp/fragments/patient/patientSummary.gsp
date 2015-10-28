@@ -18,7 +18,7 @@
 		<% } %>
 	</div>
 </div>
-<!-- 
+
 <% if (forms) { %>
 <div class="ke-panel-footer">
 	<% forms.each { form -> %>
@@ -38,4 +38,3 @@
 </div>
 
 <% } %>
- -->
