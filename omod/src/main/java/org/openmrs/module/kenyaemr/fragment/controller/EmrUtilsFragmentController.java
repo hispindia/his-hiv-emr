@@ -39,11 +39,14 @@ import org.openmrs.module.kenyaemr.api.KenyaEmrService;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.art.InitialArtStartDateCalculation;
 import org.openmrs.module.kenyaemr.regimen.RegimenChange;
 import org.openmrs.module.kenyaemr.regimen.RegimenChangeHistory;
+import org.openmrs.module.kenyaemr.regimen.RegimenDefinition;
+import org.openmrs.module.kenyaemr.regimen.RegimenDefinitionGroup;
 import org.openmrs.module.kenyaui.KenyaUiUtils;
 import org.openmrs.module.kenyaui.annotation.AppAction;
 import org.openmrs.module.kenyaui.annotation.PublicAction;
 import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
+import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.action.SuccessResult;
 import org.openmrs.util.OpenmrsUtil;
@@ -51,6 +54,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -191,11 +195,30 @@ public class EmrUtilsFragmentController {
 		return SimpleObject.create("birthdate", kenyaui.formatDateParam(cal.getTime()));
 	}
 	
+	public JSONObject drugRegimen(@RequestParam(value= "category", required = false) String category,
+			UiUtils ui, 
+			@SpringBean RegimenManager regimenManager,
+			@SpringBean EmrUiUtils kenyaUi){
+		category="ARV";
+		List<RegimenDefinitionGroup> regimenGroups = regimenManager.getRegimenGroups(category);
+		
+		List<RegimenDefinition> regimenDefinitions = new ArrayList<RegimenDefinition>();
+		for (RegimenDefinitionGroup group : regimenGroups) {
+			regimenDefinitions.addAll(group.getRegimens());
+		}
+		
+		JSONObject stateeJson = new JSONObject();
+		stateeJson.put("drugName", kenyaUi.simpleRegimenDefinitions(regimenDefinitions, ui));
+		return stateeJson;
+	}
+	
 	public JSONObject addressHierarchy(@RequestParam(value= "state", required = false) String state,
 			@RequestParam(value= "township", required = false) String township,
 			@RequestParam(value= "patientId", required = false) Patient patient,@SpringBean KenyaUiUtils kenyaUi) {
 		
-        Map<String,List> townshipMap= new LinkedHashMap<String,List>();
+        
+		
+		Map<String,List> townshipMap= new LinkedHashMap<String,List>();
 		
 		Map<String,List> villageMap= new LinkedHashMap<String,List>();
 		

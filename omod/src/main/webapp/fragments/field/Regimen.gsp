@@ -1,4 +1,8 @@
 <%
+	ui.includeJavascript("kenyaemr", "controllers/drugRegimenController.js")
+	
+	def formulations = [ " " , "50", "100", "150", "200" , "250" , "300" ]
+	
 	def units = [ " " , "mg", "g", "ml", "tab" ]
 
 	def frequencies = [
@@ -17,6 +21,7 @@
 	}
 
 	def drugOptions = drugs.collect( { """<option value="${ it }">${ kenyaEmrUi.formatDrug(it, ui) }</option>""" } ).join()
+	def formulationOptions = formulations.collect( { """<option value="${ it }">${ it }</option>""" } ).join()
 	def unitsOptions = units.collect( { """<option value="${ it }">${ it }</option>""" } ).join()
 	def frequencyOptions = frequencies.collect( { """<option value="${ it.key }">${ it.value }</option>""" } ).join()
 %>
@@ -95,7 +100,6 @@
 </script>
 <% } %>
 
-
 <table>
 <div>
 <b>
@@ -113,11 +117,12 @@ ARV Treatment
 </div>
 </br>
 
+<div ng-controller="DrugCtrl" data-ng-init="init()">
 <div>
 	<input type="text" id="slNoa1" name="slNoa1" size="5" value="1" readonly='readonly'>
-	<input type="text" id="drugNamea1" name="drugNamea1">
+	<input type="text" id="drugNamea1" name="drugNamea1" ng-model="selected" uib-typeahead="drug as drug.name for drug in drugs">
     <select id="formulationa1" name="formulationa1" style='width: 158px;height: 30px;'>
-    ${ unitsOptions }
+    ${ formulationOptions }
     </select>
     <select id="strengta1" name="strengta1" style='width: 158px;height: 30px;'>
     ${ unitsOptions }
@@ -131,9 +136,9 @@ ARV Treatment
 
 <div>
 	<input type="text" id="slNoa2" name="slNoa2" size="5" value="2" readonly='readonly'>
-	<input type="text" id="drugNamea2" name="drugNamea2">
+	<input type="text" id="drugNamea2" name="drugNamea2" ng-model="selected" uib-typeahead="drug as drug.name for drug in drugs">
     <select id="formulationa2" name="formulationa2" style='width: 158px;height: 30px;'>
-    ${ unitsOptions }
+    ${ formulationOptions }
     </select>
     <select id="strengta2" name="strengt2" style='width: 158px;height: 30px;'>
     ${ unitsOptions }
@@ -147,9 +152,9 @@ ARV Treatment
 
 <div>
 	<input type="text" id="slNoa3" name="slNoa3" size="5" value="3" readonly='readonly'>
-	<input type="text" id="drugNamea3" name="drugNamea3">
+	<input type="text" id="drugNamea3" name="drugNamea3" ng-model="selected" uib-typeahead="drug as drug.name for drug in drugs">
     <select id="formulationa3" name="formulationa3" style='width: 158px;height: 30px;'>
-    ${ unitsOptions }
+    ${ formulationOptions }
     </select>
     <select id="strengta3" name="strengta3" style='width: 158px;height: 30px;'>
     ${ unitsOptions }
@@ -161,12 +166,12 @@ ARV Treatment
     <input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" size="5" value="Info" onClick="artDrugInfo();" />
 </div>
 
-<div id="headerValuea">							
-	<div>
+					
+<div>
 	<input type="text" id="slNoa4" name="slNoa4" size="5" value="4" readonly='readonly'>
-	<input type="text" id="drugNamea4" name="drugNamea4">
+	<input type="text" id="drugNamea4" name="drugNamea4" ng-model="selected" uib-typeahead="drug as drug.name for drug in drugs">
     <select id="formulationa4" name="formulationa4" style='width: 158px;height: 30px;'>
-    ${ unitsOptions }
+    ${ formulationOptions }
     </select>
     <select id="strengtha4" name="strengtha4" style='width: 158px;height: 30px;'>
     ${ unitsOptions }
@@ -177,7 +182,9 @@ ARV Treatment
     <input type="text" id="durationa4" name="durationa4">
     <input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" size="5" value="Info" onClick="artDrugInfo();" />
 	<input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" value="Add" onClick="addDrugOrderForARVTreatment();" />
-	</div>							
+</div>
+								
+<div id="headerValuea">		
 </div>
 
 </table>
@@ -203,7 +210,7 @@ OI Treatment
 	<input type="text" id="slNoo1" name="slNoo0" size="5" value="1" readonly='readonly'>
 	<input type="text" id="drugNameo1" name="drugNameo1">
     <select id="formulationo1" name="formulationo1" style='width: 158px;height: 30px;'>
-    ${ unitsOptions }
+    ${ formulationOptions }
     </select>
     <select id="strengto1" name="strengto1" style='width: 158px;height: 30px;'>
     ${ unitsOptions }
@@ -214,12 +221,12 @@ OI Treatment
     <input type="text" id="durationo1" name="durationo1">
 </div>
 
-<div id="headerValueo">							
-	<div>
+						
+<div>
 	<input type="text" id="slNoo2" name="slNoo2" size="5" value="2" readonly='readonly'>
 	<input type="text" id="drugNameo2" name="drugNameo2">
     <select id="formulationo2" name="formulationo2" style='width: 158px;height: 30px;'>
-    ${ unitsOptions }
+    ${ formulationOptions }
     </select>
     <select id="strengtho2" name="strengtho2" style='width: 158px;height: 30px;'>
     ${ unitsOptions }
@@ -229,7 +236,9 @@ OI Treatment
 	</select>
     <input type="text" id="durationo2" name="durationo2">
 	<input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" value="Add" onClick="addDrugOrderForOITreatment();" />
-	</div>							
+</div>							
+
+<div id="headerValueo">	
 </div>
 
 </table>
@@ -255,7 +264,7 @@ Prophylaxis
 	<input type="text" id="slNop1" name="slNo1" size="5" value="1" readonly='readonly'>
 	<input type="text" id="drugNamep1" name="drugNamep1">
     <select id="formulationp1" name="formulationp1" style='width: 158px;height: 30px;'>
-    ${ unitsOptions }
+    ${ formulationOptions }
     </select>
     <select id="strengtp1" name="strengtp1" style='width: 158px;height: 30px;'>
     ${ unitsOptions }
@@ -266,12 +275,12 @@ Prophylaxis
     <input type="text" id="durationp1" name="durationp1">
 </div>
 
-<div id="headerValuep">							
-	<div>
+						
+<div>
 	<input type="text" id="slNop2" name="slNo2" size="5" value="2" readonly='readonly'>
 	<input type="text" id="drugNamep2" name="drugNamep2">
     <select id="formulationp2" name="formulationp2" style='width: 158px;height: 30px;'>
-    ${ unitsOptions }
+    ${ formulationOptions }
     </select>
     <select id="strengthp2" name="strengthp2" style='width: 158px;height: 30px;'>
     ${ unitsOptions }
@@ -281,7 +290,9 @@ Prophylaxis
 	</select>
     <input type="text" id="durationp2" name="durationp2">
 	<input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" value="Add" onClick="addDrugOrderForProphylaxis();" />
-	</div>							
+</div>
+								
+<div id="headerValuep">	
 </div>
 
 </table>
@@ -307,7 +318,7 @@ Other Treatment
 	<input type="text" id="slNo1" name="slNo1" size="5" value="1" readonly='readonly'>
 	<input type="text" id="drugName1" name="drugName1">
     <select id="formulation1" name="formulation1" style='width: 158px;height: 30px;'>
-    ${ unitsOptions }
+    ${ formulationOptions }
     </select>
     <select id="strength1" name="strength1" style='width: 158px;height: 30px;'>
     ${ unitsOptions }
@@ -318,12 +329,12 @@ Other Treatment
     <input type="text" id="duration1" name="duration1">
 </div>
 
-<div id="headerValue">							
-	<div>
+						
+ <div>
 	<input type="text" id="slNo2" name="slNo2" size="5" value="2" readonly='readonly'>
 	<input type="text" id="drugName2" name="drugName2">
     <select id="formulation2" name="formulation2" style='width: 158px;height: 30px;'>
-    ${ unitsOptions }
+    ${ formulationOptions }
     </select>
     <select id="strength2" name="strength2" style='width: 158px;height: 30px;'>
     ${ unitsOptions }
@@ -333,8 +344,10 @@ Other Treatment
 	</select>
     <input type="text" id="duration2" name="duration2">
 	<input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" value="Add" onClick="addDrugOrder();" />
-	</div>							
-</div>
+ </div>
+								
+ <div id="headerValue">	
+ </div>
 
 </table>
 
@@ -343,22 +356,12 @@ var arvtreatment=5;
 var oitreatment=3;
 var prophylaxis=3;
 var otherTreatment=3;
-var drugIssuedList1 = new Array();
-var drugIssuedList2 = new Array();
-
-drugIssuedList1.push("0");
-drugIssuedList1.push("1");
-drugIssuedList1.push(prophylaxis);
-
-drugIssuedList2.push("0");
-drugIssuedList2.push("1");
-drugIssuedList2.push(otherTreatment);
 
 function addDrugOrderForARVTreatment() {
-   var deleteString = 'deleteInputARVTreatment(\"'+arvtreatment+'\")';
-   var htmlText =  "<div id='com_"+arvtreatment+"_div'>"
-	       	 +"<input id='slNo"+arvtreatment+"'  name='drugOrder' type='text' size='5' value="+arvtreatment+" readonly='readonly'/>&nbsp;"
-	       	 +"<input id='drugName"+arvtreatment+"'  name='drugOrder' type='text' size='20'/>&nbsp;"
+   var arvtretment = "arvtreatment"+arvtreatment;
+   var deleteString = 'deleteInputARVTreatment(\"'+arvtretment+'\")';
+   var htmlText =  "<input id='slNo"+arvtreatment+"'  name='drugOrder' type='text' size='5' value="+arvtreatment+" readonly='readonly'/>&nbsp;"
+	       	 +"<input id='drugName"+arvtreatment+"'  name='drugOrder' type='text' size='20' ng-model='selected' uib-typeahead='drug as drug.name for drug in drugs'/>&nbsp;"
 	       	 +"<select id='formulation"+arvtreatment+"'  name='drugOrder' style='width: 158px;height: 30px;'>"
 	         +'${ unitsOptions }'
 	       	 +"</select>&nbsp;"
@@ -370,11 +373,10 @@ function addDrugOrderForARVTreatment() {
 	       	 +"</select>&nbsp;"
 	       	 +"<input id='duration"+arvtreatment+"'  name='drugOrder' type='text' size='20'/>&nbsp;"
 	       	 +"<input id='duration"+arvtreatment+"'  name='drugOrder' class='ui-button ui-widget ui-state-default ui-corner-all' type='button' size='5' value='Info' onclick='artDrugInfo();'/>&nbsp;"
-	       	 +"<a style='color:red' href='#' onclick='"+deleteString+"' >[X]</a>"	
-	       	 +"</div>";
-	       	
+	       	 +"<a style='color:red' href='#' onclick='"+deleteString+"' >[X]</a>";
+	       	 
    var newElement = document.createElement('div');
-   newElement.setAttribute("id", arvtreatment);   
+   newElement.setAttribute("id", "arvtreatment"+arvtreatment);   
    newElement.innerHTML = htmlText;
    var fieldsArea = document.getElementById('headerValuea');
    fieldsArea.appendChild(newElement);
@@ -391,8 +393,7 @@ function deleteInputARVTreatment(arvtreatment) {
 
 function addDrugOrderForOITreatment() {
    var deleteString = 'deleteInputOITreatment(\"'+oitreatment+'\")';
-   var htmlText =  "<div id='com_"+oitreatment+"_div'>"
-	       	 +"<input id='slNo"+oitreatment+"'  name='drugOrder' type='text' size='5' value="+oitreatment+" readonly='readonly'/>&nbsp;"
+   var htmlText =  "<input id='slNo"+oitreatment+"'  name='drugOrder' type='text' size='5' value="+oitreatment+" readonly='readonly'/>&nbsp;"
 	       	 +"<input id='drugName"+oitreatment+"'  name='drugOrder' type='text' size='20'/>&nbsp;"
 	       	 +"<select id='formulation"+oitreatment+"'  name='drugOrder' style='width: 158px;height: 30px;'>"
 	         +'${ unitsOptions }'
@@ -404,8 +405,7 @@ function addDrugOrderForOITreatment() {
 	         +'${ frequencyOptions }'
 	       	 +"</select>&nbsp;"
 	       	 +"<input id='duration"+oitreatment+"'  name='drugOrder' type='text' size='20'/>&nbsp;"
-	       	 +"<a style='color:red' href='#' onclick='"+deleteString+"' >[X]</a>"	
-	       	 +"</div>";
+	       	 +"<a style='color:red' href='#' onclick='"+deleteString+"' >[X]</a>";
 	       	
    var newElement = document.createElement('div');
    newElement.setAttribute("id", oitreatment);   
@@ -425,8 +425,7 @@ function deleteInputOITreatment(oitreatment) {
 
 function addDrugOrderForProphylaxis() {
    var deleteString = 'deleteInputProphylaxis(\"'+prophylaxis+'\")';
-   var htmlText =  "<div id='com_"+prophylaxis+"_div'>"
-	       	 +"<input id='slNo"+prophylaxis+"'  name='drugOrder' type='text' size='5' value="+prophylaxis+" readonly='readonly'/>&nbsp;"
+   var htmlText =  "<input id='slNo"+prophylaxis+"'  name='drugOrder' type='text' size='5' value="+prophylaxis+" readonly='readonly'/>&nbsp;"
 	       	 +"<input id='drugName"+prophylaxis+"'  name='drugOrder' type='text' size='20'/>&nbsp;"
 	       	 +"<select id='formulation"+prophylaxis+"'  name='drugOrder' style='width: 158px;height: 30px;'>"
 	         +'${ unitsOptions }'
@@ -438,8 +437,7 @@ function addDrugOrderForProphylaxis() {
 	         +'${ frequencyOptions }'
 	       	 +"</select>&nbsp;"
 	       	 +"<input id='duration"+prophylaxis+"'  name='drugOrder' type='text' size='20'/>&nbsp;"
-	       	 +"<a style='color:red' href='#' onclick='"+deleteString+"' >[X]</a>"	
-	       	 +"</div>";
+	       	 +"<a style='color:red' href='#' onclick='"+deleteString+"' >[X]</a>";
 	       	
    var newElement = document.createElement('div');
    newElement.setAttribute("id", prophylaxis);   
@@ -459,8 +457,7 @@ function deleteInputProphylaxis(prophylaxis) {
 
 function addDrugOrder() {
    var deleteString = 'deleteInput(\"'+otherTreatment+'\")';
-   var htmlText =  "<div id='com_"+otherTreatment+"_div'>"
-	       	 +"<input id='slNo"+otherTreatment+"'  name='drugOrder' type='text' size='5' value="+otherTreatment+" readonly='readonly'/>&nbsp;"
+   var htmlText =  "<input id='slNo"+otherTreatment+"'  name='drugOrder' type='text' size='5' value="+otherTreatment+" readonly='readonly'/>&nbsp;"
 	       	 +"<input id='drugName"+otherTreatment+"'  name='drugOrder' type='text' size='20'/>&nbsp;"
 	       	 +"<select id='formulation"+otherTreatment+"'  name='drugOrder' style='width: 158px;height: 30px;'>"
 	         +'${ unitsOptions }'
@@ -471,10 +468,8 @@ function addDrugOrder() {
 	       	 +"<select id='frequecy"+otherTreatment+"'  name='drugOrder' style='width: 158px;height: 30px;'>"
 	         +'${ frequencyOptions }'
 	       	 +"</select>&nbsp;"
-	       	 
 	       	 +"<input id='duration"+otherTreatment+"'  name='drugOrder' type='text' size='20'/>&nbsp;"
-	       	 +"<a style='color:red' href='#' onclick='"+deleteString+"' >[X]</a>"	
-	       	 +"</div>";
+	       	 +"<a style='color:red' href='#' onclick='"+deleteString+"' >[X]</a>";
 	       	
    var newElement = document.createElement('div');
    newElement.setAttribute("id", otherTreatment);   
