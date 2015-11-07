@@ -32,19 +32,26 @@
 
 	<script type="text/javascript">
 		jq(document).ready(function () {
-			for (var i = 1; i &lt;= 15; i++) {
-				jq('#show-option-' + i).click(function () {
-					var linkId = jq(this).attr('id');
-					var n = linkId.replace('show-option-', '')
-					jq('#manage-options-' + n).show();
-				});
-
-				jq('#hide-option-' + i).on("click", function () {
-					var linkId = jq(this).attr('id');
-					var n = linkId.replace('hide-option-', '')
-					jq('#manage-options-' + n).hide();
-				});
+			if (getValue('isPregnant.value') == 1066) {
+				jq('#ifNoPregnancy :input').prop('disabled', false);
+				jq('#ifYesPregnancy :input').prop('disabled', true);
 			}
+			else {
+				jq('#ifNoPregnancy :input').prop('disabled', true);
+				jq('#ifYesPregnancy :input').prop('disabled', false);
+			}
+		
+			jq("#isPregnant input:radio").change(function() {
+				if (getValue('isPregnant.value') == 1066) {
+					jq('#ifNoPregnancy :input').prop('disabled', false);
+					jq('#ifYesPregnancy :input').prop('disabled', true);
+				}
+				else {
+					jq('#ifNoPregnancy :input').prop('disabled', true);
+					jq('#ifYesPregnancy :input').prop('disabled', false);
+				}
+			});
+			
 		});
 	</script>
 
@@ -56,39 +63,58 @@
 	</div>
 
 	<div class="ke-form-content">
-	
 		<table style="width: 80%" align="center">
 			<tr>
-				<td width="15%">Pregnancy</td>
-				<td><obs conceptId="7a944e42-5f90-4a52-8cb9-ca6e1280ae89" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" id="isPregnant"/></td>
-			</tr>
-			<tr>
-				<td>If yes, L.M.P</td>
-				<td><obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
-			</tr>
-			<tr>
-				<td>EDD</td>
-				<td><obs conceptId="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
-			</tr>
-			<tr>
-				<td>Gravida</td>
-				<td style="length:50%"><obs conceptId="5624AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
-			</tr>
-			<tr>
-				<td>Parity</td>
-				<td width="70%"><obs conceptId="1053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
-			</tr>
-			<tr>
-				<td>ANC Number</td>
-				<td width="70%"><obs conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
-			</tr>
-			<tr>
-				<td>If No, Family Planing</td>
-				<td><obs conceptId="5271AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No"/></td>
-			</tr>
-			<tr>
-				<td>If Yes, Method</td>
-				<td><obs conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+				<td>
+					<div>
+						<table>
+							<tr>
+								<td>1. Pregnancy </td>
+								<td> : <obs conceptId="7a944e42-5f90-4a52-8cb9-ca6e1280ae89" labelText="  " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" id="isPregnant"/></td>
+							</tr>
+						</table>
+						<br />
+					</div>
+					<div id="ifYesPregnancy">
+						<table>
+							<tr>
+								<td>a. If yes, L.M.P</td>
+								<td>  : <obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+							</tr>
+							<tr>
+								<td>b. EDD </td>
+								<td>  : <obs conceptId="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+							</tr>
+							<tr>
+								<td>c. Gravida </td>
+								<td>  : <obs conceptId="5624AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+							</tr>
+							<tr>
+								<td>d. Parity </td>
+								<td>  : <obs conceptId="1053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+							</tr>
+							<tr>
+								<td>e. ANC Number </td>
+								<td>  : <obs conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+							</tr>
+						</table>
+					</div>
+				</td>
+				<td valign="top">
+					<div id="ifNoPregnancy">
+						<table valign="top">
+							<tr><br /><br /></tr>
+							<tr>
+								<td>a. If No, Family Planing</td>
+								<td><obs conceptId="5271AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" id="fPlanning"/></td>
+							</tr>
+							<tr>
+								<td>b. If Yes, Method</td>
+								<td><obs id="fPlanningOption" conceptId="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+							</tr>
+						</table>
+					</div>
+				</td>
 			</tr>
 		</table>
 		<br />
