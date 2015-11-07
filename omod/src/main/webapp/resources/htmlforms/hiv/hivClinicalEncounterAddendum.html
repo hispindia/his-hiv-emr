@@ -14,27 +14,95 @@
 <htmlform>
 
 	<script type="text/javascript">
-		var pAge;
 		jq(document).ready(function(){
-			pAge = parseInt('<lookup expression="patient.age"/>');
-			if (pAge &gt; 15) {
-				whoChild.style.display='none';
+			
+			if (getValue('nextStep.value') == 160523) {
+				jq('#admittedId :input').prop('disabled', false);
+				jq('#appointmentDate :input').prop('disabled', true);
 			}
-			if (pAge &lt; 15) {
-				whoAdult.style.display='none';
+			else {
+				jq('#admittedId :input').prop('disabled', true);
+				jq('#appointmentDate :input').prop('disabled', false);
 			}
+		
+			jq("#nextStep select").change(function() {
+				if (getValue('nextStep.value') == 160523) {
+					jq('#admittedId :input').prop('disabled', false);
+					jq('#appointmentDate :input').prop('disabled', true);
+				}
+				else {
+					jq('#admittedId :input').prop('disabled', true);
+					jq('#appointmentDate :input').prop('disabled', false);
+				}
+			});
+
+			
 			beforeSubmit.push(function() {
-				var returnDate = new Date(getValue('returnVisitDate.value')).getTime();
+				if(getValue('daig_value.value') =="" &amp;&amp; getValue('daig_value1.value') =="" &amp;&amp; getValue('daig_value2.value')==""){
+							getField('daig_value2.error').html('Please enter diagnosis').show();
+							return false;		
+				}
+				
+				if(getValue('nextStep.value') == ""){
+					getField('nextStep.error').html('Required').show();
+					return false;
+				}
+				
+				if(getValue('missedDoseCount.value') == ""){
+					getField('missedDoseCount.error').html('Required').show();
+					return false;
+				}
+				
+				
+				if(getValue('artSideEffectPresent.value') == '1065'){
+					if(getValue('artSideEffectValue.value')=="" &amp;&amp; getValue('artSideEffectValue1.value')==""  &amp;&amp; getValue('artSideEffectValue2.value')==""){
+						getField('artSideEffectValue2.error').html('Please select ART side effects').show();
+						return false;
+					}
+				}
+				
+				if(getValue('temporaryReffered.value') == '1065'){
+					if(getValue('temporaryRefferedReason.value')==""){
+						getField('temporaryRefferedReason.error').html('Please select reason for temporary referral').show();
+						return false;
+					}
+				}
+				
+
+				
+			/*	var returnDate = new Date(getValue('returnVisitDate.value')).getTime();
 				var encounterDate = new Date(getValue('encounter-date.value')).getTime();
 				var encouterDateValue = new Date(getValue('encounter-date.value'));
 				var fourMonthsFromEncounterDate = encouterDateValue.setDate(encouterDateValue.getDate() + 120);
 				if ((returnDate &lt; encounterDate) || (returnDate &gt; fourMonthsFromEncounterDate)) {
 					getField('returnVisitDate.error').html('Return Visit date should be after encounter date and NOT more than four months from Encounter Date').show();
 					return false;
-				}
+				}*/
 				return true;
 			});
 		});
+		
+		
+		
+		function onWeightOrHeightChange() {
+			var display = '';
+			var doseCount = parseInt(getValue('missedDoseCount.value'));
+			
+				var count =  (doseCount * 100)/ (30);
+				if(isNaN(count)){
+					display = display = '<input id="w67" type="text" onblur="checkNumber(this,w67,false,null,null)" value="0" name="w67" size="5" autocomplete="off" />';									
+				}
+				else{
+				display = '<input id="w67" type="text" onblur="checkNumber(this,w67,false,null,null)" value="'+count.toFixed(0)+'" name="w67" size="5" autocomplete="off" />';
+				}
+				jQuery('#calculated-adherence').html(display);
+		}
+		
+		jQuery(function() {
+			getField('missedDoseCount.value').change(onWeightOrHeightChange);
+			onWeightOrHeightChange();
+		});
+	
 	</script>
 
 	<div class="ke-form-header">
@@ -47,159 +115,181 @@
 	</div>
 
 	<div class="ke-form-content">
-		<fieldset >
-			<legend>Impressions &amp; Diagnoses</legend>
-
+		<fieldset>
 			<table>
 				<tr>
-					<td colspan="2">Record any Adverse Drug Reactions since the last visit<br/>
-						<table>
-							<tr>
-								<td>Date of onset</td>
-								<td>Reaction</td>
-								<td>Grading</td>
-								<td>Causative agent</td>
-							</tr>
-							<repeat>
-								<template>
-									<obsgroup groupingConceptId="160647AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
-										<tr>
-											<td><obs conceptId="160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " /></td>
-											<td><obs conceptId="160644AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " /></td>
-											<td><obs conceptId="160759AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  answerConceptIds="160754AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160755AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160756AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160757AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160758AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Mild,Moderate,Severe,Fatal,Unknown" /></td>
-											<td><obs conceptId="160643AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="autocomplete" answerClasses="Drug" labelText=" "  /></td>
-
-
-										</tr>
-									</obsgroup>
-								</template>
-								<render n="1" concept=" " />
-								<render n="2" concept=" " />
-								<render n="3" concept=" " />
-								<render n="4" concept=" " />
-								<render n="5" concept=" " />
-								<render n="6" concept=" " />
-								<render n="7" concept=" " />
-								<render n="8" concept=" " />
-								<render n="9" concept=" " />
-								<render n="10" concept=" " />
-							</repeat>
-						</table><hr/>
+					<td valign="top">1. Chief complaint: </td>
+					<td>
+						<repeat>
+							<template>
+								<table>
+								<tr>
+									<td><obs conceptId="160531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="autocomplete" answerClasses="Symptom,Symptom/Finding" labelText=" "  /></td>
+									<td><obs conceptId="160531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="autocomplete" answerClasses="Symptom,Symptom/Finding" labelText=" "  /></td>
+									<td><obs conceptId="160531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="autocomplete" answerClasses="Symptom,Symptom/Finding" labelText=" "  /></td>
+								</tr>
+								</table>	
+							</template>
+							<render n="1" concept=" " />
+							<render n="2" concept=" " />
+							<render n="3" concept=" " />
+							
+						</repeat>
 					</td>
 				</tr>
-				<tr>
-					<td colspan="2">Current Diagnoses <b> Noted Today</b></td>
-				</tr>
-
-				<repeat>
-					<template>
-						<tr>
-							<td>
-								<obs conceptId="6042AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerClasses="Diagnosis" style="autocomplete"/><br/>
-							</td>
-						</tr>
-					</template>
-					<render n="11" concept="Diagnosis"/>
-					<render n="12" concept="Diagnosis"/>
-					<render n="13" concept="Diagnosis"/>
-					<render n="14" concept="Diagnosis"/>
-					<render n="15" concept="Diagnosis"/>
-					<render n="16" concept="Diagnosis"/>
-					<render n="17" concept="Diagnosis"/>
-					<render n="18" concept="Diagnosis"/>
-					<render n="19" concept="Diagnosis"/>
-					<render n="20" concept="Diagnosis"/>
-				</repeat>
-
 				<tr>
 					<td colspan="2"><hr/></td>
 				</tr>
-
 				<tr>
-					<td>WHO Staging:</td>
+					<td valign="top">2. History of present illness: </td>
 					<td>
-						<div id="whoAdult">
-							<table>
+						<obs conceptId="1390AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rows="2" cols="100" />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2"><hr/></td>
+				</tr>
+				<tr>
+					<td valign="top">3. General examination: </td>
+					<td>
+						<obs conceptId="1119AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rows="2" cols="100" />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2"><hr/></td>
+				</tr>	
+				<tr>
+					<td valign="top">4. Systemic Examination: </td>
+					<td>
+						<obs conceptId="f6139afd-53ab-4e4b-9e44-8f1f564ce772" rows="2" cols="100" />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2"><hr/></td>
+				</tr>	
+				<tr>
+					<td valign="top">5. Note: </td>
+					<td>
+						<obs conceptId="162169AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rows="2" cols="100" />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2"><hr/></td>
+				</tr>	
+				<tr>
+					<td valign="top">6. Diagnosis: </td>
+					<td>
+						<repeat>
+							<template>
+								<table>
 								<tr>
-									<td><strong>Adult</strong><obs conceptId="5356AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1204AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1205AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1206AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1207AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="dropdown" answerLabels="WHO Stage1,WHO Stage2,WHO Stage3,WHO Stage4" /></td>
+									<td><obs conceptId="2cb66aeb-89c2-4526-9895-dc44ffdd94f0" style="autocomplete" answerClasses="Diagnosis" labelText=" "  id="daig_value"/></td>
+									<td><obs conceptId="2cb66aeb-89c2-4526-9895-dc44ffdd94f0" style="autocomplete" answerClasses="Diagnosis" labelText=" "  id="daig_value1"/></td>
+									<td><obs conceptId="2cb66aeb-89c2-4526-9895-dc44ffdd94f0" style="autocomplete" answerClasses="Diagnosis" labelText=" "  id="daig_value2"/></td>
 								</tr>
-							</table>
-						</div>
-						<div id="whoChild">
-							<table>
+								</table>	
+							</template>
+							<render n="1" concept=" " />
+							<render n="2" concept=" " />
+							<render n="3" concept=" " />
+							
+						</repeat>
+					</td>
+				</tr>	
+				<tr>
+					<td colspan="2"><hr/></td>
+				</tr>
+				<tr>
+					<td>7. Side effects of ART ?</td>
+					<td><obs id="artSideEffectPresent" conceptId="159935AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio"/></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<repeat>
+							<template>
+								<table  id="artSideEffectList">
 								<tr>
-									<td><strong>Child</strong><obs conceptId="5356AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1220AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1221AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1222AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1223AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="dropdown" answerLabels="WHO Stage1,WHO Stage2,WHO Stage3,WHO Stage4" /></td>
+									<td><obs conceptId="4b4e4b62-4e44-43f6-9c35-ca23861a153e" id="artSideEffectValue" /></td>
+									<td><obs conceptId="4b4e4b62-4e44-43f6-9c35-ca23861a153e" id="artSideEffectValue1" /></td>
+									<td><obs conceptId="4b4e4b62-4e44-43f6-9c35-ca23861a153e" id="artSideEffectValue2" /></td>
 								</tr>
-							</table>
+								</table>	
+							</template>
+							<render n="1" concept=" " />
+							<render n="2" concept=" " />
+						</repeat>
+					</td>	
+				</tr>
+				<tr>
+					<td colspan="2"><hr/></td>
+				</tr>
+				<tr>
+					<td>
+					  8. ART Adherence
+					</td>
+					<td></td>
+				</tr>
+				<tr>	
+					<td>Number of missed dose in last 30 days</td>
+					<td><obs conceptId="05a061ba-2d76-4929-9788-afe650eaae7b" id="missedDoseCount" /></td>
+				</tr>
+				<tr>	
+					<td>% of adherence to ART</td>
+					<td><obs id="calculated-adherence" class="value" conceptId="360716f8-c50b-4bb7-bce8-edbe4aa9445c" showUnits="true"/></td>
+				</tr>
+				<tr>	
+					<td>Taking doses at correct time in last 30 days?</td>
+					<td><obs conceptId="8a70de3b-5975-4c16-b1e7-e9a7a63329e2" style="radio"/></td>
+				</tr>
+				<tr>	
+					<td>Taking correct doses in last 30 days?</td>
+					<td><obs conceptId="9f401f60-2ac3-4d6c-bf8a-33885b99492a" style="radio"/></td>
+				</tr>
+				<tr>
+					<td colspan="2"><hr/></td>
+				</tr>
+				
+				<tr>	
+					<td>9. Temporary Referral</td>
+					<td><obs id="temporaryReffered" conceptId="5e05d243-e039-4f04-9988-18d5a499329e" style="radio"/></td>
+				</tr>
+				<tr>	
+					<td>Temporary Referral Reason</td>
+					<td><obs id="temporaryRefferedReason" conceptId="c648f69b-7065-4255-9af2-6076348c87dc"/></td>
+				</tr>
+				<tr>
+					<td colspan="2"><hr/></td>
+				</tr>
+				<tr>	
+					<td>10. Next Step</td>
+					<td><obs conceptId="876369e0-bea3-42c0-be58-b37df719656b" answerConceptIds="160523AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,c17ed847-31e8-4c6a-a3b6-e2d6493870ff" answerLabels="Follow up,Admitted " id="nextStep" /></td>
+					
+				</tr>
+				<tr>	
+					<td></td>					
+					<td><div id="appointmentDate">Next appointment date : <obs conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></div></td>
+				</tr>
+				<tr>
+					<td></td>	
+					<td>
+						<div id="admittedId">
+						<table>
+							<tr>
+								<td>Admitted Date : <obs conceptId="b36da368-4705-4582-b213-74a7a990aff8" /> </td>
+								<td>Admitted To : <obs conceptId="a3e2e25b-a44c-4622-845e-24c6db5c496b" /></td>								
+							</tr>
+						</table>
 						</div>
-					</td>
+					</td>	
 				</tr>
+				<tr>
+					<td colspan="2"><hr/></td>
+				</tr>
+				
 			</table>
+
 		</fieldset>
-
-		<fieldset>
-			<legend>Decision Points</legend>
-			<table>
-				<tr>
-					<td>Decision Points</td>
-					<td><obs conceptId="1255AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
-				</tr>
-				<tr>
-					<td>Clinical Notes:</td>
-					<td>
-						<obs conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rows="5" cols="100" />
-					</td>
-				</tr>
-				<tr>
-					<td>Return Visit Date:</td>
-					<td><obs conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" labelText=" " id="returnVisitDate" /> </td>
-				</tr>
-			</table>
-		</fieldset>
-
-		<fieldset >
-			<legend>At Risk Population</legend>
-			<table>
-				<tr>
-					<td valign="top">Is the client a member of at-risk population?</td>
-					<td>
-						<obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="6096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-							 answerLabel="Discordant Couple" style="checkbox" /><br/>
-						<obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="105AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-							 answerLabel="Injectable Drug User" style="checkbox" /><br/>
-						<obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160578AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-							 answerLabel="Male who has sex with men" style="checkbox" /><br/>
-						<obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160579AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-							 answerLabel="Sex Worker" style="checkbox" /><br/>
-						<obs conceptId="160581AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160580AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-							 answerLabel="Client of Sex Worker" style="checkbox" />
-
-					</td>
-				</tr>
-			</table>
-		</fieldset >
-
-		<fieldset >
-			<legend>PwP Services</legend>
-			<table>
-				<tr>
-					<td>Has the client been given condoms this visit?</td>
-					<td><obs conceptId="159777AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
-				</tr>
-				<tr>
-					<td>Has the Client disclosed HIV status to their sexually active partner?</td>
-					<td><obs conceptId="159423AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
-				</tr>
-				<tr>
-					<td>Has the client's partner received on-site HIV testing?</td>
-					<td><obs conceptId="161557AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
-				</tr>
-				<tr>
-					<td>Has the client been screened for STI (in this visit)?</td>
-					<td><obs conceptId="161558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
-				</tr>
-			</table>
-		</fieldset >
 
 	</div>
 
