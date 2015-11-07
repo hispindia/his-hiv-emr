@@ -20,6 +20,8 @@
 				<ref bean="kenyaemr.common.form.labResults" />
 				<ref bean="kenyaemr.common.form.otherMedications" />
 				<ref bean="kenyaemr.common.form.progressNote" />
+				<ref bean="kenyaemr.hiv.form.consultationEncounter" />
+				
 			</set>
 		</property>
 	</bean>
@@ -186,6 +188,21 @@
 		<property name="order" value="200030" />
 	</bean>
 
+
+	<!-- Consultation form -->
+	<bean id="kenyaemr.hiv.form.consultationEncounter" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+		<property name="targetUuid" value="bd598114-4ef4-47b1-a746-a616180ccfc0" />
+		<property name="apps">
+			<set>
+				<ref bean="kenyaemr.app.clinician" />
+				<ref bean="kenyaemr.app.chart" />
+			</set>
+		</property>
+		<property name="icon" value="kenyaui:forms/generic.png" />
+		<property name="htmlform" value="kenyaemr:hiv/hivClinicalEncounterAddendum.html" />
+		<property name="order" value="201010" />
+	</bean>
+
 	<!-- Other Medications -->
 	<bean id="kenyaemr.common.form.otherMedications" class="org.openmrs.module.kenyacore.form.FormDescriptor">
 		<property name="targetUuid" value="d4ff8ad1-19f8-484f-9395-04c755de9a47" />
@@ -202,7 +219,7 @@
 
 	<!-- Progress Note -->
 	<bean id="kenyaemr.common.form.progressNote" class="org.openmrs.module.kenyacore.form.FormDescriptor">
-		<property name="targetUuid" value="${metadata.form.PROGRESS_NOTE}" />
+		<property name="targetUuid" value="${metadata.form.HOSPITAL_DISCHARGE_FORM}" />
 		<property name="apps">
 			<set>
 				<ref bean="kenyaemr.app.intake" />

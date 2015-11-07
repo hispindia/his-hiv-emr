@@ -23,6 +23,8 @@ import org.openmrs.module.kenyaemr.EmrConstants;
 import org.openmrs.module.kenyaemr.Metadata;
 import org.openmrs.module.kenyaemr.datatype.FormDatatype;
 import org.openmrs.module.kenyaemr.datatype.LocationDatatype;
+import org.openmrs.module.kenyaemr.metadata.HivMetadata._EncounterType;
+import org.openmrs.module.kenyaemr.metadata.HivMetadata._Form;
 import org.openmrs.module.metadatadeploy.bundle.AbstractMetadataBundle;
 import org.springframework.stereotype.Component;
 
@@ -43,15 +45,15 @@ public class CommonMetadata extends AbstractMetadataBundle {
 	}
 
 	public static final class _Form {
+		public static final String CONSULTATION_ENCOUNTER = "bd598114-4ef4-47b1-a746-a616180ccfc0";
 		public static final String CLINICAL_ENCOUNTER = Metadata.Form.CLINICAL_ENCOUNTER;
 		public static final String LAB_RESULTS = Metadata.Form.LAB_RESULTS;
 		public static final String OBSTETRIC_HISTORY = Metadata.Form.OBSTETRIC_HISTORY;
 		public static final String OTHER_MEDICATIONS = Metadata.Form.OTHER_MEDICATIONS;
-		public static final String PROGRESS_NOTE = Metadata.Form.PROGRESS_NOTE;
+		public static final String HOSPITAL_DISCHARGE_FORM = Metadata.Form.HOSPITAL_DISCHARGE_FORM;
 		public static final String SURGICAL_AND_MEDICAL_HISTORY = Metadata.Form.SURGICAL_AND_MEDICAL_HISTORY;
 		public static final String TRIAGE = Metadata.Form.TRIAGE;
 		public static final String TB_SCREENING = Metadata.Form.TB_SCREENING;
-		
 	}
 
 	public static final class _OrderType {
@@ -115,15 +117,16 @@ public class CommonMetadata extends AbstractMetadataBundle {
 		install(encounterType("Lab Results", "Collection of laboratory results", _EncounterType.LAB_RESULTS));
 		install(encounterType("Registration", "Initial data collection for a patient, not specific to any program", _EncounterType.REGISTRATION));
 		install(encounterType("Record Vitals", "Collection of limited vital data for better examination", _EncounterType.TRIAGE));
-
+		
+		install(form("Consultation", null, _EncounterType.CONSULTATION, "1", _Form.CONSULTATION_ENCOUNTER));
 		install(form("Clinical Encounter", null, _EncounterType.CONSULTATION, "1", _Form.CLINICAL_ENCOUNTER));
-		install(form("TB, OI and Staging Form", null, _EncounterType.TB_SCREENING, "1", _Form.TB_SCREENING));
+		install(form("TB, OI and Staging Form", null, _EncounterType.CONSULTATION, "1", _Form.TB_SCREENING));
 		install(form("Lab Results", null, _EncounterType.LAB_RESULTS, "1", _Form.LAB_RESULTS));
 		install(form("Obstetric History", null, _EncounterType.REGISTRATION, "1", _Form.OBSTETRIC_HISTORY));
 		install(form("Other Medications", "Recording of non-regimen medications", _EncounterType.CONSULTATION, "1", _Form.OTHER_MEDICATIONS));
-		install(form("Progress Note", "For additional information - mostly complaints and examination findings.", _EncounterType.CONSULTATION, "1", _Form.PROGRESS_NOTE));
+		install(form("Hospital Discharge Form", "For additional information for admitted and discharged patients.", _EncounterType.CONSULTATION, "1", _Form.HOSPITAL_DISCHARGE_FORM));
 		install(form("Surgical and Medical History", null, _EncounterType.REGISTRATION, "1", _Form.SURGICAL_AND_MEDICAL_HISTORY));
-		install(form("Record Vitals", null, _EncounterType.TRIAGE, "1", _Form.TRIAGE));
+		install(form("Record Vitals", null, _EncounterType.CONSULTATION, "1", _Form.TRIAGE));
 
 		install(globalProperty(EmrConstants.GP_DEFAULT_LOCATION, "The facility for which this installation is configured",
 				LocationDatatype.class, null, null));

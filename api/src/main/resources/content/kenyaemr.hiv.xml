@@ -12,7 +12,6 @@
 		<property name="defaultCompletionForm" ref="kenyaemr.hiv.form.completion" />
 		<property name="visitForms">
 			<set>
-				<ref bean="kenyaemr.hiv.form.clinicalEncounterAddendum" />
 				<ref bean="kenyaemr.common.form.tbScreening" />
 			</set>
 		</property>
@@ -95,20 +94,6 @@
 		</property>
 		<property name="icon" value="kenyaui:forms/generic.png" />
 		<property name="htmlform" value="kenyaemr:hiv/hivPersonalHistory.html" />
-	</bean>
-
-	<!-- Clinical Encounter - HIV Addendum -->
-	<bean id="kenyaemr.hiv.form.clinicalEncounterAddendum" class="org.openmrs.module.kenyacore.form.FormDescriptor">
-		<property name="targetUuid" value="bd598114-4ef4-47b1-a746-a616180ccfc0" />
-		<property name="apps">
-			<set>
-				<ref bean="kenyaemr.app.clinician" />
-				<ref bean="kenyaemr.app.chart" />
-			</set>
-		</property>
-		<property name="icon" value="kenyaui:forms/generic.png" />
-		<property name="htmlform" value="kenyaemr:hiv/hivClinicalEncounterAddendum.html" />
-		<property name="order" value="201010" />
 	</bean>
 
 	<!-- HIV Completion -->
