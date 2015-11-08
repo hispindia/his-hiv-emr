@@ -4,7 +4,7 @@
 			<img width="32" height="32" ng-src="${ ui.resourceLink("kenyaui", "images/buttons/patient_") }{{ patient.gender }}.png" />
 		</td>
 		<td style="text-align: left; vertical-align: top; width: 33%">
-			<strong>{{ patient.name }}</strong><br/>
+			<strong>{{ patient }}</strong><br/>
 			{{ patient.age }} <small>(DOB {{ patient.birthdate }})</small>
 		</td>
 		<td style="text-align: center; vertical-align: top; width: 33%">

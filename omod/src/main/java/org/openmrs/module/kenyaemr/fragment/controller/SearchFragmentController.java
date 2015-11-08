@@ -183,7 +183,7 @@ public class SearchFragmentController {
 		Date scheduledDate = null;
 		try {
 			scheduledDate = parseDate(date);
-			log.error("scheduleDate: "+scheduledDate);
+			log.debug("scheduleDate: "+scheduledDate);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -273,17 +273,11 @@ public class SearchFragmentController {
 	
 				SimpleObject so = ui.simplifyObject(p);
 		
-		
-		
 				ListResult visitsResult = (ListResult) actual.get(p.getPatientId());
-		
 		
 				List<Visit> visits = CalculationUtils.extractResultValues(visitsResult);
 		
-		
 				so.put("visits", ui.simplifyCollection(visits));
-		
-		
 		
 				simplePatients.add(so);
 		
@@ -291,12 +285,18 @@ public class SearchFragmentController {
 			}
 		} else {
 			// Simplify and attach active visits to patient objects
-			
 			for (Patient patient : matched) {
 				SimpleObject simplePatient = ui.simplifyObject(patient);
-
+				List<Visit> visits = Context.getVisitService().getActiveVisitsByPatient(patient);
+				for(Visit v : visits) {
+					log.error("visit: "+v.getVisitType().getName());
+					if(v.getVisitType().getName().equalsIgnoreCase("NEW PATIENT")){
+						simplePatient.put("newVisit", "true");
+						break;
+					}
+				}
 				Visit activeVisit = patientActiveVisits.get(patient);
-				simplePatient.put("activeVisit", activeVisit != null ? ui.simplifyObject(activeVisit) : null);
+				simplePatient.put("activeVisit",activeVisit.getVisitType().getName());
 				simplePatient.put("patientName", patient.getGivenName());
 				simplePatients.add(simplePatient);
 			}

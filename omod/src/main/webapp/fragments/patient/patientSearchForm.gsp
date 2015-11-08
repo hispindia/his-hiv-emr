@@ -25,7 +25,7 @@
 	
 	<label class="ke-field-label">Date</label>
 	<span class="ke-field-content">
-	${ ui.includeFragment("kenyaui", "field/java.util.Date" ,[id:'scheduledDate', modelName:'scheduledDate', formFieldName:'date', showTime: false])}
+	${ ui.includeFragment("kenyaui", "field/java.util.Date" ,[id:'scheduledDate',  formFieldName:'date', showTime: false])}
 	
 	</span>
 	<input type="button" value="Search" ng-click="updateSearch();"/>
