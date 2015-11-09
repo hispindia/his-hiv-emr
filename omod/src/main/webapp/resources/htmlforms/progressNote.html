@@ -18,7 +18,18 @@
 			width: 90%;
 		}
 	</style>
-
+	<script type="text/javascript">
+	jq(document).ready(function(){
+		beforeSubmit.push(function() {
+			if (document.getElementById("w122").checked== true) {
+				getField('otherOptionvalue.error').html('Required').show();
+				return false;
+			}
+			return true;
+		});	
+			});
+			
+	</script>		
 	<div class="ke-form-header">
 		<table width="100%">
 			<tr>
@@ -28,263 +39,263 @@
 		</table>
 	</div>
 
-	
-			<table width="100%">
-				<tr  align="left" width="100%">
-					<td valign="top" colspan="2">
-						<div>
+	<div class="ke-form-content">
+			<table>
+					<tr>
+						<td>1. Date of Admission :</td>
+						<td><obs conceptId="b36da368-4705-4582-b213-74a7a990aff8" /></td>
+
+					</tr>
+					<tr>
+						<td>2. Date of Discharge :</td>
+						<td><obs conceptId="1641AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
+
+					</tr>
+			</table>
+			<table>
+					<tr>
+						<td colspan="2"><hr/></td>
+					</tr>
+					<tr>
+						<td align="center"><font size="3"><b>3. Hospital Diagnosis</b></font></td>
+					</tr>				
+									
+					<tr>
+					
+					<td>
+					<br />
+						<div id="opportunisticInfectionYes">
 							<fieldset>
-								<table>
-								<tr>
-						<td>Date of Admission</td>
-						<td><obs conceptId="5088AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>Date of Discharge</td>
-						<td><obs conceptId="5088AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>Hospital Diagnosis</td>
-						<td><obs conceptId="5087AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
-					</tr>
-								</table>							
-							</fieldset>
-							</div>		
+									
+										<table align="centre"   class="tb1" cellspacing="10" width="100%">
+											<tr>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="149741AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Acute HIV infection syndrome" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="5048AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Cerebral toxoplasmosis" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="145807AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Cervical intra-epithelial neoplasia II" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="145806AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Cervical intra-epithelial neoplasia III" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="142965AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="CMV retinitis" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="1294AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Cryptococcal meningitis" style="checkbox" />
+												</td>
+											</tr>	
+											<tr>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="30471a7e-154b-4303-8fb9-c1f1333cdf36" answerLabel="Cryptosporidium" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="141900AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Disseminated Mycobacterium avium intracellular disease " style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="29b94acc-d917-4e8f-b491-32703a042917" answerLabel="Extra-intestinal salmonellosis" style="checkbox"  />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="156204AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Extrapulmonary tuberculosis" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="119242AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Gastrointestinal disease" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="117543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Herpes zoster" style="checkbox" />
+												</td>
+											</tr>		
+											<tr>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="160442AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV associated dementia" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="dd31414e-428b-4259-b07d-21d9d5c6f989" answerLabel="HIV associated ITP" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="823AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV associated wasting" style="checkbox" />
+												</td>		
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="146825AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in Burkitt's Lymphoma" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="5050AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in failure to thrive" style="checkbox" />
+												</td>											
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="160159AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in infectious or parasitic diseases" style="checkbox" />
+												</td>
+											</tr>		
+											<tr>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="156670AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in lymphoid interstitial pneumonitis" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="159988AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in malignant neoplasm" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="4e0f36db-65b5-404c-b58d-bbfbfb18ec7a" answerLabel="HIV disease resulting in multiple diseases classified elsewhere" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="156671AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in multiple infections" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="156672AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in multiple malignant neoplasms" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="6313a6a5-bfeb-4557-b61e-2beddd9d0d9b" answerLabel="HIV disease resulting in other types of non-hodgkin lymphoma" style="checkbox" />
+												</td>
+											</tr>		
+											<tr>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="130364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in persistent generalized lymphadenopathy" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="cb13d45c-9c56-493d-9bbf-df920a2ab515" answerLabel="HIV disease resulting in unspecified malignant neoplasm" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="160158AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in other condition" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="136458AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Isosporiasis" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="151985AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Kaposi's sarcoma" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="fcad5bc6-8434-4bcb-91e8-46a8bdf9993b" answerLabel="Microsporidium" style="checkbox" />
+												</td>
+											</tr>	
+											<tr>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="115753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Miliary tuberculosis" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="5344AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Mucocutaneous herpes simplex" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="155941AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Non-Hodgkin lymphoma" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="5340AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Oesophageal candidiasis" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="5337AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Oral hairy leukoplakia" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="ad79854c-8e7f-4240-93cb-6ae0cfd6582a" answerLabel="Oral ulceration" style="checkbox" />
+												</td>
+											</tr>		
+											<tr>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="3a148d0a-1197-426c-8f1b-5b96c8f0ee67" answerLabel="Oropharyngeal candidiasis" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="134044AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Other bacterial infections" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="b964d1c8-b9b5-4e8e-89c4-93153ed4d220" answerLabel="Other fungal infections" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="060e4e42-e111-42ab-ba03-2ea1801a22ab" answerLabel="Penicilliosis" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="118983AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Peripheral neuropathy" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="114105AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Pneumococcal pneumonia" style="checkbox" />
+												</td>
+											</tr>	
+											<tr>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="80d8cbce-64e4-4c88-9dba-24320545b030" answerLabel="Pneumocystis carinii (jeroveci) pneumonia" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="1249AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="PPE" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="5040AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Primary CNS lymphoma" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="5046AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Progressive multifocal leukoencephalopathy" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="42AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Pulmonary tuberculosis" style="checkbox"  />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="883a04a5-a28d-401e-a965-4576dd5c1c7a" answerLabel="Recurrent vaginal candidiasis" style="checkbox" />
+												</td>
+											</tr>		
+											<tr>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="5354AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Septicaemia" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="4b6fb030-70bd-459e-a74f-a3dddfdb6a6e" answerLabel="Slim disease" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="112493AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="syphilis" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="145443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Unexplained diarrhea" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="127990AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Unexplained fever" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="159214AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Unexplained weight loss" style="checkbox" />
+												</td>
+											</tr>	
+											<tr>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="111639AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Urethritis" style="checkbox" />
+												</td>
+												<td>
+													<obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" answerConceptId="111639AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Other" style="checkbox" id="otherOption"/>
+												</td>
+												<td>if Other:<obs conceptId="da34b858-0360-4244-b80b-4816466b84bf" id="otherOptionvalue" /></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>																												
+										</table>
+							</fieldset>	
+						</div>		
 					</td>	
 				</tr>
-			
-				
-				<tr  align="center" width="100%">
-				<td valign="top" colspan="2">
-					<div id="opportunisticInfectionYes">
-						<fieldset>
-								<legend>Hospital Diagnosis</legend>
-									<table align="centre"   class="tb1" cellspacing="10" width="100%">
-										<tr>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="149741AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Acute HIV infection syndrome" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5048AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Cerebral toxoplasmosis" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="145807AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Cervical intra-epithelial neoplasia II" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="145806AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Cervical intra-epithelial neoplasia III" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="142965AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="CMV retinitis" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1294AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Cryptococcal meningitis" style="checkbox" />
-											</td>
-										</tr>	
-										<tr>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="30471a7e-154b-4303-8fb9-c1f1333cdf36" answerLabel="Cryptosporidium" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="141900AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Disseminated Mycobacterium avium intracellular disease " style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="29b94acc-d917-4e8f-b491-32703a042917" answerLabel="Extra-intestinal salmonellosis" style="checkbox"  />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="156204AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Extrapulmonary tuberculosis" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="119242AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Gastrointestinal disease" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="117543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Herpes zoster" style="checkbox" />
-											</td>
-										</tr>		
-										<tr>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160442AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV associated dementia" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="dd31414e-428b-4259-b07d-21d9d5c6f989" answerLabel="HIV associated ITP" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="823AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV associated wasting" style="checkbox" />
-											</td>		
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="146825AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in Burkitt's Lymphoma" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5050AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in failure to thrive" style="checkbox" />
-											</td>											
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160159AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in infectious or parasitic diseases" style="checkbox" />
-											</td>
-										</tr>		
-										<tr>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="156670AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in lymphoid interstitial pneumonitis" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="159988AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in malignant neoplasm" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="4e0f36db-65b5-404c-b58d-bbfbfb18ec7a" answerLabel="HIV disease resulting in multiple diseases classified elsewhere" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="156671AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in multiple infections" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="156672AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in multiple malignant neoplasms" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="6313a6a5-bfeb-4557-b61e-2beddd9d0d9b" answerLabel="HIV disease resulting in other types of non-hodgkin lymphoma" style="checkbox" />
-											</td>
-										</tr>		
-										<tr>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="130364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in persistent generalized lymphadenopathy" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="cb13d45c-9c56-493d-9bbf-df920a2ab515" answerLabel="HIV disease resulting in unspecified malignant neoplasm" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160158AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HIV disease resulting in other condition" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="136458AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Isosporiasis" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="151985AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Kaposi's sarcoma" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="fcad5bc6-8434-4bcb-91e8-46a8bdf9993b" answerLabel="Microsporidium" style="checkbox" />
-											</td>
-										</tr>	
-										<tr>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="115753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Miliary tuberculosis" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5344AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Mucocutaneous herpes simplex" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="155941AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Non-Hodgkin lymphoma" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5340AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Oesophageal candidiasis" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5337AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Oral hairy leukoplakia" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="ad79854c-8e7f-4240-93cb-6ae0cfd6582a" answerLabel="Oral ulceration" style="checkbox" />
-											</td>
-										</tr>		
-										<tr>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="3a148d0a-1197-426c-8f1b-5b96c8f0ee67" answerLabel="Oropharyngeal candidiasis" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="134044AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Other bacterial infections" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="b964d1c8-b9b5-4e8e-89c4-93153ed4d220" answerLabel="Other fungal infections" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="060e4e42-e111-42ab-ba03-2ea1801a22ab" answerLabel="Penicilliosis" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="118983AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Peripheral neuropathy" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="114105AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Pneumococcal pneumonia" style="checkbox" />
-											</td>
-										</tr>	
-										<tr>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="80d8cbce-64e4-4c88-9dba-24320545b030" answerLabel="Pneumocystis carinii (jeroveci) pneumonia" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1249AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="PPE" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5040AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Primary CNS lymphoma" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5046AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Progressive multifocal leukoencephalopathy" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="42AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Pulmonary tuberculosis" style="checkbox"  />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="883a04a5-a28d-401e-a965-4576dd5c1c7a" answerLabel="Recurrent vaginal candidiasis" style="checkbox" />
-											</td>
-										</tr>		
-										<tr>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5354AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Septicaemia" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="4b6fb030-70bd-459e-a74f-a3dddfdb6a6e" answerLabel="Slim disease" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="112493AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="syphilis" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="145443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Unexplained diarrhea" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="127990AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Unexplained fever" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="159214AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Unexplained weight loss" style="checkbox" />
-											</td>
-										</tr>	
-										<tr>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="111639AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Urethritis" style="checkbox" />
-											</td>
-											<td>
-												<obs conceptId="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="111639AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Other" style="checkbox" />
-											</td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-										</tr>																												
-									</table>
-						</fieldset>	
-					</div>		
-				</td>	
-			</tr>
-
-			<tr  align="left" width="100%">
-				<td valign="top" colspan="2">
-					<div id="opportunisticInfectionYes">
-						<fieldset>
-							<table>
-								<tr>
-									<td width="20%">
-										Clinical Note	
-									</td>
-									<td width="80%">
-										<div class="ke-form-content">
-											<div style="text-align: left">
-												<obs conceptId="159395AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rows="5" style="textarea" />
-											</div>
-										</div>	
-									</td>
-								</tr>
-							</table>
-						</fieldset>
-					</div>
-				</td>
-			</tr>		
-
+				<tr>
+					<td colspan="2"><hr/></td>
+				</tr>
 			</table>
-	
+		</div>
+		<div>
+			<table>
+					<tr  align="left" width="100%">
+						<td valign="top" colspan="2">
+							<div id="opportunisticInfectionYes">
+								<fieldset>
+									<table>
+										<tr>
+											<td>
+												4. Clinical Note :	
+											</td>
+											<td>
+												<div class="ke-form-content">
+													<div style="text-align: left">
+														<obs conceptId="f52c4552-15aa-412c-b184-f17dd7c9fe6c" rows="5" cols="200" style="textarea" />
+													</div>
+												</div>	
+											</td>
+										</tr>
+									</table>
+								</fieldset>
+							</div>
+						</td>
+					</tr>		
+				</table>
+		</div>
 	<div class="ke-form-footer">
 		<submit />
 	</div>
