@@ -39,6 +39,7 @@ import org.openmrs.ConceptClass;
 import org.openmrs.ConceptSearchResult;
 import org.openmrs.Location;
 import org.openmrs.Patient;
+import org.openmrs.PatientIdentifierType;
 import org.openmrs.Person;
 import org.openmrs.Provider;
 import org.openmrs.User;
@@ -179,11 +180,10 @@ public class SearchFragmentController {
 										@RequestParam(value = "q", required = false) String query,
 									   @RequestParam(value = "which", required = false, defaultValue = "all") String which,
 									   UiUtils ui) {
-		log.error("in patientsWithDate() " +date);
+//		log.error("info search patient query: " +query);
 		Date scheduledDate = null;
 		try {
 			scheduledDate = parseDate(date);
-			log.debug("scheduleDate: "+scheduledDate);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -196,7 +196,9 @@ public class SearchFragmentController {
 
 		// Run main patient search query based on id/name
 		List<Patient> matchedByNameOrID = Context.getPatientService().getPatients(query);
-
+		List<Patient> matchedByID  = Context.getPatientService().getPatients(null, query, null, true);
+		matchedByNameOrID.addAll(matchedByID);
+		
 		// Gather up active visits for all patients. These are attached to the returned patient representations.
 		Map<Patient, Visit> patientActiveVisits = getActiveVisitsByPatients();
 
@@ -257,7 +259,6 @@ public class SearchFragmentController {
 	
 			Set<Integer> scheduled = CalculationUtils.patientsThatPass(cs.evaluate(allPatients, new ScheduledVisitOnDayCalculation(), params, calcContext));
 	
-			System.out.println("scheduled: "+scheduled.toString());
 	
 			CalculationResultMap actual = cs.evaluate(scheduled, new VisitsOnDayCalculation(), params, calcContext);
 			
@@ -289,7 +290,6 @@ public class SearchFragmentController {
 				SimpleObject simplePatient = ui.simplifyObject(patient);
 				List<Visit> visits = Context.getVisitService().getActiveVisitsByPatient(patient);
 				for(Visit v : visits) {
-					log.error("visit: "+v.getVisitType().getName());
 					if(v.getVisitType().getName().equalsIgnoreCase("NEW PATIENT")){
 						simplePatient.put("newVisit", "true");
 						break;
