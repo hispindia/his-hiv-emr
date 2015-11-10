@@ -54,6 +54,7 @@ import org.openmrs.calculation.result.ListResult;
 import org.openmrs.module.kenyacore.CoreConstants;
 import org.openmrs.module.kenyacore.calculation.CalculationUtils;
 import org.openmrs.module.kenyaemr.CommonUtils;
+import org.openmrs.module.kenyaemr.EmrWebConstants;
 import org.openmrs.module.kenyaemr.api.KenyaEmrService;
 import org.openmrs.module.kenyaemr.calculation.library.ScheduledVisitOnDayCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.VisitsOnDayCalculation;
@@ -290,13 +291,13 @@ public class SearchFragmentController {
 				SimpleObject simplePatient = ui.simplifyObject(patient);
 				List<Visit> visits = Context.getVisitService().getActiveVisitsByPatient(patient);
 				for(Visit v : visits) {
-					if(v.getVisitType().getName().equalsIgnoreCase("NEW PATIENT")){
+					if(v.getVisitType().getName().equalsIgnoreCase(EmrWebConstants.VISIT_TYPE_NEW_PATIENT)){
 						simplePatient.put("newVisit", "true");
 						break;
 					}
 				}
 				Visit activeVisit = patientActiveVisits.get(patient);
-				simplePatient.put("activeVisit",activeVisit.getVisitType().getName());
+				simplePatient.put("activeVisit",ui.simplifyObject(activeVisit));
 				simplePatient.put("patientName", patient.getGivenName());
 				simplePatients.add(simplePatient);
 			}

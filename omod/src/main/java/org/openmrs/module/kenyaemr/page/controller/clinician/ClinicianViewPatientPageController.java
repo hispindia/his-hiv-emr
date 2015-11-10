@@ -14,8 +14,20 @@
 
 package org.openmrs.module.kenyaemr.page.controller.clinician;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openmrs.Patient;
+import org.openmrs.Visit;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.kenyaemr.EmrConstants;
+import org.openmrs.module.kenyaemr.EmrWebConstants;
 import org.openmrs.module.kenyaui.annotation.AppPage;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * View patient page for clinician app
@@ -23,6 +35,21 @@ import org.openmrs.module.kenyaui.annotation.AppPage;
 @AppPage(EmrConstants.APP_CLINICIAN)
 public class ClinicianViewPatientPageController {
 	
-	public void controller() {
+	protected final Log log = LogFactory.getLog(ClinicianViewPatientPageController.class);
+	
+	public void controller(@RequestParam("patientId") Patient patient,
+			@RequestParam(value="newVisit",required=false) String newVisit) {
+		
+		
+		if (patient != null && StringUtils.isNotBlank(newVisit) && "true".equalsIgnoreCase(newVisit)) {
+			List<Visit> visits = Context.getVisitService().getActiveVisitsByPatient(patient);
+			for(Visit v : visits) {
+				if(v.getVisitType().getName().equalsIgnoreCase(EmrWebConstants.VISIT_TYPE_NEW_PATIENT)){
+					v.setStopDatetime(Calendar.getInstance().getTime());
+					Context.getVisitService().saveVisit(v);
+					break;
+				}
+			}
+		}
 	}
 }

@@ -43,4 +43,9 @@ public class EmrWebConstants {
 	public static final String PROGRAM_ENROLLMENT_SUMMARY_FRAGMENT = "enrollment-summary";
 	public static final String PROGRAM_CARE_PANEL_FRAGMENT = "care-panel";
 	public static final String PROGRAM_COMPLETION_SUMMARY_FRAGMENT = "completion-summary";
+	
+	/**
+	 * Visit 
+	 */
+	public static final String VISIT_TYPE_NEW_PATIENT = "NEW PATIENT";
 }
