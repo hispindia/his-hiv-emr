@@ -34,20 +34,6 @@
 			getField('weight.value').change(onWeightOrHeightChange);
 			getField('height.value').change(onWeightOrHeightChange);
 			onWeightOrHeightChange();
-
-			var pbirthdate = new Date("<lookup expression="patient.birthdate" />").getTime();
-			var pgender    = "<lookup expression="patient.gender" />";
-
-			if (pgender == 'F' ){
-				beforeSubmit.push(function() {
-					var lmpdate = new Date(getValue('lmp-date.value')).getTime();
-					if (lmpdate &lt; pbirthdate) {
-						getField('lmp-date.error').html('Should not be earlier than birth date').show();
-						return false;
-					}
-					return true;
-				});
-			}
 		});
 	</script>
 
@@ -61,17 +47,7 @@
 	</div>
 
 	<div class="ke-form-content">
-<!-- 		<fieldset>
-			<legend>Reason</legend>
 
-			<table>
-				<tr>
-					<td>Reason for visit</td>
-					<td><obs conceptId="160430AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rows="2" cols="80"/></td>
-				</tr>
-			</table>
-		</fieldset>
- -->
 		<fieldset>
 			
 
@@ -104,41 +80,9 @@
 					<td><span id="calculated-bmi" class="value"></span></td>
 					<td>-</td>
 				</tr>
-	<!-- 		<tr>
-					<td>Respiratory Rate</td>
-					<td><obs conceptId="5242AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
-				</tr>
-				<tr>
-					<td>Oxygen Saturation</td>
-					<td><obs conceptId="5092AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
-				</tr> -->
 			</table>
 	 	</fieldset>
-<!--
-		<fieldset>
-			
 
-			<table>
-				<tr>
-					<th> </th>
-					<th>Current</th>
-					<th>Recent</th>
-				</tr>
-				
-				<tr>
-					<td>MUAC</td>
-					<td><obs conceptId="1343AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
-					<td><recentObs conceptId="1343AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
-				</tr>
-				<includeIf velocityTest="$patient.gender == 'F' ">
-					<tr>
-						<td>LMP</td>
-						<td><obs id="lmp-date" conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
-						<td><recentObs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
-					</tr>
-				</includeIf>
-			</table>
-		</fieldset> -->
 	</div>
 
 	<div class="ke-form-footer">
