@@ -45,6 +45,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -60,9 +61,12 @@ public class RegimenUtilFragmentController {
 	 * @param ui the UI utils
 	 * @return the patient's current regimen
 	 */
-	public void changeRegimen(@MethodParam("newRegimenChangeCommandObject") @BindParams RegimenChangeCommandObject command, UiUtils ui) {
+	public void changeRegimen(@MethodParam("newRegimenChangeCommandObject") @BindParams RegimenChangeCommandObject command, UiUtils ui,
+			@RequestParam(value = "durgList", required = false) String[] durgList,
+			HttpServletRequest request){
 		ui.validate(command, command, null);
 		command.apply();
+		saveExtraRowForArv(durgList,request,command.getPatient());
 	}
 
 	/**
@@ -366,6 +370,33 @@ public class RegimenUtilFragmentController {
 		}
 		if (anyDoseChanges || sameGeneric.size() == 0) {
 			toStart.add(component.toDrugOrder(null, null));
+		}
+	}
+	
+public void saveExtraRowForArv(String[] durgList,HttpServletRequest request,Patient patient) {
+		int count=5;
+		for(String drug:durgList){
+			String drugConceptId=request.getParameter("drug"+count);
+			double dose=Integer.parseInt(request.getParameter("dose"+count));
+			String unit=request.getParameter("unit"+count);
+			String frequency=request.getParameter("frequency"+count);
+			Integer duration=Integer.parseInt(request.getParameter("duration"+count));
+			
+			if(drugConceptId!=null){
+			DrugOrder order = new DrugOrder();
+			order.setOrderType(Context.getOrderService().getOrderType(OpenmrsConstants.ORDERTYPE_DRUG));
+			order.setPatient(patient);
+			order.setStartDate(new Date());
+			order.setConcept(Context.getConceptService().getConceptByUuid(drugConceptId.substring(2)));
+			//order.setDrug(drugRef.getDrug());
+			order.setDose(dose);
+			//saving duration quantity table 
+			order.setQuantity(duration);
+			order.setUnits(unit);
+			order.setFrequency(frequency);
+			Context.getOrderService().saveOrder(order);
+			count++;
+			}
 		}
 	}
 }

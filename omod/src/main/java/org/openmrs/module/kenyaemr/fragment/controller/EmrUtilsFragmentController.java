@@ -195,6 +195,22 @@ public class EmrUtilsFragmentController {
 		return SimpleObject.create("birthdate", kenyaui.formatDateParam(cal.getTime()));
 	}
 	
+	public JSONObject drugConcept(@RequestParam(value= "listOfDrug", required = false) String listOfDrug,
+			UiUtils ui, 
+			@SpringBean RegimenManager regimenManager,
+			@SpringBean EmrUiUtils kenyaUi){
+		JSONObject conceptNameJson = new JSONObject();
+		String[] parts = listOfDrug.split("+");
+		
+		for(int i=0;i<parts.length;i++){
+			String a=parts[i];	
+			Concept c=Context.getConceptService().getConcept(a);
+			conceptNameJson.put("drugConceptName", c.getName());
+		}
+		
+		return conceptNameJson;
+	}
+	
 	public JSONObject drugRegimen(@RequestParam(value= "category", required = false) String category,
 			UiUtils ui, 
 			@SpringBean RegimenManager regimenManager,
@@ -207,9 +223,9 @@ public class EmrUtilsFragmentController {
 			regimenDefinitions.addAll(group.getRegimens());
 		}
 		
-		JSONObject stateeJson = new JSONObject();
-		stateeJson.put("drugName", kenyaUi.simpleRegimenDefinitions(regimenDefinitions, ui));
-		return stateeJson;
+		JSONObject arvDrugJson = new JSONObject();
+		arvDrugJson.put("drugName", kenyaUi.simpleRegimenDefinitions(regimenDefinitions, ui));
+		return arvDrugJson;
 	}
 	
 	public JSONObject addressHierarchy(@RequestParam(value= "state", required = false) String state,

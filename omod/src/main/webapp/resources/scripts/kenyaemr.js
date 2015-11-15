@@ -84,6 +84,18 @@ var kenyaemrApp = angular.module('kenyaemr', [ 'kenyaui' ]);
 		});
 
 		$('#' + fieldId).val(regimenStr);
+		$('#' + 'slNoah').val("S.No");
+		$('#' + 'drugNameah').val("Drug Name");
+		$('#' + 'formulationah').val("Formulation");
+		$('#' + 'strengthah').val("Strength");
+		$('#' + 'frequencyah').val("Frequency");
+		$('#' + 'durationah').val("Duration (in days)");
+		$('#' + 'actionah').val("Action");
+		for (var i = 1; i <= maxSlNo; i++){
+			$('#' + 'info' + i).val("Info");
+			$('#' + 'slNo' + i).val(i);
+		}
+		$('#' + 'add').val("Add");
 	};
 
 	/**
