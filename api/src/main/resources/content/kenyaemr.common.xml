@@ -10,6 +10,8 @@
 			<set>
 				<ref bean="kenyaemr.common.form.hivFamilyHistory" />
 				<ref bean="kenyaemr.common.form.obstetricHistory" />
+				<ref bean="kenyaemr.common.form.drugHistory" />
+				<ref bean="kenyaemr.common.form.personalHistory" />
 				<!--<ref bean="kenyaemr.common.form.medicalAndSurgicalHistory" />-->
 			</set>
 		</property>
@@ -21,7 +23,6 @@
 				<ref bean="kenyaemr.common.form.otherMedications" />
 				<ref bean="kenyaemr.common.form.progressNote" />
 				<ref bean="kenyaemr.hiv.form.consultationEncounter" />
-				
 			</set>
 		</property>
 	</bean>
@@ -132,7 +133,6 @@
 		<property name="gender" value="FEMALE" />
 		<property name="apps">
 			<set>
-				<ref bean="kenyaemr.app.registration" />
 				<ref bean="kenyaemr.app.intake" />
 				<ref bean="kenyaemr.app.clinician" />
 				<ref bean="kenyaemr.app.chart" />
@@ -142,6 +142,31 @@
 		<property name="htmlform" value="kenyaemr:obstetricHistory.html" />
 		<property name="order" value="100020" />
 	</bean>
+	
+	<bean id="kenyaemr.common.form.drugHistory" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+		<property name="targetUuid" value="5286ae88-85bb-46e8-a2f7-6361f463ffd4" />
+		<property name="apps">
+			<set>
+				<ref bean="kenyaemr.app.clinician" />
+				<ref bean="kenyaemr.app.chart" />
+			</set>
+		</property>
+		<property name="icon" value="kenyaui:forms/generic.png" />
+		<property name="htmlform" value="kenyaemr:hiv/hivDrugHistory.html" />
+	</bean>
+	
+	<bean id="kenyaemr.common.form.personalHistory" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+		<property name="targetUuid" value="d1db31d0-b415-4788-a233-e4000bf4d108" />
+		<property name="apps">
+			<set>
+				<ref bean="kenyaemr.app.clinician" />
+				<ref bean="kenyaemr.app.chart" />
+			</set>
+		</property>
+		<property name="icon" value="kenyaui:forms/generic.png" />
+		<property name="htmlform" value="kenyaemr:hiv/hivPersonalHistory.html" />
+	</bean>
+	
 
 	<!-- Triage -->
 	<bean id="kenyaemr.common.form.triage" class="org.openmrs.module.kenyacore.form.FormDescriptor">

@@ -9,4 +9,6 @@
 	<ref key="SURGICAL_AND_MEDICAL_HISTORY" uuid="4f3c9bd8-c117-4a5e-a7eb-12a627c29de6" />
 	<ref key="TB_SCREENING" uuid="59ed8e62-7f1f-40ae-a2e3-eabe350277ce" />
 	<ref key="TRIAGE" uuid="37f6bd8d-586a-4169-95fa-5781f987fe62" />
+	<ref key="HIV_PERSONAL_HISTORY" uuid="d1db31d0-b415-4788-a233-e4000bf4d108" />
+	<ref key="HIV_DRUG_HISTORY" uuid="5286ae88-85bb-46e8-a2f7-6361f463ffd4" />
 </refs>
