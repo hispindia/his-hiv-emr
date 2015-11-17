@@ -33,6 +33,16 @@
 	else {
 		dataPoints << [ label: "Last CD4 percentage", value: "None" ]
 	}
+	
+	dataPoints << [ label: "Last Viral Load", value: "None" ]
+	
+	if (calculations.lastDiagnosis) {
+		dataPoints << [ label: "Last Diagnosis", value: calculations.lastDiagnosis.value.valueCoded ]
+	}
+	else{
+		dataPoints << [ label: "Last Diagnosis", value: "None" ]
+	}
+	dataPoints << [ label: "Currently on CPT", value: "None" ]
 %>
 
 <% if (config.complete) { %>

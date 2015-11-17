@@ -40,10 +40,12 @@ public class ProgramCarePanelsFragmentController {
 
 		List<UiResource> carePanels = new ArrayList<UiResource>();
 
-		Collection<ProgramDescriptor> programs = activeOnly
+/*		Collection<ProgramDescriptor> programs = activeOnly
 				? programManager.getPatientActivePrograms(patient)
 				: programManager.getPatientPrograms(patient);
-
+*/
+		//Show all care panels 
+		Collection<ProgramDescriptor> programs = programManager.getPatientPrograms(patient);
 		for (ProgramDescriptor programDescriptor : programs) {
 			carePanels.add(programDescriptor.getFragments().get(EmrWebConstants.PROGRAM_CARE_PANEL_FRAGMENT));
 		}

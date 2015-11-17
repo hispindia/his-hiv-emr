@@ -15,7 +15,7 @@
 		</td>
 		<td style="text-align: right; vertical-align: top; width: 33%">
 			<div class="ke-visittag" ng-if="patient.activeVisit">
-				<strong>{{ patient.activeVisit.visitType }}</strong><br />
+			<!--	<strong>{{ patient.activeVisit.visitType }}</strong><br />-->
 				<small>since <strong>{{ patient.activeVisit.startDatetime | keDateAuto }}</strong></small>
 			</div>
 		</td>

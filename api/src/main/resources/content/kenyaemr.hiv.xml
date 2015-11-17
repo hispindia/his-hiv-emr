@@ -10,11 +10,11 @@
 		<property name="eligibilityCalculation" value="org.openmrs.module.kenyaemr.calculation.library.hiv.EligibleForHivProgramCalculation" />
 		<property name="defaultEnrollmentForm" ref="kenyaemr.hiv.form.enrollment" />
 		<property name="defaultCompletionForm" ref="kenyaemr.hiv.form.completion" />
-		<property name="visitForms">
+	<!-- 	<property name="visitForms">
 			<set>
 				<ref bean="kenyaemr.common.form.tbScreening" />
 			</set>
-		</property>
+		</property> -->
 		<property name="reports">
 			<set>
 			<!--	<ref bean="kenyaemr.hiv.report.qi.adult.c.tx" />

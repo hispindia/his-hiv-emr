@@ -88,7 +88,7 @@
 			var display = '';
 			var doseCount = parseInt(getValue('missedDoseCount.value'));
 			
-				var count =  (doseCount * 100)/ (30);
+				var count =  100-((doseCount * 100)/ (30));
 				if(isNaN(count)){
 					display = display = '<input id="w67" type="text" onblur="checkNumber(this,w67,false,null,null)" value="0" name="w67" size="5" autocomplete="off" />';									
 				}
