@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Calculates whether patients are eligible for the HIV program
+ * Calculates whether patients are eligible for the ART program
  */
 public class EligibleForArtProgramCalculation extends AbstractPatientCalculation {
 
