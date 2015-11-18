@@ -73,9 +73,9 @@ public class EnterHtmlFormFragmentController {
 
 		// Get form from either the encounter or the form UUID
 		Form form = (encounter != null) ? encounter.getForm() : Context.getFormService().getFormByUuid(formUuid);
-		log.error("form: "+form);
+		log.info("form: "+form);
 		FormDescriptor formDescriptor = formManager.getFormDescriptor(form);
-		log.error("formDescriptor: "+formDescriptor);
+		log.info("formDescriptor: "+formDescriptor);
 		CoreUtils.checkAccess(formDescriptor, kenyaUi.getCurrentApp(pageRequest));
 
 		// Get html form from database or UI resource
@@ -123,7 +123,7 @@ public class EnterHtmlFormFragmentController {
 						 @SpringBean FormManager formManager,
 						 FragmentActionRequest actionRequest) throws Exception {
 
-
+		log.warn("in submit form visitid: "+visit+ " || encounterId: "+encounter +" ||formId: "+form +" ||personId: "+patient );
 		// TODO formModifiedTimestamp and encounterModifiedTimestamp
 
 		FormDescriptor formDescriptor = formManager.getFormDescriptor(form);
@@ -166,6 +166,7 @@ public class EnterHtmlFormFragmentController {
 
 		// Get the encounter that will be saved
 		Encounter formEncounter = fes.getContext().getMode() == Mode.ENTER ? fes.getSubmissionActions().getEncountersToCreate().get(0) : encounter;
+		formEncounter.setVisit(visit);
 		EncounterWrapper wrapped = new EncounterWrapper(formEncounter);
 
 		// We allow forms to not include <encounterProvider> tags, in which case provider defaults to current user

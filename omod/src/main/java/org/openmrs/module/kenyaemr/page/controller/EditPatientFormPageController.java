@@ -17,6 +17,8 @@ package org.openmrs.module.kenyaemr.page.controller;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openmrs.Encounter;
 import org.openmrs.Form;
 import org.openmrs.Patient;
@@ -31,6 +33,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @SharedPage
 public class EditPatientFormPageController {
 	
+	private static Log log = LogFactory.getLog(EditPatientFormPageController.class);
+	
 	public String controller(@RequestParam("appId") String appId,
 							 @RequestParam("patientId") Patient patient,
 	                         @RequestParam("formUuid") String formUuid,
@@ -44,6 +48,7 @@ public class EditPatientFormPageController {
 			StringBuilder sb = new StringBuilder("redirect:" + EmrConstants.MODULE_ID + "/");
 
 			List<Encounter> encounters = Context.getEncounterService().getEncounters(patient, null, null, null, Collections.singleton(form), null, null, null, null, false);
+			log.error("encounter size: "+ encounters.size());
 			if (encounters.size() == 0) {
 				sb.append("enterForm.page?formUuid=" + formUuid);
 			} else {
