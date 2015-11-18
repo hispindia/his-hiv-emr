@@ -69,7 +69,7 @@ public class HivEnrollmentSummaryFragmentController {
 				dataPoints.put("Entry point", o.getValueCoded());
 			}
 		}
-*/
+
 		if (showClinicalData) {
 			Enrollment enrollment = new Enrollment(patientProgram);
 
@@ -78,7 +78,7 @@ public class HivEnrollmentSummaryFragmentController {
 				dataPoints.put("WHO stage", o.getValueCoded());
 			}
 		}
-
+*/
 		model.put("dataPoints", dataPoints);
 		return "view/dataPoints";
 	}

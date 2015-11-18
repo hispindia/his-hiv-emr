@@ -17,22 +17,22 @@
 		jq(document).ready(function(){
 			
 			if (getValue('nextStep.value') == 160523) {
-				jq('#admittedId :input').prop('disabled', false);
-				jq('#appointmentDate :input').prop('disabled', true);
-			}
-			else {
 				jq('#admittedId :input').prop('disabled', true);
 				jq('#appointmentDate :input').prop('disabled', false);
+			}
+			else {
+				jq('#admittedId :input').prop('disabled', false);
+				jq('#appointmentDate :input').prop('disabled', true);
 			}
 		
 			jq("#nextStep select").change(function() {
 				if (getValue('nextStep.value') == 160523) {
-					jq('#admittedId :input').prop('disabled', false);
-					jq('#appointmentDate :input').prop('disabled', true);
-				}
-				else {
 					jq('#admittedId :input').prop('disabled', true);
 					jq('#appointmentDate :input').prop('disabled', false);
+				}
+				else {
+					jq('#admittedId :input').prop('disabled', false);
+					jq('#appointmentDate :input').prop('disabled', true);
 				}
 			});
 
@@ -268,7 +268,7 @@
 				</tr>
 				<tr>	
 					<td></td>					
-					<td><div id="appointmentDate">Next appointment date : <obs conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></div></td>
+					<td><div id="appointmentDate">Next appointment date : <obs conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" /></div></td>
 				</tr>
 				<tr>
 					<td></td>	
@@ -276,7 +276,7 @@
 						<div id="admittedId">
 						<table>
 							<tr>
-								<td>Admitted Date : <obs conceptId="b36da368-4705-4582-b213-74a7a990aff8" /> </td>
+								<td>Admitted Date : <obs conceptId="b36da368-4705-4582-b213-74a7a990aff8" allowFutureDates="true"/> </td>
 								<td>Admitted To : <obs conceptId="a3e2e25b-a44c-4622-845e-24c6db5c496b" /></td>								
 							</tr>
 						</table>
