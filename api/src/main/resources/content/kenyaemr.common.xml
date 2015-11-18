@@ -135,7 +135,7 @@
 		<property name="gender" value="FEMALE" />
 		<property name="apps">
 			<set>
-				<ref bean="kenyaemr.app.intake" />
+				<!--<ref bean="kenyaemr.app.intake" /> -->
 				<ref bean="kenyaemr.app.clinician" />
 				<ref bean="kenyaemr.app.chart" />
 			</set>
@@ -204,7 +204,7 @@
 		<property name="targetUuid" value="740308bd-1fe1-43b4-8b7d-51e1d513e205" />
 		<property name="apps">
 			<set>
-				<ref bean="kenyaemr.app.intake" />
+				<!--<ref bean="kenyaemr.app.intake" /> -->
 				<ref bean="kenyaemr.app.clinician" />
 				<ref bean="kenyaemr.app.chart" />
 			</set>
@@ -262,7 +262,7 @@
 		<property name="targetUuid" value="${metadata.form.HOSPITAL_DISCHARGE_FORM}" />
 		<property name="apps">
 			<set>
-				<ref bean="kenyaemr.app.intake" />
+				<!--<ref bean="kenyaemr.app.intake" /> -->
 				<ref bean="kenyaemr.app.clinician" />
 				<ref bean="kenyaemr.app.chart" />
 			</set>
