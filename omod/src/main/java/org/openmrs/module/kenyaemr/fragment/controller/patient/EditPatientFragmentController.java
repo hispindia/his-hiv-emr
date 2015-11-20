@@ -397,7 +397,28 @@ public class EditPatientFragmentController {
 			
 			require(errors, "personName.givenName");
 			//require(errors, "personName.familyName");
+			
+			if(personName.getGivenName().length() > 50){
+				errors.rejectValue("personName.givenName", "Expected length of Name is exceeding");
+			};
+			
 			require(errors, "fatherName");
+			if(fatherName.length() > 50){
+				errors.rejectValue("fatherName", "Expected length of Name is exceeding");
+			};
+			
+			if(nameOfNextOfKin.length() > 50){
+				errors.rejectValue("nameOfNextOfKin", "Expected length of Name is exceeding");
+			};
+			
+			if(nextOfKinAddress.length() > 200){
+				errors.rejectValue("nextOfKinAddress", "Length of Address is exceeding it's limit");
+			};
+
+			if(personAddress.getAddress1().length() > 200){
+				errors.rejectValue("personAddress.address1", "Length of Address is exceeding it's limit");
+			};
+		
 			require(errors, "gender");
 			require(errors, "birthdate");
 			require(errors, "entryPoint");
@@ -407,7 +428,14 @@ public class EditPatientFragmentController {
 			if (hivTestPerformed!=null && hivTestPerformed.equals("Yes")) {
 				require(errors, "hivTestPerformedPlace");
 				require(errors, "hivTestPerformedDate");
+
 			}
+			
+			if (hivTestPerformedDate != null) {
+				if (hivTestPerformedDate.after(new Date())) {
+					errors.rejectValue("hivTestPerformedDate", "Cannot be in the future");
+				}
+			}	
 			
 			if (transferredInDate != null) {
 				if (transferredInDate.after(new Date())) {
