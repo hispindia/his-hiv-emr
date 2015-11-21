@@ -688,10 +688,10 @@ public class EditPatientFragmentController {
 				visit1.setVisitType(MetadataUtils.existing(VisitType.class, CommonMetadata._VisitType.NEW_PATIENT));
 				
 				visit.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
-				Visit visitSave = Context.getVisitService().saveVisit(visit);
+				Visit visitSave1 = Context.getVisitService().saveVisit(visit1);
 				
 				visit1.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
-				Visit visitSave1 = Context.getVisitService().saveVisit(visit1);
+				Visit visitSave = Context.getVisitService().saveVisit(visit);
 				
 
 				
