@@ -15,6 +15,7 @@
 package org.openmrs.module.kenyaemr.fragment.controller.patient;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -61,6 +62,7 @@ import org.openmrs.util.OpenmrsConstants;
 import org.openmrs.util.OpenmrsUtil;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.Map;
 
 /**
@@ -266,6 +268,7 @@ public class EditPatientFragmentController {
 		
 		private String nationalId;
 		private String placeOfBirth;
+		private String dateOfRegistration;
 		
 		/**
 		 * Creates an edit form for a new patient
@@ -680,18 +683,17 @@ public class EditPatientFragmentController {
 				Visit visit = new Visit();
 				visit.setPatient(ret);
 				visit.setStartDatetime(new Date());
-				visit.setVisitType(MetadataUtils.existing(VisitType.class, CommonMetadata._VisitType.OUTPATIENT));
+				visit.setVisitType(MetadataUtils.existing(VisitType.class, CommonMetadata._VisitType.NEW_PATIENT));
+				visit.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
 				
 				Visit visit1 = new Visit();
 				visit1.setPatient(ret);
 				visit1.setStartDatetime(new Date());
-				visit1.setVisitType(MetadataUtils.existing(VisitType.class, CommonMetadata._VisitType.NEW_PATIENT));
-				
-				visit.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
-				Visit visitSave1 = Context.getVisitService().saveVisit(visit1);
-				
+				visit1.setVisitType(MetadataUtils.existing(VisitType.class, CommonMetadata._VisitType.OUTPATIENT));
 				visit1.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
+				
 				Visit visitSave = Context.getVisitService().saveVisit(visit);
+				Visit visitSave1 = Context.getVisitService().saveVisit(visit1);
 				
 
 				
@@ -706,7 +708,7 @@ public class EditPatientFragmentController {
 					hivEnrollmentEncounter.setDateCreated(new Date());
 					hivEnrollmentEncounter.setEncounterDatetime(new Date());
 					hivEnrollmentEncounter.setForm(MetadataUtils.existing(Form.class, HivMetadata._Form.HIV_ENROLLMENT));
-					hivEnrollmentEncounter.setVisit(visitSave);
+					hivEnrollmentEncounter.setVisit(visitSave1);
 					hivEnrollmentEncounter.setVoided(false);
 					Context.getEncounterService().saveEncounter(hivEnrollmentEncounter);
 
@@ -721,6 +723,18 @@ public class EditPatientFragmentController {
 			}
 			
 			else{
+				Visit visit = new Visit();
+				visit.setPatient(ret);
+				SimpleDateFormat mysqlDateTimeFormatter = new SimpleDateFormat("dd-MMM-yy hh:mm:ss");
+				try {
+					visit.setStartDatetime(mysqlDateTimeFormatter.parse(dateOfRegistration+" 00:00:00"));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				visit.setVisitType(MetadataUtils.existing(VisitType.class, CommonMetadata._VisitType.NEW_PATIENT));
+				visit.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
+				Visit visitSave = Context.getVisitService().saveVisit(visit);
+				
 				if(hivEnrollEncTypePrev.isEmpty()){
 					EncounterType hivEnrollEncType = MetadataUtils.existing(EncounterType.class, HivMetadata._EncounterType.HIV_ENROLLMENT);
 					Encounter hivEnrollmentEncounter = new Encounter();
@@ -1228,6 +1242,14 @@ public class EditPatientFragmentController {
 
 		public void setPlaceOfBirth(String placeOfBirth) {
 			this.placeOfBirth = placeOfBirth;
+		}
+
+		public String getDateOfRegistration() {
+			return dateOfRegistration;
+		}
+
+		public void setDateOfRegistration(String dateOfRegistration) {
+			this.dateOfRegistration = dateOfRegistration;
 		}
 		
 	}

@@ -304,9 +304,19 @@
 			<button onClick="checkIn(1)" type="submit">
 				<img src="${ ui.resourceLink("kenyaui", "images/glyphs/ok.png") }" /> ${ "Create Patient and Check In" }
 			</button>
-			<button onClick="checkIn(0)" type="submit" style="float: right;">
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<button onClick="return validateDateOfRegistration();checkIn(0)" type="submit">
 				<img src="${ ui.resourceLink("kenyaui", "images/glyphs/ok.png") }" /> ${ "Create Patient" }
 			</button>
+			<input type="text" id="dateOfRegistration" name="dateOfRegistration" placeholder="Date of registration">
+			<script type="text/javascript">
+                        jq(document).ready(function () {
+                            jq('#dateOfRegistration').datepicker({
+                                dateFormat: "dd-M-yy", 
+                                showAnim: 'blind'
+                            });
+                        });
+                    </script>
 		<% } %>
 		<% if (config.returnUrl) { %>
 			<button type="button" class="cancel-button"><img src="${ ui.resourceLink("kenyaui", "images/glyphs/cancel.png") }" /> Cancel</button>
@@ -400,6 +410,14 @@ jQuery(document).ready(function(){
 
 		kenyaui.setDateField('patient-birthdate', birthdate);
 		kenyaui.setRadioField('patient-birthdate-estimated', 'true');
+	}
+	
+	function validateDateOfRegistration() {
+	var dateOfRegistration = jQuery("#dateOfRegistration").val();
+	if(dateOfRegistration==""){
+	alert("Please Enter Date Of Registration");
+	return false;
+	} 
 	}
 </script>
 

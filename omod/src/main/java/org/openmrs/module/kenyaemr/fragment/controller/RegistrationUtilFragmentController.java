@@ -19,42 +19,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.openmrs.Concept;
 import org.openmrs.Patient;
-import org.openmrs.PatientIdentifier;
-import org.openmrs.PatientIdentifierType;
-import org.openmrs.PatientProgram;
-import org.openmrs.PersonName;
-import org.openmrs.Program;
 import org.openmrs.Visit;
 import org.openmrs.VisitType;
 import org.openmrs.api.VisitService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.kenyaemr.EmrConstants;
-import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
-import org.openmrs.module.kenyaemr.util.EmrUiUtils;
 import org.openmrs.module.kenyaemr.api.KenyaEmrService;
+import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
 import org.openmrs.module.kenyaui.annotation.AppAction;
 import org.openmrs.module.kenyaui.annotation.SharedAction;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
-import org.openmrs.ui.framework.annotation.BindParams;
-import org.openmrs.ui.framework.annotation.MethodParam;
-import org.openmrs.ui.framework.annotation.SpringBean;
-import org.openmrs.ui.framework.annotation.Validate;
-import org.openmrs.ui.framework.fragment.action.FailureResult;
-import org.openmrs.ui.framework.fragment.action.SuccessResult;
-import org.openmrs.ui.framework.session.Session;
-import org.openmrs.validator.PatientProgramValidator;
-import org.openmrs.validator.PatientValidator;
-import org.openmrs.validator.ValidateUtil;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -131,25 +109,14 @@ public class RegistrationUtilFragmentController {
 	 * @return the simplified visit
 	 */
 	@SharedAction({EmrConstants.APP_REGISTRATION, EmrConstants.APP_INTAKE, EmrConstants.APP_CLINICIAN})
-	public SimpleObject startVisit(@BindParams("visit") @Validate Visit visit, UiUtils ui) {
-		if (visit.getLocation() == null)
-			visit.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
-
-		ui.validate(visit, new StartVisitValidator(), "visit");
-
-		Patient patient = visit.getPatient();
-		List<Visit> visitOld = Context.getVisitService().getVisitsByPatient(patient);
-		if (visitOld.size() == 0) {
-			Visit newPatientVisit = new Visit();
-			newPatientVisit.setPatient(patient);
-			newPatientVisit.setStartDatetime(new Date());
-			newPatientVisit.setVisitType(MetadataUtils.existing(VisitType.class, CommonMetadata._VisitType.NEW_PATIENT));
-			newPatientVisit.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
-			Context.getVisitService().saveVisit(newPatientVisit);
-		} 
+	public SimpleObject startVisit(@RequestParam(value = "patientId", required = false) Patient patient,@RequestParam("startDatetime") Date startDatetime,UiUtils ui) {
+		Visit visit=new Visit();
+		visit.setPatient(patient);
+		visit.setStartDatetime(startDatetime);
+		visit.setVisitType(MetadataUtils.existing(VisitType.class, CommonMetadata._VisitType.OUTPATIENT));
+		visit.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
 		
 		Context.getVisitService().saveVisit(visit);
-		
 		return ui.simplifyObject(visit);
 	}
 	
