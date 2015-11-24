@@ -12,6 +12,43 @@
   ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
 -->
 <htmlform>
+	<script type="text/javascript">
+		jq(document).ready(function () {
+			if (getValue('artReceived.value') == 1066) {
+				jq('#artReceivedName :input').prop('disabled', true);
+			}
+			else {
+				jq('#artReceivedName :input').prop('disabled', false);
+			}
+		
+			jq("#artReceived input:radio").change(function() {
+				if (getValue('artReceived.value') == 1066) {
+					jq('#artReceivedName :input').prop('disabled', true);
+				}
+				else {
+					jq('#artReceivedName :input').prop('disabled', false);
+				}
+			});
+			
+			if (getValue('drug.value') == 1066) {
+				jq('#drugName :input').prop('disabled', true);
+			}
+			else {
+				jq('#drugName :input').prop('disabled', false);
+			}
+		
+			jq("#drug input:radio").change(function() {
+				if (getValue('drug.value') == 1066) {
+					jq('#drugName :input').prop('disabled', true);
+				}
+				else {
+					jq('#drugName :input').prop('disabled', false);
+				}
+			});
+			
+			
+		});
+	</script>
 
 	<!-- Encounter date, provider and location are not relevant for CE forms -->
 	<div style="display:none">
@@ -23,11 +60,11 @@
 	<table>
 		<tr>
 			<td>Was ART received before ? </td>
-			<td><obs  style="radio" conceptId="9b8f4989-833a-4aff-bb93-8b87a8b2c0a0" /></td>
+			<td><obs  style="radio" conceptId="9b8f4989-833a-4aff-bb93-8b87a8b2c0a0" id="artReceived"/></td>
 		</tr>
 		<tr>
 			<td>If yes, please specify</td>
-			<td><obs conceptId="9c793547-81ed-4acd-a308-c13ee5dc467f" /></td>
+			<td><obs conceptId="9c793547-81ed-4acd-a308-c13ee5dc467f" id="artReceivedName" /></td>
 		</tr>
 		<tr>
 			<td colspan="2">
@@ -67,15 +104,15 @@
 		</tr>
 		<tr>
 			<td>Was anti - TB treatment received previously?* </td>
-			<td><obs conceptId="8923901b-1d42-44c4-abdf-8532fa8645d1" /></td>
+			<td><obs style="radio" conceptId="8923901b-1d42-44c4-abdf-8532fa8645d1" /></td>
 		</tr>
 		<tr>
 			<td>Drug allergies? </td>
-			<td><obs style="radio" conceptId="160643AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
+			<td><obs style="radio" conceptId="160643AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="drug"/></td>
 		</tr>
 		<tr>
 			<td>If yes, name of drug </td>
-			<td><obs conceptId="4d988cca-a935-4e41-9722-1cb280dd4a63" /></td>
+			<td><obs conceptId="4d988cca-a935-4e41-9722-1cb280dd4a63" id="drugName" /></td>
 		</tr>
 	</table>
 
