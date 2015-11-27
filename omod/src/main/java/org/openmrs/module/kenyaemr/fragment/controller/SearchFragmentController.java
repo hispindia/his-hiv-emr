@@ -44,6 +44,7 @@ import org.openmrs.Person;
 import org.openmrs.Provider;
 import org.openmrs.User;
 import org.openmrs.Visit;
+import org.openmrs.VisitType;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.LocationService;
 import org.openmrs.api.context.Context;
@@ -511,7 +512,8 @@ public class SearchFragmentController {
 	 * @return the map of patients to active visits
 	 */
 	protected Map<Patient, Visit> getActiveVisitsByPatients() {
-		List<Visit> activeVisits = Context.getVisitService().getVisits(null, null, null, null, null, null, null, null, null, false, false);
+		Collection<VisitType> visitType=Context.getVisitService().getVisitTypes("Follow up visit");
+		List<Visit> activeVisits = Context.getVisitService().getVisits(visitType, null, null, null, null, null, null, null, null, false, false);
 		Map<Patient, Visit> patientToVisits = new HashMap<Patient, Visit>();
 		for (Visit visit : activeVisits) {
 			patientToVisits.put(visit.getPatient(), visit);
