@@ -25,6 +25,7 @@
 				<ref bean="kenyaemr.hiv.form.consultationEncounter" />
 				<ref bean="kenyaemr.common.form.tbScreening" />
 				<ref bean="kenyaemr.common.form.labOrders" />
+				<ref bean="kenyaemr.common.form.drugOrders" />
 			</set>
 		</property>
 	</bean>
@@ -211,6 +212,20 @@
 		</property>
 		<property name="icon" value="kenyaui:forms/labresults.png" />
 		<property name="htmlform" value="kenyaemr:labOrders.html" />
+		<property name="order" value="200060" />
+	</bean>
+
+	<!-- Drug Dispensing form -->
+	<bean id="kenyaemr.common.form.drugOrders" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+		<property name="targetUuid" value="${metadata.form.DRUG_DISPENSING}" />
+		<property name="apps">
+			<set>
+				<!--<ref bean="kenyaemr.app.intake" /> -->
+				<ref bean="kenyaemr.app.dispensary" />
+			</set>
+		</property>
+		<property name="icon" value="kenyaui:forms/generic.png" />
+		<property name="htmlform" value="kenyaemr:dispenseDrug.html" />
 		<property name="order" value="200060" />
 	</bean>
 	

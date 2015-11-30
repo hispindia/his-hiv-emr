@@ -39,6 +39,14 @@
 		<constructor-arg value="kenyaui:apps/clinician.png" />
 		<constructor-arg value="300" />
 	</bean>
+	
+	<bean id="kenyaemr.app.dispensary" factory-bean="kenyacore.appFactoryBean" factory-method="createInstance">
+		<constructor-arg value="kenyaemr.drugDispense" />
+		<constructor-arg value="Dispensar" />
+		<constructor-arg value="kenyaemr/dispensary/dispensaryHome.page" />
+		<constructor-arg value="kenyaui:apps/dispensing.png" />
+		<constructor-arg value="1000000" />
+	</bean>	
 
 	<bean id="kenyaemr.app.chart" factory-bean="kenyacore.appFactoryBean" factory-method="createInstance">
 		<constructor-arg value="kenyaemr.medicalChart" />

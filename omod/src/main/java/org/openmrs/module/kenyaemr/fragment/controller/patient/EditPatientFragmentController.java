@@ -448,7 +448,7 @@ public class EditPatientFragmentController {
 			
 			//Check for Other entry point 
 			if( entryPoint!= null){
-				if(entryPoint.getName().toString().equals("OTHER NON-CODED")){
+				if(entryPoint.getName().toString().equals("OTHER")){
 					require(errors, "otherEntryPoint");
 				}
 			}	
