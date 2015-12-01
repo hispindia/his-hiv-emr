@@ -48,7 +48,8 @@ public class SecurityMetadata extends AbstractMetadataBundle {
 		public static final String API_PRIVILEGES = "API Privileges";
 		public static final String CLINICIAN = "Clinician";
 		public static final String DATA_CLERK = "Data Clerk";
-		public static final String INTAKE = "Intake";
+		public static final String INTAKE = "Laboratory";
+		public static final String DRUG_DISPENSE =  "Drug Dispensar";
 		public static final String MANAGER = "Manager";
 		public static final String REGISTRATION = "Registration";
 		public static final String SYSTEM_ADMIN = "System Administrator";
@@ -63,6 +64,7 @@ public class SecurityMetadata extends AbstractMetadataBundle {
 		String[] appIds = {
 				EmrConstants.APP_REGISTRATION,
 				EmrConstants.APP_INTAKE,
+				EmrConstants.APP_DISPENSING,
 				EmrConstants.APP_CLINICIAN,
 				EmrConstants.APP_CHART,
 				EmrConstants.APP_REPORTS,
@@ -102,11 +104,21 @@ public class SecurityMetadata extends AbstractMetadataBundle {
 				)
 		));
 
-		install(role(_Role.INTAKE, "Can access the registration and triage apps",
+		install(role(_Role.INTAKE, "Can access the laboratory apps",
 				idSet(_Role.API_PRIVILEGES_VIEW_AND_EDIT),
 				idSet(
-						app(EmrConstants.APP_REGISTRATION),
+						//app(EmrConstants.APP_REGISTRATION),
 						app(EmrConstants.APP_INTAKE),
+						app(EmrConstants.APP_DIRECTORY),
+						app(EmrConstants.APP_FACILITIES)
+				)
+		));
+		
+		install(role(_Role.DRUG_DISPENSE, "Can access the dispensary apps",
+				idSet(_Role.API_PRIVILEGES_VIEW_AND_EDIT),
+				idSet(
+						//app(EmrConstants.APP_REGISTRATION),
+						app(EmrConstants.APP_DISPENSING),
 						app(EmrConstants.APP_DIRECTORY),
 						app(EmrConstants.APP_FACILITIES)
 				)
@@ -127,7 +139,7 @@ public class SecurityMetadata extends AbstractMetadataBundle {
 				)
 		));
 
-		install(role(_Role.CLINICIAN, "Can access the registration, triage, clinician, chart and reports apps",
+		install(role(_Role.CLINICIAN, "Can access the registration, lab, clinician, chart and reports apps",
 				idSet(_Role.API_PRIVILEGES_VIEW_AND_EDIT),
 				idSet(
 						app(EmrConstants.APP_REGISTRATION),
@@ -136,7 +148,8 @@ public class SecurityMetadata extends AbstractMetadataBundle {
 						app(EmrConstants.APP_CHART),
 						app(EmrConstants.APP_REPORTS),
 						app(EmrConstants.APP_DIRECTORY),
-						app(EmrConstants.APP_FACILITIES)
+						app(EmrConstants.APP_FACILITIES),
+						app(EmrConstants.APP_DISPENSING)
 				)
 		));
 
