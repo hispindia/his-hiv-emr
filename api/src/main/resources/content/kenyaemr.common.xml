@@ -220,8 +220,8 @@
 		<property name="targetUuid" value="${metadata.form.DRUG_DISPENSING}" />
 		<property name="apps">
 			<set>
-				<!--<ref bean="kenyaemr.app.intake" /> -->
 				<ref bean="kenyaemr.app.dispensary" />
+				<ref bean="kenyaemr.app.chart" />
 			</set>
 		</property>
 		<property name="icon" value="kenyaui:forms/generic.png" />
@@ -236,6 +236,7 @@
 		<property name="apps">
 			<set>
 				<ref bean="kenyaemr.app.intake" />
+				<ref bean="kenyaemr.app.chart" />
 			</set>
 		</property>
 		<property name="icon" value="kenyaui:forms/labresults.png" />

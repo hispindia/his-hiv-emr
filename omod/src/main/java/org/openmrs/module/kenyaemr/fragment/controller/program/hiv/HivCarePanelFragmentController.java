@@ -63,6 +63,6 @@ public class HivCarePanelFragmentController {
 		model.addAttribute("regimenHistory", history);
 		
 		model.addAttribute("graphingConcepts", Dictionary.getConcepts(Dictionary.WEIGHT_KG, Dictionary.CD4_COUNT, Dictionary.CD4_PERCENT, Dictionary.HIV_VIRAL_LOAD));
-		System.out.println();
+		
 	}
 }
