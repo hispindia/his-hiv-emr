@@ -166,7 +166,7 @@ public class EnterHtmlFormFragmentController {
 
 		// Get the encounter that will be saved
 		Encounter formEncounter = fes.getContext().getMode() == Mode.ENTER ? fes.getSubmissionActions().getEncountersToCreate().get(0) : encounter;
-		formEncounter.setVisit(visit);
+//		formEncounter.setVisit(visit);
 		EncounterWrapper wrapped = new EncounterWrapper(formEncounter);
 
 		// We allow forms to not include <encounterProvider> tags, in which case provider defaults to current user

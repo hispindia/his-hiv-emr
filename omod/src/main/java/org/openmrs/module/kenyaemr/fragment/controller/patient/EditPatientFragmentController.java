@@ -39,8 +39,11 @@ import org.openmrs.PersonAddress;
 import org.openmrs.PersonName;
 import org.openmrs.Program;
 import org.openmrs.Visit;
+import org.openmrs.VisitAttribute;
+import org.openmrs.VisitAttributeType;
 import org.openmrs.VisitType;
 import org.openmrs.api.ProgramWorkflowService;
+import org.openmrs.api.VisitService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.idgen.service.IdentifierSourceService;
 import org.openmrs.module.kenyaemr.Dictionary;
@@ -62,8 +65,6 @@ import org.openmrs.util.OpenmrsConstants;
 import org.openmrs.util.OpenmrsUtil;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.Map;
 
 /**
  * Controller for creating and editing patients in the registration app
@@ -448,7 +449,7 @@ public class EditPatientFragmentController {
 			
 			//Check for Other entry point 
 			if( entryPoint!= null){
-				if(entryPoint.getName().toString().equals("OTHER NON-CODED")){
+				if(entryPoint.getName().toString().equals("OTHER")){
 					require(errors, "otherEntryPoint");
 				}
 			}	
@@ -551,6 +552,7 @@ public class EditPatientFragmentController {
 		@Override
 		public Patient save() {
 			Patient toSave;
+			boolean isNewPatient = false;
 
 			if (original != null && original.isPatient()) { // Editing an existing patient
 				toSave = (Patient) original;
@@ -560,6 +562,7 @@ public class EditPatientFragmentController {
 			}
 			else {
 				toSave = new Patient(); // Creating a new patient and person
+				isNewPatient = true;
 			}
 
 			toSave.setGender(gender);
@@ -679,22 +682,35 @@ public class EditPatientFragmentController {
 			 * To check in directly
 			 */
 			List<Encounter> hivEnrollEncTypePrev = Context.getEncounterService().getEncountersByPatient(ret);
+			Date curDate = new Date();
 			if(checkInType.equals("1")){
 				Visit visit = new Visit();
 				visit.setPatient(ret);
-				visit.setStartDatetime(new Date());
-				visit.setVisitType(MetadataUtils.existing(VisitType.class, CommonMetadata._VisitType.NEW_PATIENT));
+				visit.setStartDatetime(curDate);
+				visit.setVisitType(MetadataUtils.existing(VisitType.class, CommonMetadata._VisitType.OUTPATIENT));
 				visit.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
+
+				if(isNewPatient) {
+					VisitAttributeType attrType = Context.getService(VisitService.class).getVisitAttributeTypeByUuid(CommonMetadata._VisitAttributeType.NEW_PATIENT);
+					if(attrType != null) {
+						VisitAttribute attr = new VisitAttribute();
+						attr.setAttributeType(attrType);
+						attr.setVisit(visit);
+						attr.setDateCreated(curDate);
+						attr.setValue(true);
+						visit.addAttribute(attr);
+					}
+				}
 				
+				/*
 				Visit visit1 = new Visit();
 				visit1.setPatient(ret);
 				visit1.setStartDatetime(new Date());
 				visit1.setVisitType(MetadataUtils.existing(VisitType.class, CommonMetadata._VisitType.OUTPATIENT));
 				visit1.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
+				Visit visitSave1 = Context.getVisitService().saveVisit(visit1);*/
 				
 				Visit visitSave = Context.getVisitService().saveVisit(visit);
-				Visit visitSave1 = Context.getVisitService().saveVisit(visit1);
-				
 
 				
 				if(hivEnrollEncTypePrev.isEmpty()){
@@ -708,7 +724,7 @@ public class EditPatientFragmentController {
 					hivEnrollmentEncounter.setDateCreated(new Date());
 					hivEnrollmentEncounter.setEncounterDatetime(new Date());
 					hivEnrollmentEncounter.setForm(MetadataUtils.existing(Form.class, HivMetadata._Form.HIV_ENROLLMENT));
-					hivEnrollmentEncounter.setVisit(visitSave1);
+					hivEnrollmentEncounter.setVisit(visitSave);
 					hivEnrollmentEncounter.setVoided(false);
 					Context.getEncounterService().saveEncounter(hivEnrollmentEncounter);
 

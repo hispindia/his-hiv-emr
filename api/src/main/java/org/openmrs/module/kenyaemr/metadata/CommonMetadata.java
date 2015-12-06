@@ -43,6 +43,7 @@ public class CommonMetadata extends AbstractMetadataBundle {
 		public static final String TRIAGE = "d1059fb9-a079-4feb-a749-eedd709ae542";
 		public static final String TB_SCREENING = "ed6dacc9-0827-4c82-86be-53c0d8c449be";
 		public static final String LAB_ORDERS = "839cc70b-09cf-4d20-8bf5-b19dddde9e32";
+		public static final String DISPENSE_DRUG= "0daa76ea-9c7d-49c9-8ea0-21d3d079f807";
 	}
 
 	public static final class _Form {
@@ -56,6 +57,7 @@ public class CommonMetadata extends AbstractMetadataBundle {
 		public static final String TRIAGE = Metadata.Form.TRIAGE;
 		public static final String TB_SCREENING = Metadata.Form.TB_SCREENING;
 		public static final String LAB_ORDERS = Metadata.Form.LAB_ORDERS;
+		public static final String DRUG_DISPENSING = Metadata.Form.DRUG_DISPENSING;
 	}
 
 	public static final class _OrderType {
@@ -102,6 +104,7 @@ public class CommonMetadata extends AbstractMetadataBundle {
 
 	public static final class _VisitAttributeType {
 		public static final String SOURCE_FORM = "8bfab185-6947-4958-b7ab-dfafae1a3e3d";
+		public static final String NEW_PATIENT = "57c86d59-5cad-47b8-9015-4551a4e20cec";
 	}
 
 	public static final class _VisitType {
@@ -120,6 +123,8 @@ public class CommonMetadata extends AbstractMetadataBundle {
 		install(encounterType("Registration", "Initial data collection for a patient, not specific to any program", _EncounterType.REGISTRATION));
 		install(encounterType("Record Vitals", "Collection of limited vital data for better examination", _EncounterType.TRIAGE));
 		install(encounterType("Lab Order", "Lab Tests Order", _EncounterType.LAB_ORDERS));
+		install(encounterType("Drug Dispensing", "Drug dispensed to patient", _EncounterType.DISPENSE_DRUG));
+		
 		
 		install(form("Consultation", null, _EncounterType.CONSULTATION, "1", _Form.CONSULTATION_ENCOUNTER));
 		install(form("Clinical Encounter", null, _EncounterType.CONSULTATION, "1", _Form.CLINICAL_ENCOUNTER));
@@ -131,6 +136,7 @@ public class CommonMetadata extends AbstractMetadataBundle {
 		install(form("Surgical and Medical History", null, _EncounterType.REGISTRATION, "1", _Form.SURGICAL_AND_MEDICAL_HISTORY));
 		install(form("Record Vitals", null, _EncounterType.CONSULTATION, "1", _Form.TRIAGE));
 		install(form("Lab Order", null, _EncounterType.LAB_ORDERS, "1", _Form.LAB_ORDERS));
+		install(form("Dispense Drug", "Dispense Drug in dispensing module", _EncounterType.DISPENSE_DRUG, "1", _Form.DRUG_DISPENSING));
 
 		install(globalProperty(EmrConstants.GP_DEFAULT_LOCATION, "The facility for which this installation is configured",
 				LocationDatatype.class, null, null));

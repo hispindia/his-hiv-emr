@@ -44,6 +44,7 @@ import org.openmrs.Person;
 import org.openmrs.Provider;
 import org.openmrs.User;
 import org.openmrs.Visit;
+import org.openmrs.VisitAttribute;
 import org.openmrs.VisitType;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.LocationService;
@@ -59,6 +60,7 @@ import org.openmrs.module.kenyaemr.EmrWebConstants;
 import org.openmrs.module.kenyaemr.api.KenyaEmrService;
 import org.openmrs.module.kenyaemr.calculation.library.ScheduledVisitOnDayCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.VisitsOnDayCalculation;
+import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
 import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.util.OpenmrsConstants;
@@ -198,8 +200,10 @@ public class SearchFragmentController {
 
 		// Run main patient search query based on id/name
 		List<Patient> matchedByNameOrID = Context.getPatientService().getPatients(query);
-		List<Patient> matchedByID  = Context.getPatientService().getPatients(null, query, null, true);
-		matchedByNameOrID.addAll(matchedByID);
+		if (matchedByNameOrID.size() == 0) {
+			List<Patient> matchedByID  = Context.getPatientService().getPatients(null, query, null, true);
+			matchedByNameOrID.addAll(matchedByID);
+		}
 		
 		// Gather up active visits for all patients. These are attached to the returned patient representations.
 		Map<Patient, Visit> patientActiveVisits = getActiveVisitsByPatients();
@@ -290,24 +294,33 @@ public class SearchFragmentController {
 			// Simplify and attach active visits to patient objects
 			for (Patient patient : matched) {
 				SimpleObject simplePatient = ui.simplifyObject(patient);
+
+				/*
 				List<Visit> visits = Context.getVisitService().getActiveVisitsByPatient(patient);
 				for(Visit v : visits) {
 					if(v.getVisitType().getName().equalsIgnoreCase(EmrWebConstants.VISIT_TYPE_NEW_PATIENT)){
 						simplePatient.put("newVisit", "true");
 						break;
 					}
-				}
+				}*/
+				
 				Visit activeVisit = patientActiveVisits.get(patient);
 				simplePatient.put("activeVisit",ui.simplifyObject(activeVisit));
 				simplePatient.put("patientName", patient.getGivenName());
+				if (activeVisit != null) {
+					Collection<VisitAttribute> attrs = activeVisit.getActiveAttributes();
+					if (attrs != null && attrs.size() > 0) {
+						for (VisitAttribute attr : attrs) {
+							if (attr.getAttributeType().getUuid().equals(CommonMetadata._VisitAttributeType.NEW_PATIENT)) {
+								simplePatient.put("newVisit",attr.getValue().toString());
+								break;
+							}
+						}
+					}
+				}
 				simplePatients.add(simplePatient);
 			}
 		}
-
-
-		
-		
-
 
 		return simplePatients;
 	}
