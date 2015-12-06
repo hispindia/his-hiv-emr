@@ -22,11 +22,33 @@
 
 			beforeSubmit.push(function() {
 				discontinueDate = new Date(getValue('encounter-date.value')).getTime();
-
-				if(discontinueDate &lt; pbirthdate){
-					getField('discontinueDate.error').html('Discontinue date, should not be earlier than Birth date').show();
+				lastVisitDate = new Date(getValue('lastVisitDate-date.value')).getTime();
+				if(getValue('lastVisitDate-date.value')==""){
+					getField('lastVisitDate-date.error').html('Last Visit date is Mandatory').show();
 					return false;
 				}
+				
+				if(discontinueDate &lt; lastVisitDate ){
+					getField('lastVisitDate-date.error').html('Last Visit date').show();
+				}
+				else{
+					if(new Date(getValue('encounter-date.value')).getMonth() - new Date(getValue('lastVisitDate-date.value')).getMonth()
+				       + (12 * (new Date(getValue('encounter-date.value')).getFullYear() - new Date(getValue('lastVisitDate-date.value')).getFullYear())) &lt; 3){
+						getField('lastVisitDate-date.error').html('Last Visit date, should be more than 3 months from date of Discontinuation').show();
+						return false;
+					}
+					
+					if(lastVisitDate &lt; pbirthdate){
+						getField('lastVisitDate-date.error').html('Last Visit date, should not be earlier than Birth date').show();
+						return false;
+					}
+					
+					if(discontinueDate &lt; pbirthdate){
+						getField('discontinueDate.error').html('Discontinue date, should not be earlier than Birth date').show();
+						return false;
+					}	
+				}
+				
 				// alert(pbirthdate+" and "+discontinueDate);
 				return true;
 			});
@@ -43,7 +65,7 @@
 				</tr>
 				<tr>
 					<td>Last day of Visit:</td>
-					<td><obs conceptId="162850AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /> <b>Lost to follow up(> 3 months)</b></td>
+					<td><obs conceptId="162850AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lastVisitDate-date"/> <b>Lost to follow up(> 3 months)</b></td>
 				</tr>
 			</table>
 			<br/>

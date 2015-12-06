@@ -12,4 +12,5 @@
 	<ref key="HIV_PERSONAL_HISTORY" uuid="d1db31d0-b415-4788-a233-e4000bf4d108" />
 	<ref key="HIV_DRUG_HISTORY" uuid="5286ae88-85bb-46e8-a2f7-6361f463ffd4" />
 	<ref key="LAB_ORDERS" uuid="740308bd-1fe1-43b4-8b7d-51e1d513e205" />
+	<ref key="DRUG_DISPENSING" uuid="20733cb5-b849-4bfd-a9fa-58d21c899037" />
 </refs>

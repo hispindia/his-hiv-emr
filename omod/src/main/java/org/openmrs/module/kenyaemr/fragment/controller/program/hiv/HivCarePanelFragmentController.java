@@ -62,6 +62,7 @@ public class HivCarePanelFragmentController {
 		RegimenChangeHistory history = RegimenChangeHistory.forPatient(patient, medSet);
 		model.addAttribute("regimenHistory", history);
 		
-		model.addAttribute("graphingConcepts", Dictionary.getConcepts(Dictionary.WEIGHT_KG, Dictionary.CD4_COUNT, Dictionary.CD4_PERCENT));
+		model.addAttribute("graphingConcepts", Dictionary.getConcepts(Dictionary.WEIGHT_KG, Dictionary.CD4_COUNT, Dictionary.CD4_PERCENT, Dictionary.HIV_VIRAL_LOAD));
+		
 	}
 }

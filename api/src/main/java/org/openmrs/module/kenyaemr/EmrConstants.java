@@ -32,6 +32,7 @@ public class EmrConstants {
 	public static final String APP_INTAKE = MODULE_ID + ".intake";
 	public static final String APP_CLINICIAN = MODULE_ID + ".medicalEncounter";
 	public static final String APP_CHART = MODULE_ID + ".medicalChart";
+	public static final String APP_DISPENSING = MODULE_ID + ".drugDispense";
 	public static final String APP_REPORTS = MODULE_ID + ".reports";
 	public static final String APP_DIRECTORY = MODULE_ID + ".directory";
 	public static final String APP_FACILITIES = MODULE_ID + ".facilities";
