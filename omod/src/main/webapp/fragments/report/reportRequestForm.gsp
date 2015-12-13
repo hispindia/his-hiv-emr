@@ -7,7 +7,6 @@
 	config.definition.parameters.each{ param -> params[param.name] = param }
 
 	def usePeriodField = params.containsKey("startDate") && params.containsKey("endDate")
-	usePeriodField = true
 	if (usePeriodField) {
 		params.remove("startDate")
 		params.remove("endDate")
