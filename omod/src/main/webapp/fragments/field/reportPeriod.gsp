@@ -15,13 +15,20 @@
 		select.change();
 	});
 </script>
-<select id="${ config.id }">
+
+<!--<select id="${ config.id }">
 	<% months.each { month -> %>
 	<option value="${ month.range }">${ month.label }</option>
 	<% } %>
-</select>
-<input id="${ config.id }_start" type="hidden" name="${ startFieldName }" />
-<input id="${ config.id }_end" type="hidden" name="${ endFieldName }" />
+</select>-->
+Start Date 
+${ ui.includeFragment("kenyaui", "field/java.util.Date" ,[id:'startDate',  formFieldName:startFieldName, showTime: false])}
+End Date 
+${ ui.includeFragment("kenyaui", "field/java.util.Date" ,[id:'endDate',  formFieldName:endFieldName, showTime: false])}
+
+
+<!--<input id="${ config.id }_start" type="hidden" name="${ startFieldName }"  />
+<input id="${ config.id }_end" type="hidden" name="${ endFieldName }" />-->
 
 <span id="${ config.id }-error" class="error" style="display: none"></span>
 

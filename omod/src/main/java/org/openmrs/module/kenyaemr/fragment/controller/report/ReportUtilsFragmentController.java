@@ -78,7 +78,7 @@ public class ReportUtilsFragmentController {
 							    @SpringBean ReportManager reportManager,
 							    @SpringBean ReportService reportService,
 							    @SpringBean ReportDefinitionService definitionService) throws ParseException {
-
+log.error("in requestReport");
 		ReportDefinition definition = definitionService.getDefinitionByUuid(reportUuid);
 		ReportDescriptor report = reportManager.getReportDescriptor(definition);
 
@@ -86,11 +86,12 @@ public class ReportUtilsFragmentController {
 
 		Collection<String> missingParameters = new ArrayList<String>();
 		Map<String, Object> parameterValues = new HashMap<String, Object>();
-
+log.error( definition.getParameters());
 		// Match incoming parameters in the request to report parameters
 		for (Parameter parameter : definition.getParameters()) {
+			log.error("param[" + parameter.getName() + "]");
 			String submitted = actionRequest.getParameter("param[" + parameter.getName() + "]");
-
+			log.error(submitted);
 			Object converted = StringUtils.isNotEmpty(submitted) ? ui.convert(submitted, parameter.getType()) : parameter.getDefaultValue();
 
 			if (converted == null) {
