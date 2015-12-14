@@ -61,7 +61,7 @@ public class PatientLastVisitCalculation extends AbstractPatientCalculation {
 					if (visit.getEncounters() != null) {
 						for (Encounter encounter : visit.getEncounters()) {
 							if (encounter != null) {
-								if (encounter.getEncounterType().equals(MetadataUtils.existing(EncounterType.class,  CommonMetadata._EncounterType.TB_SCREENING)))) {
+								if (encounter.getEncounterType().equals(MetadataUtils.existing(EncounterType.class,  CommonMetadata._EncounterType.TB_SCREENING))) {
 									hadIcfCardCompleted = true;
 								}
 							}
