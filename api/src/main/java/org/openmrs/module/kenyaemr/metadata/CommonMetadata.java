@@ -44,6 +44,7 @@ public class CommonMetadata extends AbstractMetadataBundle {
 		public static final String TB_SCREENING = "ed6dacc9-0827-4c82-86be-53c0d8c449be";
 		public static final String LAB_ORDERS = "839cc70b-09cf-4d20-8bf5-b19dddde9e32";
 		public static final String DISPENSE_DRUG= "0daa76ea-9c7d-49c9-8ea0-21d3d079f807";
+		public static final String REGIMEN_ORDER= "00d1b629-4335-4031-b012-03f8af3231f8";
 	}
 
 	public static final class _Form {
@@ -124,6 +125,7 @@ public class CommonMetadata extends AbstractMetadataBundle {
 		install(encounterType("Record Vitals", "Collection of limited vital data for better examination", _EncounterType.TRIAGE));
 		install(encounterType("Lab Order", "Lab Tests Order", _EncounterType.LAB_ORDERS));
 		install(encounterType("Drug Dispensing", "Drug dispensed to patient", _EncounterType.DISPENSE_DRUG));
+		install(encounterType("Regimen Order", "Regimen Order for a patient", _EncounterType.REGIMEN_ORDER));
 		
 		
 		install(form("Consultation", null, _EncounterType.CONSULTATION, "1", _Form.CONSULTATION_ENCOUNTER));

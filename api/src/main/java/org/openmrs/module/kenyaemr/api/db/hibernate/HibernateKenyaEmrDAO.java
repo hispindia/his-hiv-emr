@@ -24,13 +24,15 @@ import org.hibernate.criterion.Restrictions;
 import org.openmrs.Cohort;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
+import org.openmrs.Obs;
+import org.openmrs.OrderType;
 import org.openmrs.Patient;
-import org.openmrs.api.context.Context;
 import org.openmrs.module.kenyaemr.api.db.KenyaEmrDAO;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -38,8 +40,13 @@ import java.util.Set;
 /**
  * Hibernate specific data access functions. This class should not be used directly.
  */
+@SuppressWarnings("deprecation")
 public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 
+	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	
+	SimpleDateFormat formatterExt = new SimpleDateFormat("yyyy-MM-dd");
+	
 	private SessionFactory sessionFactory;
 
 	/**
@@ -115,18 +122,46 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	/*
 	 * ENCOUNTER
 	 */
-	public Encounter getLastEncounter(Patient patient) {
+	public Encounter getLastEncounter(Patient patient,Set<EncounterType> encounterTypes) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Encounter.class);
 		criteria.add(Restrictions.eq("patient", patient));
-		
-		// Get encountertypes
-		Set<EncounterType> encounterTypes = new HashSet<EncounterType>();
-		encounterTypes.add(Context.getEncounterService().getEncounterType("Initiate ART"));
-		encounterTypes.add(Context.getEncounterService().getEncounterType("Stop ART"));
 		criteria.add(Restrictions.in("encounterType", encounterTypes));
 		criteria.addOrder(Order.desc("dateCreated"));
 		criteria.setMaxResults(1);
 		return (Encounter) criteria.uniqueResult();
+	}
+	
+	public List<org.openmrs.Order> getOrderByDateAndOrderType(Date date,OrderType orderType) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(org.openmrs.Order.class,"order");
+		criteria.add(Restrictions.eq("order.orderType", orderType));
+		if(date!=null){
+		String datee = formatterExt.format(date);
+		String startFromDate = datee + " 00:00:00";
+		String endFromDate = datee + " 23:59:59";
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("order.startDate", formatter.parse(startFromDate)),
+				    Restrictions.le("order.startDate", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		}
+		return criteria.list();
+	}
+	
+	public List<Obs> getObsByDate(Date date) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
+		if(date!=null){
+		String dat = formatterExt.format(date);
+		String startFromDate = dat + " 00:00:00";
+		String endFromDate = dat + " 23:59:59";
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("obs.dateCreated", formatter.parse(startFromDate)),
+				    Restrictions.le("obs.dateCreated", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		}
+		return criteria.list();
 	}
 
 }

@@ -14,10 +14,16 @@
 
 package org.openmrs.module.kenyaemr.api.db;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
+import org.openmrs.Obs;
+import org.openmrs.Order;
+import org.openmrs.OrderType;
 import org.openmrs.Patient;
 
 /**
@@ -31,5 +37,7 @@ public interface KenyaEmrDAO {
 	 * @param patient
 	 * @return
 	 */
-	public Encounter getLastEncounter(Patient patient);
+	public Encounter getLastEncounter(Patient patient,Set<EncounterType> encounterTypes);
+	public List<Order> getOrderByDateAndOrderType(Date date,OrderType orderType);
+	public List<Obs> getObsByDate(Date date);
 }

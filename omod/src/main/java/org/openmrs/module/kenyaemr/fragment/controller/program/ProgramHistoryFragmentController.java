@@ -15,6 +15,7 @@
 package org.openmrs.module.kenyaemr.fragment.controller.program;
 
 import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
 import org.openmrs.Patient;
 import org.openmrs.PatientProgram;
 import org.openmrs.Program;
@@ -34,7 +35,9 @@ import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.openmrs.ui.framework.page.PageRequest;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Patient program history fragment
@@ -75,7 +78,10 @@ public class ProgramHistoryFragmentController {
 		}
 		
 		String artEncounter="";
-		Encounter encounter=Context.getService(KenyaEmrService.class).getLastEncounter(patient);
+		Set<EncounterType> encounterTypes = new HashSet<EncounterType>();
+		encounterTypes.add(Context.getEncounterService().getEncounterType("Initiate ART"));
+		encounterTypes.add(Context.getEncounterService().getEncounterType("Stop ART"));
+		Encounter encounter=Context.getService(KenyaEmrService.class).getLastEncounter(patient,encounterTypes);
 		if(encounter!=null){
 		artEncounter=encounter.getEncounterType().getName();
 		}

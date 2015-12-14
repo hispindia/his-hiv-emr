@@ -16,11 +16,17 @@ package org.openmrs.module.kenyaemr.regimen;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.openmrs.DrugOrder;
+import org.openmrs.Encounter;
+import org.openmrs.Location;
 import org.openmrs.Patient;
+import org.openmrs.User;
+import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.kenyaemr.metadata.CommonMetadata.*;
 import org.openmrs.util.OpenmrsConstants;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * RegimenComponent of a regimen (drug, dose, units and frequency)
@@ -131,9 +137,10 @@ public class RegimenComponent {
 	 * Creates a drug order from this component
 	 * @return the drug order
 	 */
-	public DrugOrder toDrugOrder(Patient patient, Date start) {
+	public DrugOrder toDrugOrder(Patient patient, Date start,Encounter encounter) {
 		DrugOrder order = new DrugOrder();
 		order.setOrderType(Context.getOrderService().getOrderType(OpenmrsConstants.ORDERTYPE_DRUG));
+		order.setEncounter(encounter);
 		order.setPatient(patient);
 		order.setStartDate(start);
 		order.setConcept(drugRef.getConcept());

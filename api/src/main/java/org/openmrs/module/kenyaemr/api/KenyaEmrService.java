@@ -17,9 +17,14 @@ package org.openmrs.module.kenyaemr.api;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
 import org.openmrs.Location;
+import org.openmrs.Obs;
+import org.openmrs.Order;
+import org.openmrs.OrderType;
 import org.openmrs.Patient;
 import org.openmrs.Visit;
 import org.openmrs.api.OpenmrsService;
@@ -107,5 +112,7 @@ public interface KenyaEmrService extends OpenmrsService {
 	 * @param patient
 	 * @return
 	 */
-	public Encounter getLastEncounter(Patient patient);
+	public Encounter getLastEncounter(Patient patient,Set<EncounterType> encounterTypes);
+	public List<Order> getOrderByDateAndOrderType(Date date,OrderType orderType);
+	public List<Obs> getObsByDate(Date date);
 }

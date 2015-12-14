@@ -40,6 +40,20 @@ kenyaemrApp.service('PatientService2', function ($rootScope) {
 });
 
 /**
+ * Patient service3 
+ * Support search with date field
+ */
+kenyaemrApp.service('PatientService3', function ($rootScope) {
+
+	/**
+	 * Broadcasts new patient search parameters
+	 */
+	this.updateSearch = function(query, which, date) {
+		$rootScope.$broadcast('patient-search3', { query: query, which: which, date: date });
+	};
+});
+
+/**
  * Controller for patient search form
  */
 kenyaemrApp.controller('PatientSearchForm', ['$scope', 'PatientService', function($scope, patientService) {
@@ -81,6 +95,27 @@ kenyaemrApp.controller('PatientSearchForm2', ['$scope', 'PatientService2', funct
 }]);
 
 /**
+ * Controller for patient search form with Dispensing Date field
+ */
+kenyaemrApp.controller('PatientSearchForm3', ['$scope', 'PatientService3', function($scope, patientService) {
+
+	$scope.query = '';
+
+	$scope.init = function(which) {
+		$scope.which = which;
+		$scope.date='';
+		$scope.$evalAsync($scope.updateSearch); // initiate an initial search
+	};
+
+	$scope.updateSearch = function() {
+		var dispensedDate = jQuery("#dispensedDate").val();
+		console.debug(dispensedDate);
+		patientService.updateSearch($scope.query, $scope.which, dispensedDate);
+	};
+	
+}]);
+
+/**
  * Controller for patient search results
  */
 kenyaemrApp.controller('PatientSearchResults', ['$scope', '$http', function($scope, $http) {
@@ -117,6 +152,16 @@ kenyaemrApp.controller('PatientSearchResults', ['$scope', '$http', function($sco
 		$scope.date = data.date;
 		$scope.refresh2();
 	});
+	
+	/**
+	 * Listens for the 'patient-search3' event
+	 */
+	$scope.$on('patient-search3', function(event, data) {
+		$scope.query = data.query;
+		$scope.which = data.which;
+		$scope.date = data.date;
+		$scope.refresh3();
+	});
 
 	/**
 	 * Refreshes the person search
@@ -133,6 +178,16 @@ kenyaemrApp.controller('PatientSearchResults', ['$scope', '$http', function($sco
 	 */
 	$scope.refresh2 = function() {
 		$http.get(ui.fragmentActionLink('kenyaemr', 'search', 'patientsWithDate', { appId: $scope.appId, q: $scope.query, which: $scope.which, date: $scope.date })).
+			success(function(data) {
+				$scope.results = data;
+			});
+	};
+	
+	/**
+	 * Refreshes the person search
+	 */
+	$scope.refresh3 = function() {
+		$http.get(ui.fragmentActionLink('kenyaemr', 'search', 'patientsWithDispensingDate', { appId: $scope.appId, q: $scope.query, which: $scope.which, date: $scope.date })).
 			success(function(data) {
 				$scope.results = data;
 			});

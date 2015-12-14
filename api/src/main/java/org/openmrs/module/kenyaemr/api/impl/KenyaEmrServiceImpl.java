@@ -17,9 +17,13 @@ package org.openmrs.module.kenyaemr.api.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
 import org.openmrs.GlobalProperty;
 import org.openmrs.Location;
 import org.openmrs.LocationAttributeType;
+import org.openmrs.Obs;
+import org.openmrs.Order;
+import org.openmrs.OrderType;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.Visit;
@@ -50,6 +54,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Implementations of business logic methods for KenyaEMR
@@ -265,7 +270,15 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 		return dao.executeHqlQuery(query, substitutions);
 	}
 	
-	public Encounter getLastEncounter(Patient patient) {
-		return dao.getLastEncounter(patient);
+	public Encounter getLastEncounter(Patient patient,Set<EncounterType> encounterTypes) {
+		return dao.getLastEncounter(patient,encounterTypes);
+	}
+	
+	public List<Order> getOrderByDateAndOrderType(Date date,OrderType orderType) {
+		return dao.getOrderByDateAndOrderType(date,orderType);
+	}
+	
+	public List<Obs> getObsByDate(Date date) {
+		return dao.getObsByDate(date);
 	}
 }

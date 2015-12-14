@@ -16,16 +16,25 @@ package org.openmrs.module.kenyaemr.fragment.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Concept;
 import org.openmrs.DrugOrder;
+import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
+import org.openmrs.Location;
 import org.openmrs.Patient;
+import org.openmrs.User;
+import org.openmrs.Visit;
 import org.openmrs.api.OrderService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.kenyaemr.Dictionary;
+import org.openmrs.module.kenyaemr.api.KenyaEmrService;
+import org.openmrs.module.kenyaemr.metadata.CommonMetadata.*;
 import org.openmrs.module.kenyaemr.regimen.Regimen;
 import org.openmrs.module.kenyaemr.regimen.RegimenChange;
 import org.openmrs.module.kenyaemr.regimen.RegimenChangeHistory;
@@ -65,8 +74,8 @@ public class RegimenUtilFragmentController {
 			@RequestParam(value = "durgList", required = false) String[] durgList,
 			HttpServletRequest request){
 		ui.validate(command, command, null);
-		command.apply();
-		saveExtraRowForArv(durgList,request,command.getPatient());
+		Encounter encounter=command.apply();
+		saveExtraRowForArv(durgList,request,command.getPatient(),encounter);
 	}
 
 	/**
@@ -185,15 +194,16 @@ public class RegimenUtilFragmentController {
 		/**
 		 * Applies this regimen change
 		 */
-		public void apply() {
+		public Encounter apply() {
 			Concept masterSet = regimenManager.getMasterSetConcept(category);
 			RegimenChangeHistory history = RegimenChangeHistory.forPatient(patient, masterSet);
 			RegimenChange lastChange = history.getLastChange();
 			RegimenOrder baseline = lastChange != null ? lastChange.getStarted() : null;
-
+			Encounter encounter=null;
 			if (baseline == null) {
+				encounter=createEncounterForBaseLine(patient);
 				for (RegimenComponent component : regimen.getComponents()) {
-					DrugOrder o = component.toDrugOrder(patient, changeDate);
+					DrugOrder o = component.toDrugOrder(patient,changeDate,encounter);
 					Context.getOrderService().saveOrder(o);
 				}
 			}
@@ -224,13 +234,19 @@ public class RegimenUtilFragmentController {
 					os.saveOrder(o);
 				}
 
+				//Set<EncounterType> encounterTypes = new HashSet<EncounterType>();
+				//encounterTypes.add(Context.getEncounterService().getEncounterType(_EncounterType.REGIMEN_ORDER));
+				//Encounter encounter=Context.getService(KenyaEmrService.class).getLastEncounter(patient,encounterTypes);
+				encounter=createEncounterForBaseLine(patient);
 				for (DrugOrder o : toStart) {
+					o.setEncounter(encounter);
 					o.setPatient(patient);
 					o.setStartDate(changeDate);
 					o.setOrderType(os.getOrderType(OpenmrsConstants.ORDERTYPE_DRUG));
 					os.saveOrder(o);
 				}
 			}
+			return encounter;
 		}
 		
 		/**
@@ -369,12 +385,39 @@ public class RegimenUtilFragmentController {
 			}
 		}
 		if (anyDoseChanges || sameGeneric.size() == 0) {
-			toStart.add(component.toDrugOrder(null, null));
+			toStart.add(component.toDrugOrder(null, null,null));
 		}
 	}
 	
-public void saveExtraRowForArv(String[] durgList,HttpServletRequest request,Patient patient) {
+    public Encounter createEncounterForBaseLine(Patient patient){
+    	Encounter encounter = new Encounter();
+		Location location = new Location(1);
+		User user = Context.getAuthenticatedUser();
+		List<Visit> visits=Context.getVisitService().getActiveVisitsByPatient(patient);
+		int visitSize=visits.size();
+		
+		encounter.setPatient(patient);
+		encounter.setCreator(user);
+		encounter.setProvider(user);
+		encounter.setEncounterDatetime(new Date());
+		encounter.setEncounterType(Context.getEncounterService().getEncounterTypeByUuid(_EncounterType.REGIMEN_ORDER));
+		encounter.setLocation(location);
+		if(visitSize==1){
+			for(Visit visit:visits){
+		encounter.setVisit(visit);
+			}
+		}
+		
+		encounter=Context.getEncounterService().saveEncounter(encounter);
+		return encounter;
+    }
+	
+	public void saveExtraRowForArv(String[] durgList,HttpServletRequest request,Patient patient,Encounter encounter) {
 		int count=5;
+		//Set<EncounterType> encounterTypes = new HashSet<EncounterType>();
+		//encounterTypes.add(Context.getEncounterService().getEncounterType(_EncounterType.REGIMEN_ORDER));
+		//Encounter encounter=Context.getService(KenyaEmrService.class).getLastEncounter(patient,encounterTypes);
+		
 		for(String drug:durgList){
 			String drugConceptId=request.getParameter("drug"+count);
 			double dose=Integer.parseInt(request.getParameter("dose"+count));
@@ -385,6 +428,7 @@ public void saveExtraRowForArv(String[] durgList,HttpServletRequest request,Pati
 			if(drugConceptId!=null){
 			DrugOrder order = new DrugOrder();
 			order.setOrderType(Context.getOrderService().getOrderType(OpenmrsConstants.ORDERTYPE_DRUG));
+			order.setEncounter(encounter);
 			order.setPatient(patient);
 			order.setStartDate(new Date());
 			order.setConcept(Context.getConceptService().getConceptByUuid(drugConceptId.substring(2)));

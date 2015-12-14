@@ -38,6 +38,8 @@ import org.openmrs.Concept;
 import org.openmrs.ConceptClass;
 import org.openmrs.ConceptSearchResult;
 import org.openmrs.Location;
+import org.openmrs.Obs;
+import org.openmrs.Order;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.Person;
@@ -324,6 +326,69 @@ public class SearchFragmentController {
 
 		return simplePatients;
 	}
+	
+	
+	public List<SimpleObject> patientsWithDispensingDate(@RequestParam(value = "date", required = false) String date,
+										@RequestParam(value = "q", required = false) String query,
+									   @RequestParam(value = "which", required = false, defaultValue = "all") String which,
+									   UiUtils ui) {
+		Date dispensedDate = null;
+		try {
+			dispensedDate  = parseDate(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		// Run main patient search query based on id/name
+		List<Patient> matchedByNameOrID = Context.getPatientService().getPatients(query);
+		if (matchedByNameOrID.size() == 0) {
+			List<Patient> matchedByID  = Context.getPatientService().getPatients(null, query, null, true);
+		    matchedByNameOrID.addAll(matchedByID);
+		}
+
+		List<Patient> matched = new ArrayList<Patient>();
+		List<SimpleObject> simplePatientsJason = new ArrayList<SimpleObject>();
+		
+		KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
+
+		if(query!="" && date!=""){
+			Map<Patient, Order> drugOrders1=getDrugOrders(dispensedDate);
+			Map<Patient, Obs> drugOrders2=getObsDrugOrders(dispensedDate);
+			for (Patient patient : matchedByNameOrID) {
+				if (drugOrders1.containsKey(patient)) {
+					matched.add(patient);
+				}
+				if (drugOrders2.containsKey(patient)) {
+					matched.add(patient);
+				}
+			}
+		}
+		else if(query!=""){
+			matched=matchedByNameOrID;	
+		}
+		else if(date!=""){
+			 List<Order> drugOrders1=kenyaEmrService.getOrderByDateAndOrderType(dispensedDate, Context.getOrderService().getOrderTypeByUuid("131168f4-15f5-102d-96e4-000c29c2a5d7"));
+			 List<Obs> obss=kenyaEmrService.getObsByDate(dispensedDate);
+			 for(Order drugOrder:drugOrders1){
+				 matched.add(drugOrder.getPatient()); 
+			 }
+			 for(Obs obs:obss){
+				 matched.add(obs.getPatient()); 
+			 }
+		 }
+			
+			Collections.sort(matched, new PersonByNameComparator());
+			
+			simplePatientsJason = new ArrayList<SimpleObject>();
+			
+			for(Patient patient:matched){
+				SimpleObject simplePatientt = ui.simplifyObject(patient);
+				simplePatientt.put("patientName", patient.getGivenName());
+				simplePatientsJason.add(simplePatientt);
+			}
+		
+		return simplePatientsJason;
+	}
 
 	/**
 	 * Gets a location by it's id
@@ -532,6 +597,27 @@ public class SearchFragmentController {
 			patientToVisits.put(visit.getPatient(), visit);
 		}
 		return patientToVisits;
+	}
+	
+	
+	protected Map<Patient, Order> getDrugOrders(Date date) {
+		KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
+		List<Order> orders =kenyaEmrService.getOrderByDateAndOrderType(date, Context.getOrderService().getOrderTypeByUuid("131168f4-15f5-102d-96e4-000c29c2a5d7"));
+		Map<Patient, Order> drugOrders = new HashMap<Patient, Order>();
+		for (Order order : orders) {
+			drugOrders.put(order.getPatient(), order);
+		}
+		return drugOrders;
+	}
+	
+	protected Map<Patient, Obs> getObsDrugOrders(Date date) {
+		KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
+		List<Obs> orders =kenyaEmrService.getObsByDate(date);
+		Map<Patient, Obs> drugOrders = new HashMap<Patient, Obs>();
+		for (Obs order : orders) {
+			drugOrders.put(order.getPatient(), order);
+		}
+		return drugOrders;
 	}
 
 	/**
