@@ -1,17 +1,27 @@
 <%
-	ui.decorateWith("kenyaemr", "standardPage", [ layout: "sidebar" ])
+	ui.decorateWith("kenyaemr", "standardPage", [ layout: "" ])
 %>
 
-<div class="ke-page-sidebar">
-	${ ui.includeFragment("kenyaemr", "patient/dispensaryPatientSearchForm", [ defaultWhich: "all" ]) }
+<div class="ke-patientheader">
+<div style="float: left; padding-right: 5px">
+		<button class="ke-compact" title="Dispensing" onclick="ke_dispensing()"><img src="${ ui.resourceLink("kenyaui", "images/apps/registration.png") }"/> Dispensing</button>
 </div>
 
-<div class="ke-page-content">
-	${ ui.includeFragment("kenyaemr", "patient/patientSearchResults", [ pageProvider: "kenyaemr", page: "dispensary/dispensaryViewPatient" ]) }
+<div style="float: right; padding-right: 5px">
+		<button class="ke-compact" title="Past Dispensing Record" onclick="ke_dispensing()"><img src="${ ui.resourceLink("kenyaui", "images/apps/registration.png") }"/> Past Dispensing Record</button>
+</div>
+
 </div>
 
 <script type="text/javascript">
-	jQuery(function() {
-		jQuery('input[name="query"]').focus();
-	});
+
+		function ke_dispensing() {
+			ui.navigate('kenyaemr', 'dispensary/dispensing');
+		}
+		
+		function ke_pastDispensingRecord() {
+			ui.navigate('kenyaemr', 'dispensary/dispensing');
+		}
+
 </script>
+

@@ -23,9 +23,7 @@ import org.openmrs.module.kenyacore.calculation.AbstractPatientCalculation;
 import org.openmrs.module.kenyacore.calculation.BooleanResult;
 import org.openmrs.module.kenyacore.calculation.CalculationUtils;
 import org.openmrs.module.kenyacore.report.data.patient.definition.VisitsForPatientDataDefinition;
-import org.openmrs.module.kenyaemr.Metadata;
 import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
-import org.openmrs.module.kenyaemr.metadata.TbMetadata;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.reporting.common.TimeQualifier;
 
@@ -61,7 +59,7 @@ public class PatientLastVisitCalculation extends AbstractPatientCalculation {
 					if (visit.getEncounters() != null) {
 						for (Encounter encounter : visit.getEncounters()) {
 							if (encounter != null) {
-								if (encounter.getEncounterType().equals(MetadataUtils.existing(EncounterType.class,  CommonMetadata._EncounterType.TB_SCREENING))) {
+								if (encounter.getEncounterType().equals(MetadataUtils.existing(EncounterType.class,  CommonMetadata._EncounterType.TB_SCREENING))){
 									hadIcfCardCompleted = true;
 								}
 							}
