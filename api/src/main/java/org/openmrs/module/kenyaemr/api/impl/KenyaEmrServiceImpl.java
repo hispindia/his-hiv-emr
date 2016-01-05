@@ -16,6 +16,7 @@ package org.openmrs.module.kenyaemr.api.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.DrugOrder;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.GlobalProperty;
@@ -45,6 +46,7 @@ import org.openmrs.module.kenyaemr.api.db.KenyaEmrDAO;
 import org.openmrs.module.kenyacore.identifier.IdentifierManager;
 import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
 import org.openmrs.module.kenyaemr.metadata.HivMetadata;
+import org.openmrs.module.kenyaemr.model.DrugOrderProcessed;
 import org.openmrs.util.OpenmrsUtil;
 import org.openmrs.util.PrivilegeConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -280,5 +282,17 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 	
 	public List<Obs> getObsByDate(Date date) {
 		return dao.getObsByDate(date);
+	}
+	
+	public DrugOrderProcessed saveDrugOrderProcessed(DrugOrderProcessed drugOrderProcessed) {
+		return dao.saveDrugOrderProcessed(drugOrderProcessed);
+	}
+	
+	public DrugOrderProcessed getDrugOrderProcessed(DrugOrder drugOrder) {
+		return dao.getDrugOrderProcessed(drugOrder);
+	}
+	
+	public DrugOrderProcessed getDrugOrderProcesed(Integer drugOrder) {
+		return dao.getDrugOrderProcesed(drugOrder);
 	}
 }

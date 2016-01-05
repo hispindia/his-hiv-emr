@@ -16,17 +16,19 @@ package org.openmrs.module.kenyaemr.fragment.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Concept;
 import org.openmrs.DrugOrder;
 import org.openmrs.Encounter;
-import org.openmrs.EncounterType;
 import org.openmrs.Location;
+import org.openmrs.Order;
 import org.openmrs.Patient;
 import org.openmrs.User;
 import org.openmrs.Visit;
@@ -34,7 +36,8 @@ import org.openmrs.api.OrderService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.kenyaemr.Dictionary;
 import org.openmrs.module.kenyaemr.api.KenyaEmrService;
-import org.openmrs.module.kenyaemr.metadata.CommonMetadata.*;
+import org.openmrs.module.kenyaemr.metadata.CommonMetadata._EncounterType;
+import org.openmrs.module.kenyaemr.model.DrugOrderProcessed;
 import org.openmrs.module.kenyaemr.regimen.Regimen;
 import org.openmrs.module.kenyaemr.regimen.RegimenChange;
 import org.openmrs.module.kenyaemr.regimen.RegimenChangeHistory;
@@ -42,8 +45,8 @@ import org.openmrs.module.kenyaemr.regimen.RegimenComponent;
 import org.openmrs.module.kenyaemr.regimen.RegimenManager;
 import org.openmrs.module.kenyaemr.regimen.RegimenOrder;
 import org.openmrs.module.kenyaemr.regimen.RegimenValidator;
-import org.openmrs.module.kenyaui.form.ValidatingCommandObject;
 import org.openmrs.module.kenyaui.KenyaUiUtils;
+import org.openmrs.module.kenyaui.form.ValidatingCommandObject;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.BindParams;
 import org.openmrs.ui.framework.annotation.MethodParam;
@@ -53,9 +56,6 @@ import org.openmrs.util.OpenmrsUtil;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  * Various actions for regimen related functions
@@ -74,7 +74,7 @@ public class RegimenUtilFragmentController {
 			@RequestParam(value = "durgList", required = false) String[] durgList,
 			HttpServletRequest request){
 		ui.validate(command, command, null);
-		Encounter encounter=command.apply();
+		Encounter encounter=command.apply(request);
 		saveExtraRowForArv(durgList,request,command.getPatient(),encounter);
 	}
 
@@ -194,7 +194,7 @@ public class RegimenUtilFragmentController {
 		/**
 		 * Applies this regimen change
 		 */
-		public Encounter apply() {
+		public Encounter apply(HttpServletRequest request) {
 			Concept masterSet = regimenManager.getMasterSetConcept(category);
 			RegimenChangeHistory history = RegimenChangeHistory.forPatient(patient, masterSet);
 			RegimenChange lastChange = history.getLastChange();
@@ -202,9 +202,33 @@ public class RegimenUtilFragmentController {
 			Encounter encounter=null;
 			if (baseline == null) {
 				encounter=createEncounterForBaseLine(patient);
+				Integer count=1;
 				for (RegimenComponent component : regimen.getComponents()) {
+					String drugConceptId=request.getParameter("drug"+count);
+					Concept drugConcept=null;
+					if(drugConceptId!=null){
+				    drugConcept=Context.getConceptService().getConceptByUuid(drugConceptId.substring(2));
+					}
 					DrugOrder o = component.toDrugOrder(patient,changeDate,encounter);
-					Context.getOrderService().saveOrder(o);
+					/*
+					if(o.getConcept().equals(drugConcept)){
+						Integer quantity=Integer.parseInt(request.getParameter("duration"+count));
+						o.setQuantity(quantity);	
+					}*/
+					Order order=Context.getOrderService().saveOrder(o);
+					
+					KenyaEmrService kes = (KenyaEmrService) Context.getService(KenyaEmrService.class);
+					
+					DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
+					drugOrderProcessed.setDrugOrder(Context.getOrderService().getDrugOrder(order.getOrderId()));
+					drugOrderProcessed.setCreatedDate(new Date());
+					drugOrderProcessed.setProcessedStatus(false);
+					if(o.getConcept().equals(drugConcept)){
+						Integer duration=Integer.parseInt(request.getParameter("duration"+count));
+						drugOrderProcessed.setDurationPreProcess(duration);	
+					}
+					kes.saveDrugOrderProcessed(drugOrderProcessed);
+					count++;
 				}
 			}
 			else {
@@ -218,12 +242,69 @@ public class RegimenUtilFragmentController {
 					}
 				}
 
+				OrderService os = Context.getOrderService();
+				
+				for (DrugOrder o : noChanges) {
+					Integer count=1;
+					String drugConceptId1=request.getParameter("drug"+count);
+					Concept drugConcept1=null;
+					if(!StringUtils.isBlank(drugConceptId1)){
+				    drugConcept1=Context.getConceptService().getConceptByUuid(drugConceptId1.substring(2));
+					}
+					
+					count=2;
+					String drugConceptId2=request.getParameter("drug"+count);
+					Concept drugConcept2=null;
+					if(!StringUtils.isBlank(drugConceptId2)){
+				    drugConcept2=Context.getConceptService().getConceptByUuid(drugConceptId2.substring(2));
+					}
+					
+					count=3;
+					String drugConceptId3=request.getParameter("drug"+count);
+					Concept drugConcept3=null;
+					if(!StringUtils.isBlank(drugConceptId3)){
+				    drugConcept3=Context.getConceptService().getConceptByUuid(drugConceptId3.substring(2));
+					}
+					
+					count=4;
+					String drugConceptId4=request.getParameter("drug"+count);
+					Concept drugConcept4=null;
+					if(!StringUtils.isBlank(drugConceptId4)){
+				    drugConcept4=Context.getConceptService().getConceptByUuid(drugConceptId4.substring(2));
+					}
+					
+                    KenyaEmrService kes = (KenyaEmrService) Context.getService(KenyaEmrService.class);
+					
+					DrugOrderProcessed drugOrderProcessed=kes.getDrugOrderProcessed(o);
+					
+					if(o.getConcept().equals(drugConcept1)){
+					count=1;
+					Integer duration=Integer.parseInt(request.getParameter("duration"+count));
+					drugOrderProcessed.setDurationPreProcess(duration);
+					}
+					else if(o.getConcept().equals(drugConcept2)){
+					count=2;
+					Integer duration=Integer.parseInt(request.getParameter("duration"+count));
+					drugOrderProcessed.setDurationPreProcess(duration);	
+					}
+					else if(o.getConcept().equals(drugConcept3)){
+					count=3;
+					Integer duration=Integer.parseInt(request.getParameter("duration"+count));
+					drugOrderProcessed.setDurationPreProcess(duration);	
+					}
+					else if(o.getConcept().equals(drugConcept4)){
+					count=4;
+					Integer duration=Integer.parseInt(request.getParameter("duration"+count));
+					drugOrderProcessed.setDurationPreProcess(duration);	
+					}
+					
+					kes.saveDrugOrderProcessed(drugOrderProcessed);
+				}
+				
 				List<DrugOrder> toStop = new ArrayList<DrugOrder>(baseline.getDrugOrders());
 				// for now "toChangeDose" is handled the same as toStop
 				// toStop.removeAll(toChangeDose);
 				toStop.removeAll(noChanges);
-
-				OrderService os = Context.getOrderService();
 
 				for (DrugOrder o : toStop) {
 					o.setDiscontinued(true);
@@ -239,11 +320,69 @@ public class RegimenUtilFragmentController {
 				//Encounter encounter=Context.getService(KenyaEmrService.class).getLastEncounter(patient,encounterTypes);
 				encounter=createEncounterForBaseLine(patient);
 				for (DrugOrder o : toStart) {
+					Integer count=1;
+					String drugConceptId1=request.getParameter("drug"+count);
+					Concept drugConcept1=null;
+					if(!StringUtils.isBlank(drugConceptId1)){
+				    drugConcept1=Context.getConceptService().getConceptByUuid(drugConceptId1.substring(2));
+					}
+					
+					count=2;
+					String drugConceptId2=request.getParameter("drug"+count);
+					Concept drugConcept2=null;
+					if(!StringUtils.isBlank(drugConceptId2)){
+				    drugConcept2=Context.getConceptService().getConceptByUuid(drugConceptId2.substring(2));
+					}
+					
+					count=3;
+					String drugConceptId3=request.getParameter("drug"+count);
+					Concept drugConcept3=null;
+					if(!StringUtils.isBlank(drugConceptId3)){
+				    drugConcept3=Context.getConceptService().getConceptByUuid(drugConceptId3.substring(2));
+					}
+					
+					count=4;
+					String drugConceptId4=request.getParameter("drug"+count);
+					Concept drugConcept4=null;
+					if(!StringUtils.isBlank(drugConceptId4)){
+				    drugConcept4=Context.getConceptService().getConceptByUuid(drugConceptId4.substring(2));
+					}
+					
 					o.setEncounter(encounter);
 					o.setPatient(patient);
 					o.setStartDate(changeDate);
 					o.setOrderType(os.getOrderType(OpenmrsConstants.ORDERTYPE_DRUG));
-					os.saveOrder(o);
+					Order order=os.saveOrder(o);
+					
+                    KenyaEmrService kes = (KenyaEmrService) Context.getService(KenyaEmrService.class);
+					
+					DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
+					drugOrderProcessed.setDrugOrder(Context.getOrderService().getDrugOrder(order.getOrderId()));
+					drugOrderProcessed.setCreatedDate(new Date());
+					drugOrderProcessed.setProcessedStatus(false);
+					
+					if(o.getConcept().equals(drugConcept1)){
+					count=1;
+					Integer duration=Integer.parseInt(request.getParameter("duration"+count));
+					drugOrderProcessed.setDurationPreProcess(duration);
+					}
+					else if(o.getConcept().equals(drugConcept2)){
+					count=2;
+					Integer duration=Integer.parseInt(request.getParameter("duration"+count));
+					drugOrderProcessed.setDurationPreProcess(duration);	
+					}
+					else if(o.getConcept().equals(drugConcept3)){
+					count=3;
+					Integer duration=Integer.parseInt(request.getParameter("duration"+count));
+					drugOrderProcessed.setDurationPreProcess(duration);	
+					}
+					else if(o.getConcept().equals(drugConcept4)){
+					count=4;
+					Integer duration=Integer.parseInt(request.getParameter("duration"+count));
+					drugOrderProcessed.setDurationPreProcess(duration);	
+					}
+					
+					kes.saveDrugOrderProcessed(drugOrderProcessed);
 				}
 			}
 			return encounter;
@@ -435,10 +574,19 @@ public class RegimenUtilFragmentController {
 			//order.setDrug(drugRef.getDrug());
 			order.setDose(dose);
 			//saving duration quantity table 
-			order.setQuantity(duration);
+			//order.setQuantity(duration);
 			order.setUnits(unit);
 			order.setFrequency(frequency);
 			Context.getOrderService().saveOrder(order);
+			
+			KenyaEmrService kes = (KenyaEmrService) Context.getService(KenyaEmrService.class);
+			
+			DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
+			drugOrderProcessed.setDrugOrder(order);
+			drugOrderProcessed.setCreatedDate(new Date());
+			drugOrderProcessed.setProcessedStatus(false);
+			drugOrderProcessed.setDurationPreProcess(duration);
+			kes.saveDrugOrderProcessed(drugOrderProcessed);
 			count++;
 			}
 		}

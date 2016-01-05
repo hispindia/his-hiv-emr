@@ -114,5 +114,13 @@
 			DELETE FROM role WHERE role = 'Provider App';
 		</sql>
 	</changeSet>
+	
+	<changeSet id="${project.parent.artifactId}-20160105-1124" author="ghanshyam">
+		<comment>
+		</comment>
+		<sql>
+		CREATE TABLE IF NOT EXISTS drug_order_processed (id integer not null auto_increment, drug_order integer,created_date datetime,processed_status tinyint(1),duration_preprocess integer,quantity_postprocess integer,primary key (id));
+		</sql>
+	</changeSet>
 
 </databaseChangeLog>

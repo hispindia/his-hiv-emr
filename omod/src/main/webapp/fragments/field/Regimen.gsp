@@ -96,11 +96,11 @@
 	<% for (def c = 0; c < maxComponents; ++c) { %>
 	<div class="regimen-component">
 		<input type="text" id="slNo${c+1}" name="slNo${c+1}" size="5" value="${c+1}" readonly="readonly">
-		<select class="regimen-component-drug" style='width: 155px;height: 30px;' id="drug${c}"  name="drug${c}"><option value="" />${ drugOptions }</select>
-		<select class="regimen-component-dose" style='width: 155px;height: 30px;' id="dose${c}"  name="dose${c}"><option value="" />${ formulationOptions }</select>
-		<select class="regimen-component-units" style='width: 158px;height: 30px;' id="unit${c}"  name="unit${c}">${ unitsOptions }</select>
-		<select class="regimen-component-frequency" style='width: 158px;height: 30px;' id="frequency${c}"  name="frequency${c}">${ frequencyOptions }</select>
-		<input class='regimen-component-quantity' type="text" id="duration" name="duration" size="20">
+		<select class="regimen-component-drug" style='width: 155px;height: 30px;' id="drug${c+1}"  name="drug${c+1}"><option value="" />${ drugOptions }</select>
+		<select class="regimen-component-dose" style='width: 155px;height: 30px;' id="dose${c+1}"  name="dose${c+1}"><option value="" />${ formulationOptions }</select>
+		<select class="regimen-component-units" style='width: 158px;height: 30px;' id="unit${c+1}"  name="unit${c+1}">${ unitsOptions }</select>
+		<select class="regimen-component-frequency" style='width: 158px;height: 30px;' id="frequency${c+1}"  name="frequency${c+1}">${ frequencyOptions }</select>
+		<input class='regimen-component-duration' type="text" id="duration${c+1}" name="duration${c+1}" size="20">
 		 
 		<input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" size="5" id="info${c+1}" name="info${c+1}" value="Info" onClick="artDrugInfo();" />
 		<% if (c==maxComponents-1) { %>
@@ -149,7 +149,7 @@ function addDrugOrderForARVTreatment() {
 	       	 +"<select class='regimen-component-frequency' id='frequency"+arvtreatment+"'  name='frequency"+arvtreatment+"' style='width: 158px;height: 30px;'>"
 	         +'${ frequencyOptions }'
 	       	 +"</select>&nbsp;"
-	       	 +"<input class='regimen-component-quantity' id='duration"+arvtreatment+"'  name='duration"+arvtreatment+"' type='text' size='20'/>&nbsp;"
+	       	 +"<input class='regimen-component-duration' id='duration"+arvtreatment+"'  name='duration"+arvtreatment+"' type='text' size='20'/>&nbsp;"
 	       	 +"<input id='info"+arvtreatment+"' class='ui-button ui-widget ui-state-default ui-corner-all' type='button' size='5' name='info"+arvtreatment+"' value='Info' onclick='artDrugInfo();'/>&nbsp;"
 	       	 +"<a style='color:red' href='#' onclick='"+deleteString+"' >[X]</a>&nbsp;"
 	       	 +"<input id='drug"+arvtreatment+"List'  name='durgList' type='hidden'/>";

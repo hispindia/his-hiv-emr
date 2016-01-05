@@ -22,12 +22,15 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.Cohort;
+import org.openmrs.DrugOrder;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.Obs;
 import org.openmrs.OrderType;
 import org.openmrs.Patient;
+import org.openmrs.api.db.DAOException;
 import org.openmrs.module.kenyaemr.api.db.KenyaEmrDAO;
+import org.openmrs.module.kenyaemr.model.DrugOrderProcessed;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -162,6 +165,23 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		}
 		}
 		return criteria.list();
+	}
+	
+	public DrugOrderProcessed saveDrugOrderProcessed(DrugOrderProcessed drugOrderProcessed) throws DAOException {
+		return (DrugOrderProcessed) sessionFactory.getCurrentSession().merge(drugOrderProcessed);
+	}
+	
+	public DrugOrderProcessed getDrugOrderProcessed(DrugOrder drugOrder) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class,"drugOrderProcessed");
+		criteria.add(Restrictions.eq("drugOrder", drugOrder));
+		criteria.add(Restrictions.eq("processedStatus", false));
+		return (DrugOrderProcessed) criteria.uniqueResult();
+	}
+	
+	public DrugOrderProcessed getDrugOrderProcesed(Integer drugOrder) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class,"drugOrderProcessed");
+		criteria.add(Restrictions.eq("id", drugOrder));
+		return (DrugOrderProcessed) criteria.uniqueResult();
 	}
 
 }

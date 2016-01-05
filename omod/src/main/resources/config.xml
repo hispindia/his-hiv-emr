@@ -34,5 +34,9 @@
 		<lang>en</lang>
 		<file>messages.properties</file>
 	</messages>
+	
+	<mappingFiles>
+	DrugOrderProcessed.hbm.xml
+	</mappingFiles>
 
 </module>

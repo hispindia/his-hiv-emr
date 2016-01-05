@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.openmrs.DrugOrder;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
@@ -28,6 +29,7 @@ import org.openmrs.OrderType;
 import org.openmrs.Patient;
 import org.openmrs.Visit;
 import org.openmrs.api.OpenmrsService;
+import org.openmrs.module.kenyaemr.model.DrugOrderProcessed;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -115,4 +117,7 @@ public interface KenyaEmrService extends OpenmrsService {
 	public Encounter getLastEncounter(Patient patient,Set<EncounterType> encounterTypes);
 	public List<Order> getOrderByDateAndOrderType(Date date,OrderType orderType);
 	public List<Obs> getObsByDate(Date date);
+	public DrugOrderProcessed saveDrugOrderProcessed(DrugOrderProcessed drugOrderProcessed);
+	public DrugOrderProcessed getDrugOrderProcessed(DrugOrder drugOrder);
+	public DrugOrderProcessed getDrugOrderProcesed(Integer drugOrder);
 }
