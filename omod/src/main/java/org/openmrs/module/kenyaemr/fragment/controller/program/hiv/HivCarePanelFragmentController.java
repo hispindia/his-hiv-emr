@@ -14,25 +14,30 @@
 
 package org.openmrs.module.kenyaemr.fragment.controller.program.hiv;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.openmrs.Concept;
 import org.openmrs.Patient;
+import org.openmrs.PatientProgram;
+import org.openmrs.Program;
+import org.openmrs.api.context.Context;
 import org.openmrs.calculation.result.CalculationResult;
-import org.openmrs.module.kenyaemr.calculation.EmrCalculationUtils;
-import org.openmrs.module.kenyaemr.regimen.RegimenManager;
+import org.openmrs.module.kenyacore.program.ProgramManager;
 import org.openmrs.module.kenyaemr.Dictionary;
-import org.openmrs.module.kenyaemr.calculation.library.hiv.LastWhoStageCalculation;
-import org.openmrs.module.kenyaemr.calculation.library.hiv.art.InitialArtRegimenCalculation;
-import org.openmrs.module.kenyaemr.calculation.library.hiv.art.InitialArtStartDateCalculation;
+import org.openmrs.module.kenyaemr.calculation.EmrCalculationUtils;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.LastCd4CountCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.LastCd4PercentageCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.LastDiagnosisCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.LastWhoStageCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.art.InitialArtRegimenCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.art.InitialArtStartDateCalculation;
 import org.openmrs.module.kenyaemr.regimen.RegimenChangeHistory;
+import org.openmrs.module.kenyaemr.regimen.RegimenManager;
 import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Controller for HIV care summary
@@ -42,7 +47,8 @@ public class HivCarePanelFragmentController {
 	public void controller(@FragmentParam("patient") Patient patient,
 						   @FragmentParam("complete") Boolean complete,
 						   FragmentModel model,
-						   @SpringBean RegimenManager regimenManager) {
+						   @SpringBean RegimenManager regimenManager,
+						   @SpringBean ProgramManager programManager) {
 
 		Map<String, CalculationResult> calculationResults = new HashMap<String, CalculationResult>();
 
@@ -63,6 +69,19 @@ public class HivCarePanelFragmentController {
 		model.addAttribute("regimenHistory", history);
 		
 		model.addAttribute("graphingConcepts", Dictionary.getConcepts(Dictionary.WEIGHT_KG, Dictionary.CD4_COUNT, Dictionary.CD4_PERCENT, Dictionary.HIV_VIRAL_LOAD));
+		
+		PatientProgram currentEnrollment = null;
+		Program program=Context.getProgramWorkflowService().getProgramByUuid("96ec813f-aaf0-45b2-add6-e661d5bf79d6");
+		
+		// Gather all program enrollments for this patient and program
+				List<PatientProgram> enrollments = programManager.getPatientEnrollments(patient, program);
+				for (PatientProgram enrollment : enrollments) {
+					if (enrollment.getActive()) {
+						currentEnrollment = enrollment;
+					}
+				}
+
+		model.addAttribute("currentEnrollment", currentEnrollment);
 		
 	}
 }
