@@ -188,4 +188,5 @@
 	<ref key="TB_PATIENT" uuid="5fcb62a7-f1b5-4cc6-bf69-4455719036a6" />
 	<ref key="TB_SITE" uuid="161356AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 	<ref key="HIV_CARE_DIAGNOSIS" uuid="2cb66aeb-89c2-4526-9895-dc44ffdd94f0" />
+	<ref key="OI_TB_FORM" uuid="160170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />	
 </refs>
