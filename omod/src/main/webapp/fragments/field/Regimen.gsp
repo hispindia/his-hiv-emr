@@ -1,6 +1,10 @@
 <%
 	ui.includeJavascript("kenyaemr", "controllers/drugRegimenController.js")
 	
+	ui.includeJavascript("kenyaemr", "jquery.thickbox.js")
+	
+	ui.includeCss("kenyaemr", "thickbox.css")
+	
 	def formulations = [ "30", "50", "100", "150", "200" , "300" ,"400" , "600" ]
 	
 	def units = [ " " , "mg", "g", "ml", "tab" ]
@@ -79,7 +83,9 @@
 		<% regimenGroups.each { group -> %>
 			<optgroup label="${ group.name }">${ groupOptions(group) }</optgroup>
 		<% } %>
-	</select><br />
+	</select>
+	<input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="guide" name="guide" value="Guide" onClick="guidee();" />
+	<br />
 	<br />
 	
 	<div>
@@ -110,6 +116,11 @@
 	<% } %>
 	<div id="headerValuea">		
 </div>
+</div>
+
+<div id="scheduleDiv" style="visibility:hidden;">
+<table id="tableSchedule">
+</table>
 </div>
 
 <% if (config.parentFormId) { %>
@@ -202,5 +213,19 @@ jQuery('#'+id).val(thisObj.value);
 
 function artDrugInfo(){
 alert("This Functionality is under development");
+}
+
+function guidee(){
+var age=${patient.age};
+if(age>12){
+//alert("This pateint age is adult");
+var url = "#TB_inline?height=100&width=100&inlineId=scheduleDiv";
+tb_show("Schedule the procedues",url,false);
+}
+else{
+//alert("This pateint age is child");
+var url = "#TB_inline?height=100&width=100&inlineId=scheduleDiv";
+tb_show("Schedule the procedues",url,false);
+}
 }
 </script>
