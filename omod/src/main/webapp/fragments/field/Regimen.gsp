@@ -108,7 +108,7 @@
 		<select class="regimen-component-frequency" style='width: 158px;height: 30px;' id="frequency${c+1}"  name="frequency${c+1}">${ frequencyOptions }</select>
 		<input class='regimen-component-duration' type="text" id="duration${c+1}" name="duration${c+1}" size="20">
 		 
-		<input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" size="5" id="info${c+1}" name="info${c+1}" value="Info" onClick="artDrugInfo();" />
+		<input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" size="5" id="info${c+1}" name="info${c+1}" value="Info" onClick="artDrugInfo('drug${c+1}');" />
 		<% if (c==maxComponents-1) { %>
 		<input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="add" name="add" value="Add" onClick="addDrugOrderForARVTreatment();" />
 		<% } %>
@@ -118,8 +118,8 @@
 </div>
 </div>
 
-<div id="scheduleDiv" style="visibility:hidden;">
-<table id="tableSchedule">
+<div id="guideDiv" style="visibility:hidden;">
+<table id="tableGuide">
 </table>
 </div>
 
@@ -211,21 +211,21 @@ var id=thisObj.id.toString()+"List";
 jQuery('#'+id).val(thisObj.value);
 }
 
-function artDrugInfo(){
-alert("This Functionality is under development");
+function artDrugInfo(drugParameter){
+var drugName=jQuery('#'+drugParameter).val();
+//alert("This Functionality is under development"+drugName);
 }
 
 function guidee(){
 var age=${patient.age};
 if(age>12){
-//alert("This pateint age is adult");
-var url = "#TB_inline?height=100&width=100&inlineId=scheduleDiv";
-tb_show("Schedule the procedues",url,false);
+alert("This pateint age is adult");
+var url = "#TB_inline?height=100&width=100&inlineId=guideDiv";
+tb_show("Guide",url,false);
 }
 else{
-//alert("This pateint age is child");
-var url = "#TB_inline?height=100&width=100&inlineId=scheduleDiv";
-tb_show("Schedule the procedues",url,false);
+alert("This pateint age is child");
+var url = "#TB_inline?height=100&width=100&inlineId=guideDiv";
 }
 }
 </script>

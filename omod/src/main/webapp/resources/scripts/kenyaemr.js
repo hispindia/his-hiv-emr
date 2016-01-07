@@ -83,6 +83,7 @@ var kenyaemrApp = angular.module('kenyaemr', [ 'kenyaui' ]);
 			}
 		});
 
+		$('#' + 'guide').val("Guide");
 		$('#' + fieldId).val(regimenStr);
 		$('#' + 'slNoah').val("S.No");
 		$('#' + 'drugNameah').val("Drug Name");

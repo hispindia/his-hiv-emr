@@ -51,8 +51,6 @@ public class RegimenFragmentController {
 		for (RegimenDefinitionGroup group : regimenGroups) {
 			regimenDefinitions.addAll(group.getRegimens());
 		}
-
-		//Patient patient = (Patient) model.getAttribute(EmrWebConstants.MODEL_ATTR_CURRENT_PATIENT);
 		
 		model.addAttribute("maxComponents", 4);
 		model.addAttribute("drugs", regimenManager.getDrugs(category));
