@@ -51,21 +51,109 @@ public class WhiteCardFragmentController {
 		/*
 		 * Personal History
 		 * */
-		Obs riskFactor = getAllLatestObs(patient, Dictionary.HIV_RISK_FACTOR);
-		System.out.println(riskFactor.getEncounter());
-		
-		EncounterWrapper wrapped = new EncounterWrapper(riskFactor.getEncounter());
-		List<Obs> obsList = wrapped.allObs(riskFactor.getConcept());
+
 		String listAllRiskFactor="";
-		for (Obs obs : obsList) {
-			if(listAllRiskFactor.isEmpty()){
-				listAllRiskFactor = listAllRiskFactor.concat(obs.getValueCoded().getName().toString());
-			}
-			else{
-				listAllRiskFactor = listAllRiskFactor.concat(", "+obs.getValueCoded().getName().toString());	
+		String iduStatusValue="";
+		String iduNameValue="";
+		String literate="";
+		String employed="";
+		String alcoholic="";
+		String alcoholicType="";
+		String income="";
+		
+		Obs riskFactor = getAllLatestObs(patient, Dictionary.HIV_RISK_FACTOR);
+		if(riskFactor!=null){
+			EncounterWrapper wrapped = new EncounterWrapper(riskFactor.getEncounter());
+			List<Obs> obsList = wrapped.allObs(riskFactor.getConcept());
+			
+			for (Obs obs : obsList) {
+				if(listAllRiskFactor.isEmpty()){
+					listAllRiskFactor = listAllRiskFactor.concat(obs.getValueCoded().getName().toString());
+				}
+				else{
+					listAllRiskFactor = listAllRiskFactor.concat(", "+obs.getValueCoded().getName().toString());	
+				}
 			}
 		}
+		
 		model.addAttribute("listAllRiskFactor", listAllRiskFactor);
+		
+		Obs iduStatusObs = getAllLatestObs(patient, Dictionary.IDU_PERSONAL_HISTORY);
+		if(iduStatusObs!=null){
+			EncounterWrapper wrapped = new EncounterWrapper(iduStatusObs.getEncounter());
+			List<Obs> obsList = wrapped.allObs(iduStatusObs.getConcept());
+			for (Obs obs : obsList) {
+				iduStatusValue = iduStatusValue.concat(obs.getValueCoded().getName().toString());
+			}
+		}
+		model.addAttribute("iduStatusValue", iduStatusValue);
+		
+		Obs iduStatusNameObs = getAllLatestObs(patient, Dictionary.IDU_NAME_PERSONAL_HISTORY);
+		if(iduStatusNameObs!=null){
+			EncounterWrapper wrapped = new EncounterWrapper(iduStatusNameObs.getEncounter());
+			List<Obs> obsList = wrapped.allObs(iduStatusNameObs.getConcept());
+			for (Obs obs : obsList) {
+				iduNameValue = iduNameValue.concat(obs.getValueCoded().getName().toString());
+			}
+		}
+		model.addAttribute("iduNameValue", iduNameValue);
+
+		Obs literateObs = getAllLatestObs(patient, Dictionary.LITERATE);
+		if(literateObs!=null){
+			EncounterWrapper wrapped = new EncounterWrapper(literateObs.getEncounter());
+			List<Obs> obsList = wrapped.allObs(literateObs.getConcept());
+			for (Obs obs : obsList) {
+				literate = literate.concat(obs.getValueCoded().getName().toString());
+			}
+		}
+		model.addAttribute("literate", literate);
+		
+		Obs employedObs = getAllLatestObs(patient, Dictionary.EMPLOYED);
+		if(employedObs!=null){
+			EncounterWrapper wrapped = new EncounterWrapper(employedObs.getEncounter());
+			List<Obs> obsList = wrapped.allObs(employedObs.getConcept());
+			for (Obs obs : obsList) {
+				employed = employed.concat(obs.getValueCoded().getName().toString());
+			}
+		}
+		model.addAttribute("employed", employed);
+		
+		Obs alcoholicObs = getAllLatestObs(patient, Dictionary.ALCOHOLIC);
+		if(alcoholicObs!=null){
+			EncounterWrapper wrapped = new EncounterWrapper(alcoholicObs.getEncounter());
+			List<Obs> obsList = wrapped.allObs(alcoholicObs.getConcept());
+			for (Obs obs : obsList) {
+				alcoholic = alcoholic.concat(obs.getValueCoded().getName().toString());
+			}
+		}
+		model.addAttribute("alcoholic", alcoholic);
+		
+		Obs alcoholicTypeObs = getAllLatestObs(patient, Dictionary.ALCOHOLIC_TYPE);
+		if(alcoholicTypeObs!=null){
+			EncounterWrapper wrapped = new EncounterWrapper(alcoholicTypeObs.getEncounter());
+			List<Obs> obsList = wrapped.allObs(alcoholicTypeObs.getConcept());
+			for (Obs obs : obsList) {
+				alcoholicType = alcoholicType.concat(obs.getValueCoded().getName().toString());
+			}
+		}
+		model.addAttribute("alcoholicType", alcoholicType);
+		
+		Obs incomeObs = getAllLatestObs(patient, Dictionary.PATIENT_INCOME);
+		if(incomeObs!=null){
+			EncounterWrapper wrapped = new EncounterWrapper(incomeObs.getEncounter());
+			List<Obs> obsList = wrapped.allObs(incomeObs.getConcept());
+			for (Obs obs : obsList) {
+				income = obs.getValueNumeric().toString();
+			}
+		}
+		model.addAttribute("income", income);
+		
+		
+		/*
+		 * Family History
+		 * */
+		
+		
 		
 		/*
 		 * Varaible for each visit

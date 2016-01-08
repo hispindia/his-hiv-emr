@@ -52,8 +52,14 @@
 			<tr>
 			<tr>
 				<td>
-					${listAllRiskFactor}
+					<strong>Risk Factor for HIV :</strong> ${listAllRiskFactor}
+					<br/><strong>For IDus Substitution therapy :</strong>${iduStatusValue} (${iduNameValue})
+					<br/><strong>Literate :</strong>${literate}
+					<br/><strong>Employed :</strong>${employed}
+					<br/><strong>Alcoholic :</strong>${alcoholic} (${alcoholicType})
+					<br/><strong>Income :</strong>${income} Kyats
 				</td>
+				
 			</tr>
 				<td width="50%" valign="top">
 					<br/>${ ui.includeFragment("kenyaui", "widget/obsHistoryTable", [ id: "tblhistory", patient: currentPatient, concepts: graphingConcepts ]) }
