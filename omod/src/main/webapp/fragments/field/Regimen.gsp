@@ -1,10 +1,6 @@
 <%
 	ui.includeJavascript("kenyaemr", "controllers/drugRegimenController.js")
 	
-	ui.includeJavascript("kenyaemr", "jquery.thickbox.js")
-	
-	ui.includeCss("kenyaemr", "thickbox.css")
-	
 	def formulations = [ "30", "50", "100", "150", "200" , "300" ,"400" , "600" ]
 	
 	def units = [ " " , "mg", "g", "ml", "tab" ]
@@ -118,9 +114,12 @@
 </div>
 </div>
 
-<div id="guideDiv" style="visibility:hidden;">
-<table id="tableGuide">
-</table>
+<div id="guideDivAdult" style="visibility:hidden;">
+<img src="${ ui.resourceLink("kenyaui", "images/glyphs/flow_chart_adult.JPG") }" />
+</div>
+
+<div id="guideDivChild" style="visibility:hidden;">
+<img src="${ ui.resourceLink("kenyaui", "images/glyphs/flow_chart_child.JPG") }" />
 </div>
 
 <% if (config.parentFormId) { %>
@@ -219,13 +218,12 @@ var drugName=jQuery('#'+drugParameter).val();
 function guidee(){
 var age=${patient.age};
 if(age>12){
-alert("This pateint age is adult");
-var url = "#TB_inline?height=100&width=100&inlineId=guideDiv";
+var url = "#TB_inline?height=750&width=1150&inlineId=guideDivAdult";
 tb_show("Guide",url,false);
 }
 else{
-alert("This pateint age is child");
-var url = "#TB_inline?height=100&width=100&inlineId=guideDiv";
+var url = "#TB_inline?height=750&width=1350&inlineId=guideDivChild";
+tb_show("Guide",url,false);
 }
 }
 </script>
