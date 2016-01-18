@@ -37,6 +37,7 @@
 	
 	<mappingFiles>
 	DrugOrderProcessed.hbm.xml
+	DrugInfo.hbm.xml
 	</mappingFiles>
 
 </module>

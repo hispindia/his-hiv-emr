@@ -114,12 +114,11 @@
 </div>
 </div>
 
-<div id="guideDivAdult" style="visibility:hidden;">
-<img src="${ ui.resourceLink("kenyaui", "images/glyphs/flow_chart_adult.JPG") }" />
+<div id="guideDiv" style="visibility:hidden;">
+
 </div>
 
-<div id="guideDivChild" style="visibility:hidden;">
-<img src="${ ui.resourceLink("kenyaui", "images/glyphs/flow_chart_child.JPG") }" />
+<div id="drugInfoDiv" style="visibility:hidden;">		
 </div>
 
 <% if (config.parentFormId) { %>
@@ -211,17 +210,82 @@ jQuery('#'+id).val(thisObj.value);
 }
 
 function artDrugInfo(drugParameter){
-var drugName=jQuery('#'+drugParameter).val();
-//alert("This Functionality is under development"+drugName);
+var drugName=jQuery('#'+drugParameter).find("option:selected").text();
+jQuery.ajax(ui.fragmentActionLink("kenyaemr", "field/drugInfo", "drugDetails"), { data: { drugName: drugName }, dataType: 'json'
+						}).done(function(data) {druNam=data.drugName; toxicity=data.toxicity;riskFactor=data.riskFactor;suggestedManagement=data.suggestedManagement;
+						drugInteraction=data.drugInteraction;suggestedManagementInteraction=data.suggestedManagementInteraction;
+var htmlText =  "<table>"
+                +"<tr>"
+                +"<th>"
+                +"Drug Name&nbsp;"
+                +"</th>"
+                +"<th>"
+                +'Toxicity'
+                +"</th>"
+                 +"<th>"
+                +"Risk Factor&nbsp;"
+                +"</th>"
+                +"<th>"
+                +"Suggested Management&nbsp;"
+                +"</th>"
+                 +"<th>"
+                +"Drug Interaction&nbsp;"
+                +"</th>"
+                +"<th>"
+                +'Suggested Management Interaction'
+                +"</th>"
+                +"</tr>"
+                
+                +"<tr>"
+                +"<td>"
+                +druNam
+                +"</td>"
+                +"<td>"
+                +toxicity
+                +"</td>"
+                 +"<td>"
+                +riskFactor
+                +"</td>"
+                +"<td>"
+                +suggestedManagement
+                +"</td>"
+                 +"<td>"
+                +drugInteraction
+                +"</td>"
+                +"<td>"
+                +suggestedManagementInteraction
+                +"</td>"
+                +"</tr>"
+                +"</table>"
+var newElement = document.createElement('div');
+newElement.setAttribute("id", "drugDiv"); 
+newElement.innerHTML = htmlText;
+var fieldsArea = document.getElementById('drugInfoDiv');
+fieldsArea.appendChild(newElement);
+var url = "#TB_inline?height=300&width=750&inlineId=drugDiv";
+tb_show("Drug Info",url,false);
+ });
 }
 
 function guidee(){
 var age=${patient.age};
 if(age>12){
+var htmlText =  "<img src='${ ui.resourceLink('kenyaui', 'images/glyphs/flow_chart_adult.JPG') }' />"
+var newElement = document.createElement('div');
+newElement.setAttribute("id", "guideDivAdult"); 
+newElement.innerHTML = htmlText;
+var fieldsArea = document.getElementById('guideDiv');
+fieldsArea.appendChild(newElement);
 var url = "#TB_inline?height=750&width=1150&inlineId=guideDivAdult";
 tb_show("Guide",url,false);
 }
 else{
+var htmlText =  "<img src='${ ui.resourceLink('kenyaui', 'images/glyphs/flow_chart_child.JPG') }' />"
+var newElement = document.createElement('div');
+newElement.setAttribute("id", "guideDivChild"); 
+newElement.innerHTML = htmlText;
+var fieldsArea = document.getElementById('guideDiv');
+fieldsArea.appendChild(newElement);
 var url = "#TB_inline?height=750&width=1350&inlineId=guideDivChild";
 tb_show("Guide",url,false);
 }

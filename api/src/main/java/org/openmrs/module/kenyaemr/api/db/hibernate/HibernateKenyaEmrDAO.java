@@ -30,6 +30,7 @@ import org.openmrs.OrderType;
 import org.openmrs.Patient;
 import org.openmrs.api.db.DAOException;
 import org.openmrs.module.kenyaemr.api.db.KenyaEmrDAO;
+import org.openmrs.module.kenyaemr.model.DrugInfo;
 import org.openmrs.module.kenyaemr.model.DrugOrderProcessed;
 
 import java.text.ParseException;
@@ -182,6 +183,17 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class,"drugOrderProcessed");
 		criteria.add(Restrictions.eq("id", drugOrder));
 		return (DrugOrderProcessed) criteria.uniqueResult();
+	}
+	
+	public List<DrugInfo> getDrugInfo() {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugInfo.class,"drugInfo");
+		return criteria.list();
+	}
+	
+	public DrugInfo getDrugInfo(String drugName) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugInfo.class,"drugInfo");
+		criteria.add(Restrictions.eq("drugName", drugName));
+		return (DrugInfo) criteria.uniqueResult();
 	}
 
 }
