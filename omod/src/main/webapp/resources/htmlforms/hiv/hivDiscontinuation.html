@@ -16,6 +16,50 @@
 	<script type="text/javascript">
 		var value1;
 		jq(document).ready(function(){
+			
+			if ((getValue('idReason.value')) == 160034) {
+				jq('#pdied :input').prop('disabled', false);
+				jq('#ptransferred :input').prop('disabled', true);
+				jq('#lastVisitDate-date :input').prop('disabled', true);
+			}
+			else if((getValue('idReason.value')) == 159492) {
+				jq('#pdied :input').prop('disabled', true);
+				jq('#ptransferred :input').prop('disabled', false);
+				jq('#lastVisitDate-date :input').prop('disabled', true);
+			}
+			else if((getValue('idReason.value')) == 163026) {
+				jq('#pdied :input').prop('disabled', true);
+				jq('#ptransferred :input').prop('disabled', true);
+				jq('#lastVisitDate-date :input').prop('disabled', false);
+			}
+			else {
+				jq('#pdied :input').prop('disabled', true);
+				jq('#ptransferred :input').prop('disabled', true);
+				jq('#lastVisitDate-date :input').prop('disabled', true);
+			}
+
+			jq("#idReason select").change(function() {
+				if ((getValue('idReason.value')) == 160034) {
+					jq('#pdied :input').prop('disabled', false);
+					jq('#ptransferred :input').prop('disabled', true);
+					jq('#lastVisitDate-date :input').prop('disabled', true);
+				}
+				else if((getValue('idReason.value')) == 159492) {
+					jq('#pdied :input').prop('disabled', true);
+					jq('#ptransferred :input').prop('disabled', false);
+					jq('#lastVisitDate-date :input').prop('disabled', true);
+				}
+				else if((getValue('idReason.value')) == 163026) {
+					jq('#pdied :input').prop('disabled', true);
+					jq('#ptransferred :input').prop('disabled', true);
+					jq('#lastVisitDate-date :input').prop('disabled', false);
+				}
+				else {
+					jq('#pdied :input').prop('disabled', true);
+					jq('#ptransferred :input').prop('disabled', true);
+					jq('#lastVisitDate-date :input').prop('disabled', true);
+				}
+			});
 
 			var pbirthdate = new Date("<lookup expression="patient.birthdate" />").getTime();
 			var discontinueDate;
@@ -63,11 +107,39 @@
 					<td>Current Date and Time:</td>
 					<td> <encounterDate id="encounter-date" showTime="true" /></td>
 				</tr>
+				
 				<tr>
-					<td>Last day of Visit:</td>
-					<td><obs conceptId="162850AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lastVisitDate-date"/> <b>Lost to follow up(> 3 months)</b></td>
+					<td>Reason:</td>
+					<td><obs conceptId="161555AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="159492AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160034AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,163026AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Transferred Out,Died,Lost to follow up" id="idReason" /></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>Last day of Visit:<b>(> 3 months)</b></td>
+					<td><obs conceptId="162850AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lastVisitDate-date"/> </td>
 				</tr>
 			</table>
+			<div id="pdied">
+				<table>
+					<tr>
+						<td>If Patient Died, please provide Date of Death if Known:</td>
+						<td><obs conceptId="1543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+
+			<div id="ptransferred">
+				<table>
+					<tr>
+						<td><i>(If transferred out)</i> <br/>Transfer to Facility:</td>
+						<td ><br/><obs conceptId="159495AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" "/></td>
+						<td>Date Transferred Out<br /></td>
+						<td><br/><obs conceptId="160649AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" "/></td>
+					</tr>
+				</table>
+			</div>
 			<br/>
 			<hr/>
 			<br/>
