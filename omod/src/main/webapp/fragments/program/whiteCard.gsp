@@ -5,7 +5,7 @@
 <script type="text/javascript">
 
  function htmlToExcel() {
-     var divToPrint = document.getElementsByClassName('widget-content')[0];
+    var divToPrint = document.getElementsByClassName('widget-content')[0];
     var uri = 'data:application/vnd.ms-excel,' +'<html><body>' + divToPrint.innerHTML + '</html>';
     
    
@@ -14,7 +14,7 @@
     
    
     link.style = 'visibility:hidden';
-    link.download ='MyReport.xls';
+    link.download ='WhiteCard.xls';
     
    
     document.body.appendChild(link);
@@ -83,6 +83,61 @@
 				</td>
 				
 			</tr>
+			<tr>
+				<td>
+					<br/><center>Family History</center> 
+				</td>
+			<tr>
+			
+			<tr>
+				<tr>
+					<td>Marital Status: ${civilStatusVal}</td>	
+				</tr>
+				<tr>
+					<th>Name of Spouse/children</th>
+					<th>Age</th>
+					<th>Sex</th>
+					<th>HIV +/-/unknown</th>
+					<th>ART y/n</th>
+				</tr>
+				 <% for ( e in familyMembers ) { 
+		 		def values = e.value.split(',')	%>
+				<tr>
+					<td><% println  values[0] %> </td>
+					<td><% println  values[1] %> </td>
+					<td><% println  values[2] %> </td>
+					<td><% println  values[3] %> </td>
+					<td><% println  values[4] %> </td>
+				</tr>
+				<%		} %>
+			</tr>
+			<tr>
+				<td>
+					<br/><center>Drug History</center> 
+				</td>
+			</tr>
+			<tr>
+				<tr>
+					<td>ART received : ${artReceivedVal}</td>
+				</tr>
+				<tr>
+					<td>If Yes : ${artReceivedTypeValue}</td>
+				</tr>
+				<tr>
+					<td>Place : ${artReceivedPlaceValue}</td>
+				</tr>
+				<tr>
+					<th>Drug</th>
+					<th>Duration</th>
+				</tr>
+				 <% for ( d in drugList ) { 
+		 		def values = d.value.split(',')	%>
+				<tr>
+					<td><% println  values[0] %> </td>
+					<td><% println  values[1] %> </td>
+				</tr>
+				<%		} %>
+			
 				<td width="50%" valign="top">
 					<br/>${ ui.includeFragment("kenyaui", "widget/obsHistoryTable", [ id: "tblhistory", patient: currentPatient, concepts: graphingConcepts ]) }
 				</td>

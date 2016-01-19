@@ -3,8 +3,11 @@ package org.openmrs.module.kenyaemr.fragment.controller.program;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.openmrs.Concept;
 import org.openmrs.Obs;
@@ -152,8 +155,186 @@ public class WhiteCardFragmentController {
 		/*
 		 * Family History
 		 * */
+		String civilStatusVal="";
+
+		Obs civilStatus = getAllLatestObs(patient, Dictionary.CIVIL_STATUS);
+		if(civilStatus!=null){
+			EncounterWrapper wrapped = new EncounterWrapper(civilStatus.getEncounter());
+			List<Obs> obsList = wrapped.allObs(civilStatus.getConcept());
+			for (Obs obs : obsList) {
+				civilStatusVal = civilStatusVal.concat(obs.getValueCoded().getName().toString());
+			}
+		}
+		model.addAttribute("civilStatusVal", civilStatusVal);
 		
+		Obs spName = getAllLatestObs(patient, Dictionary.SPOUSE_NAME);
+		Obs spAge = getAllLatestObs(patient, Dictionary.SPOUSE_AGE);
+		Obs spAgeUnit = getAllLatestObs(patient, Dictionary.DURATION_UNITS);
+		Obs spGender = getAllLatestObs(patient, Dictionary.SPOUSE_GENDER);
+		Obs spInfected = getAllLatestObs(patient, Dictionary.HIV_INFECTED);
+		Obs spArt = getAllLatestObs(patient, Dictionary.SPOUSE_ART);
+		Obs familyFormGroup = getAllLatestObs(patient, Dictionary.FAMILY_FORM_GROUP);
 		
+		Map<Integer, String> familyMembers = new HashMap<Integer, String>();
+		Integer index=0; 
+		if(familyFormGroup!=null){
+			EncounterWrapper wrappedObsGroup = new EncounterWrapper(familyFormGroup.getEncounter());
+			List<Obs> obsGroupList = wrappedObsGroup.allObs(familyFormGroup.getConcept());
+			for (Obs obsG : obsGroupList) {
+				String spNameVal = "";
+				String spAgeVal = "";
+				String spAgeUnitVal = "";
+				String spGenderVal = "";
+				String spInfectedVal = "";
+				String spArtVal = "";
+				
+				if(spName!=null){
+					EncounterWrapper wrapped = new EncounterWrapper(spName.getEncounter());
+					List<Obs> obsList = wrapped.allObs(spName.getConcept());
+					for (Obs obs : obsList) {
+						if(obs.getObsGroupId()==obsG.getObsId()){
+							spNameVal = spNameVal.concat(obs.getValueText().toString());	
+						}
+					}
+				}
+
+				if(spAge!=null){
+					EncounterWrapper wrapped = new EncounterWrapper(spAge.getEncounter());
+					List<Obs> obsList = wrapped.allObs(spAge.getConcept());
+					for (Obs obs : obsList) {
+						if(obs.getObsGroupId()==obsG.getObsId()){
+							spAgeVal = spAgeVal.concat(obs.getValueNumeric().toString());
+						}	
+					}
+				}
+			
+				if(spAgeUnit!=null){
+					EncounterWrapper wrapped = new EncounterWrapper(spAgeUnit.getEncounter());
+					List<Obs> obsList = wrapped.allObs(spAgeUnit.getConcept());
+					for (Obs obs : obsList) {
+						if(obs.getObsGroupId()==obsG.getObsId()){
+							spAgeUnitVal = spAgeUnitVal.concat(obs.getValueCoded().getName().toString());
+						}	
+					}
+				}
+				
+				if(spGender!=null){
+					EncounterWrapper wrapped = new EncounterWrapper(spGender.getEncounter());
+					List<Obs> obsList = wrapped.allObs(spGender.getConcept());
+					for (Obs obs : obsList) {
+						if(obs.getObsGroupId()==obsG.getObsId()){
+							spGenderVal = spGenderVal.concat(obs.getValueCoded().getName().toString());
+						}
+					}
+				}
+				
+				if(spInfected!=null){
+					EncounterWrapper wrapped = new EncounterWrapper(spInfected.getEncounter());
+					List<Obs> obsList = wrapped.allObs(spInfected.getConcept());
+					for (Obs obs : obsList) {
+						if(obs.getObsGroupId()==obsG.getObsId()){
+							spInfectedVal = spInfectedVal.concat(obs.getValueCoded().getName().toString());
+						}
+					}
+				}
+				
+				if(spArt!=null){
+					EncounterWrapper wrapped = new EncounterWrapper(spArt.getEncounter());
+					List<Obs> obsList = wrapped.allObs(spArt.getConcept());
+					for (Obs obs : obsList) {
+						if(obs.getObsGroupId()==obsG.getObsId()){
+							spArtVal = spArtVal.concat(obs.getValueCoded().getName().toString());
+						}
+					}
+				}
+				String val =  spNameVal+", "+spAgeVal +" "+spAgeUnitVal + ", " + spGenderVal +", " +	spInfectedVal + " ," + spArtVal ;
+				familyMembers.put(index,val);
+				index++;
+				
+			}
+		}
+		model.addAttribute("familyMembers", familyMembers);
+		
+		/*
+		 * Drug History
+		 * */
+		String artReceivedVal="";
+
+		Obs artReceived = getAllLatestObs(patient, Dictionary.DRUG_HISTORY_ART_RECEIVED);
+		if(artReceived!=null){
+			EncounterWrapper wrapped = new EncounterWrapper(artReceived.getEncounter());
+			List<Obs> obsList = wrapped.allObs(artReceived.getConcept());
+			for (Obs obs : obsList) {
+				artReceivedVal = artReceivedVal.concat(obs.getValueCoded().getName().toString());
+			}
+		}
+		model.addAttribute("artReceivedVal", artReceivedVal);
+		
+		String artReceivedTypeValue="";
+
+		Obs artReceivedType = getAllLatestObs(patient, Dictionary.DRUG_HISTORY_ART_RECEIVED_TYPE);
+		if(artReceivedType!=null){
+			EncounterWrapper wrapped = new EncounterWrapper(artReceivedType.getEncounter());
+			List<Obs> obsList = wrapped.allObs(artReceivedType.getConcept());
+			for (Obs obs : obsList) {
+				artReceivedTypeValue = artReceivedTypeValue.concat(obs.getValueCoded().getName().toString());
+			}
+		}
+		model.addAttribute("artReceivedTypeValue", artReceivedTypeValue);
+		
+		String artReceivedPlaceValue="";
+
+		Obs artReceivedPlace = getAllLatestObs(patient, Dictionary.DRUG_HISTORY_ART_RECEIVED_PLACE);
+		if(artReceivedPlace!=null){
+			EncounterWrapper wrapped = new EncounterWrapper(artReceivedPlace.getEncounter());
+			List<Obs> obsList = wrapped.allObs(artReceivedPlace.getConcept());
+			for (Obs obs : obsList) {
+				artReceivedPlaceValue = artReceivedPlaceValue.concat(obs.getValueCoded().getName().toString());
+			}
+		}
+		model.addAttribute("artReceivedPlaceValue", artReceivedPlaceValue);
+		
+				
+		Obs drugName = getAllLatestObs(patient, Dictionary.DRUG_NAME);
+		Obs drugDuration = getAllLatestObs(patient, Dictionary.DRUG_DURATION);
+		Obs drugFormGroup = getAllLatestObs(patient, Dictionary.DRUG_HISTORY_GROUP);
+		
+		Map<Integer, String> drugList = new HashMap<Integer, String>();
+		Integer drugIndex=0; 
+		if(drugFormGroup!=null){
+			EncounterWrapper wrappedObsGroup = new EncounterWrapper(drugFormGroup.getEncounter());
+			List<Obs> obsGroupList = wrappedObsGroup.allObs(drugFormGroup.getConcept());
+			for (Obs obsG : obsGroupList) {
+				String drugNameVal = "";
+				String drugDurationVal = "";
+				
+				if(drugName!=null){
+					EncounterWrapper wrapped = new EncounterWrapper(drugName.getEncounter());
+					List<Obs> obsList = wrapped.allObs(drugName.getConcept());
+					for (Obs obs : obsList) {
+						if(obs.getObsGroupId()==obsG.getObsId()){
+							drugNameVal = drugNameVal.concat(obs.getValueCoded().getName().toString());	
+						}
+					}
+				}
+
+				if(drugDuration!=null){
+					EncounterWrapper wrapped = new EncounterWrapper(drugDuration.getEncounter());
+					List<Obs> obsList = wrapped.allObs(drugDuration.getConcept());
+					for (Obs obs : obsList) {
+						if(obs.getObsGroupId()==obsG.getObsId()){
+							drugDurationVal = drugDurationVal.concat(obs.getValueNumeric().toString());
+						}	
+					}
+				}
+
+				String val =  drugNameVal+", "+drugDurationVal;
+				drugList.put(drugIndex,val);
+				drugIndex++;
+				
+			}
+		}
+		model.addAttribute("drugList", drugList);
 		
 		/*
 		 * Varaible for each visit
