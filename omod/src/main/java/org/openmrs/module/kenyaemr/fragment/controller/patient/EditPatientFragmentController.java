@@ -411,11 +411,19 @@ public class EditPatientFragmentController {
 				errors.rejectValue("fatherName", "Expected length of Name is exceeding");
 			};
 			
+			if(nationalId.length() > 50){
+				errors.rejectValue("nationalId", "Expected length of National Id is exceeding");
+			};
+			
+			if(placeOfBirth.length() > 50){
+				errors.rejectValue("placeOfBirth", "Expected length of Birth Place is exceeding");
+			};
+			
 			if(nameOfNextOfKin.length() > 50){
 				errors.rejectValue("nameOfNextOfKin", "Expected length of Name is exceeding");
 			};
 			
-			if(nextOfKinAddress.length() > 200){
+			if(nextOfKinAddress.length() > 50){
 				errors.rejectValue("nextOfKinAddress", "Length of Address is exceeding it's limit");
 			};
 
@@ -426,7 +434,9 @@ public class EditPatientFragmentController {
 			require(errors, "gender");
 			require(errors, "birthdate");
 			require(errors, "entryPoint");
-			//require(errors, "previousClinicName");
+			require(errors, "enrollmentName");
+			require(errors, "previousClinicName");
+			require(errors, "transferredInDate");
 			require(errors, "hivTestPerformed");
 			
 			if (hivTestPerformed!=null && hivTestPerformed.equals("Yes")) {
@@ -449,10 +459,12 @@ public class EditPatientFragmentController {
 			
 			//Check for Other entry point 
 			if( entryPoint!= null){
-				if(entryPoint.getName().toString().equals("OTHER")){
+				if(entryPoint.getName().toString().equals("Other")){
 					require(errors, "otherEntryPoint");
 				}
-			}	
+			}
+			
+			
 			// Require death details if patient is deceased
 			if (dead) {
 				require(errors, "deathDate");

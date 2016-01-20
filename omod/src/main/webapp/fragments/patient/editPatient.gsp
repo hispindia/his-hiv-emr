@@ -49,14 +49,15 @@
 	def nextOfKinFieldRows = [
 			[
 					[ object: command, property: "nameOfNextOfKin", label: "Name" ],
-					[ object: command, property: "nextOfKinAddress", label: "Physical Address" ],
-					[ object: command, property: "nextOfKinContact", label: "Contact Number" ]
+					
+					[ object: command, property: "nextOfKinContact", label: "Contact Number" ],
+					[ object: command, property: "nextOfKinAddress", label: "Physical Address", config: [ type: "textarea", size: 20 ] ]
 			]
 	]
 	
 	def enrollmentStatus = [
 			[
-					[ object: command, property: "enrollmentName", label: "Status at enrollment", config: [ style: "list", answerTo: enrollmentList ] ]
+					[ object: command, property: "enrollmentName", label: "Status at enrollment *", config: [ style: "list", answerTo: enrollmentList ] ]
 			]		
 	]
 	
@@ -69,14 +70,14 @@
 	
 	def patientSource2 = [
 			[
-					[ object: command, property: "previousClinicName", label: "Previous Clinic Name", config: [ width: 350 ] ],
-					[ object: command, property: "transferredInDate", label: "Transferred In Date " , config: [ width: 300 ] ]
+					[ object: command, property: "previousClinicName", label: "Previous Clinic Name *", config: [ width: 350 ] ],
+					[ object: command, property: "transferredInDate", label: "Transferred In Date *" , config: [ width: 300 ] ]
 			]		
 	]   
 
 	def addressFieldRows = [
 			[
-					[ object: command, property: "personAddress.address1", label: "Physical Address", config: [ size: 60 ] ],
+					[ object: command, property: "personAddress.address1", label: "Physical Address", config: [ type: "textarea", size: 20 ] ],
 					[ object: command, property: "telephoneContact", label: "Contact Number" ]
 			]
 	]
@@ -268,18 +269,18 @@
 						</span>
 					</td>
 					<td valign="top"></td>
-					<td valign="top" id="hivTestPerformedDate">
-						<label class="ke-field-label">If yes, Date of Test</label>
-						<span class="ke-field-content">
-							${ ui.includeFragment("kenyaui", "widget/field", [id: "patient-hivTestPerformedDate", object: command, property: "hivTestPerformedDate" ]) }
-						</span>
-					</td>
-					<td valign="top"></td>
 					<td valign="top"  id="hivTestPerformedPlace">
-						<label class="ke-field-label">Place</label>
+						<label class="ke-field-label">Place*</label>
 						<span class="ke-field-content">
 							${ ui.includeFragment("kenyaui", "widget/field", [ object: command, property: "hivTestPerformedPlace" ]) }
 						</span>	
+					</td>
+					<td valign="top"></td>
+					<td valign="top" id="hivTestPerformedDate">
+						<label class="ke-field-label">If yes, Date of Test*</label>
+						<span class="ke-field-content">
+							${ ui.includeFragment("kenyaui", "widget/field", [id: "patient-hivTestPerformedDate", object: command, property: "hivTestPerformedDate" ]) }
+						</span>
 					</td>
 					<td valign="top" id="checkInField">
 						<span class="ke-field-content">
