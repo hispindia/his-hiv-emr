@@ -138,6 +138,49 @@
 				</tr>
 				<%		} %>
 			
+				<tr>
+					<td>
+						<br/><center>Exposed-infant follow-up</center> 
+					</td>
+				</tr>
+				<tr>
+					<th>Exposed-Infant Name/No</th>
+					<th>DOB</th>
+					<th>Infant feeding practice</th>
+					<th>CPT started date</th>
+					<th>HIV Test type</th>
+					<th>Result</th>
+					<th>Result date</th>
+					<th>Final status</th>
+					<th>Unique Id (if confirmed)</th>
+				</tr>
+				 <% for ( d in infantList ) { 
+		 		def values = d.value.split(',')	%>
+				<tr>
+					<td><% println  values[0] %> </td>
+					<td><% println  values[1] %> </td>
+					<td><% println  values[2] %> </td>
+					<td><% println  values[3] %> </td>
+					<td><% println  values[4] %> </td>
+					<td><% println  values[5] %> </td>
+					<td><% println  values[6] %> </td>
+					<td><% println  values[7] %> </td>
+					<td><% println  values[8] %> </td>
+				</tr>
+				<%		} %>
+				<tr>
+					<td>
+						<br/><center>End of Follow-up for Antiretroviral therapy</center> 
+					</td>
+				<tr>
+				<tr>
+					<td>
+						Reason: ${programDiscontinuationReasonVal}  <br /> <b>Date : ${dataPlaceVal}</b>
+					</td>
+					
+				</tr>			
+			
+			
 				<td width="50%" valign="top">
 					<br/>${ ui.includeFragment("kenyaui", "widget/obsHistoryTable", [ id: "tblhistory", patient: currentPatient, concepts: graphingConcepts ]) }
 				</td>

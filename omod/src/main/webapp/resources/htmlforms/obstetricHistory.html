@@ -126,11 +126,13 @@
 			<th style="background-color: #696969; color: #ffffff;">CPT Started Date</th>
 			<th style="background-color: #696969; color: #ffffff;">HIV Test type</th>
 			<th style="background-color: #696969; color: #ffffff;">Result</th>
+			<th style="background-color: #696969; color: #ffffff;">Result date</th>
 			<th style="background-color: #696969; color: #ffffff;">Final status</th>
 			<th style="background-color: #696969; color: #ffffff;">(If confirmed infected) Unique ID</th>
 		</tr>
 		<repeat>
 		<template>
+			<obsgroup groupingConceptId="161009AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
 				<tr style="border:1px solid black">
 					<td valign="top">
 						<obs style="width: 100%;" conceptId="be719294-8fe8-41eb-9218-ce2c9e7ef2ba"/>
@@ -145,10 +147,13 @@
 						<obs conceptId="431adda7-582e-4822-83a6-25344f21fc7c"/>
 					</td>
 					<td valign="top">
+						<obs conceptId="8b8083f4-7f55-4365-94d1-7ebd201cd1aa"/>
+					</td>
+					<td valign="top">
 						<obs conceptId="159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
 					</td>
 					<td valign="top">
-						<obs conceptId="eb3371de-a0a8-4c15-bca5-0def775a9d04"/>
+						<obs conceptId="160082AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
 					</td>
 					<td valign="top">
 						<obs conceptId="2140e5aa-c199-441c-8b84-9386bc9fad1a"/>
@@ -157,17 +162,12 @@
 						<obs conceptId="8cf2bda5-f2cc-48e3-a1b8-16ff76b7bed8"/>
 					</td>
 				</tr>
+			</obsgroup>	
 		</template>
 		<render n="1" concept=" "/>
 		<render n="2" concept=" "/>
 		<render n="3" concept=" "/>
 		<render n="4" concept=" "/>
-		<render n="5" concept=" "/>
-		<render n="6" concept=" "/>
-		<render n="7" concept=" "/>
-		<render n="8" concept=" "/>
-		<render n="9" concept=" "/>
-		<render n="10" concept=" "/>
 		</repeat>
 		</table>
 	</div>
