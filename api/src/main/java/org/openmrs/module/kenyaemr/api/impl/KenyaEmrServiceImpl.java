@@ -55,6 +55,7 @@ import org.openmrs.module.kenyaemr.api.db.KenyaEmrDAO;
 import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
 import org.openmrs.module.kenyaemr.metadata.FacilityMetadata;
 import org.openmrs.module.kenyaemr.metadata.HivMetadata;
+import org.openmrs.module.kenyaemr.model.DrugInfo;
 import org.openmrs.module.kenyaemr.model.DrugOrderProcessed;
 import org.openmrs.module.kenyaemr.wrapper.Facility;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
@@ -332,4 +333,11 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 		
 	}
 
+	public List<DrugInfo> getDrugInfo() {
+		return dao.getDrugInfo();
+	}
+	
+	public DrugInfo getDrugInfo(String drugName) {
+		return dao.getDrugInfo(drugName);
+	}
 }

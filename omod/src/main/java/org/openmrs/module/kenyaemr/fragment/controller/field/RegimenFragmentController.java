@@ -15,10 +15,15 @@
 package org.openmrs.module.kenyaemr.fragment.controller.field;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.openmrs.Patient;
+import org.openmrs.api.context.Context;
+import org.openmrs.module.kenyaemr.api.KenyaEmrService;
+import org.openmrs.module.kenyaemr.model.DrugInfo;
 import org.openmrs.module.kenyaemr.regimen.RegimenDefinition;
 import org.openmrs.module.kenyaemr.regimen.RegimenDefinitionGroup;
 import org.openmrs.module.kenyaemr.regimen.RegimenManager;
@@ -52,11 +57,18 @@ public class RegimenFragmentController {
 			regimenDefinitions.addAll(group.getRegimens());
 		}
 		
+		KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
+		Map<String, DrugInfo> drugInfoMap = new LinkedHashMap<String, DrugInfo>();
+		for(DrugInfo drugInfo:kenyaEmrService.getDrugInfo()){
+			drugInfoMap.put(drugInfo.getDrugName().toString(), drugInfo);
+		}
+		
 		model.addAttribute("maxComponents", 4);
 		model.addAttribute("drugs", regimenManager.getDrugs(category));
 		model.addAttribute("regimenGroups", regimenGroups);
 		model.addAttribute("regimenDefinitions", kenyaUi.simpleRegimenDefinitions(regimenDefinitions, ui));
 		model.addAttribute("patient", patient);
+		model.addAttribute("drugInfoMap", drugInfoMap);
 	}
 
 	/**

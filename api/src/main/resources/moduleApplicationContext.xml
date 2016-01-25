@@ -42,7 +42,7 @@
 	
 	<bean id="kenyaemr.app.dispensary" factory-bean="kenyacore.appFactoryBean" factory-method="createInstance">
 		<constructor-arg value="kenyaemr.drugDispense" />
-		<constructor-arg value="Dispensar" />
+		<constructor-arg value="Dispensary" />
 		<constructor-arg value="kenyaemr/dispensary/dispensaryHome.page" />
 		<constructor-arg value="kenyaui:apps/dispensing.png" />
 		<constructor-arg value="1000000" />

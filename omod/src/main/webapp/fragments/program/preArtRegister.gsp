@@ -13,16 +13,27 @@
 			</tr>
 		</table>
 	</div>
-	<input type="button" onclick="PrintDiv()" value="Print" />
+	<input type="button" onClick="htmlToExcel();"  value="Print" />
 </div>
 <% } %>
 
 <script type="text/javascript">
-        function PrintDiv() {
-            var divToPrint = document.getElementsByClassName('widget-content')[0];
-            var popupWin = window.open('', '_blank', 'width=300,height=400,location=no,left=200px');
-            popupWin.document.open();
-            popupWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</html>');
-            popupWin.document.close();
-        }
+
+ function htmlToExcel() {
+     var divToPrint = document.getElementsByClassName('widget-content')[0];
+    var uri = 'data:application/vnd.ms-excel,' +'<html><body>' + divToPrint.innerHTML + '</html>';
+    
+   
+    var link = document.createElement("a");    
+    link.href = uri;
+    
+   
+    link.style = 'visibility:hidden';
+    link.download ='MyReport.xls';
+    
+   
+    document.body.appendChild(link);
+    link.click();
+            
+  }
 </script>

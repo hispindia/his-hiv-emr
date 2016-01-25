@@ -22,6 +22,7 @@ else{
 <div class="ke-stack-item">
 	<% dataPoints.each { print ui.includeFragment("kenyaui", "widget/dataPoint", it) } %>
 </div>
+<!--
 <div class="ke-stack-item">
 	<% if (activeVisit) { %>
 	<button type="button" class="ke-compact" onclick="ui.navigate('${ ui.pageLink("kenyaemr", "regimenEditor", [ patientId: currentPatient.id, category: "TB", appId: currentApp.id, returnUrl: ui.thisUrl() ]) }')">
@@ -41,3 +42,4 @@ else{
 	${ ui.includeFragment("kenyaui", "widget/dataPoint", [ label: "Regimen", value: ui.message("kenyaemr.neverOnTbRegimen") ]) }
 	<% } %>
 </div>
+-->

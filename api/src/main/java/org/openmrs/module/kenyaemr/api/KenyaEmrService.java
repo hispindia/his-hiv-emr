@@ -29,6 +29,7 @@ import org.openmrs.OrderType;
 import org.openmrs.Patient;
 import org.openmrs.Visit;
 import org.openmrs.api.OpenmrsService;
+import org.openmrs.module.kenyaemr.model.DrugInfo;
 import org.openmrs.module.kenyaemr.model.DrugOrderProcessed;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -122,4 +123,6 @@ public interface KenyaEmrService extends OpenmrsService {
 	public DrugOrderProcessed getDrugOrderProcesed(Integer drugOrder);
 	public Encounter getLabbOrderEncounter(Visit visit);
 	public List<Encounter> getLabResultEncounters(Visit visit);
+	public List<DrugInfo> getDrugInfo();
+	public DrugInfo getDrugInfo(String drugName);
 }

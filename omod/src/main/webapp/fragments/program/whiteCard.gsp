@@ -2,6 +2,28 @@
 	ui.decorateWith("kenyaui", "panel", [ heading: "WHITE CARD" ])
 %>
 
+<script type="text/javascript">
+
+ function htmlToExcel() {
+    var divToPrint = document.getElementsByClassName('widget-content')[0];
+    var uri = 'data:application/vnd.ms-excel,' +'<html><body>' + divToPrint.innerHTML + '</html>';
+    
+   
+    var link = document.createElement("a");    
+    link.href = uri;
+    
+   
+    link.style = 'visibility:hidden';
+    link.download ='WhiteCard.xls';
+    
+   
+    document.body.appendChild(link);
+    link.click();
+            
+  }
+</script>
+
+
 <% if (config.complete) { %>
 <div class="ke-stack-item">
 	<div class="widget-content">
@@ -61,22 +83,116 @@
 				</td>
 				
 			</tr>
+			<tr>
+				<td>
+					<br/><center>Family History</center> 
+				</td>
+			<tr>
+			
+			<tr>
+				<tr>
+					<td>Marital Status: ${civilStatusVal}</td>	
+				</tr>
+				<tr>
+					<th>Name of Spouse/children</th>
+					<th>Age</th>
+					<th>Sex</th>
+					<th>HIV +/-/unknown</th>
+					<th>ART y/n</th>
+				</tr>
+				 <% for ( e in familyMembers ) { 
+		 		def values = e.value.split(',')	%>
+				<tr>
+					<td><% println  values[0] %> </td>
+					<td><% println  values[1] %> </td>
+					<td><% println  values[2] %> </td>
+					<td><% println  values[3] %> </td>
+					<td><% println  values[4] %> </td>
+				</tr>
+				<%		} %>
+			</tr>
+			<tr>
+				<td>
+					<br/><center>Drug History</center> 
+				</td>
+			</tr>
+			<tr>
+				<tr>
+					<td>ART received : ${artReceivedVal}</td>
+				</tr>
+				<tr>
+					<td>If Yes : ${artReceivedTypeValue}</td>
+				</tr>
+				<tr>
+					<td>Place : ${artReceivedPlaceValue}</td>
+				</tr>
+				<tr>
+					<th>Drug</th>
+					<th>Duration</th>
+				</tr>
+				 <% for ( d in drugList ) { 
+		 		def values = d.value.split(',')	%>
+				<tr>
+					<td><% println  values[0] %> </td>
+					<td><% println  values[1] %> </td>
+				</tr>
+				<%		} %>
+			
+				<tr>
+					<td>
+						<br/><center>Exposed-infant follow-up</center> 
+					</td>
+				</tr>
+				<tr>
+					<th>Exposed-Infant Name/No</th>
+					<th>DOB</th>
+					<th>Infant feeding practice</th>
+					<th>CPT started date</th>
+					<th>HIV Test type</th>
+					<th>Result</th>
+					<th>Result date</th>
+					<th>Final status</th>
+					<th>Unique Id (if confirmed)</th>
+				</tr>
+				 <% for ( d in infantList ) { 
+		 		def values = d.value.split(',')	%>
+				<tr>
+					<td><% println  values[0] %> </td>
+					<td><% println  values[1] %> </td>
+					<td><% println  values[2] %> </td>
+					<td><% println  values[3] %> </td>
+					<td><% println  values[4] %> </td>
+					<td><% println  values[5] %> </td>
+					<td><% println  values[6] %> </td>
+					<td><% println  values[7] %> </td>
+					<td><% println  values[8] %> </td>
+				</tr>
+				<%		} %>
+				<tr>
+					<td>
+						<br/><center>End of Follow-up for Antiretroviral therapy</center> 
+					</td>
+				<tr>
+				<tr>
+					<td>
+						Reason: ${programDiscontinuationReasonVal}  <br /> <b>Date : ${dataPlaceVal}</b>
+					</td>
+					
+				</tr>			
+			
+			
 				<td width="50%" valign="top">
 					<br/>${ ui.includeFragment("kenyaui", "widget/obsHistoryTable", [ id: "tblhistory", patient: currentPatient, concepts: graphingConcepts ]) }
 				</td>
 			</tr>
 		</table>
 	</div>	
-	<input type="button" onclick="PrintDiv()" value="Print" />
+	<input type="button" onClick="htmlToExcel();"  value="Print" />
 </div>
 <% } %>
 
-<script type="text/javascript">
-        function PrintDiv() {
-            var divToPrint = document.getElementsByClassName('widget-content')[0];
-            var popupWin = window.open('', '_blank', 'width=300,height=400,location=no,left=200px');
-            popupWin.document.open();
-            popupWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</html>');
-            popupWin.document.close();
-        }
-</script>
+
+
+
+	
+
