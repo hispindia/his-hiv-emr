@@ -26,11 +26,10 @@
 </div>
 
 <div class="ke-page-content">
-	
 	<% if (visit) { %>
 		<% if (!visit.voided) { %>
-			${ ui.includeFragment("kenyaemr", "visitCompletedForms", [ visit: visit ]) }
-			${ ui.includeFragment("kenyaemr", "visitAvailableForms", [ visit: visit ]) }
+			${ ui.includeFragment("kenyaemr", "intake/completedLabResult", [ visit: visit ]) }
+			${ ui.includeFragment("kenyaemr", "intake/visitAvailableForms", [ visit: visit ]) }
 		<% } %>
 
 	<% } else if (form) { %>

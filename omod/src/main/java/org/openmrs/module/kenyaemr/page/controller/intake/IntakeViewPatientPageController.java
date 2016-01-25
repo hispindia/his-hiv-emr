@@ -79,6 +79,7 @@ public class IntakeViewPatientPageController {
 		model.addAttribute("visitsCount", Context.getVisitService().getVisitsByPatient(patient).size());
 		Form form = null;
 		String selection = null;
+		Encounter encounter = null;
 		if (visit != null) {
 			selection = "visit-" + visit.getVisitId();
 		}
@@ -86,8 +87,7 @@ public class IntakeViewPatientPageController {
 			selection = "form-" + formUuid;
 			form = Context.getFormService().getFormByUuid(formUuid);
 			List<Encounter> encounters = Context.getEncounterService().getEncounters(patient, null, null, null, Collections.singleton(form), null, null, null, null, false);
-			Encounter encounter = encounters.size() > 0 ? encounters.get(0) : null;
-			model.addAttribute("encounter", encounter);
+			encounter = encounters.size() > 0 ? encounters.get(0) : null;
 		}
 		else {
 			if (StringUtils.isEmpty(section)) {
@@ -95,7 +95,7 @@ public class IntakeViewPatientPageController {
 			}
 			selection = "section-" + section;
 		}
-
+		model.addAttribute("encounter", encounter);
 		model.addAttribute("form", form);
 		model.addAttribute("visit", visit);
 		model.addAttribute("section", section);

@@ -12,7 +12,7 @@
  * Copyright (C) OpenMRS, LLC.  All Rights Reserved.
  */
 
-package org.openmrs.module.kenyaemr.fragment.controller;
+package org.openmrs.module.kenyaemr.fragment.controller.intake;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +55,9 @@ public class VisitAvailableFormsFragmentController {
 		for (FormDescriptor descriptor : formManager.getAllUncompletedFormsForVisit(currentApp, visit)) {
 			availableForms.add(ui.simplifyObject(descriptor.getTarget()));
 		}
+		
+		
+		
 		
 		model.addAttribute("availableForms", availableForms);
 	}

@@ -14,11 +14,20 @@
 
 package org.openmrs.module.kenyaemr.api.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.DrugOrder;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
+import org.openmrs.Form;
 import org.openmrs.GlobalProperty;
 import org.openmrs.Location;
 import org.openmrs.LocationAttributeType;
@@ -29,6 +38,8 @@ import org.openmrs.Patient;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.Visit;
 import org.openmrs.api.APIException;
+import org.openmrs.api.EncounterService;
+import org.openmrs.api.FormService;
 import org.openmrs.api.LocationService;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.impl.BaseOpenmrsService;
@@ -37,26 +48,19 @@ import org.openmrs.module.idgen.IdentifierSource;
 import org.openmrs.module.idgen.SequentialIdentifierGenerator;
 import org.openmrs.module.idgen.service.IdentifierSourceService;
 import org.openmrs.module.idgen.validator.LuhnModNIdentifierValidator;
-import org.openmrs.module.kenyaemr.metadata.FacilityMetadata;
-import org.openmrs.module.kenyaemr.wrapper.Facility;
-import org.openmrs.module.metadatadeploy.MetadataUtils;
+import org.openmrs.module.kenyacore.identifier.IdentifierManager;
 import org.openmrs.module.kenyaemr.EmrConstants;
 import org.openmrs.module.kenyaemr.api.KenyaEmrService;
 import org.openmrs.module.kenyaemr.api.db.KenyaEmrDAO;
-import org.openmrs.module.kenyacore.identifier.IdentifierManager;
 import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
+import org.openmrs.module.kenyaemr.metadata.FacilityMetadata;
 import org.openmrs.module.kenyaemr.metadata.HivMetadata;
 import org.openmrs.module.kenyaemr.model.DrugOrderProcessed;
+import org.openmrs.module.kenyaemr.wrapper.Facility;
+import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.util.OpenmrsUtil;
 import org.openmrs.util.PrivilegeConstants;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Implementations of business logic methods for KenyaEMR
@@ -295,4 +299,37 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 	public DrugOrderProcessed getDrugOrderProcesed(Integer drugOrder) {
 		return dao.getDrugOrderProcesed(drugOrder);
 	}
+	
+	public Encounter getLabbOrderEncounter(Visit visit) {
+		
+		FormService formService = Context.getService(FormService.class);
+		EncounterType encounterType = Context.getEncounterService().getEncounterTypeByUuid("839cc70b-09cf-4d20-8bf5-b19dddde9e32");
+
+
+		Form labOrderForm = formService.getFormByUuid("740308bd-1fe1-43b4-8b7d-51e1d513e205");
+		if (labOrderForm == null) {
+			throw new IllegalArgumentException("Cannot find form with uuid =  740308bd-1fe1-43b4-8b7d-51e1d513e205");
+		}
+
+
+		List<Encounter> encounters = Context.getEncounterService().getEncounters(visit.getPatient(), null, null, null, Collections.singleton(labOrderForm),  Collections.singleton(encounterType), null, null, Collections.singleton(visit), false);
+		if (!encounters.isEmpty()) {
+			// in case there are more than one, we pick the last one
+			Encounter encounter = encounters.get(encounters.size() - 1);
+			return encounter;
+		}
+
+		
+		return null;
+		
+	}
+	
+	public List<Encounter> getLabResultEncounters(Visit visit) {
+		
+		EncounterType encType = Context.getEncounterService().getEncounterType("Lab Results");
+		List<Encounter> encounters = Context.getEncounterService().getEncounters(visit.getPatient(), null, null, null, null, Collections.singleton(encType), null, null, Collections.singleton(visit), false);
+		return encounters;
+		
+	}
+
 }

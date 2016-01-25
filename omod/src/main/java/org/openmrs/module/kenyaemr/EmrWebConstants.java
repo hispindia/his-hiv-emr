@@ -48,4 +48,10 @@ public class EmrWebConstants {
 	 * Visit 
 	 */
 	public static final String VISIT_TYPE_NEW_PATIENT = "NEW PATIENT";
+	
+	
+	/**
+	 * Encounter Type
+	 */
+	public static final String ENCOUNTER_TYPE_LAB_ORDER_UUID = "839cc70b-09cf-4d20-8bf5-b19dddde9e32";
 }
