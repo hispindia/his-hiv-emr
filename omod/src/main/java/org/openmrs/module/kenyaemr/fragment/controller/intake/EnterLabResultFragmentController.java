@@ -1,6 +1,8 @@
 package org.openmrs.module.kenyaemr.fragment.controller.intake;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.math.NumberUtils;
@@ -8,11 +10,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
 import org.openmrs.Obs;
 import org.openmrs.Visit;
 import org.openmrs.api.EncounterService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.kenyacore.form.FormManager;
+import org.openmrs.module.kenyaemr.api.KenyaEmrService;
 import org.openmrs.module.kenyaui.KenyaUiUtils;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
@@ -27,23 +31,40 @@ public class EnterLabResultFragmentController {
 	protected static final Log log = LogFactory.getLog(EnterLabResultFragmentController.class);
 	
 	public void controller(
-			@RequestParam(required = false, value = "encounterId") Encounter encounter,
 			@RequestParam(required = false, value = "visitId") Visit visit,
             @RequestParam(required = false, value = "formUuid") String formUuid,
-            @RequestParam("returnUrl") String returnUrl,
+            @RequestParam(required = false, value = "returnUrl") String returnUrl,
             UiUtils ui,
             PageModel model) {
 		
 		Set<Obs> listObs = null;
-		
-		if (encounter != null) {
-			 listObs = encounter.getAllObs();
+		Encounter enc = null;
+		if (visit != null) {
+			EncounterType encType = Context.getEncounterService().getEncounterType("Lab Results");
+			List<Encounter> encs = Context.getEncounterService().getEncounters(visit.getPatient(), null, null, null, null, Collections.singleton(encType), null, null, Collections.singleton(visit), false);
+			enc = null;
+			if (encs != null && !encs.isEmpty()) {
+				enc = encs.get(encs.size() - 1);
+			}
+			
+			if (enc != null) {
+				 listObs = enc.getAllObs();
+			}
 		}
-		
-		model.addAttribute("resultEncounter", encounter);
+		model.addAttribute("resultEncounter", enc);
 		model.addAttribute("listResultObs", listObs);
 		 model.addAttribute("visit", visit);
 		 model.addAttribute("returnUrl", returnUrl);
+		 
+		 Set<Obs> listLabOrderObs  = null;
+		 if (visit != null) {
+			 Encounter encounter = Context.getService(KenyaEmrService.class).getLabbOrderEncounter(visit);
+			
+			if (encounter != null) {
+				listLabOrderObs = encounter.getAllObs();
+			}
+		 }
+			model.addAttribute("listObs", listLabOrderObs);
 	}
 	
 	public Object submit(

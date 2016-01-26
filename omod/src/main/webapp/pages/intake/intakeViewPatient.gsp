@@ -26,27 +26,5 @@
 </div>
 
 <div class="ke-page-content">
-	<% if (visit) { %>
-		<% if (!visit.voided) { %>
-			${ ui.includeFragment("kenyaemr", "intake/completedLabResult", [ visit: visit ]) }
-			${ ui.includeFragment("kenyaemr", "intake/visitAvailableForms", [ visit: visit ]) }
-		<% } %>
-
-	<% } else if (form) { %>
-
-		<div class="ke-panel-frame">
-			<div class="ke-panel-heading">${ ui.format(form) }</div>
-			<div class="ke-panel-content">
-
-				<% if (encounter) { %>
-					${ ui.includeFragment("kenyaemr", "form/viewHtmlForm", [ encounter: encounter ]) }
-				<% } else { %>
-					<em>Not filled out</em>
-				<% } %>
-
-			</div>
-		</div>
-
-	<% } %>
-	
+		${ ui.includeFragment("kenyaemr", "intake/enterLabResult", [visit : visit, returnUrl : ui.thisUrl() ]) }
 </div>
