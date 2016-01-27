@@ -17,7 +17,6 @@
 		</property>
 		<property name="reports">
 			<set>
-				<ref bean="kenyaemr.tb.report.inProgram" />
 				<ref bean="kenyaemr.tb.report.needsSputumTest" />
 				<ref bean="kenyaemr.tb.report.missingSputumResults" />
 			</set>
@@ -87,13 +86,7 @@
 -->
 	<!-- ===================== Reports ===================== -->
 <!-- 
-	<bean id="kenyaemr.tb.report.inProgram" class="org.openmrs.module.kenyacore.report.CalculationReportDescriptor">
-		<property name="targetUuid" value="ed001a42-8462-49d3-8e9d-5c7bedc1806d" />
-		<property name="name" value="Patients in TB program" />
-		<property name="calculation" value="org.openmrs.module.kenyaemr.calculation.library.tb.InTbProgramCalculation" />
-		<property name="displayIdentifier" ref="kenyaemr.tb.identifier.districtRegistration" />
-		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
-	</bean>
+
 
 	<bean id="kenyaemr.tb.report.needsSputumTest" class="org.openmrs.module.kenyacore.report.CalculationReportDescriptor">
 		<property name="targetUuid" value="316c9d65-fbce-402e-8e89-b5f7e78276cb" />

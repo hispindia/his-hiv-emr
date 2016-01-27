@@ -34,16 +34,23 @@
 		<property name="commonReports">
 			<set>
 		<!-- 	<ref bean="kenyaemr.common.report.artDrug" />
-				<ref bean="kenyaemr.common.report.missedAppointment" />
+				
 				<ref bean="kenyaemr.common.report.moh711" />
 				<ref bean="kenyaemr.common.report.moh731" />
 				<ref bean="kenyaemr.common.report.dhis2" />
 				<ref bean="kenyaemr.common.report.recordedDeceased" /> 
 				<ref bean="kenyaemr.common.report.rdqaReport" />
 				-->
+				
 				<ref bean="kenyaemr.common.report.allPatients" />
 				<ref bean="kenyaemr.hiv.report.onSecondLineArt" />
-                
+                <ref bean="kenyaemr.common.report.missedAppointment" />
+                <ref bean="kenyaemr.hiv.report.dueForCd4" />
+                <ref bean="kenyaemr.hiv.report.decliningCd4" />
+                <ref bean="kenyaemr.hiv.report.eligibleForArt" />
+                <ref bean="kenyaemr.hiv.report.neverTakenCtxOrDapsone" />
+                <ref bean="kenyaemr.tb.report.inProgram" />
+                <ref bean="kenyaemr.hiv.report.neverScreenedForTb" />
 			</set>
 		</property>
 	</bean>
@@ -320,13 +327,62 @@
 	</bean>-->
 
 	<!-- ===================== Reports ===================== -->
-<!-- 	
+	<bean id="kenyaemr.hiv.report.dueForCd4" class="org.openmrs.module.kenyacore.report.CalculationReportDescriptor">
+		<property name="targetUuid" value="9227c34f-18b6-4c93-844e-5732572d5125" />
+		<property name="name" value="Patients due for CD4 test" />
+		<property name="calculation" value="org.openmrs.module.kenyaemr.calculation.library.hiv.NeedsCd4TestCalculation" />
+		<property name="displayIdentifier" ref="kenyaemr.hiv.identifier.upn" />
+		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+	</bean>
+	
 	<bean id="kenyaemr.common.report.missedAppointment" class="org.openmrs.module.kenyacore.report.CalculationReportDescriptor">
 		<property name="targetUuid" value="d1e3d16f-74d8-47c7-9475-849e9d82408b" />
 		<property name="name" value="Patients who missed their last appointment" />
 		<property name="calculation" value="org.openmrs.module.kenyaemr.calculation.library.MissedLastAppointmentCalculation" />
 		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
 	</bean>
+	
+	<bean id="kenyaemr.hiv.report.decliningCd4" class="org.openmrs.module.kenyacore.report.CalculationReportDescriptor">
+		<property name="targetUuid" value="e6c82faf-0617-428b-8a24-bc0f94a4b257" />
+		<property name="name" value="Patients with declining CD4" />
+		<property name="calculation" value="org.openmrs.module.kenyaemr.calculation.library.hiv.DecliningCd4Calculation" />
+		<property name="displayIdentifier" ref="kenyaemr.hiv.identifier.upn" />
+		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+	</bean>
+	
+	<bean id="kenyaemr.hiv.report.eligibleForArt" class="org.openmrs.module.kenyacore.report.CalculationReportDescriptor">
+		<property name="targetUuid" value="e20f9d12-1df4-4e50-9002-294244457c6f" />
+		<property name="name" value="Patients eligible for ART" />
+		<property name="calculation" value="org.openmrs.module.kenyaemr.calculation.library.hiv.art.EligibleForArtCalculation" />
+		<property name="displayIdentifier" ref="kenyaemr.hiv.identifier.upn" />
+		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+	</bean>
+		
+	<bean id="kenyaemr.hiv.report.neverTakenCtxOrDapsone" class="org.openmrs.module.kenyacore.report.CalculationReportDescriptor">
+		<property name="targetUuid" value="8eda25f8-a3aa-401c-ab88-49f6f2021a39" />
+		<property name="name" value="Patients who have never taken CTX or Dapsone" />
+		<property name="calculation" value="org.openmrs.module.kenyaemr.calculation.library.hiv.NeverTakenCtxOrDapsoneCalculation" />
+		<property name="displayIdentifier" ref="kenyaemr.hiv.identifier.upn" />
+		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+	</bean>
+	
+	<bean id="kenyaemr.tb.report.inProgram" class="org.openmrs.module.kenyacore.report.CalculationReportDescriptor">
+		<property name="targetUuid" value="ed001a42-8462-49d3-8e9d-5c7bedc1806d" />
+		<property name="name" value="Patients in TB program" />
+		<property name="calculation" value="org.openmrs.module.kenyaemr.calculation.library.tb.InTbProgramCalculation" />
+		<property name="displayIdentifier" ref="kenyaemr.tb.identifier.districtRegistration" />
+		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+	</bean>
+	
+	<bean id="kenyaemr.hiv.report.neverScreenedForTb" class="org.openmrs.module.kenyacore.report.CalculationReportDescriptor">
+		<property name="targetUuid" value="55038932-2c87-4295-86d1-802e623424ea" />
+		<property name="name" value="Patients who have never been screened for TB" />
+		<property name="calculation" value="org.openmrs.module.kenyaemr.calculation.library.hiv.NeverScreenedForTbCalculation" />
+		<property name="displayIdentifier" ref="kenyaemr.hiv.identifier.upn" />
+		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+	</bean>			
+<!-- 	
+	
 
 	<bean id="kenyaemr.common.report.moh711" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
 		<property name="targetUuid" value="c546b523-83f8-43ba-a979-e0631f0a5364" />
