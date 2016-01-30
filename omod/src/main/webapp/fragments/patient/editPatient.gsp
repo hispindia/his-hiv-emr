@@ -270,14 +270,14 @@
 					</td>
 					<td valign="top"></td>
 					<td valign="top"  id="hivTestPerformedPlace">
-						<label class="ke-field-label">Place*</label>
+						<center><label class="ke-field-label">Place*</label></center>
 						<span class="ke-field-content">
 							${ ui.includeFragment("kenyaui", "widget/field", [ object: command, property: "hivTestPerformedPlace" ]) }
 						</span>	
 					</td>
 					<td valign="top"></td>
 					<td valign="top" id="hivTestPerformedDate">
-						<label class="ke-field-label">If yes, Date of Test*</label>
+						<label class="ke-field-label">Date of Test*</label>
 						<span class="ke-field-content">
 							${ ui.includeFragment("kenyaui", "widget/field", [id: "patient-hivTestPerformedDate", object: command, property: "hivTestPerformedDate" ]) }
 						</span>

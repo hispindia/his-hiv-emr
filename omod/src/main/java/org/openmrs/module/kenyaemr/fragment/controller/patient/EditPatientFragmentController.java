@@ -497,10 +497,10 @@ public class EditPatientFragmentController {
 			validateIdentifierField(errors, "preArtRegistrationNumber", CommonMetadata._PatientIdentifierType.PRE_ART_REGISTRATION_NUMBER);
 			validateIdentifierField(errors, "napArtRegistrationNumber", CommonMetadata._PatientIdentifierType.NAP_ART_REGISTRATION_NUMBER);
 			
-			//Check, not more than two identifier number get entered
-			if(identifierCount > 2){
+			//Check, not more than two identifier number get entered (not required now)
+			/*if(identifierCount > 2){
 				errors.rejectValue("systemPatientId", "At max only two registration numbers can be entered.");
-			}
+			}*/
 			
 		//	validateIdentifierField(errors, "systemPatientId", CommonMetadata._PatientIdentifierType.SYSTEM_PATIENT_ID);
 			validateIdentifierField(errors, "uniquePatientNumber", HivMetadata._PatientIdentifierType.UNIQUE_PATIENT_NUMBER);

@@ -573,7 +573,6 @@ public class WhiteCardFragmentController {
 				reasonConcept = programDiscontinuationReason.getValueCoded().toString();
 			
 		}
-		System.out.println(reasonConcept + "$$$$");
 		model.addAttribute("programDiscontinuationReasonVal", programDiscontinuationReasonVal);
 		
 		if(reasonConcept.equals("5240")){
@@ -601,7 +600,6 @@ public class WhiteCardFragmentController {
 			}
 		}
 		else if(reasonConcept.equals("159492")){
-			System.out.println("$$$$$$$$$$$$$$");
 			Obs datePlace = getAllLatestObs(patient,
 					Dictionary.DATE_TRANSFERRED_OUT);
 			if (datePlace != null) {
@@ -632,6 +630,9 @@ public class WhiteCardFragmentController {
 		 * */
 	
 		List<DrugOrder> orderList =  Context.getOrderService().getDrugOrdersByPatient(patient);
+		for (DrugOrder drugOrder : orderList) {
+			System.out.println(drugOrder.getDateCreated());
+		}
 		
 		/*
 		 * Varaible for each visit

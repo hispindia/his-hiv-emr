@@ -27,14 +27,16 @@
 <% if (config.complete) { %>
 <div class="ke-stack-item">
 	<div class="widget-content">
-		<table width="100%" border="0">
-			<tr>
-				<td>
+		<table width="100%" border="1">
+		<tbody>
+			<tr bgcolor="#778899">
+			
+				<td colspan="2">
 					<center>Patient Identification</center> 
 				</td>
 			</tr>
 			<tr>
-			<td style="text-align: left; vertical-align: top; width: 33%">
+			<td colspan="2" style="text-align: left; vertical-align: top; width: 33%">
 					<br/><strong>Name : ${ patientName }</strong>
 					<br/><strong>Age : ${ patientAge }</strong>
 					<strong>Date of Birth : ${ birthDate }</strong>
@@ -68,49 +70,57 @@
 				</td>
 			</tr>
 			<tr>
-				<td>
-					<br/><center>Personal History</center> 
+				<td width="50%" colspan="1">
+					<table border="1" width="100%">
+						<tr bgcolor="#778899">
+							<td>
+								<br><strong><center>Personal History</center></strong>
+							</td>
+						</tr><tr>
+							<td>
+								<strong>Risk Factor for HIV : </strong>${listAllRiskFactor} 
+								<br><strong>For IDus Substitution therapy :</strong>${iduStatusValue} (${iduNameValue}) 
+								<br><strong>Literate :</strong>${literate}
+								<br><strong>Employed :</strong>${employed}
+								<br><strong>Alcoholic :</strong> ${alcoholic} (${alcoholicType})
+								<br><strong>Income :</strong>${income}  Kyats
+							</td>
+							
+						</tr>
+					</table>
 				</td>
-			<tr>
-			<tr>
-				<td>
-					<strong>Risk Factor for HIV :</strong> ${listAllRiskFactor}
-					<br/><strong>For IDus Substitution therapy :</strong>${iduStatusValue} (${iduNameValue})
-					<br/><strong>Literate :</strong>${literate}
-					<br/><strong>Employed :</strong>${employed}
-					<br/><strong>Alcoholic :</strong>${alcoholic} (${alcoholicType})
-					<br/><strong>Income :</strong>${income} Kyats
-				</td>
-				
-			</tr>
-			<tr>
-				<td>
-					<br/><center>Family History</center> 
-				</td>
-			<tr>
-			
-			<tr>
-				<tr>
-					<td>Marital Status: ${civilStatusVal}</td>	
-				</tr>
-				<tr>
-					<th>Name of Spouse/children</th>
-					<th>Age</th>
-					<th>Sex</th>
-					<th>HIV +/-/unknown</th>
-					<th>ART y/n</th>
-				</tr>
-				 <% for ( e in familyMembers ) { 
-		 		def values = e.value.split(',')	%>
-				<tr>
-					<td><% println  values[0] %> </td>
-					<td><% println  values[1] %> </td>
-					<td><% println  values[2] %> </td>
-					<td><% println  values[3] %> </td>
-					<td><% println  values[4] %> </td>
-				</tr>
-				<%		} %>
-			</tr>
+				<td width="50%" colspan="1">
+					<table border="1" width="100%">
+						<tr  bgcolor="#778899" >
+							<td colspan="5">
+								<br><strong><center>Family History</center></strong>
+							</td>
+						<tr>
+							<td>Marital Status:${civilStatusVal} </td>	
+						</tr>
+						<table border="1" width="100%">
+							<tr>
+								<td>Name of Spouse/Children</td>
+								<td>Age</td>
+								<td>Sex</td>
+								<td>HIV +/-/Unknown</td>
+								<td>ART Y/N</td>
+							</tr>
+						 	<% for ( e in familyMembers ) { 
+					 		def values = e.value.split(',')	%>
+							<tr>
+								<td><% println  values[0] %> </td>
+								<td><% println  values[1] %> </td>
+								<td><% println  values[2] %> </td>
+								<td><% println  values[3] %> </td>
+								<td><% println  values[4] %> </td>
+							</tr>
+							<%		} %>
+						</table> 
+					</table>
+					</td>
+			</tr>	
+	
 			<tr>
 				<td>
 					<br/><center>Drug History</center> 
@@ -185,6 +195,7 @@
 					<br/>${ ui.includeFragment("kenyaui", "widget/obsHistoryTable", [ id: "tblhistory", patient: currentPatient, concepts: graphingConcepts ]) }
 				</td>
 			</tr>
+			</tbody>
 		</table>
 	</div>	
 	<input type="button" onClick="htmlToExcel();"  value="Print" />
@@ -195,4 +206,3 @@
 
 
 	
-
