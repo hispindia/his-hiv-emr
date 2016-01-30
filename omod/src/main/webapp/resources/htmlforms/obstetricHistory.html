@@ -52,6 +52,31 @@
 				}
 			});
 			
+			var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+			var d = new Date(getValue('curDate.value'));
+			if(d!="Invalid Date"){
+				d.setDate(d.getDate() + 280);
+				document.getElementById("w10-display").value =  d.getDate() + "-" + months[d.getMonth()-1] + "-" + d.getFullYear();
+				document.getElementById("w10").value = d.getFullYear()  + "-" +  d.getMonth() 	+ "-" + d.getDate();
+			}
+			else{
+				document.getElementById("w10-display").value =  "";
+				document.getElementById("w10").value = "";
+			}
+
+			jq("#curDate :input").change(function() {
+				var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+				var d = new Date(getValue('curDate.value'));
+				if(d!=""){
+					d.setDate(d.getDate() + 280);
+					document.getElementById("w10-display").value =  d.getDate() + "-" + months[d.getMonth()-1] + "-" + d.getFullYear();
+					document.getElementById("w10").value = d.getFullYear()  + "-" +  d.getMonth() 	+ "-" + d.getDate();
+				}
+				else{
+					document.getElementById("w10-display").value =  "";
+					document.getElementById("w10").value = "";
+				}
+			});
 		});
 	</script>
 
@@ -78,11 +103,11 @@
 						<table>
 							<tr>
 								<td>a. If yes, L.M.P</td>
-								<td>  : <obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+								<td>  : <obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="curDate"/></td>
 							</tr>
 							<tr>
 								<td>b. EDD </td>
-								<td>  : <obs conceptId="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true"/></td>
+								<td>  : <obs conceptId="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" id="nextDate"/></td>
 							</tr>
 							<tr>
 								<td>c. Gravida </td>
