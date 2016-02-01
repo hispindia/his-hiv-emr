@@ -3,6 +3,14 @@
 
 	def dataPoints = []
 
+
+if(calculations.tbPatientStatus){
+		dataPoints << [ label: "TB Status", value: calculations.tbPatientStatus ]
+}
+else{
+	dataPoints << [ label: "TB Status", value:  "None" ];
+}
+
 if(calculations.tbDiseaseSite){
 		dataPoints << [ label: "Site", value: calculations.tbDiseaseSite ]
 }
@@ -10,11 +18,12 @@ else{
 	dataPoints << [ label: "Site", value:  "None" ];
 }
 
-if(calculations.tbPatientStatus){
-		dataPoints << [ label: "TB Status", value: calculations.tbPatientStatus ]
+
+if(calculations.tbTreatmentOutcome){
+		dataPoints << [ label: "TB treatment outcome", value: calculations.tbTreatmentOutcome ]
 }
 else{
-	dataPoints << [ label: "TB Status", value:  "None" ];
+	dataPoints << [ label: "TB treatment outcome", value:  "None" ];
 }
 	
 %>

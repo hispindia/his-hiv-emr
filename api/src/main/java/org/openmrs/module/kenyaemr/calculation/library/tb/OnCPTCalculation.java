@@ -65,9 +65,6 @@ public class OnCPTCalculation extends AbstractPatientCalculation {
 		CalculationResultMap ret = new CalculationResultMap();
 		for(int ptId: cohort){
 			boolean onCpt = false;
-			if(inTbProgram.contains(ptId)) {
-				Obs hivStatusObs = EmrCalculationUtils.obsResultForPatient(hivStatusMap, ptId);
-				if(hivStatusObs != null && hivStatusObs.getValueCoded().equals(hivPositive)) {
 					// First look to see if they have an obs for taking as prophylaxis
 					ListResult ctxProphylaxis = (ListResult) ctxProphylaxisObss.get(ptId);
 					if (ctxProphylaxis != null) {
@@ -97,8 +94,8 @@ public class OnCPTCalculation extends AbstractPatientCalculation {
 					}
 
 					ret.put(ptId, new BooleanResult(onCpt, this, context));
-				}
-			}
+				
+			
 		}
 		return ret;
 	}

@@ -18,13 +18,13 @@
 		<property name="commonVisitForms">
 			<set>
 				<ref bean="kenyaemr.common.form.triage" />
-<!--  			<ref bean="kenyaemr.common.form.clinicalEncounter" /> -->
-				<ref bean="kenyaemr.common.form.labResults" /> 
-				<ref bean="kenyaemr.common.form.otherMedications" />
-				<ref bean="kenyaemr.common.form.progressNote" />
 				<ref bean="kenyaemr.hiv.form.consultationEncounter" />
 				<ref bean="kenyaemr.common.form.tbScreening" />
 				<ref bean="kenyaemr.common.form.labOrders" />
+				<ref bean="kenyaemr.common.form.otherMedications" />
+				<ref bean="kenyaemr.common.form.progressNote" />
+<!--  			<ref bean="kenyaemr.common.form.clinicalEncounter" /> -->
+				<ref bean="kenyaemr.common.form.labResults" /> 
 				<ref bean="kenyaemr.common.form.drugOrders" />
 			</set>
 		</property>
@@ -219,7 +219,7 @@
 		</property>
 		<property name="icon" value="kenyaui:forms/labresults.png" />
 		<property name="htmlform" value="kenyaemr:labOrders.html" />
-		<property name="order" value="200060" />
+		<property name="order" value="200013" />
 	</bean>
 
 	<!-- Drug Dispensing form -->
@@ -233,7 +233,7 @@
 		</property>
 		<property name="icon" value="kenyaui:forms/generic.png" />
 		<property name="htmlform" value="kenyaemr:dispenseDrug.html" />
-		<property name="order" value="200060" />
+		<property name="order" value="200018" />
 	</bean>
 	
 	<!-- Lab Results -->
@@ -248,7 +248,7 @@
 		</property>
 		<property name="icon" value="kenyaui:forms/labresults.png" />
 		<property name="htmlform" value="kenyaemr:labResults.html" />
-		<property name="order" value="200030" />
+		<property name="order" value="200017" />
 	</bean>
 
 
@@ -263,7 +263,7 @@
 		</property>
 		<property name="icon" value="kenyaui:forms/generic.png" />
 		<property name="htmlform" value="kenyaemr:hiv/hivClinicalEncounterAddendum.html" />
-		<property name="order" value="201010" />
+		<property name="order" value="200011" />
 	</bean>
 
 	<!-- Other Medications -->
@@ -277,7 +277,7 @@
 		</property>
 		<property name="icon" value="kenyaui:forms/generic.png" />
 		<property name="htmlform" value="kenyaemr:otherMedications.html" />
-		<property name="order" value="200040" />
+		<property name="order" value="200015" />
 	</bean>
 
 	<!-- Progress Note -->
@@ -292,7 +292,7 @@
 		</property>
 		<property name="icon" value="kenyaui:forms/generic.png" />
 		<property name="htmlform" value="kenyaemr:progressNote.html" />
-		<property name="order" value="200050" />
+		<property name="order" value="200016" />
 	</bean>
 
 	<!-- TB Screening -->
@@ -307,7 +307,7 @@
 		</property>
 		<property name="icon" value="kenyaui:forms/generic.png" />
 		<property name="htmlform" value="kenyaemr:tb/tbScreening.html" />
-		<property name="order" value="201020" />
+		<property name="order" value="200012" />
 	</bean>
 
 	<!-- Medical and Surgical History -->

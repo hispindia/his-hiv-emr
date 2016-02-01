@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.openmrs.Concept;
+import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.PatientProgram;
 import org.openmrs.Program;
@@ -33,8 +34,10 @@ import org.openmrs.module.kenyaemr.calculation.library.hiv.LastDiagnosisCalculat
 import org.openmrs.module.kenyaemr.calculation.library.hiv.LastWhoStageCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.art.InitialArtRegimenCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.art.InitialArtStartDateCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.tb.OnCPTCalculation;
 import org.openmrs.module.kenyaemr.regimen.RegimenChangeHistory;
 import org.openmrs.module.kenyaemr.regimen.RegimenManager;
+import org.openmrs.module.kenyaemr.wrapper.EncounterWrapper;
 import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
@@ -58,12 +61,38 @@ public class HivCarePanelFragmentController {
 		}
 
 		calculationResults.put("lastWHOStage", EmrCalculationUtils.evaluateForPatient(LastWhoStageCalculation.class, null, patient));
+
+		model.addAttribute("patient", patient);
+
 		calculationResults.put("lastCD4Count", EmrCalculationUtils.evaluateForPatient(LastCd4CountCalculation.class, null, patient));
 		calculationResults.put("lastCD4Percent", EmrCalculationUtils.evaluateForPatient(LastCd4PercentageCalculation.class, null, patient));
-		calculationResults.put("lastDiagnosis", EmrCalculationUtils.evaluateForPatient(LastDiagnosisCalculation.class, null, patient));
+
+		String listAllDiag = "";
+		Obs diagList = getAllLatestObs(patient, Dictionary.HIV_CARE_DIAGNOSIS);
+		if (diagList != null) {
+			EncounterWrapper wrapped = new EncounterWrapper(
+					diagList.getEncounter());
+			List<Obs> obsList = wrapped.allObs(diagList.getConcept());
+
+			for (Obs obs : obsList) {
+				if (listAllDiag.isEmpty()) {
+					listAllDiag = listAllDiag.concat(obs
+							.getValueCoded().getName().toString());
+				} else {
+					listAllDiag = listAllDiag.concat(", "
+							+ obs.getValueCoded().getName().toString());
+				}
+			}
+		}
+
+		model.addAttribute("listAllDiag", listAllDiag);		
+		
+//		calculationResults.put("lastDiagnosis", EmrCalculationUtils.evaluateForPatient(LastDiagnosisCalculation.class, null, patient));
+		calculationResults.put("onCpt", EmrCalculationUtils.evaluateForPatient(OnCPTCalculation.class, null, patient));
 		
 		model.addAttribute("calculations", calculationResults);
 
+		
 		Concept medSet = regimenManager.getMasterSetConcept("ARV");
 		RegimenChangeHistory history = RegimenChangeHistory.forPatient(patient, medSet);
 		model.addAttribute("regimenHistory", history);
@@ -83,5 +112,17 @@ public class HivCarePanelFragmentController {
 
 		model.addAttribute("currentEnrollment", currentEnrollment);
 		
+	}
+	
+	private Obs getAllLatestObs(Patient patient, String conceptIdentifier) {
+		Concept concept = Dictionary.getConcept(conceptIdentifier);
+		List<Obs> obs = Context.getObsService()
+				.getObservationsByPersonAndConcept(patient, concept);
+		int count = obs.size() - 1;
+		if (obs.size() > 0) {
+			// these are in reverse chronological order
+			return obs.get(count);
+		}
+		return null;
 	}
 }

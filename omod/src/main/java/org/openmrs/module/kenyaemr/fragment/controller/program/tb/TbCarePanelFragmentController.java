@@ -22,6 +22,7 @@ import org.openmrs.module.kenyaemr.regimen.RegimenManager;
 import org.openmrs.module.kenyaemr.calculation.library.tb.TbDiseaseClassificationCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.tb.TbPatientClassificationCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.tb.TbTreatmentNumberCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.tb.TbTreatmentOutcomeCalculation;
 import org.openmrs.module.kenyaemr.regimen.RegimenChangeHistory;
 import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.annotation.SpringBean;
@@ -43,15 +44,16 @@ public class TbCarePanelFragmentController {
 		Map<String, Object> calculationResults = new HashMap<String, Object>();
 
 		CalculationResult result = EmrCalculationUtils.evaluateForPatient(TbDiseaseClassificationCalculation.class, null, patient);
-	//	calculationResults.put("tbDiseaseClassification", result != null ? result.getValue() : null);
 		calculationResults.put("tbDiseaseSite", result != null ? result.getValue() : null);
 
 		result = EmrCalculationUtils.evaluateForPatient(TbPatientClassificationCalculation.class, null, patient);
-	//	calculationResults.put("tbPatientClassification", result != null ? result.getValue() : null);
 		calculationResults.put("tbPatientStatus", result != null ? result.getValue() : null);
 
 	//	result = EmrCalculationUtils.evaluateForPatient(TbTreatmentNumberCalculation.class, null, patient);
 	//	calculationResults.put("tbTreatmentNumber", result != null ? result.getValue() : null);
+		
+		result = EmrCalculationUtils.evaluateForPatient(TbTreatmentOutcomeCalculation.class, null, patient);
+		calculationResults.put("tbTreatmentOutcome", result != null ? result.getValue() : null);
 
 		model.addAttribute("calculations", calculationResults);
 
