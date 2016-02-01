@@ -11,6 +11,7 @@ private DrugOrder drugOrder;
 private Date createdDate;
 private Boolean processedStatus = Boolean.FALSE;
 private Integer durationPreProcess;
+private Date discontinuedDate;
 private Integer quantityPostProcess;
 public Integer getId() {
 	return id;
@@ -41,6 +42,12 @@ public Integer getDurationPreProcess() {
 }
 public void setDurationPreProcess(Integer durationPreProcess) {
 	this.durationPreProcess = durationPreProcess;
+}
+public Date getDiscontinuedDate() {
+	return discontinuedDate;
+}
+public void setDiscontinuedDate(Date discontinuedDate) {
+	this.discontinuedDate = discontinuedDate;
 }
 public Integer getQuantityPostProcess() {
 	return quantityPostProcess;

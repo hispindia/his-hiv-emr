@@ -33,7 +33,7 @@ public class DrugOrderListFragmentController {
 			Integer drugOrderProcessId = Integer.parseInt(drugOrderProcessedId);
 			String issuedQuantity = request.getParameter(drugOrderProcessedId+"issueQuantity");	
 			KenyaEmrService kes = (KenyaEmrService) Context.getService(KenyaEmrService.class);
-			DrugOrderProcessed drugOrderProces=kes.getDrugOrderProcesed(drugOrderProcessId);
+			DrugOrderProcessed drugOrderProces=kes.getDrugOrderProcesedById(drugOrderProcessId);
 			drugOrderProces.setProcessedStatus(true);
 			drugOrderProces.setQuantityPostProcess(Integer.parseInt(issuedQuantity));
 			kes.saveDrugOrderProcessed(drugOrderProces);

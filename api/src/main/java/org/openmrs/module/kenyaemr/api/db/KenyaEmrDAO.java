@@ -45,7 +45,7 @@ public interface KenyaEmrDAO {
 	public List<Obs> getObsByDate(Date date);
 	public DrugOrderProcessed saveDrugOrderProcessed(DrugOrderProcessed drugOrderProcessed);
 	public DrugOrderProcessed getDrugOrderProcessed(DrugOrder drugOrder);
-	public DrugOrderProcessed getDrugOrderProcesed(Integer drugOrder);
+	public DrugOrderProcessed getDrugOrderProcesedById(Integer id);
 	public List<DrugInfo> getDrugInfo();
 	public DrugInfo getDrugInfo(String drugName);
 }

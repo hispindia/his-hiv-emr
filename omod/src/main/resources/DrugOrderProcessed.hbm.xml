@@ -15,6 +15,7 @@
 		<property name="createdDate" column="created_date"  />
 		<property name="processedStatus" column="processed_status" />
 		<property name="durationPreProcess" column="duration_preprocess" />
+		<property name="discontinuedDate" column="discontinued_date" />
 		<property name="quantityPostProcess" column="quantity_postprocess" />
 	</class>
 </hibernate-mapping>
