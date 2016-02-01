@@ -16,6 +16,38 @@
 	<script type="text/javascript">
 		jq(document).ready(function(){
 			
+			if (getValue('artSideEffectPresent.value') == 1065) {
+				jq('#artSideEffectList :input').prop('disabled', false);
+			}
+			else {
+				jq('#artSideEffectList :input').prop('disabled', true);
+				}
+		
+			jq("#artSideEffectPresent input:radio").change(function() {
+				if (getValue('artSideEffectPresent.value') == 1065) {
+					jq('#artSideEffectList :input').prop('disabled', false);
+				}
+				else {
+					jq('#artSideEffectList :input').prop('disabled', true);
+					}
+			});
+			
+			if (getValue('temporaryReffered.value') == 1065) {
+				jq('#temporaryRefferedReason :input').prop('disabled', false);
+			}
+			else {
+				jq('#temporaryRefferedReason :input').prop('disabled', true);
+				}
+		
+			jq("#temporaryReffered input:radio").change(function() {
+				if (getValue('temporaryReffered.value') == 1065) {
+					jq('#temporaryRefferedReason :input').prop('disabled', false);
+				}
+				else {
+					jq('#temporaryRefferedReason :input').prop('disabled', true);
+					}
+			});
+			
 			if (getValue('nextStep.value') == 160523) {
 				jq('#admittedId :input').prop('disabled', true);
 				jq('#appointmentDate :input').prop('disabled', false);
@@ -53,21 +85,20 @@
 					return false;
 				}
 				
-				
-				if(getValue('artSideEffectPresent.value') == '1065'){
+				if (getValue('artSideEffectPresent.value') == '1065') {
 					if(getValue('artSideEffectValue.value')=="" &amp;&amp; getValue('artSideEffectValue1.value')==""  &amp;&amp; getValue('artSideEffectValue2.value')==""){
 						getField('artSideEffectValue2.error').html('Please select ART side effects').show();
 						return false;
 					}
 				}
-				
+	
 				if(getValue('temporaryReffered.value') == '1065'){
 					if(getValue('temporaryRefferedReason.value')==""){
 						getField('temporaryRefferedReason.error').html('Please select reason for temporary referral').show();
 						return false;
 					}
 				}
-				
+
 
 				
 			/*	var returnDate = new Date(getValue('returnVisitDate.value')).getTime();
@@ -122,13 +153,13 @@
 					<td>
 						<repeat>
 							<template>
-								<table  style="border-spacing: 15px;">
-								<tr>
-									<td style="border: 1px solid black;padding: 5px;"><obs conceptId="5219AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="autocomplete" labelText=" "  /></td>
-									<td style="border: 1px solid black;padding: 5px;"><obs conceptId="5219AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="autocomplete" labelText=" "  /></td>
-									<td style="border: 1px solid black;padding: 5px;"><obs conceptId="5219AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="autocomplete" labelText=" "  /></td>
-								</tr>
-								</table>	
+									<table  style="border-spacing: 15px;">
+									<tr>
+										<td style="border: 1px solid black;padding: 5px;"><obs conceptId="5219AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="autocomplete" labelText=" "  /></td>
+										<td style="border: 1px solid black;padding: 5px;"><obs conceptId="5219AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="autocomplete" labelText=" "  /></td>
+										<td style="border: 1px solid black;padding: 5px;"><obs conceptId="5219AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="autocomplete" labelText=" "  /></td>
+									</tr>
+									</table>
 							</template>
 							<render n="1" concept=" " />
 							<render n="2" concept=" " />
@@ -181,13 +212,15 @@
 					<td>
 						<repeat>
 							<template>
-								<table style="border-spacing: 15px;">
-								<tr>
-									<td style="border: 1px solid black;padding: 5px;"><obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" style="autocomplete" type="autocomplete" labelText=" "  id="daig_value"/></td>
-									<td style="border: 1px solid black;padding: 5px;"><obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" style="autocomplete" type="autocomplete" labelText=" "  id="daig_value1"/></td>
-									<td style="border: 1px solid black;padding: 5px;"><obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" style="autocomplete" type="autocomplete" labelText=" "  id="daig_value2"/></td>
-								</tr>
-								</table>	
+								<obsgroup groupingConceptId="50ea66b0-77a0-42a8-84f5-c7164c9e3373">
+									<table style="border-spacing: 15px;">
+									<tr>
+										<td style="border: 1px solid black;padding: 5px;"><obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" style="autocomplete" type="autocomplete" labelText=" "  id="daig_value"/></td>
+										<td style="border: 1px solid black;padding: 5px;"><obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" style="autocomplete" type="autocomplete" labelText=" "  id="daig_value1"/></td>
+										<td style="border: 1px solid black;padding: 5px;"><obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" style="autocomplete" type="autocomplete" labelText=" "  id="daig_value2"/></td>
+									</tr>
+									</table>
+								</obsgroup>	
 							</template>
 							<render n="1" concept=" " />
 							<render n="2" concept=" " />
@@ -200,24 +233,27 @@
 				</tr>
 				<tr>
 					<td>7. Side effects of ART ?</td>
-					<td><obs id="artSideEffectPresent" conceptId="159935AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio"/></td>
+					<td><obs id="artSideEffectPresent" conceptId="159935AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" /></td>
 				</tr>
 				<tr>
 					<td></td>
 					<td>
-						<repeat>
-							<template>
-								<table  id="artSideEffectList">
-								<tr>
-									<td  style="border: 1px solid black;padding: 5px;"><obs conceptId="4b4e4b62-4e44-43f6-9c35-ca23861a153e" id="artSideEffectValue" /></td>
-									<td style="border: 1px solid black;padding: 5px;"><obs conceptId="4b4e4b62-4e44-43f6-9c35-ca23861a153e" id="artSideEffectValue1" /></td>
-									<td style="border: 1px solid black;padding: 5px;"><obs conceptId="4b4e4b62-4e44-43f6-9c35-ca23861a153e" id="artSideEffectValue2" /></td>
-								</tr>
-								</table>	
-							</template>
-							<render n="1" concept=" " />
-							<render n="2" concept=" " />
-						</repeat>
+						<div id="artSideEffectList">
+							<repeat>
+								<template>
+									
+									<table>
+									<tr>
+										<td  style="border: 1px solid black;padding: 5px;"><obs conceptId="4b4e4b62-4e44-43f6-9c35-ca23861a153e" id="artSideEffectValue" /></td>
+										<td style="border: 1px solid black;padding: 5px;"><obs conceptId="4b4e4b62-4e44-43f6-9c35-ca23861a153e" id="artSideEffectValue1" /></td>
+										<td style="border: 1px solid black;padding: 5px;"><obs conceptId="4b4e4b62-4e44-43f6-9c35-ca23861a153e" id="artSideEffectValue2" /></td>
+									</tr>
+									</table>	
+								</template>
+								<render n="1" concept=" " />
+								<render n="2" concept=" " />
+							</repeat>
+						</div>
 					</td>	
 				</tr>
 				<tr>

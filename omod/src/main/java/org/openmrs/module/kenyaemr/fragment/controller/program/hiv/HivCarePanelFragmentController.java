@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.openmrs.Concept;
+import org.openmrs.Encounter;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.PatientProgram;
@@ -68,22 +69,38 @@ public class HivCarePanelFragmentController {
 		calculationResults.put("lastCD4Percent", EmrCalculationUtils.evaluateForPatient(LastCd4PercentageCalculation.class, null, patient));
 
 		String listAllDiag = "";
+		
+		
+		
+		
 		Obs diagList = getAllLatestObs(patient, Dictionary.HIV_CARE_DIAGNOSIS);
-		if (diagList != null) {
-			EncounterWrapper wrapped = new EncounterWrapper(
-					diagList.getEncounter());
-			List<Obs> obsList = wrapped.allObs(diagList.getConcept());
-
-			for (Obs obs : obsList) {
-				if (listAllDiag.isEmpty()) {
-					listAllDiag = listAllDiag.concat(obs
-							.getValueCoded().getName().toString());
-				} else {
-					listAllDiag = listAllDiag.concat(", "
-							+ obs.getValueCoded().getName().toString());
+		Obs consultationObs =   getAllLatestObs(patient, Dictionary.CONSULTATION_DETAIL);
+		if(consultationObs!=null){
+			EncounterWrapper wrappedG = new EncounterWrapper(
+					consultationObs.getEncounter());
+			List<Obs> obsGroupList = wrappedG.allObs(consultationObs.getConcept());
+			for (Obs obsG : obsGroupList) {
+				if (diagList != null) {
+					List<Obs> obsList = Context.getObsService().getObservationsByPersonAndConcept(patient, Dictionary.getConcept(Dictionary.HIV_CARE_DIAGNOSIS));
+					
+					for (Obs obs : obsList) {
+						if(obs.getObsGroupId() == obsG.getObsId()){
+							if (listAllDiag.isEmpty()) {
+								listAllDiag = listAllDiag.concat(obs
+										.getValueCoded().getName().toString());
+							} else {
+								listAllDiag = listAllDiag.concat(", "
+										+ obs.getValueCoded().getName().toString());
+							}
+							
+						}
+					}
 				}
 			}
+			
 		}
+		
+
 
 		model.addAttribute("listAllDiag", listAllDiag);		
 		

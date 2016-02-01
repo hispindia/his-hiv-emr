@@ -100,7 +100,7 @@
 					jq('#expul :input').prop('disabled', true);
 				//	jq('#iddivPulmonary :input').prop('disabled', false);
 				}
-				else if (optValues == 5042 ){
+				else if (optValues == 5042  || jq(this).val() == 163055){
 				//	jq('#iddivPulmonary :input').prop('disabled', true);
 					jq('#expul :input').prop('disabled', false);
 				}
@@ -114,7 +114,7 @@
 						jq('#expul :input').prop('disabled', true);
 				//		jq('#iddivPulmonary :input').prop('disabled', false);
 					}
-					if (jq(this).val() == 5042) {
+					if (jq(this).val() == 5042 || jq(this).val() == 163055) {
 				//		jq('#iddivPulmonary :input').prop('disabled', true);
 						jq('#expul :input').prop('disabled', false);
 					}
@@ -206,7 +206,7 @@
 				<td valign="top" width="50%">
 					<div id="tbSufferedPatientYes">
 						<fieldset>
-							<legend>If Yes</legend>
+							<b>If Yes</b>
 							
 							<table align="center"  class="tb1" cellspacing="10" width="100%">
 								<tr>
@@ -215,7 +215,7 @@
 								</tr>
 								<tr>
 									<td>Disease Classification* </td>
-									<td><obs conceptId="160040AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="42AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5042AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Pulmonary TB,Extra-Pulmonary TB" style="radio" id="dclassification"/></td>
+									<td><obs conceptId="160040AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="42AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5042AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,65b09297-280f-4b24-aced-bdbb4bf11625" answerLabels="Pulmonary TB,Extra-Pulmonary TB, Both" style="radio" id="dclassification"/></td>
 								</tr>
 								<tr style="outline: thin solid">
 								<!-- 	<td valign="top">
@@ -231,7 +231,7 @@
 									</td> -->
 									<td colspan="2">
 										<div id="expul">
-											<legend>If Extra-Pulmonary TB:</legend>
+											<b>If Extra-Pulmonary TB:</b>
 											<table>
 												<tr>
 													<td valign="top">Enter Site</td>
@@ -291,7 +291,7 @@
 				<td valign="top"  width="50%">
 					<div id="tbSufferedPatientNo">
 						<fieldset>
-							<legend>If No</legend>
+							<b>If No</b>
 							
 							<table align="center"   class="tb1" cellspacing="10" width="100%">
 								<tr>

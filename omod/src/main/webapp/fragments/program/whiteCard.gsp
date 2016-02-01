@@ -5,10 +5,9 @@
 <script type="text/javascript">
 
  function htmlToExcel() {
-    var divToPrint = document.getElementsByClassName('widget-content')[0];
+    var divToPrint = document.getElementsByClassName("widget-content")[0];
     var uri = 'data:application/vnd.ms-excel,' +'<html><body>' + divToPrint.innerHTML + '</html>';
     
-   
     var link = document.createElement("a");    
     link.href = uri;
     
