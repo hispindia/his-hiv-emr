@@ -33,7 +33,9 @@
 			</tr>	
 			<tr>
 				<td colspan="2" style="text-align: left; vertical-align: top; width: 33%">
+					<% if (enrollmentStatus) { %>
 						<strong>Status of enrollement : </strong>${ enrollmentStatus.valueCoded.name }
+					<% } %>	
 						<strong> 
 						<br/>Pregnancy : ${pregStatusVal}</strong>
 						<br/>EDD : ${eddVal}

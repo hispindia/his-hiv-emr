@@ -8,13 +8,19 @@
 		if (initialArtStartDate) {
 			def regimen = calculations.initialArtRegimen ? kenyaEmrUi.formatRegimenLong(calculations.initialArtRegimen.value, ui) : null
 
-			dataPoints << [ label: "ART start date", value: initialArtStartDate, showDateInterval: true ]
+			
 			dataPoints << [ label: "Initial ART regimen", value: regimen ]
 		} else {
-			dataPoints << [ label: "ART start date", value: "Never" ]
+			
 		}
 	}
 
+	if (initialArtStartDate) {
+		dataPoints << [ label: "ART start date", value: initialArtStartDate, showDateInterval: true ]
+	} else {
+		dataPoints << [ label: "ART start date", value: "" ]
+	}
+	
 	if (calculations.lastWHOStage) {
 		dataPoints << [ label: "Last WHO stage", value: ui.format(calculations.lastWHOStage.value.valueCoded), extra: calculations.lastWHOStage.value.obsDatetime ]
 	} else {

@@ -14,6 +14,8 @@
 
 package org.openmrs.module.kenyaemr.fragment.controller.program.hiv;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,9 +58,27 @@ public class HivCarePanelFragmentController {
 
 		Map<String, CalculationResult> calculationResults = new HashMap<String, CalculationResult>();
 
+		
+		/*
+		 * Encounter details
+		 */
+		Date dateArt = new Date();
+		List<Encounter> artEncounters = Context.getEncounterService()
+				.getEncounters(patient);
+		for (Encounter en : artEncounters) {
+			if (en.getEncounterType().getUuid()
+					.equals("0cb4417d-b98d-4265-92aa-c6ee3d3bb317")) {
+				if (dateArt.after(en.getEncounterDatetime())) {
+					dateArt = en.getEncounterDatetime();
+				}
+			}
+		}
+		model.addAttribute("initialArtStartDate", new SimpleDateFormat(
+				"dd-MMMM-yyyy").format(dateArt));
+		
 		if (complete != null && complete.booleanValue()) {
 			calculationResults.put("initialArtRegimen", EmrCalculationUtils.evaluateForPatient(InitialArtRegimenCalculation.class, null, patient));
-			calculationResults.put("initialArtStartDate", EmrCalculationUtils.evaluateForPatient(InitialArtStartDateCalculation.class, null, patient));
+//			calculationResults.put("initialArtStartDate", EmrCalculationUtils.evaluateForPatient(InitialArtStartDateCalculation.class, null, patient));
 		}
 
 		calculationResults.put("lastWHOStage", EmrCalculationUtils.evaluateForPatient(LastWhoStageCalculation.class, null, patient));

@@ -34,6 +34,13 @@
 		jq(document).ready(function () {
 			if (getValue('isPregnant.value') == 1066) {
 				jq('#ifNoPregnancy :input').prop('disabled', false);
+				if (getValue('fPlanning.value') == 1065) {
+					jq('#fPlanningOption :input').prop('disabled', false);
+				}
+				else {
+					jq('#fPlanningOption :input').prop('disabled', true);
+				}
+				
 				jq('#ifYesPregnancy :input').prop('disabled', true);
 			}
 			else {
@@ -44,13 +51,37 @@
 			jq("#isPregnant input:radio").change(function() {
 				if (getValue('isPregnant.value') == 1066) {
 					jq('#ifNoPregnancy :input').prop('disabled', false);
+					if (getValue('fPlanning.value') == 1065) {
+						jq('#fPlanningOption :input').prop('disabled', false);
+					}
+					else {
+						jq('#fPlanningOption :input').prop('disabled', true);
+					}
+					
 					jq('#ifYesPregnancy :input').prop('disabled', true);
 				}
 				else {
 					jq('#ifNoPregnancy :input').prop('disabled', true);
 					jq('#ifYesPregnancy :input').prop('disabled', false);
 				}
+				
 			});
+			
+				if (getValue('fPlanning.value') == 1065) {
+					jq('#fPlanningOption :input').prop('disabled', false);
+				}
+				else {
+					jq('#fPlanningOption :input').prop('disabled', true);
+				}
+			
+				jq("#fPlanning input:radio").change(function() {
+					if (getValue('fPlanning.value') == 1065) {
+						jq('#fPlanningOption :input').prop('disabled', false);
+					}
+					else {
+						jq('#fPlanningOption :input').prop('disabled', true);
+					}
+				});
 			
 			var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 			var d = new Date(getValue('curDate.value'));
@@ -119,7 +150,7 @@
 							</tr>
 							<tr>
 								<td>e. ANC Number </td>
-								<td>  : <obs conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+								<td>  : <obs conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="20"/></td>
 							</tr>
 						</table>
 					</div>
