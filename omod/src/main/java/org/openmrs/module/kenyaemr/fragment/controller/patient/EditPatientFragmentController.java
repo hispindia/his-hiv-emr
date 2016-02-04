@@ -260,6 +260,7 @@ public class EditPatientFragmentController {
 		private Integer identifierCount;		
 		private String fatherName;
 		private String otherEntryPoint;
+		private String otherStatus;
 		private String previousClinicName;
 		private Date transferredInDate;
 		private String hivTestPerformed;
@@ -365,6 +366,7 @@ public class EditPatientFragmentController {
 			savedEnrollmentNameConcept = getLatestObs(patient, Dictionary.ENROLLMENT_STATUS);
 			if (savedEnrollmentNameConcept != null) {
 				enrollmentName = savedEnrollmentNameConcept.getValueCoded();
+				otherStatus = savedEnrollmentNameConcept.getValueText();
 			}
 
 			savedEntryPoint = getLatestObs(patient, Dictionary.METHOD_OF_ENROLLMENT);
@@ -373,8 +375,6 @@ public class EditPatientFragmentController {
 				otherEntryPoint = savedEntryPoint.getValueText();
 				transferredInDate = savedEntryPoint.getValueDate();
 			}
-			
-			
 			
 			savedEducation = getLatestObs(patient, Dictionary.EDUCATION);
 			if (savedEducation != null) {
@@ -461,6 +461,13 @@ public class EditPatientFragmentController {
 			if( entryPoint!= null){
 				if(entryPoint.getName().toString().equals("Other")){
 					require(errors, "otherEntryPoint");
+				}
+			}
+			
+			//Check for Other enrollment status 
+			if( enrollmentName!= null){
+				if(enrollmentName.getName().toString().equals("Other")){
+					require(errors, "otherStatus");
 				}
 			}
 			
@@ -661,8 +668,13 @@ public class EditPatientFragmentController {
 			handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.CIVIL_STATUS), savedMaritalStatus, maritalStatus);
 			handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.OCCUPATION), savedOccupation, occupation);
 			handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.INGO_NAME), savedIngoTypeConcept, ingoTypeConcept);
-			handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.ENROLLMENT_STATUS), savedEnrollmentNameConcept, enrollmentName);
 			handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.EDUCATION), savedEducation, education);
+			
+			
+			if(enrollmentName.getName().toString().equals("Other")){
+				handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.ENROLLMENT_STATUS), savedEnrollmentNameConcept, enrollmentName,otherStatus,new Date(),1);
+			}
+			
 			
 			//With value text and Date
 			if(transferredInDate!=null){
@@ -1005,6 +1017,14 @@ public class EditPatientFragmentController {
 
 		public void setCheckInType(String checkInType) {
 			this.checkInType = checkInType;
+		}
+
+		public String getOtherStatus() {
+			return otherStatus;
+		}
+
+		public void setOtherStatus(String otherStatus) {
+			this.otherStatus = otherStatus;
 		}
 
 		/**

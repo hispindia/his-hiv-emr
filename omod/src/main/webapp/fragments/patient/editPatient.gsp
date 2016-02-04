@@ -57,7 +57,8 @@
 	
 	def enrollmentStatus = [
 			[
-					[ object: command, property: "enrollmentName", label: "Status at enrollment *", config: [ style: "list", answerTo: enrollmentList ] ]
+					[ object: command, property: "enrollmentName", label: "Status at enrollment *", config: [ style: "list", answerTo: enrollmentList ] ],
+					[ object: command, property: "otherStatus", label: "If other, Please specify" ]
 			]		
 	]
 	
@@ -77,7 +78,7 @@
 
 	def addressFieldRows = [
 			[
-					[ object: command, property: "personAddress.address1", label: "Physical Address", config: [ type: "textarea", size: 20 ] ],
+					[ object: command, property: "personAddress.address1", label: "Physical Address ", config: [ type: "textarea", size: 20 ] ],
 					[ object: command, property: "telephoneContact", label: "Contact Number" ]
 			]
 	]

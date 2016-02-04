@@ -134,7 +134,7 @@ public class HivCarePanelFragmentController {
 		RegimenChangeHistory history = RegimenChangeHistory.forPatient(patient, medSet);
 		model.addAttribute("regimenHistory", history);
 		
-		model.addAttribute("graphingConcepts", Dictionary.getConcepts(Dictionary.WEIGHT_KG, Dictionary.CD4_COUNT, Dictionary.CD4_PERCENT, Dictionary.HIV_VIRAL_LOAD));
+		model.addAttribute("graphingConcepts", Dictionary.getConcepts(Dictionary.WEIGHT_KG, Dictionary.CD4_COUNT, Dictionary.CD4_PERCENT, Dictionary.HIV_VIRAL_LOAD,Dictionary.OI_COUNT));
 		
 		PatientProgram currentEnrollment = null;
 		Program program=Context.getProgramWorkflowService().getProgramByUuid("96ec813f-aaf0-45b2-add6-e661d5bf79d6");

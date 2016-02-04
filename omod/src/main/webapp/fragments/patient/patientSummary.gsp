@@ -13,9 +13,39 @@
 			<img src="${ ui.resourceLink("kenyaui", "images/glyphs/edit.png") }" />
 		</button>
 
+		
+<!--
 		<% patient.activeAttributes.each { %>
 		${ ui.includeFragment("kenyaui", "widget/dataPoint", [ label: ui.format(it.attributeType), value: it ]) }
 		<% } %>
+-->		
+		Father name : <strong>${personWrap.fatherName}</strong>
+		<% if (personWrap.telephoneContact) { %>
+			<br/>Patient contact number : <strong> ${personWrap.telephoneContact}</strong>
+		<% } %>
+		<% if (patientAdd.countyDistrict) { %>
+			<br/>Patient Address : <strong>${patientAdd.countyDistrict}</strong>
+		<% } %>
+		<% if (patientWrap.nextOfKinName) { %>
+			<br/>Treatment Supporter's Name: <strong>${patientWrap.nextOfKinName}</strong>
+		<% } %>
+		<% if (patientWrap.nextOfKinContact) { %>
+			<br/>Treatment Supporter's contact number: <strong>${patientWrap.nextOfKinContact}</strong>
+		<% } %>
+		<% if (patientWrap.previousHivTestDate) { %>
+			<br/>HIV confirmation test date : <strong>${patientWrap.previousHivTestDate}</strong>
+		<% } %>
+		<br/> Entry Point : <strong>${savedEntryPoint.valueCoded.name}</strong>
+		<% if (pregStatusVal) { %>
+			<br/>Pregnancy : <strong>${pregStatusVal}</strong>
+		<% } %>
+		<% if (drugAllergiesVal) { %>
+			<br/>Drug Allergy & name : <strong>${drugAllergiesVal}</strong>
+		<% } %>
+		
+		
+		
+		
 	</div>
 </div>
 
