@@ -217,5 +217,7 @@
 	<ref key="INFANT_UNIQUE_ID" uuid="8cf2bda5-f2cc-48e3-a1b8-16ff76b7bed8" />
 	<ref key="DEATH_DATE" uuid="1543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 	<ref key="CONSULTATION_DETAIL" uuid="50ea66b0-77a0-42a8-84f5-c7164c9e3373" />
+	<ref key="OI_COUNT" uuid="dbce038e-4815-418e-b929-7623f0cdfcdb" />
+	<ref key="ALLERGY_DRUG" uuid="160558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 </refs>
 
