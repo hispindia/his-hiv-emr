@@ -22,12 +22,15 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.Cohort;
+import org.openmrs.Concept;
 import org.openmrs.DrugOrder;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.Obs;
 import org.openmrs.OrderType;
 import org.openmrs.Patient;
+import org.openmrs.Person;
+import org.openmrs.api.context.Context;
 import org.openmrs.api.db.DAOException;
 import org.openmrs.module.kenyaemr.api.db.KenyaEmrDAO;
 import org.openmrs.module.kenyaemr.model.DrugInfo;
@@ -37,6 +40,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -152,19 +156,66 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		return criteria.list();
 	}
 	
-	public List<Obs> getObsByDate(Date date) {
+	public List<Obs> getObsGroupByDate(Date date) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
 		if(date!=null){
 		String dat = formatterExt.format(date);
 		String startFromDate = dat + " 00:00:00";
 		String endFromDate = dat + " 23:59:59";
+		Concept concept1=Context.getConceptService().getConceptByUuid("163021AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		Concept concept2=Context.getConceptService().getConceptByUuid("163022AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		Concept concept3=Context.getConceptService().getConceptByUuid("163023AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		List<Concept> obsGroupCollection=new LinkedList<Concept>();
+		obsGroupCollection.add(concept1);
+		obsGroupCollection.add(concept2);
+		obsGroupCollection.add(concept3);
 		try {
 			criteria.add(Restrictions.and(Restrictions.ge("obs.dateCreated", formatter.parse(startFromDate)),
 				    Restrictions.le("obs.dateCreated", formatter.parse(endFromDate))));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		criteria.add(Restrictions.in("obs.concept", obsGroupCollection));
+		/*
+		Obs o=new Obs();
+		o.getValueAsBoolean();
+		criteria.add(Restrictions.isNull(o.getValueAsBoolean().toString()));*/
 		}
+		return criteria.list();
+	}
+	
+	public List<Obs> getObsGroupByDateAndPerson(Date date,Person person) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
+		if(date!=null){
+		String dat = formatterExt.format(date);
+		String startFromDate = dat + " 00:00:00";
+		String endFromDate = dat + " 23:59:59";
+		Concept concept1=Context.getConceptService().getConceptByUuid("163021AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		Concept concept2=Context.getConceptService().getConceptByUuid("163022AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		Concept concept3=Context.getConceptService().getConceptByUuid("163023AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		List<Concept> obsGroupCollection=new LinkedList<Concept>();
+		obsGroupCollection.add(concept1);
+		obsGroupCollection.add(concept2);
+		obsGroupCollection.add(concept3);
+		criteria.add(Restrictions.eq("obs.person", person));
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("obs.dateCreated", formatter.parse(startFromDate)),
+				    Restrictions.le("obs.dateCreated", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		criteria.add(Restrictions.in("obs.concept", obsGroupCollection));
+		/*
+		Obs o=new Obs();
+		o.getValueAsBoolean();
+		criteria.add(Restrictions.isNull(o.getValueAsBoolean().toString()));*/
+		}
+		return criteria.list();
+	}
+	
+	public List<Obs> getObsByObsGroup(Obs obsGroup) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
+		criteria.add(Restrictions.eq("obs.obsGroup", obsGroup));
 		return criteria.list();
 	}
 	

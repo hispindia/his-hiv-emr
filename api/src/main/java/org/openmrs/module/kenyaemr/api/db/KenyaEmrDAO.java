@@ -26,6 +26,7 @@ import org.openmrs.Obs;
 import org.openmrs.Order;
 import org.openmrs.OrderType;
 import org.openmrs.Patient;
+import org.openmrs.Person;
 import org.openmrs.module.kenyaemr.model.DrugInfo;
 import org.openmrs.module.kenyaemr.model.DrugOrderProcessed;
 
@@ -42,7 +43,9 @@ public interface KenyaEmrDAO {
 	 */
 	public Encounter getLastEncounter(Patient patient,Set<EncounterType> encounterTypes);
 	public List<Order> getOrderByDateAndOrderType(Date date,OrderType orderType);
-	public List<Obs> getObsByDate(Date date);
+	public List<Obs> getObsGroupByDate(Date date);
+	public List<Obs> getObsGroupByDateAndPerson(Date date,Person person);
+	public List<Obs> getObsByObsGroup(Obs obsGroup);
 	public DrugOrderProcessed saveDrugOrderProcessed(DrugOrderProcessed drugOrderProcessed);
 	public DrugOrderProcessed getDrugOrderProcessed(DrugOrder drugOrder);
 	public DrugOrderProcessed getDrugOrderProcesedById(Integer id);

@@ -12,3 +12,17 @@
 </div>
 <% } %>
 <% } %>
+
+<% drugOrderObss.each { drugOrderObs -> %>
+<% if (drugOrderObs!=null) { %>
+<div>
+<input type="text" id="slNo" name="slNo" size="5" value="${count++}" disabled>
+<input type="text" id="drugName" name="drugName" size="20" value="${drugOrderObs.drug}" disabled>
+<input type="text" id="formulation" name="formulation" size="20" value="${drugOrderObs.formulation}" disabled>
+<input type="text" id="strength" name="strength" size="20" value="${drugOrderObs.strength}" disabled>
+<input type="text" id="frequency" name="frequency" size="20" value="${drugOrderObs.frequency}" disabled>
+<input type="text" id="durationPreProcess" name="durationPreProcess" size="20" value="${drugOrderObs.duration}" disabled>
+<input type="text" id="issueQuantity" name="issueQuantity" size="20">
+</div>
+<% } %>
+<% } %>

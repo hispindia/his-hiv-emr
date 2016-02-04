@@ -36,6 +36,7 @@ import org.openmrs.Order;
 import org.openmrs.OrderType;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifierType;
+import org.openmrs.Person;
 import org.openmrs.Visit;
 import org.openmrs.api.APIException;
 import org.openmrs.api.EncounterService;
@@ -285,8 +286,16 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 		return dao.getOrderByDateAndOrderType(date,orderType);
 	}
 	
-	public List<Obs> getObsByDate(Date date) {
-		return dao.getObsByDate(date);
+	public List<Obs> getObsGroupByDate(Date date) {
+		return dao.getObsGroupByDate(date);
+	}
+	
+	public List<Obs> getObsGroupByDateAndPerson(Date date,Person person) {
+		return dao.getObsGroupByDateAndPerson(date,person);
+	}
+	
+	public List<Obs> getObsByObsGroup(Obs obsGroup) {
+		return dao.getObsByObsGroup(obsGroup);
 	}
 	
 	public DrugOrderProcessed saveDrugOrderProcessed(DrugOrderProcessed drugOrderProcessed) {
