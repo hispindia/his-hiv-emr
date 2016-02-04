@@ -57,6 +57,7 @@ import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
 import org.openmrs.module.kenyaemr.metadata.FacilityMetadata;
 import org.openmrs.module.kenyaemr.metadata.HivMetadata;
 import org.openmrs.module.kenyaemr.model.DrugInfo;
+import org.openmrs.module.kenyaemr.model.DrugObsProcessed;
 import org.openmrs.module.kenyaemr.model.DrugOrderProcessed;
 import org.openmrs.module.kenyaemr.wrapper.Facility;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
@@ -298,8 +299,16 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 		return dao.getObsByObsGroup(obsGroup);
 	}
 	
+	public Obs saveOrUpdateObs(Obs obs) {
+		return dao.saveOrUpdateObs(obs);
+	}
+	
 	public DrugOrderProcessed saveDrugOrderProcessed(DrugOrderProcessed drugOrderProcessed) {
 		return dao.saveDrugOrderProcessed(drugOrderProcessed);
+	}
+	
+	public DrugObsProcessed saveDrugObsProcessed(DrugObsProcessed drugObsProcessed) {
+		return dao.saveDrugObsProcessed(drugObsProcessed);
 	}
 	
 	public DrugOrderProcessed getDrugOrderProcessed(DrugOrder drugOrder) {

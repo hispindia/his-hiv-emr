@@ -130,5 +130,13 @@
 		CREATE TABLE IF NOT EXISTS drug_order_processed (id integer not null auto_increment, drug_order integer,created_date datetime,processed_status tinyint(1),duration_preprocess integer,discontinued_date datetime,quantity_postprocess integer,primary key (id));
 		</sql>
 	</changeSet>
+	
+	<changeSet id="${project.parent.artifactId}-20160204-1126" author="ghanshyam">
+		<comment>
+		</comment>
+		<sql>
+		CREATE TABLE IF NOT EXISTS drug_obs_processed (id integer not null auto_increment, obs integer,created_date datetime,quantity_postprocess integer,primary key (id));
+		</sql>
+	</changeSet>
 
 </databaseChangeLog>

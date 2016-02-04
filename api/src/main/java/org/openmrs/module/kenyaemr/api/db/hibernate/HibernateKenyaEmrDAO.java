@@ -34,6 +34,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.api.db.DAOException;
 import org.openmrs.module.kenyaemr.api.db.KenyaEmrDAO;
 import org.openmrs.module.kenyaemr.model.DrugInfo;
+import org.openmrs.module.kenyaemr.model.DrugObsProcessed;
 import org.openmrs.module.kenyaemr.model.DrugOrderProcessed;
 
 import java.text.ParseException;
@@ -176,11 +177,8 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 			e.printStackTrace();
 		}
 		criteria.add(Restrictions.in("obs.concept", obsGroupCollection));
-		/*
-		Obs o=new Obs();
-		o.getValueAsBoolean();
-		criteria.add(Restrictions.isNull(o.getValueAsBoolean().toString()));*/
 		}
+		criteria.add(Restrictions.isNull("comment"));
 		return criteria.list();
 	}
 	
@@ -205,10 +203,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 			e.printStackTrace();
 		}
 		criteria.add(Restrictions.in("obs.concept", obsGroupCollection));
-		/*
-		Obs o=new Obs();
-		o.getValueAsBoolean();
-		criteria.add(Restrictions.isNull(o.getValueAsBoolean().toString()));*/
+		criteria.add(Restrictions.isNull("comment"));
 		}
 		return criteria.list();
 	}
@@ -219,8 +214,16 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		return criteria.list();
 	}
 	
+	public Obs saveOrUpdateObs(Obs obs) throws DAOException {
+		return (Obs) sessionFactory.getCurrentSession().merge(obs);
+	}
+	
 	public DrugOrderProcessed saveDrugOrderProcessed(DrugOrderProcessed drugOrderProcessed) throws DAOException {
 		return (DrugOrderProcessed) sessionFactory.getCurrentSession().merge(drugOrderProcessed);
+	}
+	
+	public DrugObsProcessed saveDrugObsProcessed(DrugObsProcessed drugObsProcessed) throws DAOException {
+		return (DrugObsProcessed) sessionFactory.getCurrentSession().merge(drugObsProcessed);
 	}
 	
 	public DrugOrderProcessed getDrugOrderProcessed(DrugOrder drugOrder) {

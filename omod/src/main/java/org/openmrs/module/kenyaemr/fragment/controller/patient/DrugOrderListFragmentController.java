@@ -16,6 +16,7 @@ import org.openmrs.Patient;
 import org.openmrs.Person;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.kenyaemr.api.KenyaEmrService;
+import org.openmrs.module.kenyaemr.model.DrugObsProcessed;
 import org.openmrs.module.kenyaemr.model.DrugOrderObs;
 import org.openmrs.module.kenyaemr.model.DrugOrderProcessed;
 import org.openmrs.ui.framework.UiUtils;
@@ -70,6 +71,7 @@ public class DrugOrderListFragmentController {
                 	drugOrder.setDuration(obsDrugOrder.getValueNumeric().toString());	
         		}
         	}
+        	 drugOrder.setObsGroupId(obs.getObsId());
         	 drugOrderObs.add(drugOrder);
         }
         for(DrugOrder drugOrder:drugOrders){
@@ -81,15 +83,30 @@ public class DrugOrderListFragmentController {
 		model.addAttribute("drugOrderObss",drugOrderObs);
 	}
 	
-	public String processDrugOrder(HttpServletRequest request,@RequestParam(value = "drugOrderProcessedIds", required = false) String[] drugOrderProcessedIds,UiUtils ui) {
+	public String processDrugOrder(HttpServletRequest request,@RequestParam(value = "drugOrderProcessedIds", required = false) String[] drugOrderProcessedIds,
+			@RequestParam(value = "obsGroupIds", required = false) String[] obsGroupIds,UiUtils ui) {
+		KenyaEmrService kes = (KenyaEmrService) Context.getService(KenyaEmrService.class);
 		for (String drugOrderProcessedId : drugOrderProcessedIds) {
 			Integer drugOrderProcessId = Integer.parseInt(drugOrderProcessedId);
 			String issuedQuantity = request.getParameter(drugOrderProcessedId+"issueQuantity");	
-			KenyaEmrService kes = (KenyaEmrService) Context.getService(KenyaEmrService.class);
 			DrugOrderProcessed drugOrderProces=kes.getDrugOrderProcesedById(drugOrderProcessId);
 			drugOrderProces.setProcessedStatus(true);
 			drugOrderProces.setQuantityPostProcess(Integer.parseInt(issuedQuantity));
 			kes.saveDrugOrderProcessed(drugOrderProces);
+		}
+		
+		for (String obsGroupId : obsGroupIds) {
+			Integer obsGrouppId = Integer.parseInt(obsGroupId);
+			String issuedQuantity = request.getParameter(obsGroupId+"obsIssueQuantity");
+			DrugObsProcessed drugObsProcessed=new DrugObsProcessed();
+			Obs obs=Context.getObsService().getObs(obsGrouppId);
+			obs.setComment("1");
+			kes.saveOrUpdateObs(obs);
+			
+			drugObsProcessed.setCreatedDate(new Date());
+			drugObsProcessed.setObs(obs);
+			drugObsProcessed.setQuantityPostProcess(Integer.parseInt(issuedQuantity));
+			kes.saveDrugObsProcessed(drugObsProcessed);
 		}
 		//return "redirect:" + ui.pageLink(EmrConstants.MODULE_ID, "dispensary/dispensing",SimpleObject.create("patientId", null));
 		return null;
