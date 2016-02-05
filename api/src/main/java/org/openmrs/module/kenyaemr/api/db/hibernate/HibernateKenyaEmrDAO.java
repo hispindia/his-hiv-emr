@@ -184,10 +184,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	
 	public List<Obs> getObsGroupByDateAndPerson(Date date,Person person) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
-		if(date!=null){
-		String dat = formatterExt.format(date);
-		String startFromDate = dat + " 00:00:00";
-		String endFromDate = dat + " 23:59:59";
+		criteria.add(Restrictions.eq("obs.person", person));
 		Concept concept1=Context.getConceptService().getConceptByUuid("163021AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		Concept concept2=Context.getConceptService().getConceptByUuid("163022AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		Concept concept3=Context.getConceptService().getConceptByUuid("163023AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
@@ -195,16 +192,19 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		obsGroupCollection.add(concept1);
 		obsGroupCollection.add(concept2);
 		obsGroupCollection.add(concept3);
-		criteria.add(Restrictions.eq("obs.person", person));
+		if(date!=null){
+		String dat = formatterExt.format(date);
+		String startFromDate = dat + " 00:00:00";
+		String endFromDate = dat + " 23:59:59";
 		try {
 			criteria.add(Restrictions.and(Restrictions.ge("obs.dateCreated", formatter.parse(startFromDate)),
 				    Restrictions.le("obs.dateCreated", formatter.parse(endFromDate))));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		}
 		criteria.add(Restrictions.in("obs.concept", obsGroupCollection));
 		criteria.add(Restrictions.isNull("comment"));
-		}
 		return criteria.list();
 	}
 	
