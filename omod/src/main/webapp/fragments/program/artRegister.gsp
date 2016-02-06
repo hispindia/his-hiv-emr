@@ -127,7 +127,7 @@
 		
 	</div>
 	<a id="dlink"  style="display:none;"></a> 
-	<input type="button" onClick="tableToExcel('table1','ART Register','${patientWrap.napArtRegistrationNumber}-ART Register.xls');"  value="Print" />
+	<input type="button" onClick="tableToExcel('table1','ART Register','${patientWrap.napArtRegistrationNumber}-ART Register.xls');"  value="Export as Excel" />
 </div>
 <% } %>
 
