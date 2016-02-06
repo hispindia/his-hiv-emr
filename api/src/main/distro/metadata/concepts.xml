@@ -219,5 +219,6 @@
 	<ref key="CONSULTATION_DETAIL" uuid="50ea66b0-77a0-42a8-84f5-c7164c9e3373" />
 	<ref key="OI_COUNT" uuid="dbce038e-4815-418e-b929-7623f0cdfcdb" />
 	<ref key="ALLERGY_DRUG" uuid="160558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+	<ref key="PERFORMANCE" uuid="3e465918-cfd7-400c-9942-2b2a8d086e57" />
 </refs>
 

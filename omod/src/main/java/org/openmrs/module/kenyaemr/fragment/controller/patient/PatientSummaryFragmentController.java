@@ -109,10 +109,8 @@ public class PatientSummaryFragmentController {
 			List<Obs> obsList = wrapped.allObs(drugAllergies.getConcept());
 			for (Obs obs : obsList) {
 				drugAllergiesVal = drugAllergiesVal.concat(obs.getValueCoded().getName().toString());
-				System.out.println(obs.getId());
 			}
 		}
-		System.out.println(drugAllergiesVal);
 		model.addAttribute("drugAllergiesVal", drugAllergiesVal);
 	}
 

@@ -177,24 +177,13 @@ td, th, table, tr{
 											<tr>
 												<td colspan="3"><strong>Place : </strong>${artReceivedPlaceValue}</br></td>
 											</tr>
-										</td>
-									</tr>
-									
-									<tr>
-										<td>
-											<table  border="1" width="100%">
-												<tr>
-													<th><strong>Drug</strong></th>
-													<th><strong>Duration</strong></br></th>
-												</tr>
-												<% for ( d in drugList ) { %>
-												<%def values = d.value.split(",")	%>
-												<tr>
-													<td><% println  values[0] %> </td>
-													<td><% println  values[1] %> </br></td>
-												</tr>
-												<%		} %>
-												</table>
+											<tr>
+												<td colspan="3"><strong>Duration : </strong>${drugDurationVal} months</br></td>
+											</tr>
+											<tr>
+												<td colspan="3"><strong>Drug Regimen : </strong>${drugNameVal}</br>
+												</td>
+											</tr>
 										</td>
 									</tr>
 								</table>
@@ -264,24 +253,27 @@ td, th, table, tr{
 			
 			
 			
-			<!--Patient HIV care & Antiretroviral treatment Follow-up============================================================================================================= -->
+			
+		</table>
+		<table border="1" id="HIVtable">
+			
+		<!--Patient HIV care & Antiretroviral treatment Follow-up============================================================================================================= -->
 			<tr>
 				<td colspan="2" class="tbheader" bgcolor="#778899">
 					<center><strong>Patient HIV Care & Antiretroviral Treatment Follow Up</strong></center>
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2"  valign="top" class="table">
+				<td valign="top" class="table" colspan="2">
 					${ ui.includeFragment("kenyaui", "widget/obsHistoryTable", [ id: "tblhistory", patient: currentPatient, concepts: graphingConcepts ]) }
 				</td>
 			</tr>
-			
 		</table>
 	</div>
 	
 	</br></br>
 	
-	<input type="button" id="toexcel" value="Export as Excel" onclick="tableToExcel('tablecontent')"/>
+	<input type="button" id="toexcel" value="Export as Excel" onclick="tableToExcel('printArea')"/>
 	
 </div>
 <% } %>

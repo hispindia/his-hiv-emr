@@ -16,6 +16,7 @@
 		table.tb {
 			background-color: #FFFFCC;
 			border: 1px solid black;
+			
 		}
 		table.tb1 {
 			border: 1px solid black;
@@ -46,7 +47,7 @@
 			var pbirthdate = new Date("<lookup expression="patient.birthdate" />").getTime();
 			var dstartoftreatment;
 			var treatmentoutcomedate;
-			
+
 			beforeSubmit.push (function() {
 				
 				datestartoftreatment = new Date(getValue('dstartoftreatment.value')).getTime();
@@ -86,16 +87,6 @@
 					alert("Please Enter WHO Stage of Patient");
 					return false;
 				}
-				
-				//count and store number of OI. 
-				var count=0;
-				 $('#opportunisticInfectionYes').find('input[type="text"]').each(function(){
-				     if ($.trim($(this).val()).length) {
-				         count+=1
-				     }
-				 });
-				document.getElementById("w67").value =  count;
-				document.getElementById("w68").value = count;
 
     			return true;
 			});
@@ -129,7 +120,31 @@
 						jq('#expul :input').prop('disabled', false);
 					}
 				});
+				//==========part 1 division---------------------------
+var tbValues = getValue('tbSufferedPatient.value');
 				
+				if (tbValues == 1065){
+					
+					jq('#tbSufferedPatientNo :input').prop('disabled', true);
+				}
+                if (tbValues == 1066){
+					
+					jq('#tbSufferedPatientYes :input').prop('disabled', true);
+				}
+				
+				
+				$('#tbSufferedPatient input:radio').click(function() {
+					if (jq(this).val() == 1065) {
+						jq('#tbSufferedPatientNo :input').prop('disabled', true);
+						jq('#tbSufferedPatientYes :input').prop('disabled', false);
+				}
+					if (jq(this).val() == 1066) {
+						jq('#tbSufferedPatientYes :input').prop('disabled', true);
+						jq('#tbSufferedPatientNo :input').prop('disabled', false);
+				}
+				});
+				
+				//-------------=========part1 division---------===========
 				/*
 				Suffered from TB or Not
 				
@@ -201,7 +216,7 @@
 	</div>
 
 	<div class="ke-form-content" style="select {   width: 40%;   padding: 2px;}">
-		<table align="center"  border="0" class="tb" cellspacing="10" width="80%">
+		<table   align="center"  border="0" class="tb" cellspacing="10" width="80%">
 			<tr>
 				<td colspan="2">
 					<div class="ke-form-instructions">
@@ -210,7 +225,7 @@
 				</td>
 			</tr>
 			<tr align="center" width="100%">
-				<td align="left" colspan="2"><b>1. Is the Patient Suffered from TB?*</b><obs conceptId="5fcb62a7-f1b5-4cc6-bf69-4455719036a6" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" id="tbSufferedPatient"/> </td>
+				<td  align="left" colspan="2"><b>1. Is the Patient Suffered from TB?*</b><obs conceptId="5fcb62a7-f1b5-4cc6-bf69-4455719036a6" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" id="tbSufferedPatient"/> </td>
 			</tr>
 			<tr id="topMost">
 				<td valign="top" width="50%">
@@ -276,7 +291,7 @@
 								</tr>
 								<tr>
 									<td>Township:</td>
-									<td><obs conceptId="161564AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="30" style="location" /></td>
+									<td><obs conceptId="161564AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
 								</tr>
 								<tr>
 									<td>TB Treatment Start Date:</td>
@@ -303,32 +318,40 @@
 						<fieldset>
 							<b>If No</b>
 							
-							<table class="tb1"  width="100%">
+							<table align="center"   class="tb1" cellspacing="10" width="100%">
 								<tr>
-									<td><b>TB Screening</b></td>
-									<td>Fever : <obs conceptId="1494AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  style="radio" /></td>
+									<td>TB Screening:</td>
+									<td>
+										<obs conceptId="159800AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="832AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Weight loss" style="checkbox" />
+									</td>
+									<td>
+										<obs conceptId="159800AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="133027AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Night sweat" style="checkbox" />
+									</td>
 								</tr>
 								<tr>	
 									<td></td>
-									<td>Weight Loss : <obs conceptId="832AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  style="radio"/></td>
+									<td>
+										<obs conceptId="159800AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1494AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Fever" style="checkbox" />
+									</td>
+									<td>
+										<obs conceptId="159800AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="159799AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Current cough" style="checkbox" />
+									</td>
 								</tr>
 								<tr>	
 									<td></td>
-									<td>Night sweat : <obs conceptId="133027AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" /></td>
-								</tr>
-								<tr>	
-									<td></td>
-									<td>Current cough : <obs conceptId="159799AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  style="radio" /></td>
-								</tr>
-								<tr>
-									<td></td>
-									<td>Lymph node enlargement : <obs conceptId="157524AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" /> </td>
+									<td>
+										<obs conceptId="159800AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="157524AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Lymph node enlargement" style="checkbox" />
+									</td>
+									<td>
+										<obs conceptId="159800AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="None of above" style="checkbox" />
+									</td>
+					
 								</tr>
 								
 								
 								<tr>
 									<td>Refer to TB center:</td>
-									<td><obs conceptId="a4117059-0308-4399-930d-961688ed62ed" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" /></td>
+									<td><obs conceptId="a4117059-0308-4399-930d-961688ed62ed" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" /></td>
 								</tr>
 							</table>
 						</fieldset>		
@@ -367,22 +390,19 @@
 				</td>	
 			</tr>
 			<tr>
-				<td colspan="2" style="display:none;">
-				<obs conceptId="dbce038e-4815-418e-b929-7623f0cdfcdb" id="OI_Count" />
-				</td>
-			</tr>
-			<tr>
 				<td colspan="2"><hr/><hr/></td>
 			</tr>
+								
 			<tr>
 				<td><b>3. WHO Clinical Stage*:</b>
 					<obs conceptId="5356AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1204AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1205AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1206AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1207AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="dropdown"  answerLabels="WHO STAGE 1,WHO STAGE 2,WHO STAGE 3,WHO STAGE 4" id="whoStage"/>
 				</td>
 			</tr>
 			<tr>
-				<td><b>4. Performance Scale* :</b>
+			
+				<td><br/><b>4. Performance Scale* :</b>
 					<obs conceptId="3e465918-cfd7-400c-9942-2b2a8d086e57" labelText=" " answerConceptIds="e8a480a7-1f05-402c-9adf-9acbd6ff446f,585dcf92-c42f-42af-ac44-fdd2fb66ae3a,a70cd549-aa63-4310-9a38-715dfc3ebbd2" style="dropdown"  answerLabels="A,B,C" id="performanceScale"/>
-				</td>
+				<br/></td>
 			</tr>
 		</table>
 	</div>
