@@ -23,7 +23,6 @@ public class ListLabOrdersFragmentController {
             UiUtils ui,
             PageModel model) {
 		
-			log.error("patient: "+patient);
 			List<Visit> visits = Context.getVisitService().getVisitsByPatient(patient, true, false);
 
 			List<Encounter> encounters = new ArrayList<Encounter>();
