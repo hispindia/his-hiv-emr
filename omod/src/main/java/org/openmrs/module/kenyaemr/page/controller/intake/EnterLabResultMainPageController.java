@@ -1,41 +1,48 @@
+/**
+ * The contents of this file are subject to the OpenMRS Public License
+ * Version 1.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://license.openmrs.org
+ *
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ *
+ * Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+ */
+
 package org.openmrs.module.kenyaemr.page.controller.intake;
 
-import java.util.Set;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.openmrs.Encounter;
-import org.openmrs.Obs;
 import org.openmrs.Visit;
-import org.openmrs.api.context.Context;
-import org.openmrs.module.kenyaemr.api.KenyaEmrService;
+import org.openmrs.module.kenyacore.form.FormManager;
+import org.openmrs.module.kenyaemr.EmrConstants;
+import org.openmrs.module.kenyaui.KenyaUiUtils;
+import org.openmrs.module.kenyaui.annotation.AppPage;
 import org.openmrs.ui.framework.UiUtils;
+import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.page.PageModel;
+import org.openmrs.ui.framework.page.PageRequest;
+import org.openmrs.ui.framework.session.Session;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * View patient page for intake app
+ */
+@AppPage(EmrConstants.APP_INTAKE)
 public class EnterLabResultMainPageController {
-	protected static final Log log = LogFactory.getLog(EnterLabResultMainPageController.class);
 	
-	public void controller(@RequestParam(required = false, value = "visitId") Visit visit,
-            @RequestParam(required = false, value = "formUuid") String formUuid,
-            @RequestParam("returnUrl") String returnUrl,
+	public void controller(
+            @RequestParam(required = false, value = "encounterId") Encounter encounter,
+            PageModel model,
             UiUtils ui,
-            PageModel model) {
+            Session session,
+		    PageRequest pageRequest,
+		    @SpringBean KenyaUiUtils kenyaUi,
+		    @SpringBean FormManager formManager) {
 		
-		Encounter enc = Context.getService(KenyaEmrService.class).getLabbOrderEncounter(visit);
-		
-		Set<Obs> listObs  = null;
-		if (enc != null) {
-			 listObs = enc.getAllObs();
-			if (listObs != null) {
-				model.addAttribute("listObs", listObs);
-			}
-		}
-		model.addAttribute("listObs", listObs);
-		 model.addAttribute("visit", visit);
-		 model.addAttribute("returnUrl", returnUrl);
+		model.addAttribute("encounter", encounter);
+		model.addAttribute("visit", encounter.getVisit());
 	}
-	
-	
-	
 }

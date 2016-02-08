@@ -2,7 +2,7 @@
 	ui.decorateWith("kenyaui", "panel", [ heading: "Enter Lab Results" ])
 %>
 
-<% if (listObs == null) { %>
+<% if (listTests == null) { %>
 No record found.
 <% } else { %>
 <form id="enterLabResultForm" action="${ ui.actionLink("kenyaemr", "intake/enterLabResult", "submit") }" method="post">
@@ -11,32 +11,41 @@ No record found.
 			<input type="hidden" name="encounterId" value="${resultEncounter.encounterId}"/>
 		<% } %>
 <table>
+<thead>
 <tr>
-<td><b>Lab Test</b></td>
-<td><b>Test Result</b></td>
+<th><b>No.</b></th>
+<th><b>Lab Test</b></th>
+<th><b>Test Result</b></th>
+<th>Unit</th>
+<th><b>Reference Range</b></th>
+<th><b>Comment</b></th>
 </tr>
-<% listObs.each { obs -> %>
+</thead>
+<% listTests.eachWithIndex { test , count -> %>
 <tr>
-<td><input type="text" id="${obs.obsId}"  size="40" value="${obs.valueCoded.name}" disabled>
-<input type="hidden" name="conceptIds" value="${obs.valueCoded.conceptId}"/>
+<td>${count+1}</td>
+<td><input type="text" id="${test.obs.obsId}"  size="40" value="${test.name}" alt="${test.name}" disabled>
+<input type="hidden" name="conceptIds" value="${test.conceptId}"/>
 </td> 
 <% if (listResultObs != null && listResultObs.size() > 0) { %>
 	<% listResultObs.each { resultObs -> %>
 		
-		<% if (resultObs.concept.conceptId == obs.valueCoded.conceptId) { %>
+		<% if (resultObs.concept.conceptId == test.conceptId) { %>
 		<td>
 		<% if (resultEncounter != null) { %>
-			<input type="text" id="${obs.valueCoded.conceptId}_value" name="${obs.valueCoded.conceptId}_value" size="20" value="${resultObs.valueText}" >
+			<input type="text" id="${test.conceptId}_value" name="${test.conceptId}_value" size="15" value="${resultObs.valueText}"  onblur="calculateComment(${test.conceptId})"></td><td>${test.units}</td>
 		<% } else { %>
-			<input type="text" id="${obs.valueCoded.conceptId}_value" name="${obs.valueCoded.conceptId}_value" size="20" value="" >
+			<input type="text" id="${test.conceptId}_value" name="${test.conceptId}_value" size="15" value="" onblur="calculateComment(${test.conceptId})></td><td>${test.units}</td>
 		<% } %>
 		</td>
 		<% } %>
 	<% } %>
 <% } else { %>
 
-	<td><input type="text" id="${obs.valueCoded.conceptId}_value" name="${obs.valueCoded.conceptId}_value" size="20" value="" ></td>
+	<td><input type="text" id="${test.conceptId}_value" name="${test.conceptId}_value" size="15" value="" onblur="calculateComment(${test.conceptId})></td></td><td>${test.units}</td>
 <% } %>
+<td><input disabled id="${test.conceptId}_range" type="text" value="${test.range}"/></td>
+<td><input disabled id="${test.conceptId}_comment" type="text" value=""/></td>
 </tr>
 <% } %>
 </table> 
@@ -58,4 +67,28 @@ jq(function() {
 		}
 	});
 });
+
+function calculateComment(conceptId) {
+	var value =  parseInt(jq("#"+conceptId+"_value").val());
+	var range = jq("#"+conceptId+"_range").val();
+	var low = parseInt(range.split("-")[0]);
+	var high = parseInt(range.split("-")[1]);
+	var comment = "";
+	var commentColor = "";
+	if (!isNaN(value) && !isNaN(low) && !isNaN(high)) {
+		if (value < low) {
+			comment = "Low";
+			commentColor = "red"; 
+		} else if (value > high) {
+			comment = "High";
+			commentColor = "red";
+		} else {
+			comment = "Normal";
+			commentColor = "green";
+		}
+	}
+	jq("#"+conceptId+"_comment").val(comment);
+	jq("#"+conceptId+"_comment").css("color",commentColor);
+}
+
 </script>
