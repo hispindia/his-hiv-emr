@@ -16,7 +16,41 @@
 	<script type="text/javascript">
 		jq(document).ready(function(){
 			
-			if (getValue('nextStep.value') == 160523) {
+			if (getValue('artSideEffectPresent.value') == 1065) {
+				jq('#artSideEffectList :input').prop('disabled', false);
+			}
+			else {
+				jq('#artSideEffectList :input').prop('disabled', true);
+				}
+		
+			jq("#artSideEffectPresent input:radio").change(function() {
+				if (getValue('artSideEffectPresent.value') == 1065) {
+					jq('#artSideEffectList :input').prop('disabled', false);
+				}
+				else {
+					jq('#artSideEffectList :input').prop('disabled', true);
+					}
+			});
+			
+			jq('#reasonForNonAdherence :input').prop('disabled', true);	
+			
+			if (getValue('temporaryReffered.value') == 1065) {
+				jq('#temporaryRefferedReason :input').prop('disabled', false);
+			}
+			else {
+				jq('#temporaryRefferedReason :input').prop('disabled', true);
+				}
+		
+			jq("#temporaryReffered input:radio").change(function() {
+				if (getValue('temporaryReffered.value') == 1065) {
+					jq('#temporaryRefferedReason :input').prop('disabled', false);
+				}
+				else {
+					jq('#temporaryRefferedReason :input').prop('disabled', true);
+					}
+			});
+			
+			if (getValue('nextStep.value') == "160523") {
 				jq('#admittedId :input').prop('disabled', true);
 				jq('#appointmentDate :input').prop('disabled', false);
 			}
@@ -25,8 +59,8 @@
 				jq('#appointmentDate :input').prop('disabled', true);
 			}
 		
-			jq("#nextStep select").change(function() {
-				if (getValue('nextStep.value') == 160523) {
+			jq("#nextStep input:radio").change(function() {
+				if (getValue('nextStep.value') == "160523") {
 					jq('#admittedId :input').prop('disabled', true);
 					jq('#appointmentDate :input').prop('disabled', false);
 				}
@@ -53,14 +87,13 @@
 					return false;
 				}
 				
-				
-				if(getValue('artSideEffectPresent.value') == '1065'){
+				if (getValue('artSideEffectPresent.value') == '1065') {
 					if(getValue('artSideEffectValue.value')=="" &amp;&amp; getValue('artSideEffectValue1.value')==""  &amp;&amp; getValue('artSideEffectValue2.value')==""){
 						getField('artSideEffectValue2.error').html('Please select ART side effects').show();
 						return false;
 					}
 				}
-				
+	
 				if(getValue('temporaryReffered.value') == '1065'){
 					if(getValue('temporaryRefferedReason.value')==""){
 						getField('temporaryRefferedReason.error').html('Please select reason for temporary referral').show();
@@ -68,6 +101,19 @@
 					}
 				}
 				
+
+				if(getValue('nextStep.value') == "160523"){
+					if(getValue('appointmentDate.value')=="" || getValue('appointmentDate.value')==null){
+						getField('appointmentDate.error').html('Required').show();
+						return false;
+					}
+				}
+				else{
+					if(getValue('admittedDate.value')=="" || getValue('admittedTo.value')=="" || getValue('admittedReason.value')==""){
+						getField('admittedReason.error').html('All details required').show();
+						return false;
+					}
+				}
 
 				
 			/*	var returnDate = new Date(getValue('returnVisitDate.value')).getTime();
@@ -96,6 +142,14 @@
 				display = '<input id="w67" type="text" onblur="checkNumber(this,w67,false,null,null)" value="'+count.toFixed(0)+'" name="w67" size="5" autocomplete="off" />';
 				}
 				jQuery('#calculated-adherence').html(display);
+				
+				if(count > 94 ){
+					jq('#reasonForNonAdherence :input').prop('disabled', true);	
+				}
+				else
+					jq('#reasonForNonAdherence :input').prop('disabled', false);
+				
+				
 		}
 		
 		jQuery(function() {
@@ -122,13 +176,13 @@
 					<td>
 						<repeat>
 							<template>
-								<table>
-								<tr>
-									<td><obs conceptId="160531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="autocomplete" answerClasses="Symptom,Symptom/Finding" labelText=" "  /></td>
-									<td><obs conceptId="160531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="autocomplete" answerClasses="Symptom,Symptom/Finding" labelText=" "  /></td>
-									<td><obs conceptId="160531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="autocomplete" answerClasses="Symptom,Symptom/Finding" labelText=" "  /></td>
-								</tr>
-								</table>	
+									<table  style="border-spacing: 15px;">
+									<tr>
+										<td style="border: 1px solid black;padding: 5px;"><obs conceptId="5219AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="autocomplete" labelText=" "  /></td>
+										<td style="border: 1px solid black;padding: 5px;"><obs conceptId="5219AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="autocomplete" labelText=" "  /></td>
+										<td style="border: 1px solid black;padding: 5px;"><obs conceptId="5219AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="autocomplete" labelText=" "  /></td>
+									</tr>
+									</table>
 							</template>
 							<render n="1" concept=" " />
 							<render n="2" concept=" " />
@@ -177,22 +231,23 @@
 					<td colspan="2"><hr/></td>
 				</tr>	
 				<tr>
-					<td valign="top">6. Diagnosis: </td>
+					<td valign="top">6. Diagnosis*: </td>
 					<td>
 						<repeat>
 							<template>
-								<table>
-								<tr>
-									<td><obs conceptId="2cb66aeb-89c2-4526-9895-dc44ffdd94f0" style="autocomplete" answerClasses="Diagnosis" labelText=" "  id="daig_value"/></td>
-									<td><obs conceptId="2cb66aeb-89c2-4526-9895-dc44ffdd94f0" style="autocomplete" answerClasses="Diagnosis" labelText=" "  id="daig_value1"/></td>
-									<td><obs conceptId="2cb66aeb-89c2-4526-9895-dc44ffdd94f0" style="autocomplete" answerClasses="Diagnosis" labelText=" "  id="daig_value2"/></td>
-								</tr>
-								</table>	
+								<obsgroup groupingConceptId="50ea66b0-77a0-42a8-84f5-c7164c9e3373">
+									<table style="border-spacing: 15px;">
+									<tr>
+										<td style="border: 1px solid black;padding: 5px;"><obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" style="autocomplete" type="autocomplete" labelText=" "  id="daig_value"/></td>
+										<td style="border: 1px solid black;padding: 5px;"><obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" style="autocomplete" type="autocomplete" labelText=" "  id="daig_value1"/></td>
+										<td style="border: 1px solid black;padding: 5px;"><obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" style="autocomplete" type="autocomplete" labelText=" "  id="daig_value2"/></td>
+									</tr>
+									</table>
+								</obsgroup>	
 							</template>
 							<render n="1" concept=" " />
 							<render n="2" concept=" " />
 							<render n="3" concept=" " />
-							
 						</repeat>
 					</td>
 				</tr>	
@@ -201,24 +256,27 @@
 				</tr>
 				<tr>
 					<td>7. Side effects of ART ?</td>
-					<td><obs id="artSideEffectPresent" conceptId="159935AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio"/></td>
+					<td><obs id="artSideEffectPresent" conceptId="159935AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" /></td>
 				</tr>
 				<tr>
 					<td></td>
 					<td>
-						<repeat>
-							<template>
-								<table  id="artSideEffectList">
-								<tr>
-									<td><obs conceptId="4b4e4b62-4e44-43f6-9c35-ca23861a153e" id="artSideEffectValue" /></td>
-									<td><obs conceptId="4b4e4b62-4e44-43f6-9c35-ca23861a153e" id="artSideEffectValue1" /></td>
-									<td><obs conceptId="4b4e4b62-4e44-43f6-9c35-ca23861a153e" id="artSideEffectValue2" /></td>
-								</tr>
-								</table>	
-							</template>
-							<render n="1" concept=" " />
-							<render n="2" concept=" " />
-						</repeat>
+						<div id="artSideEffectList">
+							<repeat>
+								<template>
+									
+									<table>
+									<tr>
+										<td  style="border: 1px solid black;padding: 5px;"><obs conceptId="4b4e4b62-4e44-43f6-9c35-ca23861a153e" id="artSideEffectValue" /></td>
+										<td style="border: 1px solid black;padding: 5px;"><obs conceptId="4b4e4b62-4e44-43f6-9c35-ca23861a153e" id="artSideEffectValue1" /></td>
+										<td style="border: 1px solid black;padding: 5px;"><obs conceptId="4b4e4b62-4e44-43f6-9c35-ca23861a153e" id="artSideEffectValue2" /></td>
+									</tr>
+									</table>	
+								</template>
+								<render n="1" concept=" " />
+								<render n="2" concept=" " />
+							</repeat>
+						</div>
 					</td>	
 				</tr>
 				<tr>
@@ -231,12 +289,14 @@
 					<td></td>
 				</tr>
 				<tr>	
-					<td>Number of missed dose in last 30 days</td>
+					<td>Number of missed dose in last 30 days*</td>
 					<td><obs conceptId="05a061ba-2d76-4929-9788-afe650eaae7b" id="missedDoseCount" /></td>
 				</tr>
 				<tr>	
 					<td>% of adherence to ART</td>
-					<td><obs id="calculated-adherence" class="value" conceptId="360716f8-c50b-4bb7-bce8-edbe4aa9445c" showUnits="true"/></td>
+					<td><obs id="calculated-adherence" class="value" conceptId="360716f8-c50b-4bb7-bce8-edbe4aa9445c" showUnits="true"/>
+					<br/> Reason for non-adherence : <obs id="reasonForNonAdherence" conceptId="160582AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+					</td>
 				</tr>
 				<tr>	
 					<td>Taking doses at correct time in last 30 days?</td>
@@ -262,13 +322,13 @@
 					<td colspan="2"><hr/></td>
 				</tr>
 				<tr>	
-					<td>10. Next Step</td>
-					<td><obs conceptId="876369e0-bea3-42c0-be58-b37df719656b" answerConceptIds="160523AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,c17ed847-31e8-4c6a-a3b6-e2d6493870ff" answerLabels="Follow up,Admitted " id="nextStep" /></td>
+					<td>10. Next Step*</td>
+					<td><obs conceptId="876369e0-bea3-42c0-be58-b37df719656b" style="radio" answerConceptIds="160523AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,c17ed847-31e8-4c6a-a3b6-e2d6493870ff" answerLabels="Follow up,Admitted " id="nextStep" /></td>
 					
 				</tr>
 				<tr>	
 					<td></td>					
-					<td><div id="appointmentDate">Next appointment date : <obs conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" /></div></td>
+					<td  style="padding: 5px"><div>Next appointment date* : <obs id="appointmentDate" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" /></div></td>
 				</tr>
 				<tr>
 					<td></td>	
@@ -276,9 +336,10 @@
 						<div id="admittedId">
 						<table>
 							<tr>
-								<td>Admitted Date : <obs conceptId="b36da368-4705-4582-b213-74a7a990aff8" allowFutureDates="true"/> </td>
-								<td>Admitted To : <obs conceptId="a3e2e25b-a44c-4622-845e-24c6db5c496b" /></td>								
+								<td  style="padding: 5px">Admitted Date* : <obs id="admittedDate" conceptId="b36da368-4705-4582-b213-74a7a990aff8" allowFutureDates="true"/> 
+								Admitted To : <obs id="admittedTo" conceptId="a3e2e25b-a44c-4622-845e-24c6db5c496b" /></td>
 							</tr>
+								<td  style="padding: 5px">Reason for admission* : <obs id="admittedReason" conceptId="ec8b9ede-fd85-4809-9bf2-e4550efd968c" /></td>
 						</table>
 						</div>
 					</td>	

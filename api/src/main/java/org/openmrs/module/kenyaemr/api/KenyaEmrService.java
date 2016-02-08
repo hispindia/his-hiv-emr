@@ -27,9 +27,11 @@ import org.openmrs.Obs;
 import org.openmrs.Order;
 import org.openmrs.OrderType;
 import org.openmrs.Patient;
+import org.openmrs.Person;
 import org.openmrs.Visit;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.kenyaemr.model.DrugInfo;
+import org.openmrs.module.kenyaemr.model.DrugObsProcessed;
 import org.openmrs.module.kenyaemr.model.DrugOrderProcessed;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -117,10 +119,14 @@ public interface KenyaEmrService extends OpenmrsService {
 	 */
 	public Encounter getLastEncounter(Patient patient,Set<EncounterType> encounterTypes);
 	public List<Order> getOrderByDateAndOrderType(Date date,OrderType orderType);
-	public List<Obs> getObsByDate(Date date);
+	public List<Obs> getObsGroupByDate(Date date);
+	public List<Obs> getObsGroupByDateAndPerson(Date date,Person person);
+	public List<Obs> getObsByObsGroup(Obs obsGroup);
+	public Obs saveOrUpdateObs(Obs obs);
 	public DrugOrderProcessed saveDrugOrderProcessed(DrugOrderProcessed drugOrderProcessed);
+	public DrugObsProcessed saveDrugObsProcessed(DrugObsProcessed drugObsProcessed);
 	public DrugOrderProcessed getDrugOrderProcessed(DrugOrder drugOrder);
-	public DrugOrderProcessed getDrugOrderProcesed(Integer drugOrder);
+	public DrugOrderProcessed getDrugOrderProcesedById(Integer id);
 	public Encounter getLabbOrderEncounter(Visit visit);
 	public List<Encounter> getLabResultEncounters(Visit visit);
 	public List<DrugInfo> getDrugInfo();

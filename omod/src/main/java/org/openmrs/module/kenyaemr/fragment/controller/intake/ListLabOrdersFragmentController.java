@@ -3,23 +3,15 @@ package org.openmrs.module.kenyaemr.fragment.controller.intake;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Encounter;
 import org.openmrs.Patient;
 import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.kenyacore.form.FormManager;
 import org.openmrs.module.kenyaemr.EmrWebConstants;
-import org.openmrs.module.kenyaui.KenyaUiUtils;
-import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
-import org.openmrs.ui.framework.annotation.SpringBean;
-import org.openmrs.ui.framework.fragment.FragmentActionRequest;
 import org.openmrs.ui.framework.page.PageModel;
-import org.openmrs.ui.framework.resource.ResourceFactory;
 import org.springframework.web.bind.annotation.RequestParam;
 
 public class ListLabOrdersFragmentController {
@@ -28,7 +20,6 @@ public class ListLabOrdersFragmentController {
 	
 	public void controller(
 			@RequestParam(required = false, value = "patientId") Patient patient,
-            @RequestParam(required = false, value = "returnUrl") String returnUrl,
             UiUtils ui,
             PageModel model) {
 		
@@ -45,16 +36,7 @@ public class ListLabOrdersFragmentController {
 			}
 			
 			model.addAttribute("encounters", encounters);
+			model.addAttribute("returnUrl", ui.thisUrl());
 	}
 	
-	public SimpleObject submit(
-			 @SpringBean ResourceFactory resourceFactory,
-			 @SpringBean KenyaUiUtils kenyaUi,
-			 @SpringBean FormManager formManager,
-			  UiUtils ui,
-			 HttpSession session,
-			 FragmentActionRequest actionRequest) throws Exception {
-		
-		return null;
-	}
 }

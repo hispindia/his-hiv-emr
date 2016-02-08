@@ -43,15 +43,18 @@ public class PatientHeaderFragmentController {
 		model.addAttribute("patient", patient);
 		
 		model.addAttribute("patientName", patient.getGivenName());
-		
 		AppDescriptor currentApp = kenyaUi.getCurrentApp(pageRequest);
-
-		if (currentApp != null) {
-			model.addAttribute("appHomepageUrl", "/" + WebConstants.CONTEXT_PATH + "/" + currentApp.getUrl());
-		} else {
-			model.addAttribute("appHomepageUrl", null);
-		}
 		
+		if(pageRequest.getPageName().equals("dispensary/drugOrder")){
+				model.addAttribute("appHomepageUrl", "/" + WebConstants.CONTEXT_PATH + "/" + "kenyaemr/dispensary/dispensing.page?");
+			}
+		else{
+			if (currentApp != null) {
+				model.addAttribute("appHomepageUrl", "/" + WebConstants.CONTEXT_PATH + "/" + currentApp.getUrl());
+			} else {
+				model.addAttribute("appHomepageUrl", null);
+			}
+		}
 		savedIngoTypeConcept = getLatestObs(patient, Dictionary.INGO_NAME);
 		if (savedIngoTypeConcept != null) {
 			model.addAttribute("ingoName",savedIngoTypeConcept.getValueCoded().getName());

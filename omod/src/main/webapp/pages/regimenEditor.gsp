@@ -13,6 +13,10 @@
 	def regimenField = {
 		[ label: "Regimen", formFieldName: "regimen", class: "org.openmrs.module.kenyaemr.regimen.Regimen", fieldFragment: "field/Regimen", category: category,patient: currentPatient ]
 	}
+	
+	def continueRegimenField = {
+		[ label: "Regimen", formFieldName: "continueRegimen", class: "org.openmrs.module.kenyaemr.regimen.Regimen", fieldFragment: "field/continueRegimen", category: category,patient: currentPatient ]
+	}
 
 	def reasonFields = { reasonType ->
 		ui.includeFragment("kenyaui", "widget/rowOfFields", [
@@ -79,7 +83,7 @@
 			<% if (allowChange) { %>
 			${ ui.includeFragment("kenyaui", "widget/button", [ iconProvider: "kenyaui", icon: "buttons/regimen_change.png", label: "Change", extra: "the current regimen", onClick: "choseAction('change-regimen')" ]) }
 
-			${ ui.includeFragment("kenyaui", "widget/button", [ iconProvider: "kenyaui", icon: "buttons/regimen_stop.png", label: "Stop", extra: "the current regimen", onClick: "choseAction('stop-regimen')" ]) }
+			${ ui.includeFragment("kenyaui", "widget/button", [ iconProvider: "kenyaui", icon: "buttons/regimen_stop.png", label: "Continue", extra: "the current regimen", onClick: "choseAction('continue-regimen')" ]) }
 			<% } %>
 
 			<% if (allowRestart) { %>
@@ -137,8 +141,8 @@
 				]) }
 			</fieldset>
 
-			<fieldset id="stop-regimen" class="regimen-action-form" style="display: none">
-				<legend>Stop Regimen</legend>
+			<fieldset id="continue-regimen" class="regimen-action-form" style="display: none">
+				<legend>Continue Regimen</legend>
 
 				${ ui.includeFragment("kenyaui", "widget/form", [
 					fragmentProvider: "kenyaemr",
@@ -146,10 +150,10 @@
 					action: "changeRegimen",
 					fields: [
 							[ hiddenInputName: "patient", value: currentPatient.id ],
-							[ hiddenInputName: "changeType", value: "STOP" ],
+							[ hiddenInputName: "changeType", value: "CONTINUE" ],
 							[ hiddenInputName: "category", value: category ],
-							changeDateField("Stop date"),
-							[ value: reasonFields("stop") ]
+							changeDateField("Continue date"),
+							continueRegimenField()
 					],
 					submitLabel: "Save",
 					successCallbacks: [ "ui.reloadPage();" ],

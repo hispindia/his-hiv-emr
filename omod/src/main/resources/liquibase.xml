@@ -115,19 +115,27 @@
 		</sql>
 	</changeSet>
 	
-	<changeSet id="${project.parent.artifactId}-20160105-1124" author="ghanshyam">
-		<comment>
-		</comment>
-		<sql>
-		CREATE TABLE IF NOT EXISTS drug_order_processed (id integer not null auto_increment, drug_order integer,created_date datetime,processed_status tinyint(1),duration_preprocess integer,quantity_postprocess integer,primary key (id));
-		</sql>
-	</changeSet>
-	
-	<changeSet id="${project.parent.artifactId}-20160112-1125" author="ghanshyam">
+	<changeSet id="${project.parent.artifactId}-20160112-1124" author="ghanshyam">
 		<comment>
 		</comment>
 		<sql>
 		CREATE TABLE IF NOT EXISTS drug_info (drug_info_id integer not null auto_increment, drug_name varchar(50),toxicity varchar(300),risk_factor varchar(300),suggested_management varchar(300),drug_interaction varchar(300),suggested_management_interaction varchar(300),primary key (drug_info_id));
+		</sql>
+	</changeSet>
+	
+	<changeSet id="${project.parent.artifactId}-20160129-1125" author="ghanshyam">
+		<comment>
+		</comment>
+		<sql>
+		CREATE TABLE IF NOT EXISTS drug_order_processed (id integer not null auto_increment, drug_order integer,created_date datetime,processed_status tinyint(1),duration_preprocess integer,discontinued_date datetime,quantity_postprocess integer,primary key (id));
+		</sql>
+	</changeSet>
+	
+	<changeSet id="${project.parent.artifactId}-20160204-1126" author="ghanshyam">
+		<comment>
+		</comment>
+		<sql>
+		CREATE TABLE IF NOT EXISTS drug_obs_processed (id integer not null auto_increment, obs integer,created_date datetime,quantity_postprocess integer,primary key (id));
 		</sql>
 	</changeSet>
 

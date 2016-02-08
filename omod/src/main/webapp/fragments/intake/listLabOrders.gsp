@@ -21,11 +21,12 @@
 </tr>
 <% } %>
 </table>
-
+<input type="hidden" id="returnUrl" value="${returnUrl}"/>
 <script>
 
 function enterResult(encounterId) {
-	ui.navigate(ui.pageLink('kenyaemr', 'intake/enterLabResultMain', { encounterId :  encounterId  }) );
+	var url  = jq("#returnUrl").val();
+	ui.navigate(ui.pageLink('kenyaemr', 'intake/enterLabResultMain', { encounterId :  encounterId , returnUrl : url}) );
 }
 
 </script>

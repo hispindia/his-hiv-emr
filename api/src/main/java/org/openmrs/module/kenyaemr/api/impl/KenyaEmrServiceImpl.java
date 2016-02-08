@@ -36,6 +36,7 @@ import org.openmrs.Order;
 import org.openmrs.OrderType;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifierType;
+import org.openmrs.Person;
 import org.openmrs.Visit;
 import org.openmrs.api.APIException;
 import org.openmrs.api.EncounterService;
@@ -56,6 +57,7 @@ import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
 import org.openmrs.module.kenyaemr.metadata.FacilityMetadata;
 import org.openmrs.module.kenyaemr.metadata.HivMetadata;
 import org.openmrs.module.kenyaemr.model.DrugInfo;
+import org.openmrs.module.kenyaemr.model.DrugObsProcessed;
 import org.openmrs.module.kenyaemr.model.DrugOrderProcessed;
 import org.openmrs.module.kenyaemr.wrapper.Facility;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
@@ -285,20 +287,36 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 		return dao.getOrderByDateAndOrderType(date,orderType);
 	}
 	
-	public List<Obs> getObsByDate(Date date) {
-		return dao.getObsByDate(date);
+	public List<Obs> getObsGroupByDate(Date date) {
+		return dao.getObsGroupByDate(date);
+	}
+	
+	public List<Obs> getObsGroupByDateAndPerson(Date date,Person person) {
+		return dao.getObsGroupByDateAndPerson(date,person);
+	}
+	
+	public List<Obs> getObsByObsGroup(Obs obsGroup) {
+		return dao.getObsByObsGroup(obsGroup);
+	}
+	
+	public Obs saveOrUpdateObs(Obs obs) {
+		return dao.saveOrUpdateObs(obs);
 	}
 	
 	public DrugOrderProcessed saveDrugOrderProcessed(DrugOrderProcessed drugOrderProcessed) {
 		return dao.saveDrugOrderProcessed(drugOrderProcessed);
 	}
 	
+	public DrugObsProcessed saveDrugObsProcessed(DrugObsProcessed drugObsProcessed) {
+		return dao.saveDrugObsProcessed(drugObsProcessed);
+	}
+	
 	public DrugOrderProcessed getDrugOrderProcessed(DrugOrder drugOrder) {
 		return dao.getDrugOrderProcessed(drugOrder);
 	}
 	
-	public DrugOrderProcessed getDrugOrderProcesed(Integer drugOrder) {
-		return dao.getDrugOrderProcesed(drugOrder);
+	public DrugOrderProcessed getDrugOrderProcesedById(Integer id) {
+		return dao.getDrugOrderProcesedById(id);
 	}
 	
 	public Encounter getLabbOrderEncounter(Visit visit) {

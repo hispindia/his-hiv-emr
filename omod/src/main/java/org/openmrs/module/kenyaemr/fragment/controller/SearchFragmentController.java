@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
@@ -331,7 +332,7 @@ public class SearchFragmentController {
 	public List<SimpleObject> patientsWithDispensingDate(@RequestParam(value = "date", required = false) String date,
 										@RequestParam(value = "q", required = false) String query,
 									   @RequestParam(value = "which", required = false, defaultValue = "all") String which,
-									   UiUtils ui) {
+									   UiUtils ui,HttpServletRequest request) {
 		Date dispensedDate = null;
 		try {
 			dispensedDate  = parseDate(date);
@@ -368,7 +369,7 @@ public class SearchFragmentController {
 		}
 		else if(date!=""){
 			 List<Order> drugOrders1=kenyaEmrService.getOrderByDateAndOrderType(dispensedDate, Context.getOrderService().getOrderTypeByUuid("131168f4-15f5-102d-96e4-000c29c2a5d7"));
-			 List<Obs> obss=kenyaEmrService.getObsByDate(dispensedDate);
+			 List<Obs> obss=kenyaEmrService.getObsGroupByDate(dispensedDate);
 			 for(Order drugOrder:drugOrders1){
 				 matched.add(drugOrder.getPatient()); 
 			 }
@@ -386,6 +387,9 @@ public class SearchFragmentController {
 				simplePatientt.put("patientName", patient.getGivenName());
 				simplePatientsJason.add(simplePatientt);
 			}
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("dispensedDate", date);
 		
 		return simplePatientsJason;
 	}
@@ -612,7 +616,7 @@ public class SearchFragmentController {
 	
 	protected Map<Patient, Obs> getObsDrugOrders(Date date) {
 		KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
-		List<Obs> orders =kenyaEmrService.getObsByDate(date);
+		List<Obs> orders =kenyaEmrService.getObsGroupByDate(date);
 		Map<Patient, Obs> drugOrders = new HashMap<Patient, Obs>();
 		for (Obs order : orders) {
 			drugOrders.put(order.getPatient(), order);

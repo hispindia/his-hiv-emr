@@ -5,17 +5,14 @@
 
 <hibernate-mapping package="org.openmrs.module.kenyaemr.model">
 
-	<class name="DrugOrderProcessed" table="drug_order_processed" batch-size="500">
+	<class name="DrugObsProcessed" table="drug_obs_processed" batch-size="500">
 
 		<id name="id" type="int" column="id"
 			unsaved-value="0">
 				<generator class="native" />
 		</id>
-		<many-to-one name="drugOrder" column="drug_order" class="org.openmrs.DrugOrder" foreign-key="fk_drugorderprocessed_drugorder"/>
+		<many-to-one name="obs" column="obs" class="org.openmrs.Obs" foreign-key="fk_drugobsprocessed"/>
 		<property name="createdDate" column="created_date"  />
-		<property name="processedStatus" column="processed_status" />
-		<property name="durationPreProcess" column="duration_preprocess" />
-		<property name="discontinuedDate" column="discontinued_date" />
 		<property name="quantityPostProcess" column="quantity_postprocess" />
 	</class>
 </hibernate-mapping>

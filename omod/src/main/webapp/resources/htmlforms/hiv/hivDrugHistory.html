@@ -17,36 +17,125 @@
 			
 			if (getValue('artReceived.value') == 1066) {
 				jq('#artReceivedName :input').prop('disabled', true);
+				jq('#artReceivedPlace :input').prop('disabled', true);
+				jq('#otherArtReceivedPlace :input').prop('disabled', true);
 			}
 			else {
 				jq('#artReceivedName :input').prop('disabled', false);
+				jq('#artReceivedPlace :input').prop('disabled', false);
+				jq('#otherArtReceivedPlace :input').prop('disabled', false);
 			}
 		
 			jq("#artReceived input:radio").change(function() {
 				if (getValue('artReceived.value') == 1066) {
 					jq('#artReceivedName :input').prop('disabled', true);
+					jq('#artReceivedPlace :input').prop('disabled', true);
+					jq('#otherArtReceivedPlace :input').prop('disabled', true);
 				}
 				else {
 					jq('#artReceivedName :input').prop('disabled', false);
+					jq('#artReceivedPlace :input').prop('disabled', false);
+					jq('#otherArtReceivedPlace :input').prop('disabled', false);
 				}
 			});
 			
+			if(getValue('artReceivedPlace.value')!=5622){
+				jq('#otherArtReceivedPlace :input').prop('disabled', true);						
+			}
+			else{
+				jq('#otherArtReceivedPlace :input').prop('disabled', false);
+			}
+			
+			jq("#artReceivedPlace").change(function() {
+				if(getValue('artReceivedPlace.value')!=5622){
+					jq('#otherArtReceivedPlace :input').prop('disabled', true);						
+				}
+				else{
+					jq('#otherArtReceivedPlace :input').prop('disabled', false);
+				}
+			});
+			
+			
+			
 			if (getValue('drug.value') == 1066) {
 				jq('#drugName :input').prop('disabled', true);
+				jq('#otherDrugName :input').prop('disabled', true);
 			}
 			else {
 				jq('#drugName :input').prop('disabled', false);
+
+				if(getValue('drugName.value')!=5622){
+					jq('#otherDrugName :input').prop('disabled', true);						
+				}
+				else{
+					jq('#otherDrugName :input').prop('disabled', false);
+				}
 			}
+			
+			jq("#drugName").change(function() {
+				if(getValue('drugName.value')!=5622){
+					jq('#otherDrugName :input').prop('disabled', true);						
+				}
+				else{
+					jq('#otherDrugName :input').prop('disabled', false);
+				}
+			});
 		
 			jq("#drug input:radio").change(function() {
 				if (getValue('drug.value') == 1066) {
 					jq('#drugName :input').prop('disabled', true);
+					jq('#otherDrugName :input').prop('disabled', true);	
 				}
 				else {
 					jq('#drugName :input').prop('disabled', false);
+
+					if(getValue('drugName.value')!=5622){
+						jq('#otherDrugName :input').prop('disabled', true);						
+					}
+					else{
+						jq('#otherDrugName :input').prop('disabled', false);
+					}
+
 				}
 			});
 			
+			var sd = new Date(getValue('sDate1.value'));
+			var ed = new Date(getValue('eDate1.value'));
+
+			var diff = Math.floor(ed.getTime() - sd.getTime());
+		    var day = 1000 * 60 * 60 * 24;
+		    var days = Math.floor(diff/day);
+		    var months = Math.floor(days/31);
+		    if(sd!="Invalid Date" &amp;&amp; ed!="Invalid Date"){
+		    	
+				document.getElementById("w18").value = months;
+				document.getElementById("w17").value = months;
+			}
+			else{
+				document.getElementById("w18").value = 0;
+				document.getElementById("w17").value = 0;
+			}
+		    
+			jq("#sDate1 :input, #eDate1 :input").change(function() {
+				var sd = new Date(getValue('sDate1.value'));
+				var ed = new Date(getValue('eDate1.value'));
+
+				var diff = Math.floor(ed.getTime() - sd.getTime());
+			    var day = 1000 * 60 * 60 * 24;
+			    var days = Math.floor(diff/day);
+			    var months = Math.floor(days/31);
+			    
+			    if(sd!="Invalid Date" &amp;&amp; ed!="Invalid Date"){
+			    	
+					document.getElementById("w18").value = months;
+					document.getElementById("w17").value = months;
+				}
+				else{
+					document.getElementById("w18").value = 0;
+					document.getElementById("w17").value = 0;
+				}
+				
+			});
 			
 		});
 	</script>
@@ -65,43 +154,60 @@
 		</tr>
 		<tr>
 			<td>If yes, please specify</td>
-			<td><obs conceptId="9c793547-81ed-4acd-a308-c13ee5dc467f" id="artReceivedName" /></td>
+			<td><obs conceptId="9c793547-81ed-4acd-a308-c13ee5dc467f" id="artReceivedName"/></td>
 		</tr>
 		<tr>
 			<td>Place</td>
-			<td><obs conceptId="cbcad523-81a0-4fd4-a7d9-567346d42875" /></td>
+			<td><obs conceptId="cbcad523-81a0-4fd4-a7d9-567346d42875" id="artReceivedPlace"/></td>
+			<td>if other:<obs conceptId="116138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="otherArtReceivedPlace"/></td>
+		</tr>		
+		<tr>
+			<td>Start Date</td>
+			<td><obs conceptId="1190AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="sDate1"/></td>
+		</tr>		
+		<tr>
+			<td>End Date</td>
+			<td><obs conceptId="51e7342a-c0aa-4dea-9e1a-71a3dd1519fa" id="eDate1"/></td>
+		</tr>		
+		<tr>
+			<td>Duration</td>
+			<td><obs id="duration1" conceptId="24646d76-c162-4bcd-b611-4a34e3f98123"/></td>
 		</tr>		
 		<tr>
 			<td colspan="2">
-				<table id="table1" border="1" cellspacing="1" cellpadding="1" width="600">
-					<thead><br />
+				<table id="table1" border="1" cellspacing="1" cellpadding="1" width="300">
+					<thead>
 						<tr>
-							<th>S.NO</th>
+							<th>Sr. No</th>
 							<th>Drug Regimen</th>
-							<th>Start Date</th>
-							<th>End Date</th>
-							<th>Duration</th>
 						</tr>
 					</thead>
 					<tbody>
-						<repeat>
-							<template>
-								<obsgroup groupingConceptId="5706AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
-									<tr>
-										<td><obs conceptId="807c3121-4071-4c3d-8baf-16dc1b97a5e8" /></td>
-										<td><obs conceptId="8759ede7-b637-4e8d-84f4-ab04d7f96bbe" style="autocomplete" answerClasses="Drug"/></td>
-										<td><obs conceptId="1190AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
-										<td><obs conceptId="51e7342a-c0aa-4dea-9e1a-71a3dd1519fa" /></td>
-										<td><obs conceptId="24646d76-c162-4bcd-b611-4a34e3f98123" /></td>
-									</tr>
-								</obsgroup>
-							</template>
-							<render n="1" concept=" " />
-							<render n="2" concept=" " />
-							<render n="3" concept=" " />
-							<render n="4" concept=" " />
-						</repeat>
-					</tbody>
+						<obsgroup groupingConceptId="5706AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+							<tr>
+								<td>1</td>
+								<td><obs conceptId="8759ede7-b637-4e8d-84f4-ab04d7f96bbe" style="autocomplete" answerClasses="Drug"/></td>
+							</tr>
+						</obsgroup>
+						<obsgroup groupingConceptId="5706AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+							<tr>
+								<td>2</td>
+								<td><obs conceptId="8759ede7-b637-4e8d-84f4-ab04d7f96bbe" style="autocomplete" answerClasses="Drug"/></td>
+							</tr>
+						</obsgroup>
+						<obsgroup groupingConceptId="5706AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+							<tr>
+								<td>3</td>
+								<td><obs conceptId="8759ede7-b637-4e8d-84f4-ab04d7f96bbe" style="autocomplete" answerClasses="Drug"/></td>
+							</tr>
+						</obsgroup>
+						<obsgroup groupingConceptId="5706AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+							<tr>
+								<td>4</td>
+								<td><obs conceptId="8759ede7-b637-4e8d-84f4-ab04d7f96bbe" style="autocomplete" answerClasses="Drug"/></td>
+							</tr>
+						</obsgroup>
+				</tbody>
 				</table>
 			</td>
 		</tr>
@@ -115,7 +221,11 @@
 		</tr>
 		<tr>
 			<td>If yes, name of drug </td>
-			<td><obs conceptId="4d988cca-a935-4e41-9722-1cb280dd4a63" id="drugName" /></td>
+			<td><obs conceptId="160558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="drugName" /></td>
+			<td>
+				If other:<obs conceptId="4d988cca-a935-4e41-9722-1cb280dd4a63" id="otherDrugName" />
+				
+			</td>
 		</tr>
 	</table>
 
