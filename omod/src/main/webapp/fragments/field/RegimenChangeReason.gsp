@@ -7,18 +7,16 @@
 <select id="${ config.id }" name="${ config.formFieldName }" >
 	<option value="">Select...</option>
 <% if (config.category == "ARV" && config.reasonType == "change") { %>
-	<optgroup label="Reason for SUBSTITUTION of Drug">
-		<option value="${ concept("102AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") }">Toxicity / side effects (1)</option>
-		<option value="${ concept("1434AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") }">Pregnancy (2)</option>
-		<option value="${ concept("160559AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") }">Risk of pregnancy (3)</option>
-		<option value="${ concept("160567AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") }">New diagnosis of TB (4)</option>
-		<option value="${ concept("160561AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") }">New drug available (5)</option>
-		<option value="${ concept("1754AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") }">Drugs out of stock (6)</option>
-	</optgroup>
-	<optgroup label="Reason for SWITCH of Regimen (e.g. to 2nd or 3rd line)">
-		<option value="${ concept("843AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") }">Clinical treatment failure (8)</option>
-		<option value="${ concept("160566AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") }">Immunological failure (9)</option>
-		<option value="${ concept("160569AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") }">Virological Failure (10)</option>
+	<optgroup label="Reason for SWITCH or SUBSTITUTION of Drug">
+		<option value="${ concept("7f784cf0-d4fb-46d9-95d9-e050bcd7aece") }">Clinical failure</option>
+		<option value="${ concept("1434AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") }">Currently pregnant</option>
+		<option value="${ concept("1754AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") }">Drug out of stock</option>
+		<option value="${ concept("160566AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") }">Immunological failure</option>
+		<option value="${ concept("160567AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") }">New diagnosis of Tuberculosis</option>
+		<option value="${ concept("160561AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") }">New drug available</option>
+		<option value="${ concept("843AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") }">Regimen failure</option>
+		<option value="${ concept("102AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") }">Toxicity side effects</option>
+		<option value="${ concept("160569AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") }">Virologic failure</option>
 	</optgroup>
 <% } else if (category == "ARV" && config.reasonType == "stop") { %>
 	<option value="${ concept("102AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") }">Toxicity / side effects (1)</option>

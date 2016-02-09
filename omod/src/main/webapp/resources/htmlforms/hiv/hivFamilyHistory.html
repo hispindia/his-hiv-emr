@@ -13,56 +13,66 @@
 -->
 <htmlform>
 
+	<style>
+		td, tr, table{
+			padding:5px;
+		}
+		select{
+			padding:4px;
+			border-radius: 2px;
+			width:150px;
+		}
+		
+    </style>
+
 	<!-- Encounter date, provider and location are not relevant for CE forms -->
 	<div style="display:none">
 		<encounterDate id="encounter-date" />
 		<encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" />
 	</div>
-
-	<div class="ke-form-content">
-	<br/>
-	<table>
-		<tr>
-			<td>1. Marital status?</td>
-			<td><obs conceptId="1054AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
-		</tr>
-	</table>
-	<br/>
-			<tbody>
-				<table  width="60%" cellspacing="10" cellpadding="10">
-				<tr>
-					<th>Name of the Spouse/Children</th>
-					<th><center>Age</center></th>
-					<th><center>Gender</center></th>
-					<th><center>HIV Result(+/-/Unknown)</center></th>
-					<th><center>ART(Y/N)</center></th>
-				</tr>
-				<repeat>
-					<template>
-						<obsgroup groupingConceptId="160593AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
-							<tr>
-								<td><obs conceptId="2319ebba-7e1e-47e9-9508-d0f6345af70d" labetText=" " size="30"/></td>
-								<td><center><obs conceptId="160617AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Age"/><obs conceptId="1732AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  style="dropdown"  /></center> </td>
-								<td><center><obs conceptId="1533AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></center></td>
-								<td><center><obs conceptId="1169AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></center></td>
-								<td><center><obs conceptId="72ef6301-fbbb-4c44-8e5f-ec27f33afa22" /></center></td>
-							</tr>
-						</obsgroup>
-					</template>
-					<render n="1" concept=" " />
-					<render n="2" concept=" " />
-					<render n="3" concept=" " />
-					<render n="4" concept=" " />
-					<render n="5" concept=" " />
-					<render n="6" concept=" " />
-					<render n="7" concept=" " />
-					<render n="8" concept=" " />
-					<render n="9" concept=" " />
-					<render n="10" concept=" " />
-				</repeat>
+	
+	
+	<div class="ke-form-content" >
+				
+				<br/>
+				<table>
+					<tr>
+						<td><strong>Marital Status?</strong></td>
+						<td style="width:300px;"><obs conceptId="1054AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+					</tr>
 				</table>
-			</tbody>
-
+				<br/>
+				
+				<table  width="80%" >
+					<tr>
+						<th width="">Name of the Spouse/Children</th>
+						<th><center>Age</center></th>
+						<th><center>Gender</center></th>
+						<th><center>HIV Result(+/-/Unknown)</center></th>
+						<th><center>ART(Y/N)</center></th>
+					</tr>
+					<repeat>
+						<template>
+							<obsgroup groupingConceptId="160593AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+								<tr>
+									<td><obs conceptId="2319ebba-7e1e-47e9-9508-d0f6345af70d" labetText=" " size="30"/></td>
+									<td><center><obs conceptId="160617AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Age"/><obs conceptId="1732AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  style="dropdown"  /></center> </td>
+									<td width="200px"><center><obs conceptId="1533AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></center></td>
+									<td><center><obs conceptId="1169AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></center></td>
+									<td><center><obs conceptId="72ef6301-fbbb-4c44-8e5f-ec27f33afa22" /></center></td>
+								</tr>
+							</obsgroup>
+						</template>
+						<render n="1" concept=" " />
+						<render n="2" concept=" " />
+						<render n="3" concept=" " />
+						<render n="4" concept=" " />
+						<render n="5" concept=" " />
+						<render n="6" concept=" " />
+						<render n="7" concept=" " />
+						<render n="8" concept=" " />
+					</repeat>
+				</table>
 	</div>
 
 	<div class="ke-form-footer">
