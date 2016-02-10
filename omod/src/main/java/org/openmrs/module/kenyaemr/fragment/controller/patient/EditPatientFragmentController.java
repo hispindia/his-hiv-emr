@@ -45,9 +45,14 @@ import org.openmrs.VisitType;
 import org.openmrs.api.ProgramWorkflowService;
 import org.openmrs.api.VisitService;
 import org.openmrs.api.context.Context;
+import org.openmrs.calculation.patient.PatientCalculation;
+import org.openmrs.calculation.patient.PatientCalculationService;
+import org.openmrs.calculation.result.ResultUtil;
 import org.openmrs.module.idgen.service.IdentifierSourceService;
+import org.openmrs.module.kenyacore.calculation.CalculationUtils;
 import org.openmrs.module.kenyaemr.Dictionary;
 import org.openmrs.module.kenyaemr.api.KenyaEmrService;
+import org.openmrs.module.kenyaemr.calculation.library.RecordedDeceasedCalculation;
 import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
 import org.openmrs.module.kenyaemr.metadata.HivMetadata;
 import org.openmrs.module.kenyaemr.validator.TelephoneNumberValidator;
@@ -117,6 +122,14 @@ public class EditPatientFragmentController {
 		maritalStatusOptions.add(Dictionary.getConcept(Dictionary.NEVER_MARRIED));
 		model.addAttribute("maritalStatusOptions", maritalStatusOptions);
 
+		if(patient!=null){
+			model.addAttribute("recordedAsDeceased", hasBeenRecordedAsDeceased(patient));	
+		}
+		else{
+			model.addAttribute("recordedAsDeceased", false);
+		}
+		
+		
 		// Create a list of cause of death answer concepts
 		List<Concept> causeOfDeathOptions = new ArrayList<Concept>();
 		causeOfDeathOptions.add(Dictionary.getConcept(Dictionary.UNKNOWN));
@@ -147,8 +160,18 @@ public class EditPatientFragmentController {
 			
 	}
 
+	/**
+	 * Checks if a patient has been recorded as deceased by a program
+	 * @param patient the patient
+	 * @return true if patient was recorded as deceased
+	 */
+	protected boolean hasBeenRecordedAsDeceased(Patient patient) {
+		PatientCalculation calc = CalculationUtils.instantiateCalculation(RecordedDeceasedCalculation.class, null);
+		return ResultUtil.isTrue(Context.getService(PatientCalculationService.class).evaluate(patient.getId(), calc));
+	}
 	
-	/*
+	
+	/**
 	 * Using the Luhn Algorithm to generate check digits
 	 * 
 	 * @param idWithoutCheckdigit
@@ -510,7 +533,7 @@ public class EditPatientFragmentController {
 			}*/
 			
 		//	validateIdentifierField(errors, "systemPatientId", CommonMetadata._PatientIdentifierType.SYSTEM_PATIENT_ID);
-			validateIdentifierField(errors, "uniquePatientNumber", HivMetadata._PatientIdentifierType.UNIQUE_PATIENT_NUMBER);
+		//	validateIdentifierField(errors, "uniquePatientNumber", HivMetadata._PatientIdentifierType.UNIQUE_PATIENT_NUMBER);
 			
 		//Check INGO name is entered, if INGO number is entered
 			String value = (String) errors.getFieldValue("artRegistrationNumber");
@@ -674,6 +697,9 @@ public class EditPatientFragmentController {
 			if(enrollmentName.getName().toString().equals("Other")){
 				handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.ENROLLMENT_STATUS), savedEnrollmentNameConcept, enrollmentName,otherStatus,new Date(),1);
 			}
+			else{
+				handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.ENROLLMENT_STATUS), savedEnrollmentNameConcept, enrollmentName,null,new Date(),1);
+			}
 			
 			
 			//With value text and Date
@@ -763,7 +789,11 @@ public class EditPatientFragmentController {
 			}
 			
 			else{
-				Visit visit = new Visit();
+				
+/**
+ * 
+ * 				Visit visit = new Visit();
+ 
 				visit.setPatient(ret);
 				SimpleDateFormat mysqlDateTimeFormatter = new SimpleDateFormat("dd-MMM-yy hh:mm:ss");
 				try {
@@ -774,6 +804,7 @@ public class EditPatientFragmentController {
 				visit.setVisitType(MetadataUtils.existing(VisitType.class, CommonMetadata._VisitType.NEW_PATIENT));
 				visit.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
 				Visit visitSave = Context.getVisitService().saveVisit(visit);
+*/
 				
 				if(hivEnrollEncTypePrev.isEmpty()){
 					EncounterType hivEnrollEncType = MetadataUtils.existing(EncounterType.class, HivMetadata._EncounterType.HIV_ENROLLMENT);

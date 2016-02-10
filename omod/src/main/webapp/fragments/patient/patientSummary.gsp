@@ -23,7 +23,7 @@
 		<% if (personWrap.telephoneContact) { %>
 			<br/>Patient contact number : <strong> ${personWrap.telephoneContact}</strong>
 		<% } %>
-		<% if (patientAdd.countyDistrict) { %>
+		<% if (patientAdd.countyDistrict!="?") { %>
 			<br/>Patient Address : <strong>${patientAdd.countyDistrict}</strong>
 		<% } %>
 		<% if (patientWrap.nextOfKinName) { %>

@@ -48,7 +48,7 @@ public class HivEnrollmentSummaryFragmentController {
 		
 		dataPoints.put("Enrolled Date", patientProgram.getDateEnrolled());
 		
-		Patient patient = encounter.getPatient();
+		Patient patient = patientProgram.getPatient();
 		savedEntryPoint = getLatestObs(patient, Dictionary.METHOD_OF_ENROLLMENT);
 		if (savedEntryPoint != null) {
 			entryPoint = savedEntryPoint.getValueCoded().getName().toString();

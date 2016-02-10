@@ -30,12 +30,7 @@
 
 	def otherDemogFieldRows = [
 			[
-					[ object: command, property: "maritalStatus", label: "Marital status", config: [ style: "list", options: maritalStatusOptions ] ],
-					[ object: command, property: "occupation", label: "Occupation", config: [ style: "list", answerTo: occupationConcept ] ],
-					[ object: command, property: "education", label: "Education", config: [ style: "list", options: educationOptions ] ]
-			],
-			[
-					[ object: command, property: "dead", label: "Deceased" ],
+					[ object: command, property: "dead", label: "Deceased " ],
 					[ object: command, property: "deathDate", label: "Date of death" ]
 			]
 	]
@@ -101,13 +96,6 @@
 			<legend>ID Numbers</legend>
 
 			<table>
-				<% if (command.inHivProgram) { %>
-					<tr>
-						<td class="ke-field-label">Unique Patient Number</td>
-						<td>${ ui.includeFragment("kenyaui", "widget/field", [ object: command, property: "uniquePatientNumber" ]) }</td>
-						<td class="ke-field-instructions">(HIV program<% if (!command.uniquePatientNumber) { %>, if assigned<% } %>)</td>
-					</tr>
-				<% } %>
 				<tr>
 					<td class="ke-field-label">Pre ART Registration Number</td>
 					<td>${ ui.includeFragment("kenyaui", "widget/field", [ object: command, property: "preArtRegistrationNumber" ]) }</td>
@@ -169,6 +157,17 @@
 					</td>
 				</tr>
 				<tr>
+					<td>
+						<% if (recordedAsDeceased) { %>
+							<div class="ke-warning" style="margin-bottom: 5px">
+								<% otherDemogFieldRows.each { %>
+									${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
+								<% } %>
+							</div>
+						<% } %>
+					</td>			
+				</tr>
+				<tr>
 				<td valign="top">
 						<label class="ke-field-label">Gender *</label>
 						<span class="ke-field-content">
@@ -184,7 +183,6 @@
 			<% placeOfBirth.each { %>
 			${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
 			<% } %>
-
 		</fieldset>
 
 		<fieldset>
