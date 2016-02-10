@@ -344,11 +344,17 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 	}
 	
 	public List<Encounter> getLabResultEncounters(Visit visit) {
-		
 		EncounterType encType = Context.getEncounterService().getEncounterType("Lab Results");
 		List<Encounter> encounters = Context.getEncounterService().getEncounters(visit.getPatient(), null, null, null, null, Collections.singleton(encType), null, null, Collections.singleton(visit), false);
 		return encounters;
-		
+	}
+	
+	public List<DrugOrderProcessed> getDrugOrdersByProcessedDate(Date date) {
+		return dao.getDrugOrdersByProcessedDate(date);
+	}
+	
+	public List<DrugObsProcessed> getObsDrugOrdersByProcessedDate(Date date) {
+		return dao.getObsDrugOrdersByProcessedDate(date);
 	}
 
 	public List<DrugInfo> getDrugInfo() {

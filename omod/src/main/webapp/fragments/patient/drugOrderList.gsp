@@ -27,3 +27,7 @@
 </div>
 <% } %>
 <% } %>
+
+<div>
+<input type="hidden" id="patient" name="patient" value="${patient.patientId}">
+</div>

@@ -3,7 +3,7 @@
 	
 	def formulations = [ "30", "50", "100", "150", "200" , "300" ,"400" , "600" ]
 	
-	def units = [ " " , "mg", "g", "ml", "tab" ]
+	def units = [ " " , "mg", "g", "ml"]
 	
 	def blank= [" "]
 
@@ -87,8 +87,8 @@
 	<div>
 	<input size="5" id="slNoah" name="slNoah" value="S.No" disabled>
 	<input type="text" id="drugNameah" name="drugNameah" size="20" value="Drug Name" disabled>
-    <input type="text" id="formulationah" name="formulationah" size="20" value="Formulation" disabled>
-    <input type="text" id="strengthah" name="strengthah" size="20" value="Strength" disabled>
+    <input type="text" id="formulationah" name="formulationah" size="20" value="Strength" disabled>
+    <input type="text" id="strengthah" name="strengthah" size="20" value="Unit" disabled>
     <input type="text" id="frequencyah" name="frequencyah" size="20" value="Frequency" disabled>
     <input type="text" id="durationah" name="durationah" size="20" value="Duration (in days)" disabled>
     <input type="text" id="actionah" name="actionah" size="8" value="Action" disabled>
@@ -220,7 +220,7 @@ var htmlText =  "<table>"
                 +"Drug Name&nbsp;"
                 +"</th>"
                 +"<th>"
-                +'Toxicity'
+                +'Toxicity&nbsp;'
                 +"</th>"
                  +"<th>"
                 +"Risk Factor&nbsp;"

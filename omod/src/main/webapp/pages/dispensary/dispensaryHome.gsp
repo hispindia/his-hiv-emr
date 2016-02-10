@@ -8,7 +8,7 @@
 </div>
 
 <div style="float: right; padding-right: 5px">
-		<button class="ke-compact" title="Past Dispensing Record" onclick="ke_dispensing()"><img src="${ ui.resourceLink("kenyaui", "images/apps/registration.png") }"/> Past Dispensing Record</button>
+		<button class="ke-compact" title="Past Dispensing Record" onclick="ke_pastDispensingRecord()"><img src="${ ui.resourceLink("kenyaui", "images/apps/registration.png") }"/> Past Dispensing Record</button>
 </div>
 
 </div>
@@ -20,7 +20,7 @@
 		}
 		
 		function ke_pastDispensingRecord() {
-			ui.navigate('kenyaemr', 'dispensary/dispensing');
+			ui.navigate('kenyaemr', 'dispensary/pastDispensingRecord');
 		}
 
 </script>

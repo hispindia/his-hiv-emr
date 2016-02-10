@@ -221,6 +221,7 @@ public class RegimenUtilFragmentController {
 				
 					DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
 					drugOrderProcessed.setDrugOrder(Context.getOrderService().getDrugOrder(order.getOrderId()));
+					drugOrderProcessed.setPatient(patient);
 					drugOrderProcessed.setCreatedDate(new Date());
 					drugOrderProcessed.setProcessedStatus(false);
 					if(o.getConcept().equals(drugConcept)){
@@ -280,6 +281,7 @@ public class RegimenUtilFragmentController {
 					if(concept.equals(drug1Concept)){
 					DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
 					drugOrderProcessed.setDrugOrder(o);
+					drugOrderProcessed.setPatient(patient);
 					drugOrderProcessed.setCreatedDate(new Date());
 					drugOrderProcessed.setProcessedStatus(false);
 					Integer duration=Integer.parseInt(request.getParameter("duration1"));
@@ -289,6 +291,7 @@ public class RegimenUtilFragmentController {
 					else if(concept.equals(drug2Concept)){
 					DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
 					drugOrderProcessed.setDrugOrder(o);
+					drugOrderProcessed.setPatient(patient);
 					drugOrderProcessed.setCreatedDate(new Date());
 					drugOrderProcessed.setProcessedStatus(false);
 					Integer duration=Integer.parseInt(request.getParameter("duration2"));
@@ -298,6 +301,7 @@ public class RegimenUtilFragmentController {
 					else if(concept.equals(drug3Concept)){
 					DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
 					drugOrderProcessed.setDrugOrder(o);
+					drugOrderProcessed.setPatient(patient);
 					drugOrderProcessed.setCreatedDate(new Date());
 					drugOrderProcessed.setProcessedStatus(false);
 					Integer duration=Integer.parseInt(request.getParameter("duration3"));
@@ -307,6 +311,7 @@ public class RegimenUtilFragmentController {
 					else if(concept.equals(drug4Concept)){
 					DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
 					drugOrderProcessed.setDrugOrder(o);
+					drugOrderProcessed.setPatient(patient);
 					drugOrderProcessed.setCreatedDate(new Date());
 					drugOrderProcessed.setProcessedStatus(false);
 					Integer duration=Integer.parseInt(request.getParameter("duration4"));
@@ -325,6 +330,7 @@ public class RegimenUtilFragmentController {
 						if(drugOrderProcess.getProcessedStatus()){
 						DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
 						drugOrderProcessed.setDrugOrder(o);
+						drugOrderProcessed.setPatient(patient);
 						drugOrderProcessed.setCreatedDate(new Date());
 						drugOrderProcessed.setProcessedStatus(false);
 						Integer duration=Integer.parseInt(request.getParameter("duration"+o.getConcept().getName()));
@@ -335,6 +341,7 @@ public class RegimenUtilFragmentController {
 						else{
 							DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
 							drugOrderProcessed.setDrugOrder(o);
+							drugOrderProcessed.setPatient(patient);
 							drugOrderProcessed.setCreatedDate(new Date());
 							drugOrderProcessed.setProcessedStatus(false);
 							Integer duration=Integer.parseInt(request.getParameter("duration"+o.getConcept().getName()));
@@ -371,6 +378,7 @@ public class RegimenUtilFragmentController {
 					if(concept.equals(drug1Concept)){
 					DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
 					drugOrderProcessed.setDrugOrder(o);
+					drugOrderProcessed.setPatient(patient);
 					drugOrderProcessed.setCreatedDate(new Date());
 					drugOrderProcessed.setProcessedStatus(false);
 					Integer duration=Integer.parseInt(request.getParameter("duration1"));
@@ -380,6 +388,7 @@ public class RegimenUtilFragmentController {
 					else if(concept.equals(drug2Concept)){
 					DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
 					drugOrderProcessed.setDrugOrder(o);
+					drugOrderProcessed.setPatient(patient);
 					drugOrderProcessed.setCreatedDate(new Date());
 					drugOrderProcessed.setProcessedStatus(false);
 					Integer duration=Integer.parseInt(request.getParameter("duration2"));
@@ -389,6 +398,7 @@ public class RegimenUtilFragmentController {
 					else if(concept.equals(drug3Concept)){
 					DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
 					drugOrderProcessed.setDrugOrder(o);
+					drugOrderProcessed.setPatient(patient);
 					drugOrderProcessed.setCreatedDate(new Date());
 					drugOrderProcessed.setProcessedStatus(false);
 					Integer duration=Integer.parseInt(request.getParameter("duration3"));
@@ -398,6 +408,7 @@ public class RegimenUtilFragmentController {
 					else if(concept.equals(drug4Concept)){
 					DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
 					drugOrderProcessed.setDrugOrder(o);
+					drugOrderProcessed.setPatient(patient);
 					drugOrderProcessed.setCreatedDate(new Date());
 					drugOrderProcessed.setProcessedStatus(false);
 					Integer duration=Integer.parseInt(request.getParameter("duration4"));

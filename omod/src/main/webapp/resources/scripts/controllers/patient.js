@@ -54,6 +54,20 @@ kenyaemrApp.service('PatientService3', function ($rootScope) {
 });
 
 /**
+ * Patient service4 
+ * Support search with date field
+ */
+kenyaemrApp.service('PatientService4', function ($rootScope) {
+
+	/**
+	 * Broadcasts new patient search parameters
+	 */
+	this.updateSearch = function(query, which, date) {
+		$rootScope.$broadcast('patient-search4', { query: query, which: which, date: date });
+	};
+});
+
+/**
  * Controller for patient search form
  */
 kenyaemrApp.controller('PatientSearchForm', ['$scope', 'PatientService', function($scope, patientService) {
@@ -84,11 +98,8 @@ kenyaemrApp.controller('PatientSearchForm2', ['$scope', 'PatientService2', funct
 	};
 
 	$scope.updateSearch = function() {
-//		var scheduleDate = jQuery("#scheduledDate").val();//$.datepicker.formatDate($.datepicker.W3C, date) 
 		var scheduledDate = jQuery("#scheduledDate").val();
 		console.debug(scheduledDate);
-//		var date = parseDateFromStringToJs('dd-mm-yyyy', scheduledDate);
-//		console.debug(date);
 		patientService.updateSearch($scope.query, $scope.which, scheduledDate);
 	};
 	
@@ -111,6 +122,27 @@ kenyaemrApp.controller('PatientSearchForm3', ['$scope', 'PatientService3', funct
 		var dispensedDate = jQuery("#dispensedDate").val();
 		console.debug(dispensedDate);
 		patientService.updateSearch($scope.query, $scope.which, dispensedDate);
+	};
+	
+}]);
+
+/**
+ * Controller for patient search form with Past Dispensing Date field
+ */
+kenyaemrApp.controller('PatientSearchForm4', ['$scope', 'PatientService4', function($scope, patientService) {
+
+	$scope.query = '';
+
+	$scope.init = function(which) {
+		$scope.which = which;
+		$scope.date='';
+		$scope.$evalAsync($scope.updateSearch); // initiate an initial search
+	};
+
+	$scope.updateSearch = function() {
+		var processedDate = jQuery("#processedDate").val();
+		console.debug(processedDate);
+		patientService.updateSearch($scope.query, $scope.which, processedDate);
 	};
 	
 }]);
@@ -162,6 +194,16 @@ kenyaemrApp.controller('PatientSearchResults', ['$scope', '$http', function($sco
 		$scope.date = data.date;
 		$scope.refresh3();
 	});
+	
+	/**
+	 * Listens for the 'patient-search4' event
+	 */
+	$scope.$on('patient-search4', function(event, data) {
+		$scope.query = data.query;
+		$scope.which = data.which;
+		$scope.date = data.date;
+		$scope.refresh4();
+	});
 
 	/**
 	 * Refreshes the person search
@@ -192,6 +234,16 @@ kenyaemrApp.controller('PatientSearchResults', ['$scope', '$http', function($sco
 				$scope.results = data;
 			});
 	};
+	
+	/**
+	 * Refreshes the person search
+	 */
+	$scope.refresh4 = function() {
+		$http.get(ui.fragmentActionLink('kenyaemr', 'search', 'patientsWithPastDispensingDate', { appId: $scope.appId, q: $scope.query, which: $scope.which, date: $scope.date })).
+			success(function(data) {
+				$scope.results = data;
+			});
+	};
 
 	/**
 	 * Result click event handler
@@ -213,6 +265,68 @@ kenyaemrApp.controller('PatientSearchResults', ['$scope', '$http', function($sco
 			ui.navigate($scope.pageProvider, $scope.page, { patientId: patient.id });
 		}
 	};
+	
+	$scope.viewDetails = function(patient) {
+		jQuery.ajax(ui.fragmentActionLink("kenyaemr", "dispensary/pastDispensingDrug", "dispensedDetails"), { data: { patientId: patient.id }, dataType: 'json'
+		}).done(function(data) {
+
+			var htmlText =  "<div class='ke-patientheader'>"
+				+"</div>"
+				+"<table style='width: 100%'>"
+				+"<tr>"
+                +"<th>"
+                +"S.No&nbsp;"
+                +"</th>"
+                +"<th>"
+                +'Drug Name&nbsp;'
+                +"</th>"
+                 +"<th>"
+                +"Formulatio&nbsp;"
+                +"</th>"
+                +"<th>"
+                +"Strength&nbsp;"
+                +"</th>"
+                 +"<th>"
+                +"Frequency&nbsp;"
+                +"</th>"
+                +"<th>"
+                +'Duration'
+                +"</th>"
+                +"<th>"
+                +'Quantity'
+                +"</th>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>"
+                +
+                +"</td>"
+                +"<td>"
+                +
+                +"</td>"
+                 +"<td>"
+                +
+                +"</td>"
+                +"<td>"
+                +
+                +"</td>"
+                 +"<td>"
+                +
+                +"</td>"
+                +"<td>"
+                +
+                +"</td>"
+                +"</tr>"
+                +"</table>"
+var newElement = document.createElement('div');
+newElement.setAttribute("id", "drugDetailDiv"); 
+newElement.innerHTML = htmlText;
+var fieldsArea = document.getElementById('pastDispensedDrug');
+fieldsArea.appendChild(newElement);
+
+	   var url = "#TB_inline?height=300&width=750&inlineId=drugDetailDiv";
+       tb_show("Detail Issue",url,false);
+       });
+   };
 
 }]);
 

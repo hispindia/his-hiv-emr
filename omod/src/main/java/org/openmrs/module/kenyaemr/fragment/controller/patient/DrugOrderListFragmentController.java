@@ -81,15 +81,18 @@ public class DrugOrderListFragmentController {
 		model.addAttribute("count",1);
 		model.addAttribute("drugOrderProcesseds",drugOrderProcessed);
 		model.addAttribute("drugOrderObss",drugOrderObs);
+		model.addAttribute("patient",patient);
 	}
 	
-	public String processDrugOrder(HttpServletRequest request,@RequestParam(value = "drugOrderProcessedIds", required = false) String[] drugOrderProcessedIds,
+	public String processDrugOrder(HttpServletRequest request,@RequestParam("patient") Patient patient,
+			@RequestParam(value = "drugOrderProcessedIds", required = false) String[] drugOrderProcessedIds,
 			@RequestParam(value = "obsGroupIds", required = false) String[] obsGroupIds,UiUtils ui) {
 		KenyaEmrService kes = (KenyaEmrService) Context.getService(KenyaEmrService.class);
 		for (String drugOrderProcessedId : drugOrderProcessedIds) {
 			Integer drugOrderProcessId = Integer.parseInt(drugOrderProcessedId);
 			String issuedQuantity = request.getParameter(drugOrderProcessedId+"issueQuantity");	
 			DrugOrderProcessed drugOrderProces=kes.getDrugOrderProcesedById(drugOrderProcessId);
+			drugOrderProces.setProcessedDate(new Date());
 			drugOrderProces.setProcessedStatus(true);
 			drugOrderProces.setQuantityPostProcess(Integer.parseInt(issuedQuantity));
 			kes.saveDrugOrderProcessed(drugOrderProces);
@@ -102,9 +105,11 @@ public class DrugOrderListFragmentController {
 			Obs obs=Context.getObsService().getObs(obsGrouppId);
 			obs.setComment("1");
 			kes.saveOrUpdateObs(obs);
-			
-			drugObsProcessed.setCreatedDate(new Date());
+
 			drugObsProcessed.setObs(obs);
+			drugObsProcessed.setPatient(patient);
+			drugObsProcessed.setCreatedDate(new Date());
+			drugObsProcessed.setProcessedDate(new Date());
 			drugObsProcessed.setQuantityPostProcess(Integer.parseInt(issuedQuantity));
 			kes.saveDrugObsProcessed(drugObsProcessed);
 		}

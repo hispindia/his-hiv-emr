@@ -12,7 +12,9 @@
 				<generator class="native" />
 		</id>
 		<many-to-one name="drugOrder" column="drug_order" class="org.openmrs.DrugOrder" foreign-key="fk_drugorderprocessed_drugorder"/>
+		<many-to-one name="patient" column="patient_id" class="org.openmrs.Patient" foreign-key="fk_patientIdfordrugorderprocessed"/>
 		<property name="createdDate" column="created_date"  />
+		<property name="processedDate" column="processed_date"  />
 		<property name="processedStatus" column="processed_status" />
 		<property name="durationPreProcess" column="duration_preprocess" />
 		<property name="discontinuedDate" column="discontinued_date" />

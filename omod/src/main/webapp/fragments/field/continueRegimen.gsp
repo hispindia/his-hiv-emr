@@ -54,7 +54,6 @@ def count=0;
 <script type="text/javascript">
 function artDrugInfo(drugParameter){
 var drugName=jQuery('#'+drugParameter).val();
-alert("hhhhh "+drugName);
 jQuery.ajax(ui.fragmentActionLink("kenyaemr", "field/drugInfo", "drugDetails"), { data: { drugName: drugName }, dataType: 'json'
 						}).done(function(data) {druNam=data.drugName; toxicity=data.toxicity;riskFactor=data.riskFactor;suggestedManagement=data.suggestedManagement;
 						drugInteraction=data.drugInteraction;suggestedManagementInteraction=data.suggestedManagementInteraction;

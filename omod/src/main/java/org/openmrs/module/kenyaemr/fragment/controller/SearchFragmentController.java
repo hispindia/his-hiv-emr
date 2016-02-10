@@ -42,7 +42,6 @@ import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Order;
 import org.openmrs.Patient;
-import org.openmrs.PatientIdentifierType;
 import org.openmrs.Person;
 import org.openmrs.Provider;
 import org.openmrs.User;
@@ -58,12 +57,12 @@ import org.openmrs.calculation.result.CalculationResultMap;
 import org.openmrs.calculation.result.ListResult;
 import org.openmrs.module.kenyacore.CoreConstants;
 import org.openmrs.module.kenyacore.calculation.CalculationUtils;
-import org.openmrs.module.kenyaemr.CommonUtils;
-import org.openmrs.module.kenyaemr.EmrWebConstants;
 import org.openmrs.module.kenyaemr.api.KenyaEmrService;
 import org.openmrs.module.kenyaemr.calculation.library.ScheduledVisitOnDayCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.VisitsOnDayCalculation;
 import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
+import org.openmrs.module.kenyaemr.model.DrugObsProcessed;
+import org.openmrs.module.kenyaemr.model.DrugOrderProcessed;
 import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.util.OpenmrsConstants;
@@ -76,33 +75,45 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 public class SearchFragmentController {
 
-	protected static final Log log = LogFactory.getLog(SearchFragmentController.class);
+	protected static final Log log = LogFactory
+			.getLog(SearchFragmentController.class);
 
 	/**
 	 * Gets a patient by their id
-	 * @param patient the patient
-	 * @param ui the UI utils
+	 * 
+	 * @param patient
+	 *            the patient
+	 * @param ui
+	 *            the UI utils
 	 * @return the simplified patient
 	 */
 	public SimpleObject patient(@RequestParam("id") Patient patient, UiUtils ui) {
 		SimpleObject ret = ui.simplifyObject(patient);
 
 		// Simplify and attach active visit to patient object
-		List<Visit> activeVisits = Context.getVisitService().getActiveVisitsByPatient(patient);
-		ret.put("activeVisit", activeVisits.size() > 0 ? ui.simplifyObject(activeVisits.get(0)) : null);
+		List<Visit> activeVisits = Context.getVisitService()
+				.getActiveVisitsByPatient(patient);
+		ret.put("activeVisit",
+				activeVisits.size() > 0 ? ui.simplifyObject(activeVisits.get(0))
+						: null);
 		return ret;
 	}
 
 	/**
 	 * Searches for patients by name, identifier, age, visit status
-	 * @param query the name or identifier
-	 * @param which all|checked-in|non-accounts
-	 * @param ui the UI utils
+	 * 
+	 * @param query
+	 *            the name or identifier
+	 * @param which
+	 *            all|checked-in|non-accounts
+	 * @param ui
+	 *            the UI utils
 	 * @return the simple patients
 	 */
-	public List<SimpleObject> patients(@RequestParam(value = "q", required = false) String query,
-									   @RequestParam(value = "which", required = false, defaultValue = "all") String which,
-									   UiUtils ui) {
+	public List<SimpleObject> patients(
+			@RequestParam(value = "q", required = false) String query,
+			@RequestParam(value = "which", required = false, defaultValue = "all") String which,
+			UiUtils ui) {
 
 		log.error("search normal");
 		// Return empty list if we don't have enough input to search on
@@ -111,31 +122,33 @@ public class SearchFragmentController {
 		}
 
 		// Run main patient search query based on id/name
-		List<Patient> matchedByNameOrID = Context.getPatientService().getPatients(query);
+		List<Patient> matchedByNameOrID = Context.getPatientService()
+				.getPatients(query);
 
-		// Gather up active visits for all patients. These are attached to the returned patient representations.
+		// Gather up active visits for all patients. These are attached to the
+		// returned patient representations.
 		Map<Patient, Visit> patientActiveVisits = getActiveVisitsByPatients();
 
 		List<Patient> matched = new ArrayList<Patient>();
 
-		// If query wasn't long enough to be searched on, and they've requested checked-in patients, return the list
+		// If query wasn't long enough to be searched on, and they've requested
+		// checked-in patients, return the list
 		// of checked in patients
 		if (StringUtils.isBlank(query) && "checked-in".equals(which)) {
 			matched.addAll(patientActiveVisits.keySet());
-			Collections.sort(matched, new PersonByNameComparator()); // Sort by person name
-		}
-		else {
+			Collections.sort(matched, new PersonByNameComparator()); // Sort by
+																		// person
+																		// name
+		} else {
 			if ("all".equals(which)) {
 				matched = matchedByNameOrID;
-			}
-			else if ("checked-in".equals(which)) {
+			} else if ("checked-in".equals(which)) {
 				for (Patient patient : matchedByNameOrID) {
 					if (patientActiveVisits.containsKey(patient)) {
 						matched.add(patient);
 					}
 				}
-			}
-			else if ("non-accounts".equals(which)) {
+			} else if ("non-accounts".equals(which)) {
 				Set<Person> accounts = new HashSet<Person>();
 				accounts.addAll(getUsersByPersons(query).keySet());
 				accounts.addAll(getProvidersByPersons(query).keySet());
@@ -154,16 +167,19 @@ public class SearchFragmentController {
 			SimpleObject simplePatient = ui.simplifyObject(patient);
 
 			Visit activeVisit = patientActiveVisits.get(patient);
-			simplePatient.put("activeVisit", activeVisit != null ? ui.simplifyObject(activeVisit) : null);
+			simplePatient
+					.put("activeVisit",
+							activeVisit != null ? ui
+									.simplifyObject(activeVisit) : null);
 			simplePatient.put("patientName", patient.getGivenName());
-			
+
 			simplePatients.add(simplePatient);
 		}
 
 		return simplePatients;
 	}
-	
-	private  Date parseDate(String s) throws ParseException {
+
+	private Date parseDate(String s) throws ParseException {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		if (s == null || s.length() == 0) {
 			return null;
@@ -174,20 +190,24 @@ public class SearchFragmentController {
 			return df.parse(s);
 		}
 	}
-	
-	
+
 	/**
 	 * Searches for patients by name, identifier, age, visit status
-	 * @param query the name or identifier
-	 * @param which all|checked-in|non-accounts
-	 * @param ui the UI utils
+	 * 
+	 * @param query
+	 *            the name or identifier
+	 * @param which
+	 *            all|checked-in|non-accounts
+	 * @param ui
+	 *            the UI utils
 	 * @return the simple patients
 	 */
-	public List<SimpleObject> patientsWithDate(@RequestParam(value = "date", required = false) String date,
-										@RequestParam(value = "q", required = false) String query,
-									   @RequestParam(value = "which", required = false, defaultValue = "all") String which,
-									   UiUtils ui) {
-//		log.error("info search patient query: " +query);
+	public List<SimpleObject> patientsWithDate(
+			@RequestParam(value = "date", required = false) String date,
+			@RequestParam(value = "q", required = false) String query,
+			@RequestParam(value = "which", required = false, defaultValue = "all") String which,
+			UiUtils ui) {
+		// log.error("info search patient query: " +query);
 		Date scheduledDate = null;
 		try {
 			scheduledDate = parseDate(date);
@@ -197,40 +217,44 @@ public class SearchFragmentController {
 		}
 
 		// Return empty list if we don't have enough input to search on
-		if (StringUtils.isBlank(query) && "all".equals(which) && StringUtils.isBlank(date)) {
+		if (StringUtils.isBlank(query) && "all".equals(which)
+				&& StringUtils.isBlank(date)) {
 			return Collections.emptyList();
 		}
 
 		// Run main patient search query based on id/name
-		List<Patient> matchedByNameOrID = Context.getPatientService().getPatients(query);
+		List<Patient> matchedByNameOrID = Context.getPatientService()
+				.getPatients(query);
 		if (matchedByNameOrID.size() == 0) {
-			List<Patient> matchedByID  = Context.getPatientService().getPatients(null, query, null, true);
+			List<Patient> matchedByID = Context.getPatientService()
+					.getPatients(null, query, null, true);
 			matchedByNameOrID.addAll(matchedByID);
 		}
-		
-		// Gather up active visits for all patients. These are attached to the returned patient representations.
+
+		// Gather up active visits for all patients. These are attached to the
+		// returned patient representations.
 		Map<Patient, Visit> patientActiveVisits = getActiveVisitsByPatients();
 
 		List<Patient> matched = new ArrayList<Patient>();
 
-		// If query wasn't long enough to be searched on, and they've requested checked-in patients, return the list
+		// If query wasn't long enough to be searched on, and they've requested
+		// checked-in patients, return the list
 		// of checked in patients
 		if (StringUtils.isBlank(query) && "checked-in".equals(which)) {
 			matched.addAll(patientActiveVisits.keySet());
-			Collections.sort(matched, new PersonByNameComparator()); // Sort by person name
-		}
-		else {
+			Collections.sort(matched, new PersonByNameComparator()); // Sort by
+																		// person
+																		// name
+		} else {
 			if ("all".equals(which)) {
 				matched = matchedByNameOrID;
-			}
-			else if ("checked-in".equals(which)) {
+			} else if ("checked-in".equals(which)) {
 				for (Patient patient : matchedByNameOrID) {
 					if (patientActiveVisits.containsKey(patient)) {
 						matched.add(patient);
 					}
 				}
-			}
-			else if ("non-accounts".equals(which)) {
+			} else if ("non-accounts".equals(which)) {
 				Set<Person> accounts = new HashSet<Person>();
 				accounts.addAll(getUsersByPersons(query).keySet());
 				accounts.addAll(getProvidersByPersons(query).keySet());
@@ -242,56 +266,60 @@ public class SearchFragmentController {
 				}
 			}
 		}
-		
+
 		List<SimpleObject> simplePatients = new ArrayList<SimpleObject>();
 
 		// query by scheduled date
 		if (StringUtils.isNotEmpty(date)) {
-			PatientCalculationService cs = Context.getService(PatientCalculationService.class);
+			PatientCalculationService cs = Context
+					.getService(PatientCalculationService.class);
 			Set<Integer> allPatients = new HashSet<Integer>();
 			if (!matched.isEmpty()) {
 				for (Patient p : matched) {
 					allPatients.add(p.getPatientId());
 				}
 			} else {
-				allPatients = Context.getPatientSetService().getAllPatients().getMemberIds();
+				allPatients = Context.getPatientSetService().getAllPatients()
+						.getMemberIds();
 			}
-			
-	
-	
+
 			Map<String, Object> params = new HashMap<String, Object>();
-	
+
 			params.put("date", scheduledDate);
-	
-			PatientCalculationContext calcContext = cs.createCalculationContext();
-	
-	
-			Set<Integer> scheduled = CalculationUtils.patientsThatPass(cs.evaluate(allPatients, new ScheduledVisitOnDayCalculation(), params, calcContext));
-	
-	
-			CalculationResultMap actual = cs.evaluate(scheduled, new VisitsOnDayCalculation(), params, calcContext);
-			
+
+			PatientCalculationContext calcContext = cs
+					.createCalculationContext();
+
+			Set<Integer> scheduled = CalculationUtils.patientsThatPass(cs
+					.evaluate(allPatients,
+							new ScheduledVisitOnDayCalculation(), params,
+							calcContext));
+
+			CalculationResultMap actual = cs.evaluate(scheduled,
+					new VisitsOnDayCalculation(), params, calcContext);
+
 			// Sort patients and convert to simple objects
-			List<Patient> scheduledPatients = Context.getPatientSetService().getPatients(scheduled);
-	
+			List<Patient> scheduledPatients = Context.getPatientSetService()
+					.getPatients(scheduled);
+
 			Collections.sort(scheduledPatients, new PersonByNameComparator());
-	
-	
+
 			simplePatients = new ArrayList<SimpleObject>();
-	
+
 			for (Patient p : scheduledPatients) {
-	
+
 				SimpleObject so = ui.simplifyObject(p);
-		
-				ListResult visitsResult = (ListResult) actual.get(p.getPatientId());
-		
-				List<Visit> visits = CalculationUtils.extractResultValues(visitsResult);
-		
+
+				ListResult visitsResult = (ListResult) actual.get(p
+						.getPatientId());
+
+				List<Visit> visits = CalculationUtils
+						.extractResultValues(visitsResult);
+
 				so.put("visits", ui.simplifyCollection(visits));
-		
+
 				simplePatients.add(so);
-		
-	
+
 			}
 		} else {
 			// Simplify and attach active visits to patient objects
@@ -299,23 +327,28 @@ public class SearchFragmentController {
 				SimpleObject simplePatient = ui.simplifyObject(patient);
 
 				/*
-				List<Visit> visits = Context.getVisitService().getActiveVisitsByPatient(patient);
-				for(Visit v : visits) {
-					if(v.getVisitType().getName().equalsIgnoreCase(EmrWebConstants.VISIT_TYPE_NEW_PATIENT)){
-						simplePatient.put("newVisit", "true");
-						break;
-					}
-				}*/
-				
+				 * List<Visit> visits =
+				 * Context.getVisitService().getActiveVisitsByPatient(patient);
+				 * for(Visit v : visits) {
+				 * if(v.getVisitType().getName().equalsIgnoreCase
+				 * (EmrWebConstants.VISIT_TYPE_NEW_PATIENT)){
+				 * simplePatient.put("newVisit", "true"); break; } }
+				 */
+
 				Visit activeVisit = patientActiveVisits.get(patient);
-				simplePatient.put("activeVisit",ui.simplifyObject(activeVisit));
+				simplePatient
+						.put("activeVisit", ui.simplifyObject(activeVisit));
 				simplePatient.put("patientName", patient.getGivenName());
 				if (activeVisit != null) {
-					Collection<VisitAttribute> attrs = activeVisit.getActiveAttributes();
+					Collection<VisitAttribute> attrs = activeVisit
+							.getActiveAttributes();
 					if (attrs != null && attrs.size() > 0) {
 						for (VisitAttribute attr : attrs) {
-							if (attr.getAttributeType().getUuid().equals(CommonMetadata._VisitAttributeType.NEW_PATIENT)) {
-								simplePatient.put("newVisit",attr.getValue().toString());
+							if (attr.getAttributeType()
+									.getUuid()
+									.equals(CommonMetadata._VisitAttributeType.NEW_PATIENT)) {
+								simplePatient.put("newVisit", attr.getValue()
+										.toString());
 								break;
 							}
 						}
@@ -327,34 +360,37 @@ public class SearchFragmentController {
 
 		return simplePatients;
 	}
-	
-	
-	public List<SimpleObject> patientsWithDispensingDate(@RequestParam(value = "date", required = false) String date,
-										@RequestParam(value = "q", required = false) String query,
-									   @RequestParam(value = "which", required = false, defaultValue = "all") String which,
-									   UiUtils ui,HttpServletRequest request) {
+
+	public List<SimpleObject> patientsWithDispensingDate(
+			@RequestParam(value = "date", required = false) String date,
+			@RequestParam(value = "q", required = false) String query,
+			@RequestParam(value = "which", required = false, defaultValue = "all") String which,
+			UiUtils ui, HttpServletRequest request) {
 		Date dispensedDate = null;
 		try {
-			dispensedDate  = parseDate(date);
+			dispensedDate = parseDate(date);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
+
 		// Run main patient search query based on id/name
-		List<Patient> matchedByNameOrID = Context.getPatientService().getPatients(query);
+		List<Patient> matchedByNameOrID = Context.getPatientService()
+				.getPatients(query);
 		if (matchedByNameOrID.size() == 0) {
-			List<Patient> matchedByID  = Context.getPatientService().getPatients(null, query, null, true);
-		    matchedByNameOrID.addAll(matchedByID);
+			List<Patient> matchedByID = Context.getPatientService()
+					.getPatients(null, query, null, true);
+			matchedByNameOrID.addAll(matchedByID);
 		}
 
 		List<Patient> matched = new ArrayList<Patient>();
 		List<SimpleObject> simplePatientsJason = new ArrayList<SimpleObject>();
-		
-		KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
 
-		if(query!="" && date!=""){
-			Map<Patient, Order> drugOrders1=getDrugOrders(dispensedDate);
-			Map<Patient, Obs> drugOrders2=getObsDrugOrders(dispensedDate);
+		KenyaEmrService kenyaEmrService = (KenyaEmrService) Context
+				.getService(KenyaEmrService.class);
+
+		if (query != "" && date != "") {
+			Map<Patient, Order> drugOrders1 = getDrugOrders(dispensedDate);
+			Map<Patient, Obs> drugOrders2 = getObsDrugOrders(dispensedDate);
 			for (Patient patient : matchedByNameOrID) {
 				if (drugOrders1.containsKey(patient)) {
 					matched.add(patient);
@@ -363,67 +399,164 @@ public class SearchFragmentController {
 					matched.add(patient);
 				}
 			}
+		} else if (query != "") {
+			matched = matchedByNameOrID;
+		} else if (date != "") {
+			List<Order> drugOrders1 = kenyaEmrService
+					.getOrderByDateAndOrderType(
+							dispensedDate,
+							Context.getOrderService().getOrderTypeByUuid(
+									"131168f4-15f5-102d-96e4-000c29c2a5d7"));
+			List<Obs> obss = kenyaEmrService.getObsGroupByDate(dispensedDate);
+			for (Order drugOrder : drugOrders1) {
+				matched.add(drugOrder.getPatient());
+			}
+			for (Obs obs : obss) {
+				matched.add(obs.getPatient());
+			}
 		}
-		else if(query!=""){
-			matched=matchedByNameOrID;	
+
+		Collections.sort(matched, new PersonByNameComparator());
+
+		for (Patient patient : matched) {
+			SimpleObject simplePatientt = ui.simplifyObject(patient);
+			simplePatientt.put("patientName", patient.getGivenName());
+			simplePatientsJason.add(simplePatientt);
 		}
-		else if(date!=""){
-			 List<Order> drugOrders1=kenyaEmrService.getOrderByDateAndOrderType(dispensedDate, Context.getOrderService().getOrderTypeByUuid("131168f4-15f5-102d-96e4-000c29c2a5d7"));
-			 List<Obs> obss=kenyaEmrService.getObsGroupByDate(dispensedDate);
-			 for(Order drugOrder:drugOrders1){
-				 matched.add(drugOrder.getPatient()); 
-			 }
-			 for(Obs obs:obss){
-				 matched.add(obs.getPatient()); 
-			 }
-		 }
+
+		HttpSession session = request.getSession();
+		session.setAttribute("dispensedDate", date);
+
+		return simplePatientsJason;
+	}
+
+	public List<SimpleObject> patientsWithPastDispensingDate(
+			@RequestParam(value = "date", required = false) String date,
+			@RequestParam(value = "q", required = false) String query,
+			@RequestParam(value = "which", required = false, defaultValue = "all") String which,
+			UiUtils ui, HttpServletRequest request) {
+		Date processedDate = null;
+		try {
+			processedDate = parseDate(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		// Run main patient search query based on id/name
+		List<Patient> matchedByNameOrID = Context.getPatientService()
+				.getPatients(query);
+		if (matchedByNameOrID.size() == 0) {
+			List<Patient> matchedByID = Context.getPatientService()
+					.getPatients(null, query, null, true);
+			matchedByNameOrID.addAll(matchedByID);
+		}
+
+		List<Patient> matched = new ArrayList<Patient>();
+		List<SimpleObject> simplePatientsJasonn = new ArrayList<SimpleObject>();
+
+		KenyaEmrService kenyaEmrService = (KenyaEmrService) Context
+				.getService(KenyaEmrService.class);
+
+		if (query != "" && date != "") {
+			List<DrugOrderProcessed> dops = kenyaEmrService.getDrugOrdersByProcessedDate(processedDate);
+			List<DrugObsProcessed> dobps = kenyaEmrService.getObsDrugOrdersByProcessedDate(processedDate);
 			
-			Collections.sort(matched, new PersonByNameComparator());
+			Map<Patient, DrugOrderProcessed> drugOrderProcessed = new HashMap<Patient, DrugOrderProcessed>();
+			Map<Patient, DrugObsProcessed> drugObsProcessed = new HashMap<Patient, DrugObsProcessed>();
 			
-			simplePatientsJason = new ArrayList<SimpleObject>();
-			
-			for(Patient patient:matched){
-				SimpleObject simplePatientt = ui.simplifyObject(patient);
-				simplePatientt.put("patientName", patient.getGivenName());
-				simplePatientsJason.add(simplePatientt);
+			for (DrugOrderProcessed dop : dops) {
+				drugOrderProcessed.put(dop.getPatient(), dop);
 			}
 			
-			HttpSession session = request.getSession();
-			session.setAttribute("dispensedDate", date);
+			for (DrugObsProcessed dobp : dobps) {
+				drugObsProcessed.put(dobp.getPatient(), dobp);
+			}
+			
+			for (Patient patient : matchedByNameOrID) {
+				if (drugOrderProcessed.containsKey(patient)) {
+					matched.add(patient);
+				}
+				if (drugObsProcessed.containsKey(patient)) {
+					matched.add(patient);
+				}
+			}
+		} else if (query != "") {
+			matched = matchedByNameOrID;
+		} else if (date != "") {
+			List<DrugOrderProcessed> dops = kenyaEmrService.getDrugOrdersByProcessedDate(processedDate);
+			List<DrugObsProcessed> dobps = kenyaEmrService.getObsDrugOrdersByProcessedDate(processedDate);
+			for (DrugOrderProcessed dop : dops) {
+				matched.add(dop.getPatient());
+			}
+			for (DrugObsProcessed dobp : dobps) {
+				matched.add(dobp.getPatient());
+			}
+		}
+
+		Collections.sort(matched, new PersonByNameComparator());
 		
-		return simplePatientsJason;
+		Integer count=0;
+		for (Patient patient : matched) {
+			SimpleObject simplePatientt = ui.simplifyObject(patient);
+			simplePatientt.put("patientName", patient.getGivenName());
+			//simplePatientt.put("patientId", patient.getPatientId());
+			
+			if(patient.getPatientIdentifier("Patient ID")!=null){
+			simplePatientt.put("patientIdentifier", patient.getPatientIdentifier("Patient ID").getIdentifier());
+			}
+			else{
+				simplePatientt.put("patientIdentifier", " ");
+			}
+			simplePatientt.put("count", ++count);
+			simplePatientsJasonn.add(simplePatientt);
+		}
+
+		HttpSession session = request.getSession();
+		session.setAttribute("processedDate", date);
+
+		return simplePatientsJasonn;
 	}
 
 	/**
 	 * Gets a location by it's id
-	 * @param location the location
-	 * @param ui the UI utils
+	 * 
+	 * @param location
+	 *            the location
+	 * @param ui
+	 *            the UI utils
 	 * @return the simplified location
 	 */
-	public SimpleObject location(@RequestParam("id") Location location, UiUtils ui) {
+	public SimpleObject location(@RequestParam("id") Location location,
+			UiUtils ui) {
 		return ui.simplifyObject(location);
 	}
 
 	/**
 	 * Searches for locations by name or MFL code
-	 * @param query the search query
-	 * @param ui the UI utils
+	 * 
+	 * @param query
+	 *            the search query
+	 * @param ui
+	 *            the UI utils
 	 * @return the simplified locations
 	 */
 	public SimpleObject[] locations(@RequestParam("q") String query, UiUtils ui) {
 		LocationService svc = Context.getLocationService();
 
 		// Results will be sorted by name
-		Set<Location> results = new TreeSet<Location>(new Comparator<Location>() {
-			@Override
-			public int compare(Location location1, Location location2) {
-			return location1.getName().compareTo(location2.getName());
-			}
-		});
+		Set<Location> results = new TreeSet<Location>(
+				new Comparator<Location>() {
+					@Override
+					public int compare(Location location1, Location location2) {
+						return location1.getName().compareTo(
+								location2.getName());
+					}
+				});
 
 		// If term looks like an MFL code, add location with that code
 		if (StringUtils.isNumeric(query) && query.length() >= 5) {
-			Location locationByMflCode = Context.getService(KenyaEmrService.class).getLocationByMflCode(query);
+			Location locationByMflCode = Context.getService(
+					KenyaEmrService.class).getLocationByMflCode(query);
 			if (locationByMflCode != null) {
 				results.add(locationByMflCode);
 			}
@@ -440,8 +573,11 @@ public class SearchFragmentController {
 
 	/**
 	 * Gets a person by their id
-	 * @param person the person
-	 * @param ui the UI utils
+	 * 
+	 * @param person
+	 *            the person
+	 * @param ui
+	 *            the UI utils
 	 * @return the simplified person
 	 */
 	public SimpleObject person(@RequestParam("id") Person person, UiUtils ui) {
@@ -450,12 +586,18 @@ public class SearchFragmentController {
 
 	/**
 	 * Searches for persons by name
-	 * @param query the name query
-	 * @param ui the UI utils
+	 * 
+	 * @param query
+	 *            the name query
+	 * @param ui
+	 *            the UI utils
 	 * @return the simplified persons
 	 */
-	public SimpleObject[] persons(@RequestParam(value = "q", required = false) String query, UiUtils ui) {
-		Collection<Person> results = Context.getPersonService().getPeople(query, null);
+	public SimpleObject[] persons(
+			@RequestParam(value = "q", required = false) String query,
+			UiUtils ui) {
+		Collection<Person> results = Context.getPersonService().getPeople(
+				query, null);
 
 		// Convert to simple objects
 		return ui.simplifyCollection(results);
@@ -463,22 +605,32 @@ public class SearchFragmentController {
 
 	/**
 	 * Gets a provider by their id
-	 * @param provider the provider
-	 * @param ui the UI utils
+	 * 
+	 * @param provider
+	 *            the provider
+	 * @param ui
+	 *            the UI utils
 	 * @return the simplified provider
 	 */
-	public SimpleObject provider(@RequestParam("id") Provider provider, UiUtils ui) {
+	public SimpleObject provider(@RequestParam("id") Provider provider,
+			UiUtils ui) {
 		return ui.simplifyObject(provider);
 	}
 
 	/**
 	 * Searches for providers by name
-	 * @param query the name query
-	 * @param ui the UI utils
+	 * 
+	 * @param query
+	 *            the name query
+	 * @param ui
+	 *            the UI utils
 	 * @return the simplified providers
 	 */
-	public SimpleObject[] providers(@RequestParam(value = "q", required = false) String query, UiUtils ui) {
-		Collection<Provider> results = Context.getProviderService().getProviders(query, null, null, null);
+	public SimpleObject[] providers(
+			@RequestParam(value = "q", required = false) String query,
+			UiUtils ui) {
+		Collection<Provider> results = Context.getProviderService()
+				.getProviders(query, null, null, null);
 
 		// Convert to simple objects
 		return ui.simplifyCollection(results);
@@ -486,15 +638,18 @@ public class SearchFragmentController {
 
 	/**
 	 * Searches for accounts by name
-	 * @param query the name query
-	 * @param which all|providers|users|non-patients
+	 * 
+	 * @param query
+	 *            the name query
+	 * @param which
+	 *            all|providers|users|non-patients
 	 * @param ui
 	 * @return
 	 */
-	public List<SimpleObject> accounts(@RequestParam(value = "q", required = false) String query,
-									   @RequestParam(value = "which", required = false, defaultValue = "all") String which,
-									   HttpSession session,
-									   UiUtils ui) {
+	public List<SimpleObject> accounts(
+			@RequestParam(value = "q", required = false) String query,
+			@RequestParam(value = "which", required = false, defaultValue = "all") String which,
+			HttpSession session, UiUtils ui) {
 
 		Map<Person, User> userAccounts = new HashMap<Person, User>();
 		Map<Person, Provider> providerAccounts = new HashMap<Person, Provider>();
@@ -511,7 +666,8 @@ public class SearchFragmentController {
 		persons.addAll(userAccounts.keySet());
 		persons.addAll(providerAccounts.keySet());
 
-		Set<String> onlineUsers = new HashSet<String>(CurrentUsers.getCurrentUsernames(session));
+		Set<String> onlineUsers = new HashSet<String>(
+				CurrentUsers.getCurrentUsernames(session));
 
 		List<SimpleObject> ret = new ArrayList<SimpleObject>();
 		for (Person p : persons) {
@@ -529,19 +685,21 @@ public class SearchFragmentController {
 
 				// Admin account doesn't have a username
 				if (StringUtils.isBlank(username)) {
-					online = onlineUsers.contains("systemid:" + user.getSystemId());
-					username =  user.getSystemId();
-				}
-				else {
+					online = onlineUsers.contains("systemid:"
+							+ user.getSystemId());
+					username = user.getSystemId();
+				} else {
 					online = onlineUsers.contains(username);
 				}
 
-				account.put("user", SimpleObject.create("id", user.getId(), "username", username, "online", online));
+				account.put("user", SimpleObject.create("id", user.getId(),
+						"username", username, "online", online));
 			}
 
 			Provider provider = providerAccounts.get(p);
 			if (provider != null) {
-				account.put("provider", SimpleObject.fromObject(provider, ui, "identifier"));
+				account.put("provider",
+						SimpleObject.fromObject(provider, ui, "identifier"));
 			}
 
 			ret.add(account);
@@ -552,8 +710,11 @@ public class SearchFragmentController {
 
 	/**
 	 * Gets a concept by it's id
-	 * @param concept the concept
-	 * @param ui the UI utils
+	 * 
+	 * @param concept
+	 *            the concept
+	 * @param ui
+	 *            the UI utils
 	 * @return the simplified concept
 	 */
 	public SimpleObject concept(@RequestParam("id") Concept concept, UiUtils ui) {
@@ -562,22 +723,29 @@ public class SearchFragmentController {
 
 	/**
 	 * Searches for concept by name and class
-	 * @param query the name query
-	 * @param conceptClass the concept class
-	 * @param ui the UI utils
+	 * 
+	 * @param query
+	 *            the name query
+	 * @param conceptClass
+	 *            the concept class
+	 * @param ui
+	 *            the UI utils
 	 * @return the simplified concepts
 	 */
-	public List<SimpleObject> concepts(@RequestParam(value = "q", required = false) String query,
-									   @RequestParam(value = "class", required = false) ConceptClass conceptClass,
-									   @RequestParam(value = "answerTo", required = false) Concept answerTo,
-									   @RequestParam(value = "size", required = false) Integer size,
-									   UiUtils ui) {
+	public List<SimpleObject> concepts(
+			@RequestParam(value = "q", required = false) String query,
+			@RequestParam(value = "class", required = false) ConceptClass conceptClass,
+			@RequestParam(value = "answerTo", required = false) Concept answerTo,
+			@RequestParam(value = "size", required = false) Integer size,
+			UiUtils ui) {
 
 		ConceptService conceptService = Context.getConceptService();
 
-		List<ConceptClass> conceptClasses = conceptClass != null ? Collections.singletonList(conceptClass) : null;
+		List<ConceptClass> conceptClasses = conceptClass != null ? Collections
+				.singletonList(conceptClass) : null;
 
-		List<ConceptSearchResult> results = conceptService.getConcepts(query, Collections.singletonList(CoreConstants.LOCALE), false,
+		List<ConceptSearchResult> results = conceptService.getConcepts(query,
+				Collections.singletonList(CoreConstants.LOCALE), false,
 				conceptClasses, null, null, null, answerTo, 0, size);
 
 		// Simplify results
@@ -591,32 +759,40 @@ public class SearchFragmentController {
 
 	/**
 	 * Helper method to get all active visits organised by patient
+	 * 
 	 * @return the map of patients to active visits
 	 */
 	protected Map<Patient, Visit> getActiveVisitsByPatients() {
-		Collection<VisitType> visitType=Context.getVisitService().getVisitTypes("Follow up visit");
-		List<Visit> activeVisits = Context.getVisitService().getVisits(visitType, null, null, null, null, null, null, null, null, false, false);
+		Collection<VisitType> visitType = Context.getVisitService()
+				.getVisitTypes("Follow up visit");
+		List<Visit> activeVisits = Context.getVisitService().getVisits(
+				visitType, null, null, null, null, null, null, null, null,
+				false, false);
 		Map<Patient, Visit> patientToVisits = new HashMap<Patient, Visit>();
 		for (Visit visit : activeVisits) {
 			patientToVisits.put(visit.getPatient(), visit);
 		}
 		return patientToVisits;
 	}
-	
-	
+
 	protected Map<Patient, Order> getDrugOrders(Date date) {
-		KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
-		List<Order> orders =kenyaEmrService.getOrderByDateAndOrderType(date, Context.getOrderService().getOrderTypeByUuid("131168f4-15f5-102d-96e4-000c29c2a5d7"));
+		KenyaEmrService kenyaEmrService = (KenyaEmrService) Context
+				.getService(KenyaEmrService.class);
+		List<Order> orders = kenyaEmrService.getOrderByDateAndOrderType(
+				date,
+				Context.getOrderService().getOrderTypeByUuid(
+						"131168f4-15f5-102d-96e4-000c29c2a5d7"));
 		Map<Patient, Order> drugOrders = new HashMap<Patient, Order>();
 		for (Order order : orders) {
 			drugOrders.put(order.getPatient(), order);
 		}
 		return drugOrders;
 	}
-	
+
 	protected Map<Patient, Obs> getObsDrugOrders(Date date) {
-		KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
-		List<Obs> orders =kenyaEmrService.getObsGroupByDate(date);
+		KenyaEmrService kenyaEmrService = (KenyaEmrService) Context
+				.getService(KenyaEmrService.class);
+		List<Obs> orders = kenyaEmrService.getObsGroupByDate(date);
 		Map<Patient, Obs> drugOrders = new HashMap<Patient, Obs>();
 		for (Obs order : orders) {
 			drugOrders.put(order.getPatient(), order);
@@ -626,7 +802,9 @@ public class SearchFragmentController {
 
 	/**
 	 * Helper method to get users organised by person
-	 * @param query the name query
+	 * 
+	 * @param query
+	 *            the name query
 	 * @return the map of persons to users
 	 */
 	protected Map<Person, User> getUsersByPersons(String query) {
@@ -641,12 +819,15 @@ public class SearchFragmentController {
 
 	/**
 	 * Helper method to get all providers organised by person
-	 * @param query the name query
+	 * 
+	 * @param query
+	 *            the name query
 	 * @return the map of persons to providers
 	 */
 	protected Map<Person, Provider> getProvidersByPersons(String query) {
 		Map<Person, Provider> personToProviders = new HashMap<Person, Provider>();
-		List<Provider> providers = Context.getProviderService().getProviders(query, null, null, null);
+		List<Provider> providers = Context.getProviderService().getProviders(
+				query, null, null, null);
 		for (Provider p : providers) {
 			if (p.getPerson() != null) {
 				personToProviders.put(p.getPerson(), p);
@@ -656,18 +837,21 @@ public class SearchFragmentController {
 	}
 
 	/**
-	 * Gets the minimum number of query characters required for a service search method
+	 * Gets the minimum number of query characters required for a service search
+	 * method
+	 * 
 	 * @return the value of min search characters
 	 */
 	protected static int getMinSearchCharacters() {
 		int minSearchCharacters = OpenmrsConstants.GLOBAL_PROPERTY_DEFAULT_MIN_SEARCH_CHARACTERS;
-		String minSearchCharactersStr = Context.getAdministrationService().getGlobalProperty(OpenmrsConstants.GLOBAL_PROPERTY_MIN_SEARCH_CHARACTERS);
+		String minSearchCharactersStr = Context.getAdministrationService()
+				.getGlobalProperty(
+						OpenmrsConstants.GLOBAL_PROPERTY_MIN_SEARCH_CHARACTERS);
 
 		try {
 			minSearchCharacters = Integer.valueOf(minSearchCharactersStr);
-		}
-		catch (NumberFormatException e) {
-			//do nothing
+		} catch (NumberFormatException e) {
+			// do nothing
 		}
 		return minSearchCharacters;
 	}

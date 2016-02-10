@@ -127,7 +127,7 @@
 		<comment>
 		</comment>
 		<sql>
-		CREATE TABLE IF NOT EXISTS drug_order_processed (id integer not null auto_increment, drug_order integer,created_date datetime,processed_status tinyint(1),duration_preprocess integer,discontinued_date datetime,quantity_postprocess integer,primary key (id));
+		CREATE TABLE IF NOT EXISTS drug_order_processed (id integer not null auto_increment, drug_order integer,patient_id integer,created_date datetime,processed_date datetime,processed_status tinyint(1),duration_preprocess integer,discontinued_date datetime,quantity_postprocess integer,primary key (id));
 		</sql>
 	</changeSet>
 	
@@ -135,7 +135,7 @@
 		<comment>
 		</comment>
 		<sql>
-		CREATE TABLE IF NOT EXISTS drug_obs_processed (id integer not null auto_increment, obs integer,created_date datetime,quantity_postprocess integer,primary key (id));
+		CREATE TABLE IF NOT EXISTS drug_obs_processed (id integer not null auto_increment, obs integer,patient_id integer,created_date datetime,processed_date datetime,quantity_postprocess integer,primary key (id));
 		</sql>
 	</changeSet>
 

@@ -240,6 +240,34 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		return (DrugOrderProcessed) criteria.uniqueResult();
 	}
 	
+	public List<DrugOrderProcessed> getDrugOrdersByProcessedDate(Date date) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class,"drugOrderProcessed");
+			String dat = formatterExt.format(date);
+			String startFromDate = dat + " 00:00:00";
+			String endFromDate = dat + " 23:59:59";
+			try {
+				criteria.add(Restrictions.and(Restrictions.ge("processedDate", formatter.parse(startFromDate)),
+					    Restrictions.le("processedDate", formatter.parse(endFromDate))));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		return criteria.list();
+	}
+	
+	public List<DrugObsProcessed> getObsDrugOrdersByProcessedDate(Date date) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugObsProcessed.class,"DrugObsProcessed");
+		String dat = formatterExt.format(date);
+		String startFromDate = dat + " 00:00:00";
+		String endFromDate = dat + " 23:59:59";
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("processedDate", formatter.parse(startFromDate)),
+				    Restrictions.le("processedDate", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return criteria.list();
+	}
+	
 	public List<DrugInfo> getDrugInfo() {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugInfo.class,"drugInfo");
 		return criteria.list();
