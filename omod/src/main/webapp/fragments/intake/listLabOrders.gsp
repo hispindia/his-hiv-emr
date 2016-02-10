@@ -11,13 +11,13 @@
 <th>Action</th>
 </tr>
 </thead>
-<% encounters.eachWithIndex { encounter , count -> %>
+<% listLabOrder.eachWithIndex { labOrder , count -> %>
 <tr class="ke-stack-item ke-navigable">
 <td>${count+1}</td>
-<td>${encounter.visit.dateCreated}</td>
-<td>${encounter.dateCreated}</td>
-<td></td>
-<td><button class="ke-compact" type="button" onclick="enterResult('${encounter.id}')" ><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/edit.png"></button</td>
+<td>${labOrder.visitDate}</td>
+<td>${labOrder.orderDate}</td>
+<td>${labOrder.updateDate}</td>
+<td><button class="ke-compact" type="button" onclick="enterResult('${labOrder.encounterId}')" ><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/edit.png"></button</td>
 </tr>
 <% } %>
 </table>

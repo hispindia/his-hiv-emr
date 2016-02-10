@@ -54,4 +54,10 @@ public class EmrWebConstants {
 	 * Encounter Type
 	 */
 	public static final String ENCOUNTER_TYPE_LAB_ORDER_UUID = "839cc70b-09cf-4d20-8bf5-b19dddde9e32";
+	
+	
+	/**
+	 * Radiology Parent Concept
+	 */
+	public static final String RADIOLOGY_PARENT_CONCEPT_UUID = "7111ccda-19e4-41a1-8d47-0e638ef9c83d";
 }

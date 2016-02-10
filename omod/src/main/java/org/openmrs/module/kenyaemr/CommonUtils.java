@@ -18,4 +18,8 @@ public class CommonUtils {
 			return df.parse(s);
 		}
 	}
+	
+	public static String format(Date date) {
+		return df.format(date);
+	}
 }
