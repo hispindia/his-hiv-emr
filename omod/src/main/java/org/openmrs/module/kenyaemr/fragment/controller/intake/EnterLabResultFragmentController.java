@@ -244,8 +244,10 @@ public class EnterLabResultFragmentController {
 						String text = resultObs.getValueText();
 						if (text != null) {
 							String[] arr = StringUtils.split(text, '|');
-							resultFinding = arr[0];
-							resultImpression = arr[1];
+							if (arr!= null && arr.length == 2) {
+								resultFinding = arr[0];
+								resultImpression = arr[1];
+							}
 						}
 					} else {
 						result = resultObs.getValueText();

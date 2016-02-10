@@ -38,13 +38,13 @@ No record found.
 		<tr><td>Impression <input type="text" id="${test.conceptId}_valueImpression" name="${test.conceptId}_valueImpression" size="15" value="${test.resultImpression}"  onblur="calculateComment(${test.conceptId})"></td></tr>
 		</table>
 		</td>
-		<td ><input disabled type="text" size="10" value="${test.units}"/></td>
 	<% } else { %> 
 		<td style="text-align:right"><input type="text" id="${test.conceptId}_value" name="${test.conceptId}_value" size="15" value="${test.result}"  onblur="calculateComment(${test.conceptId})"></td>
 		<td ><input disabled type="text" size="10" value="${test.units}"/></td>
+		<td><input disabled id="${test.conceptId}_range" size="10" type="text" value="${test.range}"/></td>
+		<td><input disabled id="${test.conceptId}_comment" class="comment" size="10" type="text" value=""/></td>
 	<% } %>
-	<td><input disabled id="${test.conceptId}_range" size="10" type="text" value="${test.range}"/></td>
-	<td><input disabled id="${test.conceptId}_comment" class="comment" size="10" type="text" value=""/></td>
+	
 	</tr>
 <% } %>
 </table> 
