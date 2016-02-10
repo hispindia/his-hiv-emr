@@ -52,7 +52,7 @@ public class EnterLabResultFragmentController {
 		Visit visit = encounter.getVisit();
 		if (visit != null) {
 			EncounterType encType = Context.getEncounterService().getEncounterType("Lab Results");
-			List<Encounter> encs = Context.getEncounterService().getEncounters(visit.getPatient(), null, null, null, null, Collections.singleton(encType), null, null, Collections.singleton(visit), false);
+			List<Encounter> encs = Context.getEncounterService().getEncounters(visit.getPatient(), null, null, null, null, Collections.singleton(encType), null, null, Collections.singleton(visit), true);
 			if (encs != null && !encs.isEmpty()) {
 				resultEncounter = encs.get(encs.size() - 1);
 			}
@@ -78,7 +78,7 @@ public class EnterLabResultFragmentController {
 			}
 		}
 		model.addAttribute("listTests", listTests);
-		model.addAttribute("confirmed", resultEncounter != null && resultEncounter.getDateChanged() != null ? true: false);
+		model.addAttribute("confirmed", resultEncounter != null && resultEncounter.isVoided() ? true: false);
 		
 		
 	}
@@ -138,7 +138,7 @@ public class EnterLabResultFragmentController {
 			} // end loop for conceptIds 
 			if (changed) {
 				if (confirm) {
-					resultEncounter.setDateChanged(curDate);
+					resultEncounter.setVoided(true);
 				}
 				resultEncounter.setEncounterDatetime(curDate);
 				try {
@@ -148,11 +148,11 @@ public class EnterLabResultFragmentController {
 					kenyaUi.notifyError(session, e.getMessage());
 					return SimpleObject.create("success", false, "errors", e.getMessage());
 				}
+				resultEncounter.setChangedBy(Context.getUserContext().getAuthenticatedUser());
 				Context.getEncounterService().saveEncounter(resultEncounter);
 			}
 		} else {
 			// save new
-			
 			
 			Encounter encounter = new Encounter();
 			encounter.setDateCreated(curDate);
@@ -161,8 +161,10 @@ public class EnterLabResultFragmentController {
 			encounter.setPatient(visit.getPatient());
 			encounter.setEncounterDatetime(curDate);
 			if (confirm) {
-				encounter.setDateChanged(curDate);
+				encounter.setVoided(true);
 			}
+			encounter.setDateChanged(curDate);
+			
 			
 			for (String conceptId : conceptIds) {
 				String value = actionRequest.getParameter(conceptId+"_value");	
@@ -192,7 +194,6 @@ public class EnterLabResultFragmentController {
 				return SimpleObject.create("success", false, "errors", e.getMessage());
 			}
 			encounter.setChangedBy(Context.getUserContext().getAuthenticatedUser());
-			
 			encService.saveEncounter(encounter);
 		}
 

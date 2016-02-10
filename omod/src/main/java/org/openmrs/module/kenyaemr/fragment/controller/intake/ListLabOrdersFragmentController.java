@@ -30,19 +30,17 @@ public class ListLabOrdersFragmentController {
 		
 			List<Visit> visits = Context.getVisitService().getVisitsByPatient(patient, true, false);
 
-			List<Encounter> encounters = new ArrayList<Encounter>();
 			List<LabOrder> listLabOrder = new ArrayList<LabOrder>();
 			for (Visit v : visits) 	{
 				for (Encounter enc : v.getEncounters()) {
 					if (enc.getEncounterType().getUuid().equals(EmrWebConstants.ENCOUNTER_TYPE_LAB_ORDER_UUID)) {
-						encounters.add(enc);
-						
 						List<Encounter> encs = Context.getEncounterService().getEncounters(patient, null, null, null, null, Collections.singleton(encType), null, null, Collections.singleton(v), false);
+						Encounter resultEncounter = null;
 						if (encs != null && !encs.isEmpty()) {
-							Encounter resultEncounter = encs.get(encs.size() - 1);
-							LabOrder order = new LabOrder(enc, resultEncounter);
-							listLabOrder.add(order);
+							resultEncounter = encs.get(encs.size() - 1);
 						}
+						LabOrder order = new LabOrder(enc, resultEncounter);
+						listLabOrder.add(order);
 						
 					}
 				}
