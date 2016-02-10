@@ -12,7 +12,15 @@
   ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
 -->
 <htmlform>
+	<style type="text/css">
+		
+		td{
+			 
+			padding: 5px;
+		}
+		
 
+	</style>
 	<script type="text/javascript">
 		jq(document).ready(function(){
 			
@@ -159,8 +167,8 @@
 	
 	</script>
 
-	<div class="ke-form-header">
-		<table width="100%">
+	<div class="ke-form-header" style="select {   padding: 2px;}">
+		<table width="100%" style="background-color: #c7d8a7">
 			<tr>
 				<td>Date: <encounterDate id="encounter-date" showTime="true" /></td>
 				<td>Location: <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete" /></td>
@@ -170,13 +178,13 @@
 
 	<div class="ke-form-content">
 		<fieldset>
-			<table>
+			<table style="background-color: #e8efdc;" width="100%">
 				<tr>
-					<td valign="top">1. Chief complaint: </td>
+					<td style="padding-left:10px;" valign="top">1. Chief complaint: </td>
 					<td>
 						<repeat>
 							<template>
-									<table  style="border-spacing: 15px;">
+									<table >
 									<tr>
 										<td style="border: 1px solid black;padding: 5px;"><obs conceptId="5219AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="autocomplete" labelText=" "  /></td>
 										<td style="border: 1px solid black;padding: 5px;"><obs conceptId="5219AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="autocomplete" labelText=" "  /></td>
@@ -191,52 +199,42 @@
 						</repeat>
 					</td>
 				</tr>
+				
 				<tr>
-					<td colspan="2"><hr/></td>
-				</tr>
-				<tr>
-					<td valign="top">2. History of present illness: </td>
+					<td style="padding-left:10px;" valign="top">2. History of present illness: </td>
 					<td>
 						<obs conceptId="1390AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rows="2" cols="100" />
 					</td>
 				</tr>
+				
 				<tr>
-					<td colspan="2"><hr/></td>
-				</tr>
-				<tr>
-					<td valign="top">3. General examination: </td>
+					<td style="padding-left:10px;" valign="top">3. General examination: </td>
 					<td>
 						<obs conceptId="1119AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rows="2" cols="100" />
 					</td>
 				</tr>
+				
 				<tr>
-					<td colspan="2"><hr/></td>
-				</tr>	
-				<tr>
-					<td valign="top">4. Systemic Examination: </td>
+					<td style="padding-left:10px;" valign="top">4. Systemic Examination: </td>
 					<td>
 						<obs conceptId="f6139afd-53ab-4e4b-9e44-8f1f564ce772" rows="2" cols="100" />
 					</td>
 				</tr>
+				
 				<tr>
-					<td colspan="2"><hr/></td>
-				</tr>	
-				<tr>
-					<td valign="top">5. Note: </td>
+					<td style="padding-left:10px;" valign="top">5. Note: </td>
 					<td>
 						<obs conceptId="162169AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rows="2" cols="100" />
 					</td>
 				</tr>
+				
 				<tr>
-					<td colspan="2"><hr/></td>
-				</tr>	
-				<tr>
-					<td valign="top">6. Diagnosis*: </td>
+					<td style="padding-left:10px;" valign="top">6. Diagnosis*: </td>
 					<td>
 						<repeat>
 							<template>
 								<obsgroup groupingConceptId="50ea66b0-77a0-42a8-84f5-c7164c9e3373">
-									<table style="border-spacing: 15px;">
+									<table  >
 									<tr>
 										<td style="border: 1px solid black;padding: 5px;"><obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" style="autocomplete" type="autocomplete" labelText=" "  id="daig_value"/></td>
 										<td style="border: 1px solid black;padding: 5px;"><obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" style="autocomplete" type="autocomplete" labelText=" "  id="daig_value1"/></td>
@@ -251,11 +249,9 @@
 						</repeat>
 					</td>
 				</tr>	
+				
 				<tr>
-					<td colspan="2"><hr/></td>
-				</tr>
-				<tr>
-					<td>7. Side effects of ART ?</td>
+					<td style="padding-left:10px;">7. Side effects of ART ?</td>
 					<td><obs id="artSideEffectPresent" conceptId="159935AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" /></td>
 				</tr>
 				<tr>
@@ -265,7 +261,7 @@
 							<repeat>
 								<template>
 									
-									<table>
+									<table >
 									<tr>
 										<td  style="border: 1px solid black;padding: 5px;"><obs conceptId="4b4e4b62-4e44-43f6-9c35-ca23861a153e" id="artSideEffectValue" /></td>
 										<td style="border: 1px solid black;padding: 5px;"><obs conceptId="4b4e4b62-4e44-43f6-9c35-ca23861a153e" id="artSideEffectValue1" /></td>
@@ -279,50 +275,44 @@
 						</div>
 					</td>	
 				</tr>
+				
 				<tr>
-					<td colspan="2"><hr/></td>
-				</tr>
-				<tr>
-					<td>
+					<td style="padding-left:10px;">
 					  8. ART Adherence
 					</td>
 					<td></td>
 				</tr>
 				<tr>	
-					<td>Number of missed dose in last 30 days*</td>
+					<td style="padding-left:28px;">Number of missed dose in last 30 days*</td>
 					<td><obs conceptId="05a061ba-2d76-4929-9788-afe650eaae7b" id="missedDoseCount" /></td>
 				</tr>
 				<tr>	
-					<td>% of adherence to ART</td>
+					<td style="padding-left:28px;">% of adherence to ART</td>
 					<td><obs id="calculated-adherence" class="value" conceptId="360716f8-c50b-4bb7-bce8-edbe4aa9445c" showUnits="true"/>
 					<br/> Reason for non-adherence : <obs id="reasonForNonAdherence" conceptId="160582AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
 					</td>
 				</tr>
 				<tr>	
-					<td>Taking doses at correct time in last 30 days?</td>
+					<td style="padding-left:28px;">Taking doses at correct time in last 30 days?</td>
 					<td><obs conceptId="8a70de3b-5975-4c16-b1e7-e9a7a63329e2" style="radio"/></td>
 				</tr>
 				<tr>	
-					<td>Taking correct doses in last 30 days?</td>
+					<td style="padding-left:28px;">Taking correct doses in last 30 days?</td>
 					<td><obs conceptId="9f401f60-2ac3-4d6c-bf8a-33885b99492a" style="radio"/></td>
 				</tr>
-				<tr>
-					<td colspan="2"><hr/></td>
-				</tr>
+				
 				
 				<tr>	
-					<td>9. Temporary Referral</td>
+					<td style="padding-left:10px;">9. Temporary Referral</td>
 					<td><obs id="temporaryReffered" conceptId="5e05d243-e039-4f04-9988-18d5a499329e" style="radio"/></td>
 				</tr>
 				<tr>	
-					<td>Temporary Referral Reason</td>
+					<td style="padding-left:28px;">Temporary Referral Reason</td>
 					<td><obs id="temporaryRefferedReason" conceptId="c648f69b-7065-4255-9af2-6076348c87dc"/></td>
 				</tr>
-				<tr>
-					<td colspan="2"><hr/></td>
-				</tr>
+				
 				<tr>	
-					<td>10. Next Step*</td>
+					<td style="padding-left:10px;">10. Next Step*</td>
 					<td><obs conceptId="876369e0-bea3-42c0-be58-b37df719656b" style="radio" answerConceptIds="160523AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,c17ed847-31e8-4c6a-a3b6-e2d6493870ff" answerLabels="Follow up,Admitted " id="nextStep" /></td>
 					
 				</tr>
@@ -344,9 +334,7 @@
 						</div>
 					</td>	
 				</tr>
-				<tr>
-					<td colspan="2"><hr/></td>
-				</tr>
+				
 				
 			</table>
 

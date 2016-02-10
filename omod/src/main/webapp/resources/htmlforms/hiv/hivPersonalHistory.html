@@ -50,7 +50,60 @@
 			
 		});
 	</script>
-
+	
+	
+	<!-- STYLE ======================
+	=================================-->
+	
+	<style>
+	td, tr, table{
+	padding: 5px 10px 5px 5px;
+	}
+	
+	table{
+	margin-left: 15px;
+	}
+	
+	tbody{
+	padding-left: 0px !important;
+	}
+	
+	input[type=text]{
+	width: 200px;
+	}
+	
+	select{
+	width: 200px;
+	height: 28px !important;
+	}
+	
+	input[type=checkbox]{
+	padding: 0 0 0 0;
+	min-width: 25px;
+	font-weight:bold;
+	background-color:#d9d9d9 !important;
+	}
+	
+	input[type=radio]{
+	padding: 0 0 0 0;
+	min-width: 20px;
+	font-weight:bold;
+	background-color:#d9d9d9 !important;
+	}
+	
+	input[type=button], button{
+	padding: 5px 10px 5px 5px;
+	margin-right: 15px;
+	min-width: 110px;
+	font-weight:bold;
+	background-color:#d9d9d9 !important;
+	}
+	</style>
+	
+	<!-- STYLE ======================
+	=================================-->
+	
+	
 	<!-- Encounter date, provider and location are not relevant for CE forms -->
 	<div style="display:none">
 		<encounterDate id="encounter-date" />
@@ -61,7 +114,7 @@
 	<table>
 		<tr>
 			<td>
-				<table align="center"   class="tb1" cellspacing="10" width="100%">
+				<table align="center"   class="tb1" cellspacing="10" width="100%" style="margin-left: 0px !important;">
 					<tr>
 						<td>Risk factor for HIV:</td>
 						<td>
@@ -126,7 +179,7 @@
 			<td><obs  conceptId="fe2b8af1-b305-46bf-a7ce-75d931660a7a" id="alcoholType"/></td>
 		</tr>
 		<tr>
-			<td>What is the estimated monthly household income (In Kyat/month)? </td>
+			<td>What is the estimated monthly<br/> household income (In Kyat/month)? </td>
 			<td><obs conceptId="159776AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
 		</tr>
 	</table>

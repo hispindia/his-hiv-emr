@@ -658,15 +658,32 @@ public class WhiteCardFragmentController {
 		
 		List<DrugOrder> orderList =  Context.getOrderService().getDrugOrdersByPatient(patient);
 		
-		for (DrugOrder drugOrder : orderList) {
-			Encounter en = drugOrder.getEncounter();
-			if(en.equals(drugOrder.getEncounter())){
-			//	System.out.println(drugOrder.getDose()+""+drugOrder.getUnits()+","+ drugOrder.getFrequency()+","+drugOrder.getConcept().getName());
-				regimenList.put(regimenIndex, drugOrder.getDose().toString()+""+drugOrder.getUnits()+" "+ drugOrder.getFrequency()+","+drugOrder.getConcept().getName());
-			}
+		List<Encounter> encounterList =  Context.getEncounterService().getEncounters(patient);
+		for(Encounter en : encounterList ){
+			String regName = "";
+			String changeStopReason = "";
+			if(en.getEncounterType().getUuid().equals("00d1b629-4335-4031-b012-03f8af3231f8")){
+				List<Order> orderListByEn =  Context.getOrderService().getOrdersByEncounter(en);
+					for(Order o : orderListByEn){
+						DrugOrder dr = Context.getOrderService().getDrugOrder(o.getOrderId());
+						if(regName.equals("")){
+							regName = regName.concat(dr.getConcept().getName() + "(" + dr.getDose()+dr.getUnits()+" "+dr.getFrequency()+")");	
+						}
+						else{
+							regName = regName.concat(" + " +dr.getConcept().getName() + "(" + dr.getDose()+dr.getUnits()+" "+dr.getFrequency()+")");
+						}
+						if(dr.getDiscontinuedReason()!=null){
+							changeStopReason = dr.getDiscontinuedReason().getName().toString();	
+						}
+					}
+					
+					if(regName!=""){
+						regimenList.put(regimenIndex,new SimpleDateFormat("dd-MMMM-yyyy").format(en.getDateCreated()) + ", ," + changeStopReason+ ","+ new SimpleDateFormat("dd-MMMM-yyyy").format(en.getDateCreated()) + ","+regName  );
+						regimenIndex++;
+					}
+				}
 		}
-		System.out.println(regimenList.toString());
-
+		model.addAttribute("regimenList", regimenList);
 		//Context.getOrderService().getOrders();
 
 		

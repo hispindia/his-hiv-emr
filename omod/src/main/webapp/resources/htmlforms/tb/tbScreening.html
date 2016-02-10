@@ -14,7 +14,7 @@
 <htmlform>
 	<style type="text/css">
 		table.tb {
-			background-color: #F5FFFA;
+			background-color: #c7d8a7;
 			border: 1px solid black;
 			
 		}
@@ -216,7 +216,7 @@ var tbValues = getValue('tbSufferedPatient.value');
 	</script>
 
 	<div class="ke-form-header">
-		<table width="80%" align="center">
+		<table width="100%" align="center" style="background-color: #c7d8a7">
 			<tr>
 				<td  align="left">Date: <encounterDate id="encounter-date" showTime="true"/></td>
 				<td align="right">Location: <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete" /></td>
@@ -225,7 +225,7 @@ var tbValues = getValue('tbSufferedPatient.value');
 	</div>
 
 	<div class="ke-form-content" style="select {   width: 40%;   padding: 2px;}">
-		<table   align="center"  border="0" class="tb" cellspacing="10" width="80%">
+		<table   align="center"  border="0" class="tb" cellspacing="10" width="100%">
 			<tr>
 				<td colspan="2">
 					<div class="ke-form-instructions">
@@ -237,12 +237,12 @@ var tbValues = getValue('tbSufferedPatient.value');
 				<td style="padding-left:10px;"  align="left" colspan="2"><b>1. Is the Patient Suffered from TB?*</b><obs conceptId="5fcb62a7-f1b5-4cc6-bf69-4455719036a6" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" id="tbSufferedPatient"/> </td>
 			</tr>
 			<tr id="topMost">
-				<td align="center" style="padding-left:10px;" valign="top" width="50%">
+				<td align="center" style="padding-left:10px;padding-right:30px;" valign="top" width="50%">
 					<div id="tbSufferedPatientYes">
 						<fieldset>
 							<b>If Yes</b>
 							
-							<table align="center"  class="tb1" cellspacing="10" width="100%">
+							<table style="background-color: #e8efdc" align="center"  class="tb1" cellspacing="10" width="100%">
 								<tr>
 									<td>MDR-TB* </td>
 									<td><obs conceptId="160039AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" id="mdrTBValue"/></td>
@@ -252,7 +252,7 @@ var tbValues = getValue('tbSufferedPatient.value');
 									<td><obs conceptId="160040AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="42AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5042AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,65b09297-280f-4b24-aced-bdbb4bf11625" answerLabels="Pulmonary TB,Extra-Pulmonary TB, Both" style="radio" id="dclassification"/>
 									</td>
 								</tr>
-								<tr style="outline: thin solid">
+								<tr >
 								<!-- 	<td valign="top">
 										<div id="iddivPulmonary">
 										<table>
@@ -264,13 +264,13 @@ var tbValues = getValue('tbSufferedPatient.value');
 											</table>
 										</div>
 									</td> -->
-									<td colspan="2">
+									<td colspan="2" style="padding-left:5px;" >
 										<div id="expul">
 											<b>If Extra-Pulmonary TB:</b>
 											<table>
 												<tr>
-													<td valign="top">Enter Site</td>
-													<td>
+													<td  style="padding-left:0px;padding-right:40px;" valign="top">Enter Site</td>
+													<td >
 					
 														<obsgroup groupingConceptId="161357AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
 															<obs conceptId="5d710188-5b99-4d39-8c93-a562c02c452a" style="autocomplete"  />
@@ -301,7 +301,7 @@ var tbValues = getValue('tbSufferedPatient.value');
 								</tr>
 								<tr>
 									<td>Township:</td>
-									<td><obs conceptId="161564AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="location"/></td>
+									<td ><obs style="location" conceptId="161564AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
 								</tr>
 								<tr>
 									<td>TB Treatment Start Date:</td>
@@ -323,52 +323,57 @@ var tbValues = getValue('tbSufferedPatient.value');
 						</fieldset>	
 					</div>				
 				</td>
-				<td align="center" style="padding-left:10px;padding-right:10px" valign="top"  width="50%">
+				<td align="center" style="padding-left:10px;padding-right:20px" valign="top"  width="50%">
 					<div id="tbSufferedPatientNo">
 						<fieldset>
 							<b>If No</b>
 							
-							<table border="1" align="center"   class="tb1" cellspacing="10" width="100%">
+							<table style="background-color: #e8efdc" border="1" align="center"   class="tb1" cellspacing="10" width="100%">
 								<tr>
-									<td>TB Screening:</td></tr>
+									<td>TB Screening:</td><td></td></tr>
 									<tr>
 									<td style="padding-left:25px;" colspan="2" align="left">
 										<obs conceptId="159800AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="832AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Weight loss" style="checkbox" />
 									</td>
+									<td></td>
 									</tr>
 									<tr>
 									<td style="padding-left:25px;" colspan="2" align="left">
 										<obs conceptId="159800AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="133027AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Night sweat" style="checkbox" />
 									</td>
+									<td></td>
 								</tr>
 								<tr>	
 									
 									<td style="padding-left:25px;" colspan="2" align="left">
 										<obs conceptId="159800AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1494AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Fever" style="checkbox" />
 									</td>
+									<td></td>
 									</tr>
 									<tr>
 									<td style="padding-left:25px;" colspan="2" align="left">
 										<obs conceptId="159800AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="159799AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Current cough" style="checkbox" />
 									</td>
+									<td></td>
 								</tr>
 								<tr>	
 									
 									<td style="padding-left:25px;" colspan="2" align="left">
 										<obs conceptId="159800AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="157524AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Lymph node enlargement" style="checkbox" />
 									</td>
+									<td></td>
 									</tr>
 									<tr>
 									<td style="padding-left:25px;" colspan="2" align="left">
 										<obs conceptId="159800AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="None of above" style="checkbox" />
 									</td>
-					
+					             <td></td>
 								</tr>
 								
 								
 								<tr>
-									<td>Refer to TB center:</td>
-									<td><obs conceptId="a4117059-0308-4399-930d-961688ed62ed" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" /></td>
+									<td>Refer to TB center:
+									<obs conceptId="a4117059-0308-4399-930d-961688ed62ed" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" /></td>
 								</tr>
 							</table>
 						</fieldset>		
@@ -393,9 +398,9 @@ var tbValues = getValue('tbSufferedPatient.value');
 							<template>
 								<table  style="border-spacing:15px;">
 								<tr>
-									<td  style="border: 1px solid black;padding: 5px;width:344px;height:50px;"><obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" style="autocomplete" type="autocomplete" labelText=" "  id="daig_value"/></td>
-									<td  style="border: 1px solid black;padding: 5px;width:344px;height:50px;"><obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" style="autocomplete" type="autocomplete" labelText=" "  id="daig_value1"/></td>
-									<td  style="border: 1px solid black;padding: 5px;width:344px;height:50px;"><obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" style="autocomplete" type="autocomplete" labelText=" "  id="daig_value2"/></td>
+									<td  style="border: 1px solid black;padding: 5px;"><obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" style="autocomplete" type="autocomplete" labelText=" "  id="daig_value"/></td>
+									<td  style="border: 1px solid black;padding: 5px;"><obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" style="autocomplete" type="autocomplete" labelText=" "  id="daig_value1"/></td>
+									<td  style="border: 1px solid black;padding: 5px;"><obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" style="autocomplete" type="autocomplete" labelText=" "  id="daig_value2"/></td>
 								</tr>
 								</table>	
 							</template>
@@ -420,8 +425,12 @@ var tbValues = getValue('tbSufferedPatient.value');
 			
 				<td style="padding-left:10px;"><br/><b>4. Performance Scale* :</b>
 					<obs conceptId="3e465918-cfd7-400c-9942-2b2a8d086e57" labelText=" " answerConceptIds="e8a480a7-1f05-402c-9adf-9acbd6ff446f,585dcf92-c42f-42af-ac44-fdd2fb66ae3a,a70cd549-aa63-4310-9a38-715dfc3ebbd2" style="dropdown"  answerLabels="A,B,C" id="performanceScale"/>
-				<br/></td>
+				<br/>
+			<br/></td>
+				<br/>
+			
 			</tr>
+			
 		</table>
 	</div>
 

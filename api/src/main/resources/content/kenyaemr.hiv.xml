@@ -42,12 +42,12 @@
 
 	<!-- ===================== Identifiers ===================== -->
 
-	<!-- Unique Patient Number -->
+	<!-- Unique Patient Number
 	<bean id="kenyaemr.hiv.identifier.upn" class="org.openmrs.module.kenyacore.identifier.IdentifierDescriptor">
 		<property name="targetUuid" value="${metadata.identifiertype.UNIQUE_PATIENT_NUMBER}" />
 		<property name="order" value="50" />
 	</bean>
-
+ -->
 	<!-- ===================== Forms ===================== -->
 
 	<!-- HIV Enrollment -->

@@ -2,9 +2,11 @@
 	ui.decorateWith("kenyaui", "panel", [ heading: "WHITE CARD" ])
 %>
 
+<!--08/02/2016 -->
+
 <style>
 td, th, table, tr{
-	padding : 5px;
+	padding : 2px;
 }
 </style>
 
@@ -43,73 +45,104 @@ td, th, table, tr{
 	
 	<div class="widget-content" id="printArea" width="100%">
 		
-		<table border="1" width="100%"  id="tablecontent" class="table2excel">
-			
-			<!--PATIENT DETAILS ==========================================================================================================================================-->
+		<!--PATIENT DETAILS ==========================================================================================================================================-->
+		<table border="1" width="100%">
 			<tr >
 				<td colspan="2" class="tbheader" bgcolor="#778899">
 					<center><strong>Patient Identification</strong></center>
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2" width="100%">
-					<table width="100%">
-						<tr>
-							<td width="50%">
-								<strong>Name : </strong>${ patientName }
-								</br><strong>Age : </strong>${ patientAge }
-								</br><strong>Date of Birth : </strong>${ birthDate }
-								</br><strong>Gender : </strong>${ patientGender }
-								</br><strong>Address : </strong> <small> ${ address.address1}.</small>
-								<% if (personWrap.telephoneContact) { %>
-									</br><strong>Patient's phone number : </strong><small> ${personWrap.telephoneContact}.</small>
-								<% } %>
-								</br><strong>Village/City : </strong><small> ${ address.cityVillage}.</small>
-								</br><strong>Township : </strong><small> ${ address.countyDistrict}.</small>
-								</br><strong>State or Region : </strong><small> ${ address.stateProvince}.</small></br>
-								
-								</br><strong>Date HIV+ test: </strong><small>${patientWrap.previousHivTestDate}</small>
-								</br><strong>Plcae: </strong><small>${patientWrap.previousHivTestPlace}</small>
-								</br><strong>Entry Point : </strong><small>${savedEntryPoint.valueCoded.name}</small></br>
-								
-								<% if (savedEntryPointValueDate) { %>
-									<strong>Name Previous Clinic: </strong><small>${savedEntryPoint.valueText}</small>
-									</br><strong>Date Transferred in: </strong><small>${savedEntryPointValueDate}</small></br>
-								<% } %>
-							</td>
-							<td width="50%" valign="top">
-								<% if (patientWrap.nextOfKinName) { %>
-									<strong>Treatment Supporter's Name: </strong><small>${patientWrap.nextOfKinName}</small>
-								<% } %>
-								<% if (patientWrap.nextOfKinAddress) { %>
-									</br><strong>Treatment Supporter's Address: </strong><small>${patientWrap.nextOfKinAddress}</small>
-								<% } %>
-								<% if (patientWrap.nextOfKinContact) { %>
-									</br><strong>Treatment Supporter's phone number: </strong><small>${patientWrap.nextOfKinContact}</small>
-								<% } %>
-							</td>
-						</tr>
+				<td width="50%">
+					<table>
+						<tr><td><strong>Name</strong></td><td> : ${ patientName }</td></tr>
+						<tr><td><strong>Age</strong></td><td align="left"> : ${ patientAge } </td></tr>
+						<tr><td><strong>Date of Birth</strong></td><td align="left"> : ${ birthDate } </td></tr>
+						<tr><td><strong>Gender</strong></td><td> : ${ patientGender } </td></tr>
+						<tr><td><strong>Address</strong> <small></td><td> : ${ address.address1}.</small> </td></tr>
+						<% if (personWrap.telephoneContact) { %>
+							<tr><td><strong>Patient's phone number</strong><small> </td><td align="left"> : ${personWrap.telephoneContact}.</small></td> </tr>
+						<% } %>
+						<tr><td><strong>Village/City</strong><small></td><td> : ${ address.cityVillage}.</small> </td></tr>
+						<tr><td><strong>Township</strong><small> </td><td> : ${ address.countyDistrict}.</small> </td></tr>
+						<tr><td><strong>State or Region</strong><small> </td><td> : ${ address.stateProvince}.</small></br> </td></tr>
+						
+						<tr><td><strong>Date HIV+ test</strong><small></td><td> : ${patientWrap.previousHivTestDate}</small> </td></tr>
+						<tr><td><strong>Plcae</strong><small></td><td> : ${patientWrap.previousHivTestPlace}</small> </td></tr>
+						<tr><td><strong>Entry Point</strong><small></td><td> : ${savedEntryPoint.valueCoded.name}</small></br> </td></tr>
+						
+						<% if (savedEntryPointValueDate) { %>
+							<tr><td><strong>Name Previous Clinic</strong><small></td><td> : ${savedEntryPoint.valueText}</small> </td></tr>
+							<tr><td><strong>Date Transferred in</strong><small></td><td align="left"> : ${savedEntryPointValueDate}</small></br> </td></tr>
+						<% } %>
 					</table>
-				</td>
-			</tr>
-			
-			<!--HISTORY ==========================================================================================================================================-->
-			<tr>
-				<td width="50%" colspan="1" valign="top">
+				</td>			
+				<td width="50%" valign="top" >
+					<table>
+						<% if (patientWrap.nextOfKinName) { %>
+							<tr><td><strong>Treatment Supporter's Name</strong></td> <td><small> : ${patientWrap.nextOfKinName}</small></td></tr>
+						<% } %>
+						<% if (patientWrap.nextOfKinAddress) { %>
+							<tr><td><strong>Treatment Supporter's Address</strong></td> <td><small> : ${patientWrap.nextOfKinAddress}</small></td></tr>
+						<% } %>
+						<% if (patientWrap.nextOfKinContact) { %>
+							<tr><td><strong>Treatment Supporter's phone number</strong></td> <td><small> : ${patientWrap.nextOfKinContact}</small></td></tr>
+						<% } %>
+					</table>
+					<br / ><br / ><br / >
 					<table border="0" width="100%">
 						<tr >
 							<td class="tbheader" bgcolor="#778899">
+								<center><strong>Antiretroviral treatment</strong></center>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<table border="1" width="100%">
+									<tr>
+										<td><strong>Date</strong></td>
+										<td><strong>Substitution, switch or stop</strong></td>
+										<td><strong>Reason</strong></td>
+										<td><strong>Date restart</strong></td>
+										<td><strong>New Regimen</strong></br></td>
+									</tr>
+									<% for ( rList in regimenList ) {  %>
+										<% def values = rList.value.split (",") %>	
+										<tr>
+											<td><% println  values[0] %> </td>
+											<td><% println  values[1] %> </td>
+											<td><% println  values[2] %> </td>
+											<td><% println  values[3] %> </td>
+											<td><% println  values[4] %> </br></td>
+										</tr>
+									<% } %>						
+								</table>
+							</td>
+						</tr>
+					</table>
+
+				</td>
+			</tr>
+		</table>
+		
+		<!--HISTORY ==========================================================================================================================================-->
+		<table border="1" width="100%" >
+			<tr>
+				<td width="50%" colspan="1" valign="top">
+					<table border="0" width="100%">
+						<tr>
+							<td colspan="2" class="tbheader" bgcolor="#778899">
 								<center><strong>Personal History</strong></center>
 							</td>
 						</tr>
 						<tr>
 							<td>
-								<strong>Risk Factor for HIV :</strong> ${listAllRiskFactor}
-								</br><strong>For IDus Substitution therapy :</strong>${iduStatusValue} (${iduNameValue})
-								</br><strong>Literate :</strong>${literate}
-								</br><strong>Employed :</strong>${employed}
-								</br><strong>Alcoholic :</strong>${alcoholic} (${alcoholicType})
-								</br><strong>Income :</strong>${income} Kyats
+								<tr><td><strong>Risk Factor for HIV</strong></td> <td> : ${listAllRiskFactor}</td></tr>
+								<tr><td><strong>For IDus Substitution therapy</strong></td> <td> : ${iduStatusValue} (${iduNameValue})</td></tr>
+								<tr><td><strong>Literate</strong></td> <td> : ${literate}</td></tr>
+								<tr><td><strong>Employed</strong></td> <td> : ${employed}</td></tr>
+								<tr><td><strong>Alcoholic</strong></td> <td> : ${alcoholic} (${alcoholicType})</td></tr>
+								<tr><td><strong>Income</strong></td> <td> : ${income} Kyats</td></tr>
 							</td>
 						</tr>
 					</table>
@@ -123,7 +156,7 @@ td, th, table, tr{
 							</td>
 						</tr>
 						<tr>
-							<td><strong>Marital Status: <strong> ${civilStatusVal}</br></td>
+							<td><strong>Marital Status: <strong> ${civilStatusVal}</td>
 						</tr>
 						
 						<tr>
@@ -153,10 +186,12 @@ td, th, table, tr{
 					</table>
 				</td>
 			</tr>
-			
+		</table>
+		
+		<table border="1" width="100%">
 			<!--DRUGS ========================================================================================================================================== -->
 			<tr>
-				<td width="50%" valign="top">
+				<td width="50%" valign="top" colspan="1">
 					<table width="100%">
 						<tr>
 							<td colspan="2" class="tbheader" bgcolor="#778899">
@@ -164,54 +199,49 @@ td, th, table, tr{
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2">
-								<table border="0" width="100%">
-									<tr>
-										<td>
-											<tr>
-												<td colspan="3"><strong>ART received : </strong>${artReceivedVal}</br></td>
-											</tr>
-											<tr>
-												<td colspan="3"><strong>If Yes : </strong>${artReceivedTypeValue}</br></td>
-											</tr>
-											<tr>
-												<td colspan="3"><strong>Place : </strong>${artReceivedPlaceValue}</br></td>
-											</tr>
-											<tr>
-												<td colspan="3"><strong>Duration : </strong>${drugDurationVal} months</br></td>
-											</tr>
-											<tr>
-												<td colspan="3"><strong>Drug Regimen : </strong>${drugNameVal}</br>
-												</td>
-											</tr>
-										</td>
-									</tr>
-								</table>
+							<td>
+								<tr>
+									<td><strong>ART received</strong></td><td> : ${artReceivedVal}</td>
+								</tr>
+								<tr>
+									<td><strong>If Yes</strong></td><td> : ${artReceivedTypeValue}</td>
+								</tr>
+								<tr>
+									<td><strong>Place</strong></td><td> : ${artReceivedPlaceValue}</td>
+								</tr>
+								<tr>
+									<td><strong>Duration</strong></td><td> : ${drugDurationVal} Months</br></td>
+								</tr>
+								<tr>
+									<td><strong>Drug Regimen</strong></td><td> : ${drugNameVal}</td>
+								</tr>
 							</td>
 						</tr>
+						
 					</table>
 				</td> 
 			
-			<!--Exposed-infant follow-up ========================================================================================================================================== -->
+		<!--Exposed-infant follow-up ========================================================================================================================================== -->
 				<td width="50%" valign="top">
 					<table width="100%">
 						<tr>
-							<td class="tbheader" bgcolor="#778899">
+							<td colspan="2" class="tbheader" bgcolor="#778899">
 								<center><strong>End of Follow-up for Antiretroviral therapy</strong></center>
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2">
-								<b>Reason: </b>${programDiscontinuationReasonVal} </br> 
-								<b>Date : </b>${dataPlaceVal}
+							<td >
+								<tr><td><b>Reason : </b></td> <td>${programDiscontinuationReasonVal}</td></tr>
+								<tr><td><b>Date : </b></td> <td>${dataPlaceVal}</td></tr>
 							</td>
 						</tr>
 					</table>
 				</td>
 			</tr>
-			
+		</table>
+		
+		<table border="1" width="100%">
 			<!--Exposed-infant follow-up ========================================================================================================================================== -->
-			
 			<tr >
 				<td colspan="2" class="tbheader" bgcolor="#778899">
 					<center><strong>Exposed Infant Follow Up</strong></center>
@@ -249,15 +279,9 @@ td, th, table, tr{
 						<% } %>
 					</table>
 				</td>
-			</tr>
+			</tr>	
 			
-			
-			
-			
-		</table>
-		<table border="1" id="HIVtable">
-			
-		<!--Patient HIV care & Antiretroviral treatment Follow-up============================================================================================================= -->
+			<!--Patient HIV care & Antiretroviral treatment Follow-up============================================================================================================= -->
 			<tr>
 				<td colspan="2" class="tbheader" bgcolor="#778899">
 					<center><strong>Patient HIV Care & Antiretroviral Treatment Follow Up</strong></center>
@@ -269,6 +293,7 @@ td, th, table, tr{
 				</td>
 			</tr>
 		</table>
+		
 	</div>
 	
 	</br></br>
