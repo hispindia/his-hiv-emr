@@ -139,15 +139,19 @@ public class EnterLabResultFragmentController {
 			if (changed) {
 				if (confirm) {
 					resultEncounter.setVoided(true);
+					resultEncounter.setVoidReason("Result Confirmed");
+					resultEncounter.setVoidedBy(Context.getAuthenticatedUser());
+					resultEncounter.setDateChanged(curDate);
 				}
 				resultEncounter.setEncounterDatetime(curDate);
+				/*not sure if we need this
 				try {
 					ValidateUtil.validate(resultEncounter);
 				} catch (APIException e) {
 					e.printStackTrace();
 					kenyaUi.notifyError(session, e.getMessage());
 					return SimpleObject.create("success", false, "errors", e.getMessage());
-				}
+				}*/
 				resultEncounter.setChangedBy(Context.getUserContext().getAuthenticatedUser());
 				Context.getEncounterService().saveEncounter(resultEncounter);
 			}
@@ -162,6 +166,9 @@ public class EnterLabResultFragmentController {
 			encounter.setEncounterDatetime(curDate);
 			if (confirm) {
 				encounter.setVoided(true);
+				encounter.setVoidReason("Result Confirmed");
+				encounter.setVoidedBy(Context.getAuthenticatedUser());
+				encounter.setDateChanged(curDate);
 			}
 			encounter.setDateChanged(curDate);
 			
@@ -186,13 +193,14 @@ public class EnterLabResultFragmentController {
 				}
 				encounter.addObs(obs);
 			}
+			/* not sure if we need this
 			try {
 				ValidateUtil.validate(encounter);
 			} catch (APIException e) {
 				e.printStackTrace();
 				kenyaUi.notifyError(session, e.getMessage());
 				return SimpleObject.create("success", false, "errors", e.getMessage());
-			}
+			}*/
 			encounter.setChangedBy(Context.getUserContext().getAuthenticatedUser());
 			encService.saveEncounter(encounter);
 		}

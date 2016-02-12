@@ -109,8 +109,10 @@ function calculateComment(conceptId) {
 }
 
 function confirmResult() {
-	jq("#confirm").val("true");
-	jq("#enterLabResultForm").submit();
+	if (confirm("You can't edit the Lab Result once it is confirmed. Are you sure ?")) {
+		jq("#confirm").val("true");
+		jq("#enterLabResultForm").submit();
+	} 
 }
 
 </script>
