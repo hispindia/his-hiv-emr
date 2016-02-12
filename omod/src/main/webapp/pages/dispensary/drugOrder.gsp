@@ -7,7 +7,7 @@
 
 </div>
 
-<form id="drug-order-form" method="post" action="${ ui.actionLink("kenyaemr", "patient/drugOrderList", "processDrugOrder") }">
+<form id="drug-order-form" method="post" action="${ ui.actionLink("kenyaemr", "dispensary/drugOrderList", "processDrugOrder") }">
 <div>
 <input size="5" id="slNoah" name="slNoah" value="S.No" disabled>
 	<input type="text" id="drugNameah" name="drugNameah" size="20" value="Drug Name" disabled>
@@ -20,7 +20,7 @@
 
 <div>
 
-	${ ui.includeFragment("kenyaemr", "patient/drugOrderList", [ patient: currentPatient ]) }
+	${ ui.includeFragment("kenyaemr", "dispensary/drugOrderList", [ patient: currentPatient ]) }
 
 </div>
 

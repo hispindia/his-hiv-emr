@@ -267,7 +267,7 @@ kenyaemrApp.controller('PatientSearchResults', ['$scope', '$http', function($sco
 	};
 	
 	$scope.viewDetails = function(patient) {
-		jQuery.ajax(ui.fragmentActionLink("kenyaemr", "dispensary/pastDispensingDrug", "dispensedDetails"), { data: { patientId: patient.id }, dataType: 'json'
+		jQuery.ajax(ui.fragmentActionLink("kenyaemr", "dispensary/pastDispensingDrug", "dispensedDetails"), { data: { patient: patient.id}, dataType: 'json'
 		}).done(function(data) {
 
 			var htmlText =  "<div class='ke-patientheader'>"

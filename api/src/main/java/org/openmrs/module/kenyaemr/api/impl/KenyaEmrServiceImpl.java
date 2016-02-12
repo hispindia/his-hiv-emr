@@ -356,6 +356,14 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 	public List<DrugObsProcessed> getObsDrugOrdersByProcessedDate(Date date) {
 		return dao.getObsDrugOrdersByProcessedDate(date);
 	}
+	
+	public List<DrugOrderProcessed> getDrugOrdersByPatientAndProcessedDate(Patient patient,Date processedDate) {
+		return dao.getDrugOrdersByPatientAndProcessedDate(patient,processedDate);
+	}
+	
+	public List<DrugObsProcessed> getObsDrugOrdersByPatientAndProcessedDate(Patient patient,Date processedDate) {
+		return dao.getObsDrugOrdersByPatientAndProcessedDate(patient,processedDate);
+	}
 
 	public List<DrugInfo> getDrugInfo() {
 		return dao.getDrugInfo();

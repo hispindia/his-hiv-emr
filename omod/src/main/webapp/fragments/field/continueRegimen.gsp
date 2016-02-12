@@ -25,7 +25,7 @@ def count=0;
         <input type="text" id="strength${count}" name="strength${count}" size="20" value="${continueRegim.units}" disabled>
         <input type="text" id="frequency${count}" name="frequency${count}" size="20" value="${continueRegim.frequency}" disabled>
         <input type="text" id="duration${continueRegim.concept.name}" name="duration${continueRegim.concept.name}" size="20">
-        <input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" size="5" id="info${count}" name="info${count}" value="Info" onClick="artDrugInfo('drugName${count}');" />
+        <input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" size="5" id="info${count}" name="info${count}" value="Info" onClick="artDrugInfoo('drugName${count}');" />
 	</div>
 	<% } %>
 </div>
@@ -52,18 +52,18 @@ def count=0;
 <% } %>
 
 <script type="text/javascript">
-function artDrugInfo(drugParameter){
+function artDrugInfoo(drugParameter){
 var drugName=jQuery('#'+drugParameter).val();
 jQuery.ajax(ui.fragmentActionLink("kenyaemr", "field/drugInfo", "drugDetails"), { data: { drugName: drugName }, dataType: 'json'
 						}).done(function(data) {druNam=data.drugName; toxicity=data.toxicity;riskFactor=data.riskFactor;suggestedManagement=data.suggestedManagement;
 						drugInteraction=data.drugInteraction;suggestedManagementInteraction=data.suggestedManagementInteraction;
-var htmlText =  "<table>"
+var htmlText =  "<table style='width: 100%'>"
                 +"<tr>"
                 +"<th>"
                 +"Drug Name&nbsp;"
                 +"</th>"
                 +"<th>"
-                +'Toxicity'
+                +'Toxicity&nbsp;'
                 +"</th>"
                  +"<th>"
                 +"Risk Factor&nbsp;"
@@ -104,33 +104,11 @@ var newElement = document.createElement('div');
 newElement.setAttribute("id", "drugDiv"); 
 newElement.innerHTML = htmlText;
 var fieldsArea = document.getElementById('drugInfoDiv');
+jQuery('#guideDiv').empty();
+jQuery('#drugInfoDiv').empty();
 fieldsArea.appendChild(newElement);
 var url = "#TB_inline?height=300&width=750&inlineId=drugDiv";
 tb_show("Drug Info",url,false);
  });
-}
-
-function guidee(){
-var age=${patient.age};
-if(age>12){
-var htmlText =  "<img src='${ ui.resourceLink('kenyaui', 'images/glyphs/flow_chart_adult.JPG') }' />"
-var newElement = document.createElement('div');
-newElement.setAttribute("id", "guideDivAdult"); 
-newElement.innerHTML = htmlText;
-var fieldsArea = document.getElementById('guideDiv');
-fieldsArea.appendChild(newElement);
-var url = "#TB_inline?height=750&width=1150&inlineId=guideDivAdult";
-tb_show("Guide",url,false);
-}
-else{
-var htmlText =  "<img src='${ ui.resourceLink('kenyaui', 'images/glyphs/flow_chart_child.JPG') }' />"
-var newElement = document.createElement('div');
-newElement.setAttribute("id", "guideDivChild"); 
-newElement.innerHTML = htmlText;
-var fieldsArea = document.getElementById('guideDiv');
-fieldsArea.appendChild(newElement);
-var url = "#TB_inline?height=750&width=1350&inlineId=guideDivChild";
-tb_show("Guide",url,false);
-}
 }
 </script>

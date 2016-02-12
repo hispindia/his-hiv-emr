@@ -242,15 +242,15 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	
 	public List<DrugOrderProcessed> getDrugOrdersByProcessedDate(Date date) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class,"drugOrderProcessed");
-			String dat = formatterExt.format(date);
-			String startFromDate = dat + " 00:00:00";
-			String endFromDate = dat + " 23:59:59";
-			try {
-				criteria.add(Restrictions.and(Restrictions.ge("processedDate", formatter.parse(startFromDate)),
-					    Restrictions.le("processedDate", formatter.parse(endFromDate))));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+		String dat = formatterExt.format(date);
+		String startFromDate = dat + " 00:00:00";
+		String endFromDate = dat + " 23:59:59";
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("processedDate", formatter.parse(startFromDate)),
+					Restrictions.le("processedDate", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		return criteria.list();
 	}
 	
@@ -264,6 +264,40 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				    Restrictions.le("processedDate", formatter.parse(endFromDate))));
 		} catch (ParseException e) {
 			e.printStackTrace();
+		}
+		return criteria.list();
+	}
+	
+	public List<DrugOrderProcessed> getDrugOrdersByPatientAndProcessedDate(Patient patient,Date processedDate) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class,"drugOrderProcessed");
+		criteria.add(Restrictions.eq("patient", patient));
+		if(processedDate!=null){
+		String dat = formatterExt.format(processedDate);
+		String startFromDate = dat + " 00:00:00";
+		String endFromDate = dat + " 23:59:59";
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("processedDate", formatter.parse(startFromDate)),
+					Restrictions.le("processedDate", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		}
+		return criteria.list();
+	}
+	
+	public List<DrugObsProcessed> getObsDrugOrdersByPatientAndProcessedDate(Patient patient,Date processedDate) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugObsProcessed.class,"DrugObsProcessed");
+		criteria.add(Restrictions.eq("patient", patient));
+		if(processedDate!=null){
+		String dat = formatterExt.format(processedDate);
+		String startFromDate = dat + " 00:00:00";
+		String endFromDate = dat + " 23:59:59";
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("processedDate", formatter.parse(startFromDate)),
+				    Restrictions.le("processedDate", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		}
 		return criteria.list();
 	}

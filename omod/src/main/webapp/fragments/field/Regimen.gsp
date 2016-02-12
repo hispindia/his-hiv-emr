@@ -214,7 +214,7 @@ var drugName=jQuery('#'+drugParameter).find("option:selected").text();
 jQuery.ajax(ui.fragmentActionLink("kenyaemr", "field/drugInfo", "drugDetails"), { data: { drugName: drugName }, dataType: 'json'
 						}).done(function(data) {druNam=data.drugName; toxicity=data.toxicity;riskFactor=data.riskFactor;suggestedManagement=data.suggestedManagement;
 						drugInteraction=data.drugInteraction;suggestedManagementInteraction=data.suggestedManagementInteraction;
-var htmlText =  "<table>"
+var htmlText =  "<table style='width: 100%'>"
                 +"<tr>"
                 +"<th>"
                 +"Drug Name&nbsp;"
@@ -261,6 +261,8 @@ var newElement = document.createElement('div');
 newElement.setAttribute("id", "drugDiv"); 
 newElement.innerHTML = htmlText;
 var fieldsArea = document.getElementById('drugInfoDiv');
+jQuery('#guideDiv').empty();
+jQuery('#drugInfoDiv').empty();
 fieldsArea.appendChild(newElement);
 var url = "#TB_inline?height=300&width=750&inlineId=drugDiv";
 tb_show("Drug Info",url,false);
@@ -268,6 +270,8 @@ tb_show("Drug Info",url,false);
 }
 
 function guidee(){
+jQuery('#guideDiv').empty();
+jQuery('#drugInfoDiv').empty();
 var age=${patient.age};
 if(age>12){
 var htmlText =  "<img src='${ ui.resourceLink('kenyaui', 'images/glyphs/flow_chart_adult.JPG') }' />"
