@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.openmrs.Concept;
+import org.openmrs.DrugOrder;
 import org.openmrs.Encounter;
 import org.openmrs.Obs;
+import org.openmrs.Order;
 import org.openmrs.Patient;
 import org.openmrs.Person;
 import org.openmrs.api.context.Context;
@@ -41,9 +43,9 @@ public class ArtRegisterFragmentController {
 		model.addAttribute("patientWrap", wrapperPatient);
 		model.addAttribute("personWrap", wrapperPerson);
 
-		/*
+		/**
 		 * Obstetric History
-		 */
+		 
 		String pregStatusVal = "";
 		String eddVal = "";
 		String ancNumberVal = "";
@@ -101,6 +103,104 @@ public class ArtRegisterFragmentController {
 		}
 		model.addAttribute("infantList", infantList);
 
+		*/
+		
+		
+		/*
+		 * Drug History
+		 */
+		String artReceivedVal = "";
+
+		Obs artReceived = getAllLatestObs(patient,
+				Dictionary.DRUG_HISTORY_ART_RECEIVED);
+		if (artReceived != null) {
+			EncounterWrapper wrapped = new EncounterWrapper(
+					artReceived.getEncounter());
+			List<Obs> obsList = wrapped.allObs(artReceived.getConcept());
+			for (Obs obs : obsList) {
+				artReceivedVal = artReceivedVal.concat(obs.getValueCoded()
+						.getName().toString());
+			}
+		}
+		model.addAttribute("artReceivedVal", artReceivedVal);
+
+		String artReceivedTypeValue = "";
+
+		Obs artReceivedType = getAllLatestObs(patient,
+				Dictionary.DRUG_HISTORY_ART_RECEIVED_TYPE);
+		if (artReceivedType != null) {
+			EncounterWrapper wrapped = new EncounterWrapper(
+					artReceivedType.getEncounter());
+			List<Obs> obsList = wrapped.allObs(artReceivedType.getConcept());
+			for (Obs obs : obsList) {
+				artReceivedTypeValue = artReceivedTypeValue.concat(obs
+						.getValueCoded().getName().toString());
+			}
+		}
+		model.addAttribute("artReceivedTypeValue", artReceivedTypeValue);
+
+		String artReceivedPlaceValue = "";
+
+		Obs artReceivedPlace = getAllLatestObs(patient,
+				Dictionary.DRUG_HISTORY_ART_RECEIVED_PLACE);
+		if (artReceivedPlace != null) {
+			EncounterWrapper wrapped = new EncounterWrapper(
+					artReceivedPlace.getEncounter());
+			List<Obs> obsList = wrapped.allObs(artReceivedPlace.getConcept());
+			for (Obs obs : obsList) {
+				artReceivedPlaceValue = artReceivedPlaceValue.concat(obs
+						.getValueCoded().getName().toString());
+			}
+		}
+		model.addAttribute("artReceivedPlaceValue", artReceivedPlaceValue);
+
+		String drugStartDateVal = "";
+		Obs drugStartDate = getAllLatestObs(patient, Dictionary.ART_START_DATE_DRUG_HISTORY);
+		if (drugStartDate != null) {
+			EncounterWrapper wrapped = new EncounterWrapper(
+					drugStartDate.getEncounter());
+			List<Obs> obsList = wrapped.allObs(drugStartDate
+					.getConcept());
+			for (Obs obs : obsList) {
+				drugStartDateVal = new SimpleDateFormat("dd-MMMM-yyyy").format(obs.getValueDate());
+			}
+		}
+		
+		model.addAttribute("drugStartDateVal", drugStartDateVal);
+		
+		String drugDurationVal = "";
+		Obs drugDuration = getAllLatestObs(patient, Dictionary.DRUG_DURATION);
+		if (drugDuration != null) {
+			EncounterWrapper wrapped = new EncounterWrapper(
+					drugDuration.getEncounter());
+			List<Obs> obsList = wrapped.allObs(drugDuration
+					.getConcept());
+			for (Obs obs : obsList) {
+					drugDurationVal = drugDurationVal.concat(obs
+							.getValueNumeric().toString());
+			}
+		}
+		
+		model.addAttribute("drugDurationVal", drugDurationVal);
+
+		String drugNameVal = "";
+		Obs drugName = getAllLatestObs(patient, Dictionary.DRUG_NAME);
+		if (drugName != null) {
+			EncounterWrapper wrapped = new EncounterWrapper(
+					drugName.getEncounter());
+			List<Obs> obsList = wrapped.allObs(drugName.getConcept());
+
+			for (Obs obs : obsList) {
+				if (drugNameVal.isEmpty()) {
+					drugNameVal = drugNameVal.concat(obs
+							.getValueCoded().getName().toString());
+				} else {
+					drugNameVal = drugNameVal.concat(", "
+							+ obs.getValueCoded().getName().toString());
+				}
+			}
+		}
+		model.addAttribute("drugNameVal", drugNameVal);
 	
 		/*
 		 * Encounter details
@@ -119,6 +219,41 @@ public class ArtRegisterFragmentController {
 		model.addAttribute("artInitiationDate", new SimpleDateFormat(
 				"dd-MMMM-yyyy").format(dateArt));
 
+		
+		/*
+		 * Get regimen history
+		 * */
+		Map<Integer, String> regimenList = new HashMap<Integer, String>();
+		Integer regimenIndex = 0;
+		
+		List<DrugOrder> orderList =  Context.getOrderService().getDrugOrdersByPatient(patient);
+		
+		List<Encounter> encounterList =  Context.getEncounterService().getEncounters(patient);
+		for(Encounter en : encounterList ){
+			String regName = "";
+			String changeStopReason = "";
+			if(en.getEncounterType().getUuid().equals("00d1b629-4335-4031-b012-03f8af3231f8")){
+				List<Order> orderListByEn =  Context.getOrderService().getOrdersByEncounter(en);
+					for(Order o : orderListByEn){
+						DrugOrder dr = Context.getOrderService().getDrugOrder(o.getOrderId());
+						if(regName.equals("")){
+							regName = regName.concat(dr.getConcept().getName() + "(" + dr.getDose()+dr.getUnits()+" "+dr.getFrequency()+")");	
+						}
+						else{
+							regName = regName.concat(" + " +dr.getConcept().getName() + "(" + dr.getDose()+dr.getUnits()+" "+dr.getFrequency()+")");
+						}
+						if(dr.getDiscontinuedReason()!=null){
+							changeStopReason = dr.getDiscontinuedReason().getName().toString();	
+						}
+					}
+					
+					if(regName!=""){
+						regimenList.put(regimenIndex,new SimpleDateFormat("dd-MMMM-yyyy").format(en.getDateCreated()) + ", " + changeStopReason+ ","+ new SimpleDateFormat("dd-MMMM-yyyy").format(en.getDateCreated()) + ","+regName  );
+						regimenIndex++;
+					}
+				}
+		}
+		model.addAttribute("regimenList", regimenList);
 		
 		/*
 		 * HIV discontinuation part
@@ -141,15 +276,18 @@ public class ArtRegisterFragmentController {
 		model.addAttribute("dicontinuationDateVal", dicontinuationDateVal);
 		
 		
-		
-
-		model.addAttribute("graphingConcepts", Dictionary.getConcepts(
-				Dictionary.TUBERCULOSIS_TREATMENT_NUMBER,
-				Dictionary.TUBERCULOSIS_DRUG_TREATMENT_START_DATE,
-				Dictionary.CURRENT_WHO_STAGE,Dictionary.WEIGHT_KG,Dictionary.CD4_COUNT, Dictionary.CD4_PERCENT,Dictionary.TUBERCULOSIS_TREATMENT_NUMBER, Dictionary.TUBERCULOSIS_DRUG_TREATMENT_START_DATE));
-		
-		
-		
+		if(patient.getAge() > 12){
+			model.addAttribute("graphingConcepts", Dictionary.getConcepts(
+					Dictionary.TUBERCULOSIS_TREATMENT_NUMBER,
+					Dictionary.TUBERCULOSIS_DRUG_TREATMENT_START_DATE,Dictionary.PERFORMANCE,
+					Dictionary.CURRENT_WHO_STAGE,Dictionary.WEIGHT_KG,Dictionary.CD4_COUNT));
+		}
+		else{
+			model.addAttribute("graphingConcepts", Dictionary.getConcepts(
+					Dictionary.TUBERCULOSIS_TREATMENT_NUMBER,
+					Dictionary.TUBERCULOSIS_DRUG_TREATMENT_START_DATE,Dictionary.PERFORMANCE,
+					Dictionary.CURRENT_WHO_STAGE,Dictionary.WEIGHT_KG, Dictionary.CD4_PERCENT));
+		}
 	}
 
 	private Obs getLatestObs(Patient patient, String conceptIdentifier) {

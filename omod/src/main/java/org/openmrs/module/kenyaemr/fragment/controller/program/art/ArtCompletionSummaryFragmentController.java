@@ -38,7 +38,7 @@ public class ArtCompletionSummaryFragmentController {
 
 		Map<String, Object> dataPoints = new LinkedHashMap<String, Object>();
 
-		/*
+		
 		dataPoints.put("End of Follow up Date", enrollment.getDateCompleted());
 
 		if (showClinicalData && enrollment.getOutcome() != null) {
@@ -50,10 +50,11 @@ public class ArtCompletionSummaryFragmentController {
 
 			Obs reasonObs = wrapper.firstObs(Dictionary.getConcept(Dictionary.DATE_LAST_VISIT));
 			if (reasonObs != null) {
-				dataPoints.put("Last Dat of Visit", reasonObs.getValueDatetime());
+				dataPoints.put("Last Date of Visit", reasonObs.getValueDatetime());
 			}
-		}*/
+		}
 
+		//dataPoints.put("Last Date of Visit", "hi");
 		model.put("dataPoints", dataPoints);
 		return "view/dataPoints";
 	}

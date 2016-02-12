@@ -12,7 +12,25 @@
   ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
 -->
 <htmlform>
+              <style type="text/css">
+		table.tb {
+			background-color: #c7d8a7;
+			border: 1px solid black;
+			
+		}
+		table.tb1 {
+			border: 1px solid black;
+			vertical-align: baseline;
+			text-align: left;
+			background-color: #FFFFFF;
+		}
+		table.tb1 tr th,table.tb1 tr td{
+			border: 0;
+			padding: 5px;
+		}
+		
 
+	</style>
 	<script type="text/javascript">
 		function onWeightOrHeightChange() {
 			var display = '';
@@ -38,7 +56,7 @@
 	</script>
 
 	<div class="ke-form-header">
-		<table style="width: 100%">
+		<table width="100%" align="center" style="background-color: #c7d8a7">
 			<tr>
 				<td align="left">Date: <encounterDate id="encounter-date" showTime="true"/></td>
 				<td align="right">Location: <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete" /></td>
@@ -46,16 +64,16 @@
 		</table>
 	</div>
 
-	<div class="ke-form-content">
+	<div class="ke-form-content" style="width:100%;   padding: 2px;">
 
 		<fieldset>
 			
 
-			<table>
+			<table style="background-color: #e8efdc"  align="center"  border="0" class="tb1" cellspacing="10" width="40%">
 				<tr>
-					<th></th>
-					<th></th>
-					<th style="padding-left:40px"><b>Reference range</b></th>
+					<th  style="background-color: #c7d8a7"></th>
+					<th style="background-color: #c7d8a7"></th>
+					<th style="background-color: #c7d8a7;padding-left:40px"><b>Reference range</b></th>
 				</tr>
 				<tr>
 					<td>Temp</td>

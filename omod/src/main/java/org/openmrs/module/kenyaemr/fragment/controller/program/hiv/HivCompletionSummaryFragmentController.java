@@ -49,7 +49,7 @@ public class HivCompletionSummaryFragmentController {
 
 			Obs reasonObs = wrapper.firstObs(Dictionary.getConcept(Dictionary.DATE_LAST_VISIT));
 			if (reasonObs != null) {
-				dataPoints.put("Last Dat of Visit", reasonObs.getValueDatetime());
+				dataPoints.put("Last Date of Visit", reasonObs.getValueDatetime());
 			}
 		}
 

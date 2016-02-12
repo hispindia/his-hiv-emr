@@ -15,27 +15,44 @@
 	<script type="text/javascript">
 		jq(document).ready(function () {
 			
-			if (getValue('artReceived.value') == 1066) {
-				jq('#artReceivedName :input').prop('disabled', true);
-				jq('#artReceivedPlace :input').prop('disabled', true);
-				jq('#otherArtReceivedPlace :input').prop('disabled', true);
-			}
-			else {
+			if (getValue('artReceived.value') == 1065) {
 				jq('#artReceivedName :input').prop('disabled', false);
 				jq('#artReceivedPlace :input').prop('disabled', false);
 				jq('#otherArtReceivedPlace :input').prop('disabled', false);
+				jq('#sDate1 :input').prop('disabled', false);
+				jq('#eDate1 :input').prop('disabled', false);
+				jq('#duration1 :input').prop('disabled', false);
+				jq('#table1 :input').prop('disabled', false);
+			}
+			else {
+				jq('#artReceivedName :input').prop('disabled', true);
+				jq('#artReceivedPlace :input').prop('disabled', true);
+				jq('#otherArtReceivedPlace :input').prop('disabled', true);
+				jq('#sDate1 :input').prop('disabled', true);
+				jq('#eDate1 :input').prop('disabled', true);
+				jq('#duration1 :input').prop('disabled', true);
+				jq('#table1 :input').prop('disabled', true);
+				
 			}
 		
 			jq("#artReceived input:radio").change(function() {
-				if (getValue('artReceived.value') == 1066) {
-					jq('#artReceivedName :input').prop('disabled', true);
-					jq('#artReceivedPlace :input').prop('disabled', true);
-					jq('#otherArtReceivedPlace :input').prop('disabled', true);
-				}
-				else {
+				if (getValue('artReceived.value') == 1065) {
 					jq('#artReceivedName :input').prop('disabled', false);
 					jq('#artReceivedPlace :input').prop('disabled', false);
 					jq('#otherArtReceivedPlace :input').prop('disabled', false);
+					jq('#sDate1 :input').prop('disabled', false);
+					jq('#eDate1 :input').prop('disabled', false);
+					jq('#duration1 :input').prop('disabled', false);
+					jq('#table1 :input').prop('disabled', false);
+				}
+				else {
+					jq('#artReceivedName :input').prop('disabled', true);
+					jq('#artReceivedPlace :input').prop('disabled', true);
+					jq('#otherArtReceivedPlace :input').prop('disabled', true);
+					jq('#sDate1 :input').prop('disabled', true);
+					jq('#eDate1 :input').prop('disabled', true);
+					jq('#duration1 :input').prop('disabled', true);
+					jq('#table1 :input').prop('disabled', true);
 				}
 			});
 			
@@ -63,7 +80,7 @@
 			}
 			else {
 				jq('#drugName :input').prop('disabled', false);
-
+				
 				if(getValue('drugName.value')!=5622){
 					jq('#otherDrugName :input').prop('disabled', true);						
 				}
@@ -215,11 +232,11 @@
 		</tr>		
 		<tr>
 			<td>Duration</td>
-			<td><obs id="duration1" conceptId="24646d76-c162-4bcd-b611-4a34e3f98123"/></td>
+			<td><obs id="duration1" conceptId="24646d76-c162-4bcd-b611-4a34e3f98123" />months</td>
 		</tr>		
 		<tr>
 			<td colspan="2">
-				<table id="table1" border="1, solid" cellspacing="1" cellpadding="1" width="300" style="margin-left: 0px; !important;">
+				<table id="table1" cellspacing="1" cellpadding="1" width="300" style="margin-left: 0px; !important;">
 					<thead>
 						<tr>
 							<th width="15%" border="1px ,solid">Sr. No</th>

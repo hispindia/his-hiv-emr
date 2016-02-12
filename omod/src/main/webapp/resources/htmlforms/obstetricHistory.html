@@ -43,9 +43,13 @@
 				
 				jq('#ifYesPregnancy :input').prop('disabled', true);
 			}
-			else {
+			else if(getValue('isPregnant.value') == 1065){
 				jq('#ifNoPregnancy :input').prop('disabled', true);
 				jq('#ifYesPregnancy :input').prop('disabled', false);
+			}
+			else{
+				jq('#ifNoPregnancy :input').prop('disabled', true);
+				jq('#ifYesPregnancy :input').prop('disabled', true);
 			}
 		
 			jq("#isPregnant input:radio").change(function() {

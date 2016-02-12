@@ -13,9 +13,10 @@
 -->
 <htmlform>
 
+
 	<style type="text/css">
 		.ke-form-content textarea {
-			width: 90%;
+			width: 100%;
 		}
 	</style>
 	<script type="text/javascript">
@@ -31,28 +32,28 @@
 			
 	</script>		
 	<div class="ke-form-header">
-		<table width="100%">
+		<table width="100%" align="center" style="background-color: #c7d8a7">
 			<tr>
-				<td>Date: <encounterDate id="encounter-date" showTime="true"/></td>
-				<td>Location: <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete" /></td>
+				<td  align="left">Date: <encounterDate id="encounter-date" showTime="true"/></td>
+				<td align="right">Location: <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete" /></td>
 			</tr>
 		</table>
 	</div>
 
-	<div class="ke-form-content">
-			<table>
+	<div class="ke-form-content"  style="width: 100%;   padding: 2px;" >
+			<table style="background-color: #e8efdc" align="center"   cellspacing="10" width="100%">
 					<tr>
-						<td>1. Date of Admission :</td>
-						<td><obs conceptId="b36da368-4705-4582-b213-74a7a990aff8" /></td>
+						<td style="padding: 5px;">1. Date of Admission :<obs conceptId="b36da368-4705-4582-b213-74a7a990aff8" /></td>
+						
 
 					</tr>
 					<tr>
-						<td>2. Date of Discharge :</td>
-						<td><obs conceptId="1641AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
+						<td style="padding: 5px;">2. Date of Discharge :<obs conceptId="1641AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
+						
 
 					</tr>
 			</table>
-			<table>
+			<table style="background-color: #e8efdc" align="center"   cellspacing="10" width="100%">
 					<tr>
 						<td colspan="2"><hr/></td>
 					</tr>
@@ -67,7 +68,7 @@
 						<div id="opportunisticInfectionYes">
 							<repeat>
 								<template>
-									<table style="border-spacing: 15px;">
+									<table style="border: 1px solid black;border-spacing: 15px;">
 										<tr>
 											<td style="border: 1px solid black;padding: 5px;"><obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" style="autocomplete" type="autocomplete" labelText=" "  id="daig_value"/></td>
 											<td style="border: 1px solid black;padding: 5px;"><obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" style="autocomplete" type="autocomplete" labelText=" "  id="daig_value1"/></td>
@@ -86,9 +87,8 @@
 					<td colspan="2"><hr/></td>
 				</tr>
 			</table>
-		</div>
-		<div>
-			<table>
+		
+			<table style="background-color: #e8efdc" align="center"   cellspacing="10" width="100%">
 					<tr  align="left" width="60%">
 						<td valign="top" colspan="2">
 							<div id="opportunisticInfectionYes">
@@ -101,7 +101,7 @@
 											<td>
 												<div class="ke-form-content">
 													<div style="text-align: left">
-														<obs conceptId="f52c4552-15aa-412c-b184-f17dd7c9fe6c" rows="5" cols="100" style="textarea" />
+														<obs conceptId="f52c4552-15aa-412c-b184-f17dd7c9fe6c" rows="5" cols="50" style="textarea" />
 													</div>
 												</div>	
 											</td>

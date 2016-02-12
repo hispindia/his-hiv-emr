@@ -101,7 +101,6 @@ td, th, table, tr{
 								<table border="1" width="100%">
 									<tr>
 										<td><strong>Date</strong></td>
-										<td><strong>Substitution, switch or stop</strong></td>
 										<td><strong>Reason</strong></td>
 										<td><strong>Date restart</strong></td>
 										<td><strong>New Regimen</strong></br></td>
@@ -112,8 +111,8 @@ td, th, table, tr{
 											<td><% println  values[0] %> </td>
 											<td><% println  values[1] %> </td>
 											<td><% println  values[2] %> </td>
-											<td><% println  values[3] %> </td>
-											<td><% println  values[4] %> </br></td>
+											<td><% println  values[3] %></br> </td>
+											
 										</tr>
 									<% } %>						
 								</table>

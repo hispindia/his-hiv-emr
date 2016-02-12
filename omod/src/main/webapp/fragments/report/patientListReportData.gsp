@@ -33,7 +33,9 @@
 		<%
 			dataSet.rows.each { row ->
 				def patientId = row.getColumnValue("id")
-				def personName = row.getColumnValue("Name")
+				//remove null values from each row
+				def rowName = row.getColumnValue("Name")
+				def personName = rowName.toString().replaceAll("['\\(NULL\\)',]",'')
 				def personGender = row.getColumnValue("Sex").toLowerCase()
 		%>
 			<tr>

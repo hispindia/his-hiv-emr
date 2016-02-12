@@ -9,24 +9,24 @@
 	<div class="widget-content">
 		
 			
-		<table id="table1"  width="100%" border="1" bordercolor="#000000" style="vertical-align:top">
+		<table id="table1"  width="100%" border="1" bordercolor="#000000" style="vertical-align:top" >
+        <tr>
+        <td width="100%" colspan="7">
+        <table border="1" width="100%" style="vertical-align:top">
 		<tr bgcolor="#778899">
-				<td colspan="4">
+				<td colspan="7">
 					<h4><strong><center>Patient Identification</center> </strong></h4>
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2" style="text-align: left; vertical-align: top; width: 30%; padding-left:1%">
+				<td colspan="3" style="text-align: left; vertical-align: top;  padding-left:1%">
 				
 						<br/><strong>Date  of start of ART : </strong> 
 						<br/> <strong>Registration Number :</strong> 
 						<br/><strong>Name : </strong>
 						<br/><strong>Address : </strong>
-						<br/><strong>Village/City : </strong>
-						<br/><strong>Township : </strong>
-						<br/><strong>State or Region : </strong>
 						<% if (personWrap.telephoneContact) { %>
-						<br/><strong>Patient's phone number : </strong>
+						<br/><strong>Patient's contact number : </strong>
 						<% } %>
 						<br/><strong>Age : </strong>
 						<br/><strong>Date of Birth :</strong>
@@ -43,15 +43,13 @@
 						<br/>
 						 
 				</td>
-                <td colspan="2" style="text-align: left; vertical-align: top; width: 70%; padding-left:1%">
+                <td colspan="4" style="text-align: left; vertical-align: top;  padding-left:1%">
 				
 						<br/> ${artInitiationDate}
 						<br/>  ${patientWrap.napArtRegistrationNumber  }
 						<br/>${ patientName }
-						<br/><small> ${ address.address1}.</small>
-						<br/><small> ${ address.cityVillage}.</small>
-						<br/><small> ${ address.countyDistrict}.</small>
-						<br/><small> ${ address.stateProvince}.</small>
+						<br/><% if(address.address1) { %> ${ address.address1},  <%} %> <% if(address.cityVillage) { %> ${address.cityVillage}, <%} %>
+							<% if(address.countyDistrict) { %> ${ address.countyDistrict},  <%} %> <% if(address.stateProvince) { %> ${address.stateProvince} <%} %>
 						<% if (personWrap.telephoneContact) { %>
 						<br/><small> ${personWrap.telephoneContact}.</small>
 						<% } %>
@@ -71,43 +69,108 @@
 					
 				</td>
 			</tr>	
+            </table>
+            </td>
+            </tr>
 				
-			
+								<!--DRUGS ========================================================================================================================================== -->
+			<tr>
+				<td  valign="top" colspan="3">
+					<table width="100%" border="1">
+						<tr>
+							<td colspan="3" class="tbheader" bgcolor="#778899">
+								<center><strong>Drug History</strong></center>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="1">
+								<% if(artReceivedVal) { %>
+								<strong>ART received</strong></td><td colspan="2"> : ${artReceivedVal}</td>
+								</tr>
+                                <tr>
+									<td colspan="1">
+								<% } %>
+								<%if(artReceivedTypeValue) {%>  
+								<strong>If Yes</strong></td><td colspan="2"> : ${artReceivedTypeValue}</td>
+								</tr>
+                                <tr>
+									<td colspan="1">
+								<% } %>
+								<% if(artReceivedPlaceValue) {  %>
+								<strong>Place</strong></td><td colspan="2"> : ${artReceivedPlaceValue}</td>
+								</tr>
+                                <tr>
+									<td colspan="1">
+								<% } %>
+								<% if(drugStartDateVal) {  %>								
+								<strong>Start Date</strong></td><td colspan="2"> : ${drugStartDateVal}</br></td>
+								</tr>
+                                <tr>
+									<td colspan="1">
+								<% } %>
+								<% if(drugDurationVal) {  %>
+								<strong>Duration</strong></td><td colspan="2"> : ${drugDurationVal} Months</br></td>
+								</tr>
+                                <tr>
+									<td colspan="1">
+								<% } %>
+								<%  if(drugNameVal) {  %>								
+								<strong>Drug Regimen</strong></td><td colspan="2"> : ${drugNameVal}</td>
+								
+								<% }  %>	</tr>	</table>						
+							</td>
+						<td valign="top" colspan="4">
+						
+					<table border="1" width="100%">
+						<tr >
+							<td colspan="4"  bgcolor="#778899">
+								<center><strong>Antiretroviral treatment</strong></center>
+							</td>
+						</tr>
+						<tr>
+							
+										<td colspan="1" style="padding-left:1%"><strong>Date</strong></td>
+										<td colspan="1" style="padding-left:1%"><strong>Reason</strong></td>
+										<td colspan="1" style="padding-left:1%"><strong>Date restart</strong></td>
+										<td colspan="1" style="padding-left:1%"><strong>New Regimen</strong></br></td>
+									</tr>
+									<% for ( rList in regimenList ) {  %>
+										<% def values = rList.value.split (",") %>	
+										<tr>
+											<td colspan="1" style="padding-left:1%"><% println  values[0] %> </td>
+											<td colspan="1" style="padding-left:1%"><% println  values[1] %> </td>
+											<td colspan="1" style="padding-left:1%"><% println  values[2] %> </td>
+											<td colspan="1" style="padding-left:1%"><% println  values[3] %></br> </td>
+											
+										
+									<% } %>	
+                                    </tr>					
+								</table>
+							</td>
+						</tr>
+					
 		
-		<tr bgcolor="#778899">
-				<td colspan="4">
+		<tr >
+        <td width="100%" colspan="7">
+        <table width="100%" border="1">
+             <tr bgcolor="#778899">
+				<td colspan="7" valign="top">
 					<h4><strong><center>ART details</center></strong></h4>
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2" style="text-align: left; vertical-align: top;  width: 30%; padding-left:1%">
-						<strong> 
-						<br/>Pregnancy : </strong>
-						<br/><strong>EDD : </strong>
-						<br/><strong>ANC No. :</strong> 
-						<strong><br/>Infant No./Name - </strong> 
+				<td colspan="3" style="text-align: left; vertical-align: top;  width: 30%; padding-left:1%">
+												
 						
-						<br/>
-						<br/><strong>Date and Cause of end of follow-up</strong>
-						<br/><strong>Cause : </strong>
-						<br/><strong>Date : </strong>
-						<br/>
+						
+						<br/><strong>End of follow-up Cause : </strong>
+						<br/><strong>End of follow-up Date : </strong>
 						<br/>
 						
 				</td>
-                <td colspan="2" style="text-align: left; vertical-align: top; width: 70%; padding-left:1%">
+                <td colspan="4" style="text-align: left; vertical-align: top; width: 70%; padding-left:1%">
 						
-						<br/> ${pregStatusVal}
-						<br/> ${eddVal}
-						<br/> ${ancNumberVal}
-						<br/>  
-						<% 
-						infantList.eachWithIndex { infant , i ->
-  						  println "${i+1}. ${infant.value}"
-						};
-						%>
-						<br/>
-						<br/>
+						
 						<br/>${dicontinuationReasonVal}
 						<br/>${dicontinuationDateVal}
 						<br/>
@@ -115,10 +178,12 @@
 						
 				</td>
 			</tr>
-            
+            </table>
+            </td>
+            </tr>
 			
 			<tr>
-				<td colspan="8" bordercolor="#000000" width="50%" valign="top">
+				<td colspan="7" bordercolor="#000000" width="50%" valign="top">
 					${ ui.includeFragment("kenyaui", "widget/obsHistoryTable", [ id: "tblhistory", patient: currentPatient, concepts: graphingConcepts ]) }
 				</td>
 				

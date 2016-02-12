@@ -678,13 +678,12 @@ public class WhiteCardFragmentController {
 					}
 					
 					if(regName!=""){
-						regimenList.put(regimenIndex,new SimpleDateFormat("dd-MMMM-yyyy").format(en.getDateCreated()) + ", ," + changeStopReason+ ","+ new SimpleDateFormat("dd-MMMM-yyyy").format(en.getDateCreated()) + ","+regName  );
+						regimenList.put(regimenIndex,new SimpleDateFormat("dd-MMMM-yyyy").format(en.getDateCreated()) + ", " + changeStopReason+ ","+ new SimpleDateFormat("dd-MMMM-yyyy").format(en.getDateCreated()) + ","+regName  );
 						regimenIndex++;
 					}
 				}
 		}
 		model.addAttribute("regimenList", regimenList);
-		//Context.getOrderService().getOrders();
 
 		
 //		List<DrugOrder> completedOrders = new ArrayList<DrugOrder>();
