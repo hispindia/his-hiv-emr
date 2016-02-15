@@ -55,12 +55,12 @@ public class DrugOrderListFragmentController {
                 	drugOrder.setDrug(obsDrugOrder.getValueCoded().getName().toString());		
         		}
         		
-                if(obsDrugOrder.getConcept().getUuid().equals("1443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")){
-                	drugOrder.setFormulation(obsDrugOrder.getValueNumeric().toString());	
+                if(obsDrugOrder.getConcept().getUuid().equals("162384AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")){
+                	drugOrder.setFormulation(obsDrugOrder.getValueCoded().getName().toString());	
         		}
                 
-                if(obsDrugOrder.getConcept().getUuid().equals("1444AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")){
-                	drugOrder.setStrength(obsDrugOrder.getValueText());	
+                if(obsDrugOrder.getConcept().getUuid().equals("1443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")){
+                	drugOrder.setStrength(obsDrugOrder.getValueNumeric().toString());	
         		}
                 
                 if(obsDrugOrder.getConcept().getUuid().equals("160855AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")){

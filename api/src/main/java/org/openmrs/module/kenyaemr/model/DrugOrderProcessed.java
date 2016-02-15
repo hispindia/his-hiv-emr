@@ -37,7 +37,7 @@ public class DrugOrderProcessed implements java.io.Serializable {
 		return patient;
 	}
 
-	public void setPatient(Patient patientId) {
+	public void setPatient(Patient patient) {
 		this.patient = patient;
 	}
 

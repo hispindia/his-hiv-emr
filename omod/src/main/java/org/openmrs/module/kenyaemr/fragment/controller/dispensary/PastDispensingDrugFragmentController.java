@@ -37,12 +37,12 @@ public class PastDispensingDrugFragmentController {
 		List<DrugOrderProcessed> dops = kenyaEmrService.getDrugOrdersByPatientAndProcessedDate(patient,processedDatee);
 		List<DrugObsProcessed> dobps = kenyaEmrService.getObsDrugOrdersByPatientAndProcessedDate(patient,processedDatee);
 		List<DrugDetails> drugDetailsList=new LinkedList<DrugDetails>();
-		DrugDetails drugDetails=new DrugDetails();
 		
 		for(DrugOrderProcessed dop:dops){
+			DrugDetails drugDetails=new DrugDetails();
 			drugDetails.setDrug(dop.getDrugOrder().getConcept().getName().toString());
-			drugDetails.setFormulation(dop.getDrugOrder().getDose().toString());
-			drugDetails.setStrength(dop.getDrugOrder().getUnits().toString());
+			drugDetails.setStrength(dop.getDrugOrder().getDose().toString());
+			drugDetails.setFormulation(dop.getDrugOrder().getUnits().toString());
 			drugDetails.setFrequency(dop.getDrugOrder().getFrequency().toString());
 			drugDetails.setQuantity(dop.getQuantityPostProcess().toString());
 			drugDetails.setDuration(dop.getDurationPreProcess().toString());
@@ -62,17 +62,17 @@ public class PastDispensingDrugFragmentController {
                 else if(obsDrugOrder.getConcept().getUuid().equals("163020AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")){
                 	drugDetailss.setDrug(obsDrugOrder.getValueCoded().getName().toString());		
         		}
-        		
+                
                 if(obsDrugOrder.getConcept().getUuid().equals("1443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")){
-                	drugDetailss.setFormulation(obsDrugOrder.getValueNumeric().toString());	
+                	drugDetailss.setStrength(obsDrugOrder.getValueNumeric().toString());	
         		}
                 
-                if(obsDrugOrder.getConcept().getUuid().equals("1444AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")){
-                	drugDetailss.setStrength(obsDrugOrder.getValueText());	
+                if(obsDrugOrder.getConcept().getUuid().equals("162384AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")){
+                	drugDetailss.setFormulation(obsDrugOrder.getValueCoded().getName().toString());	
         		}
                 
                 if(obsDrugOrder.getConcept().getUuid().equals("160855AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")){
-                	drugDetailss.setFrequency(obsDrugOrder.getValueCoded().getName().toString());		
+                	drugDetailss.setFrequency(obsDrugOrder.getValueCoded().getName().toString());			
         		}
                 
                 if(obsDrugOrder.getConcept().getUuid().equals("159368AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")){

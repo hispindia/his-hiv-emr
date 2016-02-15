@@ -271,6 +271,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	public List<DrugOrderProcessed> getDrugOrdersByPatientAndProcessedDate(Patient patient,Date processedDate) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class,"drugOrderProcessed");
 		criteria.add(Restrictions.eq("patient", patient));
+		criteria.add(Restrictions.eq("processedStatus", true));
 		if(processedDate!=null){
 		String dat = formatterExt.format(processedDate);
 		String startFromDate = dat + " 00:00:00";

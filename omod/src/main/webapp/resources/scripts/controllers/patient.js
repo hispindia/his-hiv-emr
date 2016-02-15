@@ -268,10 +268,10 @@ kenyaemrApp.controller('PatientSearchResults', ['$scope', '$http', function($sco
 	
 	$scope.viewDetails = function(patient) {
 		jQuery.ajax(ui.fragmentActionLink("kenyaemr", "dispensary/pastDispensingDrug", "dispensedDetails"), { data: { patient: patient.id}, dataType: 'json'
-		}).done(function(data) {
+		}).success(function(data) {$scope.results = data;
 
-			var htmlText =  "<div class='ke-patientheader'>"
-				+"</div>"
+			var htmlText =   "<div ng-controller='PatientSearchResults' data-ng-init='init()'>"
+				+"<div ng-repeat='resultt in results'>"
 				+"<table style='width: 100%'>"
 				+"<tr>"
                 +"<th>"
@@ -281,10 +281,10 @@ kenyaemrApp.controller('PatientSearchResults', ['$scope', '$http', function($sco
                 +'Drug Name&nbsp;'
                 +"</th>"
                  +"<th>"
-                +"Formulatio&nbsp;"
+                +"Strength&nbsp;"
                 +"</th>"
                 +"<th>"
-                +"Strength&nbsp;"
+                +"Unit&nbsp;"
                 +"</th>"
                  +"<th>"
                 +"Frequency&nbsp;"
@@ -298,25 +298,22 @@ kenyaemrApp.controller('PatientSearchResults', ['$scope', '$http', function($sco
                 +"</tr>"
                 +"<tr>"
                 +"<td>"
-                +
+                +'{{resultt.drug}}'
                 +"</td>"
                 +"<td>"
-                +
                 +"</td>"
                  +"<td>"
-                +
                 +"</td>"
                 +"<td>"
-                +
                 +"</td>"
                  +"<td>"
-                +
                 +"</td>"
                 +"<td>"
-                +
                 +"</td>"
                 +"</tr>"
                 +"</table>"
+                +"</div>"
+                +"</div>"
 var newElement = document.createElement('div');
 newElement.setAttribute("id", "drugDetailDiv"); 
 newElement.innerHTML = htmlText;

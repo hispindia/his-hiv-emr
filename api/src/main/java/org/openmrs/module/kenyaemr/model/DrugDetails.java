@@ -2,8 +2,8 @@ package org.openmrs.module.kenyaemr.model;
 
 public class DrugDetails {
 	private String drug;
-	private String formulation;
 	private String strength;
+	private String formulation;
 	private String frequency;
 	private String duration;
 	private String quantity;
@@ -15,6 +15,14 @@ public class DrugDetails {
 	public void setDrug(String drug) {
 		this.drug = drug;
 	}
+	
+	public String getStrength() {
+		return strength;
+	}
+
+	public void setStrength(String strength) {
+		this.strength = strength;
+	}
 
 	public String getFormulation() {
 		return formulation;
@@ -22,14 +30,6 @@ public class DrugDetails {
 
 	public void setFormulation(String formulation) {
 		this.formulation = formulation;
-	}
-
-	public String getStrength() {
-		return strength;
-	}
-
-	public void setStrength(String strength) {
-		this.strength = strength;
 	}
 
 	public String getFrequency() {
