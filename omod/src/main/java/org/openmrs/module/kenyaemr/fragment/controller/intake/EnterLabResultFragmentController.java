@@ -70,11 +70,13 @@ public class EnterLabResultFragmentController {
 		if (encounter != null) {
 			listTests = new ArrayList<EnterLabResultFragmentController.TestObject>();
 			for (Obs obs : encounter.getAllObs()) {
-				TestObject test = new TestObject(obs,visit.getPatient());
-				if (resultEncounter != null) {
-					test.setResult(listResultObs);
+				if(obs.getValueCoded() !=null){
+					TestObject test = new TestObject(obs,visit.getPatient());
+					if (resultEncounter != null) {
+						test.setResult(listResultObs);
+					}
+					listTests.add(test);
 				}
-				listTests.add(test);
 			}
 		}
 		model.addAttribute("listTests", listTests);

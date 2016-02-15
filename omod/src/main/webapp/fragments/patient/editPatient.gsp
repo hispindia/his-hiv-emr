@@ -67,7 +67,7 @@
 	def patientSource2 = [
 			[
 					[ object: command, property: "previousClinicName", label: "Previous Clinic Name *", config: [ width: 350 ] ],
-					[ object: command, property: "transferredInDate", label: "Transferred In Date *" , config: [ width: 300 ] ]
+					[ object: command, property: "transferredInDate", label: "Transferred In Date *" , class: java.util.Date, initialValue: new Date(), config: [ width: 300 ] ]
 			]		
 	]   
 
@@ -357,6 +357,18 @@ jQuery(document).ready(function(){
 			  document.getElementById('hivTestPerformedDate').style.display='none';
   			  document.getElementById('hivTestPerformedPlace').style.display='none'; 
 			}
+		
+			var m_names = new Array("Jan", "Feb", "Mar", 
+			"Apr", "May", "Jun", "Jul", "Aug", "Sep", 
+			"Oct", "Nov", "Dec");
+
+			var d = new Date();
+			var curr_date = d.getDate();
+			var curr_month = d.getMonth();
+			var curr_year = d.getFullYear();
+			var newDate = curr_date + "-" + m_names[curr_month]	+ "-" + curr_year;
+		    document.getElementById('dateOfRegistration').value=newDate;
+			
 	});
 	
 
