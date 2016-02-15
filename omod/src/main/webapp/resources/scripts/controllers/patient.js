@@ -268,11 +268,10 @@ kenyaemrApp.controller('PatientSearchResults', ['$scope', '$http', function($sco
 	
 	$scope.viewDetails = function(patient) {
 		jQuery.ajax(ui.fragmentActionLink("kenyaemr", "dispensary/pastDispensingDrug", "dispensedDetails"), { data: { patient: patient.id}, dataType: 'json'
-		}).success(function(data) {$scope.results = data;
+		}).success(function(data) {
 
-			var htmlText =   "<div ng-controller='PatientSearchResults' data-ng-init='init()'>"
-				+"<div ng-repeat='resultt in results'>"
-				+"<table style='width: 100%'>"
+			$('#pastDispensedDrug').empty();
+			var htmlText =   "<table style='width: 100%'>"
 				+"<tr>"
                 +"<th>"
                 +"S.No&nbsp;"
@@ -296,32 +295,46 @@ kenyaemrApp.controller('PatientSearchResults', ['$scope', '$http', function($sco
                 +'Quantity'
                 +"</th>"
                 +"</tr>"
-                +"<tr>"
-                +"<td>"
-                +'{{resultt.drug}}'
-                +"</td>"
-                +"<td>"
-                +"</td>"
-                 +"<td>"
-                +"</td>"
-                +"<td>"
-                +"</td>"
-                 +"<td>"
-                +"</td>"
-                +"<td>"
-                +"</td>"
-                +"</tr>"
-                +"</table>"
-                +"</div>"
-                +"</div>"
-var newElement = document.createElement('div');
-newElement.setAttribute("id", "drugDetailDiv"); 
-newElement.innerHTML = htmlText;
-var fieldsArea = document.getElementById('pastDispensedDrug');
-fieldsArea.appendChild(newElement);
+			
+			$.each(data, function(i, item){
+	            $.each(this,function(j) {
+	        
+	            	htmlText=htmlText
+	            	 +"<tr>"
+	            	 +"<td>"
+	                 +(j+1)
+	                 +"</td>"
+	            	 +"<td>"
+	                 +this.drug
+	                 +"</td>"
+	                 +"<td>"
+	                 +this.strength
+	                 +"</td>"
+	                 +"<td>"
+	                 +this.formulation
+	                 +"</td>"
+	                 +"<td>"
+	                 +this.frequency
+	                 +"</td>"
+	                 +"<td>"
+	                 +this.duration
+	                 +"</td>"
+	                 +"<td>"
+	                 +this.quantity
+	                 +"</td>"
+	                 +"</tr>"
+	            });
+	        });
+			htmlText=htmlText
+			 +"</table>"
+			var newElement = document.createElement('div');
+			newElement.setAttribute("id", "drugDetailDiv"); 
+			newElement.innerHTML = htmlText;
+			var fieldsArea = document.getElementById('pastDispensedDrug');
+			fieldsArea.appendChild(newElement);
 
-	   var url = "#TB_inline?height=300&width=750&inlineId=drugDetailDiv";
-       tb_show("Detail Issue",url,false);
+		    var url = "#TB_inline?height=300&width=750&inlineId=drugDetailDiv";
+			tb_show("Detail Issue",url,false);
        });
    };
 
