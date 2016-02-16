@@ -24,6 +24,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -418,7 +419,13 @@ public class SearchFragmentController {
 
 		Collections.sort(matched, new PersonByNameComparator());
 
+		Set<Patient> matchedd = new LinkedHashSet<Patient>();
+		
 		for (Patient patient : matched) {
+			matchedd.add(patient);
+		}
+		
+		for (Patient patient : matchedd) {
 			SimpleObject simplePatientt = ui.simplifyObject(patient);
 			simplePatientt.put("patientName", patient.getGivenName());
 			simplePatientsJason.add(simplePatientt);
@@ -495,8 +502,14 @@ public class SearchFragmentController {
 
 		Collections.sort(matched, new PersonByNameComparator());
 		
-		Integer count=0;
+        Set<Patient> matchedd = new LinkedHashSet<Patient>();
+		
 		for (Patient patient : matched) {
+			matchedd.add(patient);
+		}
+		
+		Integer count=0;
+		for (Patient patient : matchedd) {
 			SimpleObject simplePatientt = ui.simplifyObject(patient);
 			simplePatientt.put("patientName", patient.getGivenName());
 			//simplePatientt.put("patientId", patient.getPatientId());

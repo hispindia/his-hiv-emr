@@ -250,8 +250,10 @@ public class RegimenUtilFragmentController {
 				toStop.removeAll(noChanges);
 				for (DrugOrder o : toStop) {
 					DrugOrderProcessed drugOrderProcess=kenyaEmrService.getDrugOrderProcessed(o);
+					if(drugOrderProcess!=null){
 					drugOrderProcess.setDiscontinuedDate(changeDate);
 					kenyaEmrService.saveDrugOrderProcessed(drugOrderProcess);
+					}
 					
 					o.setDiscontinued(true);
 					o.setDiscontinuedDate(changeDate);
@@ -263,8 +265,10 @@ public class RegimenUtilFragmentController {
 				
 				for (DrugOrder o : noChanges) {
 					DrugOrderProcessed drugOrderProcess=kenyaEmrService.getDrugOrderProcessed(o);
+					if(drugOrderProcess!=null){
 					drugOrderProcess.setDiscontinuedDate(changeDate);
 					kenyaEmrService.saveDrugOrderProcessed(drugOrderProcess);
+					}
 					
 					Concept concept=o.getConcept();
 					String drug1=request.getParameter("drug1");
