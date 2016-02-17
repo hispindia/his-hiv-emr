@@ -36,12 +36,16 @@ public class TelephoneNumberValidator implements Validator {
 	@Override
 	public void validate(Object o, Errors errors) {
 		String number = (String) o;
-		number = number.trim();
-		if (number.length() < 6 || number.length() > 10) {
-			errors.rejectValue(null, "Phone numbers must be 6 to 10 digits long");
+		String[] strings = number.split(",");
+		for (int i = 0; i < strings.length; i++)
+		{
+			if (strings[i].length() < 6 || strings[i].length() > 12) {
+				errors.rejectValue(null, "Phone numbers must be 6 to 12 digits long");
+			}
+			if (!strings[i].matches("[0-9]+")) {
+				errors.rejectValue(null, "Phone numbers must only contain numbers");
+			}
 		}
-		if (!number.matches("[0-9]+")) {
-			errors.rejectValue(null, "Phone numbers must only contain numbers");
-		}
+
 	}
 }

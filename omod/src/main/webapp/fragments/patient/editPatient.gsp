@@ -71,6 +71,13 @@
 			]		
 	]   
 
+	def patientSource3 = [
+			[
+					[ object: command, property: "previousClinicName", label: "Previous Clinic Name *", config: [ width: 350 ] ],
+					[ object: command, property: "transferredInDate", label: "Transferred In Date *" ,  config: [ width: 300 ] ]
+			]		
+	]  
+	
 	def addressFieldRows = [
 			[
 					[ object: command, property: "personAddress.address1", label: "Physical Address ", config: [ type: "textarea", size: 20 ] ],
@@ -247,9 +254,13 @@
 			   ${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
 			 <% } %>
 			 
-			 <% patientSource2.each { %>
-			   ${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
-			 <% } %>
+			 <%if(command.original) { %>
+			 <% patientSource3.each { %>
+				   ${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
+			 <% } } else {%>
+				  <% patientSource2.each { %>
+				   ${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
+			 <% } }%>
 
 		</fieldset>
 		
@@ -357,7 +368,6 @@ jQuery(document).ready(function(){
 			  document.getElementById('hivTestPerformedDate').style.display='none';
   			  document.getElementById('hivTestPerformedPlace').style.display='none'; 
 			}
-		
 			var m_names = new Array("Jan", "Feb", "Mar", 
 			"Apr", "May", "Jun", "Jul", "Aug", "Sep", 
 			"Oct", "Nov", "Dec");
@@ -367,8 +377,9 @@ jQuery(document).ready(function(){
 			var curr_month = d.getMonth();
 			var curr_year = d.getFullYear();
 			var newDate = curr_date + "-" + m_names[curr_month]	+ "-" + curr_year;
-		    document.getElementById('dateOfRegistration').value=newDate;
-			
+			if(document.getElementById('dateOfRegistration')!=null){
+				document.getElementById('dateOfRegistration').value=newDate;
+			}
 	});
 	
 

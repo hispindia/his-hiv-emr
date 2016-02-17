@@ -35,7 +35,13 @@ kenyaemrApp.service('PatientService2', function ($rootScope) {
 	 * Broadcasts new patient search parameters
 	 */
 	this.updateSearch = function(query, which, date) {
-		$rootScope.$broadcast('patient-search2', { query: query, which: which, date: date });
+		if(which!="scheudled"){
+			$rootScope.$broadcast('patient-search2', { query: query, which: which});
+		}
+		else{
+			$rootScope.$broadcast('patient-search2', { query: query, which: which, date: date });
+		}
+
 	};
 });
 
@@ -254,16 +260,19 @@ kenyaemrApp.controller('PatientSearchResults', ['$scope', '$http', function($sco
 	};
 	
 	$scope.onResultClickNewPatient = function(patient, appId, returnURL) {
-		if(patient.newVisit == "true" && appId == "kenyaemr.medicalEncounter"){
-			returnURL = returnURL+ ".page?patientId="+patient.id+"&newVisit=true";
-			var obstetricFormLink = ui.pageLink("kenyaemr", "enterForm", {patientId: patient.id, formUuid: '8e4e1abf-7c08-4ba8-b6d8-19a9f1ccb6c9', appId: appId, returnUrl: returnURL });
-			var familyFormLink = ui.pageLink("kenyaemr", "enterForm", {patientId: patient.id, formUuid: '7efa0ee0-6617-4cd7-8310-9f95dfee7a82', appId: appId, returnUrl: obstetricFormLink });
-			var drugFormLink = ui.pageLink("kenyaemr", "enterForm", {patientId: patient.id, formUuid: '5286ae88-85bb-46e8-a2f7-6361f463ffd4', appId: appId, returnUrl: familyFormLink });;
-			var personalFormLink =  ui.pageLink("kenyaemr", "enterForm", {patientId: patient.id, formUuid: "d1db31d0-b415-4788-a233-e4000bf4d108", appId: appId, returnUrl: drugFormLink });
-			ui.navigate(personalFormLink); 
-		} else {
-			ui.navigate($scope.pageProvider, $scope.page, { patientId: patient.id });
-		}
+		jQuery.ajax(ui.fragmentActionLink("kenyaemr", "patient/checkFormStatus", "checkStatus"), { data: { patient: patient.id}, dataType: 'json'
+		}).success(function(data) {
+			if(patient.newVisit == "true" && appId == "kenyaemr.medicalEncounter" && !data.flag){
+				returnURL = returnURL+ ".page?patientId="+patient.id+"&newVisit=true";
+				var obstetricFormLink = ui.pageLink("kenyaemr", "enterForm", {patientId: patient.id, formUuid: '8e4e1abf-7c08-4ba8-b6d8-19a9f1ccb6c9', appId: appId, returnUrl: returnURL });
+				var familyFormLink = ui.pageLink("kenyaemr", "enterForm", {patientId: patient.id, formUuid: '7efa0ee0-6617-4cd7-8310-9f95dfee7a82', appId: appId, returnUrl: obstetricFormLink });
+				var drugFormLink = ui.pageLink("kenyaemr", "enterForm", {patientId: patient.id, formUuid: '5286ae88-85bb-46e8-a2f7-6361f463ffd4', appId: appId, returnUrl: familyFormLink });;
+				var personalFormLink =  ui.pageLink("kenyaemr", "enterForm", {patientId: patient.id, formUuid: "d1db31d0-b415-4788-a233-e4000bf4d108", appId: appId, returnUrl: drugFormLink });
+				ui.navigate(personalFormLink); 
+			} else {
+				ui.navigate($scope.pageProvider, $scope.page, { patientId: patient.id });
+			}
+		});
 	};
 	
 	$scope.viewDetails = function(patient) {
