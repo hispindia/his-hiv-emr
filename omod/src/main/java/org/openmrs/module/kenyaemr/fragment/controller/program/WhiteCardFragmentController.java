@@ -334,53 +334,76 @@ public class WhiteCardFragmentController {
 		}
 		model.addAttribute("artReceivedTypeValue", artReceivedTypeValue);
 
-		String artReceivedPlaceValue = "";
-
+		
+		
+		
+		Obs drugHistoryGroup = getAllLatestObs(patient,
+				Dictionary.DRUG_HISTORY_GROUP);
 		Obs artReceivedPlace = getAllLatestObs(patient,
 				Dictionary.DRUG_HISTORY_ART_RECEIVED_PLACE);
-		if (artReceivedPlace != null) {
-			EncounterWrapper wrapped = new EncounterWrapper(
-					artReceivedPlace.getEncounter());
-			List<Obs> obsList = wrapped.allObs(artReceivedPlace.getConcept());
-			for (Obs obs : obsList) {
-				artReceivedPlaceValue = artReceivedPlaceValue.concat(obs
-						.getValueCoded().getName().toString());
-			}
-		}
-		model.addAttribute("artReceivedPlaceValue", artReceivedPlaceValue);
-
-		String drugDurationVal = "";
-		Obs drugDuration = getAllLatestObs(patient, Dictionary.DRUG_DURATION);
-		if (drugDuration != null) {
-			EncounterWrapper wrapped = new EncounterWrapper(
-					drugDuration.getEncounter());
-			List<Obs> obsList = wrapped.allObs(drugDuration
-					.getConcept());
-			for (Obs obs : obsList) {
-					drugDurationVal = drugDurationVal.concat(obs
-							.getValueNumeric().toString());
-			}
-		}
-		
-		model.addAttribute("drugDurationVal", drugDurationVal);
-
-		String drugNameVal = "";
 		Obs drugName = getAllLatestObs(patient, Dictionary.DRUG_NAME);
-		if (drugName != null) {
-			EncounterWrapper wrapped = new EncounterWrapper(
-					drugName.getEncounter());
-			List<Obs> obsList = wrapped.allObs(drugName.getConcept());
+		Obs drugDuration = getAllLatestObs(patient, Dictionary.DRUG_DURATION);
+		
+		Map<Integer, String> drugMembers = new HashMap<Integer, String>();
+		Integer indexDrug = 0;
+		if (drugHistoryGroup != null) {
+			EncounterWrapper wrappedObsGroup = new EncounterWrapper(
+					drugHistoryGroup.getEncounter());
+			List<Obs> obsGroupList = wrappedObsGroup.allObs(drugHistoryGroup
+					.getConcept());
+			for (Obs obsG : obsGroupList) {
+				String artReceivedPlaceValue = "";
+				String drugDurationVal = "";
+				String drugNameVal = "";
+	
+				
+				if (drugName != null) {
+					EncounterWrapper wrapped = new EncounterWrapper(
+							drugName.getEncounter());
+					List<Obs> obsList = wrapped.allObs(drugName.getConcept());
 
-			for (Obs obs : obsList) {
-				if (drugNameVal.isEmpty()) {
-					drugNameVal = drugNameVal.concat(obs
-							.getValueCoded().getName().toString());
-				} else {
-					drugNameVal = drugNameVal.concat(", "
-							+ obs.getValueCoded().getName().toString());
+					for (Obs obs : obsList) {
+						if (obs.getObsGroupId() == obsG.getObsId()) {
+							drugNameVal = drugNameVal.concat(obs
+									.getValueCoded().getName().toString());
+						} 
+					}
 				}
+				
+				if (drugDuration != null) {
+					EncounterWrapper wrapped = new EncounterWrapper(
+							drugDuration.getEncounter());
+					List<Obs> obsList = wrapped.allObs(drugDuration
+							.getConcept());
+					for (Obs obs : obsList) {
+						if (obs.getObsGroupId() == obsG.getObsId()) {
+							drugDurationVal = drugDurationVal.concat(obs
+									.getValueNumeric().toString());
+						}	
+					}
+				}
+				
+
+				if (artReceivedPlace != null) {
+					EncounterWrapper wrapped = new EncounterWrapper(
+							artReceivedPlace.getEncounter());
+					List<Obs> obsList = wrapped.allObs(artReceivedPlace.getConcept());
+					for (Obs obs : obsList) {
+						if (obs.getObsGroupId() == obsG.getObsId()) {
+							artReceivedPlaceValue = artReceivedPlaceValue.concat(obs
+									.getValueCoded().getName().toString());
+						}
+					}
+				}
+
+
+				String val = drugNameVal + ", " + drugDurationVal + ", " + artReceivedPlaceValue;
+				drugMembers.put(indexDrug, val);
+				indexDrug++;
+
 			}
 		}
+		model.addAttribute("drugMembers", drugMembers);
 		
 	
 /*		
@@ -418,7 +441,7 @@ public class WhiteCardFragmentController {
 
 			}
 		} */
-		model.addAttribute("drugNameVal", drugNameVal);
+		
 
 		/*
 		 * Personal History

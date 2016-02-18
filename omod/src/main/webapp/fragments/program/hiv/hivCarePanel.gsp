@@ -28,22 +28,29 @@
 	}
 	
 	if(patient.age.value > 13){
-		if (calculations.lastCD4Count) {
-			dataPoints << [ label: "Last CD4 count", value: ui.format(calculations.lastCD4Count.value) + " cells/&micro;L", extra: calculations.lastCD4Count.value.obsDatetime ]
+		if (cd4Count) {
+			dataPoints << [ label: "Last CD4 count", value: ui.format(cd4Count) + " cells/&micro;L"]
 		} else {
 			dataPoints << [ label: "Last CD4 count", value: "None" ]
 		}
 	}
 	else {
-		if (calculations.lastCD4Percent) {
-			dataPoints << [ label: "Last CD4 percentage", value: ui.format(calculations.lastCD4Percent.value) + " %", extra: calculations.lastCD4Percent.value.obsDatetime ]
+		if (cd4PerCount) {
+			dataPoints << [ label: "Last CD4 percentage", value: ui.format(cd4PerCount) + " %" ]
 		}
 		else {
 			dataPoints << [ label: "Last CD4 percentage", value: "None" ]
 		}
 	}
 
-	dataPoints << [ label: "Last Viral Load", value: "None" ]
+	if (viralLoadResult) {
+		dataPoints << [ label: "Last Viral Load", value: viralLoadResult]
+	}
+	else{
+		dataPoints << [ label: "Last Viral Load", value: "None" ]
+	}
+
+	
 	
 	if (listAllDiag) {
 		dataPoints << [ label: "Last Diagnosis", value: listAllDiag ]
@@ -53,8 +60,6 @@
 	}
 
 		dataPoints << [ label: "Currently on CPT", value: "None" ]
-	
-	
 	
 %>
 

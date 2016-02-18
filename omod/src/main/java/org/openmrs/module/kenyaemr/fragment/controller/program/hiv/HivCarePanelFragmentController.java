@@ -85,13 +85,31 @@ public class HivCarePanelFragmentController {
 
 		model.addAttribute("patient", patient);
 
-		calculationResults.put("lastCD4Count", EmrCalculationUtils.evaluateForPatient(LastCd4CountCalculation.class, null, patient));
+//		calculationResults.put("lastCD4Count", EmrCalculationUtils.evaluateForPatient(LastCd4CountCalculation.class, null, patient));
 		calculationResults.put("lastCD4Percent", EmrCalculationUtils.evaluateForPatient(LastCd4PercentageCalculation.class, null, patient));
 
+		Obs cdList = getLatestObs(patient, Dictionary.CD4_COUNT);
+		String cd4Count = "";
+		if (cdList != null) {
+			cd4Count=cdList.getValueText().toString();
+		}
+		model.addAttribute("cd4Count", cd4Count);
+		
+		Obs cdPerList = getLatestObs(patient, Dictionary.CD4_PERCENT);
+		String cd4PerCount = "";
+		if (cdPerList != null) {
+			cd4PerCount=cdPerList.getValueText().toString();
+		}
+		model.addAttribute("cd4PerCount", cd4PerCount);
+		
+		Obs viralLoad = getLatestObs(patient, Dictionary.HIV_VIRAL_LOAD);
+		String viralLoadResult = "";
+		if (viralLoad != null) {
+			viralLoadResult=viralLoad.getValueText().toString();
+		}
+		model.addAttribute("viralLoadResult", viralLoadResult);
+		
 		String listAllDiag = "";
-		
-		
-		
 		
 		Obs diagList = getAllLatestObs(patient, Dictionary.HIV_CARE_DIAGNOSIS);
 		Obs consultationObs =   getAllLatestObs(patient, Dictionary.CONSULTATION_DETAIL);
@@ -162,4 +180,16 @@ public class HivCarePanelFragmentController {
 		}
 		return null;
 	}
+	
+	private Obs getLatestObs(Patient patient, String conceptIdentifier) {
+		Concept concept = Dictionary.getConcept(conceptIdentifier);
+		List<Obs> obs = Context.getObsService()
+				.getObservationsByPersonAndConcept(patient, concept);
+		if (obs.size() > 0) {
+			// these are in reverse chronological order
+			return obs.get(0);
+		}
+		return null;
+	}
+
 }

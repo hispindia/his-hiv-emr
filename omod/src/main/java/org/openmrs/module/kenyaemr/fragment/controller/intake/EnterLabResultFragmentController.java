@@ -122,6 +122,9 @@ public class EnterLabResultFragmentController {
 						if (obs.getValueText() != null && !obs.getValueText().equalsIgnoreCase(value) ) {
 						// value has been changed
 							obs.setValueText(value);
+							if(obs.getConcept().getConceptId()==856 || obs.getConcept().getConceptId()==5497 || obs.getConcept().getConceptId()==730){
+								obs.setValueNumeric(Double.parseDouble(value));
+							}
 							obs.setDateChanged(curDate);
 							changed = true;
 						}
@@ -132,6 +135,13 @@ public class EnterLabResultFragmentController {
 					Obs newObs = new Obs();
 					newObs.setConcept(concept);
 					newObs.setValueText(value);
+					if(concept.getConceptId()==856 || concept.getConceptId()==5497 || concept.getConceptId()==730){
+						newObs.setValueNumeric(Double.parseDouble(value));
+					}
+					
+					if(concept.equals(856) || concept.equals(5497) || concept.equals(730)){
+						newObs.setValueNumeric(parseInt(value));
+					}
 					newObs.setEncounter(resultEncounter);
 					newObs.setDateCreated(curDate);
 					resultEncounter.addObs(newObs);
@@ -192,6 +202,9 @@ public class EnterLabResultFragmentController {
 					obs.setValueText(text.toString());
 				} else {
 					obs.setValueText(value);
+					if(concept.getConceptId()==856 || concept.getConceptId()==5497 || concept.getConceptId()==730){
+						obs.setValueNumeric(Double.parseDouble(value));
+					}
 				}
 				encounter.addObs(obs);
 			}
@@ -210,6 +223,11 @@ public class EnterLabResultFragmentController {
 		return SimpleObject.create("success",true);
 	}
 	
+	private Double parseInt(String value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public class TestObject {
 		public Concept concept;
 		public Integer conceptId;

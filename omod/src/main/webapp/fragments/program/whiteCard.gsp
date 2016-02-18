@@ -205,18 +205,27 @@ td, th, table, tr{
 								<tr>
 									<td><strong>If Yes</strong></td><td> : ${artReceivedTypeValue}</td>
 								</tr>
-								<tr>
-									<td><strong>Place</strong></td><td> : ${artReceivedPlaceValue}</td>
-								</tr>
-								<tr>
-									<td><strong>Duration</strong></td><td> : ${drugDurationVal} Months</br></td>
-								</tr>
-								<tr>
-									<td><strong>Drug Regimen</strong></td><td> : ${drugNameVal}</td>
-								</tr>
 							</td>
 						</tr>
-						
+						<tr>
+							<td colspan="2">
+								<table border="1" width="100%">
+									<tr>
+										<td><strong>Drug Regimen</strong></td>
+										<td><strong>Duration (months)</strong></td>
+										<td><strong>Place</strong></td>
+									</tr>
+									<% for ( e in drugMembers ) {  %>
+										<% def values = e.value.split (",") %>	
+										<tr>
+											<td><% println  values[0] %> </td>
+											<td><% println  values[1] %> </td>
+											<td><% println  values[2] %><br/> </td>
+										</tr>
+									<% } %>						
+								</table>
+							</td>
+						</tr>
 					</table>
 				</td> 
 			
