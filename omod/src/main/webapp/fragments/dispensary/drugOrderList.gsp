@@ -1,3 +1,14 @@
+<form id="drug-order-form" method="post" action="${ ui.actionLink("kenyaemr", "dispensary/drugOrderList", "processDrugOrder") }">
+<div>
+<input size="5" id="slNoah" name="slNoah" value="S.No" disabled>
+	<input type="text" id="drugNameah" name="drugNameah" size="20" value="Drug Name" disabled>
+	 <input type="text" id="strengthah" name="strengthah" size="20" value="Strength" disabled>
+    <input type="text" id="formulationah" name="formulationah" size="20" value="Unit" disabled>
+    <input type="text" id="frequencyah" name="frequencyah" size="20" value="Frequency" disabled>
+    <input type="text" id="durationah" name="durationah" size="20" value="Duration" disabled>
+    <input type="text" id="issuequantityh" name="issuequantityh" size="20" value="Issue Qunatity" disabled>
+</div>
+
 <% drugOrderProcesseds.each { drugOrderProcessed -> %>
 <% if (drugOrderProcessed!=null) { %>
 <div>
@@ -31,3 +42,28 @@
 <div>
 <input type="hidden" id="patient" name="patient" value="${patient.patientId}">
 </div>
+
+<div class="ke-panel-footer">
+<button type="submit">
+				<img src="${ ui.resourceLink("kenyaui", "images/glyphs/ok.png") }" /> ${ "Save" }
+			</button>
+
+<button type="button" class="cancel-button" onclick="ke_cancel();"><img src="${ ui.resourceLink("kenyaui", "images/glyphs/cancel.png") }" /> Cancel</button>
+</div>
+
+</form>
+
+<script type="text/javascript">
+jq(function() {
+	kenyaui.setupAjaxPost('drug-order-form', {
+		onSuccess: function(data) {
+			ui.navigate('kenyaemr', 'dispensary/dispensing');
+		}
+	});
+});
+	
+function ke_cancel() {
+			ui.navigate('kenyaemr', 'dispensary/dispensing');
+		}
+	
+</script>

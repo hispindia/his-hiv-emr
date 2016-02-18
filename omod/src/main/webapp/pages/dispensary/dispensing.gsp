@@ -3,7 +3,7 @@
 %>
 
 <div class="ke-page-sidebar">
-	${ ui.includeFragment("kenyaemr", "patient/dispensaryPatientSearchForm", [ defaultWhich: "all" ]) }
+	${ ui.includeFragment("kenyaemr", "dispensary/dispensaryPatientSearchForm", [ defaultWhich: "all" ]) }
 </div>
 
 <div class="ke-page-content">

@@ -3,11 +3,11 @@
 %>
 
 <div class="ke-page-sidebar">
-	${ ui.includeFragment("kenyaemr", "patient/pastDispensingRecordPatientSearchForm", [ defaultWhich: "all" ]) }
+	${ ui.includeFragment("kenyaemr", "dispensary/pastDispensingRecordPatientSearchForm", [ defaultWhich: "all" ]) }
 </div>
 
 <div class="ke-page-content">
-	${ ui.includeFragment("kenyaemr", "patient/pastDispensingPatientSearchResults", [ pageProvider: "kenyaemr", page: "dispensary/pastDrugOrderRecord" ]) }
+	${ ui.includeFragment("kenyaemr", "dispensary/pastDispensingPatientSearchResults", [ pageProvider: "kenyaemr", page: "dispensary/pastDrugOrderRecord" ]) }
 </div>
 
 <script type="text/javascript">
