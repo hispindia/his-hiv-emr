@@ -453,13 +453,22 @@ public class EditPatientFragmentController {
 			if(personAddress.getAddress1().length() > 200){
 				errors.rejectValue("personAddress.address1", "Length of Address is exceeding it's limit");
 			};
-		
+			
+			if(personAddress.getAddress2().length() > 200){
+				errors.rejectValue("personAddress.address2", "Length of Address is exceeding it's limit");
+			};		
 			require(errors, "gender");
 			require(errors, "birthdate");
-			require(errors, "entryPoint");
-			require(errors, "enrollmentName");
-			require(errors, "previousClinicName");
-			require(errors, "transferredInDate");
+			//require(errors, "entryPoint");
+			//require(errors, "enrollmentName");
+			if(entryPoint!=null)
+			{
+			if(entryPoint.getName().toString().equals("Patient transferred in pre ART from another clinic") || entryPoint.getName().toString().equals("Patient transferred in on ART from another HIV care or ART clinic"))
+			{
+		require(errors, "previousClinicName");
+		require(errors, "transferredInDate");
+			}
+			}
 			require(errors, "hivTestPerformed");
 			
 			if (hivTestPerformed!=null && hivTestPerformed.equals("Yes")) {
@@ -694,15 +703,22 @@ public class EditPatientFragmentController {
 			handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.EDUCATION), savedEducation, education);
 			
 			
+			if(enrollmentName!=null)
+			{
 			if(enrollmentName.getName().toString().equals("Other")){
 				handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.ENROLLMENT_STATUS), savedEnrollmentNameConcept, enrollmentName,otherStatus,new Date(),1);
 			}
+			
 			else{
 				handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.ENROLLMENT_STATUS), savedEnrollmentNameConcept, enrollmentName,null,new Date(),1);
 			}
-			
+			}
 			
 			//With value text and Date
+			if(entryPoint!=null)
+			{
+			
+			
 			if(transferredInDate!=null){
 				if(entryPoint.getName().toString().equals("OTHER NON-CODED")){
 					handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.METHOD_OF_ENROLLMENT), savedEntryPoint, entryPoint,otherEntryPoint, transferredInDate,0);
@@ -719,7 +735,7 @@ public class EditPatientFragmentController {
 					handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.METHOD_OF_ENROLLMENT), savedEntryPoint, entryPoint,"", transferredInDate,1);
 				}
 			}
-			
+			}
 			for (Obs o : obsToVoid) {
 				Context.getObsService().voidObs(o, "KenyaEMR edit patient");
 			}

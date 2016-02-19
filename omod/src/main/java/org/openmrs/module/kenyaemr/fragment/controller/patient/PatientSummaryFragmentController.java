@@ -74,9 +74,14 @@ public class PatientSummaryFragmentController {
 		/*
 		 * Get Entry point
 		 * */
-		Obs savedEntryPoint = getLatestObs(patient,
-				Dictionary.METHOD_OF_ENROLLMENT);
-		model.addAttribute("savedEntryPoint", savedEntryPoint);
+		if(getLatestObs(patient,Dictionary.METHOD_OF_ENROLLMENT)!=null){
+			Obs savedEntryPoint = getLatestObs(patient,
+					Dictionary.METHOD_OF_ENROLLMENT);
+			model.addAttribute("savedEntryPoint", savedEntryPoint);
+		}
+		else{
+			model.addAttribute("savedEntryPoint", "");
+		}
 		
 		PatientWrapper wrapperPatient = new PatientWrapper(patient);
 		PersonWrapper wrapperPerson = new PersonWrapper(person);

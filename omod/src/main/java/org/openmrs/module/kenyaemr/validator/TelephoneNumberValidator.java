@@ -37,15 +37,22 @@ public class TelephoneNumberValidator implements Validator {
 	public void validate(Object o, Errors errors) {
 		String number = (String) o;
 		String[] strings = number.split(",");
+		int checkLimit = 0;
+		int checkNonInt = 0;
 		for (int i = 0; i < strings.length; i++)
 		{
 			if (strings[i].length() < 6 || strings[i].length() > 12) {
-				errors.rejectValue(null, "Phone numbers must be 6 to 12 digits long");
+				checkLimit=1;
 			}
 			if (!strings[i].matches("[0-9]+")) {
-				errors.rejectValue(null, "Phone numbers must only contain numbers");
+				checkNonInt=1;
 			}
 		}
-
+		if(checkLimit>0){
+			errors.rejectValue(null, "Phone numbers must be 6 to 12 digits long");	
+		}
+		if(checkNonInt>0){
+			errors.rejectValue(null, "Phone numbers must only contain numbers");			
+		}
 	}
 }

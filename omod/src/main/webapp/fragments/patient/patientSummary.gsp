@@ -35,7 +35,9 @@
 		<% if (patientWrap.previousHivTestDate) { %>
 			<br/>HIV confirmation test date : <strong>${patientWrap.previousHivTestDate}</strong>
 		<% } %>
+		<% if (savedEntryPoint) { %>
 		<br/> Entry Point : <strong>${savedEntryPoint.valueCoded.name}</strong>
+		<% } %>
 		<% if (pregStatusVal) { %>
 			<br/>Pregnancy : <strong>${pregStatusVal}</strong>
 		<% } %>

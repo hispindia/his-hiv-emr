@@ -46,41 +46,42 @@
 					[ object: command, property: "nameOfNextOfKin", label: "Name" ],
 					
 					[ object: command, property: "nextOfKinContact", label: "Contact Number" ],
-					[ object: command, property: "nextOfKinAddress", label: "Physical Address", config: [ type: "textarea", size: 20 ] ]
+					[ object: command, property: "nextOfKinAddress", label: "Permanenet Address", config: [ type: "textarea", size: 20 ] ]
 			]
 	]
 	
 	def enrollmentStatus = [
 			[
-					[ object: command, property: "enrollmentName", label: "Status at enrollment *", config: [ style: "list", answerTo: enrollmentList ] ],
+					[ object: command, property: "enrollmentName", label: "Status at enrollment ", config: [ style: "list", answerTo: enrollmentList ] ],
 					[ object: command, property: "otherStatus", label: "If other, Please specify" ]
 			]		
 	]
 	
 	def patientSource1 = [
 			[
-					[ object: command, property: "entryPoint", label: "Entry Point *", config: [ style: "list", answerTo: entryPointList ] ],
+					[ object: command, property: "entryPoint", label: "Entry Point ", config: [ style: "list", answerTo: entryPointList ] ],
 					[ object: command, property: "otherEntryPoint", label: "If other, Please specify" ]
 			]		
 	] 
 	
 	def patientSource2 = [
 			[
-					[ object: command, property: "previousClinicName", label: "Previous Clinic Name *", config: [ width: 350 ] ],
-					[ object: command, property: "transferredInDate", label: "Transferred In Date *" , class: java.util.Date, initialValue: new Date(), config: [ width: 300 ] ]
+					[ object: command, property: "previousClinicName", label: "Previous Clinic Name ", config: [ width: 350 ] ],
+					[ object: command, property: "transferredInDate", label: "Transferred In Date " , class: java.util.Date, initialValue: new Date(), config: [ width: 300 ] ]
 			]		
 	]   
 
 	def patientSource3 = [
 			[
-					[ object: command, property: "previousClinicName", label: "Previous Clinic Name *", config: [ width: 350 ] ],
-					[ object: command, property: "transferredInDate", label: "Transferred In Date *" ,  config: [ width: 300 ] ]
+					[ object: command, property: "previousClinicName", label: "Previous Clinic Name ", config: [ width: 350 ] ],
+					[ object: command, property: "transferredInDate", label: "Transferred In Date " ,  config: [ width: 300 ] ]
 			]		
 	]  
 	
 	def addressFieldRows = [
 			[
-					[ object: command, property: "personAddress.address1", label: "Physical Address ", config: [ type: "textarea", size: 20 ] ],
+					[ object: command, property: "personAddress.address1", label: "Permanent Address ", config: [ type: "textarea", size: 20 ] ],
+					[ object: command, property: "personAddress.address2", label: "Temporary Address ", config: [ type: "textarea", size: 20 ] ],
 					[ object: command, property: "telephoneContact", label: "Contact Number" ]
 			]
 	]
