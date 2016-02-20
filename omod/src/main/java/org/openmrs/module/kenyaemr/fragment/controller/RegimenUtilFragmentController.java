@@ -212,11 +212,6 @@ public class RegimenUtilFragmentController {
 				    drugConcept=Context.getConceptService().getConceptByUuid(drugConceptId.substring(2));
 					}
 					DrugOrder o = component.toDrugOrder(patient,changeDate,encounter);
-					/*
-					if(o.getConcept().equals(drugConcept)){
-						Integer quantity=Integer.parseInt(request.getParameter("duration"+count));
-						o.setQuantity(quantity);	
-					}*/
 					Order order=Context.getOrderService().saveOrder(o);
 				
 					DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
@@ -228,6 +223,8 @@ public class RegimenUtilFragmentController {
 						Integer duration=Integer.parseInt(request.getParameter("duration"+count));
 						drugOrderProcessed.setDurationPreProcess(duration);	
 					}
+					String drugRegimen=request.getParameter("selectedOption1");
+					drugOrderProcessed.setDrugRegimen(drugRegimen);
 					kenyaEmrService.saveDrugOrderProcessed(drugOrderProcessed);
 					count++;
 				}
@@ -290,6 +287,8 @@ public class RegimenUtilFragmentController {
 					drugOrderProcessed.setProcessedStatus(false);
 					Integer duration=Integer.parseInt(request.getParameter("duration1"));
 					drugOrderProcessed.setDurationPreProcess(duration);
+					String drugRegimen=request.getParameter("selectedOption1");
+					drugOrderProcessed.setDrugRegimen(drugRegimen);
 					kenyaEmrService.saveDrugOrderProcessed(drugOrderProcessed);
 					}
 					else if(concept.equals(drug2Concept)){
@@ -300,6 +299,8 @@ public class RegimenUtilFragmentController {
 					drugOrderProcessed.setProcessedStatus(false);
 					Integer duration=Integer.parseInt(request.getParameter("duration2"));
 					drugOrderProcessed.setDurationPreProcess(duration);
+					String drugRegimen=request.getParameter("selectedOption1");
+					drugOrderProcessed.setDrugRegimen(drugRegimen);
 					kenyaEmrService.saveDrugOrderProcessed(drugOrderProcessed);	
 					}
 					else if(concept.equals(drug3Concept)){
@@ -310,6 +311,8 @@ public class RegimenUtilFragmentController {
 					drugOrderProcessed.setProcessedStatus(false);
 					Integer duration=Integer.parseInt(request.getParameter("duration3"));
 					drugOrderProcessed.setDurationPreProcess(duration);
+					String drugRegimen=request.getParameter("selectedOption1");
+					drugOrderProcessed.setDrugRegimen(drugRegimen);
 					kenyaEmrService.saveDrugOrderProcessed(drugOrderProcessed);	
 					}
 					else if(concept.equals(drug4Concept)){
@@ -320,6 +323,8 @@ public class RegimenUtilFragmentController {
 					drugOrderProcessed.setProcessedStatus(false);
 					Integer duration=Integer.parseInt(request.getParameter("duration4"));
 					drugOrderProcessed.setDurationPreProcess(duration);
+					String drugRegimen=request.getParameter("selectedOption1");
+					drugOrderProcessed.setDrugRegimen(drugRegimen);
 					kenyaEmrService.saveDrugOrderProcessed(drugOrderProcessed);	
 					}
 				}
@@ -329,20 +334,19 @@ public class RegimenUtilFragmentController {
 				if (changeType == RegimenChangeType.CONTINUE) {
 					List<DrugOrder> continu = new ArrayList<DrugOrder>(baseline.getDrugOrders());	
 					for (DrugOrder o : continu){
-						DrugOrderProcessed drugOrderProcess=kenyaEmrService.getDrugOrderProcessed(o);
-						if(drugOrderProcess!=null){
-						if(drugOrderProcess.getProcessedStatus()){
-						DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
-						drugOrderProcessed.setDrugOrder(o);
-						drugOrderProcessed.setPatient(patient);
-						drugOrderProcessed.setCreatedDate(new Date());
-						drugOrderProcessed.setProcessedStatus(false);
-						Integer duration=Integer.parseInt(request.getParameter("duration"+o.getConcept().getName()));
-						drugOrderProcessed.setDurationPreProcess(duration);
-						kenyaEmrService.saveDrugOrderProcessed(drugOrderProcessed);
-						}
-						}
-						else{
+						    String drugRegimen="";
+						    DrugOrderProcessed drugOrderProcess=kenyaEmrService.getDrugOrderProcessed(o);
+						    if(drugOrderProcess!=null){
+						    drugRegimen=drugOrderProcess.getDrugRegimen();
+							drugOrderProcess.setDiscontinuedDate(changeDate);
+							kenyaEmrService.saveDrugOrderProcessed(drugOrderProcess);
+							}
+						    else{
+						    	List<DrugOrderProcessed> drugOrderProcessCompleted=kenyaEmrService.getDrugOrderProcessedCompleted(o);
+						    	for(DrugOrderProcessed drugOrderProcessCompletd:drugOrderProcessCompleted){
+						    		drugRegimen=drugOrderProcessCompletd.getDrugRegimen();	
+						    	}
+						    }
 							DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
 							drugOrderProcessed.setDrugOrder(o);
 							drugOrderProcessed.setPatient(patient);
@@ -350,15 +354,12 @@ public class RegimenUtilFragmentController {
 							drugOrderProcessed.setProcessedStatus(false);
 							Integer duration=Integer.parseInt(request.getParameter("duration"+o.getConcept().getName()));
 							drugOrderProcessed.setDurationPreProcess(duration);
+							drugOrderProcessed.setDrugRegimen(drugRegimen);
 							kenyaEmrService.saveDrugOrderProcessed(drugOrderProcessed);
-						}
 					}
 						
 				}
 
-				//Set<EncounterType> encounterTypes = new HashSet<EncounterType>();
-				//encounterTypes.add(Context.getEncounterService().getEncounterType(_EncounterType.REGIMEN_ORDER));
-				//Encounter encounter=Context.getService(KenyaEmrService.class).getLastEncounter(patient,encounterTypes);
 				encounter=createEncounterForBaseLine(patient);
 				for (DrugOrder o : toStart) {
 					o.setEncounter(encounter);
@@ -387,6 +388,8 @@ public class RegimenUtilFragmentController {
 					drugOrderProcessed.setProcessedStatus(false);
 					Integer duration=Integer.parseInt(request.getParameter("duration1"));
 					drugOrderProcessed.setDurationPreProcess(duration);
+					String drugRegimen=request.getParameter("selectedOption1");
+					drugOrderProcessed.setDrugRegimen(drugRegimen);
 					kenyaEmrService.saveDrugOrderProcessed(drugOrderProcessed);
 					}
 					else if(concept.equals(drug2Concept)){
@@ -397,6 +400,8 @@ public class RegimenUtilFragmentController {
 					drugOrderProcessed.setProcessedStatus(false);
 					Integer duration=Integer.parseInt(request.getParameter("duration2"));
 					drugOrderProcessed.setDurationPreProcess(duration);
+					String drugRegimen=request.getParameter("selectedOption1");
+					drugOrderProcessed.setDrugRegimen(drugRegimen);
 					kenyaEmrService.saveDrugOrderProcessed(drugOrderProcessed);	
 					}
 					else if(concept.equals(drug3Concept)){
@@ -407,6 +412,8 @@ public class RegimenUtilFragmentController {
 					drugOrderProcessed.setProcessedStatus(false);
 					Integer duration=Integer.parseInt(request.getParameter("duration3"));
 					drugOrderProcessed.setDurationPreProcess(duration);
+					String drugRegimen=request.getParameter("selectedOption1");
+					drugOrderProcessed.setDrugRegimen(drugRegimen);
 					kenyaEmrService.saveDrugOrderProcessed(drugOrderProcessed);	
 					}
 					else if(concept.equals(drug4Concept)){
@@ -417,6 +424,8 @@ public class RegimenUtilFragmentController {
 					drugOrderProcessed.setProcessedStatus(false);
 					Integer duration=Integer.parseInt(request.getParameter("duration4"));
 					drugOrderProcessed.setDurationPreProcess(duration);
+					String drugRegimen=request.getParameter("selectedOption1");
+					drugOrderProcessed.setDrugRegimen(drugRegimen);
 					kenyaEmrService.saveDrugOrderProcessed(drugOrderProcessed);	
 					}
 				}
@@ -589,9 +598,6 @@ public class RegimenUtilFragmentController {
 	
 	public void saveExtraRowForArv(String[] durgList,HttpServletRequest request,Patient patient,Encounter encounter) {
 		int count=5;
-		//Set<EncounterType> encounterTypes = new HashSet<EncounterType>();
-		//encounterTypes.add(Context.getEncounterService().getEncounterType(_EncounterType.REGIMEN_ORDER));
-		//Encounter encounter=Context.getService(KenyaEmrService.class).getLastEncounter(patient,encounterTypes);
 		
 		for(String drug:durgList){
 			String drugConceptId=request.getParameter("drug"+count);
@@ -607,10 +613,7 @@ public class RegimenUtilFragmentController {
 			order.setPatient(patient);
 			order.setStartDate(new Date());
 			order.setConcept(Context.getConceptService().getConceptByUuid(drugConceptId.substring(2)));
-			//order.setDrug(drugRef.getDrug());
 			order.setDose(dose);
-			//saving duration quantity table 
-			//order.setQuantity(duration);
 			order.setUnits(unit);
 			order.setFrequency(frequency);
 			Context.getOrderService().saveOrder(order);
@@ -619,9 +622,11 @@ public class RegimenUtilFragmentController {
 			
 			DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
 			drugOrderProcessed.setDrugOrder(order);
+			drugOrderProcessed.setPatient(patient);
 			drugOrderProcessed.setCreatedDate(new Date());
 			drugOrderProcessed.setProcessedStatus(false);
 			drugOrderProcessed.setDurationPreProcess(duration);
+			drugOrderProcessed.setDrugRegimen("");
 			kes.saveDrugOrderProcessed(drugOrderProcessed);
 			count++;
 			}

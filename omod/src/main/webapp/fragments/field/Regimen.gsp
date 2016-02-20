@@ -74,7 +74,7 @@
 
 <div id="${ config.id }-container">
 	<input type="hidden" id="${ config.id }" name="${ config.formFieldName }" />
-	<i>Use standard:</i> <select class="standard-regimen-select">
+	<i>Use standard:</i> <select class="standard-regimen-select" id="standardRegimenSelect" name="standardRegimenSelect" onchange="optionGroup();">
 		<option label="Select..." value="" />
 		<% regimenGroups.each { group -> %>
 			<optgroup label="${ group.name }">${ groupOptions(group) }</optgroup>
@@ -108,6 +108,7 @@
 		<% if (c==maxComponents-1) { %>
 		<input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="add" name="add" value="Add" onClick="addDrugOrderForARVTreatment();" />
 		<% } %>
+		<input type="hidden" id="selectedOption${c+1}" name="selectedOption${c+1}">
 	</div>
 	<% } %>
 	<div id="headerValuea">		
@@ -138,6 +139,7 @@
 <script type="text/javascript">
 var maxSlNo=${maxComponents};
 var arvtreatment=${maxComponents+1};
+var drugRegimen="";
 
 function addDrugOrderForARVTreatment() {
    var arvtretment = "arvtreatment"+arvtreatment;;
@@ -293,5 +295,10 @@ fieldsArea.appendChild(newElement);
 var url = "#TB_inline?height=750&width=1350&inlineId=guideDivChild";
 tb_show("Guide",url,false);
 }
+}
+
+function optionGroup(){
+var drugRegimenSelected=jQuery('#standardRegimenSelect option:selected').text(); 
+drugRegimen=drugRegimenSelected;
 }
 </script>

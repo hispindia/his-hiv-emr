@@ -16,6 +16,7 @@ public class DrugOrderProcessed implements java.io.Serializable {
 	private Integer durationPreProcess;
 	private Date discontinuedDate;
 	private Integer quantityPostProcess;
+	private String drugRegimen;
 
 	public Integer getId() {
 		return id;
@@ -87,5 +88,13 @@ public class DrugOrderProcessed implements java.io.Serializable {
 
 	public void setQuantityPostProcess(Integer quantityPostProcess) {
 		this.quantityPostProcess = quantityPostProcess;
+	}
+
+	public String getDrugRegimen() {
+		return drugRegimen;
+	}
+
+	public void setDrugRegimen(String drugRegimen) {
+		this.drugRegimen = drugRegimen;
 	}
 }

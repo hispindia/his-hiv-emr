@@ -19,5 +19,6 @@
 		<property name="durationPreProcess" column="duration_preprocess" />
 		<property name="discontinuedDate" column="discontinued_date" />
 		<property name="quantityPostProcess" column="quantity_postprocess" />
+		<property name="drugRegimen" column="drug_regimen" />
 	</class>
 </hibernate-mapping>

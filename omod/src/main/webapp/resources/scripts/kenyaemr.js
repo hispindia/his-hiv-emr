@@ -71,7 +71,8 @@ var kenyaemrApp = angular.module('kenyaemr', [ 'kenyaui' ]);
 	 */
 	kenyaemr.updateRegimenFromDisplay = function(fieldId) {
 		var regimenStr = '';
-
+		jQuery('#selectedOption1').val(drugRegimen);
+		
 		$('#' + fieldId +  '-container .regimen-component').each(function() {
 			var drug = $(this).find('.regimen-component-drug').val();
 			var dose = $(this).find('.regimen-component-dose').val();
