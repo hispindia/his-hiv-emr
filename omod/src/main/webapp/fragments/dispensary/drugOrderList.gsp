@@ -1,6 +1,6 @@
 <div>
 <form id="drug-order-form" method="post" action="${ ui.actionLink("kenyaemr", "dispensary/drugOrderList", "processDrugOrder") }">
-<table style='width: 60%'>
+<table style='width: 70%'>
 
 <tr>
 <th>S.No</th>
