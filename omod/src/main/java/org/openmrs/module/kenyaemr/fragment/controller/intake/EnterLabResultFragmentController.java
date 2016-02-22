@@ -119,29 +119,34 @@ public class EnterLabResultFragmentController {
 					if (obs.getConcept().getConceptId().equals(concept.getConceptId())) {
 						// edit existed Obs
 						isNewObs = false;
-						if (obs.getValueText() != null && !obs.getValueText().equalsIgnoreCase(value) ) {
+
 						// value has been changed
 							obs.setValueText(value);
+							
 							if(obs.getConcept().getConceptId()==856 || obs.getConcept().getConceptId()==5497 || obs.getConcept().getConceptId()==730){
-								obs.setValueNumeric(Double.parseDouble(value));
+								if(value!=null && value!=""){
+									obs.setValueNumeric(Double.parseDouble(value));
+								}
+								
 							}
 							obs.setDateChanged(curDate);
 							changed = true;
-						}
 					} 
 				}
 				if (isNewObs) {
 					// save new Obs
 					Obs newObs = new Obs();
 					newObs.setConcept(concept);
-					newObs.setValueText(value);
-					if(concept.getConceptId()==856 || concept.getConceptId()==5497 || concept.getConceptId()==730){
-						newObs.setValueNumeric(Double.parseDouble(value));
+					if(value!=null && value!=""){
+						newObs.setValueText(value);
+						if(concept.getConceptId()==856 || concept.getConceptId()==5497 || concept.getConceptId()==730){
+							newObs.setValueNumeric(Double.parseDouble(value));
+						}
+					}
+					else{
+						newObs.setValueText("");
 					}
 					
-					if(concept.equals(856) || concept.equals(5497) || concept.equals(730)){
-						newObs.setValueNumeric(parseInt(value));
-					}
 					newObs.setEncounter(resultEncounter);
 					newObs.setDateCreated(curDate);
 					resultEncounter.addObs(newObs);
@@ -201,9 +206,14 @@ public class EnterLabResultFragmentController {
 					text.append(actionRequest.getParameter(conceptId+"_valueImpression"));
 					obs.setValueText(text.toString());
 				} else {
-					obs.setValueText(value);
-					if(concept.getConceptId()==856 || concept.getConceptId()==5497 || concept.getConceptId()==730){
-						obs.setValueNumeric(Double.parseDouble(value));
+					if(value!=null && value!=""){
+						obs.setValueText(value);
+						if(concept.getConceptId()==856 || concept.getConceptId()==5497 || concept.getConceptId()==730){
+								obs.setValueNumeric(Double.parseDouble(value));
+						}
+					}
+					else{
+						obs.setValueText("");
 					}
 				}
 				encounter.addObs(obs);
@@ -278,7 +288,13 @@ public class EnterLabResultFragmentController {
 							}
 						}
 					} else {
-						result = resultObs.getValueText();
+						if(resultObs.getValueText()!=null){
+							result = resultObs.getValueText();	
+						}
+						else{
+							result = "";
+						}
+						
 					}
 					break;
 				}

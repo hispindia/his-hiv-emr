@@ -81,96 +81,123 @@ public class EditPatientFragmentController {
 
 	/**
 	 * Main controller method
-	 * @param patient the patient (may be null)
-	 * @param person the person (may be null)
-	 * @param model the model
+	 * 
+	 * @param patient
+	 *            the patient (may be null)
+	 * @param person
+	 *            the person (may be null)
+	 * @param model
+	 *            the model
 	 */
-	public void controller(@FragmentParam(value = "patient", required = false) Patient patient,
-						   @FragmentParam(value = "person", required = false) Person person,
-						   FragmentModel model) {
+	public void controller(
+			@FragmentParam(value = "patient", required = false) Patient patient,
+			@FragmentParam(value = "person", required = false) Person person,
+			FragmentModel model) {
 
 		if (patient != null && person != null) {
-			throw new RuntimeException("A patient or person can be provided, but not both");
+			throw new RuntimeException(
+					"A patient or person can be provided, but not both");
 		}
 
 		Person existing = patient != null ? patient : person;
 
 		model.addAttribute("command", newEditPatientForm(existing));
 
-		model.addAttribute("civilStatusConcept", Dictionary.getConcept(Dictionary.CIVIL_STATUS));
-		model.addAttribute("occupationConcept", Dictionary.getConcept(Dictionary.OCCUPATION));
-		model.addAttribute("educationConcept", Dictionary.getConcept(Dictionary.EDUCATION));
-		model.addAttribute("ingoConcept", Dictionary.getConcept(Dictionary.INGO_NAME));
-		model.addAttribute("enrollmentList", Dictionary.getConcept(Dictionary.ENROLLMENT_STATUS));
-		model.addAttribute("entryPointList", Dictionary.getConcept(Dictionary.METHOD_OF_ENROLLMENT));
-		
+		model.addAttribute("civilStatusConcept",
+				Dictionary.getConcept(Dictionary.CIVIL_STATUS));
+		model.addAttribute("occupationConcept",
+				Dictionary.getConcept(Dictionary.OCCUPATION));
+		model.addAttribute("educationConcept",
+				Dictionary.getConcept(Dictionary.EDUCATION));
+		model.addAttribute("ingoConcept",
+				Dictionary.getConcept(Dictionary.INGO_NAME));
+		model.addAttribute("enrollmentList",
+				Dictionary.getConcept(Dictionary.ENROLLMENT_STATUS));
+		model.addAttribute("entryPointList",
+				Dictionary.getConcept(Dictionary.METHOD_OF_ENROLLMENT));
+
 		// Create list of education answer concepts
 		List<Concept> educationOptions = new ArrayList<Concept>();
 		educationOptions.add(Dictionary.getConcept(Dictionary.NONE));
-		educationOptions.add(Dictionary.getConcept(Dictionary.PRIMARY_EDUCATION));
-		educationOptions.add(Dictionary.getConcept(Dictionary.SECONDARY_EDUCATION));
-		educationOptions.add(Dictionary.getConcept(Dictionary.COLLEGE_UNIVERSITY_POLYTECHNIC));
+		educationOptions.add(Dictionary
+				.getConcept(Dictionary.PRIMARY_EDUCATION));
+		educationOptions.add(Dictionary
+				.getConcept(Dictionary.SECONDARY_EDUCATION));
+		educationOptions.add(Dictionary
+				.getConcept(Dictionary.COLLEGE_UNIVERSITY_POLYTECHNIC));
 		model.addAttribute("educationOptions", educationOptions);
 
 		// Create a list of marital status answer concepts
 		List<Concept> maritalStatusOptions = new ArrayList<Concept>();
-		maritalStatusOptions.add(Dictionary.getConcept(Dictionary.MARRIED_POLYGAMOUS));
-		maritalStatusOptions.add(Dictionary.getConcept(Dictionary.MARRIED_MONOGAMOUS));
+		maritalStatusOptions.add(Dictionary
+				.getConcept(Dictionary.MARRIED_POLYGAMOUS));
+		maritalStatusOptions.add(Dictionary
+				.getConcept(Dictionary.MARRIED_MONOGAMOUS));
 		maritalStatusOptions.add(Dictionary.getConcept(Dictionary.DIVORCED));
 		maritalStatusOptions.add(Dictionary.getConcept(Dictionary.WIDOWED));
-		maritalStatusOptions.add(Dictionary.getConcept(Dictionary.LIVING_WITH_PARTNER));
-		maritalStatusOptions.add(Dictionary.getConcept(Dictionary.NEVER_MARRIED));
+		maritalStatusOptions.add(Dictionary
+				.getConcept(Dictionary.LIVING_WITH_PARTNER));
+		maritalStatusOptions.add(Dictionary
+				.getConcept(Dictionary.NEVER_MARRIED));
 		model.addAttribute("maritalStatusOptions", maritalStatusOptions);
 
-		if(patient!=null){
-			model.addAttribute("recordedAsDeceased", hasBeenRecordedAsDeceased(patient));	
-		}
-		else{
+		if (patient != null) {
+			model.addAttribute("recordedAsDeceased",
+					hasBeenRecordedAsDeceased(patient));
+		} else {
 			model.addAttribute("recordedAsDeceased", false);
 		}
-		
-		
+
 		// Create a list of cause of death answer concepts
 		List<Concept> causeOfDeathOptions = new ArrayList<Concept>();
 		causeOfDeathOptions.add(Dictionary.getConcept(Dictionary.UNKNOWN));
 		model.addAttribute("causeOfDeathOptions", causeOfDeathOptions);
-		
-		//Algorithm to generate system generated patient Identifier
+
+		// Algorithm to generate system generated patient Identifier
 		Calendar now = Calendar.getInstance();
-		String shortName = Context.getAdministrationService().getGlobalProperty(OpenmrsConstants.GLOBAL_PROPERTY_PATIENT_IDENTIFIER_PREFIX);
- 
-		String noCheck = shortName + String.valueOf(now.get(Calendar.YEAR)).substring(2, 4)
-		        + String.valueOf(now.get(Calendar.MONTH) + 1) + String.valueOf(now.get(Calendar.DATE))
-		        				
-		        + String.valueOf(now.get(Calendar.HOUR)) + String.valueOf(now.get(Calendar.MINUTE))
-		        + String.valueOf(now.get(Calendar.SECOND))
-		        + String.valueOf(new Random().nextInt(9999-999+1));
-		
-	
-		if(patient != null){
+		String shortName = Context
+				.getAdministrationService()
+				.getGlobalProperty(
+						OpenmrsConstants.GLOBAL_PROPERTY_PATIENT_IDENTIFIER_PREFIX);
+
+		String noCheck = shortName
+				+ String.valueOf(now.get(Calendar.YEAR)).substring(2, 4)
+				+ String.valueOf(now.get(Calendar.MONTH) + 1)
+				+ String.valueOf(now.get(Calendar.DATE))
+
+				+ String.valueOf(now.get(Calendar.HOUR))
+				+ String.valueOf(now.get(Calendar.MINUTE))
+				+ String.valueOf(now.get(Calendar.SECOND))
+				+ String.valueOf(new Random().nextInt(9999 - 999 + 1));
+
+		if (patient != null) {
 			PatientWrapper wrapper = new PatientWrapper(patient);
-			model.addAttribute("patientIdentifier",wrapper.getSystemPatientId());
-			model.addAttribute("patientId",wrapper.getTarget().getPatientId());
+			model.addAttribute("patientIdentifier",
+					wrapper.getSystemPatientId());
+			model.addAttribute("patientId", wrapper.getTarget().getPatientId());
+		} else {
+			model.addAttribute("patientIdentifier", noCheck + "-"
+					+ generateCheckdigit(noCheck));
+			model.addAttribute("patientId", null);
 		}
-		else{
-			model.addAttribute("patientIdentifier",noCheck + "-" + generateCheckdigit(noCheck));
-			model.addAttribute("patientId",null);
-		}
-		
-			
+
 	}
 
 	/**
 	 * Checks if a patient has been recorded as deceased by a program
-	 * @param patient the patient
+	 * 
+	 * @param patient
+	 *            the patient
 	 * @return true if patient was recorded as deceased
 	 */
 	protected boolean hasBeenRecordedAsDeceased(Patient patient) {
-		PatientCalculation calc = CalculationUtils.instantiateCalculation(RecordedDeceasedCalculation.class, null);
-		return ResultUtil.isTrue(Context.getService(PatientCalculationService.class).evaluate(patient.getId(), calc));
+		PatientCalculation calc = CalculationUtils.instantiateCalculation(
+				RecordedDeceasedCalculation.class, null);
+		return ResultUtil.isTrue(Context.getService(
+				PatientCalculationService.class)
+				.evaluate(patient.getId(), calc));
 	}
-	
-	
+
 	/**
 	 * Using the Luhn Algorithm to generate check digits
 	 * 
@@ -183,59 +210,73 @@ public class EditPatientFragmentController {
 		int sum = 0;
 		int n = 10;
 		int length = input.length();
-		
+
 		if (!input.matches("[\\w]+"))
-			throw new RuntimeException("Invalid character in patient id: " + input);
+			throw new RuntimeException("Invalid character in patient id: "
+					+ input);
 		// Work from right to left
 		for (int i = length - 1; i >= 0; i--) {
 			int codePoint = input.charAt(i) - 48;
 			// slight openmrs peculiarity to Luhn's algorithm
-			int accum = factor * codePoint - (factor - 1) * (int) (codePoint / 5) * 9;
-			
+			int accum = factor * codePoint - (factor - 1)
+					* (int) (codePoint / 5) * 9;
+
 			// Alternate the "factor"
 			factor = (factor == 2) ? 1 : 2;
-			
+
 			sum += accum;
 		}
-		
+
 		int remainder = sum % n;
 		return (n - remainder) % n;
 	}
-	
+
 	/**
 	 * Saves the patient being edited by this form
-	 * @param form the edit patient form
-	 * @param ui the UI utils
+	 * 
+	 * @param form
+	 *            the edit patient form
+	 * @param ui
+	 *            the UI utils
 	 * @return a simple object { patientId }
 	 */
-	public SimpleObject savePatient(@MethodParam("newEditPatientForm") @BindParams EditPatientForm form, UiUtils ui) {
+	public SimpleObject savePatient(
+			@MethodParam("newEditPatientForm") @BindParams EditPatientForm form,
+			UiUtils ui) {
 		ui.validate(form, form, null);
 
 		Patient patient = form.save();
 
-		// if this patient is the current user i need to refresh the current user
-		if (patient.getPersonId().equals(Context.getAuthenticatedUser().getPerson().getPersonId())) {
+		// if this patient is the current user i need to refresh the current
+		// user
+		if (patient.getPersonId().equals(
+				Context.getAuthenticatedUser().getPerson().getPersonId())) {
 			Context.refreshAuthenticatedUser();
 		}
-
 
 		return SimpleObject.create("id", patient.getId());
 	}
 
 	/**
 	 * Creates an edit patient form
-	 * @param person the person
+	 * 
+	 * @param person
+	 *            the person
 	 * @return the form
 	 */
-	public EditPatientForm newEditPatientForm(@RequestParam(value = "personId", required = false) Person person) {
+	public EditPatientForm newEditPatientForm(
+			@RequestParam(value = "personId", required = false) Person person) {
 		if (person != null && person.isPatient()) {
-			return new EditPatientForm((Patient) person); // For editing existing patient
+			return new EditPatientForm((Patient) person); // For editing
+															// existing patient
 		} else if (person != null) {
-			return new EditPatientForm(person); // For creating patient from existing person
+			return new EditPatientForm(person); // For creating patient from
+												// existing person
 		} else {
-			return new EditPatientForm(); // For creating patient and person from scratch
+			return new EditPatientForm(); // For creating patient and person
+											// from scratch
 		}
-		
+
 	}
 
 	/**
@@ -265,8 +306,8 @@ public class EditPatientFragmentController {
 		private Boolean dead = false;
 		private Date deathDate;
 
-//		private String nationalIdNumber;
-//		private String patientClinicNumber;
+		// private String nationalIdNumber;
+		// private String patientClinicNumber;
 		private String artRegistrationNumber;
 		private String preArtRegistrationNumber;
 		private String napArtRegistrationNumber;
@@ -279,8 +320,8 @@ public class EditPatientFragmentController {
 		private String nextOfKinContact;
 		private String nextOfKinAddress;
 		private String subChiefName;
-		
-		private Integer identifierCount;		
+
+		private Integer identifierCount;
 		private String fatherName;
 		private String otherEntryPoint;
 		private String otherStatus;
@@ -290,16 +331,17 @@ public class EditPatientFragmentController {
 		private Date hivTestPerformedDate;
 		private String hivTestPerformedPlace;
 		private String checkInType;
-		
+
 		private String nationalId;
 		private String placeOfBirth;
 		private String dateOfRegistration;
-		
+
 		/**
 		 * Creates an edit form for a new patient
 		 */
 		public EditPatientForm() {
-			location = Context.getService(KenyaEmrService.class).getDefaultLocation();
+			location = Context.getService(KenyaEmrService.class)
+					.getDefaultLocation();
 
 			personName = new PersonName();
 			personAddress = new PersonAddress();
@@ -347,7 +389,7 @@ public class EditPatientFragmentController {
 			preArtRegistrationNumber = wrapper.getPreArtRegistrationNumber();
 			napArtRegistrationNumber = wrapper.getNapArtRegistrationNumber();
 			systemPatientId = wrapper.getSystemPatientId();
-			
+
 			uniquePatientNumber = wrapper.getUniquePatientNumber();
 
 			nameOfNextOfKin = wrapper.getNextOfKinName();
@@ -355,22 +397,21 @@ public class EditPatientFragmentController {
 			nextOfKinContact = wrapper.getNextOfKinContact();
 			nextOfKinAddress = wrapper.getNextOfKinAddress();
 			subChiefName = wrapper.getSubChiefName();
-			previousClinicName= wrapper.getPreviousClinicName();
-			hivTestPerformed=wrapper.getPreviousHivTestStatus();
-			hivTestPerformedPlace=wrapper.getPreviousHivTestPlace();
+			previousClinicName = wrapper.getPreviousClinicName();
+			hivTestPerformed = wrapper.getPreviousHivTestStatus();
+			hivTestPerformedPlace = wrapper.getPreviousHivTestPlace();
 			fatherName = wrapper.getFatherName();
 			nationalId = wrapper.getNationalId();
 			placeOfBirth = wrapper.getPlaceOfBirth();
-			
-	      try 
-		      {  
-	    	  String datestr=wrapper.getPreviousHivTestDate();
-		      DateFormat formatter; 
-		      formatter = new SimpleDateFormat("dd-MMMM-yyyy");
-		      hivTestPerformedDate = (Date)formatter.parse(datestr);
-		      }
-	      catch (Exception e){}
-			
+
+			try {
+				String datestr = wrapper.getPreviousHivTestDate();
+				DateFormat formatter;
+				formatter = new SimpleDateFormat("dd-MMMM-yyyy");
+				hivTestPerformedDate = (Date) formatter.parse(datestr);
+			} catch (Exception e) {
+			}
+
 			savedMaritalStatus = getLatestObs(patient, Dictionary.CIVIL_STATUS);
 			if (savedMaritalStatus != null) {
 				maritalStatus = savedMaritalStatus.getValueCoded();
@@ -380,25 +421,27 @@ public class EditPatientFragmentController {
 			if (savedOccupation != null) {
 				occupation = savedOccupation.getValueCoded();
 			}
-			
+
 			savedIngoTypeConcept = getLatestObs(patient, Dictionary.INGO_NAME);
 			if (savedIngoTypeConcept != null) {
 				ingoTypeConcept = savedIngoTypeConcept.getValueCoded();
 			}
-			
-			savedEnrollmentNameConcept = getLatestObs(patient, Dictionary.ENROLLMENT_STATUS);
+
+			savedEnrollmentNameConcept = getLatestObs(patient,
+					Dictionary.ENROLLMENT_STATUS);
 			if (savedEnrollmentNameConcept != null) {
 				enrollmentName = savedEnrollmentNameConcept.getValueCoded();
 				otherStatus = savedEnrollmentNameConcept.getValueText();
 			}
 
-			savedEntryPoint = getLatestObs(patient, Dictionary.METHOD_OF_ENROLLMENT);
+			savedEntryPoint = getLatestObs(patient,
+					Dictionary.METHOD_OF_ENROLLMENT);
 			if (savedEntryPoint != null) {
 				entryPoint = savedEntryPoint.getValueCoded();
 				otherEntryPoint = savedEntryPoint.getValueText();
 				transferredInDate = savedEntryPoint.getValueDate();
 			}
-			
+
 			savedEducation = getLatestObs(patient, Dictionary.EDUCATION);
 			if (savedEducation != null) {
 				education = savedEducation.getValueCoded();
@@ -407,7 +450,8 @@ public class EditPatientFragmentController {
 
 		private Obs getLatestObs(Patient patient, String conceptIdentifier) {
 			Concept concept = Dictionary.getConcept(conceptIdentifier);
-			List<Obs> obs = Context.getObsService().getObservationsByPersonAndConcept(patient, concept);
+			List<Obs> obs = Context.getObsService()
+					.getObservationsByPersonAndConcept(patient, concept);
 			if (obs.size() > 0) {
 				// these are in reverse chronological order
 				return obs.get(0);
@@ -421,139 +465,188 @@ public class EditPatientFragmentController {
 		 */
 		@Override
 		public void validate(Object target, Errors errors) {
-			
-			require(errors, "personName.givenName");
-			//require(errors, "personName.familyName");
-			
-			if(personName.getGivenName().length() > 50){
-				errors.rejectValue("personName.givenName", "Expected length of Name is exceeding");
-			};
-			
-			require(errors, "fatherName");
-			if(fatherName.length() > 50){
-				errors.rejectValue("fatherName", "Expected length of Name is exceeding");
-			};
-			
-			if(nationalId.length() > 50){
-				errors.rejectValue("nationalId", "Expected length of National Id is exceeding");
-			};
-			
-			if(placeOfBirth.length() > 50){
-				errors.rejectValue("placeOfBirth", "Expected length of Birth Place is exceeding");
-			};
-			
-			if(nameOfNextOfKin.length() > 50){
-				errors.rejectValue("nameOfNextOfKin", "Expected length of Name is exceeding");
-			};
-			
-			if(nextOfKinAddress.length() > 50){
-				errors.rejectValue("nextOfKinAddress", "Length of Address is exceeding it's limit");
-			};
 
-			if(personAddress.getAddress1().length() > 200){
-				errors.rejectValue("personAddress.address1", "Length of Address is exceeding it's limit");
-			};
-			
-			if(personAddress.getAddress2().length() > 200){
-				errors.rejectValue("personAddress.address2", "Length of Address is exceeding it's limit");
-			};		
+			require(errors, "personName.givenName");
+			// require(errors, "personName.familyName");
+
+			if (personName.getGivenName().length() > 50) {
+				errors.rejectValue("personName.givenName",
+						"Expected length of Name is exceeding");
+			}
+			;
+
+			require(errors, "fatherName");
+			if (fatherName.length() > 50) {
+				errors.rejectValue("fatherName",
+						"Expected length of Name is exceeding");
+			}
+			;
+
+			if (nationalId.length() > 50) {
+				errors.rejectValue("nationalId",
+						"Expected length of National Id is exceeding");
+			}
+			;
+
+			if (placeOfBirth.length() > 50) {
+				errors.rejectValue("placeOfBirth",
+						"Expected length of Birth Place is exceeding");
+			}
+			;
+
+			if (nameOfNextOfKin.length() > 50) {
+				errors.rejectValue("nameOfNextOfKin",
+						"Expected length of Name is exceeding");
+			}
+			;
+
+			if (nextOfKinAddress.length() > 50) {
+				errors.rejectValue("nextOfKinAddress",
+						"Length of Address is exceeding it's limit");
+			}
+			;
+
+			if (personAddress.getAddress1().length() > 200) {
+				errors.rejectValue("personAddress.address1",
+						"Length of Address is exceeding it's limit");
+			}
+			;
+
+			if (personAddress.getAddress2().length() > 200) {
+				errors.rejectValue("personAddress.address2",
+						"Length of Address is exceeding it's limit");
+			}
+			;
 			require(errors, "gender");
 			require(errors, "birthdate");
-			//require(errors, "entryPoint");
-			//require(errors, "enrollmentName");
-			if(entryPoint!=null)
-			{
-			if(entryPoint.getName().toString().equals("Patient transferred in pre ART from another clinic") || entryPoint.getName().toString().equals("Patient transferred in on ART from another HIV care or ART clinic"))
-			{
-		require(errors, "previousClinicName");
-		require(errors, "transferredInDate");
-			}
+			// require(errors, "entryPoint");
+			// require(errors, "enrollmentName");
+			if (entryPoint != null) {
+				if (entryPoint
+						.getName()
+						.toString()
+						.equals("Patient transferred in pre ART from another clinic")
+						|| entryPoint
+								.getName()
+								.toString()
+								.equals("Patient transferred in on ART from another HIV care or ART clinic")) {
+					require(errors, "previousClinicName");
+					require(errors, "transferredInDate");
+				}
 			}
 			require(errors, "hivTestPerformed");
-			
-			if (hivTestPerformed!=null && hivTestPerformed.equals("Yes")) {
+
+			if (hivTestPerformed != null && hivTestPerformed.equals("Yes")) {
 				require(errors, "hivTestPerformedPlace");
 				require(errors, "hivTestPerformedDate");
 
 			}
-			
+
 			if (hivTestPerformedDate != null) {
 				if (hivTestPerformedDate.after(new Date())) {
-					errors.rejectValue("hivTestPerformedDate", "Cannot be in the future");
+					errors.rejectValue("hivTestPerformedDate",
+							"Cannot be in the future");
 				}
-			}	
-			
+			}
+
 			if (transferredInDate != null) {
 				if (transferredInDate.after(new Date())) {
-					errors.rejectValue("transferredInDate", "Cannot be in the future");
+					errors.rejectValue("transferredInDate",
+							"Cannot be in the future");
 				}
-			}	
-			
-			//Check for Other entry point 
-			if( entryPoint!= null){
-				if(entryPoint.getName().toString().equals("Other")){
+			}
+
+			// Check for Other entry point
+			if (entryPoint != null) {
+				if (entryPoint.getName().toString().equals("Other")) {
 					require(errors, "otherEntryPoint");
 				}
 			}
-			
-			//Check for Other enrollment status 
-			if( enrollmentName!= null){
-				if(enrollmentName.getName().toString().equals("Other")){
+
+			// Check for Other enrollment status
+			if (enrollmentName != null) {
+				if (enrollmentName.getName().toString().equals("Other")) {
 					require(errors, "otherStatus");
+				}
+				if (enrollmentName.getName().toString().equals("Pregnancy") || enrollmentName.getName().toString().equals("Postpartum")) {
+					errors.rejectValue("enrollmentName",
+							"Cannot be selected for Male patient");
 				}
 			}
 			
 			
+
 			// Require death details if patient is deceased
 			if (dead) {
 				require(errors, "deathDate");
 
 				if (deathDate != null) {
 					if (birthdate != null && deathDate.before(birthdate)) {
-						errors.rejectValue("deathDate", "Cannot be before birth date");
+						errors.rejectValue("deathDate",
+								"Cannot be before birth date");
 					}
 					if (deathDate.after(new Date())) {
-						errors.rejectValue("deathDate", "Cannot be in the future");
+						errors.rejectValue("deathDate",
+								"Cannot be in the future");
 					}
 				}
 			} else if (deathDate != null) {
-				errors.rejectValue("deathDate", "Must be empty if patient not deceased");
+				errors.rejectValue("deathDate",
+						"Must be empty if patient not deceased");
 			}
 
 			if (StringUtils.isNotBlank(telephoneContact)) {
-				validateField(errors, "telephoneContact", new TelephoneNumberValidator());
+				validateField(errors, "telephoneContact",
+						new TelephoneNumberValidator());
 			}
 			if (StringUtils.isNotBlank(nextOfKinContact)) {
-				validateField(errors, "nextOfKinContact", new TelephoneNumberValidator());
+				validateField(errors, "nextOfKinContact",
+						new TelephoneNumberValidator());
 			}
 
 			validateField(errors, "personAddress");
-		
-//			validateIdentifierField(errors, "nationalIdNumber", CommonMetadata._PatientIdentifierType.NATIONAL_ID);
-//			validateIdentifierField(errors, "patientClinicNumber", CommonMetadata._PatientIdentifierType.PATIENT_CLINIC_NUMBER);
-			identifierCount=0;
-			validateIdentifierField(errors, "artRegistrationNumber", CommonMetadata._PatientIdentifierType.ART_REGISTRATION_NUMBER);
-			validateIdentifierField(errors, "preArtRegistrationNumber", CommonMetadata._PatientIdentifierType.PRE_ART_REGISTRATION_NUMBER);
-			validateIdentifierField(errors, "napArtRegistrationNumber", CommonMetadata._PatientIdentifierType.NAP_ART_REGISTRATION_NUMBER);
-			
-			//Check, not more than two identifier number get entered (not required now)
-			/*if(identifierCount > 2){
-				errors.rejectValue("systemPatientId", "At max only two registration numbers can be entered.");
-			}*/
-			
-		//	validateIdentifierField(errors, "systemPatientId", CommonMetadata._PatientIdentifierType.SYSTEM_PATIENT_ID);
-		//	validateIdentifierField(errors, "uniquePatientNumber", HivMetadata._PatientIdentifierType.UNIQUE_PATIENT_NUMBER);
-			
-		//Check INGO name is entered, if INGO number is entered
-			String value = (String) errors.getFieldValue("artRegistrationNumber");
-			if(!value.isEmpty()){
-				require(errors, "ingoTypeConcept");			
+
+			// validateIdentifierField(errors, "nationalIdNumber",
+			// CommonMetadata._PatientIdentifierType.NATIONAL_ID);
+			// validateIdentifierField(errors, "patientClinicNumber",
+			// CommonMetadata._PatientIdentifierType.PATIENT_CLINIC_NUMBER);
+			identifierCount = 0;
+			validateIdentifierField(
+					errors,
+					"artRegistrationNumber",
+					CommonMetadata._PatientIdentifierType.ART_REGISTRATION_NUMBER);
+			validateIdentifierField(
+					errors,
+					"preArtRegistrationNumber",
+					CommonMetadata._PatientIdentifierType.PRE_ART_REGISTRATION_NUMBER);
+			validateIdentifierField(
+					errors,
+					"napArtRegistrationNumber",
+					CommonMetadata._PatientIdentifierType.NAP_ART_REGISTRATION_NUMBER);
+
+			// Check, not more than two identifier number get entered (not
+			// required now)
+			/*
+			 * if(identifierCount > 2){ errors.rejectValue("systemPatientId",
+			 * "At max only two registration numbers can be entered."); }
+			 */
+
+			// validateIdentifierField(errors, "systemPatientId",
+			// CommonMetadata._PatientIdentifierType.SYSTEM_PATIENT_ID);
+			// validateIdentifierField(errors, "uniquePatientNumber",
+			// HivMetadata._PatientIdentifierType.UNIQUE_PATIENT_NUMBER);
+
+			// Check INGO name is entered, if INGO number is entered
+			String value = (String) errors
+					.getFieldValue("artRegistrationNumber");
+			if (!value.isEmpty()) {
+				require(errors, "ingoTypeConcept");
 			}
-			
-			if(ingoTypeConcept != null){
+
+			if (ingoTypeConcept != null) {
 				require(errors, "artRegistrationNumber");
 			}
-			
+
 			// check birth date against future dates and really old dates
 			if (birthdate != null) {
 				if (birthdate.after(new Date()))
@@ -561,9 +654,11 @@ public class EditPatientFragmentController {
 				else {
 					Calendar c = Calendar.getInstance();
 					c.setTime(new Date());
-					c.add(Calendar.YEAR, -120); // person cannot be older than 120 years old
+					c.add(Calendar.YEAR, -120); // person cannot be older than
+												// 120 years old
 					if (birthdate.before(c.getTime())) {
-						errors.rejectValue("birthdate", "error.date.nonsensical");
+						errors.rejectValue("birthdate",
+								"error.date.nonsensical");
 					}
 				}
 			}
@@ -571,26 +666,33 @@ public class EditPatientFragmentController {
 
 		/**
 		 * Validates an identifier field
+		 * 
 		 * @param errors
 		 * @param field
 		 * @param idTypeUuid
 		 */
-		protected void validateIdentifierField(Errors errors, String field, String idTypeUuid) {
+		protected void validateIdentifierField(Errors errors, String field,
+				String idTypeUuid) {
 			String value = (String) errors.getFieldValue(field);
 
 			if (StringUtils.isNotBlank(value)) {
-				PatientIdentifierType idType = MetadataUtils.existing(PatientIdentifierType.class, idTypeUuid);
+				PatientIdentifierType idType = MetadataUtils.existing(
+						PatientIdentifierType.class, idTypeUuid);
 				if (!value.matches(idType.getFormat())) {
 					errors.rejectValue(field, idType.getFormatDescription());
 				}
 
-				PatientIdentifier stub = new PatientIdentifier(value, idType, null);
+				PatientIdentifier stub = new PatientIdentifier(value, idType,
+						null);
 
-				if (original != null && original.isPatient()) { // Editing an existing patient
+				if (original != null && original.isPatient()) { // Editing an
+																// existing
+																// patient
 					stub.setPatient((Patient) original);
 				}
 
-				if (Context.getPatientService().isIdentifierInUseByAnotherPatient(stub)) {
+				if (Context.getPatientService()
+						.isIdentifierInUseByAnotherPatient(stub)) {
 					errors.rejectValue(field, "In use by another patient");
 				}
 				identifierCount++;
@@ -605,13 +707,13 @@ public class EditPatientFragmentController {
 			Patient toSave;
 			boolean isNewPatient = false;
 
-			if (original != null && original.isPatient()) { // Editing an existing patient
+			if (original != null && original.isPatient()) { // Editing an
+															// existing patient
 				toSave = (Patient) original;
-			}
-			else if (original != null) {
-				toSave = new Patient(original); // Creating a patient from an existing person
-			}
-			else {
+			} else if (original != null) {
+				toSave = new Patient(original); // Creating a patient from an
+												// existing person
+			} else {
 				toSave = new Patient(); // Creating a new patient and person
 				isNewPatient = true;
 			}
@@ -621,7 +723,8 @@ public class EditPatientFragmentController {
 			toSave.setBirthdateEstimated(birthdateEstimated);
 			toSave.setDead(dead);
 			toSave.setDeathDate(deathDate);
-			toSave.setCauseOfDeath(dead ? Dictionary.getConcept(CAUSE_OF_DEATH_PLACEHOLDER) : null);
+			toSave.setCauseOfDeath(dead ? Dictionary
+					.getConcept(CAUSE_OF_DEATH_PLACEHOLDER) : null);
 
 			if (anyChanges(toSave.getPersonName(), personName, "givenName")) {
 				if (toSave.getPersonName() != null) {
@@ -631,10 +734,13 @@ public class EditPatientFragmentController {
 				personName.setFamilyName("(NULL)");
 				toSave.addName(personName);
 			}
-			
-			//toSave.
 
-			if (anyChanges(toSave.getPersonAddress(), personAddress, "address1", "address2", "address5", "address6", "countyDistrict","address3","cityVillage","stateProvince","country","postalCode","address4")) {
+			// toSave.
+
+			if (anyChanges(toSave.getPersonAddress(), personAddress,
+					"address1", "address2", "address5", "address6",
+					"countyDistrict", "address3", "cityVillage",
+					"stateProvince", "country", "postalCode", "address4")) {
 				if (toSave.getPersonAddress() != null) {
 					voidData(toSave.getPersonAddress());
 				}
@@ -642,13 +748,15 @@ public class EditPatientFragmentController {
 			}
 
 			PatientWrapper wrapper = new PatientWrapper(toSave);
-			
+
 			wrapper.getPerson().setTelephoneContact(telephoneContact);
-//			wrapper.setNationalIdNumber(nationalIdNumber, location);
-//			wrapper.setPatientClinicNumber(patientClinicNumber, location);
-			wrapper.setPreArtRegistrationNumber(preArtRegistrationNumber, location);
+			// wrapper.setNationalIdNumber(nationalIdNumber, location);
+			// wrapper.setPatientClinicNumber(patientClinicNumber, location);
+			wrapper.setPreArtRegistrationNumber(preArtRegistrationNumber,
+					location);
 			wrapper.setArtRegistrationNumber(artRegistrationNumber, location);
-			wrapper.setNapArtRegistrationNumber(napArtRegistrationNumber, location);
+			wrapper.setNapArtRegistrationNumber(napArtRegistrationNumber,
+					location);
 			wrapper.setSystemPatientId(systemPatientId, location);
 			wrapper.setUniquePatientNumber(uniquePatientNumber, location);
 			wrapper.setNextOfKinName(nameOfNextOfKin);
@@ -659,26 +767,32 @@ public class EditPatientFragmentController {
 			wrapper.setPreviousClinicName(previousClinicName);
 
 			wrapper.setPreviousHivTestStatus(hivTestPerformed);
-			
+
 			if (hivTestPerformed.equals("Yes")) {
 				wrapper.setPreviousHivTestPlace(hivTestPerformedPlace);
 				DateFormat testDate = new SimpleDateFormat("dd-MMMM-yyyy");
-				Date capturedTestDate = hivTestPerformedDate;        
-				wrapper.setPreviousHivTestDate(testDate.format(capturedTestDate));
+				Date capturedTestDate = hivTestPerformedDate;
+				wrapper.setPreviousHivTestDate(testDate
+						.format(capturedTestDate));
 			}
-				
-			
+
 			wrapper.getPerson().setFatherName(fatherName);
 			wrapper.getPerson().setNationalId(nationalId);
 			wrapper.getPerson().setPlaceOfBirth(placeOfBirth);
 
 			// Make sure everyone gets an OpenMRS ID
-			PatientIdentifierType openmrsIdType = MetadataUtils.existing(PatientIdentifierType.class, CommonMetadata._PatientIdentifierType.OPENMRS_ID);
-			PatientIdentifier openmrsId = toSave.getPatientIdentifier(openmrsIdType);
+			PatientIdentifierType openmrsIdType = MetadataUtils.existing(
+					PatientIdentifierType.class,
+					CommonMetadata._PatientIdentifierType.OPENMRS_ID);
+			PatientIdentifier openmrsId = toSave
+					.getPatientIdentifier(openmrsIdType);
 
 			if (openmrsId == null) {
-				String generated = Context.getService(IdentifierSourceService.class).generateIdentifier(openmrsIdType, "Registration");
-				openmrsId = new PatientIdentifier(generated, openmrsIdType, location);
+				String generated = Context.getService(
+						IdentifierSourceService.class).generateIdentifier(
+						openmrsIdType, "Registration");
+				openmrsId = new PatientIdentifier(generated, openmrsIdType,
+						location);
 				toSave.addIdentifier(openmrsId);
 
 				if (!toSave.getPatientIdentifier().isPreferred()) {
@@ -697,44 +811,87 @@ public class EditPatientFragmentController {
 			List<Obs> obsToSave = new ArrayList<Obs>();
 			List<Obs> obsToVoid = new ArrayList<Obs>();
 
-			handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.CIVIL_STATUS), savedMaritalStatus, maritalStatus);
-			handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.OCCUPATION), savedOccupation, occupation);
-			handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.INGO_NAME), savedIngoTypeConcept, ingoTypeConcept);
-			handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.EDUCATION), savedEducation, education);
-			
-			
-			if(enrollmentName!=null)
-			{
-			if(enrollmentName.getName().toString().equals("Other")){
-				handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.ENROLLMENT_STATUS), savedEnrollmentNameConcept, enrollmentName,otherStatus,new Date(),1);
-			}
-			
-			else{
-				handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.ENROLLMENT_STATUS), savedEnrollmentNameConcept, enrollmentName,null,new Date(),1);
-			}
-			}
-			
-			//With value text and Date
-			if(entryPoint!=null)
-			{
-			
-			
-			if(transferredInDate!=null){
-				if(entryPoint.getName().toString().equals("OTHER NON-CODED")){
-					handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.METHOD_OF_ENROLLMENT), savedEntryPoint, entryPoint,otherEntryPoint, transferredInDate,0);
+			handleOncePerPatientObs(ret, obsToSave, obsToVoid,
+					Dictionary.getConcept(Dictionary.CIVIL_STATUS),
+					savedMaritalStatus, maritalStatus);
+			handleOncePerPatientObs(ret, obsToSave, obsToVoid,
+					Dictionary.getConcept(Dictionary.OCCUPATION),
+					savedOccupation, occupation);
+			handleOncePerPatientObs(ret, obsToSave, obsToVoid,
+					Dictionary.getConcept(Dictionary.INGO_NAME),
+					savedIngoTypeConcept, ingoTypeConcept);
+			handleOncePerPatientObs(ret, obsToSave, obsToVoid,
+					Dictionary.getConcept(Dictionary.EDUCATION),
+					savedEducation, education);
+
+			if (enrollmentName != null) {
+				if (enrollmentName.getName().toString().equals("Other")) {
+					handleOncePerPatientObs(
+							ret,
+							obsToSave,
+							obsToVoid,
+							Dictionary.getConcept(Dictionary.ENROLLMENT_STATUS),
+							savedEnrollmentNameConcept, enrollmentName,
+							otherStatus, new Date(), 1);
 				}
+
 				else {
-					handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.METHOD_OF_ENROLLMENT), savedEntryPoint, entryPoint,"", transferredInDate,0);
+					handleOncePerPatientObs(
+							ret,
+							obsToSave,
+							obsToVoid,
+							Dictionary.getConcept(Dictionary.ENROLLMENT_STATUS),
+							savedEnrollmentNameConcept, enrollmentName, null,
+							new Date(), 1);
 				}
 			}
-			else{
-				if(entryPoint.getName().toString().equals("OTHER NON-CODED")){
-					handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.METHOD_OF_ENROLLMENT), savedEntryPoint, entryPoint,otherEntryPoint, transferredInDate,1);
+
+			// With value text and Date
+			if (entryPoint != null) {
+
+				if (transferredInDate != null) {
+					if (entryPoint.getName().toString()
+							.equals("OTHER NON-CODED")) {
+						handleOncePerPatientObs(
+								ret,
+								obsToSave,
+								obsToVoid,
+								Dictionary
+										.getConcept(Dictionary.METHOD_OF_ENROLLMENT),
+								savedEntryPoint, entryPoint, otherEntryPoint,
+								transferredInDate, 0);
+					} else {
+						handleOncePerPatientObs(
+								ret,
+								obsToSave,
+								obsToVoid,
+								Dictionary
+										.getConcept(Dictionary.METHOD_OF_ENROLLMENT),
+								savedEntryPoint, entryPoint, "",
+								transferredInDate, 0);
+					}
+				} else {
+					if (entryPoint.getName().toString()
+							.equals("OTHER NON-CODED")) {
+						handleOncePerPatientObs(
+								ret,
+								obsToSave,
+								obsToVoid,
+								Dictionary
+										.getConcept(Dictionary.METHOD_OF_ENROLLMENT),
+								savedEntryPoint, entryPoint, otherEntryPoint,
+								transferredInDate, 1);
+					} else {
+						handleOncePerPatientObs(
+								ret,
+								obsToSave,
+								obsToVoid,
+								Dictionary
+										.getConcept(Dictionary.METHOD_OF_ENROLLMENT),
+								savedEntryPoint, entryPoint, "",
+								transferredInDate, 1);
+					}
 				}
-				else {
-					handleOncePerPatientObs(ret, obsToSave, obsToVoid, Dictionary.getConcept(Dictionary.METHOD_OF_ENROLLMENT), savedEntryPoint, entryPoint,"", transferredInDate,1);
-				}
-			}
 			}
 			for (Obs o : obsToVoid) {
 				Context.getObsService().voidObs(o, "KenyaEMR edit patient");
@@ -743,22 +900,27 @@ public class EditPatientFragmentController {
 			for (Obs o : obsToSave) {
 				Context.getObsService().saveObs(o, "KenyaEMR edit patient");
 			}
-			
+
 			/*
 			 * To check in directly
 			 */
-			List<Encounter> hivEnrollEncTypePrev = Context.getEncounterService().getEncountersByPatient(ret);
+			List<Encounter> hivEnrollEncTypePrev = Context
+					.getEncounterService().getEncountersByPatient(ret);
 			Date curDate = new Date();
-			if(checkInType.equals("1")){
+			if (checkInType.equals("1")) {
 				Visit visit = new Visit();
 				visit.setPatient(ret);
 				visit.setStartDatetime(curDate);
-				visit.setVisitType(MetadataUtils.existing(VisitType.class, CommonMetadata._VisitType.OUTPATIENT));
-				visit.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
+				visit.setVisitType(MetadataUtils.existing(VisitType.class,
+						CommonMetadata._VisitType.OUTPATIENT));
+				visit.setLocation(Context.getService(KenyaEmrService.class)
+						.getDefaultLocation());
 
-				if(isNewPatient) {
-					VisitAttributeType attrType = Context.getService(VisitService.class).getVisitAttributeTypeByUuid(CommonMetadata._VisitAttributeType.NEW_PATIENT);
-					if(attrType != null) {
+				if (isNewPatient) {
+					VisitAttributeType attrType = Context.getService(
+							VisitService.class).getVisitAttributeTypeByUuid(
+							CommonMetadata._VisitAttributeType.NEW_PATIENT);
+					if (attrType != null) {
 						VisitAttribute attr = new VisitAttribute();
 						attr.setAttributeType(attrType);
 						attr.setVisit(visit);
@@ -767,148 +929,183 @@ public class EditPatientFragmentController {
 						visit.addAttribute(attr);
 					}
 				}
-				
+
 				/*
-				Visit visit1 = new Visit();
-				visit1.setPatient(ret);
-				visit1.setStartDatetime(new Date());
-				visit1.setVisitType(MetadataUtils.existing(VisitType.class, CommonMetadata._VisitType.OUTPATIENT));
-				visit1.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
-				Visit visitSave1 = Context.getVisitService().saveVisit(visit1);*/
-				
+				 * Visit visit1 = new Visit(); visit1.setPatient(ret);
+				 * visit1.setStartDatetime(new Date());
+				 * visit1.setVisitType(MetadataUtils.existing(VisitType.class,
+				 * CommonMetadata._VisitType.OUTPATIENT));
+				 * visit1.setLocation(Context
+				 * .getService(KenyaEmrService.class).getDefaultLocation());
+				 * Visit visitSave1 =
+				 * Context.getVisitService().saveVisit(visit1);
+				 */
+
 				Visit visitSave = Context.getVisitService().saveVisit(visit);
 
-				
-				if(hivEnrollEncTypePrev.isEmpty()){
-				
-					EncounterType hivEnrollEncType = MetadataUtils.existing(EncounterType.class, HivMetadata._EncounterType.HIV_ENROLLMENT);
+				if (hivEnrollEncTypePrev.isEmpty()) {
+
+					EncounterType hivEnrollEncType = MetadataUtils.existing(
+							EncounterType.class,
+							HivMetadata._EncounterType.HIV_ENROLLMENT);
 					Encounter hivEnrollmentEncounter = new Encounter();
-					
+
 					hivEnrollmentEncounter.setEncounterType(hivEnrollEncType);
 					hivEnrollmentEncounter.setPatient(ret);
-					hivEnrollmentEncounter.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
+					hivEnrollmentEncounter.setLocation(Context.getService(
+							KenyaEmrService.class).getDefaultLocation());
 					hivEnrollmentEncounter.setDateCreated(new Date());
 					hivEnrollmentEncounter.setEncounterDatetime(new Date());
-					hivEnrollmentEncounter.setForm(MetadataUtils.existing(Form.class, HivMetadata._Form.HIV_ENROLLMENT));
+					hivEnrollmentEncounter.setForm(MetadataUtils.existing(
+							Form.class, HivMetadata._Form.HIV_ENROLLMENT));
 					hivEnrollmentEncounter.setVisit(visitSave);
 					hivEnrollmentEncounter.setVoided(false);
-					Context.getEncounterService().saveEncounter(hivEnrollmentEncounter);
+					Context.getEncounterService().saveEncounter(
+							hivEnrollmentEncounter);
 
-					
 					PatientProgram patientProgram = new PatientProgram();
 					patientProgram.setPatient(ret);
-					patientProgram.setProgram(MetadataUtils.existing(Program.class, HivMetadata._Program.HIV));
+					patientProgram.setProgram(MetadataUtils.existing(
+							Program.class, HivMetadata._Program.HIV));
 					patientProgram.setDateEnrolled(new Date());
 					patientProgram.setDateCreated(new Date());
-					Context.getProgramWorkflowService().savePatientProgram(patientProgram);
+					Context.getProgramWorkflowService().savePatientProgram(
+							patientProgram);
 				}
 			}
-			
-			else{
-				
-/**
- * 
- * 				Visit visit = new Visit();
- 
-				visit.setPatient(ret);
-				SimpleDateFormat mysqlDateTimeFormatter = new SimpleDateFormat("dd-MMM-yy hh:mm:ss");
-				try {
-					visit.setStartDatetime(mysqlDateTimeFormatter.parse(dateOfRegistration+" 00:00:00"));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				visit.setVisitType(MetadataUtils.existing(VisitType.class, CommonMetadata._VisitType.NEW_PATIENT));
-				visit.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
-				Visit visitSave = Context.getVisitService().saveVisit(visit);
-*/
-				
-				if(hivEnrollEncTypePrev.isEmpty()){
-					EncounterType hivEnrollEncType = MetadataUtils.existing(EncounterType.class, HivMetadata._EncounterType.HIV_ENROLLMENT);
+
+			else {
+
+				/**
+				 * 
+				 * Visit visit = new Visit();
+				 * 
+				 * visit.setPatient(ret); SimpleDateFormat
+				 * mysqlDateTimeFormatter = new
+				 * SimpleDateFormat("dd-MMM-yy hh:mm:ss"); try {
+				 * visit.setStartDatetime
+				 * (mysqlDateTimeFormatter.parse(dateOfRegistration
+				 * +" 00:00:00")); } catch (ParseException e) {
+				 * e.printStackTrace(); }
+				 * visit.setVisitType(MetadataUtils.existing(VisitType.class,
+				 * CommonMetadata._VisitType.NEW_PATIENT));
+				 * visit.setLocation(Context
+				 * .getService(KenyaEmrService.class).getDefaultLocation());
+				 * Visit visitSave = Context.getVisitService().saveVisit(visit);
+				 */
+
+				if (hivEnrollEncTypePrev.isEmpty()) {
+					EncounterType hivEnrollEncType = MetadataUtils.existing(
+							EncounterType.class,
+							HivMetadata._EncounterType.HIV_ENROLLMENT);
 					Encounter hivEnrollmentEncounter = new Encounter();
-					
+
 					hivEnrollmentEncounter.setEncounterType(hivEnrollEncType);
 					hivEnrollmentEncounter.setPatient(ret);
-					hivEnrollmentEncounter.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
+					hivEnrollmentEncounter.setLocation(Context.getService(
+							KenyaEmrService.class).getDefaultLocation());
 					hivEnrollmentEncounter.setDateCreated(new Date());
 					hivEnrollmentEncounter.setEncounterDatetime(new Date());
-					hivEnrollmentEncounter.setForm(MetadataUtils.existing(Form.class, HivMetadata._Form.HIV_ENROLLMENT));
-					
+					hivEnrollmentEncounter.setForm(MetadataUtils.existing(
+							Form.class, HivMetadata._Form.HIV_ENROLLMENT));
+
 					hivEnrollmentEncounter.setVoided(false);
-					Context.getEncounterService().saveEncounter(hivEnrollmentEncounter);
-					
+					Context.getEncounterService().saveEncounter(
+							hivEnrollmentEncounter);
+
 					PatientProgram patientProgram = new PatientProgram();
 					patientProgram.setPatient(ret);
-					patientProgram.setProgram(MetadataUtils.existing(Program.class, HivMetadata._Program.HIV));
+					patientProgram.setProgram(MetadataUtils.existing(
+							Program.class, HivMetadata._Program.HIV));
 					patientProgram.setDateEnrolled(new Date());
 					patientProgram.setDateCreated(new Date());
-					Context.getProgramWorkflowService().savePatientProgram(patientProgram);
+					Context.getProgramWorkflowService().savePatientProgram(
+							patientProgram);
 				}
 			}
-			
+
 			return ret;
 		}
 
 		/**
 		 * Handles saving a field which is stored as an obs
-		 * @param patient the patient being saved
+		 * 
+		 * @param patient
+		 *            the patient being saved
 		 * @param obsToSave
 		 * @param obsToVoid
 		 * @param question
 		 * @param savedObs
 		 * @param newValue
 		 */
-		protected void handleOncePerPatientObs(Patient patient, List<Obs> obsToSave, List<Obs> obsToVoid, Concept question,
-											 Obs savedObs, Concept newValue) {
-			if (!OpenmrsUtil.nullSafeEquals(savedObs != null ? savedObs.getValueCoded() : null, newValue)) {
+		protected void handleOncePerPatientObs(Patient patient,
+				List<Obs> obsToSave, List<Obs> obsToVoid, Concept question,
+				Obs savedObs, Concept newValue) {
+			if (!OpenmrsUtil.nullSafeEquals(
+					savedObs != null ? savedObs.getValueCoded() : null,
+					newValue)) {
 				// there was a change
 				if (savedObs != null && newValue == null) {
-					// treat going from a value to null as voiding all past civil status obs
-					obsToVoid.addAll(Context.getObsService().getObservationsByPersonAndConcept(patient, question));
+					// treat going from a value to null as voiding all past
+					// civil status obs
+					obsToVoid.addAll(Context.getObsService()
+							.getObservationsByPersonAndConcept(patient,
+									question));
 				}
 				if (newValue != null) {
 					Obs o = new Obs();
 					o.setPerson(patient);
 					o.setConcept(question);
 					o.setObsDatetime(new Date());
-					o.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
+					o.setLocation(Context.getService(KenyaEmrService.class)
+							.getDefaultLocation());
 					o.setValueCoded(newValue);
 					obsToSave.add(o);
 				}
 			}
 		}
-		
-		protected void handleOncePerPatientObs(Patient patient, List<Obs> obsToSave, List<Obs> obsToVoid, Concept question,
-				 Obs savedObs, Concept newValue, String textValue, Date textDate, int check) {
-				if (!OpenmrsUtil.nullSafeEquals(savedObs != null ? savedObs.getValueCoded() : null, newValue)) {
-					// there was a change
-					if (savedObs != null && newValue == null) {
-						// treat going from a value to null as voiding all past civil status obs
-						obsToVoid.addAll(Context.getObsService().getObservationsByPersonAndConcept(patient, question));
-					}
+
+		protected void handleOncePerPatientObs(Patient patient,
+				List<Obs> obsToSave, List<Obs> obsToVoid, Concept question,
+				Obs savedObs, Concept newValue, String textValue,
+				Date textDate, int check) {
+			if (!OpenmrsUtil.nullSafeEquals(
+					savedObs != null ? savedObs.getValueCoded() : null,
+					newValue)) {
+				// there was a change
+				if (savedObs != null && newValue == null) {
+					// treat going from a value to null as voiding all past
+					// civil status obs
+					obsToVoid.addAll(Context.getObsService()
+							.getObservationsByPersonAndConcept(patient,
+									question));
+				}
 				if (newValue != null) {
 					Obs o = new Obs();
 					o.setPerson(patient);
 					o.setConcept(question);
 					o.setObsDatetime(new Date());
-					o.setLocation(Context.getService(KenyaEmrService.class).getDefaultLocation());
+					o.setLocation(Context.getService(KenyaEmrService.class)
+							.getDefaultLocation());
 					o.setValueCoded(newValue);
 					o.setValueText(textValue);
-					if(check==0){
+					if (check == 0) {
 						o.setValueDate(textDate);
 					}
 					obsToSave.add(o);
 				}
 			}
 		}
-		
 
 		public boolean isInHivProgram() {
 			if (original == null || !original.isPatient()) {
 				return false;
 			}
 			ProgramWorkflowService pws = Context.getProgramWorkflowService();
-			Program hivProgram = MetadataUtils.existing(Program.class, HivMetadata._Program.HIV);
-			for (PatientProgram pp : pws.getPatientPrograms((Patient) original, hivProgram, null, null, null, null, false)) {
+			Program hivProgram = MetadataUtils.existing(Program.class,
+					HivMetadata._Program.HIV);
+			for (PatientProgram pp : pws.getPatientPrograms((Patient) original,
+					hivProgram, null, null, null, null, false)) {
 				if (pp.getActive()) {
 					return true;
 				}
@@ -924,7 +1121,8 @@ public class EditPatientFragmentController {
 		}
 
 		/**
-		 * @param original the original to set
+		 * @param original
+		 *            the original to set
 		 */
 		public void setOriginal(Patient original) {
 			this.original = original;
@@ -938,12 +1136,13 @@ public class EditPatientFragmentController {
 		}
 
 		/**
-		 * @param personName the personName to set
+		 * @param personName
+		 *            the personName to set
 		 */
 		public void setPersonName(PersonName personName) {
 			this.personName = personName;
 		}
-		
+
 		public Concept getIngoTypeConcept() {
 			return ingoTypeConcept;
 		}
@@ -951,7 +1150,7 @@ public class EditPatientFragmentController {
 		public void setIngoTypeConcept(Concept ingoTypeConcept) {
 			this.ingoTypeConcept = ingoTypeConcept;
 		}
-		
+
 		public Concept getEnrollmentName() {
 			return enrollmentName;
 		}
@@ -1003,7 +1202,6 @@ public class EditPatientFragmentController {
 		public void setTransferredInDate(Date transferredInDate) {
 			this.transferredInDate = transferredInDate;
 		}
-		
 
 		public String getHivTestPerformed() {
 			return hivTestPerformed;
@@ -1056,7 +1254,6 @@ public class EditPatientFragmentController {
 		public void setSystemPatientId(String systemPatientId) {
 			this.systemPatientId = systemPatientId;
 		}
-		
 
 		public String getCheckInType() {
 			return checkInType;
@@ -1076,18 +1273,18 @@ public class EditPatientFragmentController {
 
 		/**
 		 * @return the patientClinicNumber
-	
-		public String getPatientClinicNumber() {
-			return patientClinicNumber;
-		}
-	 */
+		 * 
+		 *         public String getPatientClinicNumber() { return
+		 *         patientClinicNumber; }
+		 */
 		/**
-		 * @param patientClinicNumber the patientClinicNumber to set
-		
-		public void setPatientClinicNumber(String patientClinicNumber) {
-			this.patientClinicNumber = patientClinicNumber;
-		}
- */
+		 * @param patientClinicNumber
+		 *            the patientClinicNumber to set
+		 * 
+		 *            public void setPatientClinicNumber(String
+		 *            patientClinicNumber) { this.patientClinicNumber =
+		 *            patientClinicNumber; }
+		 */
 		/**
 		 * @return the hivIdNumber
 		 */
@@ -1096,7 +1293,8 @@ public class EditPatientFragmentController {
 		}
 
 		/**
-		 * @param uniquePatientNumber the uniquePatientNumber to set
+		 * @param uniquePatientNumber
+		 *            the uniquePatientNumber to set
 		 */
 		public void setUniquePatientNumber(String uniquePatientNumber) {
 			this.uniquePatientNumber = uniquePatientNumber;
@@ -1104,19 +1302,18 @@ public class EditPatientFragmentController {
 
 		/**
 		 * @return the nationalIdNumber
-		
-		public String getNationalIdNumber() {
-			return nationalIdNumber;
-		}
- */
+		 * 
+		 *         public String getNationalIdNumber() { return
+		 *         nationalIdNumber; }
+		 */
 		/**
-		 * @param nationalIdNumber the nationalIdNumber to set
-		
-		public void setNationalIdNumber(String nationalIdNumber) {
-
-			this.nationalIdNumber = nationalIdNumber;
-		}
- */
+		 * @param nationalIdNumber
+		 *            the nationalIdNumber to set
+		 * 
+		 *            public void setNationalIdNumber(String nationalIdNumber) {
+		 * 
+		 *            this.nationalIdNumber = nationalIdNumber; }
+		 */
 		/**
 		 * @return the birthdate
 		 */
@@ -1125,7 +1322,8 @@ public class EditPatientFragmentController {
 		}
 
 		/**
-		 * @param birthdate the birthdate to set
+		 * @param birthdate
+		 *            the birthdate to set
 		 */
 		public void setBirthdate(Date birthdate) {
 			this.birthdate = birthdate;
@@ -1139,7 +1337,8 @@ public class EditPatientFragmentController {
 		}
 
 		/**
-		 * @param birthdateEstimated the birthdateEstimated to set
+		 * @param birthdateEstimated
+		 *            the birthdateEstimated to set
 		 */
 		public void setBirthdateEstimated(Boolean birthdateEstimated) {
 			this.birthdateEstimated = birthdateEstimated;
@@ -1153,7 +1352,8 @@ public class EditPatientFragmentController {
 		}
 
 		/**
-		 * @param gender the gender to set
+		 * @param gender
+		 *            the gender to set
 		 */
 		public void setGender(String gender) {
 			this.gender = gender;
@@ -1167,7 +1367,8 @@ public class EditPatientFragmentController {
 		}
 
 		/**
-		 * @param personAddress the personAddress to set
+		 * @param personAddress
+		 *            the personAddress to set
 		 */
 		public void setPersonAddress(PersonAddress personAddress) {
 			this.personAddress = personAddress;
@@ -1181,7 +1382,8 @@ public class EditPatientFragmentController {
 		}
 
 		/**
-		 * @param maritalStatus the maritalStatus to set
+		 * @param maritalStatus
+		 *            the maritalStatus to set
 		 */
 		public void setMaritalStatus(Concept maritalStatus) {
 			this.maritalStatus = maritalStatus;
@@ -1195,7 +1397,8 @@ public class EditPatientFragmentController {
 		}
 
 		/**
-		 * @param education the education to set
+		 * @param education
+		 *            the education to set
 		 */
 		public void setEducation(Concept education) {
 			this.education = education;
@@ -1209,7 +1412,8 @@ public class EditPatientFragmentController {
 		}
 
 		/**
-		 * @param occupation the occupation to set
+		 * @param occupation
+		 *            the occupation to set
 		 */
 		public void setOccupation(Concept occupation) {
 			this.occupation = occupation;
@@ -1223,7 +1427,8 @@ public class EditPatientFragmentController {
 		}
 
 		/**
-		 * @param telephoneContact the telephoneContact to set
+		 * @param telephoneContact
+		 *            the telephoneContact to set
 		 */
 		public void setTelephoneContact(String telephoneContact) {
 			this.telephoneContact = telephoneContact;
@@ -1253,7 +1458,8 @@ public class EditPatientFragmentController {
 		}
 
 		/**
-		 * @param nameOfNextOfKin the nameOfNextOfKin to set
+		 * @param nameOfNextOfKin
+		 *            the nameOfNextOfKin to set
 		 */
 		public void setNameOfNextOfKin(String nameOfNextOfKin) {
 			this.nameOfNextOfKin = nameOfNextOfKin;
@@ -1267,7 +1473,8 @@ public class EditPatientFragmentController {
 		}
 
 		/**
-		 * @param nextOfKinRelationship the nextOfKinRelationship to set
+		 * @param nextOfKinRelationship
+		 *            the nextOfKinRelationship to set
 		 */
 		public void setNextOfKinRelationship(String nextOfKinRelationship) {
 			this.nextOfKinRelationship = nextOfKinRelationship;
@@ -1281,7 +1488,8 @@ public class EditPatientFragmentController {
 		}
 
 		/**
-		 * @param nextOfKinContact the nextOfKinContact to set
+		 * @param nextOfKinContact
+		 *            the nextOfKinContact to set
 		 */
 		public void setNextOfKinContact(String nextOfKinContact) {
 			this.nextOfKinContact = nextOfKinContact;
@@ -1295,7 +1503,8 @@ public class EditPatientFragmentController {
 		}
 
 		/**
-		 * @param nextOfKinAddress the nextOfKinAddress to set
+		 * @param nextOfKinAddress
+		 *            the nextOfKinAddress to set
 		 */
 		public void setNextOfKinAddress(String nextOfKinAddress) {
 			this.nextOfKinAddress = nextOfKinAddress;
@@ -1309,7 +1518,8 @@ public class EditPatientFragmentController {
 		}
 
 		/**
-		 * @param subChiefName the subChiefName to set
+		 * @param subChiefName
+		 *            the subChiefName to set
 		 */
 		public void setSubChiefName(String subChiefName) {
 			this.subChiefName = subChiefName;
@@ -1346,7 +1556,7 @@ public class EditPatientFragmentController {
 		public void setDateOfRegistration(String dateOfRegistration) {
 			this.dateOfRegistration = dateOfRegistration;
 		}
-		
+
 	}
-	
+
 }

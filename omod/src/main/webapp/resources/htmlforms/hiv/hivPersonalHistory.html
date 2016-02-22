@@ -30,7 +30,7 @@
 					jq('#therapyName :input').prop('disabled', false);
 				}
 			});
-			
+	/*		
 			if (getValue('alcohol.value') == 1066) {
 				jq('#alcoholType :input').prop('disabled', true);
 			}
@@ -47,7 +47,40 @@
 				}
 			});
 			
+		*/	
 			
+			// show fields with data 
+			fieldIndex = 32; 
+			j=1;
+			while(document.getElementById("w"+fieldIndex).value!="" &amp;&amp; j &lt; 6){
+				jQuery('#'+j+'-toggleContainer').show();   
+				fieldIndex=fieldIndex+2;
+				j++;
+			}
+			
+	
+			$j('#1-removeEntry').remove();
+			$j('#5-addEntry').remove();
+			$j('#1-toggleContainer').show();
+			
+			
+			$j('button.addEntry').on("click", function(){
+				var correctedAddButtonId = parseFloat(this.id) + 1;      
+				var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
+				$j(contentAddId).toggle(true);      
+				$j('#' + this.id).toggle(false); 
+				$j('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
+				return false;});    
+			 
+			$j('button.removeEntry').on("click", function(){ 
+				var correctedRemoveButtonId = parseFloat(this.id) - 1;
+				var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
+				$j(contentAddId).toggle(false);
+				$j( ':input:not(:button)', contentAddId).val([]);
+				$j('#' + correctedRemoveButtonId + '-addEntry').toggle(true);
+				$j('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
+				return false;
+				});
 		});
 	</script>
 	
@@ -154,10 +187,10 @@
 		<br />
 	 <tr>
 	 <td>
-	<table style="background-color: #e8efdc;margin-left: 0px !important;" align="left"  class="tb1" cellspacing="10" width="25%">
+	<table style="background-color: #e8efdc;margin-left: 0px !important;" align="left"  class="tb1" cellspacing="5" width="35%">
 		<tr>
-			<td>IDUs substitution therapy</td>
-			<td><obs style="radio"   conceptId="9605819f-b191-4bdf-b33a-cefc50436ed0" id="therapySelection"/></td>
+			<td width="45%">IDUs substitution therapy</td>
+			<td  width="55%"><obs style="radio"   conceptId="9605819f-b191-4bdf-b33a-cefc50436ed0" id="therapySelection"/></td>
 		</tr>
 		<tr>
 			<td>If yes, type</td>
@@ -173,15 +206,31 @@
 		</tr>
 		<tr>
 			<td>Alcoholism? </td>
-			<td><obs style="radio"  conceptId="121712AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="alcohol"/></td>
-		</tr>
-		<tr>
-			<td>If yes, type</td>
 			<td><obs  conceptId="fe2b8af1-b305-46bf-a7ce-75d931660a7a" id="alcoholType"/></td>
 		</tr>
 		<tr>
 			<td>What is the estimated monthly<br/> household income (In Kyat/month)? </td>
 			<td><obs conceptId="159776AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
+		</tr>
+		<tr>
+			<td>Co-morbidities : </td>
+		</tr>
+		<tr>
+		<repeat>
+			<template>
+					<tr  id="{n}-toggleContainer" style="display:none;">
+						<td valign="top">{n}.<obs conceptId="6f3ac1ca-0500-4286-9c62-7190c4e792d9" style="autocomplete"/>
+						</td><td><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button>
+						</td>
+					</tr>
+			</template>
+			<render n="1" concept=" "/>
+			<render n="2" concept=" "/>
+			<render n="3" concept=" "/>
+			<render n="4" concept=" "/>
+			<render n="5" concept=" "/>
+		</repeat>	
+
 		</tr>
 	</table>
 	</td>

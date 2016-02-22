@@ -18,20 +18,55 @@
 			border: 1px solid black;
 		}
 
-		table.tb1 tr th, table.tb1 tr td {
+		table.tb1 tr th, table.tb1 tr td,input {
 			border: 1px solid black;
 			padding: 10px;
-			width:100%;
+			width:30%;
 		}
 		
 		table {
 			border-collapse: collapse;
 		}
-		
 	</style>
+
 
 	<script type="text/javascript">
 		jq(document).ready(function () {
+			
+			// show fields with data 
+			fieldIndex = 22; 
+			j=1;
+			while(document.getElementById("w"+fieldIndex).value!="" &amp;&amp; j &lt; 5){
+				jQuery('#'+j+'-toggleContainer').show();   
+				fieldIndex=fieldIndex+18;
+				j++;
+			}
+			//jQuery('#'+i+'-toggleContainer').show();
+			
+			$j('#1-removeEntry').remove();
+			$j('#4-addEntry').remove();
+			$j('#1-toggleContainer').show();
+			
+			
+			$j('button.addEntry').on("click", function(){
+				var correctedAddButtonId = parseFloat(this.id) + 1;      
+				var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
+				$j(contentAddId).toggle(true);      
+				$j('#' + this.id).toggle(false); 
+				$j('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
+				return false;});    
+			 
+			$j('button.removeEntry').on("click", function(){ 
+				var correctedRemoveButtonId = parseFloat(this.id) - 1;
+				var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
+				$j(contentAddId).toggle(false);
+				$j( ':input:not(:button)', contentAddId).val([]);
+				$j('#' + correctedRemoveButtonId + '-addEntry').toggle(true);
+				$j('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
+				return false;
+				});
+			
+			
 				if (getValue('fPlanning.value') == 1065) {
 					jq('#fPlanningOption :input').prop('disabled', false);
 					jq('#ifYesPregnancy :input').prop('disabled', true);
@@ -47,6 +82,7 @@
 						jq('#parity :input').prop('disabled', false);
 						jq('#curDate :input').prop('disabled', false);
 						jq('#nextDate :input').prop('disabled', false);
+						jq('#mbddate :input').prop('disabled', false);
 						jq('#infantTable :input').prop('disabled', false);
 					}
 					else{
@@ -55,6 +91,7 @@
 						jq('#parity :input').prop('disabled', true);
 						jq('#curDate :input').prop('disabled', true);
 						jq('#nextDate :input').prop('disabled', true);
+						jq('#mbddate :input').prop('disabled', true);
 						jq('#infantTable :input').prop('disabled', true);
 					}
 				}
@@ -79,6 +116,7 @@
 							jq('#parity :input').prop('disabled', false);
 							jq('#curDate :input').prop('disabled', false);
 							jq('#nextDate :input').prop('disabled', false);
+							jq('#mbddate :input').prop('disabled', false);
 							jq('#infantTable :input').prop('disabled', false);
 						}
 						else{
@@ -87,6 +125,7 @@
 							jq('#parity :input').prop('disabled', true);
 							jq('#curDate :input').prop('disabled', true);
 							jq('#nextDate :input').prop('disabled', true);
+							jq('#mbddate :input').prop('disabled', true);
 							jq('#infantTable :input').prop('disabled', true);
 						}
 
@@ -99,7 +138,8 @@
 						jq('#gravida :input').prop('disabled', false);
 						jq('#parity :input').prop('disabled', false);
 						jq('#curDate :input').prop('disabled', false);
-						jq('#nextDate :input').prop('disabled', false);		
+						jq('#nextDate :input').prop('disabled', false);
+						jq('#mbddate :input').prop('disabled', false);
 						jq('#infantTable :input').prop('disabled', false);
 					}
 					else {
@@ -108,6 +148,7 @@
 							jq('#parity :input').prop('disabled', true);
 							jq('#curDate :input').prop('disabled', true);
 							jq('#nextDate :input').prop('disabled', true);
+							jq('#mbddate :input').prop('disabled', true);
 							jq('#infantTable :input').prop('disabled', true);
 						}
 				});
@@ -115,7 +156,9 @@
 			
 			var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 			var d = new Date(getValue('curDate.value'));
+			var today = new Date();
 			if(d!="Invalid Date"){
+			
 				d.setDate(d.getDate() + 280);
 				document.getElementById("w14-display").value =  d.getDate() + "-" + months[d.getMonth()-1] + "-" + d.getFullYear();
 				document.getElementById("w14").value = d.getFullYear()  + "-" +  d.getMonth() 	+ "-" + d.getDate();
@@ -124,14 +167,33 @@
 				document.getElementById("w14-display").value =  "";
 				document.getElementById("w14").value = "";
 			}
+			
+			var da = new Date(getValue('curDate.value'));
+			da.setDate(da.getDate() + 250);
+			var edd = new Date(da);
+			var today = new Date();
+			if(edd-today &lt; 0){
+			//	$('.ke-form-content').find('input:text').val('');
+				$(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
+				$(':checkbox, :radio').prop('checked', false);
+				jq('#fPlanningOption :input').prop('disabled', true);
+				jq('#ifYesPregnancy :input').prop('disabled', true);
+				jq('#infantTable :input').prop('disabled', true);
+				
+			}
+		
 
 			jq("#curDate :input").change(function() {
 				var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 				var d = new Date(getValue('curDate.value'));
+				var today = new Date();
 				if(d!=""){
+					jQuery('#mbdDate').html(Math.round(parseInt((today - d) / (1000 * 60 * 60 * 24)) /7));
+
 					d.setDate(d.getDate() + 280);
 					document.getElementById("w14-display").value =  d.getDate() + "-" + months[d.getMonth()-1] + "-" + d.getFullYear();
 					document.getElementById("w14").value = d.getFullYear()  + "-" +  d.getMonth() 	+ "-" + d.getDate();
+					
 				}
 				else{
 					document.getElementById("w14-display").value =  "";
@@ -140,7 +202,34 @@
 			});
 		});
 	</script>
+	<script type="text/javascript">
+		function mbdCalculation() {
+			var display = '';
+			
+			var d = new Date(getValue('curDate.value'));
+			var today = new Date();
+			if(d!="Invalid Date"){
+				display=Math.round(parseInt((today - d) / (1000 * 60 * 60 * 24)) /7) + " week";
+			}
+			jQuery('#mbddate').html(display );
+		}
 
+		jQuery(function() {
+			getField('curDate.value').change(mbdCalculation);
+			
+			
+			var da = new Date(getValue('curDate.value'));
+			da.setDate(da.getDate() + 250);
+			var edd = new Date(da);
+			var today = new Date();
+			if(edd-today &lt; 0){
+				jQuery('#mbddate').html('');
+			}
+			else{
+				mbdCalculation();	
+			}
+		});
+	</script>
 	<!-- Encounter date, provider and location are not relevant for CE forms -->
 	<div style="display:none">
 		<encounterDate id="encounter-date" />
@@ -185,15 +274,19 @@
 									<td>  : <obs conceptId="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" id="nextDate"/></td>
 								</tr>
 								<tr>
-									<td>c. Gravida </td>
+									<td>c. MBD </td>
+									<td>  : <span id="mbddate" class="value"></span></td>
+								</tr>
+								<tr>
+									<td>d. Gravida </td>
 									<td>  : <obs conceptId="5624AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="gravida"/></td>
 								</tr>
 								<tr>
-									<td>d. Parity </td>
+									<td>e. Parity </td>
 									<td>  : <obs conceptId="1053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="parity"/></td>
 								</tr>
 								<tr>
-									<td>e. ANC Number </td>
+									<td>f. ANC Number </td>
 									<td>  : <obs conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="20" id="ancNumber"/></td>
 								</tr>
 							</table>
@@ -204,61 +297,55 @@
 		</table>
 		<includeIf logicTest="GENDER = F">
 			<br />
-			<table align="center"  class="tb" cellspacing="1px" style="width: 80% ;" border="1px solid black;" id="infantTable">
-			<tr><th style="background-color: #c7d8a7;" colspan="10">Exposed Infant Follow up</th></tr>
-			<tr>
-				<th style="background-color: #696969; color: #ffffff;">Exposed - Infant Name/No.</th>
-				<th style="background-color: #696969; color: #ffffff;">DOB<br/>(dd/mm/yyyy)</th>
-				<th style="background-color: #696969; color: #ffffff;">Infant Feeding Practice At 3 month</th>
-				<th style="background-color: #696969; color: #ffffff;">CPT Started Date</th>
-				<th style="background-color: #696969; color: #ffffff;">HIV Test type</th>
-				<th style="background-color: #696969; color: #ffffff;">Result</th>
-				<th style="background-color: #696969; color: #ffffff;">Result date</th>
-				<th style="background-color: #696969; color: #ffffff;">Final status</th>
-				<th style="background-color: #696969; color: #ffffff;">(If confirmed infected) Unique ID</th>
-			</tr>
-			<repeat>
-			<template>
-				<obsgroup groupingConceptId="161009AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
-					<tr style="border:1px solid black">
-						<td valign="top">
-							<obs style="width: 100%;" conceptId="be719294-8fe8-41eb-9218-ce2c9e7ef2ba"/>
-						</td>
-						<td valign="top">
-							<obs conceptId="c8ee2d3a-f6d3-4811-b333-ddb6bdc9400b"/>
-						</td>
-						<td valign="top">
-							<obs conceptId="1151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-						</td>
-						<td valign="top">
-							<obs conceptId="431adda7-582e-4822-83a6-25344f21fc7c"/>
-						</td>
-						<td valign="top">
-							<obs conceptId="8b8083f4-7f55-4365-94d1-7ebd201cd1aa"/>
-						</td>
-						<td valign="top">
-							<obs conceptId="159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-						</td>
-						<td valign="top">
-							<obs conceptId="160082AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-						</td>
-						<td valign="top">
-							<obs conceptId="2140e5aa-c199-441c-8b84-9386bc9fad1a"/>
-						</td>
-						<td valign="top">
-							<obs conceptId="8cf2bda5-f2cc-48e3-a1b8-16ff76b7bed8"/>
-						</td>
-					</tr>
-				</obsgroup>	
-			</template>
-			<render n="1" concept=" "/>
-			<render n="2" concept=" "/>
-			<render n="3" concept=" "/>
-			<render n="4" concept=" "/>
-			</repeat>
-			</table>
-		</includeIf>	
+			<div id="infantTable">
+			<table align="center"  class="tb" cellspacing="1px" style="width: 80% ;" border="1px solid black;">
+				<tr><th style="background-color: #c7d8a7;" colspan="10" align="center">Exposed Infant Follow up</th></tr>	
+				<tr>
+					<th style="background-color: #696969; color: #ffffff;">Exposed - Infant Name/No.</th>
+					<th style="background-color: #696969; color: #ffffff;">DOB<br/>(dd/mm/yyyy)</th>
+					<th style="background-color: #696969; color: #ffffff;">Infant Feeding Practice At 3 month</th>
+					<th style="background-color: #696969; color: #ffffff;">CPT Started Date</th>
+					<th style="background-color: #696969; color: #ffffff;">HIV Test type</th>
+					<th style="background-color: #696969; color: #ffffff;">Result</th>
+					<th style="background-color: #696969; color: #ffffff;">Result date</th>
+					<th style="background-color: #696969; color: #ffffff;">Final status</th>
+					<th style="background-color: #696969; color: #ffffff;">(If confirmed infected) Unique ID</th>
+				</tr>	
+				<repeat>
+						<template>
+							<obsgroup groupingConceptId="161009AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+								<div id="{n}-toggleContainer" style="display:none;">
+									<table>
+										<tr  style="border:1px solid black">
+											<td valign="top"><obs conceptId="be719294-8fe8-41eb-9218-ce2c9e7ef2ba"/></td>
+											<td valign="top"><obs conceptId="c8ee2d3a-f6d3-4811-b333-ddb6bdc9400b"/></td>
+											<td valign="top"><obs conceptId="1151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+											<td valign="top"><obs conceptId="431adda7-582e-4822-83a6-25344f21fc7c"/></td>
+											<td valign="top"><obs conceptId="8b8083f4-7f55-4365-94d1-7ebd201cd1aa"/></td>
+											<td valign="top"><obs conceptId="159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+											<td valign="top"><obs conceptId="160082AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+											<td valign="top"><obs conceptId="2140e5aa-c199-441c-8b84-9386bc9fad1a"/></td>
+											<td valign="top"><obs conceptId="8cf2bda5-f2cc-48e3-a1b8-16ff76b7bed8"/></td>
+											<td><button id="{n}-addEntry" class="addEntry">Add</button></td><td><button id="{n}-removeEntry" class="removeEntry">Remove</button></td> 
+										</tr>
+									</table>	
+								</div>
+							</obsgroup>	
+						</template>
+						<render n="1" concept=" "/>
+						<render n="2" concept=" "/>
+						<render n="3" concept=" "/>
+						<render n="4" concept=" "/>
+					</repeat>	
+			</table>		
+				
+			</div>
+		</includeIf>
+		
+		
+	
 	</div>
+	
 
 	<div class="ke-form-footer">
 		<submit/>
