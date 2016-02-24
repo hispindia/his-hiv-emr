@@ -43,18 +43,20 @@ public class StringToRegimenConverter implements Converter<String, Regimen> {
 
 		Regimen regimen = new Regimen();
 
-		while (tokenQueue.size() >= 4) {
+		while (tokenQueue.size() >= 5) {
 			String drugRefStr = tokenQueue.remove().trim();
 			String doseStr = tokenQueue.remove().trim();
 			String units = tokenQueue.remove().trim();
 			String frequency = tokenQueue.remove().trim();
+			String durationStr = tokenQueue.remove().trim();
 
 			DrugReference drugRef = StringUtils.isNotEmpty(drugRefStr) ? drugReferenceConverter.convert(drugRefStr) : null;
 			Double dose = StringUtils.isNotEmpty(doseStr) ? Double.parseDouble(doseStr) : null;
 			units = StringUtils.isNotEmpty(units) ? units : null;
 			frequency = StringUtils.isNotEmpty(frequency) ? frequency : null;
+			Double duration = StringUtils.isNotEmpty(durationStr) ? Double.parseDouble(durationStr) : null;
 
-			regimen.getComponents().add(new RegimenComponent(drugRef, dose, units, frequency));
+			regimen.getComponents().add(new RegimenComponent(drugRef, dose, units, frequency, duration));
 		}
 
 		return regimen;

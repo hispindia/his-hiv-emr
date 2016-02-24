@@ -1,5 +1,5 @@
 <div>
-<form id="drug-order-form" method="post" action="${ ui.actionLink("kenyaemr", "dispensary/drugOrderList", "processDrugOrder") }">
+<form id="drug-order-form" action="${ ui.actionLink("kenyaemr", "dispensary/drugOrderList", "processDrugOrder") }" method="post">
 <table style='width: 70%'>
 
 <tr>
@@ -52,7 +52,7 @@
 </table>
 
 <div>
-<button type="submit">
+<button type="submit" onclick="javascript:return drugOrderForm();">
 				<img src="${ ui.resourceLink("kenyaui", "images/glyphs/ok.png") }" /> ${ "Save" }
 			</button>
 
@@ -75,11 +75,43 @@ function ke_cancel() {
 			ui.navigate('kenyaemr', 'dispensary/dispensing');
 		}
 
-function confirmDrugOrder() {
-//onsubmit="javascript:return confirmDrugOrder();"		
+
+function drugOrderForm() {
+var drugOrderProcessedId = ('${drugOrderProcessedId}');
+var drugOrderObsId = ('${drugOrderObsId}');
+var drugOrderProcessedIdArr = drugOrderProcessedId.split("/");
+var drugOrderObsIdArr = drugOrderObsId.split("/");
+
+for (var i = 0; i < drugOrderProcessedIdArr.length-1; i++){ 
+var issueQuantity=jQuery('#'+drugOrderProcessedIdArr[i].toString()+'issueQuantity').val();
+if(issueQuantity==null || issueQuantity==""){
+alert("Please Enter Issue Quantity");
+return false;
+}
+}
+
+for (var i = 0; i < drugOrderObsIdArr.length-1; i++){ 
+var issueQuantity=jQuery('#'+drugOrderObsIdArr[i].toString()+'obsIssueQuantity').val();
+if(issueQuantity==null || issueQuantity==""){
+alert("Please Enter Issue Quantity");
+return false;
+}
+}
+if(confirmDrugOrder()){
+return true;
+}
+else{
+return false;
+}	
+return true;
+}
+
+function confirmDrugOrder() {	
 if(confirm("Are you sure?")){
 return true;
  }
-return false;
+ else{
+ return false;
+ }
 }	
 </script>

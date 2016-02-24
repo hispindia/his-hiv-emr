@@ -14,19 +14,14 @@
 
 package org.openmrs.module.kenyaemr.regimen;
 
+import java.util.Date;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.openmrs.DrugOrder;
 import org.openmrs.Encounter;
-import org.openmrs.Location;
 import org.openmrs.Patient;
-import org.openmrs.User;
-import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.kenyaemr.metadata.CommonMetadata.*;
 import org.openmrs.util.OpenmrsConstants;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * RegimenComponent of a regimen (drug, dose, units and frequency)
@@ -40,6 +35,8 @@ public class RegimenComponent {
 	private String units;
 
 	private String frequency;
+	
+	private Double duration;
 
 	/**
 	 * Creates an empty component
@@ -54,11 +51,12 @@ public class RegimenComponent {
 	 * @param units the units, e.g. mg
 	 * @apram frequency the frequency, e.g. OD
 	 */
-	public RegimenComponent(DrugReference drugRef, Double dose, String units, String frequency) {
+	public RegimenComponent(DrugReference drugRef, Double dose, String units, String frequency,Double duration) {
 		this.drugRef = drugRef;
 		this.dose = dose;
 		this.units = units;
 		this.frequency = frequency;
+		this.duration = duration;
 	}
 
 	/**
@@ -125,12 +123,20 @@ public class RegimenComponent {
 		this.frequency = frequency;
 	}
 
+	public Double getDuration() {
+		return duration;
+	}
+
+	public void setDuration(Double duration) {
+		this.duration = duration;
+	}
+
 	/**
 	 * Checks if this component is complete
 	 * @return true if complete
 	 */
 	public boolean isComplete() {
-		return drugRef != null && dose != null && units != null && frequency != null;
+		return drugRef != null && dose != null && units != null && frequency != null && duration != null;
 	}
 
 	/**
@@ -156,6 +162,6 @@ public class RegimenComponent {
 	 */
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append("drugRef", drugRef).append("dose", dose).append("units", units).append("frequency", frequency).toString();
+		return new ToStringBuilder(this).append("drugRef", drugRef).append("dose", dose).append("units", units).append("frequency", frequency).append("duration",duration).toString();
 	}
 }

@@ -58,8 +58,8 @@ public class RegimenDefinition extends Regimen {
 	 * @param units the component units
 	 * @param frequency the component frequency
 	 */
-	public void addComponent(DrugReference drugRef, Double dose, String units, String frequency) {
-		components.add(new RegimenComponent(drugRef, dose, units, frequency));
+	public void addComponent(DrugReference drugRef, Double dose, String units, String frequency,Double duration) {
+		components.add(new RegimenComponent(drugRef, dose, units, frequency,duration));
 	}
 
 	/**

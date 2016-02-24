@@ -185,7 +185,7 @@ public class EmrUiUtils {
 	 */
 	public List<SimpleObject> simpleRegimenDefinitions(Collection<RegimenDefinition> definitions, UiUtils ui) {
 		return SimpleObject.fromCollection(definitions, ui,
-				"name", "group.code", "components.drugRef", "components.dose", "components.units", "components.frequency"
+				"name", "group.code", "components.drugRef", "components.dose", "components.units", "components.frequency","components.duration"
 		);
 	}
 }

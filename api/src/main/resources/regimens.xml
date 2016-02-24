@@ -104,8 +104,8 @@
 		<!-- Child -->
 		<group code="child-first" name="Child">
 			<regimen name="ABC + 3TC + LPV/r (60mg/30mg/100mg/25mg)">
-			    <component drugCode="ABC" dose="300" units="mg" />
-				<component drugCode="3TC" dose="300" units="mg" />
+			    <component drugCode="ABC" dose="60" units="mg" />
+				<component drugCode="3TC" dose="30" units="mg" />
 				<component drugCode="LPV" dose="100" units="mg" />
 				<component drugCode="RTV" dose="25" units="mg" />	
 			</regimen>

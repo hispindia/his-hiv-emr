@@ -244,12 +244,13 @@ public class RegimenManager implements ContentManager {
 						Double dose = componentElement.hasAttribute("dose") ? Double.parseDouble(componentElement.getAttribute("dose")) : null;
 						String units = componentElement.hasAttribute("units") ? componentElement.getAttribute("units") : null;
 						String frequency = componentElement.hasAttribute("frequency") ? componentElement.getAttribute("frequency") : null;
+						Double duration = componentElement.hasAttribute("duration") ? Double.parseDouble(componentElement.getAttribute("duration")) : null;
 
 						DrugReference drug = categoryDrugs.get(drugCode);
 						if (drug == null)
 							throw new RuntimeException("Regimen component references invalid drug: " + drugCode);
 
-						regimenDefinition.addComponent(drug, dose, units, frequency);
+						regimenDefinition.addComponent(drug, dose, units, frequency, duration);
 					}
 
 					group.addRegimen(regimenDefinition);

@@ -76,11 +76,26 @@ public class DrugOrderListFragmentController {
         }
         for(DrugOrder drugOrder:drugOrders){
         	DrugOrderProcessed drugOrderProcessedd=kes.getDrugOrderProcessed(drugOrder);
+        	if(drugOrderProcessedd!=null){
         	drugOrderProcessed.add(drugOrderProcessedd);
+        	}
         }
+        
+        String drugOrderProcessedId="";
+        for(DrugOrderProcessed drugOrderProcess:drugOrderProcessed){
+        	drugOrderProcessedId=drugOrderProcessedId+drugOrderProcess.getId()+"/";	
+        }
+        
+        String drugOrderObsId="";
+        for(DrugOrderObs drugOrderOb:drugOrderObs){
+        	drugOrderObsId=drugOrderObsId+drugOrderOb.getObsGroupId()+"/";
+        }
+        
 		model.addAttribute("count",1);
 		model.addAttribute("drugOrderProcesseds",drugOrderProcessed);
 		model.addAttribute("drugOrderObss",drugOrderObs);
+		model.addAttribute("drugOrderProcessedId",drugOrderProcessedId);
+		model.addAttribute("drugOrderObsId",drugOrderObsId);
 		model.addAttribute("patient",patient);
 	}
 	

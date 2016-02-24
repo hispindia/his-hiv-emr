@@ -1,7 +1,7 @@
 <%
 	ui.includeJavascript("kenyaemr", "controllers/drugRegimenController.js")
 	
-	def formulations = [ "30", "50", "100", "150", "200" , "300" ,"400" , "600" ]
+	def formulations = [ "25", "30", "50", "60", "100", "150", "200" , "300" ,"400" , "600" ]
 	
 	def units = [ " " , "mg", "g", "ml"]
 	
@@ -49,6 +49,7 @@
 			var doseFields = container.find('.regimen-component-dose');
 			var unitsFields = container.find('.regimen-component-units');
 			var frequencyFields = container.find('.regimen-component-frequency');
+			var durationFields = container.find('.regimen-component-duration');
 
 			// Clear all inputs
 			container.find('input, select').val('');
@@ -60,12 +61,13 @@
 				jq(doseFields[c]).val(component.dose);
 				jq(unitsFields[c]).val(component.units);
 				jq(frequencyFields[c]).val(component.frequency);
+				jq(durationFields[c]).val(component.duration);
 			}
 
 			kenyaemr.updateRegimenFromDisplay('${ config.id }');
 		});
 
-		jq('#${ config.id }-container .regimen-component-drug, #${ config.id }-container .regimen-component-dose, #${ config.id }-container .regimen-component-units, #${ config.id }-container .regimen-component-frequency').blur(function() {
+		jq('#${ config.id }-container .regimen-component-drug, #${ config.id }-container .regimen-component-dose, #${ config.id }-container .regimen-component-units, #${ config.id }-container .regimen-component-frequency, #${ config.id }-container .regimen-component-duration').blur(function() {
 			kenyaemr.updateRegimenFromDisplay('${ config.id }');
 		});
 	});

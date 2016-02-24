@@ -78,9 +78,10 @@ var kenyaemrApp = angular.module('kenyaemr', [ 'kenyaui' ]);
 			var dose = $(this).find('.regimen-component-dose').val();
 			var units = $(this).find('.regimen-component-units').val();
 			var frequency = $(this).find('.regimen-component-frequency').val();
+			var duration = $(this).find('.regimen-component-duration').val();
 
 			if (drug || dose) {
-				regimenStr += (drug + '|' + dose + '|' + units + '|' + frequency + '|');
+				regimenStr += (drug + '|' + dose + '|' + units + '|' + frequency + '|' + duration + '|');
 			}
 		});
 

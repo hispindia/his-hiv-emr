@@ -597,7 +597,7 @@ public class RegimenUtilFragmentController {
     }
 	
 	public void saveExtraRowForArv(String[] durgList,HttpServletRequest request,Patient patient,Encounter encounter) {
-		int count=5;
+		int count=6;
 		
 		for(String drug:durgList){
 			String drugConceptId=request.getParameter("drug"+count);
