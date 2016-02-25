@@ -253,7 +253,26 @@
 		});
 		
 		
+		function tbScreeningGuide(){
+			jq('#guideDivAdultForTbScreening').empty();
+			jq('#guideDivChildForTbScreening').empty();
+			var age ="<lookup expression="patient.age" />";
+			if(age>12){
+			jq('#guideDivAdultForTbScreening').html('&lt;img src="<lookup expression="ui.resourceLink('kenyaui', '/images/glyphs/who_clinical_chart_adult.jpg')" />" height="725" width="700" /&gt;');
+			var url = "#TB_inline?height=750;width=725;inlineId=guideDivAdultForTbScreening";
+			tb_show("WHO Clinical Stage",url,false);
+			}
+			else{
+			jq('#guideDivChildForTbScreening').html('&lt;img src="<lookup expression="ui.resourceLink('kenyaui', '/images/glyphs/who_clinical_chart_child.jpg')" />" height="725" width="700" /&gt;');
+			var url = "#TB_inline?height=750;width=725;inlineId=guideDivChildForTbScreening";
+			tb_show("WHO Clinical Stage",url,false);
+			}
+			}
 		
+		function tbScreeningGuideClose(){
+			jq('#guideDivAdultForTbScreening').empty();
+			jq('#guideDivChildForTbScreening').empty();
+		}
 	</script>
 
 	<div class="ke-form-header">
@@ -466,6 +485,7 @@
 			<tr>
 				<td style="padding-left:10px;"><b>3. WHO Clinical Stage*:</b>
 					<obs conceptId="5356AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" "  style="dropdown"   id="whoStage"/>
+					<input type="button" id="guide" name="guide" value="Guide" onClick="tbScreeningGuide();"/>
 				</td>
 			</tr>
 			<tr>
@@ -488,5 +508,8 @@
 	<div class="ke-form-footer">
 		<submit />
 	</div>
+	
+	<div id="guideDivAdultForTbScreening" style="visibility:hidden;"></div>
+    <div id="guideDivChildForTbScreening" style="visibility:hidden;"></div>
 
 </htmlform>
