@@ -69,7 +69,7 @@ public class HivMetadata extends AbstractMetadataBundle {
 		install(form("MOH 257 Face Page", null, _EncounterType.HIV_ENROLLMENT, "1", _Form.MOH_257_FACE_PAGE));
 		install(form("MOH 257 ARV Therapy", null, _EncounterType.HIV_ENROLLMENT, "1", _Form.MOH_257_ARV_THERAPY));
 		install(form("MOH 257 Visit Summary", null, _EncounterType.HIV_CONSULTATION, "1", _Form.MOH_257_VISIT_SUMMARY));
-		install(form("HIV Discontinuation", null, _EncounterType.HIV_DISCONTINUATION, "1", _Form.HIV_DISCONTINUATION));
+		install(form("End of follow up", null, _EncounterType.HIV_DISCONTINUATION, "1", _Form.HIV_DISCONTINUATION));
 		install(form("Personal History", null, _EncounterType.HIV_ENROLLMENT, "1", _Form.HIV_PERSONAL_HISTORY));
 		install(form("Drug History", null, _EncounterType.HIV_ENROLLMENT, "1", _Form.HIV_DRUG_HISTORY));
 

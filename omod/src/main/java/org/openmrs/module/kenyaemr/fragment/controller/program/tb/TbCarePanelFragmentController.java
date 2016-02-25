@@ -23,6 +23,10 @@ import org.openmrs.module.kenyaemr.calculation.library.tb.TbDiseaseClassificatio
 import org.openmrs.module.kenyaemr.calculation.library.tb.TbPatientClassificationCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.tb.TbTreatmentNumberCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.tb.TbTreatmentOutcomeCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.tb.TbTreatmentOutcomeDate;
+import org.openmrs.module.kenyaemr.calculation.library.tb.TbTreatmentDrugSensitivity;
+import org.openmrs.module.kenyaemr.calculation.library.tb.TbTreatmentDrugRegimen;
+import org.openmrs.module.kenyaemr.calculation.library.tb.TbTreatmentStartDateCalculation;
 import org.openmrs.module.kenyaemr.regimen.RegimenChangeHistory;
 import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.annotation.SpringBean;
@@ -55,6 +59,18 @@ public class TbCarePanelFragmentController {
 		result = EmrCalculationUtils.evaluateForPatient(TbTreatmentOutcomeCalculation.class, null, patient);
 		calculationResults.put("tbTreatmentOutcome", result != null ? result.getValue() : null);
 
+		result = EmrCalculationUtils.evaluateForPatient(TbTreatmentOutcomeDate.class, null, patient);
+		calculationResults.put("tbTreatmentOutcomeDate", result != null ? result.getValue() : null);
+		
+		result = EmrCalculationUtils.evaluateForPatient(TbTreatmentDrugSensitivity.class, null, patient);
+		calculationResults.put("tbTreatmentDrugSensitivity", result != null ? result.getValue() : null);
+
+		result = EmrCalculationUtils.evaluateForPatient(TbTreatmentDrugRegimen.class, null, patient);
+		calculationResults.put("tbTreatmentDrugRegimen", result != null ? result.getValue() : null);
+		
+		result = EmrCalculationUtils.evaluateForPatient(TbTreatmentStartDateCalculation.class, null, patient);
+		calculationResults.put("tbTreatmentDrugStartDate", result != null ? result.getValue() : null);
+		
 		model.addAttribute("calculations", calculationResults);
 
 		Concept medSet = regimenManager.getMasterSetConcept("TB");

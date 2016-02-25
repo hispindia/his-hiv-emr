@@ -40,10 +40,6 @@
 <div class="ke-page-sidebar">
 
 	<div class="ke-panel-frame">
-		<% menuItems.each { item -> print ui.includeFragment("kenyaui", "widget/panelMenuItem", item) } %>
-	</div>
-
-	<div class="ke-panel-frame">
 		<div class="ke-panel-heading">Visits(${ visitsCount })</div>
 
 		<% if (!visits) {

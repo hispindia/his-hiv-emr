@@ -18,9 +18,26 @@ else{
 	dataPoints << [ label: "Site", value:  "None" ];
 }
 
+if(calculations.tbTreatmentDrugStartDate){
+		dataPoints << [ label: "TB treatment start date", value: calculations.tbTreatmentDrugStartDate ]
+		dataPoints << [ label: "TB regimen", value: calculations.tbTreatmentDrugRegimen ]
+}
+else{
+	dataPoints << [ label: "TB regimen", value: "None" ]
+}
+
+if(calculations.tbTreatmentDrugSensitivity){
+		dataPoints << [ label: "Drug sensitivity", value: calculations.tbTreatmentDrugSensitivity ]
+}
+else{
+	dataPoints << [ label: "Drug sensitivity", value: "None" ]
+}
+
 
 if(calculations.tbTreatmentOutcome){
 		dataPoints << [ label: "TB treatment outcome", value: calculations.tbTreatmentOutcome ]
+		dataPoints << [ label: "TB treatment outcome date", value: calculations.tbTreatmentOutcomeDate ]
+		
 }
 else{
 	dataPoints << [ label: "TB treatment outcome", value:  "None" ];

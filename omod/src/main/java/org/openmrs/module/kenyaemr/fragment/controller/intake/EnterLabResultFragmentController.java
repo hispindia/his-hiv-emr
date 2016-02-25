@@ -81,7 +81,8 @@ public class EnterLabResultFragmentController {
 		}
 		model.addAttribute("listTests", listTests);
 		model.addAttribute("confirmed", resultEncounter != null && resultEncounter.isVoided() ? true: false);
-		
+		model.addAttribute("patientGender", encounter.getPatient().getGender());
+		model.addAttribute("patientAge", encounter.getPatient().getAge());
 		
 	}
 	

@@ -11,9 +11,11 @@
   ~
   ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
 -->
+
 <htmlform>
 <script type="text/javascript">
 jq(document).ready(function(){
+		
 	if (getValue('status.value') == "135704" || getValue('status.value') == "1175") {
 		jQuery('#tableFamily :input').prop('disabled', true);
 	}
@@ -21,7 +23,8 @@ jq(document).ready(function(){
 	{
 		jQuery('#tableFamily :input').prop('disabled', false);
 	}
-
+//====================================
+	
 	jq("#status :input").change(function(){
 		if (getValue('status.value') == "135704" || getValue('status.value') == "1175") {
 			jQuery('#tableFamily :input').prop('disabled', true);
@@ -41,12 +44,11 @@ jq(document).ready(function(){
 		fieldIndex=fieldIndex+14;
 		j++;
 	}
-	//jQuery('#'+i+'-toggleContainer').show();
 	
+	//jQuery('#'+i+'-toggleContainer').show();
 	$j('#1-removeEntry').remove();
 	$j('#8-addEntry').remove();
 	$j('#1-toggleContainer').show();
-	
 	
 	$j('button.addEntry').on("click", function(){
 		var correctedAddButtonId = parseFloat(this.id) + 1;      
@@ -65,9 +67,42 @@ jq(document).ready(function(){
 		$j('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
 		return false;
 		});
+
+//================
 	
-	
-});
+	if (document.getElementById("w106").value != "") {
+	$j('#7-removeEntry').remove();
+	$j('#7-addEntry').remove();
+	}
+		if (document.getElementById("w92").value != "") {
+		$j('#6-removeEntry').remove();
+		$j('#6-addEntry').remove();
+		}
+		
+		if (document.getElementById("w78").value != "") {
+			$j('#5-removeEntry').remove();
+			$j('#5-addEntry').remove();
+			}
+				if (document.getElementById("w64").value != "") {
+				$j('#4-removeEntry').remove();
+				$j('#4-addEntry').remove();
+				}
+					if (document.getElementById("w50").value != "") {
+					$j('#3-removeEntry').remove();
+					$j('#3-addEntry').remove();
+					}
+						if (document.getElementById("w36").value != "") {
+						$j('#2-removeEntry').remove();
+						$j('#2-addEntry').remove();
+						}
+							if (document.getElementById("w22").value != "") {
+							$j('#1-removeEntry').remove();
+							$j('#1-addEntry').remove();
+							}
+			
+//==============
+
+	});
 </script>
 
 	<style>
@@ -81,6 +116,53 @@ jq(document).ready(function(){
 			width:150px;
 		}
 		
+		td, tr, table{
+			padding:3px;
+		}
+		
+		select{
+			padding:4px;
+			border-radius: 2px;
+			width:50px;
+		}
+		
+		th, td {
+			border: 1px solid black;
+			width: 157px !important;
+		}
+
+		input[type="text"] {
+			width: 37px;
+		}
+
+		table {
+			width: 100%;
+		}
+
+		tr > td > input[type=text] {
+			width: 148px;
+		}
+
+		tr > td > center > select {
+			width: 114px;
+		}
+		
+		#marital-status-table {
+		width: 29%;
+		}
+		
+		#marital-status-table select {
+		width: 218px !important;
+		}
+		
+		select {
+		width: 116px !important;
+		}
+		
+		#add, #remove {
+		border: none;
+		background-color: white;	
+		}
     </style>
 
 	<!-- Encounter date, provider and location are not relevant for CE forms -->
@@ -93,7 +175,7 @@ jq(document).ready(function(){
 	<div class="ke-form-content" style="select {   width: 40%;   padding: 2px;}" >
 				
 				<br/>
-				<table style="background-color: #c7d8a7">
+				<table style="background-color: #c7d8a7" id="marital-status-table">
 					<tr>
 						<td><strong>Marital Status?</strong></td>
 						<td><obs id="status" conceptId="1054AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
@@ -109,6 +191,7 @@ jq(document).ready(function(){
 						<th><center>Gender</center></th>
 						<th><center>HIV Result(+/-/Unknown)</center></th>
 						<th><center>ART(Y/N)</center></th>
+						<th id="add"><center></center></th>
 					</tr>
 					<repeat>
 						<template>
@@ -122,7 +205,7 @@ jq(document).ready(function(){
 											<td width="200px"><center><obs conceptId="1533AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></center></td>
 											<td><center><obs conceptId="1169AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></center></td>
 											<td><center><obs conceptId="72ef6301-fbbb-4c44-8e5f-ec27f33afa22" /></center></td>
-											<td><button id="{n}-addEntry" class="addEntry">Add</button></td><td><button id="{n}-removeEntry" class="removeEntry">Remove</button></td> 
+											<td><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td> 
 										</tr>
 									</table>	
 								</div>

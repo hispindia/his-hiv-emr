@@ -40,6 +40,9 @@ public class TbTreatmentStartDateCalculation extends AbstractPatientCalculation 
 	 */
 	@Override
 	public CalculationResultMap evaluate(Collection<Integer> cohort, Map<String, Object> parameterValues, PatientCalculationContext context) {
+			return Calculations.lastObs(Dictionary.getConcept(Dictionary.TUBERCULOSIS_DRUG_TREATMENT_START_DATE), cohort, context);
+		
+		/*
 		//get the parameter from the cohort definition
 		Integer months = (parameterValues != null && parameterValues.containsKey("months")) ? (Integer) parameterValues.get("months") : null;
 
@@ -56,7 +59,7 @@ public class TbTreatmentStartDateCalculation extends AbstractPatientCalculation 
 			}
 			ret.put(ptId, new BooleanResult(results4Months, this, context));
 		}
-		return ret;
+		return ret;*/
 
 	}
 }

@@ -33,4 +33,8 @@ public class HivConstants {
 	 * Number of days between old CD4 count and current CD4 count to determine declining status
 	 */
 	public static final int DECLINING_CD4_COUNT_ACROSS_DAYS = 180;
+	
+	
+	public static final int DUE_DATE_FOR_VIRAL_LOAD = 90;
+
 }

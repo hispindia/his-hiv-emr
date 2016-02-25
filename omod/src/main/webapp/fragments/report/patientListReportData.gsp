@@ -27,6 +27,7 @@
 			<th>Age</th>
 			<th>Gender</th>
 			<th>Patient ID</th>
+			<th>NIC</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -35,8 +36,8 @@
 				def patientId = row.getColumnValue("id")
 				//remove null values from each row
 				def rowName = row.getColumnValue("Name")
-				def personName = rowName.toString().replaceAll("['\\(NULL\\)',]",'')
-				def personGender = row.getColumnValue("Sex").toLowerCase()
+				def personName = rowName.toString().replaceAll('\\(NULL\\),','')
+				def personGender = row.getColumnValue("Sex").toLowerCase() 
 		%>
 			<tr>
 				<td>

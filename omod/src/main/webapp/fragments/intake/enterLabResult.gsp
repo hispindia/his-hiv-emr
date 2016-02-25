@@ -42,7 +42,12 @@ No record found.
 		<td style="text-align:right"><input type="text" id="${test.conceptId}_value" name="${test.conceptId}_value" size="15" value="${test.result}"  onblur="calculateComment(${test.conceptId})"></td>
 		<td ><input disabled type="text" size="10" value="${test.units}"/></td>
 		<td><input disabled id="${test.conceptId}_range" size="10" type="text" value="${test.range}"/></td>
-		<td><input disabled id="${test.conceptId}_comment" class="comment" size="10" type="text" value=""/></td>
+		<td><input disabled id="${test.conceptId}_comment" class="comment" size="15" type="text" value=""/></td>
+		<% if(test.conceptId==790) {%>
+			<td> Creatinine clearance  rate :  
+				<input disabled id="${test.conceptId}_rate" class="comment" size="15" type="text" value=""/>
+			</td>
+		<% } %>
 	<% } %>
 	
 	</tr>
@@ -84,7 +89,7 @@ jq(function() {
 
 function calculateComment(conceptId) {
 	if ("true" == jq("#"+conceptId+"_isRadiology").val()) {
-		return;
+		return ;
 	} 
 	var value =  parseInt(jq("#"+conceptId+"_value").val());
 	var range = jq("#"+conceptId+"_range").val();
@@ -106,6 +111,16 @@ function calculateComment(conceptId) {
 	}
 	jq("#"+conceptId+"_comment").val(comment);
 	jq("#"+conceptId+"_comment").css("color",commentColor);
+	
+	var total;
+	var age = '${patientAge}';
+	if(conceptId==790 && '${patientGender}'=='F'){
+		total = 175*  Math.pow(value, -1.154) * Math.pow(age,-0.203) * 0.742;
+	}
+	else if(conceptId==790 && '${patientGender}'=='M'){
+		total = 175*  Math.pow(value, -1.154) * Math.pow(age,-0.203) ;
+	}
+	jq("#"+conceptId+"_rate").val(Math.round(total*100)/100 + ' ml/min');
 }
 
 function confirmResult() {

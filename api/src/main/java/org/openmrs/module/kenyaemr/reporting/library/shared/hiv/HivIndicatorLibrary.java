@@ -97,4 +97,20 @@ public class HivIndicatorLibrary {
 	public CohortIndicator onProphylaxis() {
 		return cohortIndicator("patients on any prophylaxis", map(hivCohorts.inHivProgramAndOnAnyProphylaxis(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
 	}
+        
+        public CohortIndicator givenDrugsForOI() {
+                return cohortIndicator("patients treated for Opportunistic Infection", map(hivCohorts.givenOIDrugs(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+        }
+        
+        public CohortIndicator initiatedARTandTB(){
+                return cohortIndicator("TB patients received ART", map(hivCohorts.receivedART(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+        }
+        
+        public CohortIndicator restartART(){
+                return cohortIndicator("patients Restarted ART", map(hivCohorts.restartedProgram(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+        }
+        
+        public CohortIndicator notInART(){
+                return cohortIndicator("patients not initialized for ART", map(hivCohorts.notinitializedART(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+        }
 }

@@ -282,6 +282,14 @@ public class CommonCohortLibrary {
 		cd.setPrograms(Arrays.asList(MetadataUtils.existing(Program.class, HivMetadata._Program.HIV)));
 		return cd;
 	}
+        
+        public CohortDefinition compltedProgram(Program program) {
+		ProgramEnrollmentCohortDefinition cd = new ProgramEnrollmentCohortDefinition();
+		cd.setName("Those patients who completed program on date");
+		cd.addParameter(new Parameter("completedOnOrBefore", "Complete Date", Date.class));
+		cd.setPrograms(Arrays.asList(program));
+		return cd;
+	}
 
 	/**
 	 * Patients who are Deceased

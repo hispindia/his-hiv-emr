@@ -15,22 +15,64 @@
 
 
 	<style type="text/css">
-		.ke-form-content textarea {
-			width: 100%;
+		table.tb1 {
+			border: 1px solid black;
+			vertical-align: baseline;
+			text-align: left;
+			background-color: #FFFFFF;
+		}
+		table.tb1 tr th,table.tb1 tr td{
+			border: 0;
+			padding: 5px;
+		}
+		input[type=text]{
+			width:400px;
+		}
+		input[class=hasDatepicker]{
+			width:150px;
 		}
 	</style>
+
 	<script type="text/javascript">
-	jq(document).ready(function(){
-		beforeSubmit.push(function() {
-		/*	if (document.getElementById("w122").checked== true) {
-				getField('otherOptionvalue.error').html('Required').show();
-				return false;
-			} */
-			return true;
-		});	
-			});
+		
+		jq(document).ready(function(){
+			// show fields with data 
+			fieldIndex1 = 12;
+			count=1;
+			while(document.getElementById("w"+fieldIndex1).value!="" &amp;&amp; count &lt; 11){
+				jQuery('#'+count+'-toggleContainer1').show();   
+				fieldIndex1=fieldIndex1+2;
+				count++;
+			}
 			
-	</script>		
+			$j('#1-removeEntry1').remove();
+			$j('#10-addEntry1').remove();
+			$j('#1-toggleContainer1').show();
+			
+			
+			$j('button.addEntry1').on("click", function(){
+				var correctedAddButtonId = parseFloat(this.id) + 1;      
+				var contentAddId = "#" + correctedAddButtonId + "-toggleContainer1";
+				$j(contentAddId).toggle(true);      
+				$j('#' + this.id).toggle(false); 
+				$j('#' + parseFloat(this.id) + '-removeEntry1').toggle(false);
+				return false;});    
+			 
+			$j('button.removeEntry1').on("click", function(){ 
+				var correctedRemoveButtonId = parseFloat(this.id) - 1;
+				var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer1";
+				$j(contentAddId).toggle(false);
+				$j( ':input:not(:button)', contentAddId).val([]);
+				$j('#' + correctedRemoveButtonId + '-addEntry1').toggle(true);
+				$j('#' + correctedRemoveButtonId + '-removeEntry1').toggle(true);
+				return false;
+				});
+		});
+		
+		
+		
+		</script>
+			
 	<div class="ke-form-header">
 		<table width="100%" align="center" style="background-color: #c7d8a7">
 			<tr>
@@ -40,78 +82,51 @@
 		</table>
 	</div>
 
-	<div class="ke-form-content"  style="width: 100%;   padding: 2px;" >
-			<table style="background-color: #e8efdc" align="center"   cellspacing="10" width="100%">
+	<div class="ke-form-content" style="width:100%;   padding: 2px;">
+			<table style="background-color: #e8efdc" align="center" class="tb1"  cellspacing="0" width="100%">
 					<tr>
-						<td style="padding: 5px;">1. Date of Admission :<obs conceptId="b36da368-4705-4582-b213-74a7a990aff8" /></td>
-						
-
+						<td>1. Date of Admission :</td>
+						<td><obs conceptId="b36da368-4705-4582-b213-74a7a990aff8" /></td>
 					</tr>
 					<tr>
-						<td style="padding: 5px;">2. Date of Discharge :<obs conceptId="1641AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
-						
-
-					</tr>
-			</table>
-			<table style="background-color: #e8efdc" align="center"   cellspacing="10" width="100%">
-					<tr>
-						<td colspan="2"><hr/></td>
+						<td>2. Date of Discharge :</td>
+						<td><obs conceptId="1641AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
 					</tr>
 					<tr>
-						<td >3. Hospital Diagnosis</td>
+						<td valign="top">3. Hospital Diagnosis</td>
+						<td valign="bottom">
+							<table>
+								<repeat>
+									<template>
+										<tr  id="{n}-toggleContainer1" style="display:none;">
+											<td valign="bottom">{n}. <obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" style="autocomplete"/></td>
+											<td><button id="{n}-addEntry1" class="addEntry1">Add</button><button id="{n}-removeEntry1" class="removeEntry1">Remove</button>
+											</td>
+										</tr>
+									</template>
+									<render n="1" concept=" "/>
+									<render n="2" concept=" "/>
+									<render n="3" concept=" "/>
+									<render n="4" concept=" "/>
+									<render n="5" concept=" "/>
+									<render n="6" concept=" "/>
+									<render n="7" concept=" "/>
+									<render n="8" concept=" "/>
+									<render n="9" concept=" "/>
+									<render n="10" concept=" "/>
+								</repeat>
+							</table>
+						</td>	
 					</tr>				
-									
 					<tr>
-					
-					<td>
-					<br />
-						<div id="opportunisticInfectionYes">
-							<repeat>
-								<template>
-									<table style="border: 1px solid black;border-spacing: 15px;">
-										<tr>
-											<td style="border: 1px solid black;padding: 5px;"><obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" style="autocomplete" type="autocomplete" labelText=" "  id="daig_value"/></td>
-											<td style="border: 1px solid black;padding: 5px;"><obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" style="autocomplete" type="autocomplete" labelText=" "  id="daig_value1"/></td>
-											<td style="border: 1px solid black;padding: 5px;"><obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" style="autocomplete" type="autocomplete" labelText=" "  id="daig_value2"/></td>
-										</tr>
-									</table>	
-								</template>
-								<render n="1" concept=" " />
-								<render n="2" concept=" " />
-								<render n="3" concept=" " />
-							</repeat>	
-						</div>		
-					</td>	
-				</tr>
-				<tr>
-					<td colspan="2"><hr/></td>
-				</tr>
-			</table>
-		
-			<table style="background-color: #e8efdc" align="center"   cellspacing="10" width="100%">
-					<tr  align="left" width="60%">
-						<td valign="top" colspan="2">
-							<div id="opportunisticInfectionYes">
-								<fieldset>
-									<table>
-										<tr>
-											<td>
-												4. Clinical Note :	
-											</td>
-											<td>
-												<div class="ke-form-content">
-													<div style="text-align: left">
-														<obs conceptId="f52c4552-15aa-412c-b184-f17dd7c9fe6c" rows="5" cols="50" style="textarea" />
-													</div>
-												</div>	
-											</td>
-										</tr>
-									</table>
-								</fieldset>
-							</div>
+						<td>
+							4. Clinical Note :	
 						</td>
-					</tr>		
-				</table>
+						<td>
+							<obs conceptId="f52c4552-15aa-412c-b184-f17dd7c9fe6c" rows="5" cols="100" style="textarea" />
+						</td>
+					</tr>	
+			</table>
 		</div>
 	<div class="ke-form-footer">
 		<submit />
