@@ -50,19 +50,29 @@
 		*/	
 			
 			// show fields with data 
-			fieldIndex = 32; 
+			fieldIndex = 34; 
 			j=1;
 			while(document.getElementById("w"+fieldIndex).value!="" &amp;&amp; j &lt; 6){
+				//alert(document.getElementById("w"+38).value);
 				jQuery('#'+j+'-toggleContainer').show();   
 				fieldIndex=fieldIndex+2;
+				if(document.getElementById("w"+fieldIndex).value != '')
+					{
+				$j('#'+j+'-removeEntry').toggle(false);
+				$j('#'+j+'-addEntry').toggle(false);
+					}
 				j++;
+				
 			}
-			
+			//if(document.getElementById("w"+36).value == NULL)
+				//{
+				//$j('#1-removeEntry').remove();
+				
+				//}
 	
 			$j('#1-removeEntry').remove();
 			$j('#5-addEntry').remove();
 			$j('#1-toggleContainer').show();
-			
 			
 			$j('button.addEntry').on("click", function(){
 				var correctedAddButtonId = parseFloat(this.id) + 1;      
@@ -70,9 +80,11 @@
 				$j(contentAddId).toggle(true);      
 				$j('#' + this.id).toggle(false); 
 				$j('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
+				
 				return false;});    
 			 
 			$j('button.removeEntry').on("click", function(){ 
+				
 				var correctedRemoveButtonId = parseFloat(this.id) - 1;
 				var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
 				$j(contentAddId).toggle(false);

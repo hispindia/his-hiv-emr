@@ -568,9 +568,13 @@ public class EditPatientFragmentController {
 				if (enrollmentName.getName().toString().equals("Other")) {
 					require(errors, "otherStatus");
 				}
+				
 				if (enrollmentName.getName().toString().equals("Pregnancy") || enrollmentName.getName().toString().equals("Postpartum")) {
-					errors.rejectValue("enrollmentName",
-							"Cannot be selected for Male patient");
+					if(gender.toString().equals("M")){
+						errors.rejectValue("enrollmentName",
+								"Cannot be selected for Male patient");	
+					}
+					
 				}
 			}
 			
