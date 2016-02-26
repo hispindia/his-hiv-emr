@@ -68,7 +68,7 @@
 
 <div class="ke-page-content">
 	<div class="ke-panel-frame">
-		<div class="ke-panel-heading">${ category } Regimen History</div>
+		<div class="ke-panel-heading">${ category } Regimen</div>
 		<div class="ke-panel-content">
 
 			${ ui.includeFragment("kenyaemr", "regimenHistory", [ history: history ]) }
