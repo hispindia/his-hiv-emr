@@ -48,15 +48,9 @@ import static org.openmrs.module.kenyaemr.calculation.EmrCalculationUtils.daysSi
  * Calculates whether a patient has a declining CD4 count. Calculation returns true if patient
  * is alive, enrolled in the HIV program and last CD4 count is less than CD4 count from 6 months ago
  */
-public class PatientsWhoHaveImmunologicalFailureCalculation extends AbstractPatientCalculation implements PatientFlagCalculation {
+public class PatientsWhoHaveImmunologicalFailureCalculation extends AbstractPatientCalculation {
 		
-	/**
-	 * @see org.openmrs.module.kenyacore.calculation.PatientFlagCalculation#getFlagMessage()
-	 */
-	@Override
-	public String getFlagMessage() {
-		return "Immunological Failure";
-	}
+
 
 	/**
 	 * @see org.openmrs.calculation.patient.PatientCalculation#evaluate(java.util.Collection,

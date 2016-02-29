@@ -58,16 +58,9 @@ import java.util.Set;
 import static org.openmrs.module.kenyaemr.calculation.EmrCalculationUtils.daysSince;
 
 
-public class TBCasesAmongPLHIVMonthCalculation extends AbstractPatientCalculation implements PatientFlagCalculation {
+public class TBCasesAmongPLHIVMonthCalculation extends AbstractPatientCalculation {
 
-	/**
-	 * @see org.openmrs.module.kenyacore.calculation.PatientFlagCalculation#getFlagMessage()
-	 */
-	@Override
-	public String getFlagMessage() {
-		return "Incident TB Cases Among PLHIV";
-	}
-
+	
 	/**
 	 * @see org.openmrs.calculation.patient.PatientCalculation#evaluate(java.util.Collection,
 	 *      java.util.Map, org.openmrs.calculation.patient.PatientCalculationContext)

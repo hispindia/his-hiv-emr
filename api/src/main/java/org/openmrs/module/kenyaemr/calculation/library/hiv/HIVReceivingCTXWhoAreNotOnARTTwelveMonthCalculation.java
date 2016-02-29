@@ -28,12 +28,8 @@ import org.openmrs.module.kenyaemr.metadata.HivMetadata;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 
 @SuppressWarnings("deprecation")
-public class HIVReceivingCTXWhoAreNotOnARTTwelveMonthCalculation extends AbstractPatientCalculation implements PatientFlagCalculation {
+public class HIVReceivingCTXWhoAreNotOnARTTwelveMonthCalculation extends AbstractPatientCalculation {
 
-	@Override
-	public String getFlagMessage() {
-		return "Receiving CTX - Not on ART";
-	}
 	
 	
 	public CalculationResultMap evaluate(Collection<Integer> cohort, Map<String, Object> parameterValues,PatientCalculationContext context) {

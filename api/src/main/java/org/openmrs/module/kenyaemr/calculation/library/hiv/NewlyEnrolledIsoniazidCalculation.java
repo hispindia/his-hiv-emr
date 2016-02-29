@@ -35,14 +35,9 @@ import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 
 
-public class NewlyEnrolledIsoniazidCalculation extends AbstractPatientCalculation implements PatientFlagCalculation {
+public class NewlyEnrolledIsoniazidCalculation extends AbstractPatientCalculation {
 
-    @Override
-    public String getFlagMessage() {
-        return "Newly Enrolled Isoniazid Patients";
-    }
-
-    @Override
+      @Override
     public CalculationResultMap evaluate(Collection<Integer> cohort, Map<String, Object> parameterValues, PatientCalculationContext context) {
         
     	Program hivProgram = MetadataUtils.existing(Program.class, HivMetadata._Program.HIV);
@@ -80,7 +75,6 @@ public class NewlyEnrolledIsoniazidCalculation extends AbstractPatientCalculatio
                         }
                     }
                     if (obsDate != null && obsDate.after(startDate)) {
-                        System.out.println("End Date is "+endDate);
                         trigger = true;
                     }
 

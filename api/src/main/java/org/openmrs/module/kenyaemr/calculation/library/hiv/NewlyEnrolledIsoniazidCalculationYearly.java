@@ -34,12 +34,8 @@ import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
 
 
-public class NewlyEnrolledIsoniazidCalculationYearly extends AbstractPatientCalculation implements PatientFlagCalculation {
+public class NewlyEnrolledIsoniazidCalculationYearly extends AbstractPatientCalculation {
 
-    @Override
-    public String getFlagMessage() {
-        return "Newly Enrolled Isoniazid Patients";
-    }
 
     @Override
     public CalculationResultMap evaluate(Collection<Integer> cohort, Map<String, Object> parameterValues, PatientCalculationContext context) {
@@ -76,7 +72,6 @@ public class NewlyEnrolledIsoniazidCalculationYearly extends AbstractPatientCalc
                         }
                     }
                     if (obsDate != null && obsDate.after(startDate) && obsDate.before(endDate)) {
-                        System.out.println("End Date is "+endDate);
                         trigger = true;
                     }
 

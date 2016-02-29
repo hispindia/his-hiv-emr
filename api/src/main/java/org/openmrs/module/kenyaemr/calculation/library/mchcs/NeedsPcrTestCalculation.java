@@ -36,16 +36,16 @@ import java.util.Set;
 /**
  * Determines whether a child at 6 week and above has had PCR test
  */
-public class NeedsPcrTestCalculation extends AbstractPatientCalculation implements PatientFlagCalculation {
+public class NeedsPcrTestCalculation extends AbstractPatientCalculation  {
 
 	/**
 	 * @see org.openmrs.module.kenyacore.calculation.PatientFlagCalculation#getFlagMessage()
-	 */
+
 	@Override
 	public String getFlagMessage() {
 		return "Due For PCR Test";
 	}
-
+	 */
 	/**
 	 * @see org.openmrs.calculation.patient.PatientCalculation#evaluate(java.util.Collection, java.util.Map, org.openmrs.calculation.patient.PatientCalculationContext)
 	 */

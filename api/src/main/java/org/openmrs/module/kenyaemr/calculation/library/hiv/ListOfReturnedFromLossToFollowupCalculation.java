@@ -43,12 +43,7 @@ import static org.openmrs.module.kenyaemr.calculation.EmrCalculationUtils.daysSi
  * Calculates whether a patient has been lost to follow up and returned after LOST_TO_FOLLOW_UP_THRESHOLD_DAYS. Calculation returns true if patient
  * is alive, enrolled in the HIV program, has a FOLLOW_UP, but have an encounter after LOST_TO_FOLLOW_UP_THRESHOLD_DAYS days
  */
-public class ListOfReturnedFromLossToFollowupCalculation extends AbstractPatientCalculation implements PatientFlagCalculation {
-
-	@Override
-	public String getFlagMessage() {
-		return "Lost to Followup, Returned";
-	}
+public class ListOfReturnedFromLossToFollowupCalculation extends AbstractPatientCalculation {
 
 	/**
 	 * Evaluates the calculation

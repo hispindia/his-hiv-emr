@@ -33,13 +33,13 @@ import java.util.Set;
 /**
  * Calculates the recorded pregnancy status of patients
  */
-public class IsPregnantCalculation extends AbstractPatientCalculation implements PatientFlagCalculation {
+public class IsPregnantCalculation extends AbstractPatientCalculation  {
 
-	@Override
+/*	@Override
 	public String getFlagMessage() {
 		return "Pregnant";
 	}
-
+*/
     /**
 	 * Evaluates the calculation
      * @should calculate null for deceased patients

@@ -45,16 +45,9 @@ import java.util.Set;
 import static org.openmrs.module.kenyaemr.calculation.EmrCalculationUtils.daysSince;
 
 
-public class PatientsWhoHaveClinicalFailureCalculation extends AbstractPatientCalculation implements PatientFlagCalculation {
+public class PatientsWhoHaveClinicalFailureCalculation extends AbstractPatientCalculation {
 		
-	/**
-	 * @see org.openmrs.module.kenyacore.calculation.PatientFlagCalculation#getFlagMessage()
-	 */
-	@Override
-	public String getFlagMessage() {
-		return "Clinical Failure";
-	}
-
+	
 	/**
 	 * @see org.openmrs.calculation.patient.PatientCalculation#evaluate(java.util.Collection,
 	 *      java.util.Map, org.openmrs.calculation.patient.PatientCalculationContext)

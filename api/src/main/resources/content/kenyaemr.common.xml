@@ -72,6 +72,7 @@
 				<ref bean="kenyaemr.common.report.opportunisticInfections"/>
 				<ref bean="kenyaemr.common.report.patientsRestartedART"/>
 				<ref bean="kenyaemr.common.report.patientsTBreceivedART"/>
+				<ref bean="kenyaemr.common.report.levelOfAdherence"/>
 			</set>
 		</property>
 	</bean>
@@ -711,6 +712,13 @@
 		<property name="targetUuid" value="1c00047d-0c4f-477f-bee3-2b874de30ae0" />
 		<property name="name" value="TB patients on ART" />
 		<property name="description" value="No. of  HIV positive TB patients who have received ART during this month" />
+		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+	</bean>
+	
+	<bean id="kenyaemr.common.report.levelOfAdherence" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
+		<property name="targetUuid" value="7262d2ac-cf16-4efb-bb4e-d45b0dc7a082" />
+		<property name="name" value="Level of adherence" />
+		<property name="description" value="Patients who assessed for adherence during this month Of those assessed for adherence, level of adherence" />
 		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
 	</bean>
 

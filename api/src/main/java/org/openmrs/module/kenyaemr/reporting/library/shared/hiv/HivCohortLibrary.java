@@ -23,6 +23,7 @@ import org.openmrs.module.kenyacore.report.cohort.definition.CalculationCohortDe
 import org.openmrs.module.kenyacore.report.cohort.definition.DateObsValueBetweenCohortDefinition;
 import org.openmrs.module.kenyaemr.Dictionary;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.OnCtxWithinDurationCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.art.LevelOfAdherenceCalculation;
 import org.openmrs.module.kenyaemr.metadata.HivMetadata;
 import org.openmrs.module.kenyaemr.reporting.library.shared.common.CommonCohortLibrary;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
@@ -122,6 +123,19 @@ public class HivCohortLibrary {
 		return cd;
 	}
 
+	//2016-2-26====	
+		/**
+		 * Patients who who got level of adherence on ${onDate}
+		 * @return the cohort definition
+		 */
+		public CohortDefinition levelOfAdherence(int minPercentage,int maxPercentage) {
+			CalculationCohortDefinition cd = new CalculationCohortDefinition(new LevelOfAdherenceCalculation(minPercentage,maxPercentage));
+			cd.setName("on ART on date");
+			cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+			cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			return cd;
+		}
+	//=============
 
 
 	/**

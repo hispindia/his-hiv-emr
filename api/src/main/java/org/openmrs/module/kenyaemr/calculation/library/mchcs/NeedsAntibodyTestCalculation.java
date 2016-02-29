@@ -36,16 +36,17 @@ import java.util.Set;
 /**
  * Determines whether a child at 9 months and above has had antibody test
  */
-public class NeedsAntibodyTestCalculation extends AbstractPatientCalculation implements PatientFlagCalculation {
+public class NeedsAntibodyTestCalculation extends AbstractPatientCalculation  {
 
 	/**
 	 * @see org.openmrs.module.kenyacore.calculation.PatientFlagCalculation#getFlagMessage()
-	 */
+
 	@Override
 	public String getFlagMessage() {
 		return "Due For Antibody Test";
 	}
-
+	 */
+	
 	/**
 	 * @see org.openmrs.calculation.patient.PatientCalculation#evaluate(java.util.Collection, java.util.Map, org.openmrs.calculation.patient.PatientCalculationContext)
 	 */

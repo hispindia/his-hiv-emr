@@ -42,16 +42,16 @@ import java.util.Set;
  * duration probably 2 weeks during the 2 weeks then there should have been no
  * sputum results recorded
  */
-public class NeedsTbSputumTestCalculation extends AbstractPatientCalculation implements PatientFlagCalculation {
+public class NeedsTbSputumTestCalculation extends AbstractPatientCalculation  {
 
 	/**
 	 * @see org.openmrs.module.kenyacore.calculation.PatientFlagCalculation#getFlagMessage()
-	 */
+	
 	@Override
 	public String getFlagMessage() {
 		return "Due for TB Sputum";
 	}
-
+*/
 	/**
 	 * @see org.openmrs.calculation.patient.PatientCalculation#evaluate(java.util.Collection, java.util.Map, org.openmrs.calculation.patient.PatientCalculationContext)
 	 * @should determine whether patients need sputum test

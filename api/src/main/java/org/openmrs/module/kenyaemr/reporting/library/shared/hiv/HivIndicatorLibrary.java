@@ -64,6 +64,15 @@ public class HivIndicatorLibrary {
 		return cohortIndicator("newly enrolled patients referred from",
 				map(hivCohorts.enrolledExcludingTransfersAndReferredFrom(entryPoints), "onOrAfter=${startDate},onOrBefore=${endDate}"));
 	}
+	//2016-2-26====
+		/**
+		 * Number of patients who got level of adherence 
+		 * @return the indicator
+		 */
+		public CohortIndicator levelOfAdherence(int minPercentage,int maxPercentage) {
+			return cohortIndicator("patients on ART", map(hivCohorts.levelOfAdherence(minPercentage,maxPercentage), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+		}
+	//==============
 
 	/**
 	 * Number of patients who were enrolled (excluding transfers) after referral from services other than the given entry points
@@ -81,7 +90,7 @@ public class HivIndicatorLibrary {
 	public CohortIndicator onCotrimoxazoleProphylaxis() {
 		return cohortIndicator("patients on CTX prophylaxis", map(hivCohorts.inHivProgramAndOnCtxProphylaxis(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
 	}
-
+	
 	/**
 	 * Number of patients who are on Fluconazole prophylaxis
 	 * @return the indicator
