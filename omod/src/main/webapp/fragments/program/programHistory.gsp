@@ -40,7 +40,7 @@
 </div>
 <% } %>
 
-<% if (currentEnrollment || patientIsEligible) { %>
+<% if ((currentEnrollment || patientIsEligible) && activeVisit) { %>
 <div class="ke-panel-footer">
 	<% if (currentEnrollment) { %>
 		<% if (defaultEnrollmentForm.targetUuid == 'e4b506c1-7379-42b6-a374-284469cba8da') { %>	

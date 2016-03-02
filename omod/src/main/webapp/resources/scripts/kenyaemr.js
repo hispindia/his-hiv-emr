@@ -100,6 +100,39 @@ var kenyaemrApp = angular.module('kenyaemr', [ 'kenyaui' ]);
 		}
 		$('#' + 'add').val("Add");
 	};
+	
+	
+	kenyaemr.updateSwitchRegimenFromDisplay = function(fieldId) {
+		var regimenStr = '';
+		jQuery('#selectedOptionSwitch1').val(drugRegimen);
+		
+		$('#' + fieldId +  '-container .regimen-component').each(function() {
+			var drug = $(this).find('.regimen-component-drug').val();
+			var dose = $(this).find('.regimen-component-dose').val();
+			var units = $(this).find('.regimen-component-units').val();
+			var frequency = $(this).find('.regimen-component-frequency').val();
+			var duration = $(this).find('.regimen-component-duration').val();
+
+			if (drug || dose) {
+				regimenStr += (drug + '|' + dose + '|' + units + '|' + frequency + '|' + duration + '|');
+			}
+		});
+
+		$('#' + 'guideSwitch').val("Guide");
+		$('#' + fieldId).val(regimenStr);
+		$('#' + 'slNoahSwitch').val("S.No");
+		$('#' + 'drugNameahSwitch').val("Drug Name");
+		$('#' + 'formulationahSwitch').val("Strength");
+		$('#' + 'strengthahSwitch').val("Unit");
+		$('#' + 'frequencyahSwitch').val("Frequency");
+		$('#' + 'durationahSwitch').val("Duration (in days)");
+		$('#' + 'actionahSwitch').val("Action");
+		for (var i = 1; i <= maxSlNoForSwitch; i++){
+			$('#' + 'infoSwitch' + i).val("Info");
+			$('#' + 'slNoSwitch' + i).val(i);
+		}
+		$('#' + 'addSwitch').val("Add");
+	};
 
 	/**
 	 * Creates a dynamic obs field

@@ -14,8 +14,16 @@
 		[ label: "Regimen", formFieldName: "regimen", class: "org.openmrs.module.kenyaemr.regimen.Regimen", fieldFragment: "field/Regimen", category: category,patient: currentPatient ]
 	}
 	
+	def substituteRegimenField = {
+		[ label: "Regimen", formFieldName: "regimen", class: "org.openmrs.module.kenyaemr.regimen.Regimen", fieldFragment: "field/Regimen", category: category,patient: currentPatient ]
+	}
+	
+	def switchRegimenField = {
+		[ label: "Regimen", formFieldName: "regimen", class: "org.openmrs.module.kenyaemr.regimen.Regimen", fieldFragment: "field/switchRegimen", category: category,patient: currentPatient ]
+	}
+	
 	def continueRegimenField = {
-		[ label: "Regimen", formFieldName: "continueRegimen", class: "org.openmrs.module.kenyaemr.regimen.Regimen", fieldFragment: "field/continueRegimen", category: category,patient: currentPatient ]
+		[ label: "Regimen", formFieldName: "regimen", class: "org.openmrs.module.kenyaemr.regimen.Regimen", fieldFragment: "field/continueRegimen", category: category,patient: currentPatient ]
 	}
 
 	def reasonFields = { reasonType ->
@@ -81,8 +89,10 @@
 			<% } %>
 
 			<% if (allowChange) { %>
-			${ ui.includeFragment("kenyaui", "widget/button", [ iconProvider: "kenyaui", icon: "buttons/regimen_change.png", label: "Change", extra: "the current regimen", onClick: "choseAction('change-regimen')" ]) }
+			${ ui.includeFragment("kenyaui", "widget/button", [ iconProvider: "kenyaui", icon: "buttons/regimen_change.png", label: "Substitute", extra: "the current regimen", onClick: "choseAction('substitute-regimen')" ]) }
 
+			${ ui.includeFragment("kenyaui", "widget/button", [ iconProvider: "kenyaui", icon: "buttons/regimen_change.png", label: "Switch", extra: "the current regimen", onClick: "choseAction('switch-regimen')" ]) }
+			
 			${ ui.includeFragment("kenyaui", "widget/button", [ iconProvider: "kenyaui", icon: "buttons/regimen_stop.png", label: "Continue", extra: "the current regimen", onClick: "choseAction('continue-regimen')" ]) }
 			<% } %>
 
@@ -119,8 +129,8 @@
 			<% } %>
 
 			<% if (allowChange) { %>
-			<fieldset id="change-regimen" class="regimen-action-form" style="display: none">
-				<legend>Change Regimen</legend>
+			<fieldset id="substitute-regimen" class="regimen-action-form" style="display: none">
+				<legend>Substitute Regimen</legend>
 
 				${ ui.includeFragment("kenyaui", "widget/form", [
 					fragmentProvider: "kenyaemr",
@@ -131,7 +141,29 @@
 							[ hiddenInputName: "changeType", value: "CHANGE" ],
 							[ hiddenInputName: "category", value: category ],
 							changeDateField("Change date"),
-							regimenField(),
+							substituteRegimenField(),
+							[ value: reasonFields("change") ]
+					],
+					submitLabel: "Save",
+					successCallbacks: [ "ui.reloadPage();" ],
+					cancelLabel: "Cancel",
+					cancelFunction: "cancelAction"
+				]) }
+			</fieldset>
+			
+			<fieldset id="switch-regimen" class="regimen-action-form" style="display: none">
+				<legend>Switch Regimen</legend>
+
+				${ ui.includeFragment("kenyaui", "widget/form", [
+					fragmentProvider: "kenyaemr",
+					fragment: "regimenUtil",
+					action: "changeRegimen",
+					fields: [
+							[ hiddenInputName: "patient", value: currentPatient.id ],
+							[ hiddenInputName: "changeType", value: "SWITCH" ],
+							[ hiddenInputName: "category", value: category ],
+							changeDateField("Change date"),
+							switchRegimenField(),
 							[ value: reasonFields("change") ]
 					],
 					submitLabel: "Save",
