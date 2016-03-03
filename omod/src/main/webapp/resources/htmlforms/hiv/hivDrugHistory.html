@@ -125,20 +125,19 @@
 			var sd4 = new Date(getValue('sDate4.value'));
 			var ed4 = new Date(getValue('eDate4.value'));
 			
-			alert(getValue('drugName1.value'));
-			if(getValue('drugName1.value')){
+			if($(".ke-visit-header")[0]!=undefined){
 				var diff1 = Math.floor(ed1.getTime() - sd1.getTime());
 			    var day1 = 1000 * 60 * 60 * 24;
 			    var days1 = Math.floor(diff1/day1);
 			    var months1 = Math.floor(days1/31);
 			    if(sd1!="Invalid Date" &amp;&amp; ed1!="Invalid Date"){
 			    	
-					document.getElementById("w19").value = months1;
-					document.getElementById("w20").value = months1;
+					document.getElementById("w27").value = months1;
+					document.getElementById("w28").value = months1;
 				}
 				else{
-					document.getElementById("w19").value = '';
-					document.getElementById("w20").value = '';
+					document.getElementById("w27").value = '';
+					document.getElementById("w28").value = '';
 				}
 			    
 				jq("#sDate1 :input, #eDate1 :input").change(function() {
@@ -151,12 +150,12 @@
 				    var months1 = Math.floor(days1/31);
 				    if(sd1!="Invalid Date" &amp;&amp; ed1!="Invalid Date"){
 				    	
-						document.getElementById("w19").value = months1;
-						document.getElementById("w20").value = months1;
+						document.getElementById("w27").value = months1;
+						document.getElementById("w28").value = months1;
 					}
 					else{
-						document.getElementById("w19").value = '';
-						document.getElementById("w20").value = '';
+						document.getElementById("w27").value = '';
+						document.getElementById("w28").value = '';
 					}
 					
 				});

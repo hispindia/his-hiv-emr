@@ -12,21 +12,73 @@
   ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
 -->
 <htmlform>
-	<style type="text/css">
-		table.tb {
-			background-color: #FFFFFF;
-			border: 1px solid black;
-		}
+	<!-- STYLE ======================
+	=================================-->
+	
+	<style>
+	th, td, tr, table{
+	padding: 5px 10px 5px 5px;
+	}
+	
+	table{
+	margin-left: 15px;
+	}
+	
+	tbody{
+	padding-left: 0px !important;
+	}
+	
+	input[type=text]{
+	 width: 100%; 
+     box-sizing: border-box;
+     -webkit-box-sizing:border-box;
+     -moz-box-sizing: border-box;
+	}
+	
+	select{
+	width: 100%; 
+     box-sizing: border-box;
+     -webkit-box-sizing:border-box;
+     -moz-box-sizing: border-box;
+	}
+	
+	input[type=button], button{
+	padding: 5px 10px 5px 5px;
+	margin-right: 15px;
+	min-width: 110px;
+	font-weight:bold;
+	background-color:#d9d9d9 !important;
+	}
+	
+	input[type=radio]{
+	padding: 0 0 0 0;
+	min-width: 20px;
+	font-weight:bold;
+	background-color:#d9d9d9 !important;
+	}
+	#tb {     width: 100%;     }
 
-		table.tb1 tr th, table.tb1 tr td,input {
-			border: 1px solid black;
-			padding: 10px;
-			width:30%;
-		}
-		
-		table {
-			border-collapse: collapse;
-		}
+#tb2 {     width: 100%;     }
+
+#tb tr {     width: 100%;     }
+
+#tb2 tr {     width: 100%;     }
+
+.col1 {     width: 8%;    }
+.col2 {     width: 8%;     }
+.col3 {     width: 21%;     }
+.col4 {     width: 8%;     }
+.col5 {     width: 15%;     }
+.col6 {     width: 8%;     }
+.col7 {     width: 8%;     }
+.col8 {     width: 8%;     }
+.col9 {     width: 8%;     }
+.col10 {     width: 8%;     }
+
+#tb, #tb2 {     table-layout: fixed;     }
+#tb td, #tb2 td {     word-wrap: break-word;     }
+#tb th, #tb2 th {     word-wrap: break-word;     }
+	
 	</style>
 
 
@@ -34,11 +86,17 @@
 		jq(document).ready(function () {
 			
 			// show fields with data 
-			fieldIndex = 22; 
+			fieldIndex = 24; 
 			j=1;
 			while(document.getElementById("w"+fieldIndex).value!="" &amp;&amp; j &lt; 5){
 				jQuery('#'+j+'-toggleContainer').show();   
 				fieldIndex=fieldIndex+18;
+
+				if(document.getElementById("w"+fieldIndex).value != '')
+				{
+			$j('#'+j+'-removeEntry').toggle(false);
+			$j('#'+j+'-addEntry').toggle(false);
+				}
 				j++;
 			}
 			//jQuery('#'+i+'-toggleContainer').show();
@@ -71,12 +129,20 @@
 					jq('#fPlanningOption :input').prop('disabled', false);
 					jq('#ifYesPregnancy :input').prop('disabled', true);
 					jq('#infantTable :input').prop('disabled', true);
+					jq('#2-toggleContainer :input').prop('disabled', true);
+					jq('#3-toggleContainer :input').prop('disabled', true);
+					jq('#4-toggleContainer :input').prop('disabled', true);
+					
+					
+					
+					
 				}
 				else if(getValue('fPlanning.value') == 1066) {
 					jq('#fPlanningOption :input').prop('disabled', true);
 					jq('#ifYesPregnancy :input').prop('disabled', false);
 
-					if (getValue('isPregnant.value') == 1065) {
+					if (getValue('isPregnant.value') == 1065){
+						
 						jq('#ancNumber :input').prop('disabled', false);
 						jq('#gravida :input').prop('disabled', false);
 						jq('#parity :input').prop('disabled', false);
@@ -84,6 +150,10 @@
 						jq('#nextDate :input').prop('disabled', false);
 						jq('#mbddate :input').prop('disabled', false);
 						jq('#infantTable :input').prop('disabled', false);
+						jq('#2-toggleContainer :input').prop('disabled', false);
+						jq('#3-toggleContainer :input').prop('disabled', false);
+						jq('#4-toggleContainer :input').prop('disabled', false);
+							
 					}
 					else{
 						jq('#ancNumber :input').prop('disabled', true);
@@ -93,12 +163,20 @@
 						jq('#nextDate :input').prop('disabled', true);
 						jq('#mbddate :input').prop('disabled', true);
 						jq('#infantTable :input').prop('disabled', true);
+						jq('#2-toggleContainer :input').prop('disabled', true);
+						jq('#3-toggleContainer :input').prop('disabled', true);
+						jq('#4-toggleContainer :input').prop('disabled', true);
+						
 					}
 				}
 				else{
 					jq('#fPlanningOption :input').prop('disabled', true);
 					jq('#ifYesPregnancy :input').prop('disabled', true);
 					jq('#infantTable :input').prop('disabled', true);
+					jq('#2-toggleContainer :input').prop('disabled', true);
+					jq('#3-toggleContainer :input').prop('disabled', true);
+					jq('#4-toggleContainer :input').prop('disabled', true);
+					
 				}
 			
 				jq("#fPlanning input:radio").change(function() {
@@ -106,6 +184,12 @@
 						jq('#fPlanningOption :input').prop('disabled', false);
 						jq('#ifYesPregnancy :input').prop('disabled', true);
 						jq('#infantTable :input').prop('disabled', true);
+						jq('#2-toggleContainer :input').prop('disabled', true);
+						jq('#3-toggleContainer :input').prop('disabled', true);
+						jq('#4-toggleContainer :input').prop('disabled', true);
+						jq('#isPregnant input:radio').prop('checked', false);
+						
+						
 					}
 					else {
 						jq('#fPlanningOption :input').prop('disabled', true);
@@ -118,6 +202,10 @@
 							jq('#nextDate :input').prop('disabled', false);
 							jq('#mbddate :input').prop('disabled', false);
 							jq('#infantTable :input').prop('disabled', false);
+							jq('#2-toggleContainer :input').prop('disabled', false);
+							jq('#3-toggleContainer :input').prop('disabled', false);
+							jq('#4-toggleContainer :input').prop('disabled', false);
+							
 						}
 						else{
 							jq('#ancNumber :input').prop('disabled', true);
@@ -127,8 +215,11 @@
 							jq('#nextDate :input').prop('disabled', true);
 							jq('#mbddate :input').prop('disabled', true);
 							jq('#infantTable :input').prop('disabled', true);
+							jq('#2-toggleContainer :input').prop('disabled', true);
+							jq('#3-toggleContainer :input').prop('disabled', true);
+							jq('#4-toggleContainer :input').prop('disabled', true);
+							
 						}
-
 					}	
 				});
 
@@ -141,6 +232,10 @@
 						jq('#nextDate :input').prop('disabled', false);
 						jq('#mbddate :input').prop('disabled', false);
 						jq('#infantTable :input').prop('disabled', false);
+						jq('#2-toggleContainer :input').prop('disabled', false);
+						jq('#3-toggleContainer :input').prop('disabled', false);
+						jq('#4-toggleContainer :input').prop('disabled', false);
+						
 					}
 					else {
 							jq('#ancNumber :input').prop('disabled', true);
@@ -150,9 +245,18 @@
 							jq('#nextDate :input').prop('disabled', true);
 							jq('#mbddate :input').prop('disabled', true);
 							jq('#infantTable :input').prop('disabled', true);
+							jq('#2-toggleContainer :input').prop('disabled', true);
+							jq('#3-toggleContainer :input').prop('disabled', true);
+							jq('#4-toggleContainer :input').prop('disabled', true);
+							
 						}
 				});
-
+				
+				
+					
+					
+					
+					
 			
 			var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 			var d = new Date(getValue('curDate.value'));
@@ -160,12 +264,12 @@
 			if(d!="Invalid Date"){
 			
 				d.setDate(d.getDate() + 280);
-				document.getElementById("w14-display").value =  d.getDate() + "-" + months[d.getMonth()-1] + "-" + d.getFullYear();
-				document.getElementById("w14").value = d.getFullYear()  + "-" +  d.getMonth() 	+ "-" + d.getDate();
+				document.getElementById("w16-display").value =  d.getDate() + "-" + months[d.getMonth()-1] + "-" + d.getFullYear();
+				document.getElementById("w16").value = d.getFullYear()  + "-" +  d.getMonth() 	+ "-" + d.getDate();
 			}
 			else{
-				document.getElementById("w14-display").value =  "";
-				document.getElementById("w14").value = "";
+				document.getElementById("w16-display").value =  "";
+				document.getElementById("w16").value = "";
 			}
 			
 			var da = new Date(getValue('curDate.value'));
@@ -191,13 +295,13 @@
 					jQuery('#mbdDate').html(Math.round(parseInt((today - d) / (1000 * 60 * 60 * 24)) /7));
 
 					d.setDate(d.getDate() + 280);
-					document.getElementById("w14-display").value =  d.getDate() + "-" + months[d.getMonth()-1] + "-" + d.getFullYear();
-					document.getElementById("w14").value = d.getFullYear()  + "-" +  d.getMonth() 	+ "-" + d.getDate();
+					document.getElementById("w16-display").value =  d.getDate() + "-" + months[d.getMonth()-1] + "-" + d.getFullYear();
+					document.getElementById("w16").value = d.getFullYear()  + "-" +  d.getMonth() 	+ "-" + d.getDate();
 					
 				}
 				else{
-					document.getElementById("w14-display").value =  "";
-					document.getElementById("w14").value = "";
+					document.getElementById("w16-display").value =  "";
+					document.getElementById("w16").value = "";
 				}
 			});
 		});
@@ -237,14 +341,14 @@
 	</div>
 
 	<div class="ke-form-content">
-		<table style="background-color: #e8efdc" align="cener"  cellspacing="10" width="80%">
+		<table style="background-color: #e8efdc" align="center"  cellspacing="10" width="80%" border="1">
 			<tr>
 				<td>
 					<div>
-						<table>
+						<table >
 							<tr>
-								<td>A. Family Planing</td>
-								<td> : <obs conceptId="5271AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" "  style="radio"  id="fPlanning"/></td>
+								<td>A. Family Planing : </td>
+								<td> <obs conceptId="5271AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText="  "  style="radio"  id="fPlanning"/></td>
 							</tr>
 						</table>
 					</div>
@@ -262,33 +366,33 @@
 							<table>
 								<br/>
 								<tr>
-									<td>2. Pregnancy </td>
-									<td> : <obs conceptId="5272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText="  " style="radio" id="isPregnant"/></td>
+									<td>2. Pregnancy :</td>
+									<td>  <obs conceptId="5272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText="  " style="radio" id="isPregnant"/></td>
 								</tr>
 								<tr>
-									<td>a. If yes, L.M.P</td>
-									<td>  : <obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="curDate"/></td>
+									<td style="padding-left:5px;">a. If yes, L.M.P :</td>
+									<td style="padding-left:10px;">   <obs conceptId="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="curDate"/></td>
 								</tr>
 								<tr>
-									<td>b. EDD </td>
-									<td>  : <obs conceptId="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" id="nextDate"/></td>
+									<td style="padding-left:5px;">b. EDD :</td>
+									<td style="padding-left:10px;">   <obs conceptId="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" id="nextDate"/></td>
 								</tr>
 								<tr>
-									<td>c. MBD </td>
-									<td>  : <span id="mbddate" class="value"></span></td>
+									<td style="padding-left:5px;">c. MBD :</td>
+									<td style="padding-left:10px;">   <span id="mbddate" class="value"></span></td>
 								</tr>
 								<tr>
-									<td>d. Gravida </td>
-									<td>  : <obs conceptId="5624AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="gravida"/></td>
+									<td style="padding-left:5px;">d. Gravida :</td>
+									<td style="padding-left:10px;">   <obs conceptId="5624AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="gravida"/></td>
 								</tr>
 								<tr>
-									<td>e. Parity </td>
-									<td>  : <obs conceptId="1053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="parity"/></td>
+									<td style="padding-left:5px;">e. Parity :</td>
+									<td style="padding-left:10px;">   <obs conceptId="1053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="parity"/></td>
 								</tr>
 								<tr>
-									<td>f. ANC Number </td>
-									<td>  : <obs conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="20" id="ancNumber"/></td>
-								</tr>
+									<td style="padding-left:5px;">f. ANC Number :</td>
+									<td style="padding-left:10px;">   <obs conceptId="161655AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" size="20" id="ancNumber"/></td>
+								</tr>								
 							</table>
 						</div>
 						</includeIf>
@@ -298,35 +402,37 @@
 		<includeIf logicTest="GENDER = F">
 			<br />
 			<div id="infantTable">
-			<table align="center"  class="tb" cellspacing="1px" style="width: 80% ;" border="1px solid black;">
+			<table align="center"  class="tb" cellspacing="1px"  border="1" width="100%" >
 				<tr><th style="background-color: #c7d8a7;" colspan="10" align="center">Exposed Infant Follow up</th></tr>	
 				<tr>
-					<th style="background-color: #696969; color: #ffffff;">Exposed - Infant Name/No.</th>
-					<th style="background-color: #696969; color: #ffffff;">DOB<br/>(dd/mm/yyyy)</th>
-					<th style="background-color: #696969; color: #ffffff;">Infant Feeding Practice At 3 month</th>
-					<th style="background-color: #696969; color: #ffffff;">CPT Started Date</th>
-					<th style="background-color: #696969; color: #ffffff;">HIV Test type</th>
-					<th style="background-color: #696969; color: #ffffff;">Result</th>
-					<th style="background-color: #696969; color: #ffffff;">Result date</th>
-					<th style="background-color: #696969; color: #ffffff;">Final status</th>
-					<th style="background-color: #696969; color: #ffffff;">(If confirmed infected) Unique ID</th>
+					<th class="col1"  style="background-color: #696969; color: #ffffff;"><center>Exposed - Infant Name/No.</center></th>
+					<th class="col2" style="background-color: #696969; color: #ffffff;"><center>DOB<br/>(dd/mm/yyyy)</center></th>
+					<th class="col3" style="background-color: #696969; color: #ffffff;"><center>Infant Feeding Practice At 3 month</center></th>
+					<th class="col4" style="background-color: #696969; color: #ffffff;"><center>CPT Started Date</center></th>
+					<th class="col5" style="background-color: #696969; color: #ffffff;"><center>HIV Test type</center></th>
+					<th class="col6" style="background-color: #696969; color: #ffffff;"><center>Result</center></th>
+					<th class="col7" style="background-color: #696969; color: #ffffff;"><center>Result date</center></th>
+					<th class="col8" style="background-color: #696969; color: #ffffff;"><center>Final status</center></th>
+					<th class="col9" style="background-color: #696969; color: #ffffff;"><center>(If confirmed infected) Unique ID</center></th>
+				<th class="col10" style="background-color: #696969; color: #ffffff;" id="add"><center></center></th>
 				</tr>	
 				<repeat>
 						<template>
 							<obsgroup groupingConceptId="161009AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
 								<div id="{n}-toggleContainer" style="display:none;">
-									<table>
+									<table id="tb2"  border="1">
+									
 										<tr  style="border:1px solid black">
-											<td valign="top"><obs conceptId="be719294-8fe8-41eb-9218-ce2c9e7ef2ba"/></td>
-											<td valign="top"><obs conceptId="c8ee2d3a-f6d3-4811-b333-ddb6bdc9400b"/></td>
-											<td valign="top"><obs conceptId="1151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
-											<td valign="top"><obs conceptId="431adda7-582e-4822-83a6-25344f21fc7c"/></td>
-											<td valign="top"><obs conceptId="8b8083f4-7f55-4365-94d1-7ebd201cd1aa"/></td>
-											<td valign="top"><obs conceptId="159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
-											<td valign="top"><obs conceptId="160082AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
-											<td valign="top"><obs conceptId="2140e5aa-c199-441c-8b84-9386bc9fad1a"/></td>
-											<td valign="top"><obs conceptId="8cf2bda5-f2cc-48e3-a1b8-16ff76b7bed8"/></td>
-											<td><button id="{n}-addEntry" class="addEntry">Add</button></td><td><button id="{n}-removeEntry" class="removeEntry">Remove</button></td> 
+											<td  class="col1" valign="top" ><center><obs conceptId="be719294-8fe8-41eb-9218-ce2c9e7ef2ba"/></center></td>
+											<td class="col2" valign="top"><center><obs conceptId="c8ee2d3a-f6d3-4811-b333-ddb6bdc9400b"/></center></td>
+											<td class="col3" valign="top"><center><obs conceptId="1151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></center></td>
+											<td class="col4" valign="top"><center><obs conceptId="431adda7-582e-4822-83a6-25344f21fc7c"/></center></td>
+											<td class="col5" valign="top"><center><obs conceptId="8b8083f4-7f55-4365-94d1-7ebd201cd1aa"/></center></td>
+											<td class="col6" valign="top"><center><obs conceptId="159427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></center></td>
+											<td class="col7" valign="top"><center><obs conceptId="160082AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></center></td>
+											<td class="col8" valign="top"><center><obs conceptId="2140e5aa-c199-441c-8b84-9386bc9fad1a"/></center></td>
+											<td class="col9" valign="top"><center><obs conceptId="8cf2bda5-f2cc-48e3-a1b8-16ff76b7bed8"/></center></td>
+											<td class="col10"><center><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></center></td> 
 										</tr>
 									</table>	
 								</div>
