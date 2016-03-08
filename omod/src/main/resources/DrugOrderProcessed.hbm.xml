@@ -18,6 +18,7 @@
 		<property name="processedStatus" column="processed_status" />
 		<property name="durationPreProcess" column="duration_preprocess" />
 		<property name="discontinuedDate" column="discontinued_date" />
+		<many-to-one name="discontinuedReason" column="discontinued_reason" class="org.openmrs.Concept" foreign-key="fk_discontinuedReasonfordrugordernotprocessed"/>
 		<property name="quantityPostProcess" column="quantity_postprocess" />
 		<property name="drugRegimen" column="drug_regimen" />
 	</class>

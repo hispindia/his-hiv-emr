@@ -3,6 +3,7 @@ package org.openmrs.module.kenyaemr.fragment.controller.dispensary;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,6 +11,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.openmrs.Concept;
+import org.openmrs.ConceptAnswer;
 import org.openmrs.DrugOrder;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
@@ -91,12 +94,17 @@ public class DrugOrderListFragmentController {
         	drugOrderObsId=drugOrderObsId+drugOrderOb.getObsGroupId()+"/";
         }
         
-		model.addAttribute("count",1);
+		
+        Concept notDispensedConcept=Context.getConceptService().getConceptByUuid("1779AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        Collection<ConceptAnswer> notDispensedConceptAnswers=notDispensedConcept.getAnswers();
+        model.addAttribute("count",1);
 		model.addAttribute("drugOrderProcesseds",drugOrderProcessed);
 		model.addAttribute("drugOrderObss",drugOrderObs);
 		model.addAttribute("drugOrderProcessedId",drugOrderProcessedId);
 		model.addAttribute("drugOrderObsId",drugOrderObsId);
 		model.addAttribute("patient",patient);
+		model.addAttribute("drugOrderSize",drugOrderProcessed.size()+drugOrderObs.size());
+		model.addAttribute("notDispensedConceptAnswers",notDispensedConceptAnswers);
 	}
 	
 	public String processDrugOrder(HttpServletRequest request,@RequestParam("patient") Patient patient,
@@ -106,16 +114,28 @@ public class DrugOrderListFragmentController {
 		for (String drugOrderProcessedId : drugOrderProcessedIds) {
 			Integer drugOrderProcessId = Integer.parseInt(drugOrderProcessedId);
 			String issuedQuantity = request.getParameter(drugOrderProcessedId+"issueQuantity");	
+			if(issuedQuantity!=null){
 			DrugOrderProcessed drugOrderProces=kes.getDrugOrderProcesedById(drugOrderProcessId);
 			drugOrderProces.setProcessedDate(new Date());
 			drugOrderProces.setProcessedStatus(true);
 			drugOrderProces.setQuantityPostProcess(Integer.parseInt(issuedQuantity));
 			kes.saveDrugOrderProcessed(drugOrderProces);
+			}
+			else{
+				Integer notDispensedReason= Integer.parseInt(request.getParameter(drugOrderProcessedId+"notDispensedReason"));	
+				System.out.println("xxxxxxxxxxxx"+notDispensedReason);
+				Concept notDispensedReasonConcept = Context.getConceptService().getConcept(notDispensedReason);
+				DrugOrderProcessed drugOrderProces=kes.getDrugOrderProcesedById(drugOrderProcessId);
+				drugOrderProces.setDiscontinuedDate(new Date());
+				drugOrderProces.setDiscontinuedReason(notDispensedReasonConcept);
+				kes.saveDrugOrderProcessed(drugOrderProces);	
+			}
 		}
 		
 		for (String obsGroupId : obsGroupIds) {
 			Integer obsGrouppId = Integer.parseInt(obsGroupId);
 			String issuedQuantity = request.getParameter(obsGroupId+"obsIssueQuantity");
+			if(issuedQuantity!=null){
 			DrugObsProcessed drugObsProcessed=new DrugObsProcessed();
 			Obs obs=Context.getObsService().getObs(obsGrouppId);
 			obs.setComment("1");
@@ -127,8 +147,17 @@ public class DrugOrderListFragmentController {
 			drugObsProcessed.setProcessedDate(new Date());
 			drugObsProcessed.setQuantityPostProcess(Integer.parseInt(issuedQuantity));
 			kes.saveDrugObsProcessed(drugObsProcessed);
+			}
+			else{
+				String notDispensedReason= request.getParameter(obsGroupId+"notDispensedReason");
+				//Integer notDispensedReason= Integer.parseInt(request.getParameter(obsGroupId+"notDispensedReason"));
+				Concept notDispensedReasonConcept = Context.getConceptService().getConcept(notDispensedReason);
+				Obs obs=Context.getObsService().getObs(obsGrouppId);
+				//obs.setValueCoded(notDispensedReasonConcept);
+				obs.setComment("0/"+notDispensedReason);
+				kes.saveOrUpdateObs(obs);	
+			}
 		}
-		//return "redirect:" + ui.pageLink(EmrConstants.MODULE_ID, "dispensary/dispensing",SimpleObject.create("patientId", null));
 		return null;
 		
 	}

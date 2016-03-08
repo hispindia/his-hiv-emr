@@ -2,6 +2,7 @@ package org.openmrs.module.kenyaemr.model;
 
 import java.util.Date;
 
+import org.openmrs.Concept;
 import org.openmrs.DrugOrder;
 import org.openmrs.Patient;
 
@@ -15,6 +16,7 @@ public class DrugOrderProcessed implements java.io.Serializable {
 	private Boolean processedStatus = Boolean.FALSE;
 	private Integer durationPreProcess;
 	private Date discontinuedDate;
+	private Concept discontinuedReason;
 	private Integer quantityPostProcess;
 	private String drugRegimen;
 
@@ -80,6 +82,14 @@ public class DrugOrderProcessed implements java.io.Serializable {
 
 	public void setDiscontinuedDate(Date discontinuedDate) {
 		this.discontinuedDate = discontinuedDate;
+	}
+	
+	public Concept getDiscontinuedReason() {
+		return discontinuedReason;
+	}
+
+	public void setDiscontinuedReason(Concept discontinuedReason) {
+		this.discontinuedReason = discontinuedReason;
 	}
 
 	public Integer getQuantityPostProcess() {
