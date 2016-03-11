@@ -6,8 +6,16 @@
 %>
 <select id="${ config.id }" name="${ config.formFieldName }" >
 	<option value="">Select...</option>
-<% if (config.category == "ARV" && config.reasonType == "change") { %>
-	<optgroup label="Reason for SWITCH or SUBSTITUTION of Drug">
+<% if (config.category == "ARV" && config.reasonType == "substitute") { %>
+	<optgroup label="Reason for SUBSTITUTION of Drug">
+		<option value="${ concept("1434AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") }">Currently pregnant</option>
+		<option value="${ concept("1754AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") }">Drug out of stock</option>
+		<option value="${ concept("160567AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") }">New diagnosis of Tuberculosis</option>
+		<option value="${ concept("160561AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") }">New drug available</option>
+		<option value="${ concept("102AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") }">Toxicity side effects</option>
+	</optgroup>
+<% } else if (config.category == "ARV" && config.reasonType == "switch") { %>
+	<optgroup label="Reason for SWITCH of Drug">
 		<option value="${ concept("7f784cf0-d4fb-46d9-95d9-e050bcd7aece") }">Clinical failure</option>
 		<option value="${ concept("1434AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") }">Currently pregnant</option>
 		<option value="${ concept("1754AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") }">Drug out of stock</option>

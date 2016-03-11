@@ -59,4 +59,5 @@ public interface KenyaEmrDAO {
 	public List<DrugObsProcessed> getObsDrugOrdersByPatientAndProcessedDate(Patient patient,Date processedDate);
 	public List<DrugInfo> getDrugInfo();
 	public DrugInfo getDrugInfo(String drugName);
+	public DrugOrderProcessed getLastRegimenChangeType(Patient patient);
 }

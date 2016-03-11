@@ -15,8 +15,10 @@ public class DrugOrderProcessed implements java.io.Serializable {
 	private Date processedDate;
 	private Boolean processedStatus = Boolean.FALSE;
 	private Integer durationPreProcess;
+	private String changeType;
 	private Date discontinuedDate;
 	private Concept discontinuedReason;
+	private String discontinuedReasonNonCoded;
 	private Integer quantityPostProcess;
 	private String drugRegimen;
 
@@ -75,6 +77,14 @@ public class DrugOrderProcessed implements java.io.Serializable {
 	public void setDurationPreProcess(Integer durationPreProcess) {
 		this.durationPreProcess = durationPreProcess;
 	}
+	
+	public String getChangeType() {
+		return changeType;
+	}
+
+	public void setChangeType(String changeType) {
+		this.changeType = changeType;
+	}
 
 	public Date getDiscontinuedDate() {
 		return discontinuedDate;
@@ -90,6 +100,14 @@ public class DrugOrderProcessed implements java.io.Serializable {
 
 	public void setDiscontinuedReason(Concept discontinuedReason) {
 		this.discontinuedReason = discontinuedReason;
+	}
+
+	public String getDiscontinuedReasonNonCoded() {
+		return discontinuedReasonNonCoded;
+	}
+
+	public void setDiscontinuedReasonNonCoded(String discontinuedReasonNonCoded) {
+		this.discontinuedReasonNonCoded = discontinuedReasonNonCoded;
 	}
 
 	public Integer getQuantityPostProcess() {

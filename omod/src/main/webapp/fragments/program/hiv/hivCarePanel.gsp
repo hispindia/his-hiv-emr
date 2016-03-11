@@ -95,6 +95,7 @@
 	%>
 	${ ui.includeFragment("kenyaui", "widget/dataPoint", [ label: "Regimen", value: regimen ]) }
 	${ ui.includeFragment("kenyaui", "widget/dataPoint", [ label: dateLabel, value: lastChange.date, showDateInterval: true ]) }
+	${ ui.includeFragment("kenyaemr", "field/HivRegimenChange", [patient: currentPatient ]) }
 	<% } else { %>
 	${ ui.includeFragment("kenyaui", "widget/dataPoint", [ label: "Regimen", value: ui.message("kenyaemr.neverOnARVs") ]) }
 	<% } %>

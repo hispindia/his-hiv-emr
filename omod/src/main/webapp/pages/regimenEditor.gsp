@@ -138,11 +138,11 @@
 					action: "changeRegimen",
 					fields: [
 							[ hiddenInputName: "patient", value: currentPatient.id ],
-							[ hiddenInputName: "changeType", value: "CHANGE" ],
+							[ hiddenInputName: "changeType", value: "SUBSTITUTE" ],
 							[ hiddenInputName: "category", value: category ],
 							changeDateField("Change date"),
 							substituteRegimenField(),
-							[ value: reasonFields("change") ]
+							[ value: reasonFields("substitute") ]
 					],
 					submitLabel: "Save",
 					successCallbacks: [ "ui.reloadPage();" ],
@@ -164,7 +164,7 @@
 							[ hiddenInputName: "category", value: category ],
 							changeDateField("Change date"),
 							switchRegimenField(),
-							[ value: reasonFields("change") ]
+							[ value: reasonFields("switch") ]
 					],
 					submitLabel: "Save",
 					successCallbacks: [ "ui.reloadPage();" ],

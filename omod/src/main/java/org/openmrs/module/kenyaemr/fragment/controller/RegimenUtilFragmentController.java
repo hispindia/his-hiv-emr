@@ -105,6 +105,7 @@ public class RegimenUtilFragmentController {
 	public enum RegimenChangeType {
 		START,
 		CHANGE,
+		SUBSTITUTE,
 		SWITCH,
 		//STOP,
 		CONTINUE,
@@ -147,7 +148,7 @@ public class RegimenUtilFragmentController {
 			require(errors, "changeDate");
 
 			// Reason is only required for stopping or changing
-			if (changeType == RegimenChangeType.CHANGE || changeType == RegimenChangeType.SWITCH) {
+			if (changeType == RegimenChangeType.CHANGE || changeType == RegimenChangeType.SWITCH || changeType == RegimenChangeType.SUBSTITUTE) {
 				require(errors, "changeReason");
 
 				if (changeReason != null) {
@@ -243,13 +244,16 @@ public class RegimenUtilFragmentController {
 
 				OrderService os = Context.getOrderService();
 				
-				if (changeType == RegimenChangeType.CHANGE) {
+				if (changeType == RegimenChangeType.SUBSTITUTE) {
 				List<DrugOrder> toStop = new ArrayList<DrugOrder>(baseline.getDrugOrders());
 				toStop.removeAll(noChanges);
 				for (DrugOrder o : toStop) {
 					DrugOrderProcessed drugOrderProcess=kenyaEmrService.getDrugOrderProcessed(o);
 					if(drugOrderProcess!=null){
+					drugOrderProcess.setChangeType("SUBSTITUTE");
 					drugOrderProcess.setDiscontinuedDate(changeDate);
+					drugOrderProcess.setDiscontinuedReason(changeReason);
+					drugOrderProcess.setDiscontinuedReasonNonCoded(changeReasonNonCoded);
 					kenyaEmrService.saveDrugOrderProcessed(drugOrderProcess);
 					}
 					
@@ -355,7 +359,10 @@ public class RegimenUtilFragmentController {
 					for (DrugOrder o : toStop) {
 						DrugOrderProcessed drugOrderProcess=kenyaEmrService.getDrugOrderProcessed(o);
 						if(drugOrderProcess!=null){
+						drugOrderProcess.setChangeType("SWITCH");
 						drugOrderProcess.setDiscontinuedDate(changeDate);
+						drugOrderProcess.setDiscontinuedReason(changeReason);
+						drugOrderProcess.setDiscontinuedReasonNonCoded(changeReasonNonCoded);
 						kenyaEmrService.saveDrugOrderProcessed(drugOrderProcess);
 						}
 						
@@ -485,7 +492,7 @@ public class RegimenUtilFragmentController {
 				}
 
 				encounter=createEncounterForBaseLine(patient);
-				if (changeType == RegimenChangeType.CHANGE) {
+				if (changeType == RegimenChangeType.SUBSTITUTE) {
 				for (DrugOrder o : toStart) {
 					o.setEncounter(encounter);
 					o.setPatient(patient);
@@ -667,7 +674,7 @@ public class RegimenUtilFragmentController {
 		public void saveExtraRowForArv(String[] durgList,HttpServletRequest request,Patient patient,Encounter encounter) {
 			int count=6;
 			
-			if (changeType == RegimenChangeType.CHANGE) {
+			if (changeType == RegimenChangeType.SUBSTITUTE) {
 			for(String drug:durgList){
 				String drugConceptId=request.getParameter("drug"+count);
 				double dose=Integer.parseInt(request.getParameter("dose"+count));
