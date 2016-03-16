@@ -140,7 +140,19 @@ public class HivCarePanelFragmentController {
 		
 
 
-		model.addAttribute("listAllDiag", listAllDiag);		
+		model.addAttribute("listAllDiag", listAllDiag);	
+		
+		String cptStatus="";
+		List<Obs> obsListForOiTreatments = Context.getObsService().getObservationsByPersonAndConcept(patient, Dictionary.getConcept(Dictionary.OI_TREATMENT_DRUG));
+		for(Obs obsListForOiTreatment:obsListForOiTreatments){
+		if(obsListForOiTreatment.getValueCoded().getUuid().equals("105281AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")){
+			cptStatus="Yes";	
+		  }
+		else{
+			cptStatus="No";		
+		}
+		}
+		model.addAttribute("cpt", cptStatus);
 		
 //		calculationResults.put("lastDiagnosis", EmrCalculationUtils.evaluateForPatient(LastDiagnosisCalculation.class, null, patient));
 		calculationResults.put("onCpt", EmrCalculationUtils.evaluateForPatient(OnCPTCalculation.class, null, patient));

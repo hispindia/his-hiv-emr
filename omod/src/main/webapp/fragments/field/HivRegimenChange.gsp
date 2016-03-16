@@ -1,4 +1,4 @@
 Change Type:
 <% if (drugOrderProcessed!=null) { %>
-${drugOrderProcessed.changeType}
+${drugOrderProcessed.changeType} ${date}
 <% } %>

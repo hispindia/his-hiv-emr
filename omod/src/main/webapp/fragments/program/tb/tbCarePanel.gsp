@@ -42,7 +42,15 @@ if(calculations.tbTreatmentOutcome){
 else{
 	dataPoints << [ label: "TB treatment outcome", value:  "None" ];
 }
-	
+
+if (ipt) {
+	dataPoints << [ label: "Currently on IPT", value: ipt ]
+	dataPoints << [ label: "IPT Date", value: iptDate ]
+	}
+else{
+	dataPoints << [ label: "Currently on IPT", value: "None" ]
+	}
+		
 %>
 
 <div class="ke-stack-item">
@@ -64,6 +72,7 @@ else{
 	%>
 	${ ui.includeFragment("kenyaui", "widget/dataPoint", [ label: "Regimen", value: regimen ]) }
 	${ ui.includeFragment("kenyaui", "widget/dataPoint", [ label: dateLabel, value: lastChange.date, showDateInterval: true ]) }
+	${ ui.includeFragment("kenyaemr", "field/HivRegimenChange", [patient: currentPatient ]) }
 	<% } else { %>
 	${ ui.includeFragment("kenyaui", "widget/dataPoint", [ label: "Regimen", value: ui.message("kenyaemr.neverOnTbRegimen") ]) }
 	<% } %>

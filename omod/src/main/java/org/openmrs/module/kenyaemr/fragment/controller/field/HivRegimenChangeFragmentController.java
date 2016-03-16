@@ -14,6 +14,8 @@
 
 package org.openmrs.module.kenyaemr.fragment.controller.field;
 
+import java.text.SimpleDateFormat;
+
 import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.kenyaemr.api.KenyaEmrService;
@@ -33,6 +35,9 @@ public class HivRegimenChangeFragmentController {
 		DrugOrderProcessed drugOrderProcessed = kenyaEmrService
 				.getLastRegimenChangeType(patient);
 		model.addAttribute("drugOrderProcessed", drugOrderProcessed);
+		SimpleDateFormat formatterExt = new SimpleDateFormat("dd-MMM-yyyy");
+		String date = formatterExt.format(drugOrderProcessed.getDiscontinuedDate());
+		model.addAttribute("date", date);
 	}
 
 }

@@ -277,7 +277,7 @@ function guideeSwitch(){
 jQuery('#guideDivSwitch').empty();
 jQuery('#drugInfoDivSwitch').empty();
 var age=${patient.age};
-if(age>12){
+if(age>14){
 var htmlText =  "<img src='${ ui.resourceLink('kenyaui', 'images/glyphs/flow_chart_adult.JPG') }' />"
 var newElement = document.createElement('div');
 newElement.setAttribute("id", "guideDivAdultSwitch"); 

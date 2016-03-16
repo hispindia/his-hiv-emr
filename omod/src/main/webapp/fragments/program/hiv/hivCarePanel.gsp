@@ -59,7 +59,12 @@
 		dataPoints << [ label: "Last Diagnosis", value: "None" ]
 	}
 
+	if (cpt) {
+		dataPoints << [ label: "Currently on CPT", value: cpt ]
+	}
+	else{
 		dataPoints << [ label: "Currently on CPT", value: "None" ]
+	}
 	
 %>
 

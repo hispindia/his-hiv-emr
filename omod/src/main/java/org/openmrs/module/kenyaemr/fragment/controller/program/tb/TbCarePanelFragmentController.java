@@ -15,8 +15,11 @@
 package org.openmrs.module.kenyaemr.fragment.controller.program.tb;
 
 import org.openmrs.Concept;
+import org.openmrs.Obs;
 import org.openmrs.Patient;
+import org.openmrs.api.context.Context;
 import org.openmrs.calculation.result.CalculationResult;
+import org.openmrs.module.kenyaemr.Dictionary;
 import org.openmrs.module.kenyaemr.calculation.EmrCalculationUtils;
 import org.openmrs.module.kenyaemr.regimen.RegimenManager;
 import org.openmrs.module.kenyaemr.calculation.library.tb.TbDiseaseClassificationCalculation;
@@ -32,7 +35,9 @@ import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -76,5 +81,21 @@ public class TbCarePanelFragmentController {
 		Concept medSet = regimenManager.getMasterSetConcept("TB");
 		RegimenChangeHistory history = RegimenChangeHistory.forPatient(patient, medSet);
 		model.addAttribute("regimenHistory", history);
+		
+		String iptStatus="";
+		String iptDate="";
+		SimpleDateFormat formatterExt = new SimpleDateFormat("dd-MMM-yyyy");
+		List<Obs> obsListForProphylaxis = Context.getObsService().getObservationsByPersonAndConcept(patient, Dictionary.getConcept(Dictionary.PROPHYLAXIS));
+		for(Obs obsListForProphylaxi:obsListForProphylaxis){
+		if(obsListForProphylaxi.getValueCoded().getUuid().equals("78280AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")){
+			iptStatus="Yes";
+			iptDate = formatterExt.format(obsListForProphylaxi.getDateCreated());
+		  }
+		else{
+			iptStatus="No";		
+		}
+		}
+		model.addAttribute("ipt", iptStatus);
+		model.addAttribute("iptDate", iptDate);
 	}
 }
