@@ -12,7 +12,7 @@
 			fragmentProvider: "kenyaemr",
 			fragment: "registrationUtil",
 			action: "stopVisit",
-			onSuccessCallback: "ui.reloadPage()",
+			onSuccessCallback: "ui.navigate('kenyaemr', 'clinician/clinicianHome')",
 			submitLabel: ui.message("general.submit"),
 			cancelLabel: ui.message("general.cancel")
 	]) %>
