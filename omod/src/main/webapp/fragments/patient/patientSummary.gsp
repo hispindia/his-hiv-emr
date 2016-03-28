@@ -35,6 +35,9 @@
 		<% if (patientWrap.previousHivTestDate) { %>
 			<br/>HIV confirmation test date : <strong>${patientWrap.previousHivTestDate}</strong>
 		<% } %>
+		<% if (patientWrap.previousHivTestPlace) { %>
+			<br/>HIV confirmation test place : <strong>${patientWrap.previousHivTestPlace}</strong>
+		<% } %>
 		<% if (savedEntryPoint) { %>
 		<br/> Entry Point : <strong>${savedEntryPoint.valueCoded.name}</strong>
 		<% } %>
@@ -44,10 +47,9 @@
 		<% if (drugAllergiesVal) { %>
 			<br/>Drug Allergy & name : <strong>${drugAllergiesVal}</strong>
 		<% } %>
-		
-		
-		
-		
+		<% if (comorbidity!="") { %>
+			<br/>Co-morbidity : <strong>${comorbidity}</strong>
+		<% } %>
 	</div>
 </div>
 

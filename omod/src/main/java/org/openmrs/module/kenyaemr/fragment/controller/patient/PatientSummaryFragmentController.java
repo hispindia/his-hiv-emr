@@ -90,6 +90,27 @@ public class PatientSummaryFragmentController {
 		model.addAttribute("personWrap", wrapperPerson);
 
 		
+		String comorbidity = "";
+
+		Obs riskFactor = getAllLatestObs(patient, Dictionary.COMORBIDITY);
+		if (riskFactor != null) {
+			EncounterWrapper wrapped = new EncounterWrapper(
+					riskFactor.getEncounter());
+			List<Obs> obsList = wrapped.allObs(riskFactor.getConcept());
+
+			for (Obs obs : obsList) {
+				if (comorbidity.isEmpty()) {
+					comorbidity = comorbidity.concat(obs
+							.getValueCoded().getName().toString());
+				} else {
+					comorbidity = comorbidity.concat(", "
+							+ obs.getValueCoded().getName().toString());
+				}
+			}
+		}
+
+		model.addAttribute("comorbidity", comorbidity);
+		
 		/*
 		 * Obstetric History
 		 * */
