@@ -4,7 +4,7 @@
 	def menuItems = [
 			[
 					label: "Overview",
-					href: ui.pageLink("kenyaemr", "chart/chartViewPatient", [ patientId: currentPatient.id, section: "overview" ]),
+					href: ui.pageLink("kenyaemr", "chart/chartViewPatient", [ patientId: currentPatient.id, section: "overview"]),
 					active: (selection == "section-overview"),
 					iconProvider: "kenyaui",
 					icon: "buttons/patient_overview.png"
@@ -21,11 +21,58 @@
 	];
 	
 %>
+
+
+
+
+
+<script type="text/javascript">
+
+	function updateSearch(){
+			var dateStart = document.getElementById('startDate_date').value;
+			var dateEnd = document.getElementById('endDate_date').value;
+			ui.navigate('kenyaemr', "chart/chartViewPatient",  {patientId: ${currentPatient.id}, section: "overview" , startDate: dateStart, endDate:dateEnd});
+	};
+
+
+</script>
+
+
 <div class="ke-page-sidebar">
 	<div class="ke-panel-frame">
 		<% backButton.each { item -> print ui.includeFragment("kenyaui", "widget/panelMenuItem", item) } %>
 		<% menuItems.each { item -> print ui.includeFragment("kenyaui", "widget/panelMenuItem", item) } %>
 	</div>	
+	
+	
+	
+	
+	
+	<div class="ke-panel-frame">
+		<div class="ke-panel-heading">Date Filter</div>
+	</div>
+		
+	<span class="ke-field-content">
+		Start Date : ${ ui.includeFragment("kenyaui", "field/java.util.Date" ,[id:'startDate',  formFieldName:'startDate', showTime: false])}
+	</span>
+	<span class="ke-field-content">
+		End Date &nbsp;&nbsp;: ${ ui.includeFragment("kenyaui", "field/java.util.Date" ,[id:'endDate',  formFieldName:'endDate', showTime: false])}
+	</span>
+	<span class="ke-field-content">
+		<input type="button" value="Search" onclick="updateSearch();"/>
+	</span>	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
 	<div class="ke-panel-frame">
 		<div class="ke-panel-heading">Visits(${ visitsCount })</div>
 		</div>

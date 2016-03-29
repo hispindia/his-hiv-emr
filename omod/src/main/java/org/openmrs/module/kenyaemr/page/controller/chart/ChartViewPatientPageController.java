@@ -39,9 +39,13 @@ import org.openmrs.ui.framework.page.PageRequest;
 import org.openmrs.ui.framework.session.Session;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -57,7 +61,9 @@ public class ChartViewPatientPageController {
 	                       @RequestParam(required = false, value = "formUuid") String formUuid,
 	                       @RequestParam(required = false, value = "programId") Program program,
 						   @RequestParam(required = false, value = "section") String section,
-	                       PageModel model,
+						   @RequestParam(required = false, value = "startDate") String startDate,
+						   @RequestParam(required = false, value = "endDate") String endDate,
+						   PageModel model,
 	                       UiUtils ui,
 	                       Session session,
 						   PageRequest pageRequest,
@@ -69,6 +75,17 @@ public class ChartViewPatientPageController {
 			formUuid = null;
 		}
 
+		System.out.println("Date :***"+endDate+"*****"+startDate);
+		Date d;
+		DateFormat formatter;
+		formatter = new SimpleDateFormat("dd-MMMM-yyyy");
+		try {
+			d = (Date) formatter.parse(startDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		Patient patient = (Patient) model.getAttribute(EmrWebConstants.MODEL_ATTR_CURRENT_PATIENT);
 		recentlyViewed(patient, session);
 
@@ -86,8 +103,20 @@ public class ChartViewPatientPageController {
 
 		model.addAttribute("programs", progams);
 		model.addAttribute("programSummaries", programSummaries(patient, progams, programManager, kenyaUi));
+		
+		List<Visit> vList = Context.getVisitService().getVisitsByPatient(patient);
+		List<Visit> filterList = null;
+		for (Visit v : vList){
+			System.out.println(v.getStartDatetime()+"&&&&&&&&" + v.getStopDatetime());
+			if(1==1){
+				filterList.add(v);
+			}
+		}
+		
 		model.addAttribute("visits", Context.getVisitService().getVisitsByPatient(patient));
 		model.addAttribute("visitsCount", Context.getVisitService().getVisitsByPatient(patient).size());
+		
+		
 		Form form = null;
 		String selection = null;
 		if (visit != null) {

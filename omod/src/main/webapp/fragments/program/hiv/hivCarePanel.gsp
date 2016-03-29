@@ -59,6 +59,13 @@
 		dataPoints << [ label: "Last Diagnosis", value: "None" ]
 	}
 
+	if (listAllOI) {
+			dataPoints << [ label: "Last OI", value: listAllOI ]
+		}
+		else{
+			dataPoints << [ label: "Last OI", value: "None" ]
+		}
+
 	if (cpt) {
 		dataPoints << [ label: "Currently on CPT", value: cpt ]
 	}

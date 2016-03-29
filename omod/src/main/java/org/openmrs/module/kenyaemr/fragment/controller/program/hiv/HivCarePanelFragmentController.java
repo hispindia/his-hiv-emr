@@ -137,10 +137,37 @@ public class HivCarePanelFragmentController {
 			}
 			
 		}
-		
-
 
 		model.addAttribute("listAllDiag", listAllDiag);	
+		
+		String listAllOI = "";
+		
+		Obs tbOIList =   getAllLatestObs(patient, Dictionary.OI_GROUP_TB_FORM);
+		if(tbOIList!=null){
+			EncounterWrapper wrappedG = new EncounterWrapper(
+					tbOIList.getEncounter());
+			List<Obs> obsGroupList = wrappedG.allObs(tbOIList.getConcept());
+			for (Obs obsG : obsGroupList) {
+				if (diagList != null) {
+					List<Obs> obsList = Context.getObsService().getObservationsByPersonAndConcept(patient, Dictionary.getConcept(Dictionary.HIV_CARE_DIAGNOSIS));
+					
+					for (Obs obs : obsList) {
+						if(obs.getObsGroupId() == obsG.getObsId()){
+							if (listAllOI.isEmpty()) {
+								listAllOI = listAllOI.concat(obs
+										.getValueCoded().getName().toString());
+							} else {
+								listAllOI = listAllOI.concat(", "
+										+ obs.getValueCoded().getName().toString());
+							}
+							
+						}
+					}
+				}
+			}
+			
+		}
+		model.addAttribute("listAllOI", listAllOI);	
 		
 		String cptStatus="";
 		List<Obs> obsListForOiTreatments = Context.getObsService().getObservationsByPersonAndConcept(patient, Dictionary.getConcept(Dictionary.OI_TREATMENT_DRUG));
