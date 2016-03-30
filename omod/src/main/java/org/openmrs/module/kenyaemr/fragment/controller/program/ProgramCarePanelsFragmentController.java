@@ -22,6 +22,7 @@ import org.openmrs.module.kenyaemr.EmrWebConstants;
 import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,6 +37,8 @@ public class ProgramCarePanelsFragmentController {
 						   @FragmentParam("patient") Patient patient,
 						   @FragmentParam("complete") boolean complete,
 						   @FragmentParam("activeOnly") boolean activeOnly,
+						   @RequestParam(required = false, value = "startDate") String startDate,
+						   @RequestParam(required = false, value = "endDate") String endDate,
 						   @SpringBean ProgramManager programManager) {
 
 		List<UiResource> carePanels = new ArrayList<UiResource>();

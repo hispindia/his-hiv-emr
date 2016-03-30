@@ -277,7 +277,7 @@ public class ArtRegisterFragmentController {
 		model.addAttribute("dicontinuationDateVal", dicontinuationDateVal);
 		
 		
-		if(patient.getAge() > 12){
+		if(patient.getAge() > 15){
 			model.addAttribute("graphingConcepts", Dictionary.getConcepts(
 					Dictionary.TUBERCULOSIS_TREATMENT_NUMBER,
 					Dictionary.TUBERCULOSIS_DRUG_TREATMENT_START_DATE,Dictionary.PERFORMANCE,

@@ -1,6 +1,7 @@
 package org.openmrs.module.kenyaemr.fragment.controller.intake;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -161,7 +162,7 @@ public class EnterLabResultFragmentController {
 					resultEncounter.setVoidedBy(Context.getAuthenticatedUser());
 					resultEncounter.setDateChanged(curDate);
 				}
-				resultEncounter.setEncounterDatetime(curDate);
+				resultEncounter.setEncounterDatetime(resultEncounter.getDateCreated());
 				/*not sure if we need this
 				try {
 					ValidateUtil.validate(resultEncounter);
@@ -177,11 +178,11 @@ public class EnterLabResultFragmentController {
 			// save new
 			
 			Encounter encounter = new Encounter();
-			encounter.setDateCreated(curDate);
+			encounter.setDateCreated(visit.getDateCreated());
 			encounter.setEncounterType(encService.getEncounterType("Lab Results"));
 			encounter.setVisit(visit);
 			encounter.setPatient(visit.getPatient());
-			encounter.setEncounterDatetime(curDate);
+			encounter.setEncounterDatetime(visit.getDateCreated());
 			if (confirm) {
 				encounter.setVoided(true);
 				encounter.setVoidReason("Result Confirmed");

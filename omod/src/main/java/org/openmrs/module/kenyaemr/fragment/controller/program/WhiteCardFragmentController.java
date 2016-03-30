@@ -721,7 +721,7 @@ public class WhiteCardFragmentController {
 		/*
 		 * Varaible for each visit
 		 */
-		if(patient.getAge() > 12){
+		if(patient.getAge() > 15){
 			model.addAttribute("graphingConcepts", Dictionary.getConcepts(
 					Dictionary.RETURN_VISIT_DATE, Dictionary.WEIGHT_KG,
 					Dictionary.HEIGHT_CM, Dictionary.CURRENT_WHO_STAGE,

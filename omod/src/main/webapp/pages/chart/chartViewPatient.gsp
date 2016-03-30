@@ -23,9 +23,6 @@
 %>
 
 
-
-
-
 <script type="text/javascript">
 
 	function updateSearch(){
@@ -44,10 +41,6 @@
 		<% menuItems.each { item -> print ui.includeFragment("kenyaui", "widget/panelMenuItem", item) } %>
 	</div>	
 	
-	
-	
-	
-	
 	<div class="ke-panel-frame">
 		<div class="ke-panel-heading">Date Filter</div>
 	</div>
@@ -61,20 +54,9 @@
 	<span class="ke-field-content">
 		<input type="button" value="Search" onclick="updateSearch();"/>
 	</span>	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-		
+
 	<div class="ke-panel-frame">
-		<div class="ke-panel-heading">Visits(${ visitsCount })</div>
+		<div class="ke-panel-heading">Visits(${ visitsCount })<br / >${period}</div>
 		</div>
 
 		<div class="ke-panel-frame">
@@ -126,8 +108,12 @@
 
 		${ ui.includeFragment("kenyaemr", "program/programHistory", [ patient: currentPatient, program: program, showClinicalData: true ]) }
 
-	<% } else if (section == "overview") { %>
+	<% } else if (section == "overview" && filter=="filterVisit") { %>
 
+		${ ui.includeFragment("kenyaemr", "program/programCarePanels", [ patient: currentPatient, complete: true, activeOnly: false ,startDate:startDate,endDate:endDate ]) }
+
+	<% } else if (section == "overview" && filter=="") { %>
+	
 		${ ui.includeFragment("kenyaemr", "program/programCarePanels", [ patient: currentPatient, complete: true, activeOnly: false ]) }
 
 	<% } else if (section == "moh257") { %>

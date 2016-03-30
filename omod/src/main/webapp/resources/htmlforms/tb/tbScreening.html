@@ -262,7 +262,7 @@
 			jq('#guideDivAdultForTbScreening').empty();
 			jq('#guideDivChildForTbScreening').empty();
 			var age ="<lookup expression="patient.age" />";
-			if(age>12){
+			if(age>15){
 			jq('#guideDivAdultForTbScreening').html('&lt;img src="<lookup expression="ui.resourceLink('kenyaui', '/images/glyphs/who_clinical_chart_adult.jpg')" />" height="725" width="700" /&gt;');
 			var url = "#TB_inline?height=750;width=725;inlineId=guideDivAdultForTbScreening";
 			tb_show("WHO Clinical Stage",url,false);

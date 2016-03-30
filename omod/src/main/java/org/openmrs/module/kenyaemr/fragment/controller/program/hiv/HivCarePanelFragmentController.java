@@ -44,6 +44,7 @@ import org.openmrs.module.kenyaemr.wrapper.EncounterWrapper;
 import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Controller for HIV care summary
@@ -52,13 +53,14 @@ public class HivCarePanelFragmentController {
 
 	public void controller(@FragmentParam("patient") Patient patient,
 						   @FragmentParam("complete") Boolean complete,
+						   @RequestParam(required = false, value = "startDate") String startDate,
+						   @RequestParam(required = false, value = "endDate") String endDate,
 						   FragmentModel model,
 						   @SpringBean RegimenManager regimenManager,
 						   @SpringBean ProgramManager programManager) {
 
 		Map<String, CalculationResult> calculationResults = new HashMap<String, CalculationResult>();
 
-		
 		/*
 		 * Encounter details
 		 */
@@ -191,7 +193,14 @@ public class HivCarePanelFragmentController {
 		RegimenChangeHistory history = RegimenChangeHistory.forPatient(patient, medSet);
 		model.addAttribute("regimenHistory", history);
 		
-		model.addAttribute("graphingConcepts", Dictionary.getConcepts(Dictionary.WEIGHT_KG, Dictionary.CD4_COUNT, Dictionary.CD4_PERCENT, Dictionary.HIV_VIRAL_LOAD,Dictionary.OI_COUNT));
+		model.addAttribute("endDate", endDate);
+		model.addAttribute("startDate", startDate);
+		if(patient.getAge() > 15){
+			model.addAttribute("graphingConcepts", Dictionary.getConcepts(Dictionary.WEIGHT_KG, Dictionary.CD4_COUNT,  Dictionary.HIV_VIRAL_LOAD,Dictionary.OI_COUNT));
+		}
+		else{
+			model.addAttribute("graphingConcepts", Dictionary.getConcepts(Dictionary.WEIGHT_KG,  Dictionary.CD4_PERCENT, Dictionary.HIV_VIRAL_LOAD,Dictionary.OI_COUNT));
+		}
 		
 		PatientProgram currentEnrollment = null;
 		Program program=Context.getProgramWorkflowService().getProgramByUuid("96ec813f-aaf0-45b2-add6-e661d5bf79d6");

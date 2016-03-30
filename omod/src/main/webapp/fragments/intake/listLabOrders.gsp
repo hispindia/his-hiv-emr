@@ -6,7 +6,7 @@
 <th>No.</th>
 <th>Visit Date</th>
 <th>Order date</th>
-<th>Update Date</th>
+<% /*<th>Update Date</th>  */%>
 <th style="align:right;">Action</th>
 </tr>
 <% listLabOrder.eachWithIndex { labOrder , count -> %>
@@ -14,7 +14,7 @@
 <td>${count+1}</td>
 <td>${labOrder.visitDate}</td>
 <td>${labOrder.orderDate}</td>
-<td>${labOrder.updateDate}</td>
+<% /*<td>${labOrder.updateDate}</td>  */%>
 <td><button class="ke-compact" type="button" onclick="enterResult('${labOrder.encounterId}')" ><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/edit.png"></button</td>
 </tr>
 <% } %>
