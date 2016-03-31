@@ -36,8 +36,10 @@ public class HivRegimenChangeFragmentController {
 				.getLastRegimenChangeType(patient);
 		model.addAttribute("drugOrderProcessed", drugOrderProcessed);
 		SimpleDateFormat formatterExt = new SimpleDateFormat("dd-MMM-yyyy");
+		if(drugOrderProcessed!=null){
 		String date = formatterExt.format(drugOrderProcessed.getDiscontinuedDate());
 		model.addAttribute("date", date);
+		}
 	}
 
 }
