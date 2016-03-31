@@ -19,8 +19,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.List;
-
-import org.dbunit.ant.Compare;
 import org.openmrs.Encounter;
 import org.openmrs.PatientProgram;
 import org.openmrs.api.context.Context;

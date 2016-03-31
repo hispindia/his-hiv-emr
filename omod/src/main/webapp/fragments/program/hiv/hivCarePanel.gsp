@@ -67,10 +67,10 @@
 		}
 
 	if (cpt) {
-		dataPoints << [ label: "Currently on CPT", value: cpt ]
+		dataPoints << [ label: "Currently on CTX", value: cpt ]
 	}
 	else{
-		dataPoints << [ label: "Currently on CPT", value: "None" ]
+		dataPoints << [ label: "Currently on CTX", value: "None" ]
 	}
 	
 %>
