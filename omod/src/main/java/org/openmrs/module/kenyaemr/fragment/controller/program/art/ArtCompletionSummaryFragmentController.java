@@ -39,7 +39,7 @@ public class ArtCompletionSummaryFragmentController {
 		Map<String, Object> dataPoints = new LinkedHashMap<String, Object>();
 
 		
-		dataPoints.put("End of Follow up Date", enrollment.getDateCompleted());
+		dataPoints.put("ART stop date", enrollment.getDateCompleted());
 
 		if (showClinicalData && enrollment.getOutcome() != null) {
 			dataPoints.put("Outcome", enrollment.getOutcome());

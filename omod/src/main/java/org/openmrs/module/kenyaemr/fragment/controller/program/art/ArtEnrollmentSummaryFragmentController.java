@@ -14,11 +14,16 @@
 
 package org.openmrs.module.kenyaemr.fragment.controller.program.art;
 
+import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.List;
 
+import org.dbunit.ant.Compare;
 import org.openmrs.Encounter;
 import org.openmrs.PatientProgram;
+import org.openmrs.api.context.Context;
 import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 
@@ -33,7 +38,34 @@ public class ArtEnrollmentSummaryFragmentController {
 		
 		Map<String, Object> dataPoints = new LinkedHashMap<String, Object>();
 		
-		dataPoints.put("ART Initiation Date", patientProgram.getDateEnrolled());
+		List<Encounter> en= Context.getEncounterService().getEncountersByPatient(patientProgram.getPatient());
+		List<Encounter> enFilter = new LinkedList<Encounter>();
+		Date initialDate = new Date();
+		Date endDate = new Date();
+		for(Encounter e : en){
+			if(e.getEncounterType().getName().toString().equals("Initiate ART")){
+				enFilter.add(e);
+				if(initialDate.after(e.getEncounterDatetime())){
+					initialDate = e.getEncounterDatetime();
+				}
+			}
+		}
+		
+		for(Encounter e : en){
+			if(e.getEncounterType().getName().toString().equals("Stop ART")){
+				enFilter.add(e);
+				if(endDate.after(e.getEncounterDatetime())){
+					endDate = e.getEncounterDatetime();
+				}
+			}
+		}
+		
+		if(patientProgram.getDateEnrolled().getTime() >= initialDate.getTime() &&  patientProgram.getDateEnrolled().getTime() < endDate.getTime()){
+			dataPoints.put("ART initiation date", patientProgram.getDateEnrolled());
+		}
+		else{
+			dataPoints.put("ART restart date", patientProgram.getDateEnrolled());
+		}
 
 		model.put("dataPoints", dataPoints);
 		return "view/dataPoints";
