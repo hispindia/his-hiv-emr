@@ -1,11 +1,11 @@
 <div class="ke-page-header">
-	<table width="100%" style ="border-bottom: solid; border-width: 1px 0">
+	<table width="100%">
 		<tr>
 			<td>
 				<div style="float: left; padding-right: 3px">
 					<a href="/${ contextPath }/index.htm?<% if (config.context) { %>${ config.context }<% } %>">
 						<br />
-						National TB Program MDR TB Patient Management System
+						<img src="${ ui.resourceLink("kenyaemr", "images/logos/Red_ribbon.png") }" width="48" height="48" />
 					</a>
 				</div>
 				<div style="float: left"></div>
