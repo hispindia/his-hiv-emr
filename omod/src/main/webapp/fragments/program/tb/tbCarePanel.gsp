@@ -20,6 +20,8 @@ else{
 
 if(calculations.tbTreatmentDrugStartDate){
 		dataPoints << [ label: "TB treatment start date", value: calculations.tbTreatmentDrugStartDate ]
+}
+if(calculations.tbTreatmentDrugRegimen){		
 		dataPoints << [ label: "TB regimen", value: calculations.tbTreatmentDrugRegimen ]
 }
 else{

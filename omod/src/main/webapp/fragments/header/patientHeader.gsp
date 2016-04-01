@@ -49,7 +49,7 @@
 
 	<div style="width: 50%; float: right; overflow: auto; text-align: right">
 		<span class="ke-tip">Current visit</span>
-		<span ng-if="patient.activeVisit" class="ke-visittag">{{ patient.activeVisit.visitType }} since <strong>{{ patient.activeVisit.startDatetime | keDateAuto }}</strong></span>
+		<span ng-if="patient.activeVisit" class="ke-visittag"> since <strong>{{ patient.activeVisit.startDatetime | keDateAuto }}</strong></span>
 		<span ng-if="!patient.activeVisit" style="font-style: italic">${ ui.message("general.none") }</span>
 	</div>
 </div>

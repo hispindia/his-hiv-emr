@@ -82,8 +82,10 @@ td, th, table, tr{
 						<% if(savedEntryPoint) { %>
 						<tr><td><strong>Entry Point</strong><small></td><td> : ${savedEntryPoint.valueCoded.name}</small></br> </td></tr>
 						<%} %>
-						<% if (savedEntryPointValueDate) { %>
-							<tr><td><strong>Name Previous Clinic</strong><small></td><td> : ${savedEntryPoint.valueText}</small> </td></tr>
+						<% if (patientWrap.previousClinicName) { %>
+							<tr><td><strong>Name Previous Clinic</strong><small></td><td> : ${patientWrap.previousClinicName}</small> </td></tr>
+						<%} %>
+						<% if (savedEntryPointValueDate) { %>	
 							<tr><td><strong>Date Transferred in</strong><small></td><td align="left"> : ${savedEntryPointValueDate}</small></br> </td></tr>
 						<% } %>
 					</table>

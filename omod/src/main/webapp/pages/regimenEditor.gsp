@@ -115,7 +115,7 @@
 					action: "changeRegimen",
 					fields: [
 							[ hiddenInputName: "patient", value: currentPatient.id ],
-							[ hiddenInputName: "changeType", value: "START" ],
+							[ hiddenInputName: "changeType", value: "Start" ],
 							[ hiddenInputName: "category", value: category ],
 							changeDateField("Start date"),
 							regimenField()
@@ -138,7 +138,7 @@
 					action: "changeRegimen",
 					fields: [
 							[ hiddenInputName: "patient", value: currentPatient.id ],
-							[ hiddenInputName: "changeType", value: "SUBSTITUTE" ],
+							[ hiddenInputName: "changeType", value: "Substitute" ],
 							[ hiddenInputName: "category", value: category ],
 							changeDateField("Change date"),
 							substituteRegimenField(),
@@ -160,7 +160,7 @@
 					action: "changeRegimen",
 					fields: [
 							[ hiddenInputName: "patient", value: currentPatient.id ],
-							[ hiddenInputName: "changeType", value: "SWITCH" ],
+							[ hiddenInputName: "changeType", value: "Switch" ],
 							[ hiddenInputName: "category", value: category ],
 							changeDateField("Change date"),
 							switchRegimenField(),
@@ -182,7 +182,7 @@
 					action: "changeRegimen",
 					fields: [
 							[ hiddenInputName: "patient", value: currentPatient.id ],
-							[ hiddenInputName: "changeType", value: "CONTINUE" ],
+							[ hiddenInputName: "changeType", value: "Continue" ],
 							[ hiddenInputName: "category", value: category ],
 							changeDateField("Continue date"),
 							continueRegimenField()
@@ -205,7 +205,7 @@
 					action: "changeRegimen",
 					fields: [
 							[ hiddenInputName: "patient", value: currentPatient.id ],
-							[ hiddenInputName: "changeType", value: "RESTART" ],
+							[ hiddenInputName: "changeType", value: "Restart" ],
 							[ hiddenInputName: "category", value: category ],
 							changeDateField("Restart date"),
 							regimenField()

@@ -113,7 +113,7 @@ public class HivCarePanelFragmentController {
 		
 		String listAllDiag = "";
 		
-		Obs diagList = getAllLatestObs(patient, Dictionary.HIV_CARE_DIAGNOSIS);
+		Obs diagList = getLatestObs(patient, Dictionary.HIV_CARE_DIAGNOSIS);
 		Obs consultationObs =   getAllLatestObs(patient, Dictionary.CONSULTATION_DETAIL);
 		if(consultationObs!=null){
 			EncounterWrapper wrappedG = new EncounterWrapper(
@@ -144,7 +144,7 @@ public class HivCarePanelFragmentController {
 		
 		String listAllOI = "";
 		
-		Obs tbOIList =   getAllLatestObs(patient, Dictionary.OI_GROUP_TB_FORM);
+		Obs tbOIList =   getLatestObs(patient, Dictionary.OI_GROUP_TB_FORM);
 		if(tbOIList!=null){
 			EncounterWrapper wrappedG = new EncounterWrapper(
 					tbOIList.getEncounter());

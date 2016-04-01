@@ -44,7 +44,7 @@
 	}
 
 	if (viralLoadResult) {
-		dataPoints << [ label: "Last Viral Load", value: viralLoadResult]
+		dataPoints << [ label: "Last Viral Load", value: viralLoadResult + " copies/ml"]
 	}
 	else{
 		dataPoints << [ label: "Last Viral Load", value: "None" ]
