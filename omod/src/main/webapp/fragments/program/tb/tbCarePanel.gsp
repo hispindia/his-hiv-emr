@@ -38,12 +38,16 @@ else{
 
 if(calculations.tbTreatmentOutcome){
 		dataPoints << [ label: "TB treatment outcome", value: calculations.tbTreatmentOutcome ]
-		dataPoints << [ label: "TB treatment outcome date", value: calculations.tbTreatmentOutcomeDate ]
-		
 }
 else{
 	dataPoints << [ label: "TB treatment outcome", value:  "None" ];
 }
+if(calculations.tbTreatmentOutcomeDate){
+		
+		dataPoints << [ label: "TB treatment outcome date", value: calculations.tbTreatmentOutcomeDate ]
+		
+}
+
 
 if (ipt) {
 	dataPoints << [ label: "Currently on IPT", value: ipt ]

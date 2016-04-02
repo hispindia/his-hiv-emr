@@ -33,8 +33,8 @@
 	<property name="targetUuid" value="5f1526f6-64cd-4a90-b4ad-24bb9d2d8709" />
 		<property name="apps">
 			<set>
-				<ref bean="kenyaemr.app.registration" />
-			<!--<ref bean="kenyaemr.app.intake" /> -->
+			<!--<ref bean="kenyaemr.app.registration" />
+				<ref bean="kenyaemr.app.intake" /> -->
 				<ref bean="kenyaemr.app.clinician" />
 				<ref bean="kenyaemr.app.chart" />
 			</set>
@@ -48,8 +48,8 @@
 	<property name="targetUuid" value="b55b8698-b1df-4c4a-83fb-efdcca4e6159" />
 		<property name="apps">
 			<set>
-				<ref bean="kenyaemr.app.registration" />
-				<!--<ref bean="kenyaemr.app.intake" /> -->
+			<!--<ref bean="kenyaemr.app.registration" />
+				<ref bean="kenyaemr.app.intake" /> -->
 				<ref bean="kenyaemr.app.clinician" />
 				<ref bean="kenyaemr.app.chart" />
 			</set>

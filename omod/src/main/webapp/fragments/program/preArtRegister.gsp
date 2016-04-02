@@ -30,7 +30,7 @@
                 	
 						<br/><% if(patientWrap.preArtRegistrationNumber) {%> ${patientWrap.preArtRegistrationNumber  }	<% } %>	
 						<br/> ${ patientName }
-						<br/><% if(address.address1) { %> ${ address.address1},  <%} %> <% if(address.cityVillage) { %> ${address.cityVillage}, <%} %>
+						<br/><% if(address.address1) { %> ${ address.address1},  <%} %> <% if(address.cityVillage !='?') { %> ${address.cityVillage}, <%} %>
 							<% if(address.countyDistrict !='?') { %> ${ address.countyDistrict},  <%} %> <% if(address.stateProvince !='?') { %> ${address.stateProvince} <%} %>
 						<br/> ${ patientAge }
 						<br/> ${ patientGender } 

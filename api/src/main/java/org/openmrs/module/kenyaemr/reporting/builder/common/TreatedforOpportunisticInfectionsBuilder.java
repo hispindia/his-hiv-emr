@@ -89,7 +89,7 @@ public class TreatedforOpportunisticInfectionsBuilder extends AbstractReportBuil
 
 		String indParams = "startDate=${startDate},endDate=${endDate}";
                 
-		EmrReportingUtils.addRow(dsd, "P1", "No. of detected cases (who have opptunistics Infections)", ReportUtils.map(hivIndicators.givenDrugsForOI(), indParams), columns);
+		EmrReportingUtils.addRow(dsd, "P1", "No. of detected cases (Treated for OI)", ReportUtils.map(hivIndicators.givenDrugsForOI(), indParams), columns);
 		return dsd;
 	}
 }

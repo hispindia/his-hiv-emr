@@ -32,7 +32,30 @@ public class ArtRegisterFragmentController {
 		 */
 		model.addAttribute("returnUrl", returnUrl);
 		model.addAttribute("patientName", person.getGivenName());
-		model.addAttribute("patientAge", person.getAge());
+	//	model.addAttribute("patientAge", person.getAge());
+		Date d = new Date();
+		int daysInMon[] = {31, 28, 31, 30, 31, 30,31, 31, 30, 31, 30, 31};  //Days in month
+		if(d.getYear()==person.getBirthdate().getYear()){
+			if(d.getMonth()==person.getBirthdate().getMonth()){
+				model.addAttribute("patientAge", d.getDay()-person.getBirthdate().getDay() + " days");
+			}
+			else{
+				int mdiff = d.getMonth()-person.getBirthdate().getMonth();
+				if(mdiff == 1 && d.getDate() - person.getBirthdate().getDate() < 1){
+					model.addAttribute("patientAge", daysInMon[person.getBirthdate().getMonth()] - person.getBirthdate().getDate() + d.getDate()+ " days");
+				}
+				else {
+					model.addAttribute("patientAge", mdiff+ " months");
+				}
+			}
+		}
+		else if(d.getYear()-person.getBirthdate().getYear() ==1 && d.getMonth() - person.getBirthdate().getMonth() < 1 ){
+			model.addAttribute("patientAge", 12 - person.getBirthdate().getMonth() + d.getMonth()+ " months");
+		}
+		else {
+			model.addAttribute("patientAge",d.getYear()-person.getBirthdate().getYear() +" years");
+		}
+		
 		model.addAttribute("birthDate", new SimpleDateFormat("dd-MMMM-yyyy")
 				.format(person.getBirthdate()));
 		model.addAttribute("patientGender", person.getGender());

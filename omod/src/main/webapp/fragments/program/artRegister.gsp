@@ -48,7 +48,7 @@
 						<br/> <% if(artInitiationDate) { %>  ${artInitiationDate} <% } %>
 						<br/> <% if(patientWrap.napArtRegistrationNumber) { %>  ${patientWrap.napArtRegistrationNumber  } <% } %>
 						<br/>${ patientName }
-						<br/><% if(address.address1) { %> ${ address.address1},  <%} %> <% if(address.cityVillage) { %> ${address.cityVillage}, <%} %>
+						<br/><% if(address.address1) { %> ${ address.address1},  <%} %> <% if(address.cityVillage !='?') { %> ${address.cityVillage}, <%} %>
 							<% if(address.countyDistrict !='?') { %> ${ address.countyDistrict},  <%} %> <% if(address.stateProvince !='?') { %> ${address.stateProvince} <%} %>
 						<% if (personWrap.telephoneContact) { %>
 						<br/><small> ${personWrap.telephoneContact}.</small>

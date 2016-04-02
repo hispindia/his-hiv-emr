@@ -65,7 +65,7 @@ td, th, table, tr{
 						<% if (personWrap.telephoneContact) { %>
 							<tr><td><strong>Patient's phone number</strong><small> </td><td align="left"> : ${personWrap.telephoneContact}.</small></td> </tr>
 						<% } %>
-						<% if ( address.cityVillage) { %>
+						<% if ( address.cityVillage !='?') { %>
 						<tr><td><strong>Village/City</strong><small></td><td> : ${ address.cityVillage}.</small> </td></tr>
 						<% } %>
 						<% if (address.countyDistrict != '?') { %>
@@ -155,6 +155,8 @@ td, th, table, tr{
 								<tr><td><strong>Employed</strong></td> <td> : ${employed}</td></tr>
 								<tr><td><strong>Alcoholic</strong></td> <td> : ${alcoholic} (${alcoholicType})</td></tr>
 								<tr><td><strong>Income</strong></td> <td> : ${income} Kyats</td></tr>
+								<tr><td><strong>Co-morbidity</strong></td> <td> : ${comorbidity} </td></tr>
+								
 							</td>
 						</tr>
 					</table>

@@ -68,7 +68,7 @@ public class PatientsNotInitiatedARTBuilder extends AbstractReportBuilder{
 	private DataSetDefinition createTbDataSet() {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 		dsd.setName("P");
-		dsd.setDescription("Treated for Opportunistic Infection");
+		dsd.setDescription("Eligible for ART");
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		dsd.addDimension("age", map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
@@ -83,7 +83,7 @@ public class PatientsNotInitiatedARTBuilder extends AbstractReportBuilder{
 
 		String indParams = "startDate=${startDate},endDate=${endDate}";
                 
-		EmrReportingUtils.addRow(dsd, "P1", "No. of detected cases (who have opptunistics Infections)", ReportUtils.map(hivIndicators.notInART(), indParams), columns);
+		EmrReportingUtils.addRow(dsd, "P1", "No. of detected cases (Eligible for ART)", ReportUtils.map(hivIndicators.notInART(), indParams), columns);
 		return dsd;
 	}
 }

@@ -28,7 +28,7 @@
 			fragmentProvider: "kenyaemr",
 			fragment: "registrationUtil",
 			action: "startVisit",
-			onSuccessCallback: "ui.reloadPage()",
+			onSuccessCallback: "ui.navigate('kenyaemr', 'registration/registrationHome')",
 			submitLabel: ui.message("general.submit"),
 			cancelLabel: ui.message("general.cancel")
 	]) %>
@@ -46,7 +46,7 @@
 			fragmentProvider: "kenyaemr",
 			fragment: "registrationUtil",
 			action: "startVisit",
-			onSuccessCallback: "ui.reloadPage()",
+			onSuccessCallback: "ui.navigate('kenyaemr', 'registration/registrationHome')",
 			submitLabel: ui.message("general.submit"),
 			cancelLabel: ui.message("general.cancel")
 	]) %>

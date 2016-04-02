@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.joda.time.LocalDate;
 import org.openmrs.Concept;
 import org.openmrs.DrugOrder;
 import org.openmrs.Encounter;
@@ -40,9 +41,34 @@ public class WhiteCardFragmentController {
 		 */
 		model.addAttribute("returnUrl", returnUrl);
 		model.addAttribute("patientName", person.getGivenName());
-		model.addAttribute("patientAge", person.getAge());
+//		model.addAttribute("patientAge", person.getAge());
 		model.addAttribute("birthDate", new SimpleDateFormat("dd-MMMM-yyyy")
 				.format(person.getBirthdate()));
+
+		
+		Date d = new Date();
+		int daysInMon[] = {31, 28, 31, 30, 31, 30,31, 31, 30, 31, 30, 31};  //Days in month
+		if(d.getYear()==person.getBirthdate().getYear()){
+			if(d.getMonth()==person.getBirthdate().getMonth()){
+				model.addAttribute("patientAge", d.getDay()-person.getBirthdate().getDay() + " days");
+			}
+			else{
+				int mdiff = d.getMonth()-person.getBirthdate().getMonth();
+				if(mdiff == 1 && d.getDate() - person.getBirthdate().getDate() < 1){
+					model.addAttribute("patientAge", daysInMon[person.getBirthdate().getMonth()] - person.getBirthdate().getDate() + d.getDate()+ " days");
+				}
+				else {
+					model.addAttribute("patientAge", mdiff+ " months");
+				}
+			}
+		}
+		else if(d.getYear()-person.getBirthdate().getYear() ==1 && d.getMonth() - person.getBirthdate().getMonth() < 1 ){
+			model.addAttribute("patientAge", 12 - person.getBirthdate().getMonth() + d.getMonth()+ " months");
+		}
+		else {
+			model.addAttribute("patientAge",d.getYear()-person.getBirthdate().getYear() +" years");
+		}
+		
 		model.addAttribute("patientGender", person.getGender());
 		model.addAttribute("address", person.getPersonAddress());
 
@@ -76,6 +102,7 @@ public class WhiteCardFragmentController {
 		String alcoholic = "";
 		String alcoholicType = "";
 		String income = "";
+		String comorbidity = "" ; 
 
 		Obs riskFactor = getAllLatestObs(patient, Dictionary.HIV_RISK_FACTOR);
 		if (riskFactor != null) {
@@ -96,6 +123,26 @@ public class WhiteCardFragmentController {
 
 		model.addAttribute("listAllRiskFactor", listAllRiskFactor);
 
+		Obs comorbidityList = getAllLatestObs(patient, Dictionary.COMORBIDITY);
+		if (comorbidityList != null) {
+			EncounterWrapper wrapped = new EncounterWrapper(
+					comorbidityList.getEncounter());
+			List<Obs> obsList = wrapped.allObs(comorbidityList.getConcept());
+
+			for (Obs obs : obsList) {
+				if (comorbidity.isEmpty()) {
+					comorbidity = comorbidity.concat(obs
+							.getValueCoded().getName().toString());
+				} else {
+					comorbidity = comorbidity.concat(", "
+							+ obs.getValueCoded().getName().toString());
+				}
+			}
+		}
+
+		model.addAttribute("comorbidity", comorbidity);
+
+		
 		Obs iduStatusObs = getAllLatestObs(patient,
 				Dictionary.IDU_PERSONAL_HISTORY);
 		if (iduStatusObs != null) {
