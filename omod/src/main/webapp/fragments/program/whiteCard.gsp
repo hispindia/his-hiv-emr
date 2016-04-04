@@ -79,15 +79,18 @@ td, th, table, tr{
 						<tr><td><strong>Plcae</strong><small></td><td> : ${patientWrap.previousHivTestPlace}</small> </td></tr>
 						<% } %>
 						
-						<% if(savedEntryPoint) { %>
+						<% if(savedEntryPoint) { %>  <% if(entryPoint=='Other') {%> 
+						<tr><td><strong>Entry Point</strong><small></td><td> : ${savedEntryPoint.valueCoded.name} (${otherEntryPoint})</small></br> </td></tr>
+						 <% }  else { %>
 						<tr><td><strong>Entry Point</strong><small></td><td> : ${savedEntryPoint.valueCoded.name}</small></br> </td></tr>
-						<%} %>
+						<%}} %>
+						
 						<% if (patientWrap.previousClinicName) { %>
-							<tr><td><strong>Name Previous Clinic</strong><small></td><td> : ${patientWrap.previousClinicName}</small> </td></tr>
+						<tr><td><strong>Name Previous Clinic</strong><small></td><td> : ${patientWrap.previousClinicName}</small> </td></tr>
 						<%} %>
 						<% if (savedEntryPointValueDate) { %>	
 							<tr><td><strong>Date Transferred in</strong><small></td><td align="left"> : ${savedEntryPointValueDate}</small></br> </td></tr>
-						<% } %>
+						 <%}   %>
 					</table>
 				</td>			
 				<td width="50%" valign="top" >

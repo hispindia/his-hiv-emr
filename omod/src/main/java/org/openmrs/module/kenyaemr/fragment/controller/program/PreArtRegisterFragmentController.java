@@ -71,11 +71,18 @@ public class PreArtRegisterFragmentController {
 		Obs enrollmentStatus = getLatestObs(patient,
 				Dictionary.ENROLLMENT_STATUS);
 		model.addAttribute("enrollmentStatus", enrollmentStatus);
-
+		String enrollStat = enrollmentStatus.getValueCoded().getName().toString();
+		String otherStat = enrollmentStatus.getValueText();
+		model.addAttribute("enrollStat", enrollStat);
+		model.addAttribute("otherStat", otherStat); 
+		
 		Obs savedEntryPoint = getLatestObs(patient,
 				Dictionary.METHOD_OF_ENROLLMENT);
 		model.addAttribute("savedEntryPoint", savedEntryPoint);
-		
+		String entryPoint = savedEntryPoint.getValueCoded().getName().toString();
+		String otherEntryPoint = savedEntryPoint.getValueText();
+		model.addAttribute("entryPoint", entryPoint);
+		model.addAttribute("otherEntryPoint", otherEntryPoint);
 		/*
 		 * Obstetric History
 		 * */

@@ -39,8 +39,11 @@
 			<br/>HIV confirmation test place : <strong>${patientWrap.previousHivTestPlace}</strong>
 		<% } %>
 		<% if (savedEntryPoint) { %>
-		<br/> Entry Point : <strong>${savedEntryPoint.valueCoded.name}</strong>
-		<% } %>
+		          <% if(entryPoint=='Other') {%>
+				   <br/> Entry Point : <strong>${entryPoint}</strong> <strong>(<strong>${otherEntryPoint}</strong>)</strong>
+				  <% }  else { %>
+				 <br/> Entry Point : <strong>${savedEntryPoint.valueCoded.name}</strong>
+				<%} }  %>
 		<% if (pregStatusVal) { %>
 			<br/>Pregnancy : <strong>${pregStatusVal}</strong>
 		<% } %>

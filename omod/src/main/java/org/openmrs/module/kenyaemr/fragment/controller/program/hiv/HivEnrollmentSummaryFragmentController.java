@@ -54,7 +54,7 @@ public class HivEnrollmentSummaryFragmentController {
 			entryPoint = savedEntryPoint.getValueCoded().getName().toString();
 			otherEntryPoint = savedEntryPoint.getValueText();
 			if(otherEntryPoint!=null){
-			dataPoints.put("Entry Point", entryPoint + otherEntryPoint);
+			dataPoints.put("Entry Point", entryPoint+" " +"("+otherEntryPoint+")");
 			}
 			else {
 				dataPoints.put("Entry Point", entryPoint );

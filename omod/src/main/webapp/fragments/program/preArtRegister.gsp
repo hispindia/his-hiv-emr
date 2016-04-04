@@ -68,11 +68,21 @@
                 
                 <td  colspan="2" style="text-align: left; vertical-align: top; width: 70%; padding-left:1%">
                 
-                <br/><% if(savedEntryPoint) { %> ${ savedEntryPoint.valueCoded.name}  <%} %>
-                <br/><% if (enrollmentStatus) { %>
-						${ enrollmentStatus.valueCoded.name }
-					<% } %>	
-                    <br/>
+                <% if (savedEntryPoint) { %>
+		                     <% if(entryPoint=='Other') {%>
+							 <br/>${entryPoint}(${otherEntryPoint})
+							 
+							 <% }  else { %>
+							 <br/> ${savedEntryPoint.valueCoded.name}
+							 <%} }  %>
+               
+                <% if (enrollmentStatus) { %>
+		                     <% if(enrollStat=='Other') {%>
+							 <br/>${enrollStat}(${otherStat})
+							 
+							 <% }  else { %>
+							 <br/> ${enrollmentStatus.valueCoded.name}
+							 <%} }  %>
 						<% if(patientWrap.previousHivTestDate) { %><br/> ${ patientWrap.previousHivTestDate},  <%} %> <% if(patientWrap.previousHivTestPlace) { %> ${patientWrap.previousHivTestPlace}. <%} %>
                 <br/>
                 <br/>

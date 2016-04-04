@@ -67,7 +67,7 @@
 	def patientSource2 = [
 			[
 					[ object: command, property: "previousClinicName", label: "Previous Clinic Name ", config: [ width: 350 ] ],
-					[ object: command, property: "transferredInDate", label: "Transferred In Date " , class: java.util.Date, initialValue: new Date(), config: [ width: 300 ] ]
+					[object: command, property: "transferredInDate", label: "Transferred In Date " , class: java.util.Date, initialValue: new Date(), config: [ width: 300 ] ]
 			]		
 	]   
 
@@ -242,29 +242,102 @@
 		<fieldset>
 			<legend>Enrollment Status</legend>
 
-			 <% enrollmentStatus.each { %>
-			   ${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
-			 <% } %>
-
+			<table>
+				<tr>
+				<td> 
+				     
+					<center><label class="ke-field-label">Status at enrollment</label></center>
+					
+					<span class="ke-field-content" >
+					
+					
+						
+							${ ui.includeFragment("kenyaui", "widget/field",[ id:"enrollmentName", object: command, property: "enrollmentName", config: [ style: "list", answerTo: enrollmentList ] ]) }
+		
+					
+					</span>
+				</td>
+				 <td  id="otherStatus">
+						<center><label class="ke-field-label">If other, Please specify</label></center>
+						<span class="ke-field-content">
+							${ ui.includeFragment("kenyaui", "widget/field",[ id:"otherStatus",object: command, property: "otherStatus" ]) }
+						</span>	
+					</td>
+				</tr>
+			</table>
 		</fieldset>
 		
 		<fieldset>
 			<legend>Patient Source</legend>
 
-			 <% patientSource1.each { %>
-			   ${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
-			 <% } %>
-			 
-			 <%if(command.original) { %>
+			<table>
+				<tr>
+				<td> 
+				    
+					<center><label class="ke-field-label">Entry Point</label></center>
+					
+				<span class="ke-field-content" >
+					${ ui.includeFragment("kenyaui", "widget/field",[ id:"entryPoint", object: command, property: "entryPoint", config: [ style: "list", answerTo: entryPointList ] ]) }
+		
+					
+					</span>
+				</td>
+				 <td  id="otherEntryPoint">
+						<center><label class="ke-field-label">If other, Please specify</label></center>
+						<span  class="ke-field-content">
+							${ ui.includeFragment("kenyaui", "widget/field",[ id:"otherEntryPoint",object: command, property: "otherEntryPoint" ]) }
+						</span>	
+					</td>
+				</tr>
+				
+						
+						
+							
+						
+				
+				</tr>
+			</table>
+			  <%if(command.original) { %>
 			 <% patientSource3.each { %>
-				   ${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
+			 <table>
+				<tr> 
+			                  <td  id="previousClinicName">
+			                     <center><label class="ke-field-label">Previous Clinic Name</label></center>
+			             <span  class="ke-field-content">
+				 ${ ui.includeFragment("kenyaui", "widget/field", [id:"previousClinicName", object: command, property: "previousClinicName" , config: [ width: 350 ] ]) }
+				 </span>	
+					</td>
+					<td  id="transferredInDate">
+						 <center><label class="ke-field-label">Transferred In Date</label></center>
+						<span  class="ke-field-content">
+							${ ui.includeFragment("kenyaui", "widget/field",[ id:"transferredInDate",object: command, property: "transferredInDate", config: [ width: 300 ] ]) }
+						</span>	
+					</td>
+					</tr>
+					</table>
 			 <% } } else {%>
 				  <% patientSource2.each { %>
-				   ${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
+				  		<table>
+				<tr> 
+				   <td  id="previousClinicName">
+				   <center><label class="ke-field-label">Previous Clinic Name</label></center>
+			       <span  class="ke-field-content">
+				   ${ ui.includeFragment("kenyaui", "widget/field", [id:"previousClinicName", object: command, property: "previousClinicName" ,label: "Previous Clinic Name ",  config: [ width: 350 ] ]) }
+				    </span>	
+					</td>
+				    <td  id="transferredInDate">
+				     <center><label class="ke-field-label">Transferred In Date</label></center>
+				    <span  class="ke-field-content">
+					${ ui.includeFragment("kenyaui", "widget/field",[id:"transferredInDate",object: command, property: "transferredInDate", label: "Transferred In Date " , class: java.util.Date, initialValue: new Date(), config: [ width: 300 ] ]) }
+					</span>	
+					</td>
+				</tr>
+			</table>
 			 <% } }%>
+			
 
 		</fieldset>
-		
+
 			<fieldset>
 			<legend>HIV Testing</legend>
 
@@ -356,8 +429,49 @@ ${ ui.includeFragment("kenyaui", "widget/dialogForm", [
 
 <script type="text/javascript">
 var patientId=${patientId};
-jQuery(document).ready(function(){
-	 document.getElementById('checkInField').style.display='none';
+
+jQuery(document).ready(function(){  if(patientId==null)
+                                     { jq("#otherStatus").hide();
+                                       jq("#otherEntryPoint").hide(); 
+                                        jq("#transferredInDate").hide(); 
+                                         jq("#previousClinicName").hide();
+                                     }
+                                    else
+                                    {
+                                    var stats=${statusother};
+                                    if(stats==5622)
+                                    { jq("#otherStatus").show();
+                                          
+                                    }
+                                     else
+                                    {
+                                    jq("#otherStatus").hide();
+                                    }
+                                    var entry=${pointentry};
+                                      if(entry==5622)
+                                     {
+                                     jq("#otherEntryPoint").show();
+                                     jq("#previousClinicName").hide();
+                                     jq("#transferredInDate").hide();
+                                     } 
+                                     else if(entry==162870||entry==162871)
+                                     {
+                                     jq("#previousClinicName").show();
+                                     jq("#transferredInDate").show();
+                                     jq("#otherEntryPoint").hide();
+                                     } 
+                                      else
+                                     {
+                                      jq("#otherEntryPoint").hide();
+                                      jq("#previousClinicName").hide();
+                                     jq("#transferredInDate").hide();
+                                     }
+                                     
+                                     }
+                                   
+                                     
+  
+ document.getElementById('checkInField').style.display='none';
 	var hivTestPerformedYes = document.getElementById('hivTestPerformed-Yes').checked; 
 			if(hivTestPerformedYes==true)
 			{
@@ -381,6 +495,16 @@ jQuery(document).ready(function(){
 			if(document.getElementById('dateOfRegistration')!=null){
 				document.getElementById('dateOfRegistration').value=newDate;
 			}
+			
+		jq('#enrollmentName').on('change', function() 
+            {  
+			getSelectOption(jq(this).val());
+			
+		});
+		jq('#entryPoint').on('change', function() 
+          {
+			getSelectEntryPoint(jq(this).val());
+		});
 	});
 	
 
@@ -428,7 +552,37 @@ jQuery(document).ready(function(){
   			  document.getElementById('hivTestPerformedPlace').style.display='none'; 
 			}
 	};
-
+    function getSelectOption(elem)
+    {   
+        
+        if(elem== 5622){ 
+            document.getElementById("otherStatus").style.display = "";
+        }
+        
+        else
+        {
+          document.getElementById("otherStatus").style.display = 'none';
+        }
+    };
+    function getSelectEntryPoint(elem)
+    { 
+        if(elem== 5622){
+            document.getElementById("otherEntryPoint").style.display = "";
+            document.getElementById("previousClinicName").style.display ='none';
+            document.getElementById("transferredInDate").style.display = 'none';
+    }
+    else if(elem== 162870||elem== 162871){ 
+            document.getElementById("previousClinicName").style.display = "";
+            document.getElementById("transferredInDate").style.display = "";
+            document.getElementById("otherEntryPoint").style.display = 'none';
+        }
+        else
+        {
+          document.getElementById("otherEntryPoint").style.display = 'none';
+          document.getElementById("previousClinicName").style.display ='none';
+            document.getElementById("transferredInDate").style.display = 'none';
+        }
+   };
 	function updateBirthdate(data) {
 		var birthdate = new Date(data.birthdate);
 

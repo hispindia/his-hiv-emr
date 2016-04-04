@@ -81,7 +81,11 @@ public class WhiteCardFragmentController {
 		Obs savedEntryPoint = getLatestObs(patient,
 				Dictionary.METHOD_OF_ENROLLMENT);
 		model.addAttribute("savedEntryPoint", savedEntryPoint);
-		
+		String entryPoint = savedEntryPoint.getValueCoded().getName().toString();
+		String otherEntryPoint = savedEntryPoint.getValueText();
+		model.addAttribute("entryPoint", entryPoint);
+		model.addAttribute("otherEntryPoint", otherEntryPoint);
+	
 		if (savedEntryPoint != null && savedEntryPoint.getValueDate() != null) {
 			model.addAttribute("savedEntryPointValueDate",
 					new SimpleDateFormat("dd-MMMM-yyyy").format(savedEntryPoint

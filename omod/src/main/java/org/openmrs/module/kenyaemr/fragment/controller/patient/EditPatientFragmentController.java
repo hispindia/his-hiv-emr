@@ -100,7 +100,8 @@ public class EditPatientFragmentController {
 		}
 
 		Person existing = patient != null ? patient : person;
-
+       
+       
 		model.addAttribute("command", newEditPatientForm(existing));
 
 		model.addAttribute("civilStatusConcept",
@@ -115,7 +116,12 @@ public class EditPatientFragmentController {
 				Dictionary.getConcept(Dictionary.ENROLLMENT_STATUS));
 		model.addAttribute("entryPointList",
 				Dictionary.getConcept(Dictionary.METHOD_OF_ENROLLMENT));
-
+		 Obs savedEnrollmentSatusConcept;
+		 savedEnrollmentSatusConcept=getLatestObs(patient, Dictionary.ENROLLMENT_STATUS);
+         model.addAttribute("statusother",savedEnrollmentSatusConcept.getValueCoded());
+         Obs savedEntryPointConcept;
+         savedEntryPointConcept=getLatestObs(patient, Dictionary.METHOD_OF_ENROLLMENT);
+         model.addAttribute("pointentry",savedEntryPointConcept.getValueCoded());
 		// Create list of education answer concepts
 		List<Concept> educationOptions = new ArrayList<Concept>();
 		educationOptions.add(Dictionary.getConcept(Dictionary.NONE));
@@ -140,7 +146,7 @@ public class EditPatientFragmentController {
 		maritalStatusOptions.add(Dictionary
 				.getConcept(Dictionary.NEVER_MARRIED));
 		model.addAttribute("maritalStatusOptions", maritalStatusOptions);
-
+      
 		if (patient != null) {
 			model.addAttribute("recordedAsDeceased",
 					hasBeenRecordedAsDeceased(patient));
@@ -182,7 +188,16 @@ public class EditPatientFragmentController {
 		}
 
 	}
-
+	private Obs getLatestObs(Patient patient, String conceptIdentifier) {
+		Concept concept = Dictionary.getConcept(conceptIdentifier);
+		List<Obs> obs = Context.getObsService()
+				.getObservationsByPersonAndConcept(patient, concept);
+		if (obs.size() > 0) {
+			// these are in reverse chronological order
+			return obs.get(0);
+		}
+		return null;
+	}
 	/**
 	 * Checks if a patient has been recorded as deceased by a program
 	 * 
@@ -431,7 +446,10 @@ public class EditPatientFragmentController {
 					Dictionary.ENROLLMENT_STATUS);
 			if (savedEnrollmentNameConcept != null) {
 				enrollmentName = savedEnrollmentNameConcept.getValueCoded();
+				
 				otherStatus = savedEnrollmentNameConcept.getValueText();
+				
+				
 			}
 
 			savedEntryPoint = getLatestObs(patient,
@@ -439,6 +457,7 @@ public class EditPatientFragmentController {
 			if (savedEntryPoint != null) {
 				entryPoint = savedEntryPoint.getValueCoded();
 				otherEntryPoint = savedEntryPoint.getValueText();
+				
 				transferredInDate = savedEntryPoint.getValueDate();
 			}
 
@@ -447,18 +466,8 @@ public class EditPatientFragmentController {
 				education = savedEducation.getValueCoded();
 			}
 		}
-
-		private Obs getLatestObs(Patient patient, String conceptIdentifier) {
-			Concept concept = Dictionary.getConcept(conceptIdentifier);
-			List<Obs> obs = Context.getObsService()
-					.getObservationsByPersonAndConcept(patient, concept);
-			if (obs.size() > 0) {
-				// these are in reverse chronological order
-				return obs.get(0);
-			}
-			return null;
-		}
-
+	
+	
 		/**
 		 * @see org.springframework.validation.Validator#validate(java.lang.Object,
 		 *      org.springframework.validation.Errors)
@@ -855,7 +864,7 @@ public class EditPatientFragmentController {
 
 				if (transferredInDate != null) {
 					if (entryPoint.getName().toString()
-							.equals("OTHER NON-CODED")) {
+							.equals("Other")) {
 						handleOncePerPatientObs(
 								ret,
 								obsToSave,
@@ -876,7 +885,7 @@ public class EditPatientFragmentController {
 					}
 				} else {
 					if (entryPoint.getName().toString()
-							.equals("OTHER NON-CODED")) {
+							.equals("Other")) {
 						handleOncePerPatientObs(
 								ret,
 								obsToSave,
@@ -1092,6 +1101,8 @@ public class EditPatientFragmentController {
 					o.setLocation(Context.getService(KenyaEmrService.class)
 							.getDefaultLocation());
 					o.setValueCoded(newValue);
+					
+					
 					o.setValueText(textValue);
 					if (check == 0) {
 						o.setValueDate(textDate);

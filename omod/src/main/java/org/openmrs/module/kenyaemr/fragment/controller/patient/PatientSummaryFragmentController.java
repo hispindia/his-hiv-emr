@@ -77,7 +77,13 @@ public class PatientSummaryFragmentController {
 		if(getLatestObs(patient,Dictionary.METHOD_OF_ENROLLMENT)!=null){
 			Obs savedEntryPoint = getLatestObs(patient,
 					Dictionary.METHOD_OF_ENROLLMENT);
+			String entryPoint = savedEntryPoint.getValueCoded().getName().toString();
+			String otherEntryPoint = savedEntryPoint.getValueText();
+			
 			model.addAttribute("savedEntryPoint", savedEntryPoint);
+			
+			model.addAttribute("entryPoint", entryPoint);
+			model.addAttribute("otherEntryPoint", otherEntryPoint);
 		}
 		else{
 			model.addAttribute("savedEntryPoint", "");
