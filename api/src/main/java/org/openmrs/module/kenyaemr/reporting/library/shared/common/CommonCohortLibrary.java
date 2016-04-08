@@ -61,7 +61,182 @@ public class CommonCohortLibrary {
 		cd.setFemaleIncluded(true);
 		return cd;
 	}
-
+	public CohortDefinition scaleA()
+	{  Concept performance = Dictionary.getConcept(Dictionary.PERFORMANCE);
+		Concept scale = Dictionary.getConcept(Dictionary.PERFSCALE_A);
+	CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		
+		cd.setName("performance scale A");
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+        cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+    	
+		cd.addSearch("givenScale", ReportUtils.map(hasObs(performance,scale), "onOrBefore=${onOrBefore}"));
+        
+        cd.setCompositionString("givenScale");
+        
+        
+        return cd;
+		
+	}
+	public CohortDefinition scaleB()
+	{  Concept performance = Dictionary.getConcept(Dictionary.PERFORMANCE);
+		Concept scaleb = Dictionary.getConcept(Dictionary.PERFSCALE_B);
+	CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		
+		cd.setName("performance scale B");
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+        cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+    	
+		cd.addSearch("givenScale", ReportUtils.map(hasObs(performance,scaleb), "onOrBefore=${onOrBefore}"));
+        
+        cd.setCompositionString("givenScale");
+        
+        
+        return cd;
+		
+	}
+	
+	public CohortDefinition scaleC()
+	{  Concept performance = Dictionary.getConcept(Dictionary.PERFORMANCE);
+		Concept scaleb = Dictionary.getConcept(Dictionary.PERFSCALE_C);
+	CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		
+		cd.setName("performance scale C");
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+        cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+    	
+		cd.addSearch("givenScale", ReportUtils.map(hasObs(performance,scaleb), "onOrBefore=${onOrBefore}"));
+        
+        cd.setCompositionString("givenScale");
+        
+        
+        return cd;
+		
+	}
+	public CohortDefinition risk1()
+	{  Concept risk = Dictionary.getConcept(Dictionary.HIV_RISK_FACTOR);
+		Concept risk1 = Dictionary.getConcept(Dictionary.RISK_FACTOR_MSM);
+	CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		
+		cd.setName("Risk1");
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+        cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+    	
+		cd.addSearch("givenRisk", ReportUtils.map(hasObs(risk,risk1), "onOrBefore=${onOrBefore}"));
+        
+        cd.setCompositionString("givenRisk");
+        
+        
+        return cd;
+		
+	}
+	
+	public CohortDefinition risk2()
+	{  Concept risk = Dictionary.getConcept(Dictionary.HIV_RISK_FACTOR);
+		Concept risk2 = Dictionary.getConcept(Dictionary.RISK_FACTOR_SW);
+	CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		
+		cd.setName("Risk2");
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+        cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+    	
+		cd.addSearch("givenRisk", ReportUtils.map(hasObs(risk,risk2), "onOrBefore=${onOrBefore}"));
+        
+        cd.setCompositionString("givenRisk");
+        
+        
+        return cd;
+		
+	}
+	public CohortDefinition risk3()
+	{  Concept risk = Dictionary.getConcept(Dictionary.HIV_RISK_FACTOR);
+		Concept risk3 = Dictionary.getConcept(Dictionary.RISK_FACTOR_HETRO);
+	CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		
+		cd.setName("Risk3");
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+        cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+    	
+		cd.addSearch("givenRisk", ReportUtils.map(hasObs(risk,risk3), "onOrBefore=${onOrBefore}"));
+        
+        cd.setCompositionString("givenRisk");
+        
+        
+        return cd;
+		
+	}
+	public CohortDefinition risk4()
+	{  Concept risk = Dictionary.getConcept(Dictionary.HIV_RISK_FACTOR);
+		Concept risk4 = Dictionary.getConcept(Dictionary.RISK_FACTOR_IDU);
+	CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		
+		cd.setName("Risk4");
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+        cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+    	
+		cd.addSearch("givenRisk", ReportUtils.map(hasObs(risk,risk4), "onOrBefore=${onOrBefore}"));
+        
+        cd.setCompositionString("givenRisk");
+        
+        
+        return cd;
+		
+	}
+	public CohortDefinition risk5()
+	{  Concept risk = Dictionary.getConcept(Dictionary.HIV_RISK_FACTOR);
+		Concept risk5 = Dictionary.getConcept(Dictionary.RISK_FACTOR_MOTHERTOCHILD);
+	CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		
+		cd.setName("Risk5");
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+        cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+    	
+		cd.addSearch("givenRisk", ReportUtils.map(hasObs(risk,risk5), "onOrBefore=${onOrBefore}"));
+        
+        cd.setCompositionString("givenRisk");
+        
+        
+        return cd;
+		
+	}
+	public CohortDefinition risk6()
+	{  Concept risk = Dictionary.getConcept(Dictionary.HIV_RISK_FACTOR);
+		Concept risk6 = Dictionary.getConcept(Dictionary.RISK_FACTOR_BLOODTRANS);
+	CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		
+		cd.setName("Risk6");
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+        cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+    	
+		cd.addSearch("givenRisk", ReportUtils.map(hasObs(risk,risk6), "onOrBefore=${onOrBefore}"));
+        
+        cd.setCompositionString("givenRisk");
+        
+        
+        return cd;
+		
+	}
+	
+	public CohortDefinition risk7()
+	{  Concept risk = Dictionary.getConcept(Dictionary.HIV_RISK_FACTOR);
+		Concept risk7 = Dictionary.getConcept(Dictionary.RISK_FACTOR_UNKNOWN);
+	CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		
+		cd.setName("Risk7");
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+        cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+    	
+		cd.addSearch("givenRisk", ReportUtils.map(hasObs(risk,risk7), "onOrBefore=${onOrBefore}"));
+        
+        cd.setCompositionString("givenRisk");
+        
+        
+        return cd;
+		
+	}
+	
+	
+	
 	/**
 	 * Patients who are male
 	 * @return the cohort definition
@@ -138,6 +313,7 @@ public class CommonCohortLibrary {
 		CodedObsCohortDefinition cd = new CodedObsCohortDefinition();
 		cd.setName("has obs between dates");
 		cd.setQuestion(question);
+		
 		cd.setOperator(SetComparator.IN);
 		cd.setTimeModifier(PatientSetService.TimeModifier.ANY);
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));

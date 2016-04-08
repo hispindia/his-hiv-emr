@@ -44,6 +44,7 @@ public class CommonDimensionLibrary {
 		return dim;
 	}
 
+	 
 	/**
 	 * Dimension of age using the 3 standard age groups
 	 * @return the dimension
@@ -55,6 +56,31 @@ public class CommonDimensionLibrary {
 		dim.addCohortDefinition("<1", map(commonCohortLibrary.agedAtMost(0), "effectiveDate=${onDate}"));
 		dim.addCohortDefinition("<15", map(commonCohortLibrary.agedAtMost(14), "effectiveDate=${onDate}"));
 		dim.addCohortDefinition("15+", map(commonCohortLibrary.agedAtLeast(15), "effectiveDate=${onDate}"));
+		return dim;
+	}
+	
+	
+	public CohortDefinitionDimension performanceScales() {
+		CohortDefinitionDimension dim = new CohortDefinitionDimension();
+		dim.setName("performance scale (A,B,C)");
+		
+		dim.addCohortDefinition("A", map(commonCohortLibrary.scaleA()));
+		dim.addCohortDefinition("B", map(commonCohortLibrary.scaleB()));
+		dim.addCohortDefinition("C", map(commonCohortLibrary.scaleC()));
+		return dim;
+	}
+	
+	public CohortDefinitionDimension riskFactor() {
+		CohortDefinitionDimension dim = new CohortDefinitionDimension();
+		dim.setName("risk factor (1,2,3,4,5,6,7)");
+		
+		dim.addCohortDefinition("1", map(commonCohortLibrary.risk1()));
+		dim.addCohortDefinition("2", map(commonCohortLibrary.risk2()));
+		dim.addCohortDefinition("3", map(commonCohortLibrary.risk3()));
+		dim.addCohortDefinition("4", map(commonCohortLibrary.risk4()));
+		dim.addCohortDefinition("5", map(commonCohortLibrary.risk5()));
+		dim.addCohortDefinition("6", map(commonCohortLibrary.risk6()));
+		dim.addCohortDefinition("7", map(commonCohortLibrary.risk7()));
 		return dim;
 	}
 }

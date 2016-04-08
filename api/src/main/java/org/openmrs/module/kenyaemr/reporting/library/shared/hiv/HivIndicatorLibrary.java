@@ -130,5 +130,43 @@ public class HivIndicatorLibrary {
                 return cohortIndicator("patients not initialized for ART", map(hivCohorts.notinitializedART(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
         }
         
+        public CohortIndicator performanceScaleA(){
+            return cohortIndicator("patients with performance scale A", map(hivCohorts.performanceScale(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+        }
+        
+            public CohortIndicator performanceScaleB(){
+                return cohortIndicator("patients with performance scale B", map(hivCohorts.performanceScaleb(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+       }
+            public CohortIndicator performanceScaleC(){
+                return cohortIndicator("patients with performance scale B", map(hivCohorts.performanceScalec(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+       }
   
+        public CohortIndicator riskFactor1(){
+                return cohortIndicator("patients with risk Factor 1", map(hivCohorts.riskFactors1(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+       }    
+            
+       public CohortIndicator riskFactor2(){
+                return cohortIndicator("patients with risk Factor 2", map(hivCohorts.riskFactors2(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+       }  
+            
+       public CohortIndicator riskFactor3(){
+           return cohortIndicator("patients with risk Factor 3", map(hivCohorts.riskFactors3(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+       }    
+       
+       public CohortIndicator riskFactor4(){
+           return cohortIndicator("patients with risk Factor 4", map(hivCohorts.riskFactors4(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+       }       
+            
+       public CohortIndicator riskFactor5(){
+           return cohortIndicator("patients with risk Factor 5", map(hivCohorts.riskFactors5(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+       }    
+       
+       public CohortIndicator riskFactor6(){
+           return cohortIndicator("patients with risk Factor 6", map(hivCohorts.riskFactors6(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+       }      
+       
+       public CohortIndicator riskFactor7(){
+           return cohortIndicator("patients with risk Factor 7", map(hivCohorts.riskFactors7(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+       }  
+            
 }
