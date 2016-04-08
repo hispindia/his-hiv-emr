@@ -100,8 +100,7 @@ public class EditPatientFragmentController {
 		}
 
 		Person existing = patient != null ? patient : person;
-       
-       
+
 		model.addAttribute("command", newEditPatientForm(existing));
 
 		model.addAttribute("civilStatusConcept",
@@ -116,12 +115,26 @@ public class EditPatientFragmentController {
 				Dictionary.getConcept(Dictionary.ENROLLMENT_STATUS));
 		model.addAttribute("entryPointList",
 				Dictionary.getConcept(Dictionary.METHOD_OF_ENROLLMENT));
-		 Obs savedEnrollmentSatusConcept;
-		 savedEnrollmentSatusConcept=getLatestObs(patient, Dictionary.ENROLLMENT_STATUS);
-         model.addAttribute("statusother",savedEnrollmentSatusConcept.getValueCoded());
-         Obs savedEntryPointConcept;
-         savedEntryPointConcept=getLatestObs(patient, Dictionary.METHOD_OF_ENROLLMENT);
-         model.addAttribute("pointentry",savedEntryPointConcept.getValueCoded());
+		Obs savedEnrollmentSatusConcept;
+		savedEnrollmentSatusConcept = getLatestObs(patient,
+				Dictionary.ENROLLMENT_STATUS);
+		if (savedEnrollmentSatusConcept != null) {
+			model.addAttribute("statusother",
+					savedEnrollmentSatusConcept.getValueCoded());
+		} else {
+			model.addAttribute("statusother", 0);
+		}
+
+		Obs savedEntryPointConcept;
+		savedEntryPointConcept = getLatestObs(patient,
+				Dictionary.METHOD_OF_ENROLLMENT);
+		if (savedEntryPointConcept != null) {
+			model.addAttribute("pointentry",
+					savedEntryPointConcept.getValueCoded());
+		} else {
+			model.addAttribute("pointentry", 0);
+		}
+
 		// Create list of education answer concepts
 		List<Concept> educationOptions = new ArrayList<Concept>();
 		educationOptions.add(Dictionary.getConcept(Dictionary.NONE));
@@ -146,7 +159,7 @@ public class EditPatientFragmentController {
 		maritalStatusOptions.add(Dictionary
 				.getConcept(Dictionary.NEVER_MARRIED));
 		model.addAttribute("maritalStatusOptions", maritalStatusOptions);
-      
+
 		if (patient != null) {
 			model.addAttribute("recordedAsDeceased",
 					hasBeenRecordedAsDeceased(patient));
@@ -188,6 +201,7 @@ public class EditPatientFragmentController {
 		}
 
 	}
+
 	private Obs getLatestObs(Patient patient, String conceptIdentifier) {
 		Concept concept = Dictionary.getConcept(conceptIdentifier);
 		List<Obs> obs = Context.getObsService()
@@ -198,6 +212,7 @@ public class EditPatientFragmentController {
 		}
 		return null;
 	}
+
 	/**
 	 * Checks if a patient has been recorded as deceased by a program
 	 * 
@@ -446,10 +461,9 @@ public class EditPatientFragmentController {
 					Dictionary.ENROLLMENT_STATUS);
 			if (savedEnrollmentNameConcept != null) {
 				enrollmentName = savedEnrollmentNameConcept.getValueCoded();
-				
+
 				otherStatus = savedEnrollmentNameConcept.getValueText();
-				
-				
+
 			}
 
 			savedEntryPoint = getLatestObs(patient,
@@ -457,7 +471,7 @@ public class EditPatientFragmentController {
 			if (savedEntryPoint != null) {
 				entryPoint = savedEntryPoint.getValueCoded();
 				otherEntryPoint = savedEntryPoint.getValueText();
-				
+
 				transferredInDate = savedEntryPoint.getValueDate();
 			}
 
@@ -466,8 +480,7 @@ public class EditPatientFragmentController {
 				education = savedEducation.getValueCoded();
 			}
 		}
-	
-	
+
 		/**
 		 * @see org.springframework.validation.Validator#validate(java.lang.Object,
 		 *      org.springframework.validation.Errors)
@@ -577,17 +590,17 @@ public class EditPatientFragmentController {
 				if (enrollmentName.getName().toString().equals("Other")) {
 					require(errors, "otherStatus");
 				}
-				
-				if (enrollmentName.getName().toString().equals("Pregnancy") || enrollmentName.getName().toString().equals("Postpartum")) {
-					if(gender.toString().equals("M")){
+
+				if (enrollmentName.getName().toString().equals("Pregnancy")
+						|| enrollmentName.getName().toString()
+								.equals("Postpartum")) {
+					if (gender.toString().equals("M")) {
 						errors.rejectValue("enrollmentName",
-								"Cannot be selected for Male patient");	
+								"Cannot be selected for Male patient");
 					}
-					
+
 				}
 			}
-			
-			
 
 			// Require death details if patient is deceased
 			if (dead) {
@@ -863,8 +876,7 @@ public class EditPatientFragmentController {
 			if (entryPoint != null) {
 
 				if (transferredInDate != null) {
-					if (entryPoint.getName().toString()
-							.equals("Other")) {
+					if (entryPoint.getName().toString().equals("Other")) {
 						handleOncePerPatientObs(
 								ret,
 								obsToSave,
@@ -884,8 +896,7 @@ public class EditPatientFragmentController {
 								transferredInDate, 0);
 					}
 				} else {
-					if (entryPoint.getName().toString()
-							.equals("Other")) {
+					if (entryPoint.getName().toString().equals("Other")) {
 						handleOncePerPatientObs(
 								ret,
 								obsToSave,
@@ -967,8 +978,10 @@ public class EditPatientFragmentController {
 					hivEnrollmentEncounter.setPatient(ret);
 					hivEnrollmentEncounter.setLocation(Context.getService(
 							KenyaEmrService.class).getDefaultLocation());
-					hivEnrollmentEncounter.setDateCreated(new Date());
-					hivEnrollmentEncounter.setEncounterDatetime(new Date());
+					hivEnrollmentEncounter.setDateCreated(visitSave
+							.getStartDatetime());
+					hivEnrollmentEncounter.setEncounterDatetime(visitSave
+							.getStartDatetime());
 					hivEnrollmentEncounter.setForm(MetadataUtils.existing(
 							Form.class, HivMetadata._Form.HIV_ENROLLMENT));
 					hivEnrollmentEncounter.setVisit(visitSave);
@@ -980,8 +993,9 @@ public class EditPatientFragmentController {
 					patientProgram.setPatient(ret);
 					patientProgram.setProgram(MetadataUtils.existing(
 							Program.class, HivMetadata._Program.HIV));
-					patientProgram.setDateEnrolled(new Date());
-					patientProgram.setDateCreated(new Date());
+					patientProgram
+							.setDateEnrolled(visitSave.getStartDatetime());
+					patientProgram.setDateCreated(visitSave.getStartDatetime());
 					Context.getProgramWorkflowService().savePatientProgram(
 							patientProgram);
 				}
@@ -989,24 +1003,18 @@ public class EditPatientFragmentController {
 
 			else {
 
-				/**
-				 * 
-				 * Visit visit = new Visit();
-				 * 
-				 * visit.setPatient(ret); SimpleDateFormat
-				 * mysqlDateTimeFormatter = new
-				 * SimpleDateFormat("dd-MMM-yy hh:mm:ss"); try {
-				 * visit.setStartDatetime
-				 * (mysqlDateTimeFormatter.parse(dateOfRegistration
-				 * +" 00:00:00")); } catch (ParseException e) {
-				 * e.printStackTrace(); }
-				 * visit.setVisitType(MetadataUtils.existing(VisitType.class,
-				 * CommonMetadata._VisitType.NEW_PATIENT));
-				 * visit.setLocation(Context
-				 * .getService(KenyaEmrService.class).getDefaultLocation());
-				 * Visit visitSave = Context.getVisitService().saveVisit(visit);
-				 */
-
+				SimpleDateFormat mysqlDateTimeFormatter = new SimpleDateFormat(
+						"dd-MMM-yy hh:mm:ss");
+				Date date = null;
+				try {
+					date = mysqlDateTimeFormatter.parse(dateOfRegistration
+							+ " " + curDate.getHours() + ":" + curDate.getMinutes()
+							+ ":" + curDate.getSeconds());
+				} catch (ParseException e) {
+					date = curDate;
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				if (hivEnrollEncTypePrev.isEmpty()) {
 					EncounterType hivEnrollEncType = MetadataUtils.existing(
 							EncounterType.class,
@@ -1017,21 +1025,23 @@ public class EditPatientFragmentController {
 					hivEnrollmentEncounter.setPatient(ret);
 					hivEnrollmentEncounter.setLocation(Context.getService(
 							KenyaEmrService.class).getDefaultLocation());
-					hivEnrollmentEncounter.setDateCreated(new Date());
-					hivEnrollmentEncounter.setEncounterDatetime(new Date());
+
+					hivEnrollmentEncounter.setDateCreated(date);
+					hivEnrollmentEncounter.setEncounterDatetime(date);
+
 					hivEnrollmentEncounter.setForm(MetadataUtils.existing(
 							Form.class, HivMetadata._Form.HIV_ENROLLMENT));
 
 					hivEnrollmentEncounter.setVoided(false);
-					Context.getEncounterService().saveEncounter(
+					Encounter enHivNew = Context.getEncounterService().saveEncounter(
 							hivEnrollmentEncounter);
 
 					PatientProgram patientProgram = new PatientProgram();
 					patientProgram.setPatient(ret);
 					patientProgram.setProgram(MetadataUtils.existing(
 							Program.class, HivMetadata._Program.HIV));
-					patientProgram.setDateEnrolled(new Date());
-					patientProgram.setDateCreated(new Date());
+					patientProgram.setDateEnrolled(enHivNew.getEncounterDatetime());
+					patientProgram.setDateCreated(enHivNew.getEncounterDatetime());
 					Context.getProgramWorkflowService().savePatientProgram(
 							patientProgram);
 				}
@@ -1101,8 +1111,7 @@ public class EditPatientFragmentController {
 					o.setLocation(Context.getService(KenyaEmrService.class)
 							.getDefaultLocation());
 					o.setValueCoded(newValue);
-					
-					
+
 					o.setValueText(textValue);
 					if (check == 0) {
 						o.setValueDate(textDate);

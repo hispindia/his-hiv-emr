@@ -75,7 +75,7 @@ public class HivCarePanelFragmentController {
 				}
 			}
 		}
-		model.addAttribute("initialArtStartDate", new SimpleDateFormat(
+		model.addAttribute("initialHivStartDate", new SimpleDateFormat(
 				"dd-MMMM-yyyy").format(dateArt));
 		
 		if (complete != null && complete.booleanValue()) {

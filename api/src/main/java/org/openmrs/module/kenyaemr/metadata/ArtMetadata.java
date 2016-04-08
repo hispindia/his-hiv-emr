@@ -53,7 +53,7 @@ public class ArtMetadata extends AbstractMetadataBundle {
 	 */
 	@Override
 	public void install() {
-		install(encounterType("Initiate ART", "Initiate ART FOR Patient", _EncounterType.INITIATE_ART));
+		install(encounterType("ART", "Initiate ART FOR Patient", _EncounterType.INITIATE_ART));
 		install(encounterType("Stop ART", "Stop ART for Patient", _EncounterType.STOP_ART));
 
 		install(form("Initiate ART", null, _EncounterType.INITIATE_ART, "1", _Form.INITIATE_ART));

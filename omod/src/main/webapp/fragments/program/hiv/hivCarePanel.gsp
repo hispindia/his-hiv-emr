@@ -14,13 +14,13 @@
 			
 		}
 	}
-
+/*
 	if (initialArtStartDate) {
-		dataPoints << [ label: "ART start date", value: initialArtStartDate, showDateInterval: true ]
+		dataPoints << [ label: "ART start date", value: initialHivStartDate, showDateInterval: true ]
 	} else {
 		dataPoints << [ label: "ART start date", value: "" ]
 	}
-	
+*/	
 	if (calculations.lastWHOStage) {
 		dataPoints << [ label: "Last WHO stage", value: ui.format(calculations.lastWHOStage.value.valueCoded), extra: calculations.lastWHOStage.value.obsDatetime ]
 	} else {
@@ -103,7 +103,7 @@
 		if (regimenHistory.lastChange) {
 			def lastChange = regimenHistory.lastChangeBeforeNow
 			def regimen = lastChange.started ? kenyaEmrUi.formatRegimenLong(lastChange.started, ui) : ui.message("general.none")
-			def dateLabel = lastChange.started ? "Started" : "Stopped"
+			def dateLabel = lastChange.started ? "ART start date" : "Stopped"
 	%>
 	${ ui.includeFragment("kenyaui", "widget/dataPoint", [ label: "Regimen", value: regimen ]) }
 	${ ui.includeFragment("kenyaui", "widget/dataPoint", [ label: dateLabel, value: lastChange.date, showDateInterval: true ]) }
