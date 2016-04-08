@@ -21,6 +21,7 @@ import org.openmrs.module.kenyacore.report.ReportUtils;
 import org.openmrs.module.kenyacore.report.cohort.definition.CalculationCohortDefinition;
 import org.openmrs.module.kenyacore.report.cohort.definition.DateCalculationCohortDefinition;
 import org.openmrs.module.kenyaemr.Dictionary;
+import org.openmrs.module.kenyaemr.Metadata;
 import org.openmrs.module.kenyaemr.calculation.library.MissedLastAppointmentCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.LostToFollowUpCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.art.EligibleForArtCalculation;
@@ -273,7 +274,12 @@ public class ArtCohortLibrary {
 		cd.setName("pregnant at start of ART");
 		return cd;
 	}
-
+	public CohortDefinition newAtArtStart() {
+		CalculationCohortDefinition cd = new CalculationCohortDefinition(new PregnantAtArtStartCalculation());
+		cd.setName("new patient at start of ART");
+		return cd;
+	} 
+	
 	/**
 	 * Patients who were TB patients when they started ART
 	 * @return the cohort definition
@@ -304,8 +310,30 @@ public class ArtCohortLibrary {
 		cd.setName("started ART");
 		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		
 		return cd;
 	}
+	
+	public CohortDefinition startsART() {
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("started ART");
+		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
+		cd.addSearch("completeProgram", ReportUtils.map(commonCohorts.compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.ART)), "completedOnOrBefore=${onOrBefore}"));
+		cd.setCompositionString("enrolled AND NOT completeProgram ");
+		return cd;
+	}
+	public CohortDefinition startArt() {
+	CompositionCohortDefinition cd = new CompositionCohortDefinition();
+	cd.setName("started ART");
+	cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+	cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+	cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
+	cd.setCompositionString("enrolled");
+	return cd;
+}
+
 
 	/**
 	 * Patients who are eligible and started art during 6 months review period adults
@@ -343,16 +371,42 @@ public class ArtCohortLibrary {
 	 * Patients who started ART on ${onOrBefore} excluding transfer ins
 	 * @return the cohort definition
 	 */
-	public CohortDefinition startedArtExcludingTransferinsOnDate() {
+	public CohortDefinition startedArtExcludingTransferinsOnDate() { 
 		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.setName("Started ART excluding transfer ins on date in this facility");
+		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-		cd.addSearch("startedArt", ReportUtils.map(startedArt(), "onOrBefore=${onOrBefore}"));
+		cd.addSearch("startedArt", ReportUtils.map(startsART(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
 		cd.addSearch("transferIns", ReportUtils.map(hivCohortLibrary.startedArtFromTransferringFacilityOnDate(), "onOrBefore=${onOrBefore}"));
+		cd.addSearch("completeProgram", ReportUtils.map(commonCohorts.compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.ART)), "completedOnOrBefore=${onOrBefore}"));
+		cd.setCompositionString("startedArt AND NOT transferIns AND NOT completeProgram");
+		return  cd;
+	}
+     
+	public CohortDefinition startedArtExcludingTransferinsOnDates()
+	{ 
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("Started ART excluding transfer ins on date in this facility");
+		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		cd.addSearch("startedArt", ReportUtils.map( startArt(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		cd.addSearch("transferIns", ReportUtils.map(hivCohortLibrary.startedArtFromTransferringFacilityOnDate(), "onOrBefore=${onOrBefore}"));
+		
 		cd.setCompositionString("startedArt AND NOT transferIns");
 		return  cd;
 	}
-
+	
+/*	public CohortDefinition includecompleteProgram()
+	{ 
+	CompositionCohortDefinition cd = new CompositionCohortDefinition();
+	cd.setName("Include list of patients who have completed the program");
+	cd.addParameter(new Parameter("completedBefore", "Complete Date", Date.class));
+	
+	cd.addSearch("completedProgram", ReportUtils.map(commonCohorts.compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.ART)), "completedOnOrBefore=${onOrBefore}"));
+	cd.setCompositionString("completedProgram");
+	return  cd;
+}*/
+	
 	/**
 	 * Patients who started ART while pregnant between ${onOrAfter} and ${onOrBefore}
 	 * @return the cohort definition

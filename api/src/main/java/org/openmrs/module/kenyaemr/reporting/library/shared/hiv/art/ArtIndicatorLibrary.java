@@ -78,7 +78,7 @@ public class ArtIndicatorLibrary {
 	 * @return the indicator
 	 */
 	public CohortIndicator startedArt() {
-		return cohortIndicator("patients who started ART", map(artCohorts.startedArt(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+		return cohortIndicator("patients who started ART", map(artCohorts.startsART(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
 	}
 
 	/**
@@ -109,7 +109,11 @@ public class ArtIndicatorLibrary {
 	 * Number of patients who have ever started ART
 	 * @return the indicator
 	 */
-	public CohortIndicator startedArtCumulative() {
-		return cohortIndicator("patients who have ever started ART", map(artCohorts.startedArtExcludingTransferinsOnDate(), "onOrBefore=${endDate}"));
+	public CohortIndicator startedArtCumulative() { 
+		return cohortIndicator("patients who have ever started ART", map(artCohorts.startedArtExcludingTransferinsOnDate(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
 	}
+	
+	public CohortIndicator startedArtCumulativeResult() { System.out.println("testiing artc result");
+	return cohortIndicator("patients who have ever started ART", map(artCohorts.startedArtExcludingTransferinsOnDates(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+}
 }
