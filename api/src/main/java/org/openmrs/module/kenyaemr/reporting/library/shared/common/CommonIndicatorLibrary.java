@@ -16,6 +16,7 @@ package org.openmrs.module.kenyaemr.reporting.library.shared.common;
 
 import org.openmrs.Program;
 import org.openmrs.module.kenyacore.report.ReportUtils;
+import org.openmrs.module.kenyaemr.reporting.library.shared.hiv.HivCohortLibrary;
 import org.openmrs.module.reporting.indicator.CohortIndicator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,7 +31,7 @@ public class CommonIndicatorLibrary {
 
 	@Autowired
 	private CommonCohortLibrary commonCohorts;
-
+	
 	/**
 	 * Number of patients enrolled in the given program (including transfers)
 	 * @param program the program
@@ -60,4 +61,10 @@ public class CommonIndicatorLibrary {
 		return cohortIndicator("total patients ever enrolled in " + program.getName() + " excluding transfers",
 				ReportUtils.map(commonCohorts.enrolledExcludingTransfersOnDate(program), "onOrBefore=${endDate}"));
 	}
+	
+	public CohortIndicator enrolledCumulativeTB(Program program) { 
+		return cohortIndicator("total patients HIV positive TB  " + program.getName() + " receive ART",
+				ReportUtils.map(commonCohorts.receiveART(program), "onOrBefore=${endDate}"));
+	}
+	
 }

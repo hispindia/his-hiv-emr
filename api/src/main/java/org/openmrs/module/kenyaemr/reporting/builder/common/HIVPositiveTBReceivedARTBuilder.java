@@ -57,15 +57,17 @@ public class HIVPositiveTBReceivedARTBuilder extends AbstractReportBuilder{
 	@Override
 	protected List<Mapped<DataSetDefinition>> buildDataSets(ReportDescriptor descriptor, ReportDefinition report) {
 		return Arrays.asList(
-				ReportUtils.map(createTbDataSet(), "startDate=${startDate},endDate=${endDate}")
+				ReportUtils.map(createTbDataSet(), "startDate=${startDate},endDate=${endDate}"),
+				ReportUtils.map(createCumulativeTbDataSet(), "startDate=${startDate},endDate=${endDate}")
+			    
 		);
 	}
-
+	
 	/**
 	 * Creates the ART data set
 	 * @return the data set
 	 */
-	private DataSetDefinition createTbDataSet() {
+	private DataSetDefinition createTbDataSet() { 
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 		dsd.setName("P");
 		dsd.setDescription("TB patients on ART");
@@ -80,11 +82,35 @@ public class HIVPositiveTBReceivedARTBuilder extends AbstractReportBuilder{
 		columns.add(new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+"));
 		columns.add(new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+"));
 		columns.add(new ColumnParameters("T", "total", ""));
-
+		
+		
 		String indParams = "startDate=${startDate},endDate=${endDate}";
                 
 		EmrReportingUtils.addRow(dsd, "P1", "No. of detected cases (TB patients on ART)", ReportUtils.map(hivIndicators.initiatedARTandTB(), indParams), columns);
 		return dsd;
 	}
+	
+	private DataSetDefinition createCumulativeTbDataSet() { 
+	CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
+	dsd.setName("S");
+	dsd.setDescription(" Cumulative TB patients on ART");
+	dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+	dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+	dsd.addDimension("age", map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
+	dsd.addDimension("gender", map(commonDimensions.gender()));
 
+	List<ColumnParameters> columns = new ArrayList<ColumnParameters>();
+	columns.add(new ColumnParameters("FP", "0-14 years, female", "gender=F|age=<15"));
+	columns.add(new ColumnParameters("MP", "0-14 years, male", "gender=M|age=<15"));
+	columns.add(new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+"));
+	columns.add(new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+"));
+	columns.add(new ColumnParameters("T", "total", ""));
+	
+	
+	String indParams = "startDate=${startDate},endDate=${endDate}";
+            
+	EmrReportingUtils.addRow(dsd, "S1", "Cumulative No. of detected cases (TB patients on ART)", ReportUtils.map(hivIndicators.enrolledCumulativeTB(), indParams), columns);
+	return dsd;
+}
+	
 }

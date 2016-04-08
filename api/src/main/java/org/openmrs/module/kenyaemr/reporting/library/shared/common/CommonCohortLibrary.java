@@ -22,6 +22,7 @@ import org.openmrs.module.kenyacore.report.ReportUtils;
 import org.openmrs.module.kenyacore.report.cohort.definition.CalculationCohortDefinition;
 import org.openmrs.module.kenyacore.report.cohort.definition.DateObsValueBetweenCohortDefinition;
 import org.openmrs.module.kenyaemr.Dictionary;
+import org.openmrs.module.kenyaemr.Metadata;
 import org.openmrs.module.kenyaemr.calculation.library.DeceasedPatientsCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.InProgramCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.RecordedDeceasedCalculation;
@@ -49,7 +50,7 @@ import java.util.Date;
  */
 @Component
 public class CommonCohortLibrary {
-
+	private CommonCohortLibrary commonCohorts;
 	/**
 	 * Patients who are female
 	 * @return the cohort definition
@@ -141,7 +142,7 @@ public class CommonCohortLibrary {
 		cd.setTimeModifier(PatientSetService.TimeModifier.ANY);
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
 		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
-		if (answers.length > 0) {
+		if (answers.length > 0) { 
 			cd.setValueList(Arrays.asList(answers));
 		}
 		return cd;
@@ -193,6 +194,7 @@ public class CommonCohortLibrary {
 		cd.addParameter(new Parameter("enrolledOnOrBefore", "Before Date", Date.class));
 		if (programs.length > 0) {
 			cd.setPrograms(Arrays.asList(programs));
+			
 		}
 		return cd;
 	}
@@ -213,7 +215,21 @@ public class CommonCohortLibrary {
 		cd.setCompositionString("enrolled AND NOT (transferIn OR completeProgram)");
 		return cd;
 	}
-
+    public CohortDefinition receiveART(Program programs){
+        Concept tbPatients = Dictionary.getConcept(Dictionary.TB_PATIENT);
+           
+            CompositionCohortDefinition cd = new CompositionCohortDefinition();
+            cd.setName("Patients HIV positive TB patients who have received ART");
+            cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+	        cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+	    	
+			cd.addSearch("givenDrugs", ReportUtils.map(hasObs(tbPatients), "onOrBefore=${onOrBefore}"));
+            cd.addSearch("enrolled", ReportUtils.map(enrolled(programs),"enrolledOnOrBefore=${onOrBefore}"));
+            cd.setCompositionString("givenDrugs AND enrolled");
+            
+            
+            return cd;
+    }
 	/**
 	 * Patients who were enrolled on the given programs (excluding transfers) on ${onOrBefore}
 	 * @param programs the programs
@@ -282,7 +298,8 @@ public class CommonCohortLibrary {
 		cd.setPrograms(Arrays.asList(MetadataUtils.existing(Program.class, HivMetadata._Program.HIV)));
 		return cd;
 	}
-        
+       
+	
         public CohortDefinition compltedProgram(Program program) {
 		ProgramEnrollmentCohortDefinition cd = new ProgramEnrollmentCohortDefinition();
 		cd.setName("Those patients who completed program on date");

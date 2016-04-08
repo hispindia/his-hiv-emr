@@ -16,6 +16,7 @@ package org.openmrs.module.kenyaemr.reporting.library.shared.hiv;
 
 import org.openmrs.Concept;
 import org.openmrs.Program;
+import org.openmrs.module.kenyaemr.Metadata;
 import org.openmrs.module.kenyaemr.reporting.library.shared.hiv.art.ArtCohortLibrary;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.kenyaemr.metadata.HivMetadata;
@@ -55,7 +56,13 @@ public class HivIndicatorLibrary {
 	public CohortIndicator enrolledCumulative() {
 		return commonIndicators.enrolledCumulative(MetadataUtils.existing(Program.class, HivMetadata._Program.HIV));
 	}
-
+	/**
+	 * Number of patients  enrolled in HIV positiveTB received ART up to ${endDate}
+	 * @return the indicator
+	 */
+	public CohortIndicator enrolledCumulativeTB() {
+		return commonIndicators.enrolledCumulativeTB(MetadataUtils.existing(Program.class,HivMetadata._Programs.ART));
+	}
 	/**
 	 * Number of patients who were enrolled (excluding transfers) after referral from the given entry points
 	 * @return the indicator
@@ -111,7 +118,7 @@ public class HivIndicatorLibrary {
                 return cohortIndicator("patients treated for Opportunistic Infection", map(hivCohorts.givenOIDrugs(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
         }
         
-        public CohortIndicator initiatedARTandTB(){
+        public CohortIndicator initiatedARTandTB(){ 
                 return cohortIndicator("TB patients received ART", map(hivCohorts.receivedART(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
         }
         
@@ -122,4 +129,6 @@ public class HivIndicatorLibrary {
         public CohortIndicator notInART(){
                 return cohortIndicator("patients not initialized for ART", map(hivCohorts.notinitializedART(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
         }
+        
+  
 }

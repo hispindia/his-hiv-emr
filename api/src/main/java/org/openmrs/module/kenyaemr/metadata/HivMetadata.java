@@ -46,6 +46,8 @@ public class HivMetadata extends AbstractMetadataBundle {
 		public static final String HIV_PERSONAL_HISTORY = "d1db31d0-b415-4788-a233-e4000bf4d108";
 		public static final String HIV_DRUG_HISTORY = "5286ae88-85bb-46e8-a2f7-6361f463ffd4";
 	}
+	
+	
 
 	public static final class _PatientIdentifierType {
 		public static final String UNIQUE_PATIENT_NUMBER = Metadata.IdentifierType.UNIQUE_PATIENT_NUMBER;
@@ -54,7 +56,10 @@ public class HivMetadata extends AbstractMetadataBundle {
 	public static final class _Program {
 		public static final String HIV = Metadata.Program.HIV;
 	}
-
+	public static final class _Programs {
+		public static final String ART = Metadata.Program.ART;
+	}
+	
 	/**
 	 * @see org.openmrs.module.metadatadeploy.bundle.AbstractMetadataBundle#install()
 	 */
@@ -77,5 +82,6 @@ public class HivMetadata extends AbstractMetadataBundle {
 				null, LocationBehavior.NOT_USED, false, _PatientIdentifierType.UNIQUE_PATIENT_NUMBER));
 
 		install(program("HIV", "Treatment for HIV-positive patients", Dictionary.HIV_PROGRAM, _Program.HIV));
+		
 	}
 }

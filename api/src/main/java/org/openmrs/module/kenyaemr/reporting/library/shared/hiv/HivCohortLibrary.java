@@ -161,7 +161,7 @@ public class HivCohortLibrary {
             cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
             cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
             cd.addSearch("completeProgram", ReportUtils.map(commonCohorts.compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.ART)), "completedOnOrBefore=${onOrBefore}"));
-            cd.setCompositionString("enrolled AND completeProgram");
+            cd.setCompositionString("enrolled AND  completeProgram");
             return cd;
         }
 
@@ -197,14 +197,16 @@ public class HivCohortLibrary {
         
         public CohortDefinition receivedART(){
             Concept tbPatients = Dictionary.getConcept(Dictionary.TB_PATIENT);
-                
+              
                 CompositionCohortDefinition cd = new CompositionCohortDefinition();
                 cd.setName("Patients HIV positive TB patients who have received ART");
                 cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		        cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
                 cd.addSearch("givenDrugs", ReportUtils.map(commonCohorts.hasObs(tbPatients), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
                 cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
                 cd.setCompositionString("givenDrugs AND enrolled");
+                
+                
                 return cd;
         }
         
@@ -218,6 +220,11 @@ public class HivCohortLibrary {
             cd.setCompositionString("enrolledHIV AND NOT enrolled");
             return cd;
         }
+        
+        
+ 
+        
+        
 	/**
 	 * Patients with a HIV care visit between {onOrAfter} and {onOrBefore}
 	 * @return the cohort definition
