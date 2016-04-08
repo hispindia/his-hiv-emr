@@ -221,6 +221,32 @@ public class HivCohortLibrary {
             return cd;
         }
         
+        public CohortDefinition testedForCDFour(){
+        	Concept laboratoryOrder = Dictionary.getConcept(Dictionary.lABORATORY_ORDER);
+        	Concept cd4Count = Dictionary.getConcept(Dictionary.CD4_COUNT);
+        	
+        	CompositionCohortDefinition cd = new CompositionCohortDefinition();
+            cd.setName("tested for CD 4 count");
+            cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+            cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+            cd.addSearch("testedForCD4count", ReportUtils.map(commonCohorts.hasObs(laboratoryOrder,cd4Count), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+            cd.setCompositionString("testedForCD4count");
+            return cd;
+        }
+        
+        public CohortDefinition testedForViralLoad(){
+        	Concept laboratoryOrder = Dictionary.getConcept(Dictionary.lABORATORY_ORDER);
+        	Concept viralLoad = Dictionary.getConcept(Dictionary.HIV_VIRAL_LOAD);
+        	
+        	CompositionCohortDefinition cd = new CompositionCohortDefinition();
+            cd.setName("tested for viral load");
+            cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+            cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+            cd.addSearch("testedForViralLoad", ReportUtils.map(commonCohorts.hasObs(laboratoryOrder,viralLoad), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+            cd.setCompositionString("testedForViralLoad");
+            return cd;
+        }
+        
         public CohortDefinition performanceScale(){
         	Concept performance = Dictionary.getConcept(Dictionary.PERFORMANCE);
         	Concept scaleA = Dictionary.getConcept(Dictionary.PERFSCALE_A);

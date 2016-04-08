@@ -167,6 +167,14 @@ public class HivIndicatorLibrary {
        
        public CohortIndicator riskFactor7(){
            return cohortIndicator("patients with risk Factor 7", map(hivCohorts.riskFactors7(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
-       }  
+       }
+       
+       public CohortIndicator cdFourTest(){
+           return cohortIndicator("patients tested for CD 4 count", map(hivCohorts.testedForCDFour(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+      }
+       
+       public CohortIndicator viralLoadTest(){
+           return cohortIndicator("patients tested for viral load", map(hivCohorts.testedForViralLoad(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+      }
             
 }
