@@ -386,10 +386,9 @@
 				<img src="${ ui.resourceLink("kenyaui", "images/glyphs/ok.png") }" /> ${"Save Changes" }
 			</button>		
 		<% } else {%>
-			<button onClick="checkIn(1)" type="submit">
+			<!--<button onClick="checkIn(1)" type="submit">
 				<img src="${ ui.resourceLink("kenyaui", "images/glyphs/ok.png") }" /> ${ "Create Patient and Check In" }
-			</button>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</button>-->
 			<button onClick="return validateDateOfRegistration();checkIn(0)" type="submit">
 				<img src="${ ui.resourceLink("kenyaui", "images/glyphs/ok.png") }" /> ${ "Create Patient" }
 			</button>
@@ -525,7 +524,7 @@ jQuery(document).ready(function(){  if(patientId==null)
 					 if (document.getElementById('checkInType').value==1) { 
 						ui.navigate('kenyaemr', 'registration/registrationHome');
 						} else { 
-						ui.navigate('kenyaemr', 'registration/registrationViewPatient', { patientId: data.id });
+						ui.navigate('kenyaemr', 'registration/registrationHome');
 					 } 
 					<% } %>
 				} else {

@@ -1004,7 +1004,7 @@ public class EditPatientFragmentController {
 			else {
 
 				SimpleDateFormat mysqlDateTimeFormatter = new SimpleDateFormat(
-						"dd-MMM-yy hh:mm:ss");
+						"dd-MMM-yy HH:mm:ss");
 				Date date = null;
 				try {
 					date = mysqlDateTimeFormatter.parse(dateOfRegistration
@@ -1015,6 +1015,33 @@ public class EditPatientFragmentController {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
+				Visit visit = new Visit();
+				visit.setPatient(ret);
+				visit.setStartDatetime(date);
+				visit.setVisitType(MetadataUtils.existing(VisitType.class,
+						CommonMetadata._VisitType.OUTPATIENT));
+				visit.setLocation(Context.getService(KenyaEmrService.class)
+						.getDefaultLocation());
+
+				if (isNewPatient) {
+					VisitAttributeType attrType = Context.getService(
+							VisitService.class).getVisitAttributeTypeByUuid(
+							CommonMetadata._VisitAttributeType.NEW_PATIENT);
+					if (attrType != null) {
+						VisitAttribute attr = new VisitAttribute();
+						attr.setAttributeType(attrType);
+						attr.setVisit(visit);
+						attr.setDateCreated(date);
+						attr.setValue(true);
+						visit.addAttribute(attr);
+					}
+				}
+
+				Visit visitSave = Context.getVisitService().saveVisit(visit);
+
+				
+				
 				if (hivEnrollEncTypePrev.isEmpty()) {
 					EncounterType hivEnrollEncType = MetadataUtils.existing(
 							EncounterType.class,
@@ -1026,8 +1053,8 @@ public class EditPatientFragmentController {
 					hivEnrollmentEncounter.setLocation(Context.getService(
 							KenyaEmrService.class).getDefaultLocation());
 
-					hivEnrollmentEncounter.setDateCreated(date);
-					hivEnrollmentEncounter.setEncounterDatetime(date);
+					hivEnrollmentEncounter.setDateCreated(curDate);
+					hivEnrollmentEncounter.setEncounterDatetime(visitSave.getStartDatetime());
 
 					hivEnrollmentEncounter.setForm(MetadataUtils.existing(
 							Form.class, HivMetadata._Form.HIV_ENROLLMENT));
@@ -1041,7 +1068,7 @@ public class EditPatientFragmentController {
 					patientProgram.setProgram(MetadataUtils.existing(
 							Program.class, HivMetadata._Program.HIV));
 					patientProgram.setDateEnrolled(enHivNew.getEncounterDatetime());
-					patientProgram.setDateCreated(enHivNew.getEncounterDatetime());
+					patientProgram.setDateCreated(curDate);
 					Context.getProgramWorkflowService().savePatientProgram(
 							patientProgram);
 				}
