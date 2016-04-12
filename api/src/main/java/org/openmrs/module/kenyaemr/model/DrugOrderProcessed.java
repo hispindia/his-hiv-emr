@@ -21,6 +21,7 @@ public class DrugOrderProcessed implements java.io.Serializable {
 	private String discontinuedReasonNonCoded;
 	private Integer quantityPostProcess;
 	private String drugRegimen;
+	private String typeOfRegimen;
 
 	public Integer getId() {
 		return id;
@@ -124,5 +125,13 @@ public class DrugOrderProcessed implements java.io.Serializable {
 
 	public void setDrugRegimen(String drugRegimen) {
 		this.drugRegimen = drugRegimen;
+	}
+
+	public String getTypeOfRegimen() {
+		return typeOfRegimen;
+	}
+
+	public void setTypeOfRegimen(String typeOfRegimen) {
+		this.typeOfRegimen = typeOfRegimen;
 	}
 }
