@@ -281,9 +281,8 @@ input[type=radio] {
 			
 			if(document.getElementById("w12-display")!=null){
 				if(d!="Invalid Date"){
-					
 					d.setDate(d.getDate() + 280);
-					document.getElementById("w12-display").value =  d.getDate() + "-" + months[d.getMonth()-1] + "-" + d.getFullYear();
+					document.getElementById("w12-display").value =  ("0" + d.getDate()).slice(-2) + "-" + months[d.getMonth()] + "-" + d.getFullYear();
 					document.getElementById("w12").value = d.getFullYear()  + "-" +  d.getMonth() 	+ "-" + d.getDate();
 				}
 				else{
@@ -293,19 +292,25 @@ input[type=radio] {
 				
 			}
 			
-			var da = new Date(getValue('curDate.value'));
-			da.setDate(da.getDate() + 250);
-			var edd = new Date(da);
-			var today = new Date();
-			if(edd-today &lt; 0){
-			//	$('.ke-form-content').find('input:text').val('');
-				$(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
-				$(':checkbox, :radio').prop('checked', false);
-				jq('#fPlanningOption :input').prop('disabled', true);
-				jq('#ifYesPregnancy :input').prop('disabled', true);
-				jq('#infantTable :input').prop('disabled', true);
+			if(getValue('curDate.value')!=null){
+				var da = new Date(getValue('curDate.value'));
+				da.setDate(da.getDate() + 250);
+				var edd = new Date(da);
+				var today = new Date();
 				
+				if(edd-today &lt; 0){
+					
+				//	$('.ke-form-content').find('input:text').val('');
+					$(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
+					$(':checkbox, :radio').prop('checked', false);
+					jq('#fPlanningOption :input').prop('disabled', true);
+					jq('#ifYesPregnancy :input').prop('disabled', true);
+					jq('#infantTable :input').prop('disabled', true);
+					
+				}
 			}
+			
+			
 		
 
 			jq("#curDate :input").change(function() {
@@ -314,9 +319,8 @@ input[type=radio] {
 				var today = new Date();
 				if(d!=""){
 					jQuery('#mbdDate').html(Math.round(parseInt((today - d) / (1000 * 60 * 60 * 24)) /7));
-
 					d.setDate(d.getDate() + 280);
-					document.getElementById("w12-display").value =  d.getDate() + "-" + months[d.getMonth()-1] + "-" + d.getFullYear();
+					document.getElementById("w12-display").value =   ("0" + d.getDate()).slice(-2) + "-" + months[d.getMonth()] + "-" + d.getFullYear();
 					document.getElementById("w12").value = d.getFullYear()  + "-" +  d.getMonth() 	+ "-" + d.getDate();
 					
 				}

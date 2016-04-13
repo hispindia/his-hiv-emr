@@ -37,28 +37,23 @@ public class ArtEnrollmentSummaryFragmentController {
 		Map<String, Object> dataPoints = new LinkedHashMap<String, Object>();
 		
 		List<Encounter> en= Context.getEncounterService().getEncountersByPatient(patientProgram.getPatient());
-		List<Encounter> enFilter = new LinkedList<Encounter>();
 		Date initialDate = new Date();
 		Date endDate = new Date();
 		for(Encounter e : en){
-			if(e.getEncounterType().getName().toString().equals("Initiate ART")){
-				enFilter.add(e);
+			if(e.getEncounterType().getUuid().toString().equals("0cb4417d-b98d-4265-92aa-c6ee3d3bb317")){
 				if(initialDate.after(e.getEncounterDatetime())){
 					initialDate = e.getEncounterDatetime();
 				}
 			}
 		}
-		
 		for(Encounter e : en){
 			if(e.getEncounterType().getName().toString().equals("Stop ART")){
-				enFilter.add(e);
 				if(endDate.after(e.getEncounterDatetime())){
 					endDate = e.getEncounterDatetime();
 				}
 			}
 		}
-		
-		if(patientProgram.getDateEnrolled().getTime() >= initialDate.getTime() &&  patientProgram.getDateEnrolled().getTime() < endDate.getTime()){
+		if(patientProgram.getDateEnrolled().getTime() >= initialDate.getTime() &&  patientProgram.getDateEnrolled().getTime() <= endDate.getTime()){
 			dataPoints.put("ART initiation date", patientProgram.getDateEnrolled());
 		}
 		else{

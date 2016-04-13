@@ -56,7 +56,7 @@ public class ArtMetadata extends AbstractMetadataBundle {
 		install(encounterType("ART", "Initiate ART FOR Patient", _EncounterType.INITIATE_ART));
 		install(encounterType("Stop ART", "Stop ART for Patient", _EncounterType.STOP_ART));
 
-		install(form("Initiate ART", null, _EncounterType.INITIATE_ART, "1", _Form.INITIATE_ART));
+		install(form("ART", null, _EncounterType.INITIATE_ART, "1", _Form.INITIATE_ART));
 		install(form("Stop ART", null, _EncounterType.STOP_ART, "1", _Form.STOP_ART));
 
 		//install(patientIdentifierType("Unique Patient Number", "Assigned to every HIV patient", "\\d+", "Facility code followed by sequential number",
