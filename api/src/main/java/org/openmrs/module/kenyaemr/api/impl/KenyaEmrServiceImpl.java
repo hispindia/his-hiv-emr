@@ -279,8 +279,28 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 		return dao.executeHqlQuery(query, substitutions);
 	}
 	
-	public Encounter getLastEncounter(Patient patient,Set<EncounterType> encounterTypes) {
-		return dao.getLastEncounter(patient,encounterTypes);
+	public Encounter getFirstEncounterByDateTime(Patient patient,Visit visit) {
+		return dao.getFirstEncounterByDateTime(patient,visit);
+	}
+	
+	public Encounter getFirstEncounterByCreatedDateTime(Patient patient,Visit visit) {
+		return dao.getFirstEncounterByCreatedDateTime(patient,visit);
+	}
+	
+	public Encounter getLastEncounterByDateTime(Patient patient,Visit visit) {
+		return dao.getLastEncounterByDateTime(patient,visit);
+	}
+	
+	public Encounter getLastEncounterByCreatedDateTime(Patient patient,Visit visit) {
+		return dao.getLastEncounterByCreatedDateTime(patient,visit);
+	}
+	
+	public Encounter getLastEncounterByDateTime(Patient patient,Set<EncounterType> encounterTypes) {
+		return dao.getLastEncounterByDateTime(patient,encounterTypes);
+	}
+	
+	public Encounter getLastEncounterByCreatedDateTime(Patient patient,Set<EncounterType> encounterTypes) {
+		return dao.getLastEncounterByCreatedDateTime(patient,encounterTypes);
 	}
 	
 	public List<Order> getOrderByDateAndOrderType(Date date,OrderType orderType) {

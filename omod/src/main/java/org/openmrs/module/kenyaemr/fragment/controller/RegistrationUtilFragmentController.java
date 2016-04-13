@@ -13,6 +13,7 @@
  */
 package org.openmrs.module.kenyaemr.fragment.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -132,7 +133,9 @@ public class RegistrationUtilFragmentController {
 
 		ui.validate(visit, new StopVisitValidator(), null);
 
+		System.out.println("ssssssssssssssssssssss");
 		Context.getVisitService().saveVisit(visit);
+		System.out.println("ttttttttttttttttt");
 		return ui.simplifyObject(visit);
 	}
 
@@ -170,12 +173,21 @@ public class RegistrationUtilFragmentController {
 		@Override
 		public void validate(Object obj, Errors errors) {
 			Visit visit = (Visit)obj;
+			KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+			Date date=kenyaEmrService.getLastEncounterByCreatedDateTime(visit.getPatient(),visit).getEncounterDatetime();
+			String dat = formatter.format(date);
 
 			if (visit.getStopDatetime() == null) {
 				errors.rejectValue("stopDatetime", "Stop date cannot be empty");
 			}
 			if (visit.getStopDatetime() != null && visit.getStopDatetime().after(new Date())) {
 				errors.rejectValue("stopDatetime", "Stop date cannot be in the future");
+			}
+			if (visit.getStopDatetime() != null && visit.getStopDatetime().before(date)) {
+				errors.rejectValue("stopDatetime", "Stop date cannot be before "+dat);
+				visit.setStopDatetime(null);
+				Context.getVisitService().saveVisit(visit);	
 			}
 		}
 	}

@@ -30,6 +30,7 @@ import org.openmrs.Obs;
 import org.openmrs.OrderType;
 import org.openmrs.Patient;
 import org.openmrs.Person;
+import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.db.DAOException;
 import org.openmrs.module.kenyaemr.api.db.KenyaEmrDAO;
@@ -131,7 +132,52 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	/*
 	 * ENCOUNTER
 	 */
-	public Encounter getLastEncounter(Patient patient,Set<EncounterType> encounterTypes) {
+	public Encounter getFirstEncounterByDateTime(Patient patient,Visit visit) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Encounter.class);
+		criteria.add(Restrictions.eq("patient", patient));
+		criteria.add(Restrictions.eq("visit", visit));
+		criteria.addOrder(Order.asc("encounterDatetime"));
+		criteria.setMaxResults(1);
+		return (Encounter) criteria.uniqueResult();
+	}
+	
+	public Encounter getFirstEncounterByCreatedDateTime(Patient patient,Visit visit) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Encounter.class);
+		criteria.add(Restrictions.eq("patient", patient));
+		criteria.add(Restrictions.eq("visit", visit));
+		criteria.addOrder(Order.asc("dateCreated"));
+		criteria.setMaxResults(1);
+		return (Encounter) criteria.uniqueResult();
+	}
+	
+	public Encounter getLastEncounterByDateTime(Patient patient,Visit visit) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Encounter.class);
+		criteria.add(Restrictions.eq("patient", patient));
+		criteria.add(Restrictions.eq("visit", visit));
+		criteria.addOrder(Order.desc("encounterDatetime"));
+		criteria.setMaxResults(1);
+		return (Encounter) criteria.uniqueResult();
+	}
+	
+	public Encounter getLastEncounterByCreatedDateTime(Patient patient,Visit visit) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Encounter.class);
+		criteria.add(Restrictions.eq("patient", patient));
+		criteria.add(Restrictions.eq("visit", visit));
+		criteria.addOrder(Order.desc("dateCreated"));
+		criteria.setMaxResults(1);
+		return (Encounter) criteria.uniqueResult();
+	}
+	
+	public Encounter getLastEncounterByDateTime(Patient patient,Set<EncounterType> encounterTypes) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Encounter.class);
+		criteria.add(Restrictions.eq("patient", patient));
+		criteria.add(Restrictions.in("encounterType", encounterTypes));
+		criteria.addOrder(Order.desc("encounterDatetime"));
+		criteria.setMaxResults(1);
+		return (Encounter) criteria.uniqueResult();
+	}
+	
+	public Encounter getLastEncounterByCreatedDateTime(Patient patient,Set<EncounterType> encounterTypes) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Encounter.class);
 		criteria.add(Restrictions.eq("patient", patient));
 		criteria.add(Restrictions.in("encounterType", encounterTypes));

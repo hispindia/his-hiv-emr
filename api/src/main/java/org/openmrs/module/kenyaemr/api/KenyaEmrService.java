@@ -117,7 +117,12 @@ public interface KenyaEmrService extends OpenmrsService {
 	 * @param patient
 	 * @return
 	 */
-	public Encounter getLastEncounter(Patient patient,Set<EncounterType> encounterTypes);
+	public Encounter getFirstEncounterByDateTime(Patient patient,Visit visit);
+	public Encounter getFirstEncounterByCreatedDateTime(Patient patient,Visit visit);
+	public Encounter getLastEncounterByDateTime(Patient patient,Visit visit);
+	public Encounter getLastEncounterByCreatedDateTime(Patient patient,Visit visit);
+	public Encounter getLastEncounterByDateTime(Patient patient,Set<EncounterType> encounterTypes);
+	public Encounter getLastEncounterByCreatedDateTime(Patient patient,Set<EncounterType> encounterTypes);
 	public List<Order> getOrderByDateAndOrderType(Date date,OrderType orderType);
 	public List<Obs> getObsGroupByDate(Date date);
 	public List<Obs> getObsGroupByDateAndPerson(Date date,Person person);
