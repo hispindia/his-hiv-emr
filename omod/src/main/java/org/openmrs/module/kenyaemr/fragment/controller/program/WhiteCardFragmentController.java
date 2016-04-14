@@ -81,18 +81,31 @@ public class WhiteCardFragmentController {
 		Obs savedEntryPoint = getLatestObs(patient,
 				Dictionary.METHOD_OF_ENROLLMENT);
 		model.addAttribute("savedEntryPoint", savedEntryPoint);
-		String entryPoint = savedEntryPoint.getValueCoded().getName().toString();
-		String otherEntryPoint = savedEntryPoint.getValueText();
-		model.addAttribute("entryPoint", entryPoint);
-		model.addAttribute("otherEntryPoint", otherEntryPoint);
-	
-		if (savedEntryPoint != null && savedEntryPoint.getValueDate() != null) {
-			model.addAttribute("savedEntryPointValueDate",
-					new SimpleDateFormat("dd-MMMM-yyyy").format(savedEntryPoint
-							.getValueDate()));
-		} else {
-			model.addAttribute("savedEntryPointValueDate", "");
+
+		if(savedEntryPoint != null){
+			model.addAttribute("entryPoint", savedEntryPoint.getValueCoded().getName().toString());
+			
+			if (savedEntryPoint.getValueDate() != null) {
+				model.addAttribute("savedEntryPointValueDate",
+						new SimpleDateFormat("dd-MMMM-yyyy").format(savedEntryPoint
+								.getValueDate()));
+			} else {
+				model.addAttribute("savedEntryPointValueDate", "");
+			}
+			
+			if (savedEntryPoint.getValueText()!= null) {
+				model.addAttribute("otherEntryPoint", savedEntryPoint.getValueText());
+			} else {
+				model.addAttribute("otherEntryPoint", "");
+			}
+
 		}
+		else{
+			model.addAttribute("entryPoint", "");
+			model.addAttribute("savedEntryPointValueDate", "");
+			model.addAttribute("otherEntryPoint", "");
+		}
+	
 
 		/*
 		 * Personal History
