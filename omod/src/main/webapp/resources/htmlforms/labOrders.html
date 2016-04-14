@@ -54,7 +54,14 @@
 		});
 		
 		
-		
+		// Print the slip
+		function print(){
+			$('#labOrderPrintArea').printArea({
+				mode : "popup",
+				popClose : true
+			});
+			submitHtmlForm();
+		}
 		</script>		
 
 <style type="text/css">
@@ -84,7 +91,7 @@
 		</table>
 	</div>
 
-	<div class="ke-form-content" style="width:100%;   padding: 2px;">
+	<div class="ke-form-content" id="labOrderPrintArea" style="width:100%;   padding: 2px;">
 		<table style="background-color: #e8efdc" align="center" class="tb1"  cellspacing="0" width="100%">
 			<tr>
 				<td valign="top">
@@ -122,6 +129,7 @@
 	</div>
 	<div class="ke-form-footer">
 		<submit />
+		<input id="printButton" name="printButton" type="button" onclick="print();" value="Save and Print"/>
 	</div>
 
 </htmlform>
