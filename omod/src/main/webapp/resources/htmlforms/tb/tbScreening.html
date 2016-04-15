@@ -56,9 +56,46 @@ input[class=hasDatepicker] {
 			var dstartoftreatment;
 			var treatmentoutcomedate;
 
+			// show fields with data 
+			fieldIndex = 14;
+			count=1;
+			while(document.getElementById("w"+fieldIndex) &amp;&amp; document.getElementById("w"+fieldIndex).value!="" &amp;&amp; count &lt; 11){
+				jQuery('#'+count+'-toggleContainer1').show();   
+				fieldIndex=fieldIndex+2;
+				if(document.getElementById("w"+fieldIndex).value != '')
+				{
+			$j('#'+count+'-removeEntry').toggle(false);
+			$j('#'+count+'-addEntry').toggle(false);
+				}
+				count++;
+			}
+			
+			$j('#1-removeEntry').remove();
+			$j('#10-addEntry').remove();
+			$j('#1-toggleContainer').show();
+			
+			
+			$j('button.addEntry').on("click", function(){
+				var correctedAddButtonId = parseFloat(this.id) + 1;      
+				var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
+				$j(contentAddId).toggle(true);      
+				$j('#' + this.id).toggle(false); 
+				$j('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
+				return false;});    
+			 
+			$j('button.removeEntry').on("click", function(){ 
+				var correctedRemoveButtonId = parseFloat(this.id) - 1;
+				var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
+				$j(contentAddId).toggle(false);
+				$j( ':input:not(:button)', contentAddId).val([]);
+				$j('#' + correctedRemoveButtonId + '-addEntry').toggle(true);
+				$j('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
+				return false;
+				});
+			
 			
 			// show fields with data 
-			fieldIndex1 = 50;
+			fieldIndex1 = 68;
 			count=1;
 			while(document.getElementById("w"+fieldIndex1) &amp;&amp; document.getElementById("w"+fieldIndex1).value!="" &amp;&amp; count &lt; 11){
 				jQuery('#'+count+'-toggleContainer1').show();   
@@ -102,10 +139,9 @@ input[class=hasDatepicker] {
 				         count+=1
 				     }
 				 });
-				document.getElementById("w75").value =  count;
-				document.getElementById("w76").value = count;
- 
-				
+				document.getElementById("w93").value =  count;
+				document.getElementById("w94").value = count;
+ 				
 				datestartoftreatment = new Date(getValue('dstartoftreatment.value')).getTime();
 				dateoftreatmentoutcome = new Date(getValue('treatmentoutcomedate.value')).getTime();
 			
@@ -117,8 +153,6 @@ input[class=hasDatepicker] {
           		
           		if (dateoftreatmentoutcome &lt; pbirthdate) {
           			 ('Date outcome for TB treatment should be after the birth date');
-          			//sjq('#tbTreatmentOutcomeDateError').show();
-               		//jq('#tbTreatmentOutcomeDateError').html('Date outcome for TB treatment should be after the birth date');
                    	return false
          		}
           		          		
@@ -126,7 +160,6 @@ input[class=hasDatepicker] {
 	          		var mdrTBValue = getValue('mdrTBValue.value');
 	         		if(mdrTBValue==""){
 	         			alert("Please select MDR-TB Yes or No");
-//	 					jq('#mdr-errors').html("Please select MDR-TB Yes or No");
 						return false;
 	          		}
 				}
@@ -150,22 +183,16 @@ input[class=hasDatepicker] {
     			return true;
 			});
 			
-//			var pulmodiv = document.getElementById('iddivPulmonary');
-//			var expulmodiv = document.getElementById('expul');
-			//getting the values of the disease classification option buttons
 				
 				var optValues = getValue('dclassification.value');
 			
 				if (optValues == 42){
 					jq('#expul :input').prop('disabled', true);
-				//	jq('#iddivPulmonary :input').prop('disabled', false);
 				}
 				else if (optValues == 5042  || optValues == 163055){
-				//	jq('#iddivPulmonary :input').prop('disabled', true);
 					jq('#expul :input').prop('disabled', false);
 				}
 				else {
-				//	jq('#iddivPulmonary :input').prop('disabled', true);
 					jq('#expul :input').prop('disabled', true);
 				}
 				
@@ -173,10 +200,8 @@ input[class=hasDatepicker] {
 					var optValues = getValue('dclassification.value');
 					if (optValues == 42) {
 						jq('#expul :input').prop('disabled', true);
-				//		jq('#iddivPulmonary :input').prop('disabled', false);
 					}
 					if (optValues == 5042 || optValues == 163055) {
-				//		jq('#iddivPulmonary :input').prop('disabled', true);
 						jq('#expul :input').prop('disabled', false);
 					}
 				});
@@ -208,53 +233,6 @@ input[class=hasDatepicker] {
 				}
 				});
 				
-				//-------------=========part1 division---------===========
-				/*
-				Suffered from TB or Not
-				
-				var tbSufferedPatientYesDiv = document.getElementById('tbSufferedPatientYes');
-				var tbSufferedPatientNoDiv = document.getElementById('tbSufferedPatientNo');
-				
-				var tbSufferedPatientValue = getValue('tbSufferedPatient.value');
-				if (tbSufferedPatientValue == 1065){
-					jq('#tbSufferedPatientNo :input').prop('disabled', true);
-					jq('#tbSufferedPatientYes :input').prop('disabled', false);
-				}
-				else if (tbSufferedPatientValue == 1066 ){
-					jq('#tbSufferedPatientYes :input').prop('disabled', true);
-					jq('#tbSufferedPatientNo :input').prop('disabled', false);
-				}
-				else {
-					jq('#tbSufferedPatientYes :input').prop('disabled', true);
-					jq('#tbSufferedPatientNo :input').prop('disabled', true);
-				}
-				
-				$('#tbSufferedPatient input:radio').click(function() {
-					if (jq(this).val() == 1066) {
-						jq('#tbSufferedPatientYes :input').prop('disabled', true);
-						jq('#tbSufferedPatientNo :input').prop('disabled', false);
-					}
-					if (jq(this).val() == 1065) {
-						jq('#tbSufferedPatientNo :input').prop('disabled', true);
-						jq('#tbSufferedPatientYes :input').prop('disabled', false);
-					}
-				});*/
-				
-				/*
-				Opportunistic Infection 
-				
-				var opportunisticInfection = getValue('opportunisticInfection.value');
-				if (opportunisticInfection == 1065){
-					jq('#opportunisticInfectionYes :input').prop('disabled', false);
-				}
-				else if (opportunisticInfection == 1066 ){
-					jq('#opportunisticInfectionYes :input').prop('disabled', true);
-					
-				}
-				else {
-					jq('#opportunisticInfectionYes :input').prop('disabled', true);
-				}
-				*/
 				$('#opportunisticInfection input:radio').click(function() {
 					var opportunisticInfection = getValue('opportunisticInfection.value');
 					if (opportunisticInfection == 1066) {
@@ -343,29 +321,28 @@ input[class=hasDatepicker] {
 										style="radio" id="dclassification" /></td>
 							</tr>
 							<tr>
-								<!-- 	<td valign="top">
-										<div id="iddivPulmonary">
-										<table>
-												<tr>
-													<td>
-														<obs conceptId="159982AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="703AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,664AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="Smear Positive,Smear Negative" style="radio" answerSeparator="&lt;br /&gt;"  id="pulmonaryoptions" />
-													</td>
-												</tr>
-											</table>
-										</div>
-									</td> -->
+								<td>
+									If Extra-Pulmonary TB enter site : 
+								</td>
 								<td colspan="2" style="padding-left: 5px;">
 									<div id="expul">
-										<b>If Extra-Pulmonary TB:</b>
 										<table>
-											<tr>
-												<td style="padding-left: 0px; padding-right: 40px;"
-													valign="top">Enter Site</td>
-												<td><obsgroup
-														groupingConceptId="161357AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
-													<obs conceptId="5d710188-5b99-4d39-8c93-a562c02c452a"
-														style="autocomplete" /> </obsgroup></td>
+											<obsgroup groupingConceptId="161357AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+											<repeat> <template>
+											<tr id="{n}-toggleContainer" style="display: none;">
+												<td style="padding-left: 20px;"><obs
+														conceptId="5d710188-5b99-4d39-8c93-a562c02c452a"
+														style="autocomplete" type="autocomplete" labelText=" "
+														id="site" /></td>
+												<td><button id="{n}-addEntry" class="addEntry">Add</button>
+													<button id="{n}-removeEntry" class="removeEntry">Remove</button>
+												</td>
 											</tr>
+											</template> <render n="1" concept=" " /> <render n="2" concept=" " /> <render
+												n="3" concept=" " /> <render n="4" concept=" " /> <render n="5"
+												concept=" " /> <render n="6" concept=" " /> <render n="7"
+												concept=" " /> <render n="8" concept=" " /> <render n="9"
+												concept=" " /> <render n="10" concept=" " /> </repeat> </obsgroup>
 										</table>
 									</div>
 								</td>
@@ -510,7 +487,6 @@ input[class=hasDatepicker] {
 					conceptId="a4117059-0308-4399-930d-961688ed62ed" labelText=" "  style="radio"
 					id="opportunisticInfection" /></td>
 		</tr>
-
 		<tr width="100%">
 			<td valign="top">
 				<div id="opportunisticInfectionYes">
