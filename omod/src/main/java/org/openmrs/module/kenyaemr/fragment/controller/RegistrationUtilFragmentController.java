@@ -129,13 +129,13 @@ public class RegistrationUtilFragmentController {
 	 */
 	@SharedAction({EmrConstants.APP_REGISTRATION, EmrConstants.APP_INTAKE, EmrConstants.APP_CLINICIAN})
 	public SimpleObject stopVisit(@RequestParam("visitId") Visit visit, @RequestParam("stopDatetime") Date stopDatetime, UiUtils ui) {
+		stopDatetime.setSeconds(new Date().getSeconds());
 		visit.setStopDatetime(stopDatetime);
 
 		ui.validate(visit, new StopVisitValidator(), null);
 
-		System.out.println("ssssssssssssssssssssss");
 		Context.getVisitService().saveVisit(visit);
-		System.out.println("ttttttttttttttttt");
+		
 		return ui.simplifyObject(visit);
 	}
 
@@ -180,9 +180,13 @@ public class RegistrationUtilFragmentController {
 
 			if (visit.getStopDatetime() == null) {
 				errors.rejectValue("stopDatetime", "Stop date cannot be empty");
+				visit.setStopDatetime(null);
+				Context.getVisitService().saveVisit(visit);	
 			}
 			if (visit.getStopDatetime() != null && visit.getStopDatetime().after(new Date())) {
 				errors.rejectValue("stopDatetime", "Stop date cannot be in the future");
+				visit.setStopDatetime(null);
+				Context.getVisitService().saveVisit(visit);	
 			}
 			if (visit.getStopDatetime() != null && visit.getStopDatetime().before(date)) {
 				errors.rejectValue("stopDatetime", "Stop date cannot be before "+dat);
