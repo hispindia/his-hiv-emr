@@ -176,5 +176,20 @@ public class HivIndicatorLibrary {
        public CohortIndicator viralLoadTest(){
            return cohortIndicator("patients tested for viral load", map(hivCohorts.testedForViralLoad(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
       }
-            
+       public CohortIndicator outcomeArt(){
+           return cohortIndicator("out come art reason died", map(hivCohorts.reasonOfoutcome(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+       }  
+       
+       public CohortIndicator outcometransferredArt(){
+           return cohortIndicator("out come art reason transferred", map(hivCohorts.reasonOfoutcometransfer(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+       } 
+       
+       public CohortIndicator outcomelostmissingArt(){
+           return cohortIndicator("out come art reason reason lost", map(hivCohorts.reasonOfoutcomeMissing(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+       } 
+       
+       public CohortIndicator startArt(){
+           return cohortIndicator("out come art reason reason lost", map(hivCohorts.totalArtpatient(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+       } 
+       
 }

@@ -26,6 +26,7 @@ import org.openmrs.module.kenyaemr.calculation.library.hiv.OnCtxWithinDurationCa
 import org.openmrs.module.kenyaemr.calculation.library.hiv.art.LevelOfAdherenceCalculation;
 import org.openmrs.module.kenyaemr.metadata.HivMetadata;
 import org.openmrs.module.kenyaemr.reporting.library.shared.common.CommonCohortLibrary;
+import org.openmrs.module.kenyaemr.reporting.library.shared.hiv.art.ArtCohortLibrary;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
@@ -38,6 +39,7 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+
 import org.openmrs.module.kenyaemr.Metadata;
 
 /**
@@ -48,7 +50,9 @@ public class HivCohortLibrary {
 
 	@Autowired
 	private CommonCohortLibrary commonCohorts;
-
+    
+	@Autowired
+	private ArtCohortLibrary artCohorts;
 	/**
 	 * Patients referred from the given entry point onto the HIV program
 	 * @param entryPoints the entry point concepts
@@ -165,6 +169,67 @@ public class HivCohortLibrary {
             return cd;
         }
 
+        public CohortDefinition reasonOfoutcome(){
+        	Concept outcome = Dictionary.getConcept(Dictionary.REASON_FOR_PROGRAM_DISCONTINUATION);
+        	Concept reason = Dictionary.getConcept(Dictionary.DIED);
+
+            CompositionCohortDefinition cd = new CompositionCohortDefinition();
+            cd.setName("outcome result of patient due to death");
+            cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+            cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+            cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
+            cd.addSearch("outcomeReason", ReportUtils.map(commonCohorts.hasObs(outcome ,reason), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+            cd.setCompositionString("enrolled AND  outcomeReason");
+            return cd;
+        }
+        
+        public CohortDefinition reasonOfoutcometransfer(){
+        	Concept outcome = Dictionary.getConcept(Dictionary.REASON_FOR_PROGRAM_DISCONTINUATION);
+        	Concept reason = Dictionary.getConcept(Dictionary.TRANSFERRED_OUT);
+
+            CompositionCohortDefinition cd = new CompositionCohortDefinition();
+            cd.setName("outcome result of patient due to death");
+            cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+            cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+            cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
+            cd.addSearch("outcomeReason", ReportUtils.map(commonCohorts.hasObs(outcome ,reason), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+            cd.setCompositionString("enrolled AND  outcomeReason");
+            return cd;
+        }
+        
+        public CohortDefinition reasonOfoutcomeMissing(){
+        	Concept outcome = Dictionary.getConcept(Dictionary.REASON_FOR_PROGRAM_DISCONTINUATION);
+        	Concept reason = Dictionary.getConcept(Dictionary.LOST_MISSING_FOLLOW);
+
+            CompositionCohortDefinition cd = new CompositionCohortDefinition();
+            cd.setName("outcome result of patient due to death");
+            cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+            cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+            cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
+            cd.addSearch("outcomeReason", ReportUtils.map(commonCohorts.hasObs(outcome ,reason), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+            cd.setCompositionString("enrolled AND  outcomeReason");
+            return cd;
+        }
+        
+        public CohortDefinition totalArtpatient(){
+        	
+        	
+            CompositionCohortDefinition cd = new CompositionCohortDefinition();
+            cd.setName("outcome result of patient due to death");
+            cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+            cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+            cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
+            cd.addSearch("outcomeReason1", ReportUtils.map(reasonOfoutcome(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+            cd.addSearch("outcomeReason2", ReportUtils.map(reasonOfoutcometransfer(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+            cd.addSearch("outcomeReason3", ReportUtils.map(reasonOfoutcomeMissing(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+            cd.addSearch("complete", ReportUtils.map(restartedProgram(),"onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+            cd.addSearch("completeprog",ReportUtils.map(artCohorts.startedArtExcludingTransferinsOnDates(),"onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+            cd.setCompositionString("enrolled AND completeprog AND NOT outcomeReason1 AND NOT outcomeReason2 AND NOT outcomeReason3 AND NOT complete");
+            return cd;
+        }
+
+        
+        
 	/**
 	 * Patients with a CD4 result between {onOrAfter} and {onOrBefore}
 	 * @return the cohort definition
@@ -189,7 +254,7 @@ public class HivCohortLibrary {
                 CompositionCohortDefinition cd = new CompositionCohortDefinition();
                 cd.setName("Patients Treated for Opportunistic Infections");
                 cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		       cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
                 cd.addSearch("givenDrugs", ReportUtils.map(commonCohorts.hasObs(oiTxDrugs), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
                 cd.setCompositionString("givenDrugs");
                 return cd;
@@ -409,6 +474,8 @@ public class HivCohortLibrary {
             return cd;
         }
         
+        
+   
 	/**
 	 * Patients with a HIV care visit between {onOrAfter} and {onOrBefore}
 	 * @return the cohort definition

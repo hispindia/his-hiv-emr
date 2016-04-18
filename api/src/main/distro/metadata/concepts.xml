@@ -245,5 +245,32 @@
     <ref key="RISK_FACTOR_BLOODTRANS" uuid="1063AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
     <ref key="RISK_FACTOR_UNKNOWN" uuid="1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
     <ref key="lABORATORY_ORDER" uuid="1283AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+    <ref key="LOST_MISSING_FOLLOW" uuid="5240AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+    <ref key="FIRST_LINE_ANTIRETOVIRAL_DRUGS" uuid="363c2193-f3d1-4e97-9dd3-09361bbcc233" />
+    <ref key="TDF_3TC_EFV" uuid="3973653e-2e0c-4dd0-8713-a39f44767044" />
+    <ref key="TDF_FTC_EFV" uuid="f2d9076a-49f7-42d1-ba5e-034e29dddafa" />
+    <ref key="AZT_3TC_EFV" uuid="160124AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+    <ref key="AZT_3TC_NVP" uuid="1652AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+    <ref key="ABC_3TC_EFV" uuid="162563AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+    <ref key="TDF_FTC_TDG" uuid="50cff8eb-69e9-47be-9cf8-41330e0c2e30" />
+    <ref key="TDF_3TC_DTG" uuid="fdd19809-db5c-4024-878b-0491e7590ce9" />
+    <ref key="ABC_FTC_EFV" uuid="6487ef6d-dce4-4c28-a46f-86794079efd7" />
+    <ref key="ABC_3TC_DTG" uuid="abf5de19-d685-454c-b68d-7dfaca5618b4" />
+    <ref key="ABC_FTC_DTG" uuid="e56c48c7-0e2a-46b4-a3d3-5aae82cfbf12" />
+    <ref key="ABC_3TC_NVP" uuid="162199AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+    <ref key="ABC_FTC_NVP" uuid="88097f98-b37f-4665-8eb0-6f452dd455f5" />
+    <ref key="TDF_3TC_NVP" uuid="162565AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+    <ref key="TDF_FTC_NVP" uuid="ea999c65-eb80-434d-b556-9c2981772d96" />
+    <ref key="D4T_3TC_NVP" uuid="792AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+    <ref key="D4T_3TC_EFV" uuid="160104AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /> 
+    <ref key="SECOND_LINE_ANTIRETOVIRAL_DRUGS" uuid="f7693b07-789f-46d6-892a-fcf499b97228" />
+    <ref key="AZT_3TC_LPV/r" uuid="162561AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+    <ref key="TDF_FTC_LPV/r" uuid="5e694f52-5513-46ea-bb61-20d4eb518ee5" />
+    <ref key="TDF_3TC_LPV/r" uuid="234b53a9-ced5-4e7a-b47a-e0b55db5c02c" />
+    <ref key="TDF_ABC_LPV/r" uuid="162562AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+    <ref key="ABC_3TC_LPV/r" uuid="e0c851a7-98aa-485c-abd1-fcc09ba56f2c" /> 
+    <ref key="ABC_3TC_ATV/r" uuid="cd13052d-6f2e-4e4b-8168-45d9808c373e" />
+    <ref key="AZT_3TC_ATV/r" uuid="e553d95e-daff-40e7-9238-223db817901e" /> 
+     <ref key="TDF/3TC/ATV/r" uuid="c0fe1f91-c1a8-4c40-9ff5-407522318322" /> 
 </refs>
 
