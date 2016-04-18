@@ -78,18 +78,21 @@ public class ReportExportPageController {
 					@SpringBean KenyaUiUtils kenyaUi,
 					@SpringBean ResourceFactory resourceFactory,
 					@SpringBean ReportService reportService) throws Exception {
-
+            
 		ReportDefinition definition = reportRequest.getReportDefinition().getParameterizable();
+		  
 		ReportDescriptor report = reportManager.getReportDescriptor(definition);
-
+		 
 		CoreUtils.checkAccess(report, kenyaUi.getCurrentApp(pageRequest));
 
 		ReportData reportData = reportService.loadReportData(reportRequest);
-
-		if (EXPORT_TYPE_EXCEL.equals(type)) {
+         
+         
+		if (EXPORT_TYPE_EXCEL.equals(type)) {  
+		
 			return renderAsExcel(report, reportData, resourceFactory);
 		}
-		else if (EXPORT_TYPE_CSV.equals(type)) {
+		else if (EXPORT_TYPE_CSV.equals(type)) { 
 			return renderAsCsv(report, reportData);
 		}
 		else {
@@ -109,20 +112,22 @@ public class ReportExportPageController {
 										 ResourceFactory resourceFactory) throws IOException {
 
 
-		if (!(report instanceof IndicatorReportDescriptor) && !(report instanceof HybridReportDescriptor)) {
+		if (!(report instanceof IndicatorReportDescriptor) && !(report instanceof HybridReportDescriptor)) { 
 			throw new RuntimeException("Only indicator/hybrid reports can be rendered as Excel");
 		}
-
+		
 		ReportDefinition definition = report.getTarget();
-		UiResource template = (report instanceof IndicatorReportDescriptor) ? ((IndicatorReportDescriptor) report).getTemplate() : ((HybridReportDescriptor) report).getTemplate();
-
-		if (template == null || !template.getPath().endsWith(".xls")) {
+		
+		
+		UiResource template = (report instanceof IndicatorReportDescriptor) ? ((IndicatorReportDescriptor)report).getTemplate() : ((HybridReportDescriptor) report).getTemplate();
+         
+		if (template==null|| !template.getPath().endsWith(".xls")) {
 			throw new RuntimeException("Report doesn't specify a Excel template");
 		}
 
 		// Load report template
 		byte[] templateData = loadTemplateResource(resourceFactory, template);
-
+             
 		ExcelTemplateRenderer renderer;
 		{
 			// this is a bit of a hack, copied from ExcelRendererTest in the reporting module, to avoid
@@ -130,12 +135,13 @@ public class ReportExportPageController {
 			ReportDesignResource resource = new ReportDesignResource();
 			resource.setName("template.xls");
 			resource.setContents(templateData);
-
+			
 			final ReportDesign design = new ReportDesign();
+			
 			design.setName(report.getName());
 			design.setReportDefinition(definition);
 			design.setRendererType(ExcelTemplateRenderer.class);
-
+			
 			if (report instanceof HybridReportDescriptor){
 				Properties props = new Properties();
 				String repeatingSections = ((HybridReportDescriptor) report).getRepeatingSection();
@@ -146,7 +152,7 @@ public class ReportExportPageController {
 			}
 
 			design.addResource(resource);
-
+            
 			renderer = new ExcelTemplateRenderer() {
 				public ReportDesign getDesign(String argument) {
 					return design;
@@ -160,10 +166,11 @@ public class ReportExportPageController {
 		renderer.render(data, null, out);
 
 		return new FileDownload(
-				getDownloadFilename(definition, data.getContext(), "xls"),
+               getDownloadFilename(report.getTarget(), data.getContext(), "xls"),
 				ContentType.EXCEL.getContentType(),
 				out.toByteArray()
 		);
+		
 	}
 
 	/**
@@ -174,7 +181,7 @@ public class ReportExportPageController {
 		Facility facility = new Facility(Context.getService(KenyaEmrService.class).getDefaultLocation());
 		KenyaUiUtils kenyaui = Context.getRegisteredComponents(KenyaUiUtils.class).get(0);
 		ReportDefinition reportData = data.getDefinition();
-
+               
 		context.addContextValue("facility.name", facility.getTarget().getName());
 		context.addContextValue("facility.code", facility.getMflCode());
 		context.addContextValue("report.name", reportData.getName());
@@ -184,7 +191,7 @@ public class ReportExportPageController {
 
 		String evaluationDate = kenyaui.formatDate(context.getEvaluationDate());
 		String evaluationTime = kenyaui.formatTime(context.getEvaluationDate());
-
+		
 		context.addContextValue("evaluationDate", evaluationDate);
 		context.addContextValue("evaluationTime", evaluationTime);
 		context.addContextValue("period.year", period.get(Calendar.YEAR));
@@ -253,6 +260,7 @@ public class ReportExportPageController {
 		ReportRenderer renderer = (report instanceof IndicatorReportDescriptor) ? new MergedCsvReportRenderer() : new CsvReportRenderer();
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		
 		renderer.render(data, null, out);
 
 		return new FileDownload(getDownloadFilename(report.getTarget(), data.getContext(), "csv"), ContentType.CSV.getContentType(), out.toByteArray());
@@ -267,6 +275,7 @@ public class ReportExportPageController {
 	 */
 	protected byte[] loadTemplateResource(ResourceFactory resourceFactory, UiResource template) throws IOException {
 		File file = resourceFactory.getResource(template.getProvider(), "reports/" + template.getPath());
+		
 		return FileUtils.readFileToByteArray(file);
 	}
 

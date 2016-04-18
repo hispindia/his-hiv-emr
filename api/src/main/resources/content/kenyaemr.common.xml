@@ -35,7 +35,7 @@
 			<set>
 	 	<!--
 				<ref bean="kenyaemr.common.report.moh711" />
-				<ref bean="kenyaemr.common.report.artDrug" />
+				
 				<ref bean="kenyaemr.common.report.moh731" />
 				<ref bean="kenyaemr.common.report.dhis2" />
 				<ref bean="kenyaemr.common.report.recordedDeceased" /> 
@@ -71,12 +71,20 @@
 				<ref bean="kenyaemr.common.report.patientsNotInART"/>
 				<ref bean="kenyaemr.common.report.opportunisticInfections"/>
 				<ref bean="kenyaemr.common.report.patientsRestartedART"/>
+				
 				<ref bean="kenyaemr.common.report.patientsTBreceivedART"/>
+				
 				<ref bean="kenyaemr.common.report.levelOfAdherence"/>
 				
 				<ref bean="kenyaemr.common.report.newHIVPatientEnrolled"/>
+				
+				
+				<!-- <ref bean="kenyaemr.common.report.artDrug" />-->
 				<ref bean="kenyaemr.common.report.patientOutcomeART"/>
+			
 				<ref bean="kenyaemr.common.report.labReport"/>
+			    <ref bean="kenyaemr.common.report.artAdultmonthlyReport"/>
+				<ref bean="kenyaemr.common.report.artChildmonthlyReport"/>
 				<ref bean="kenyaemr.common.report.drugReport"/>
 			</set>
 		</property>
@@ -697,6 +705,7 @@
 		<property name="name" value="Eligible for ART" />
 		<property name="description" value="It details about the total No. of medically eligible patients currently remaining on waiting list for ART at the end of this month*" />
 		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+		
 	</bean>
 	
 	<bean id="kenyaemr.common.report.opportunisticInfections" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
@@ -708,18 +717,20 @@
 	
 	<bean id="kenyaemr.common.report.patientsRestartedART" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
 		<property name="targetUuid" value="eb20a3bb-41ef-4792-8bdc-7c5792f51eee" />
-		<property name="name" value="Enrollment on ART" />
+		<property name="name" value="Enrollment on ART " />
 		<property name="description" value="It details total patients enrolled in ART" />
 		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+		<property name="template" value="kenyaemr:patientsRestartedART.xls" />
 	</bean>
-	
+		
 	<bean id="kenyaemr.common.report.patientsTBreceivedART" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
 		<property name="targetUuid" value="1c00047d-0c4f-477f-bee3-2b874de30ae0" />
-		<property name="name" value="TB/HIV programme" />
-		<property name="description" value="No. of  HIV positive TB patients who have received ART during this month and year" />
+		<property name="name" value="TB/HIV programme " />
+		<property name="description" value="No. of  HIV positive TB patients(Adult) who have received ART during this month and year" />
 		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+		<property name="template" value="kenyaemr:patientsTBreceivedART.xls" />
 	</bean>
-	
+		
 	<bean id="kenyaemr.common.report.levelOfAdherence" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
 		<property name="targetUuid" value="7262d2ac-cf16-4efb-bb4e-d45b0dc7a082" />
 		<property name="name" value="Level of adherence" />
@@ -731,23 +742,51 @@ New Added
  -->
 	<bean id="kenyaemr.common.report.newHIVPatientEnrolled" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
 		<property name="targetUuid" value="7262d2ac-cf16-4efb-bb4e-aaaaaaaaaaaa" />
-		<property name="name" value="Enrollment on HIV" />
-		<property name="description" value="It details total patients enrolled under HIV Program" />
+		<property name="name" value="Enrollment on HIV " />
+		<property name="description" value="It details total patients(Adult) enrolled under HIV Program" />
 		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+		<property name="template" value="kenyaemr:newHIVPatientEnrolled.xls" />
 	</bean>
+	
 
-	<bean id="kenyaemr.common.report.patientOutcomeART" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
+	 <bean id="kenyaemr.common.report.patientOutcomeART" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
 		<property name="targetUuid" value="7262d2ac-cf16-4efb-bb4e-bbbbbbbbbbbb" />
 		<property name="name" value="Outcomes on ART" />
-		<property name="description" value="It details total against various ART outcomes" />
+		<property name="description" value="It details total patients(Adult) against various ART outcomes" />
 		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+		<property name="template" value="kenyaemr:patientOutcomeART.xls" />
 	</bean>
-
+	
+ <!--   <bean id="kenyaemr.common.report.artDrug" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
+		<property name="targetUuid" value="5609a402-94b2-11e3-9ca9-93351facf9dd" />
+		<property name="name" value="Outcomes on ART" />
+		<property name="description" value="Monthly ART Drug Report" />
+		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+		<property name="template" value="kenyaemr:artDrugs.xls" />
+	</bean>-->
+    
+    
 	<bean id="kenyaemr.common.report.labReport" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
 		<property name="targetUuid" value="7262d2ac-cf16-4efb-bb4e-ccccccccccccc" />
-		<property name="name" value="Lab Report" />
+		<property name="name" value="Lab Report " />
 		<property name="description" value="It details total patients gone under various tests" />
 		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+		<property name="template" value="kenyaemr:labReport.xls" />
+	</bean>
+	
+	<bean id="kenyaemr.common.report.artAdultmonthlyReport" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
+		<property name="targetUuid" value="cf3709c1-92bc-426c-9dd4-6889cd4a564a" />
+		<property name="name" value="ART ADULT MONTHLY REPORT  " />
+		<property name="description" value="Combined report for all adult patients " />
+		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+		<property name="template" value="kenyaemr:ART_AdultMonthlyReport.xls" />
+	</bean>
+	<bean id="kenyaemr.common.report.artChildmonthlyReport" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
+		<property name="targetUuid" value="9a07cdc9-aa24-4985-9c5d-491f5214c158" />
+		<property name="name" value="ART CHILD MONTHLY REPORT   " />
+		<property name="description" value="Combined report for all child patients " />
+		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+		<property name="template" value="kenyaemr:ART_ChildMonthlyReport.xls" />
 	</bean>
 
 	<bean id="kenyaemr.common.report.drugReport" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">

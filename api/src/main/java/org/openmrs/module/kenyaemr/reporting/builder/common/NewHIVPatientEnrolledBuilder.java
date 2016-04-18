@@ -69,23 +69,26 @@ public class NewHIVPatientEnrolledBuilder extends AbstractReportBuilder{
 	private DataSetDefinition createNewHIVEnrolledDataSet() {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 		dsd.setName("P");
-		dsd.setDescription("New HIV Patient Enrolled");
+		dsd.setDescription("New patients enrolled in HIV care during this month");
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		dsd.addDimension("age", map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
 		dsd.addDimension("gender", map(commonDimensions.gender()));
 		
 		
-		List<ColumnParameters> columns = new ArrayList<ColumnParameters>();
-		columns.add(new ColumnParameters("FP", "0-14 years, female", "gender=F|age=<15"));
-		columns.add(new ColumnParameters("MP", "0-14 years, male", "gender=M|age=<15"));
-		columns.add(new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+"));
-		columns.add(new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+"));
-		columns.add(new ColumnParameters("T", "total", ""));
+		
+		ColumnParameters childfemale =new ColumnParameters("FP", "0-14 years, female", "gender=F|age=<15");
+		ColumnParameters childmale =new ColumnParameters("MP", "0-14 years, male", "gender=M|age=<15");
+		ColumnParameters female=new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+");
+		ColumnParameters male=new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+");
+		ColumnParameters total=new ColumnParameters("T", "total", "");
+
 
 		String indParams = "startDate=${startDate},endDate=${endDate}";
+		List<ColumnParameters> allColumns = Arrays.asList(childfemale, childmale ,female,male,total);
+		List<String> indSuffixes = Arrays.asList("CF","CM","FM","MA", "TT");    
                 
-		EmrReportingUtils.addRow(dsd, "P1", "No. of ", ReportUtils.map(hivIndicators.notInART(), indParams), columns);
+		EmrReportingUtils.addRow(dsd, "P1", "No. of ", ReportUtils.map(hivIndicators.notInART(), indParams), allColumns,indSuffixes);
 		return dsd;
 	}
 	
@@ -135,32 +138,52 @@ public class NewHIVPatientEnrolledBuilder extends AbstractReportBuilder{
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		dsd.addDimension("parameter", map(commonDimensions.riskFactor()));
+		dsd.addDimension("gender", map(commonDimensions.gender()));
 		
 		
-		List<ColumnParameters> columns1 = new ArrayList<ColumnParameters>();
-		columns1.add(new ColumnParameters("T1", " risk factor for HIV as MSM ,total", "parameter=1"));
-		List<ColumnParameters> columns2 = new ArrayList<ColumnParameters>();
-		columns2.add(new ColumnParameters("T2", "risk factor for HIV as SW,total", "parameter=2"));
-		List<ColumnParameters> columns3 = new ArrayList<ColumnParameters>();
-		columns3.add(new ColumnParameters("T3", "risk factor for HIV as heterosexual,total", "parameter=3"));
-		List<ColumnParameters> columns4 = new ArrayList<ColumnParameters>();
-		columns4.add(new ColumnParameters("T4", "risk factor for HIV as IDU,total", "parameter=4"));
-		List<ColumnParameters> columns5 = new ArrayList<ColumnParameters>();
-		columns5.add(new ColumnParameters("T5", "risk factor for HIV as Blood transfusion,total", "parameter=5"));
-		List<ColumnParameters> columns6 = new ArrayList<ColumnParameters>();
-		columns6.add(new ColumnParameters("T6", "risk factor for HIV as Mother to child,total", "parameter=6"));
-		List<ColumnParameters> columns7 = new ArrayList<ColumnParameters>();
-		columns7.add(new ColumnParameters("T7", "risk factor for HIV as unknown,total", "parameter=7"));
+		ColumnParameters MSMfemale=new ColumnParameters("T1", " risk factor for HIV as MSM ,female", "parameter=1|gender=F");
+		ColumnParameters MSMmale=new ColumnParameters("T11", " risk factor for HIV as MSM ,male", "parameter=1|gender=M");
+		ColumnParameters MSMtotal=new ColumnParameters("T12", "risk factor for HIV as MSM,total", "");
 		
+		ColumnParameters SWfemale=new ColumnParameters("T2", "risk factor for HIV as SW,female", "parameter=2|gender=F");
+		ColumnParameters SWmale=new ColumnParameters("T22", "risk factor for HIV as SW,male", "parameter=2|gender=M");
+		ColumnParameters SWtotal=new ColumnParameters("T23", "risk factor for HIV as SW,total", "");
+		
+		ColumnParameters heterosexualfemale=new ColumnParameters("T3", "risk factor for HIV as heterosexual,female", "parameter=3|gender=F");
+		ColumnParameters heterosexualmale=new ColumnParameters("T33", "risk factor for HIV as heterosexual,male", "parameter=3|gender=M");
+		ColumnParameters heterosexualtotal=new ColumnParameters("T34", "risk factor for HIV as heterosexual,total", "");
+		
+		ColumnParameters HIVfemale=new ColumnParameters("T4", "risk factor for HIV as IDU,female", "parameter=4|gender=F");
+		ColumnParameters HIVmale=new ColumnParameters("T44", "risk factor for HIV as IDU,male", "parameter=4|gender=M");
+		ColumnParameters HIVtotal=new ColumnParameters("T45", "risk factor for HIV as IDU,total", "");
+		
+		ColumnParameters Bloodtransfusionfemale=new ColumnParameters("T5", "risk factor for HIV as Blood transfusion,female", "parameter=5|gender=F");
+		ColumnParameters Bloodtransfusionmale=new ColumnParameters("T55", "risk factor for HIV as Blood transfusion,male", "parameter=5|gender=M");
+		ColumnParameters Bloodtransfusiontotal=new ColumnParameters("T56", "risk factor for HIV as Blood transfusion,total", "");
+		
+		ColumnParameters Motfemale=new ColumnParameters("T6", "risk factor for HIV as Mother to child,female", "parameter=6|gender=F");
+		ColumnParameters Motmale=new ColumnParameters("T66", "risk factor for HIV as Mother to child,male", "parameter=6|gender=M");
+		ColumnParameters Mottotal=new ColumnParameters("T67", "risk factor for HIV as Mother to child,total", "");
+		
+		ColumnParameters unknwnfemale=new ColumnParameters("T7", "risk factor for HIV as unknown,female", "parameter=7|gender=F");
+		ColumnParameters unknwnmale=new ColumnParameters("T77", "risk factor for HIV as unknown,male", "parameter=7|gender=M");
+		ColumnParameters unknwntotal=new ColumnParameters("T78", "risk factor for HIV as unknown,total", "");
+		List<ColumnParameters> allColumns1 = Arrays.asList(MSMfemale, MSMmale, MSMtotal);
+		List<ColumnParameters> allColumns2 = Arrays.asList(SWfemale, SWmale, SWtotal);
+		List<ColumnParameters> allColumns3 = Arrays.asList(heterosexualfemale, heterosexualmale, heterosexualtotal);
+		List<ColumnParameters> allColumns4 = Arrays.asList(HIVfemale, HIVmale, HIVtotal);
+		List<ColumnParameters> allColumns5 = Arrays.asList(Bloodtransfusionfemale, Bloodtransfusionmale, Bloodtransfusiontotal);
+		List<ColumnParameters> allColumns6 = Arrays.asList(Motfemale, Motmale, Mottotal);
+		List<ColumnParameters> allColumns7 = Arrays.asList(unknwnfemale, unknwnmale, unknwntotal);
 		String indParams = "startDate=${startDate},endDate=${endDate}";
-                
-		EmrReportingUtils.addRow(dsd, "S1", "Total No. of detected case   ", ReportUtils.map(hivIndicators.riskFactor1(), indParams), columns1);
-		EmrReportingUtils.addRow(dsd, "S2", "Total No. of detected case ", ReportUtils.map(hivIndicators.riskFactor2(), indParams), columns2);
-		EmrReportingUtils.addRow(dsd, "S3", "Total No. of detected case  ", ReportUtils.map(hivIndicators.riskFactor3(), indParams), columns3);
-		EmrReportingUtils.addRow(dsd, "S4", "Total No. of detected case  ", ReportUtils.map(hivIndicators.riskFactor4(), indParams), columns4);
-		EmrReportingUtils.addRow(dsd, "S5", "Total No. of detected case  ", ReportUtils.map(hivIndicators.riskFactor5(), indParams), columns5);
-		EmrReportingUtils.addRow(dsd, "S6", "Total No. of detected case ", ReportUtils.map(hivIndicators.riskFactor6(), indParams), columns6);
-		EmrReportingUtils.addRow(dsd, "S7", "Total No. of detected case ", ReportUtils.map(hivIndicators.riskFactor7(), indParams), columns7);
+		
+		EmrReportingUtils.addRow(dsd, "S1", "Total No. of detected case   ", ReportUtils.map(hivIndicators.riskFactor1(), indParams), allColumns1,Arrays.asList("01", "02","11"));
+		EmrReportingUtils.addRow(dsd, "S2", "Total No. of detected case ", ReportUtils.map(hivIndicators.riskFactor2(), indParams), allColumns2,Arrays.asList("03", "04","22"));
+		EmrReportingUtils.addRow(dsd, "S3", "Total No. of detected case  ", ReportUtils.map(hivIndicators.riskFactor3(), indParams), allColumns3,Arrays.asList("05", "06","33"));
+		EmrReportingUtils.addRow(dsd, "S4", "Total No. of detected case  ", ReportUtils.map(hivIndicators.riskFactor4(), indParams), allColumns4,Arrays.asList("07", "08","44"));
+		EmrReportingUtils.addRow(dsd, "S5", "Total No. of detected case  ", ReportUtils.map(hivIndicators.riskFactor5(), indParams), allColumns5,Arrays.asList("09", "10","55"));
+		EmrReportingUtils.addRow(dsd, "S6", "Total No. of detected case ", ReportUtils.map(hivIndicators.riskFactor6(), indParams), allColumns6,Arrays.asList("11", "12","66"));
+		EmrReportingUtils.addRow(dsd, "S7", "Total No. of detected case ", ReportUtils.map(hivIndicators.riskFactor7(), indParams), allColumns7,Arrays.asList("13", "14","77"));
 		return dsd;
 	}
 

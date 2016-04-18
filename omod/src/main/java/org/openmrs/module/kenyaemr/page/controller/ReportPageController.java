@@ -57,14 +57,15 @@ public class ReportPageController {
 					@SpringBean ReportDefinitionService definitionService) throws Exception {
 
 		ReportDefinition definition = definitionService.getDefinitionByUuid(reportUuid);
+		
 		ReportDescriptor report = reportManager.getReportDescriptor(definition);
-
+		
 		CoreUtils.checkAccess(report, kenyaUi.getCurrentApp(pageRequest));
 
 		boolean isIndicator = false;
 		if (report instanceof IndicatorReportDescriptor || report instanceof HybridReportDescriptor)
 			isIndicator = true;
-
+         
 		boolean excelRenderable = false;
 		if (report instanceof IndicatorReportDescriptor && isIndicator && ((IndicatorReportDescriptor) report).getTemplate() != null) {
 			excelRenderable = true;
@@ -78,7 +79,7 @@ public class ReportPageController {
 		model.addAttribute("excelRenderable", excelRenderable);
 		model.addAttribute("returnUrl", returnUrl);
 
-		if (isIndicator) {
+		if (isIndicator) { 
 			Map<String, String> startDateOptions = new LinkedHashMap<String, String>();
 			SimpleDateFormat pretty = new SimpleDateFormat("MMMM yyyy");
 			Date d = DateUtil.getStartOfMonth(new Date());

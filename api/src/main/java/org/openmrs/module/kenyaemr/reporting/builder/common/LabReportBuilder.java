@@ -60,44 +60,51 @@ public class LabReportBuilder  extends AbstractReportBuilder{
 	private DataSetDefinition creatDataSetForCdFourCount() {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 		dsd.setName("P");
-		dsd.setDescription("CD 4 count Tested Patients");
+		dsd.setDescription("No. of patients tested for CD4 count");
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		dsd.addDimension("age", map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
 		dsd.addDimension("gender", map(commonDimensions.gender()));
+		
+		
+		
+		ColumnParameters childfemale =new ColumnParameters("FP", "0-14 years, female", "gender=F|age=<15");
+		ColumnParameters childmale =new ColumnParameters("MP", "0-14 years, male", "gender=M|age=<15");
+		ColumnParameters female=new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+");
+		ColumnParameters male=new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+");
+		ColumnParameters total=new ColumnParameters("T", "total", "");
 
-		List<ColumnParameters> columns = new ArrayList<ColumnParameters>();
-		columns.add(new ColumnParameters("FP", "0-14 years, female", "gender=F|age=<15"));
-		columns.add(new ColumnParameters("MP", "0-14 years, male", "gender=M|age=<15"));
-		columns.add(new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+"));
-		columns.add(new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+"));
-		columns.add(new ColumnParameters("T", "total", ""));
 
 		String indParams = "startDate=${startDate},endDate=${endDate}";
+		List<ColumnParameters> allColumns = Arrays.asList(childfemale, childmale ,female,male,total);
+		List<String> indSuffixes = Arrays.asList("CF","CM","FM","MA", "TT");    
                 
-		EmrReportingUtils.addRow(dsd, "P1", "No. of patients tested for CD4 count ", ReportUtils.map(hivIndicators.cdFourTest(), indParams), columns);
+		EmrReportingUtils.addRow(dsd, "P1", "No. of patients tested for CD4 count ", ReportUtils.map(hivIndicators.cdFourTest(), indParams), allColumns,indSuffixes);
 		return dsd;
 	}
 	
 	private DataSetDefinition creatDataSetForViralLoad() {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 		dsd.setName("S");
-		dsd.setDescription("Viral load Tested Patients");
+		dsd.setDescription("No. of patients tested for viral load");
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		dsd.addDimension("age", map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
 		dsd.addDimension("gender", map(commonDimensions.gender()));
 
-		List<ColumnParameters> columns = new ArrayList<ColumnParameters>();
-		columns.add(new ColumnParameters("FP", "0-14 years, female", "gender=F|age=<15"));
-		columns.add(new ColumnParameters("MP", "0-14 years, male", "gender=M|age=<15"));
-		columns.add(new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+"));
-		columns.add(new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+"));
-		columns.add(new ColumnParameters("T", "total", ""));
+	
+		ColumnParameters childfemale =new ColumnParameters("FP", "0-14 years, female", "gender=F|age=<15");
+		ColumnParameters childmale =new ColumnParameters("MP", "0-14 years, male", "gender=M|age=<15");
+		ColumnParameters female=new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+");
+		ColumnParameters male=new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+");
+		ColumnParameters total=new ColumnParameters("T", "total", "");
+
 
 		String indParams = "startDate=${startDate},endDate=${endDate}";
+		List<ColumnParameters> allColumns = Arrays.asList(childfemale, childmale ,female,male,total);
+		List<String> indSuffixes = Arrays.asList("CF","CM","FM","MA", "TT");    
                 
-		EmrReportingUtils.addRow(dsd, "S1", "No. of patients tested for viral load", ReportUtils.map(hivIndicators.viralLoadTest(), indParams), columns);
+		EmrReportingUtils.addRow(dsd, "S1", "No. of patients tested for viral load", ReportUtils.map(hivIndicators.viralLoadTest(), indParams), allColumns,indSuffixes);
 		return dsd;
 	}
 

@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.Concept;
 import org.openmrs.module.kenyacore.report.ReportDescriptor;
 import org.openmrs.module.kenyacore.report.ReportUtils;
 
@@ -19,6 +20,7 @@ import static org.openmrs.module.kenyacore.report.ReportUtils.map;
 
 import org.openmrs.module.kenyacore.report.builder.AbstractReportBuilder;
 import org.openmrs.module.kenyacore.report.builder.Builds;
+import org.openmrs.module.kenyaemr.Dictionary;
 import org.openmrs.module.kenyaemr.reporting.ColumnParameters;
 import org.openmrs.module.kenyaemr.reporting.EmrReportingUtils;
 import org.openmrs.module.kenyaemr.reporting.library.shared.common.CommonDimensionLibrary;
@@ -36,7 +38,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Builds({"kenyaemr.common.report.patientsRestartedART"})
 public class ARTRestartedIndicatorBuilder extends AbstractReportBuilder{
-           protected static final Log log = LogFactory.getLog(ARTRestartedIndicatorBuilder.class);
+          // protected static final Log log = LogFactory.getLog(ARTRestartedIndicatorBuilder.class);
 
 	@Autowired
 	private CommonDimensionLibrary commonDimensions;
@@ -62,9 +64,10 @@ public class ARTRestartedIndicatorBuilder extends AbstractReportBuilder{
 	@Override
 	protected List<Mapped<DataSetDefinition>> buildDataSets(ReportDescriptor descriptor, ReportDefinition report) {
 		return Arrays.asList(
-				ReportUtils.map(createTbDataSet(), "startDate=${startDate},endDate=${endDate}"),
+				
 				ReportUtils.map(createCumulativeactiveTbDataSet(), "startDate=${startDate},endDate=${endDate}"),
 				ReportUtils.map(createNewInitiatedPatientTbDataSet(), "startDate=${startDate},endDate=${endDate}"),
+				ReportUtils.map(createTbDataSet(), "startDate=${startDate},endDate=${endDate}"),
 				ReportUtils.map(createCumulativeTbDataSet(), "startDate=${startDate},endDate=${endDate}")
 		);
 	}
@@ -76,65 +79,80 @@ public class ARTRestartedIndicatorBuilder extends AbstractReportBuilder{
 	private DataSetDefinition createCumulativeactiveTbDataSet() {
 	CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 	dsd.setName("A");
-	dsd.setDescription("Cumulative no. of active follow up  patients ever started on ART");
+	dsd.setDescription("Cumulative no. of active follow up  patients ever started on ART at the beginning of this month");
 	dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 	dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 	dsd.addDimension("age", map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
 	dsd.addDimension("gender", map(commonDimensions.gender()));
+	
+	
+	
+	ColumnParameters childfemale =new ColumnParameters("FP", "0-14 years, female", "gender=F|age=<15");
+	ColumnParameters childmale =new ColumnParameters("MP", "0-14 years, male", "gender=M|age=<15");
+	ColumnParameters female=new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+");
+	ColumnParameters male=new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+");
+	ColumnParameters total=new ColumnParameters("T", "total", "");
 
-	List<ColumnParameters> columns = new ArrayList<ColumnParameters>();
-	columns.add(new ColumnParameters("FP", "0-14 years, female", "gender=F|age=<15"));
-	columns.add(new ColumnParameters("MP", "0-14 years, male", "gender=M|age=<15"));
-	columns.add(new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+"));
-	columns.add(new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+"));
-	columns.add(new ColumnParameters("T", "total", ""));
 
 	String indParams = "startDate=${startDate},endDate=${endDate}";
-
-	EmrReportingUtils.addRow(dsd, "A1", "No. of detected cases (Cumulative no. of active follow up  patients ever started on ART )", ReportUtils.map(artIndicators.startedArtCumulative(), indParams), columns);
+	List<ColumnParameters> allColumns = Arrays.asList(childfemale, childmale ,female,male,total);
+	List<String> indSuffixes = Arrays.asList("CF","CM","FM","MA", "TT"); 
+	
+	EmrReportingUtils.addRow(dsd, "A1", "No. of detected cases (Cumulative no. of active follow up  patients ever started on ART )", ReportUtils.map(artIndicators.startedArtCumulative(), indParams), allColumns,indSuffixes);
+	
 	return dsd;
 }
 	
 	private DataSetDefinition createNewInitiatedPatientTbDataSet() {
 	CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 	dsd.setName("B");
-	dsd.setDescription("New patients started on ART");
+	dsd.setDescription("New patients started on ART during this month");
 	dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 	dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 	dsd.addDimension("age", map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
 	dsd.addDimension("gender", map(commonDimensions.gender()));
 
-	List<ColumnParameters> columns = new ArrayList<ColumnParameters>();
-	columns.add(new ColumnParameters("FP", "0-14 years, female", "gender=F|age=<15"));
-	columns.add(new ColumnParameters("MP", "0-14 years, male", "gender=M|age=<15"));
-	columns.add(new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+"));
-	columns.add(new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+"));
-	columns.add(new ColumnParameters("T", "total", ""));
+	
+	
+	ColumnParameters childfemale =new ColumnParameters("FP", "0-14 years, female", "gender=F|age=<15");
+	ColumnParameters childmale =new ColumnParameters("MP", "0-14 years, male", "gender=M|age=<15");
+	ColumnParameters female=new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+");
+	ColumnParameters male=new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+");
+	ColumnParameters total=new ColumnParameters("T", "total", "");
+
 
 	String indParams = "startDate=${startDate},endDate=${endDate}";
-            
-	EmrReportingUtils.addRow(dsd, "B1", "  No. of detected cases (New patients started on ART)", ReportUtils.map(artIndicators.startedArt(), indParams), columns);
+	List<ColumnParameters> allColumns = Arrays.asList(childfemale, childmale ,female,male,total);
+	List<String> indSuffixes = Arrays.asList("CF","CM","FM","MA", "TT"); 
+	
+	EmrReportingUtils.addRow(dsd, "B1", "  No. of detected cases (New patients started on ART)", ReportUtils.map(artIndicators.startedArt(), indParams), allColumns,indSuffixes);
+	
 	return dsd;
-}
+	}
+	
 	private DataSetDefinition createTbDataSet() {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 		dsd.setName("C");
-		dsd.setDescription("Transferred in");
+		dsd.setDescription("No. of patients on ART transferred in this month");
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		dsd.addDimension("age", map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
 		dsd.addDimension("gender", map(commonDimensions.gender()));
 
-		List<ColumnParameters> columns = new ArrayList<ColumnParameters>();
-		columns.add(new ColumnParameters("FP", "0-14 years, female", "gender=F|age=<15"));
-		columns.add(new ColumnParameters("MP", "0-14 years, male", "gender=M|age=<15"));
-		columns.add(new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+"));
-		columns.add(new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+"));
-		columns.add(new ColumnParameters("T", "total", ""));
+		
+		
+		ColumnParameters childfemale =new ColumnParameters("FP", "0-14 years, female", "gender=F|age=<15");
+		ColumnParameters childmale =new ColumnParameters("MP", "0-14 years, male", "gender=M|age=<15");
+		ColumnParameters female=new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+");
+		ColumnParameters male=new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+");
+		ColumnParameters total=new ColumnParameters("T", "total", "");
+
 
 		String indParams = "startDate=${startDate},endDate=${endDate}";
+		List<ColumnParameters> allColumns = Arrays.asList(childfemale, childmale ,female,male,total);
+		List<String> indSuffixes = Arrays.asList("CF","CM","FM","MA", "TT"); 
                 
-		EmrReportingUtils.addRow(dsd, "C1", "No. of detected cases (Transferred in)", ReportUtils.map(hivIndicators.restartART(), indParams), columns);
+		EmrReportingUtils.addRow(dsd, "C1", "No. of detected cases (Transferred in)", ReportUtils.map(hivIndicators.restartART(), indParams), allColumns,indSuffixes);
 		return dsd;
 	}
 	
@@ -143,22 +161,26 @@ public class ARTRestartedIndicatorBuilder extends AbstractReportBuilder{
 	private DataSetDefinition createCumulativeTbDataSet() {
 	CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 	dsd.setName("D");
-	dsd.setDescription("Cumulative no. of active follow up  patients ever started on ART ");
+	dsd.setDescription("Cumulative no. of active follow up patients ever started on ART at the end of this month ");
 	dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 	dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 	dsd.addDimension("age", map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
 	dsd.addDimension("gender", map(commonDimensions.gender()));
 
-	List<ColumnParameters> columns = new ArrayList<ColumnParameters>();
-	columns.add(new ColumnParameters("FP", "0-14 years, female", "gender=F|age=<15"));
-	columns.add(new ColumnParameters("MP", "0-14 years, male", "gender=M|age=<15"));
-	columns.add(new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+"));
-	columns.add(new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+"));
-	columns.add(new ColumnParameters("T", "total", ""));
+	
+	ColumnParameters childfemale =new ColumnParameters("FP", "0-14 years, female", "gender=F|age=<15");
+	ColumnParameters childmale =new ColumnParameters("MP", "0-14 years, male", "gender=M|age=<15");
+	ColumnParameters female=new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+");
+	ColumnParameters male=new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+");
+	ColumnParameters total=new ColumnParameters("T", "total", "");
+
 
 	String indParams = "startDate=${startDate},endDate=${endDate}";
+	List<ColumnParameters> allColumns = Arrays.asList(childfemale, childmale ,female,male,total);
+	List<String> indSuffixes = Arrays.asList("CF","CM","FM","MA", "TT"); 
             
-	EmrReportingUtils.addRow(dsd, "D1", "  No. of detected cases (Cumulative no. of patients ever started on ART )", ReportUtils.map(artIndicators.startedArtCumulativeResult(), indParams), columns);
+            
+	EmrReportingUtils.addRow(dsd, "D1", "  No. of detected cases (Cumulative no. of patients ever started on ART )", ReportUtils.map(artIndicators.startedArtCumulativeResult(), indParams), allColumns,indSuffixes);
 	return dsd;
 }
 }
