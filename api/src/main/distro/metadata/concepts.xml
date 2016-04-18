@@ -264,13 +264,21 @@
     <ref key="D4T_3TC_NVP" uuid="792AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
     <ref key="D4T_3TC_EFV" uuid="160104AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /> 
     <ref key="SECOND_LINE_ANTIRETOVIRAL_DRUGS" uuid="f7693b07-789f-46d6-892a-fcf499b97228" />
-    <ref key="AZT_3TC_LPV/r" uuid="162561AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
-    <ref key="TDF_FTC_LPV/r" uuid="5e694f52-5513-46ea-bb61-20d4eb518ee5" />
-    <ref key="TDF_3TC_LPV/r" uuid="234b53a9-ced5-4e7a-b47a-e0b55db5c02c" />
-    <ref key="TDF_ABC_LPV/r" uuid="162562AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
-    <ref key="ABC_3TC_LPV/r" uuid="e0c851a7-98aa-485c-abd1-fcc09ba56f2c" /> 
-    <ref key="ABC_3TC_ATV/r" uuid="cd13052d-6f2e-4e4b-8168-45d9808c373e" />
-    <ref key="AZT_3TC_ATV/r" uuid="e553d95e-daff-40e7-9238-223db817901e" /> 
-     <ref key="TDF/3TC/ATV/r" uuid="c0fe1f91-c1a8-4c40-9ff5-407522318322" /> 
+    <ref key="AZT_3TC_LPV_r" uuid="162561AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+    <ref key="TDF_FTC_LPV_r" uuid="5e694f52-5513-46ea-bb61-20d4eb518ee5" />
+    <ref key="TDF_3TC_LPV_r" uuid="234b53a9-ced5-4e7a-b47a-e0b55db5c02c" />
+    <ref key="TDF_ABC_LPV_r" uuid="162562AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+    <ref key="ABC_3TC_LPV_r" uuid="e0c851a7-98aa-485c-abd1-fcc09ba56f2c" /> 
+    <ref key="ABC_3TC_ATV_r" uuid="cd13052d-6f2e-4e4b-8168-45d9808c373e" />
+    <ref key="AZT_3TC_ATV_r" uuid="e553d95e-daff-40e7-9238-223db817901e" /> 
+    <ref key="TDF_3TC_ATV_r" uuid="c0fe1f91-c1a8-4c40-9ff5-407522318322" />
+    <ref key="HIV_HBV" uuid="ab9b1c9a-9acb-4e7f-b696-ac6870083117" />  
+    <ref key="AZT_TDF_3TC_LPV_r" uuid="e44d1e2a-10f5-45cc-a126-515fa32cc222" /> 
+    <ref key="ARV_DRUGS_FOR_CHILD" uuid="4c132bde-0e0f-4586-a874-fe6335945144" /> 
+    <ref key="AZT_3TC_ABC" uuid="817AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /> 
+    <ref key="AZT_3TC_RAL" uuid="0d23eb7b-63dc-4f7c-81af-9f240f1fc71b" /> 
+    <ref key="ABC_3TC_RAL" uuid="7c2b49a6-d085-475d-92b4-d207d5b126e6" /> 
+    <ref key="TDF_3TC_RAL" uuid="c6399f1e-b64a-4516-9dca-2cef2c534522" /> 
+     
 </refs>
 
