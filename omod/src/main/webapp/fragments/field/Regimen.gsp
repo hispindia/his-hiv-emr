@@ -1,6 +1,4 @@
 <%
-	ui.includeJavascript("kenyaemr", "controllers/drugRegimenController.js")
-	
 	def formulations = [ "25", "30", "50", "60", "100", "150", "200" , "300" ,"400" , "600" ]
 	
 	def units = [ " " , "mg", "g", "ml"]

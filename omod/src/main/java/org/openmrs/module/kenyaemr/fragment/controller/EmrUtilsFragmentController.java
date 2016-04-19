@@ -14,6 +14,18 @@
 
 package org.openmrs.module.kenyaemr.fragment.controller;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
@@ -25,6 +37,7 @@ import org.jaxen.XPath;
 import org.jaxen.dom4j.Dom4jXPath;
 import org.json.simple.JSONObject;
 import org.openmrs.Concept;
+import org.openmrs.ConceptAnswer;
 import org.openmrs.Patient;
 import org.openmrs.Relationship;
 import org.openmrs.Visit;
@@ -32,35 +45,24 @@ import org.openmrs.api.context.Context;
 import org.openmrs.api.context.ContextAuthenticationException;
 import org.openmrs.calculation.result.CalculationResult;
 import org.openmrs.module.kenyaemr.EmrConstants;
-import org.openmrs.module.kenyaemr.calculation.EmrCalculationUtils;
-import org.openmrs.module.kenyaemr.regimen.RegimenManager;
-import org.openmrs.module.kenyaemr.util.EmrUiUtils;
 import org.openmrs.module.kenyaemr.api.KenyaEmrService;
+import org.openmrs.module.kenyaemr.calculation.EmrCalculationUtils;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.art.InitialArtStartDateCalculation;
 import org.openmrs.module.kenyaemr.regimen.RegimenChange;
 import org.openmrs.module.kenyaemr.regimen.RegimenChangeHistory;
 import org.openmrs.module.kenyaemr.regimen.RegimenDefinition;
 import org.openmrs.module.kenyaemr.regimen.RegimenDefinitionGroup;
+import org.openmrs.module.kenyaemr.regimen.RegimenManager;
+import org.openmrs.module.kenyaemr.util.EmrUiUtils;
 import org.openmrs.module.kenyaui.KenyaUiUtils;
 import org.openmrs.module.kenyaui.annotation.AppAction;
 import org.openmrs.module.kenyaui.annotation.PublicAction;
 import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
-import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.action.SuccessResult;
 import org.openmrs.util.OpenmrsUtil;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.io.File;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Fragment actions generally useful for KenyaEMR
@@ -195,18 +197,38 @@ public class EmrUtilsFragmentController {
 		return SimpleObject.create("birthdate", kenyaui.formatDateParam(cal.getTime()));
 	}
 	
-	public JSONObject drugConcept(@RequestParam(value= "listOfDrug", required = false) String listOfDrug,
+	public JSONObject drugConcept(@RequestParam("patientId") Patient patient,
+			@RequestParam(value= "drugKey", required = false) String drugKey,
 			UiUtils ui, 
 			@SpringBean RegimenManager regimenManager,
 			@SpringBean EmrUiUtils kenyaUi){
 		JSONObject conceptNameJson = new JSONObject();
-		String[] parts = listOfDrug.split("+");
 		
-		for(int i=0;i<parts.length;i++){
-			String a=parts[i];	
-			Concept c=Context.getConceptService().getConcept(a);
-			conceptNameJson.put("drugConceptName", c.getName());
+		Collection<ConceptAnswer> conceptAnswers=new LinkedHashSet<ConceptAnswer>();
+		List<String> drugName=new LinkedList<String>();
+		if(patient.getAge()>14){
+			Concept concept1=Context.getConceptService().getConceptByName("First line Anti-retoviral drugs");
+			Concept concept2=Context.getConceptService().getConceptByName("Second line ART");
+			Concept concept3=Context.getConceptService().getConceptByName("HIV/HBV co-infection");
+			Concept concept4=Context.getConceptService().getConceptByName("Fixed dose combinations (FDCs)");
+			conceptAnswers.addAll(concept1.getAnswers(false));
+			conceptAnswers.addAll(concept2.getAnswers(false));
+			conceptAnswers.addAll(concept3.getAnswers(false));
+			conceptAnswers.addAll(concept4.getAnswers(false));
 		}
+		else{
+			Concept concept5=Context.getConceptService().getConceptByName("ARV drugs for child");
+			Concept concept6=Context.getConceptService().getConceptByName("Fixed dose combinations (FDCs)");
+			conceptAnswers.addAll(concept5.getAnswers(false));
+			conceptAnswers.addAll(concept6.getAnswers(false));
+		}
+		
+		for(ConceptAnswer conceptAnswer:conceptAnswers){
+			String drugNam=conceptAnswer.getAnswerConcept().getName().getName();
+			drugName.add(drugNam);
+		}
+		
+		conceptNameJson.put("drugConceptName", drugName);
 		
 		return conceptNameJson;
 	}

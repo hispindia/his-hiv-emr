@@ -14,6 +14,10 @@
 		[ label: "Regimen", formFieldName: "regimen", class: "org.openmrs.module.kenyaemr.regimen.Regimen", fieldFragment: "field/Regimen", category: category,patient: currentPatient ]
 	}
 	
+	def regimenSearchField = {
+		[ label: "Regimen", formFieldName: "regimen", class: "org.openmrs.module.kenyaemr.regimen.Regimen", fieldFragment: "field/RegimenSearch", category: category,patient: currentPatient ]
+	}
+	
 	def substituteRegimenField = {
 		[ label: "Regimen", formFieldName: "regimen", class: "org.openmrs.module.kenyaemr.regimen.Regimen", fieldFragment: "field/Regimen", category: category,patient: currentPatient ]
 	}
@@ -86,6 +90,7 @@
 			<div id="regimen-action-buttons" style="text-align: center">
 			<% if (allowNew) { %>
 			${ ui.includeFragment("kenyaui", "widget/button", [ iconProvider: "kenyaui", icon: "buttons/regimen_start.png", label: "Start", extra: "a new regimen", onClick: "choseAction('start-new-regimen')" ]) }
+			${ ui.includeFragment("kenyaui", "widget/button", [ iconProvider: "kenyaui", icon: "buttons/regimen_start.png", label: "Start Fresh", extra: "a new regimen", onClick: "choseAction('start-new-regimengui')" ]) }
 			<% } %>
 
 			<% if (allowChange) { %>
@@ -119,6 +124,27 @@
 							[ hiddenInputName: "category", value: category ],
 							changeDateField("Start date"),
 							regimenField()
+					],
+					submitLabel: "Save",
+					successCallbacks: [ "ui.reloadPage();" ],
+					cancelLabel: "Cancel",
+					cancelFunction: "cancelAction"
+				]) }
+			</fieldset>
+			
+			<fieldset id="start-new-regimengui" class="regimen-action-form" style="display: none">
+				<legend>Start New Regimen</legend>
+
+				${ ui.includeFragment("kenyaui", "widget/form", [
+					fragmentProvider: "kenyaemr",
+					fragment: "regimenUtil",
+					action: "changeRegimen",
+					fields: [
+							[ hiddenInputName: "patient", value: currentPatient.id ],
+							[ hiddenInputName: "changeType", value: "Start" ],
+							[ hiddenInputName: "category", value: category ],
+							changeDateField("Start date"),
+							regimenSearchField()
 					],
 					submitLabel: "Save",
 					successCallbacks: [ "ui.reloadPage();" ],
