@@ -70,7 +70,12 @@ public class ART_AdultMonthlyReportBuilder extends AbstractReportBuilder{
 				ReportUtils.map(creatDataSetForViralLoad(), "startDate=${startDate},endDate=${endDate}"),
 				ReportUtils.map(createNewHIVEnrolledDataSet(), "startDate=${startDate},endDate=${endDate}"),
 				ReportUtils.map(createHIVEnrolledwithPerformanceADataSet(), "startDate=${startDate},endDate=${endDate}"),
-				ReportUtils.map(createHIVEnrolledwithRiskDataSet(), "startDate=${startDate},endDate=${endDate}")
+				ReportUtils.map(createHIVEnrolledwithRiskDataSet(), "startDate=${startDate},endDate=${endDate}"),
+				ReportUtils.map(createOIDataSet(), "startDate=${startDate},endDate=${endDate}"),
+				ReportUtils.map(createHIVAdherenceDataSet(), "startDate=${startDate},endDate=${endDate}"),
+				ReportUtils.map(createLevelAdherenceDataSet(), "startDate=${startDate},endDate=${endDate}"),
+				ReportUtils.map(createElligibleARTDataSet(), "startDate=${startDate},endDate=${endDate}")
+				
 				
 		);
 	}
@@ -492,6 +497,99 @@ public class ART_AdultMonthlyReportBuilder extends AbstractReportBuilder{
 			EmrReportingUtils.addRow(dsd, "P5", "Total No. of detected case  ", ReportUtils.map(hivIndicators.riskFactor5(), indParams), allColumns5,Arrays.asList("09", "10","55"));
 			EmrReportingUtils.addRow(dsd, "P6", "Total No. of detected case ", ReportUtils.map(hivIndicators.riskFactor6(), indParams), allColumns6,Arrays.asList("11", "12","66"));
 			EmrReportingUtils.addRow(dsd, "P7", "Total No. of detected case ", ReportUtils.map(hivIndicators.riskFactor7(), indParams), allColumns7,Arrays.asList("13", "14","77"));
+			return dsd;
+		}
+		
+		private DataSetDefinition createOIDataSet() {
+			CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
+			dsd.setName("Q");
+			dsd.setDescription("Treated for Opportunistic Infection");
+			dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+			dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+			dsd.addDimension("gender", map(commonDimensions.gender()));
+			dsd.addDimension("age", map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
+			
+			
+			ColumnParameters female=new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+");
+			ColumnParameters male=new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+");
+			ColumnParameters total=new ColumnParameters("T", "total", "age=15+");
+			
+
+			String indParams = "startDate=${startDate},endDate=${endDate}";
+			List<ColumnParameters> allColumns = Arrays.asList(female,male,total);
+			List<String> indSuffixes = Arrays.asList("FM","MA", "TT");  
+			
+			EmrReportingUtils.addRow(dsd, "Q1", "No. of detected cases (Treated for OI)", ReportUtils.map(hivIndicators.givenDrugsForOI(), indParams), allColumns,indSuffixes);
+			return dsd;
+		}
+		
+		private DataSetDefinition createHIVAdherenceDataSet() {
+			CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
+			dsd.setName("R");
+			dsd.setDescription("Of those assessed for adherence, level of adherence in the last month");
+			dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+			dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+			dsd.addDimension("age", ReportUtils.map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
+			dsd.addDimension("gender", ReportUtils.map(commonDimensions.gender()));
+
+			ColumnParameters female = new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+");
+			ColumnParameters male = new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+");
+			ColumnParameters total = new ColumnParameters("T", "grand total", "age=15+");
+
+			String indParams = "startDate=${startDate},endDate=${endDate}";
+			List<ColumnParameters> allColumns = Arrays.asList(female,male,total);
+			List<String> indSuffixes = Arrays.asList("FM","MA", "TT"); 
+
+			EmrReportingUtils.addRow(dsd, "R1-1", "< 5% of doses missed in a period of 30 days (>95%)", ReportUtils.map(hivIndicators.levelOfAdherence(0,5), indParams), allColumns,indSuffixes);
+			EmrReportingUtils.addRow(dsd, "R1-2", "(5-20)% of doses missed in a period of 30 days (80-95%)", ReportUtils.map(hivIndicators.levelOfAdherence(5,20), indParams), allColumns,indSuffixes);
+			EmrReportingUtils.addRow(dsd, "R1-3", ">20% of doses missed in a period of 30 days (<80%)", ReportUtils.map(hivIndicators.levelOfAdherence(20,100), indParams), allColumns,indSuffixes);
+
+
+			return dsd;
+		}
+		private DataSetDefinition createLevelAdherenceDataSet() {
+			CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
+			dsd.setName("S");
+			dsd.setDescription(" No. of patients assessed for adherence during this month");
+			dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+			dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+			dsd.addDimension("age", ReportUtils.map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
+			dsd.addDimension("gender", ReportUtils.map(commonDimensions.gender()));
+
+			
+			ColumnParameters female = new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+");
+			ColumnParameters male = new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+");
+			ColumnParameters total = new ColumnParameters("T", "grand total", "age=15+");
+
+			String indParams = "startDate=${startDate},endDate=${endDate}";
+			List<ColumnParameters> allColumns = Arrays.asList(female,male,total);
+			List<String> indSuffixes = Arrays.asList("FM","MA", "TT"); 
+			EmrReportingUtils.addRow(dsd, "S1", "No. of patients assessed for adherence during this month", ReportUtils.map(hivIndicators.levelOfAdherence(0,100), indParams), allColumns,indSuffixes);
+			
+
+
+			return dsd;
+		}
+		
+		private DataSetDefinition createElligibleARTDataSet() {
+			CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
+			dsd.setName("T");
+			dsd.setDescription("No. of medically eligible patients currently remaining on waiting list for ART at the end of this month");
+			dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+			dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+			dsd.addDimension("age", map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
+			dsd.addDimension("gender", map(commonDimensions.gender()));
+
+			ColumnParameters female=new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+");
+			ColumnParameters male=new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+");
+			ColumnParameters total=new ColumnParameters("T", "total", "age=15+");
+			
+
+			String indParams = "startDate=${startDate},endDate=${endDate}";
+			List<ColumnParameters> allColumns = Arrays.asList(female,male,total);
+			List<String> indSuffixes = Arrays.asList("FM","MA", "TT");  
+	                
+			EmrReportingUtils.addRow(dsd, "T1", "No. of detected cases (Eligible for ART)", ReportUtils.map(hivIndicators.notInART(), indParams), allColumns,indSuffixes);
 			return dsd;
 		}
 		

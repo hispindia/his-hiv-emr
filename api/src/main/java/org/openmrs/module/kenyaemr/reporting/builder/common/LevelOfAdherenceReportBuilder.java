@@ -76,7 +76,8 @@ public class LevelOfAdherenceReportBuilder extends AbstractReportBuilder {
 	@Override
 	protected List<Mapped<DataSetDefinition>> buildDataSets(ReportDescriptor descriptor, ReportDefinition report) {
 		return Arrays.asList(
-				ReportUtils.map(createHIVAdherenceDataSet(), "startDate=${startDate},endDate=${endDate}")
+				ReportUtils.map(createHIVAdherenceDataSet(), "startDate=${startDate},endDate=${endDate}"),
+				ReportUtils.map(createLevelAdherenceDataSet(), "startDate=${startDate},endDate=${endDate}")
 		);
 	}
 
@@ -110,6 +111,34 @@ public class LevelOfAdherenceReportBuilder extends AbstractReportBuilder {
 		EmrReportingUtils.addRow(dsd, "K1-1", "< 5% of doses missed in a period of 30 days (>95%)", ReportUtils.map(hivIndicators.levelOfAdherence(0,5), indParams), allColumns);
 		EmrReportingUtils.addRow(dsd, "K1-2", "(5-20)% of doses missed in a period of 30 days (80-95%)", ReportUtils.map(hivIndicators.levelOfAdherence(5,20), indParams), allColumns);
 		EmrReportingUtils.addRow(dsd, "K1-3", ">20% of doses missed in a period of 30 days (<80%)", ReportUtils.map(hivIndicators.levelOfAdherence(20,100), indParams), allColumns);
+
+
+		return dsd;
+	}
+	
+	private DataSetDefinition createLevelAdherenceDataSet() {
+		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
+		dsd.setName("Q");
+		dsd.setDescription("No. of patients assessed for adherence during this month");
+		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+		dsd.addDimension("age", ReportUtils.map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
+		dsd.addDimension("gender", ReportUtils.map(commonDimensions.gender()));
+
+		ColumnParameters colFPeds = new ColumnParameters("FP", "0-14 years, female", "gender=F|age=<15");
+		ColumnParameters colMPeds = new ColumnParameters("MP", "0-14 years, male", "gender=M|age=<15");
+		ColumnParameters colFAdults = new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+");
+		ColumnParameters colMAdults = new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+");
+		ColumnParameters colFTotal = new ColumnParameters("F", "totals, female", "gender=F");
+		ColumnParameters colMTotal = new ColumnParameters("M", "totals, male", "gender=M");
+		ColumnParameters colTotal = new ColumnParameters("T", "grand total", "");
+
+		List<ColumnParameters> allColumns = Arrays.asList(colFPeds, colMPeds, colFAdults, colMAdults, colFTotal, colMTotal, colTotal);
+
+		String indParams = "startDate=${startDate},endDate=${endDate}";
+
+		
+		EmrReportingUtils.addRow(dsd, "Q1", "No. of patients assessed for adherence during this month", ReportUtils.map(hivIndicators.levelOfAdherence(0,100), indParams), allColumns);
 
 
 		return dsd;

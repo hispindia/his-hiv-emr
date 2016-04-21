@@ -68,7 +68,7 @@ public class PatientsNotInitiatedARTBuilder extends AbstractReportBuilder{
 	private DataSetDefinition createTbDataSet() {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 		dsd.setName("P");
-		dsd.setDescription("Eligible for ART");
+		dsd.setDescription("No. of medically eligible patients currently remaining on waiting list for ART at the end of this month");
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		dsd.addDimension("age", map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));

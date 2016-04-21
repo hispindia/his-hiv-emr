@@ -9,12 +9,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Concept;
 import org.openmrs.module.kenyacore.report.ReportDescriptor;
 import org.openmrs.module.kenyacore.report.ReportUtils;
+
 import static org.openmrs.module.kenyacore.report.ReportUtils.map;
+
 import org.openmrs.module.kenyacore.report.builder.AbstractReportBuilder;
 import org.openmrs.module.kenyacore.report.builder.Builds;
 import org.openmrs.module.kenyaemr.Dictionary;
@@ -80,16 +83,19 @@ public class TreatedforOpportunisticInfectionsBuilder extends AbstractReportBuil
 		dsd.addDimension("age", map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
 		dsd.addDimension("gender", map(commonDimensions.gender()));
 
-		List<ColumnParameters> columns = new ArrayList<ColumnParameters>();
-		columns.add(new ColumnParameters("FP", "0-14 years, female", "gender=F|age=<15"));
-		columns.add(new ColumnParameters("MP", "0-14 years, male", "gender=M|age=<15"));
-		columns.add(new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+"));
-		columns.add(new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+"));
-		columns.add(new ColumnParameters("T", "total", ""));
+		ColumnParameters childfemale =new ColumnParameters("FP", "0-14 years, female", "gender=F|age=<15");
+		ColumnParameters childmale =new ColumnParameters("MP", "0-14 years, male", "gender=M|age=<15");
+		ColumnParameters female=new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+");
+		ColumnParameters male=new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+");
+		ColumnParameters total=new ColumnParameters("T", "total", "");
 
 		String indParams = "startDate=${startDate},endDate=${endDate}";
+		List<ColumnParameters> allColumns = Arrays.asList(female,male,childfemale, childmale ,total);
+		List<String> indSuffixes = Arrays.asList("FM","MA","CF","CM","TT");  
+
+		
                 
-		EmrReportingUtils.addRow(dsd, "P1", "No. of detected cases (Treated for OI)", ReportUtils.map(hivIndicators.givenDrugsForOI(), indParams), columns);
+		EmrReportingUtils.addRow(dsd, "P1", "No. of detected cases (Treated for OI)", ReportUtils.map(hivIndicators.givenDrugsForOI(), indParams), allColumns,indSuffixes);
 		return dsd;
 	}
 }
