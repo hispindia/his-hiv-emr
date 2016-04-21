@@ -29,6 +29,8 @@ import org.openmrs.ui.framework.page.PageModel;
 import org.openmrs.util.OpenmrsUtil;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -44,11 +46,27 @@ public class RegimenEditorPageController {
 						   @SpringBean RegimenManager regimenManager) {
 
 		Patient patient = (Patient) model.getAttribute(EmrWebConstants.MODEL_ATTR_CURRENT_PATIENT);
-		List<Visit> visitList = Context.getVisitService().getActiveVisitsByPatient(patient);
-		Date visitDate = null;
-		if(visitList!=null){
-			for(Visit v : visitList ){
-				visitDate = v.getStartDatetime();
+
+		List<Visit> vList = Context.getVisitService().getActiveVisitsByPatient(patient);
+		Visit activeVisit = null;
+		for(Visit v : vList ){
+			activeVisit = Context.getVisitService().getVisit(v.getVisitId());
+		}
+		
+		Date curDate = new Date();
+		SimpleDateFormat mysqlDateTimeFormatter = new SimpleDateFormat(
+				"dd-MMM-yy HH:mm:ss");
+		Date date = new Date();
+		if(activeVisit!=null){
+			String modifiedDate= new SimpleDateFormat("dd-MMM-yyyy").format(activeVisit.getStartDatetime());
+			try {
+				date = mysqlDateTimeFormatter.parse(modifiedDate
+						+ " " + curDate.getHours() + ":" + curDate.getMinutes()
+						+ ":" + curDate.getSeconds());
+			} catch (ParseException e) {
+				date = curDate;
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 
@@ -65,6 +83,6 @@ public class RegimenEditorPageController {
 		Date now = new Date();
 		boolean futureChanges = OpenmrsUtil.compareWithNullAsEarliest(lastChangeDate, now) >= 0;
 
-		model.addAttribute("initialDate", futureChanges ? lastChangeDate : visitDate);
+		model.addAttribute("initialDate", futureChanges ? lastChangeDate : date);
 	}
 }
