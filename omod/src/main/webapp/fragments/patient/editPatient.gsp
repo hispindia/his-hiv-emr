@@ -382,7 +382,7 @@
 	
 	<div class="ke-panel-footer">
 		<% if (command.original) { %>
-			<button onClick="checkIn(0)" type="submit">
+			<button onClick="checkIn(1)" type="submit">
 				<img src="${ ui.resourceLink("kenyaui", "images/glyphs/ok.png") }" /> ${"Save Changes" }
 			</button>		
 		<% } else {%>

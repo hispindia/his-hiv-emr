@@ -932,7 +932,7 @@ public class EditPatientFragmentController {
 					.getEncounterService().getEncountersByPatient(ret);
 			Date curDate = new Date();
 			if (checkInType.equals("1")) {
-				Visit visit = new Visit();
+/*				Visit visit = new Visit();
 				visit.setPatient(ret);
 				visit.setStartDatetime(curDate);
 				visit.setVisitType(MetadataUtils.existing(VisitType.class,
@@ -953,18 +953,7 @@ public class EditPatientFragmentController {
 						visit.addAttribute(attr);
 					}
 				}
-
-				/*
-				 * Visit visit1 = new Visit(); visit1.setPatient(ret);
-				 * visit1.setStartDatetime(new Date());
-				 * visit1.setVisitType(MetadataUtils.existing(VisitType.class,
-				 * CommonMetadata._VisitType.OUTPATIENT));
-				 * visit1.setLocation(Context
-				 * .getService(KenyaEmrService.class).getDefaultLocation());
-				 * Visit visitSave1 =
-				 * Context.getVisitService().saveVisit(visit1);
-				 */
-
+				
 				Visit visitSave = Context.getVisitService().saveVisit(visit);
 
 				if (hivEnrollEncTypePrev.isEmpty()) {
@@ -998,7 +987,7 @@ public class EditPatientFragmentController {
 					patientProgram.setDateCreated(visitSave.getStartDatetime());
 					Context.getProgramWorkflowService().savePatientProgram(
 							patientProgram);
-				}
+				} */
 			}
 
 			else {

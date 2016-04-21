@@ -182,7 +182,7 @@ public class EnterLabResultFragmentController {
 			encounter.setEncounterType(encService.getEncounterType("Lab Results"));
 			encounter.setVisit(visit);
 			encounter.setPatient(visit.getPatient());
-			encounter.setEncounterDatetime(visit.getDateCreated());
+			encounter.setEncounterDatetime(visit.getStartDatetime());
 			if (confirm) {
 				encounter.setVoided(true);
 				encounter.setVoidReason("Result Confirmed");

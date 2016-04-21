@@ -895,13 +895,17 @@ public class RegimenUtilFragmentController {
 		encounter.setPatient(patient);
 		encounter.setCreator(user);
 		encounter.setProvider(user);
-		encounter.setEncounterDatetime(new Date());
+//		encounter.setEncounterDatetime(new Date());
 		encounter.setEncounterType(Context.getEncounterService().getEncounterTypeByUuid(_EncounterType.REGIMEN_ORDER));
 		encounter.setLocation(location);
 		if(visitSize==1){
 			for(Visit visit:visits){
 		encounter.setVisit(visit);
+		encounter.setEncounterDatetime(visit.getStartDatetime());
 			}
+		}
+		else{
+			encounter.setEncounterDatetime(new Date());
 		}
 		
 		encounter=Context.getEncounterService().saveEncounter(encounter);

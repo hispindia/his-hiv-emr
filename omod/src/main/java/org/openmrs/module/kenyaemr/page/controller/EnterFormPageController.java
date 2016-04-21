@@ -39,7 +39,7 @@ public class EnterFormPageController {
 
 		model.addAttribute("formUuid", formUuid);
 		model.addAttribute("returnUrl", returnUrl);
-		List<Visit> vList = Context.getVisitService().getVisitsByPatient(patient);
+		List<Visit> vList = Context.getVisitService().getActiveVisitsByPatient(patient);
 		Visit activeVisit = null;
 		for(Visit v : vList ){
 			activeVisit = Context.getVisitService().getVisit(v.getVisitId());
@@ -49,20 +49,20 @@ public class EnterFormPageController {
 		Date curDate = new Date();
 		SimpleDateFormat mysqlDateTimeFormatter = new SimpleDateFormat(
 				"dd-MMM-yy HH:mm:ss");
-		Date date = null;
-		String modifiedDate= new SimpleDateFormat("dd-MMM-yyyy").format(activeVisit.getStartDatetime());
-		try {
-			date = mysqlDateTimeFormatter.parse(modifiedDate
-					+ " " + curDate.getHours() + ":" + curDate.getMinutes()
-					+ ":" + curDate.getSeconds());
-		} catch (ParseException e) {
-			date = curDate;
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		Date date = new Date();
+		if(activeVisit!=null){
+			String modifiedDate= new SimpleDateFormat("dd-MMM-yyyy").format(activeVisit.getStartDatetime());
+			try {
+				date = mysqlDateTimeFormatter.parse(modifiedDate
+						+ " " + curDate.getHours() + ":" + curDate.getMinutes()
+						+ ":" + curDate.getSeconds());
+			} catch (ParseException e) {
+				date = curDate;
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		System.out.println(date);
-		System.out.println(curDate);
-		
+	
 		model.addAttribute("activeVisit", activeVisit);
 		model.addAttribute("activeVisitDate", date);
 		

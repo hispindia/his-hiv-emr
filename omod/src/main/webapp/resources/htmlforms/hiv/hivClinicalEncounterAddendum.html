@@ -27,7 +27,7 @@
 	</style>
 	<script type="text/javascript">
 		jq(document).ready(function(){
-			
+
 			if (getValue('artSideEffectPresent.value') == 1065) {
 				jq('#artSideEffectList :input').prop('disabled', false);
 			}
@@ -79,7 +79,7 @@
 			});
 
 			
-			jq("#w58,#w60,#w62,#w64,#w66,#w68,#w70,#w72,#w74,#w76").change(function() {
+			jq("#w38,#w40,#w42,#w44,#w46,#w48,#w50,#w52,#w54,#w56,#w58,#w60,#w62,#w64,#w66,#w68,#w70,#w72,#w74,#w76").change(function() {
 					if(document.getElementById(this.id).value==121629 || document.getElementById(this.id).value==137781 || document.getElementById(this.id).value==133069 || 
 							document.getElementById(this.id).value==119030){
 						alert("Please check AZT is included in the regimen.");
@@ -130,58 +130,7 @@
 
 
 			beforeSubmit.push(function() {
-		/*		if(getValue('daig_value.value') =="" &amp;&amp; getValue('daig_value1.value') =="" &amp;&amp; getValue('daig_value2.value')==""){
-							getField('daig_value2.error').html('Please enter diagnosis').show();
-							return false;		
-				}
-				
-				if(getValue('nextStep.value') == ""){
-					getField('nextStep.error').html('Required').show();
-					return false;
-				}
-				
-				if(getValue('missedDoseCount.value') == ""){
-					getField('missedDoseCount.error').html('Required').show();
-					return false;
-				}
-				
-				if (getValue('artSideEffectPresent.value') == '1065') {
-					if(getValue('artSideEffectValue.value')=="" &amp;&amp; getValue('artSideEffectValue1.value')==""  &amp;&amp; getValue('artSideEffectValue2.value')==""){
-						getField('artSideEffectValue2.error').html('Please select ART side effects').show();
-						return false;
-					}
-				}
-	
-				if(getValue('temporaryReffered.value') == '1065'){
-					if(getValue('temporaryRefferedReason.value')==""){
-						getField('temporaryRefferedReason.error').html('Please select reason for temporary referral').show();
-						return false;
-					}
-				}
-				
 
-				if(getValue('nextStep.value') == "160523"){
-					if(getValue('appointmentDate.value')=="" || getValue('appointmentDate.value')==null){
-						getField('appointmentDate.error').html('Required').show();
-						return false;
-					}
-				}
-				else{
-					if(getValue('admittedDate.value')=="" || getValue('admittedTo.value')=="" || getValue('admittedReason.value')==""){
-						getField('admittedReason.error').html('All details required').show();
-						return false;
-					}
-				}
-			*/
-				
-			/*	var returnDate = new Date(getValue('returnVisitDate.value')).getTime();
-				var encounterDate = new Date(getValue('encounter-date.value')).getTime();
-				var encouterDateValue = new Date(getValue('encounter-date.value'));
-				var fourMonthsFromEncounterDate = encouterDateValue.setDate(encouterDateValue.getDate() + 120);
-				if ((returnDate &lt; encounterDate) || (returnDate &gt; fourMonthsFromEncounterDate)) {
-					getField('returnVisitDate.error').html('Return Visit date should be after encounter date and NOT more than four months from Encounter Date').show();
-					return false;
-				}*/
 				return true;
 			});
 			
@@ -228,6 +177,11 @@
 			// show fields with data 
 			fieldIndex1 = 36; 
 			count=1;
+			if(document.getElementById("w"+fieldIndex1)==null){
+				hasPreviousData = 1;
+				fieldIndex1 = 80; 
+			}
+			
 			while(document.getElementById("w"+fieldIndex1).value!="" &amp;&amp; count &lt; 11){
 				jQuery('#'+count+'-toggleContainer1').show();   
 				fieldIndex1=fieldIndex1+2;
@@ -266,6 +220,10 @@
 			// show fields with data 
 			fieldIndex2 = 58; 
 			count2=1;
+			hasPreviousData =0;
+			if(hasPreviousData==1){
+				fieldIndex2 = 38;
+			}
 			while(document.getElementById("w"+fieldIndex2).value!="" &amp;&amp; count &lt; 11){
 				jQuery('#'+count2+'-toggleContainer2').show();   
 				fieldIndex2=fieldIndex2+2;
