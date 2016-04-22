@@ -176,14 +176,14 @@ public class NewHIVPatientEnrolledBuilder extends AbstractReportBuilder{
 		List<ColumnParameters> allColumns6 = Arrays.asList(Motfemale, Motmale, Mottotal);
 		List<ColumnParameters> allColumns7 = Arrays.asList(unknwnfemale, unknwnmale, unknwntotal);
 		String indParams = "startDate=${startDate},endDate=${endDate}";
-		
-		EmrReportingUtils.addRow(dsd, "S1", "Total No. of detected case   ", ReportUtils.map(hivIndicators.riskFactor1(), indParams), allColumns1,Arrays.asList("01", "02","11"));
-		EmrReportingUtils.addRow(dsd, "S2", "Total No. of detected case ", ReportUtils.map(hivIndicators.riskFactor2(), indParams), allColumns2,Arrays.asList("03", "04","22"));
-		EmrReportingUtils.addRow(dsd, "S3", "Total No. of detected case  ", ReportUtils.map(hivIndicators.riskFactor3(), indParams), allColumns3,Arrays.asList("05", "06","33"));
-		EmrReportingUtils.addRow(dsd, "S4", "Total No. of detected case  ", ReportUtils.map(hivIndicators.riskFactor4(), indParams), allColumns4,Arrays.asList("07", "08","44"));
-		EmrReportingUtils.addRow(dsd, "S5", "Total No. of detected case  ", ReportUtils.map(hivIndicators.riskFactor5(), indParams), allColumns5,Arrays.asList("09", "10","55"));
-		EmrReportingUtils.addRow(dsd, "S6", "Total No. of detected case ", ReportUtils.map(hivIndicators.riskFactor6(), indParams), allColumns6,Arrays.asList("11", "12","66"));
-		EmrReportingUtils.addRow(dsd, "S7", "Total No. of detected case ", ReportUtils.map(hivIndicators.riskFactor7(), indParams), allColumns7,Arrays.asList("13", "14","77"));
+		List<String> indSuffixes = Arrays.asList("FM","MA", "TT");  
+		EmrReportingUtils.addRow(dsd, "T1", "Total No. of detected case   ", ReportUtils.map(hivIndicators.riskFactor1(), indParams), allColumns1,indSuffixes);
+		EmrReportingUtils.addRow(dsd, "T2", "Total No. of detected case ", ReportUtils.map(hivIndicators.riskFactor2(), indParams), allColumns2,indSuffixes);
+		EmrReportingUtils.addRow(dsd, "T3", "Total No. of detected case  ", ReportUtils.map(hivIndicators.riskFactor3(), indParams), allColumns3,indSuffixes);
+		EmrReportingUtils.addRow(dsd, "T4", "Total No. of detected case  ", ReportUtils.map(hivIndicators.riskFactor4(), indParams), allColumns4,indSuffixes);
+		EmrReportingUtils.addRow(dsd, "T5", "Total No. of detected case  ", ReportUtils.map(hivIndicators.riskFactor5(), indParams), allColumns5,indSuffixes);
+		EmrReportingUtils.addRow(dsd, "T6", "Total No. of detected case ", ReportUtils.map(hivIndicators.riskFactor6(), indParams), allColumns6,indSuffixes);
+		EmrReportingUtils.addRow(dsd, "T7", "Total No. of detected case ", ReportUtils.map(hivIndicators.riskFactor7(), indParams), allColumns7,indSuffixes);
 		return dsd;
 	}
 
