@@ -268,7 +268,7 @@
 		</fieldset>
 		
 		<fieldset>
-			<legend>Patient Source</legend>
+			
 
 			<table>
 				<tr>
