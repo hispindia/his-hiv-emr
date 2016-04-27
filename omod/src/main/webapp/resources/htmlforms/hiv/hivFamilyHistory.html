@@ -32,6 +32,28 @@ jq(document).ready(function(){
 		}
 	});
 	
+		if (getValue('result.value') == "664") {
+				jQuery('#art :input').prop('disabled', true);
+		     jQuery('#artreg :input').prop('disabled', true);
+		}
+		else
+		{
+			jQuery('#art :input').prop('disabled', false);
+			jQuery('#artreg :input').prop('disabled', false);
+		}
+	jq("#result :input").change(function(){
+		if (getValue('result.value') == "664") {
+			jQuery('#art :input').prop('disabled', true);
+			jQuery('#artreg :input').prop('disabled', true);
+		}
+		else
+			{
+			jQuery('#art :input').prop('disabled', false);
+			jQuery('#artreg :input').prop('disabled', false);
+			}
+		
+	});
+	
 	
 	// show fields with data 
 	fieldIndex = 10; 
@@ -128,9 +150,9 @@ jq(document).ready(function(){
 											<td colspan="1" width="170px"><obs conceptId="baa27ac2-7bf7-4fda-9631-62af8c981f1e"  answerLabel="Relation" style="dropdown"/></td>
 											<td colspan="1" width="300px"><obs conceptId="160617AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Age"/><obs conceptId="1732AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  style="dropdown"  /> </td>
 											<td colspan="1" width="150px"><obs conceptId="1533AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
-											<td colspan="1" width="200px"><obs conceptId="1169AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
-											<td colspan="1" width="300px"><obs conceptId="72ef6301-fbbb-4c44-8e5f-ec27f33afa22" /></td>
-											<td colspan="1" width="300px"><obs conceptId="1420AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
+											<td colspan="1" width="200px"><obs id="result" conceptId="1169AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
+											<td colspan="1" width="300px"><obs id="art"   conceptId="72ef6301-fbbb-4c44-8e5f-ec27f33afa22" /></td>
+											<td colspan="1" width="300px"><obs id="artreg" conceptId="1420AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
 											<td colspan="1" width="100px"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td> 
 										</tr>
 									</table>	
