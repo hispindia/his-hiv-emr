@@ -5,14 +5,14 @@
 
 
 if(calculations.tbPatientStatus){
-		dataPoints << [ label: "TB Status", value: calculations.tbPatientStatus ]
+		dataPoints << [ label: "TB Status", value: calculations.tbPatientStatus ,extra:calculations.tbPatientStatus.obsDatetime ]
 }
 else{
 	dataPoints << [ label: "TB Status", value:  "None" ];
 }
 
 if(calculations.tbDiseaseSite){
-		dataPoints << [ label: "Site", value: calculations.tbDiseaseSite ]
+		dataPoints << [ label: "Site", value: calculations.tbDiseaseSite, extra:calculations.tbDiseaseSite.obsDatetime ]
 }
 else{
 	dataPoints << [ label: "Site", value:  "None" ];
@@ -22,31 +22,38 @@ if(calculations.tbTreatmentDrugStartDate){
 		dataPoints << [ label: "TB treatment start date", value: calculations.tbTreatmentDrugStartDate ]
 }
 if(calculations.tbTreatmentDrugRegimen){		
-		dataPoints << [ label: "TB regimen", value: calculations.tbTreatmentDrugRegimen ]
+		dataPoints << [ label: "TB regimen", value: calculations.tbTreatmentDrugRegimen ,extra:calculations.tbTreatmentDrugRegimen.obsDatetime]
 }
 else{
 	dataPoints << [ label: "TB regimen", value: "None" ]
 }
 
 if(calculations.tbTreatmentDrugSensitivity){
-		dataPoints << [ label: "Drug sensitivity", value: calculations.tbTreatmentDrugSensitivity ]
+		dataPoints << [ label: "Drug sensitivity", value: calculations.tbTreatmentDrugSensitivity ,extra:calculations.tbTreatmentDrugSensitivity.obsDatetime ]
 }
 else{
 	dataPoints << [ label: "Drug sensitivity", value: "None" ]
 }
 
-
 if(calculations.tbTreatmentOutcome){
-		dataPoints << [ label: "TB treatment outcome", value: calculations.tbTreatmentOutcome ]
+
+        dataPoints << [ label: "TB treatment outcome", value: calculations.tbTreatmentOutcome]
+
+		
+
 }
 else{
-	dataPoints << [ label: "TB treatment outcome", value:  "None" ];
+    dataPoints << [ label: "TB treatment outcome", value:  "None" ];
 }
+
 if(calculations.tbTreatmentOutcomeDate){
-		
-		dataPoints << [ label: "TB treatment outcome date", value: calculations.tbTreatmentOutcomeDate ]
-		
+        
+        dataPoints << [ label: "TB treatment outcome date", value: calculations.tbTreatmentOutcomeDate ]
+        
 }
+
+
+
 
 
 if (ipt) {

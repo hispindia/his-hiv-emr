@@ -132,18 +132,34 @@ public class PatientSummaryFragmentController {
 		 * Drug History
 		 */
 		String drugAllergiesVal = "";
-
+		String drugOtherVal = "";
+		
 		Obs drugAllergies = getLatestObs(patient,
 				Dictionary.ALLERGY_DRUG);
+		Obs drugOther=getLatestObs(patient,
+				Dictionary.OTHER_DRUG);
 		if (drugAllergies != null) {
 			EncounterWrapper wrapped = new EncounterWrapper(
 					drugAllergies.getEncounter());
 			List<Obs> obsList = wrapped.allObs(drugAllergies.getConcept());
 			for (Obs obs : obsList) {
 				drugAllergiesVal = drugAllergiesVal.concat(obs.getValueCoded().getName().toString());
+				
+				
+			}
+		}
+		if (drugOther!= null) {
+			EncounterWrapper wrap = new EncounterWrapper(
+					drugOther.getEncounter());
+			List<Obs> obsList = wrap.allObs(drugOther.getConcept());
+			for (Obs obs : obsList) {
+				drugOtherVal = drugOtherVal.concat(obs.getValueText());
+				
+				
 			}
 		}
 		model.addAttribute("drugAllergiesVal", drugAllergiesVal);
+		model.addAttribute("drugOtherVal", drugOtherVal);
 	}
 
 	/**

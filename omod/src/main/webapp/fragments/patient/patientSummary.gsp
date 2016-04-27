@@ -48,7 +48,10 @@
 			<br/>Pregnancy : <strong>${pregStatusVal}</strong>
 		<% } %>
 		<% if (drugAllergiesVal) { %>
-			<br/>Drug Allergy & name : <strong>${drugAllergiesVal}</strong>
+			<br/>Drug Allergy & name : <strong>${drugAllergiesVal} </strong>
+		<% } %>
+		<% if (drugOtherVal) { %>
+			<br/>If other,please specify : <strong>${drugOtherVal} </strong>
 		<% } %>
 		<% if (comorbidity!="") { %>
 			<br/>Co-morbidity : <strong>${comorbidity}</strong>

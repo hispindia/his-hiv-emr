@@ -33,7 +33,10 @@ import org.openmrs.module.kenyaemr.Dictionary;
 import org.openmrs.module.kenyaemr.calculation.EmrCalculationUtils;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.LastCd4CountCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.LastCd4PercentageCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.LastCptCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.LastDiagnosisCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.LastOICalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.LastViralLoadCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.LastWhoStageCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.art.InitialArtRegimenCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.art.InitialArtStartDateCalculation;
@@ -87,9 +90,9 @@ public class HivCarePanelFragmentController {
 
 		model.addAttribute("patient", patient);
 
-//		calculationResults.put("lastCD4Count", EmrCalculationUtils.evaluateForPatient(LastCd4CountCalculation.class, null, patient));
+	    calculationResults.put("lastCD4Count", EmrCalculationUtils.evaluateForPatient(LastCd4CountCalculation.class, null, patient));
 		calculationResults.put("lastCD4Percent", EmrCalculationUtils.evaluateForPatient(LastCd4PercentageCalculation.class, null, patient));
-
+		calculationResults.put("viralDateResult", EmrCalculationUtils.evaluateForPatient(LastViralLoadCalculation.class, null, patient));
 		Obs cdList = getLatestObs(patient, Dictionary.CD4_COUNT);
 		String cd4Count = "";
 		if (cdList != null) {
@@ -105,11 +108,15 @@ public class HivCarePanelFragmentController {
 		model.addAttribute("cd4PerCount", cd4PerCount);
 		
 		Obs viralLoad = getLatestObs(patient, Dictionary.HIV_VIRAL_LOAD);
-		String viralLoadResult = "";
+		String viralLoadResult = ""; 
 		if (viralLoad != null) {
 			viralLoadResult=viralLoad.getValueText().toString();
+			
+			 
 		}
 		model.addAttribute("viralLoadResult", viralLoadResult);
+		
+		
 		
 		String listAllDiag = "";
 		
@@ -182,9 +189,9 @@ public class HivCarePanelFragmentController {
 		}
 		}
 		model.addAttribute("cpt", cptStatus);
-		
-//		calculationResults.put("lastDiagnosis", EmrCalculationUtils.evaluateForPatient(LastDiagnosisCalculation.class, null, patient));
-		calculationResults.put("onCpt", EmrCalculationUtils.evaluateForPatient(OnCPTCalculation.class, null, patient));
+		 calculationResults.put("lastOI", EmrCalculationUtils.evaluateForPatient(LastOICalculation.class, null, patient));
+	    calculationResults.put("lastDiagnosis", EmrCalculationUtils.evaluateForPatient(LastDiagnosisCalculation.class, null, patient));
+		calculationResults.put("onCpt", EmrCalculationUtils.evaluateForPatient(LastCptCalculation.class, null, patient));
 		
 		model.addAttribute("calculations", calculationResults);
 

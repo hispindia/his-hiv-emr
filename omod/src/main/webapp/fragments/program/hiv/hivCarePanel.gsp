@@ -29,7 +29,7 @@
 	
 	if(patient.age.value > 13){
 		if (cd4Count) {
-			dataPoints << [ label: "Last CD4 count", value: ui.format(cd4Count) + " cells/&micro;L"]
+			dataPoints << [ label: "Last CD4 count", value: ui.format(cd4Count) + " cells/&micro;L",extra: calculations.lastCD4Count.value.obsDatetime]
 		} else {
 			dataPoints << [ label: "Last CD4 count", value: "None" ]
 		}
@@ -44,7 +44,7 @@
 	}
 
 	if (viralLoadResult) {
-		dataPoints << [ label: "Last Viral Load", value: viralLoadResult + " copies/ml"]
+		dataPoints << [ label: "Last Viral Load", value: viralLoadResult + " copies/ml" ,extra:calculations.viralDateResult.value.obsDatetime]
 	}
 	else{
 		dataPoints << [ label: "Last Viral Load", value: "None" ]
@@ -53,21 +53,21 @@
 	
 	
 	if (listAllDiag) {
-		dataPoints << [ label: "Last Diagnosis", value: listAllDiag ]
+		dataPoints << [ label: "Last Diagnosis", value: listAllDiag  ,extra:calculations.lastDiagnosis.value.obsDatetime]
 	}
 	else{
 		dataPoints << [ label: "Last Diagnosis", value: "None" ]
 	}
 
 	if (listAllOI) {
-			dataPoints << [ label: "Last OI", value: listAllOI ]
+			dataPoints << [ label: "Last OI", value: listAllOI ,extra:calculations.lastOI.value.obsDatetime]
 		}
 		else{
 			dataPoints << [ label: "Last OI", value: "None" ]
 		}
 
 	if (cpt) {
-		dataPoints << [ label: "Currently on CTX", value: cpt ]
+		dataPoints << [ label: "Currently on CTX", value: cpt ,extra:calculations.onCpt.value.obsDatetime]
 	}
 	else{
 		dataPoints << [ label: "Currently on CTX", value: "None" ]
