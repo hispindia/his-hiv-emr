@@ -27,7 +27,18 @@
 	</style>
 	<script type="text/javascript">
 		jq(document).ready(function(){
-
+		
+	
+			beforeSubmit.push(function() {
+				 var appointDate = new Date(getValue('appointmentDate.value'));
+				 var encount=new Date(getValue('encounter-date.value'));
+				if (appointDate&lt;encount)
+				{
+					getField('appointmentDate.error').html('Appointment date can not before encounter date ').show();
+					return false;
+				}
+					
+				});
 			if (getValue('artSideEffectPresent.value') == 1065) {
 				jq('#artSideEffectList :input').prop('disabled', false);
 			}
@@ -80,11 +91,20 @@
 
 			
 			jq("#w38,#w40,#w42,#w44,#w46,#w48,#w50,#w52,#w54,#w56,#w58,#w60,#w62,#w64,#w66,#w68,#w70,#w72,#w74,#w76").change(function() {
-					if(document.getElementById(this.id).value==121629 || document.getElementById(this.id).value==137781 || document.getElementById(this.id).value==133069 || 
+					if(document.getElementById(this.id).value==121629 || document.getElementById(this.id).value==133069 || 
 							document.getElementById(this.id).value==119030){
 						alert("Please check AZT is included in the regimen.");
 					}
+					if(document.getElementById(this.id).value==137781)
+					{
+						alert("Please check ABC, EFV, NVP is included in the regimen.");
 					
+					}
+					if(document.getElementById(this.id).value==136162)
+					{
+						alert("Please check AZT, d4T, TDF is included in the regimen.");
+					
+					}
 					if(document.getElementById(this.id).value==113054 || document.getElementById(this.id).value==162937 || document.getElementById(this.id).value==163027){
 						alert("Please check EFV is included in the regimen.");
 					}
