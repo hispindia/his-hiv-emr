@@ -279,6 +279,6 @@
     <ref key="AZT_3TC_RAL" uuid="0d23eb7b-63dc-4f7c-81af-9f240f1fc71b" /> 
     <ref key="ABC_3TC_RAL" uuid="7c2b49a6-d085-475d-92b4-d207d5b126e6" /> 
     <ref key="TDF_3TC_RAL" uuid="c6399f1e-b64a-4516-9dca-2cef2c534522" /> 
-     
+    <ref key="OTHER_DRUG" uuid="4d988cca-a935-4e41-9722-1cb280dd4a63" />  
 </refs>
 
