@@ -272,7 +272,7 @@ public class ArtRegisterFragmentController {
 					}
 					
 					if(regName!=""){
-						regimenList.put(regimenIndex,new SimpleDateFormat("dd-MMMM-yyyy").format(en.getDateCreated()) + ", " + changeStopReason+ ","+ new SimpleDateFormat("dd-MMMM-yyyy").format(en.getDateCreated()) + ","+regName  );
+						regimenList.put(regimenIndex,new SimpleDateFormat("dd-MMMM-yyyy").format(en.getEncounterDatetime()) + ", " + changeStopReason+ ","+ new SimpleDateFormat("dd-MMMM-yyyy").format(en.getDateCreated()) + ","+regName  );
 						regimenIndex++;
 					}
 				}
