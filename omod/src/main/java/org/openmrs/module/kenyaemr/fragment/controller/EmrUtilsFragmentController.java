@@ -15,6 +15,9 @@
 package org.openmrs.module.kenyaemr.fragment.controller;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,6 +28,7 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,6 +39,7 @@ import org.dom4j.io.SAXReader;
 import org.jaxen.JaxenException;
 import org.jaxen.XPath;
 import org.jaxen.dom4j.Dom4jXPath;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
@@ -53,6 +58,7 @@ import org.openmrs.module.kenyaemr.regimen.RegimenChangeHistory;
 import org.openmrs.module.kenyaemr.regimen.RegimenDefinition;
 import org.openmrs.module.kenyaemr.regimen.RegimenDefinitionGroup;
 import org.openmrs.module.kenyaemr.regimen.RegimenManager;
+import org.openmrs.module.kenyaemr.regimen.RegimenPropertyConfiguration;
 import org.openmrs.module.kenyaemr.util.EmrUiUtils;
 import org.openmrs.module.kenyaui.KenyaUiUtils;
 import org.openmrs.module.kenyaui.annotation.AppAction;
@@ -201,8 +207,9 @@ public class EmrUtilsFragmentController {
 			@RequestParam(value= "drugKey", required = false) String drugKey,
 			UiUtils ui, 
 			@SpringBean RegimenManager regimenManager,
-			@SpringBean EmrUiUtils kenyaUi){
+			@SpringBean EmrUiUtils kenyaUi) throws FileNotFoundException, IOException{
 		JSONObject conceptNameJson = new JSONObject();
+		JSONArray conceptNameJsonArray = new JSONArray();
 		
 		Collection<ConceptAnswer> conceptAnswers=new LinkedHashSet<ConceptAnswer>();
 		List<String> drugName=new LinkedList<String>();
@@ -224,11 +231,30 @@ public class EmrUtilsFragmentController {
 		}
 		
 		for(ConceptAnswer conceptAnswer:conceptAnswers){
+			JSONObject conceptNameJson2 = new JSONObject();
 			String drugNam=conceptAnswer.getAnswerConcept().getName().getName();
-			drugName.add(drugNam);
+			conceptNameJson2.put("drugName", drugNam);
+			
+			Properties props = new Properties();
+			InputStream stream=null;
+			for (RegimenPropertyConfiguration configuration : Context.getRegisteredComponents(RegimenPropertyConfiguration.class)) {
+					ClassLoader loader = configuration.getClassLoader();
+					stream = loader.getResourceAsStream(configuration.getDefinitionsPath());
+			}
+			props.loadFromXML(stream);
+		    String strength = props.getProperty(drugNam+".strength");
+		    String noOfTablet = props.getProperty(drugNam+".noOfTablet");
+		    String type = props.getProperty(drugNam+".type");
+		    String frequency = props.getProperty(drugNam+".frequency");
+			
+			conceptNameJson2.put("strength", strength);
+			conceptNameJson2.put("noOfTablet", noOfTablet);
+			conceptNameJson2.put("type", type);
+			conceptNameJson2.put("frequency", frequency);
+			conceptNameJsonArray.add(conceptNameJson2);
 		}
 		
-		conceptNameJson.put("drugConceptName", drugName);
+		conceptNameJson.put("drugConceptName", conceptNameJsonArray);
 		
 		return conceptNameJson;
 	}

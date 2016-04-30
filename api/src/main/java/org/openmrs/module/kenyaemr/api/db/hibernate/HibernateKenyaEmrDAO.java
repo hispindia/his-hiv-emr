@@ -23,6 +23,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.Cohort;
 import org.openmrs.Concept;
+import org.openmrs.ConceptAnswer;
 import org.openmrs.DrugOrder;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
@@ -375,6 +376,12 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		criteria.addOrder(Order.desc("discontinuedDate"));
 		criteria.setMaxResults(1);
 		return (DrugOrderProcessed) criteria.uniqueResult();
+	}
+	
+	public List<ConceptAnswer> getConceptAnswerByAnsweConcept(Concept answerConcept) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(ConceptAnswer.class,"conceptAnswer");
+		criteria.add(Restrictions.eq("answerConcept", answerConcept));
+		return criteria.list();
 	}
 
 }

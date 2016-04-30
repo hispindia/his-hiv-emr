@@ -16,6 +16,8 @@
 		<property name="createdDate" column="created_date"  />
 		<property name="processedDate" column="processed_date"  />
 		<property name="processedStatus" column="processed_status" />
+		<property name="dose" column="dose" />
+		<property name="noOfTablet" column="no_of_tablet" />
 		<property name="durationPreProcess" column="duration_preprocess" />
 		<property name="changeType" column="changetype" />
 		<property name="discontinuedDate" column="discontinued_date" />

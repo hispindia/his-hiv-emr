@@ -90,7 +90,7 @@
 			<div id="regimen-action-buttons" style="text-align: center">
 			<% if (allowNew) { %>
 			${ ui.includeFragment("kenyaui", "widget/button", [ iconProvider: "kenyaui", icon: "buttons/regimen_start.png", label: "Start", extra: "a new regimen", onClick: "choseAction('start-new-regimen')" ]) }
-		<!--	${ ui.includeFragment("kenyaui", "widget/button", [ iconProvider: "kenyaui", icon: "buttons/regimen_start.png", label: "Start Fresh", extra: "a new regimen", onClick: "choseAction('start-new-regimengui')" ]) }-->
+		    ${ ui.includeFragment("kenyaui", "widget/button", [ iconProvider: "kenyaui", icon: "buttons/regimen_start.png", label: "Start Fresh", extra: "a new regimen", onClick: "choseAction('start-new-regimengui')" ]) }
 			<% } %>
 
 			<% if (allowChange) { %>

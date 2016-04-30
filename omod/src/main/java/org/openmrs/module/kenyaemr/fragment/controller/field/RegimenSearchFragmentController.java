@@ -69,6 +69,7 @@ public class RegimenSearchFragmentController {
 		model.addAttribute("regimenDefinitions", kenyaUi.simpleRegimenDefinitions(regimenDefinitions, ui));
 		model.addAttribute("patient", patient);
 		model.addAttribute("drugInfoMap", drugInfoMap);
+		model.addAttribute("count", 1);
 	}
 
 	/**

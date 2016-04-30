@@ -142,7 +142,7 @@ var arvtreatment=${maxComponents+1};
 var drugRegimen="";
 
 function addDrugOrderForARVTreatment() {
-   var arvtretment = "arvtreatment"+arvtreatment;;
+   var arvtretment = "arvtreatment"+arvtreatment;
    var deleteString = 'deleteInputARVTreatment(\"'+arvtretment+'\")';
    var htmlText =  "<input id='slNo"+arvtreatment+"'  name='slNo"+arvtreatment+"' type='text' size='5' value="+arvtreatment+" readonly='readonly'/>&nbsp;"
 	       	

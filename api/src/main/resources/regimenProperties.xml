@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+<entry key="TDF/3TC/EFV.strength">300/300/600 mg</entry>
+<entry key="TDF/3TC/EFV.noOfTablet">1</entry>
+<entry key="TDF/3TC/EFV.type">tab</entry>
+<entry key="TDF/3TC/EFV.frequency">od</entry>
+
+<entry key="TDF/FTC/EFV.strength">300/200/600 mg</entry>
+<entry key="TDF/FTC/EFV.noOfTablet">1</entry>
+<entry key="TDF/FTC/EFV.type">tab</entry>
+<entry key="TDF/FTC/EFV.frequency">od</entry>
+
+<entry key="AZT/3TC/NVP.strength">300/150/200 mg</entry>
+<entry key="AZT/3TC/NVP.noOfTablet">1</entry>
+<entry key="AZT/3TC/NVP.type">tab</entry>
+<entry key="AZT/3TC/NVP.frequency">bd</entry>
+
+<entry key="D4T/3TC/NVP.strength">30/150/200 mg</entry>
+<entry key="D4T/3TC/NVP.noOfTablet">1</entry>
+<entry key="D4T/3TC/NVP.type">tab</entry>
+<entry key="D4T/3TC/NVP.frequency">bd</entry>
+
+<entry key="AZT/3TC/ABC.strength">300/150/300 mg</entry>
+<entry key="AZT/3TC/ABC.noOfTablet">1</entry>
+<entry key="AZT/3TC/ABC.type">tab</entry>
+<entry key="AZT/3TC/ABC.frequency">bd</entry>
+
+<entry key="AZT/3TC.strength">300/150 mg</entry>
+<entry key="AZT/3TC.noOfTablet">1</entry>
+<entry key="AZT/3TC.type">tab</entry>
+<entry key="AZT/3TC.frequency">bd</entry>
+
+<entry key="TDF/3TC.strength">300/300 mg</entry>
+<entry key="TDF/3TC.noOfTablet">1</entry>
+<entry key="TDF/3TC.type">tab</entry>
+<entry key="TDF/3TC.frequency">od</entry>
+
+<entry key="TDF/FTC.strength">300/200 mg</entry>
+<entry key="TDF/FTC.noOfTablet">1</entry>
+<entry key="TDF/FTC.type">tab</entry>
+<entry key="TDF/FTC.frequency">od</entry>
+
+<entry key="ABC/3TC.strength">600/300 mg</entry>
+<entry key="ABC/3TC.noOfTablet">1</entry>
+<entry key="ABC/3TC.type">tab</entry>
+<entry key="ABC/3TC.frequency">od</entry>
+
+<entry key="d4T/3TC.strength">30/150 mg</entry>
+<entry key="d4T/3TC.noOfTablet">1</entry>
+<entry key="d4T/3TC.type">tab</entry>
+<entry key="d4T/3TC.frequency">bd</entry>
+
+<entry key="AZT.strength">300 mg</entry>
+<entry key="AZT.noOfTablet">1</entry>
+<entry key="AZT.type">tab</entry>
+<entry key="AZT.frequency">bd</entry>
+
+<entry key="EFV.strength">600 mg (or) 400 mg</entry>
+<entry key="EFV.noOfTablet">1</entry>
+<entry key="EFV.type">tab</entry>
+<entry key="EFV.frequency">od</entry>
+
+<entry key="NVP.strength">200 mg</entry>
+<entry key="NVP.noOfTablet">1</entry>
+<entry key="NVP.type">tab</entry>
+<entry key="NVP.frequency">bd</entry>
+
+<entry key="LPV/r.strength">200/50 mg</entry>
+<entry key="LPV/r.noOfTablet">2</entry>
+<entry key="LPV/r.type">tab</entry>
+<entry key="LPV/r.frequency">bd</entry>
+
+<entry key="TDF.strength">150 mg (or) 200 mg (or) 300 mg</entry>
+<entry key="TDF.noOfTablet">1</entry>
+<entry key="TDF.type">tab</entry>
+<entry key="TDF.frequency">od</entry>
+
+<entry key="ABC.strength">300 mg</entry>
+<entry key="ABC.noOfTablet">1</entry>
+<entry key="ABC.type">tab</entry>
+<entry key="ABC.frequency">bd</entry>
+
+<entry key="3TC.strength">150 mg</entry>
+<entry key="3TC.noOfTablet">1</entry>
+<entry key="3TC.type">tab</entry>
+<entry key="3TC.frequency">bd</entry>
+
+<entry key="DTG.strength">50 mg</entry>
+<entry key="DTG.noOfTablet"></entry>
+<entry key="DTG.type">tab</entry>
+<entry key="DTG.frequency"></entry>
+
+<entry key="RAL.strength">400 mg</entry>
+<entry key="RAL.noOfTablet"></entry>
+<entry key="RAL.type">tab</entry>
+<entry key="RAL.frequency"></entry>
+
+<entry key="ATV/r.strength">300/100 mg</entry>
+<entry key="ATV/r.noOfTablet"></entry>
+<entry key="ATV/r.type">tab</entry>
+<entry key="ATV/r.frequency"></entry>
+
+<entry key="DRV/r.strength">800 mg</entry>
+<entry key="DRV/r.noOfTablet"></entry>
+<entry key="DRV/r.type">tab</entry>
+<entry key="DRV/r.frequency"></entry>
+
+<entry key="r.strength">100 mg</entry>
+<entry key="r.noOfTablet"></entry>
+<entry key="r.type"></entry>
+<entry key="r.frequency"></entry>
+
+<entry key="AZT/3TC.strength">60/30 mg</entry>
+<entry key="AZT/3TC.noOfTablet"></entry>
+<entry key="AZT/3TC.type">tab</entry>
+<entry key="AZT/3TC.frequency"></entry>
+
+<entry key="ABC/3TC.strength">60/30 mg</entry>
+<entry key="ABC/3TC.noOfTablet"></entry>
+<entry key="ABC/3TC.type">tab</entry>
+<entry key="ABC/3TC.frequency"></entry>
+
+<entry key="d4T/3TC.strength">6/30 mg</entry>
+<entry key="d4T/3TC.noOfTablet"></entry>
+<entry key="d4T/3TC.type">tab</entry>
+<entry key="d4T/3TC.frequency"></entry>
+
+<entry key="NVP.strength">50 mg (or) 50 mg/ml</entry>
+<entry key="NVP.noOfTablet"></entry>
+<entry key="NVP.type"></entry>
+<entry key="NVP.frequency"></entry>
+
+<entry key="EFV.strength">200 mg (or) 600 mg</entry>
+<entry key="EFV.noOfTablet"></entry>
+<entry key="EFV.type">tab</entry>
+<entry key="EFV.frequency"></entry>
+
+<entry key="ABC.strength">60 mg (or) 20 mg/ml</entry>
+<entry key="ABC.noOfTablet"></entry>
+<entry key="ABC.type"></entry>
+<entry key="ABC.frequency"></entry>
+
+<entry key="LPV/r.strength">100/25 mg (or) 80/20 mg/ml</entry>
+<entry key="LPV/r.noOfTablet"></entry>
+<entry key="LPV/r.type"></entry>
+<entry key="LPV/r.frequency"></entry>
+
+<entry key="3TC.strength">30 mg (or) 10 mg/ml</entry>
+<entry key="3TC.noOfTablet"></entry>
+<entry key="3TC.type"></entry>
+<entry key="3TC.frequency"></entry>
+
+<entry key="AZT.strength">60 mg (or) 50 mg/ml</entry>
+<entry key="AZT.noOfTablet"></entry>
+<entry key="AZT.type"></entry>
+<entry key="AZT.frequency"></entry>
+
+<entry key="AZT/3TC/EFV.strength"></entry>
+<entry key="AZT/3TC/EFV.noOfTablet"></entry>
+<entry key="AZT/3TC/EFV.type"></entry>
+<entry key="AZT/3TC/EFV.frequency"></entry>
+
+<entry key="ABC/3TC/EFV.strength"></entry>
+<entry key="ABC/3TC/EFV.noOfTablet"></entry>
+<entry key="ABC/3TC/EFV.type"></entry>
+<entry key="ABC/3TC/EFV.frequency"></entry>
+
+<entry key="TDF/FTC/TDG.strength"></entry>
+<entry key="TDF/FTC/TDG.noOfTablet"></entry>
+<entry key="TDF/FTC/TDG.type"></entry>
+<entry key="TDF/FTC/TDG.frequency"></entry>
+
+<entry key="TDF/3TC/DTG.strength"></entry>
+<entry key="TDF/3TC/DTG.noOfTablet"></entry>
+<entry key="TDF/3TC/DTG.type"></entry>
+<entry key="TDF/3TC/DTG.frequency"></entry>
+
+<entry key="ABC/FTC/EFV.strength"></entry>
+<entry key="ABC/FTC/EFV.noOfTablet"></entry>
+<entry key="ABC/FTC/EFV.type"></entry>
+<entry key="ABC/FTC/EFV.frequency"></entry>
+
+<entry key="ABC/3TC/DTG.strength"></entry>
+<entry key="ABC/3TC/DTG.noOfTablet"></entry>
+<entry key="ABC/3TC/DTG.type"></entry>
+<entry key="ABC/3TC/DTG.frequency"></entry>
+
+<entry key="ABC/3TC/NVP.strength"></entry>
+<entry key="ABC/3TC/NVP.noOfTablet"></entry>
+<entry key="ABC/3TC/NVP.type"></entry>
+<entry key="ABC/3TC/NVP.frequency"></entry>
+
+<entry key="ABC/FTC/NVP.strength"></entry>
+<entry key="ABC/FTC/NVP.noOfTablet"></entry>
+<entry key="ABC/FTC/NVP.type"></entry>
+<entry key="ABC/FTC/NVP.frequency"></entry>
+
+<entry key="TDF/3TC/NVP.strength"></entry>
+<entry key="TDF/3TC/NVP.noOfTablet"></entry>
+<entry key="TDF/3TC/NVP.type"></entry>
+<entry key="TDF/3TC/NVP.frequency"></entry>
+
+<entry key="TDF/FTC/NVP.strength"></entry>
+<entry key="TDF/FTC/NVP.noOfTablet"></entry>
+<entry key="TDF/FTC/NVP.type"></entry>
+<entry key="TDF/FTC/NVP.frequency"></entry>
+
+<entry key="ABC/FTC/DTG.strength"></entry>
+<entry key="ABC/FTC/DTG.noOfTablet"></entry>
+<entry key="ABC/FTC/DTG.type"></entry>
+<entry key="ABC/FTC/DTG.frequency"></entry>
+
+<entry key="D4T/3TC/EFV.strength"></entry>
+<entry key="D4T/3TC/EFV.noOfTablet"></entry>
+<entry key="D4T/3TC/EFV.type"></entry>
+<entry key="D4T/3TC/EFV.frequency"></entry>
+
+<entry key="AZT/3TC/LPV/r.strength"></entry>
+<entry key="AZT/3TC/LPV/r.noOfTablet"></entry>
+<entry key="AZT/3TC/LPV/r.type"></entry>
+<entry key="AZT/3TC/LPV/r.frequency"></entry>
+
+<entry key="TDF/FTC/LPV/r.strength"></entry>
+<entry key="TDF/FTC/LPV/r.noOfTablet"></entry>
+<entry key="TDF/FTC/LPV/r.type"></entry>
+<entry key="TDF/FTC/LPV/r.frequency"></entry>
+
+<entry key="TDF/3TC/LPV/r.strength"></entry>
+<entry key="TDF/3TC/LPV/r.noOfTablet"></entry>
+<entry key="TDF/3TC/LPV/r.type"></entry>
+<entry key="TDF/3TC/LPV/r.frequency"></entry>
+
+<entry key="TDF/ABC/LPV/r.strength"></entry>
+<entry key="TDF/ABC/LPV/r.noOfTablet"></entry>
+<entry key="TDF/ABC/LPV/r.type"></entry>
+<entry key="TDF/ABC/LPV/r.frequency"></entry>
+
+<entry key="ABC/3TC/LPV/r.strength"></entry>
+<entry key="ABC/3TC/LPV/r.noOfTablet"></entry>
+<entry key="ABC/3TC/LPV/r.type"></entry>
+<entry key="ABC/3TC/LPV/r.frequency"></entry>
+
+<entry key="ABC/3TC/ATV/r.strength"></entry>
+<entry key="ABC/3TC/ATV/r.noOfTablet"></entry>
+<entry key="ABC/3TC/ATV/r.type"></entry>
+<entry key="ABC/3TC/ATV/r.frequency"></entry>
+
+<entry key="AZT/3TC/ATV/r.strength"></entry>
+<entry key="AZT/3TC/ATV/r.noOfTablet"></entry>
+<entry key="AZT/3TC/ATV/r.type"></entry>
+<entry key="AZT/3TC/ATV/r.frequency"></entry>
+
+<entry key="TDF/3TC/ATV/r.strength"></entry>
+<entry key="TDF/3TC/ATV/r.noOfTablet"></entry>
+<entry key="TDF/3TC/ATV/r.type"></entry>
+<entry key="TDF/3TC/ATV/r.frequency"></entry>
+
+<entry key="AZT/3TC/LPV/r.strength"></entry>
+<entry key="AZT/3TC/LPV/r.noOfTablet"></entry>
+<entry key="AZT/3TC/LPV/r.type"></entry>
+<entry key="AZT/3TC/LPV/r.frequency"></entry>
+
+<entry key="AZT/3TC/EFV.strength"></entry>
+<entry key="AZT/3TC/EFV.noOfTablet"></entry>
+<entry key="AZT/3TC/EFV.type"></entry>
+<entry key="AZT/3TC/EFV.frequency"></entry>
+
+<entry key="ABC/3TC/NVP.strength"></entry>
+<entry key="ABC/3TC/NVP.noOfTablet"></entry>
+<entry key="ABC/3TC/NVP.type"></entry>
+<entry key="ABC/3TC/NVP.frequency"></entry>
+
+<entry key="ABC/3TC/EFV.strength"></entry>
+<entry key="ABC/3TC/EFV.noOfTablet"></entry>
+<entry key="ABC/3TC/EFV.type"></entry>
+<entry key="ABC/3TC/EFV.frequency"></entry>
+
+<entry key="ABC/3TC/LPV/r.strength"></entry>
+<entry key="ABC/3TC/LPV/r.noOfTablet"></entry>
+<entry key="ABC/3TC/LPV/r.type"></entry>
+<entry key="ABC/3TC/LPV/r.frequency"></entry>
+
+<entry key="AZT/3TC/RAL.strength"></entry>
+<entry key="AZT/3TC/RAL.noOfTablet"></entry>
+<entry key="AZT/3TC/RAL.type"></entry>
+<entry key="AZT/3TC/RAL.frequency"></entry>
+
+<entry key="ABC/3TC/RAL.strength"></entry>
+<entry key="ABC/3TC/RAL.noOfTablet"></entry>
+<entry key="ABC/3TC/RAL.type"></entry>
+<entry key="ABC/3TC/RAL.frequency"></entry>
+
+<entry key="TDF/3TC/NVP.strength"></entry>
+<entry key="TDF/3TC/NVP.noOfTablet"></entry>
+<entry key="TDF/3TC/NVP.type"></entry>
+<entry key="TDF/3TC/NVP.frequency"></entry>
+
+<entry key="TDF/3TC/LPV/r.strength"></entry>
+<entry key="TDF/3TC/LPV/r.noOfTablet"></entry>
+<entry key="TDF/3TC/LPV/r.type"></entry>
+<entry key="TDF/3TC/LPV/r.frequency"></entry>
+
+<entry key="TDF/3TC/RAL.strength"></entry>
+<entry key="TDF/3TC/RAL.noOfTablet"></entry>
+<entry key="TDF/3TC/RAL.type"></entry>
+<entry key="TDF/3TC/RAL.frequency"></entry>
+
+<entry key="TDF/3TC/ATV/r.strength"></entry>
+<entry key="TDF/3TC/ATV/r.noOfTablet"></entry>
+<entry key="TDF/3TC/ATV/r.type"></entry>
+<entry key="TDF/3TC/ATV/r.frequency"></entry>
+
+<entry key="ABC/3TC/ATV/r.strength"></entry>
+<entry key="ABC/3TC/ATV/r.noOfTablet"></entry>
+<entry key="ABC/3TC/ATV/r.type"></entry>
+<entry key="ABC/3TC/ATV/r.frequency"></entry>
+
+<entry key="AZT/TDF/3TC/LPV/r.strength"></entry>
+<entry key="AZT/TDF/3TC/LPV/r.noOfTablet"></entry>
+<entry key="AZT/TDF/3TC/LPV/r.type"></entry>
+<entry key="AZT/TDF/3TC/LPV/r.frequency"></entry>
+
+<entry key="FTC.strength"></entry>
+<entry key="FTC.noOfTablet"></entry>
+<entry key="FTC.type"></entry>
+<entry key="FTC.frequency"></entry>
+
+<entry key="Atazanavir.strength"></entry>
+<entry key="Atazanavir.noOfTablet"></entry>
+<entry key="Atazanavir.type"></entry>
+<entry key="Atazanavir.frequency"></entry>
+</properties>

@@ -24,6 +24,8 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.Concept;
+import org.openmrs.ConceptAnswer;
 import org.openmrs.DrugOrder;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
@@ -399,5 +401,9 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 	
 	public DrugOrderProcessed getLastRegimenChangeType(Patient patient) {
 		return dao.getLastRegimenChangeType(patient);
+	}
+	
+	public List<ConceptAnswer> getConceptAnswerByAnsweConcept(Concept answerConcept){
+		return dao.getConceptAnswerByAnsweConcept(answerConcept);
 	}
 }

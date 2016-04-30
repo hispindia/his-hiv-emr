@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.openmrs.Concept;
+import org.openmrs.ConceptAnswer;
 import org.openmrs.DrugOrder;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
@@ -66,4 +68,5 @@ public interface KenyaEmrDAO {
 	public List<DrugInfo> getDrugInfo();
 	public DrugInfo getDrugInfo(String drugName);
 	public DrugOrderProcessed getLastRegimenChangeType(Patient patient);
+	public List<ConceptAnswer> getConceptAnswerByAnsweConcept(Concept answerConcept);
 }

@@ -14,6 +14,8 @@ public class DrugOrderProcessed implements java.io.Serializable {
 	private Date createdDate;
 	private Date processedDate;
 	private Boolean processedStatus = Boolean.FALSE;
+	private String dose;
+	private Integer noOfTablet;
 	private Integer durationPreProcess;
 	private String changeType;
 	private Date discontinuedDate;
@@ -69,6 +71,22 @@ public class DrugOrderProcessed implements java.io.Serializable {
 
 	public void setProcessedStatus(Boolean processedStatus) {
 		this.processedStatus = processedStatus;
+	}
+
+	public String getDose() {
+		return dose;
+	}
+
+	public void setDose(String dose) {
+		this.dose = dose;
+	}
+
+	public Integer getNoOfTablet() {
+		return noOfTablet;
+	}
+
+	public void setNoOfTablet(Integer noOfTablet) {
+		this.noOfTablet = noOfTablet;
 	}
 
 	public Integer getDurationPreProcess() {

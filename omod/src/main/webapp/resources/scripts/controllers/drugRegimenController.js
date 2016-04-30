@@ -18,17 +18,33 @@ $scope.drugSearch = function(drugKey){
 */
 
 kenyaemrApp.controller('DrugCtrl', ['$scope', function($scope) {
-		
-$scope.init = function(){
+	
+	$scope.choices = [{srNo:'1',srNumber:'srNumber1',id:'choice1',drugKey:'drugKey1',strength:'strength1',noOfTablet:'noOfTablet1',type: 'type1',frequncy: 'frequncy1',duration:'duration1'}];
+	$scope.addNewChoice = function() {
+		var newItemNo = $scope.choices.length+1;
+		$scope.choices.push({srNo:newItemNo,srNumber:'srNumber'+newItemNo,id:'choice'+newItemNo,drugKey:'drugKey'+newItemNo,strength:'strength'+newItemNo,noOfTablet:'noOfTablet'+newItemNo,type: 'type'+newItemNo,frequncy:'frequncy'+newItemNo,duration:'duration'+newItemNo});
+	}
+	
+	$scope.drugSearch = function(drugKey,choice){
+	//var drugKey="drugKey"+count.toString();
+	//$scope.strength = $scope[drugKey].strength;
+	//$scope.strength = $scope.drugKey.strength;
+	var srNo=choice.srNo;
+	$('#strength'+srNo).val(drugKey.strength);
+	$('#noOfTablet'+srNo).val(drugKey.noOfTablet);
+	$('#type'+srNo).val(drugKey.type);
+	$('#frequncy'+srNo).val(drugKey.frequency);
+	$('#duration'+srNo).val(drugKey.duration);
+	}
+	
+	$scope.init = function(){
 		jq.getJSON('/' + OPENMRS_CONTEXT_PATH + '/kenyaemr/emrUtils/drugConcept.action',{ patientId: patientId})
 	    .done(function(data) {
 	    	$scope.$apply(function(){ 
 	    		$scope.myDrug = data.drugConceptName;
-		    	
 			});
 	    	
 	     });
 	 }
 
 }]);
-
