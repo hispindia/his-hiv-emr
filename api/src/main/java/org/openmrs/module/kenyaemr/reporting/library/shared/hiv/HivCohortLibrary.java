@@ -23,7 +23,9 @@ import org.openmrs.module.kenyacore.report.cohort.definition.CalculationCohortDe
 import org.openmrs.module.kenyacore.report.cohort.definition.DateObsValueBetweenCohortDefinition;
 import org.openmrs.module.kenyaemr.Dictionary;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.OnCtxWithinDurationCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.TBCasesAmongPLHIVSixMonthCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.art.LevelOfAdherenceCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.art.NewHIVPatientEnrolledCalculation;
 import org.openmrs.module.kenyaemr.metadata.HivMetadata;
 import org.openmrs.module.kenyaemr.reporting.library.shared.common.CommonCohortLibrary;
 import org.openmrs.module.kenyaemr.reporting.library.shared.hiv.art.ArtCohortLibrary;
@@ -140,7 +142,14 @@ public class HivCohortLibrary {
 			return cd;
 		}
 	//=============
-
+		public CohortDefinition hivCohort() {
+			CalculationCohortDefinition cd = new CalculationCohortDefinition(new TBCasesAmongPLHIVSixMonthCalculation());
+			                                       
+			cd.setName("on Hiv on date");
+			cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+			
+			return cd;
+		}
 
 	/**
 	 * Patients who were enrolled in HIV care (excluding transfers) not from the given entry points between ${onOrAfter} and ${onOrBefore}
@@ -228,8 +237,92 @@ public class HivCohortLibrary {
             return cd;
         }
 
+       public CohortDefinition onCTX(){
+    	   Concept oi = Dictionary.getConcept(Dictionary.OI_TREATMENT_DRUG);
+    	   Concept ctx = Dictionary.getConcept(Dictionary.SULFAMETHOXAZOLE_TRIMETHOPRIM);
+        	
+            CompositionCohortDefinition cd = new CompositionCohortDefinition();
+            cd.setName("hiv patient on CTX");
+            cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+            cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+            cd.addSearch("enrolledHIV", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.HIV)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
+            cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrBefore=${onOrBefore}"));
+            cd.addSearch("hasctx", ReportUtils.map(commonCohorts.hasObs(oi,ctx), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+            cd.setCompositionString("enrolledHIV AND NOT enrolled AND hasctx");
+            return cd;
+        }
+       
+       public CohortDefinition startedTB(){
+           Concept tbPatients = Dictionary.getConcept(Dictionary.TB_PATIENT);
+           Concept tbstarted = Dictionary.getConcept(Dictionary.TUBERCULOSIS_DRUG_TREATMENT_START_DATE);
+           CompositionCohortDefinition cd = new CompositionCohortDefinition();
+           cd.setName("Number of HIV-infected patients with incident TB diagnosed and started on TB treatment during the reporting period");
+           cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+	        cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+           cd.addSearch("tbpat", ReportUtils.map(commonCohorts.hasObs(tbPatients), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+           cd.addSearch("tbstart", ReportUtils.map(commonCohorts.hasObs(tbstarted), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+           cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.HIV)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
+           cd.setCompositionString("tbpat AND tbstart AND enrolled");
+           
+           
+           return cd;
+        }
+       
+       public CohortDefinition incidentTB(){
+           Concept tbPatients = Dictionary.getConcept(Dictionary.TB_PATIENT);
+           Concept tbstarted = Dictionary.getConcept(Dictionary.TUBERCULOSIS_DRUG_TREATMENT_START_DATE);
+           CompositionCohortDefinition cd = new CompositionCohortDefinition();
+           cd.setName("PLHIV with incident TB");
+           cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+	        cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+           cd.addSearch("tbpat", ReportUtils.map(commonCohorts.hasObs(tbPatients), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+           cd.addSearch("tbstart", ReportUtils.map(commonCohorts.hasObs(tbstarted), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+           cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.HIV)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
+           cd.setCompositionString("tbpat AND NOT tbstart AND enrolled");
+           
+           
+           return cd;
+        }
         
-        
+       public CohortDefinition isoniazidTB(){
+    	   Concept prophyl= Dictionary.getConcept(Dictionary.PROPHYLAXIS);
+           Concept isionizd= Dictionary.getConcept(Dictionary.ISONIAZID);
+           CompositionCohortDefinition cd = new CompositionCohortDefinition();
+           cd.setName("PLHIV on IPT");
+           cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+	        cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+           cd.addSearch("isionizd", ReportUtils.map(commonCohorts.hasObs(prophyl,isionizd), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+           cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.HIV)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
+           cd.setCompositionString("isionizd AND enrolled");
+           
+           
+           return cd;
+        }
+       
+       public CohortDefinition screenedTB(){
+           Concept tbPatients = Dictionary.getConcept(Dictionary.TB_SCREENING);
+           Concept assessed1 = Dictionary.getConcept(Dictionary. COUGH_LASTING_MORE_THAN_TWO_WEEKS);
+           Concept assessed2 = Dictionary.getConcept(Dictionary.FEVER_TB);
+           Concept assessed3 = Dictionary.getConcept(Dictionary.NIGHT_SWEATS);
+           Concept assessed4 = Dictionary.getConcept(Dictionary.WEIGHT_LOSS);
+           Concept assessed5 = Dictionary.getConcept(Dictionary.LYMPH_NODE);
+           Concept assessed6 = Dictionary.getConcept(Dictionary.NONE);
+           CompositionCohortDefinition cd = new CompositionCohortDefinition();
+           cd.setName("PPLHIV assessed for TB");
+           cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+	        cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+           cd.addSearch("tbpatcogh", ReportUtils.map(commonCohorts.hasObs(tbPatients,assessed1), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+           cd.addSearch("tbpatfev", ReportUtils.map(commonCohorts.hasObs(tbPatients,assessed2), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+           cd.addSearch("tbpatsweat", ReportUtils.map(commonCohorts.hasObs(tbPatients,assessed3), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+           cd.addSearch("tbpatweight", ReportUtils.map(commonCohorts.hasObs(tbPatients,assessed4), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+           cd.addSearch("tbpatlymph", ReportUtils.map(commonCohorts.hasObs(tbPatients,assessed5), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+           cd.addSearch("tbpatnone", ReportUtils.map(commonCohorts.hasObs(tbPatients,assessed6), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+           cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.HIV)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
+           cd.setCompositionString("tbpatcogh OR tbpatfev OR tbpatsweat OR tbpatweight OR tbpatlymph OR tbpatnone AND enrolled");
+           
+           
+           return cd;
+        }
 	/**
 	 * Patients with a CD4 result between {onOrAfter} and {onOrBefore}
 	 * @return the cohort definition

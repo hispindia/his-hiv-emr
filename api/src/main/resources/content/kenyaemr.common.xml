@@ -39,9 +39,9 @@
 				<ref bean="kenyaemr.common.report.moh731" />
 				<ref bean="kenyaemr.common.report.dhis2" />
 				<ref bean="kenyaemr.common.report.recordedDeceased" /> 
-				<ref bean="kenyaemr.common.report.rdqaReport" />
-				-->
 				
+				-->
+				<!--<ref bean="kenyaemr.common.report.rdqaReport" />-->
 				<ref bean="kenyaemr.common.report.allPatients" />
 				<ref bean="kenyaemr.hiv.report.onSecondLineArt" />
                 <ref bean="kenyaemr.common.report.missedAppointment" />
@@ -55,20 +55,30 @@
                 <ref bean="kenyaemr.hiv.report.patientsWhoHaveClinicalFailure" />
 				<ref bean="kenyaemr.hiv.report.patientsWhoHaveImmunologicalFailure" />
 				<ref bean="kenyaemr.hiv.report.patientsWhoHaveVirologicalFailure" />
-				<ref bean="kenyaemr.hiv.report.incidentTBCasesAmongPLHIVMonth" />
-				<ref bean="kenyaemr.hiv.report.incidentTBCasesAmongPLHIVSixMonth" />
-				<ref bean="kenyaemr.hiv.report.incidentTBCasesAmongPLHIVTwelveMonth" />
-				<ref bean="kenyaemr.hiv.report.HIVReceivingCTXWhoAreNotOnARTSixMonth" />
+				
+				<!-- Indicator Report -->
+				<ref bean="kenyaemr.hiv.report.HIVReceivingCTXWhoAreNotOnART" />
+				<ref bean="kenyaemr.hiv.report.treatmentTBCasesAmongPLHIV" />
+				<ref bean="kenyaemr.hiv.report.incidentTBCasesAmongPLHIV" />
+				<ref bean="kenyaemr.hiv.report.newlyEnrolledIsoniazid" />
+				<ref bean="kenyaemr.hiv.report.enrolledInHivTBStatedLastVist" />
+				<!-- NAP monthly report -->
+				<ref bean="kenyaemr.common.report.artAdultmonthlyReport"/>
+				<ref bean="kenyaemr.common.report.artChildmonthlyReport"/>
+				
+				
+				<!--<ref bean="kenyaemr.hiv.enrolledInHivTBStatedLastVist.12month" />
 				<ref bean="kenyaemr.hiv.report.HIVReceivingCTXWhoAreNotOnARTTwelveMonth" />
+				<ref bean="kenyaemr.hiv.report.newlyEnrolledIsoniazidYear" />
+				<ref bean="kenyaemr.hiv.report.incidentTBCasesAmongPLHIVTwelveMonth" /> -->
+		
 				<ref bean="kenyaemr.hiv.report.patientsDueForViralLoad" />
 				<ref bean="kenyaemr.hiv.report.listOfARTRestartPatients" />
-				<ref bean="kenyaemr.hiv.report.newlyEnrolledIsoniazid" />
-				<ref bean="kenyaemr.hiv.report.newlyEnrolledIsoniazidYear" />
-				<ref bean="kenyaemr.hiv.report.listOfReturnedFromLossToFollowup" />
-				<ref bean="kenyaemr.hiv.enrolledInHivTBStatedLastVist.6month" />
-				<ref bean="kenyaemr.hiv.enrolledInHivTBStatedLastVist.12month" />
 				
-				<ref bean="kenyaemr.common.report.patientsNotInART"/>
+				<ref bean="kenyaemr.hiv.report.listOfReturnedFromLossToFollowup" />
+				
+			
+				<!--<ref bean="kenyaemr.common.report.patientsNotInART"/>
 				<ref bean="kenyaemr.common.report.opportunisticInfections"/>
 				<ref bean="kenyaemr.common.report.patientsRestartedART"/>
 				
@@ -79,13 +89,15 @@
 				<ref bean="kenyaemr.common.report.newHIVPatientEnrolled"/>
 				
 				
-				<!-- <ref bean="kenyaemr.common.report.artDrug" />-->
-				<ref bean="kenyaemr.common.report.patientOutcomeART"/>
+				 <ref bean="kenyaemr.common.report.artDrug" />
+				
 			
-				<ref bean="kenyaemr.common.report.labReport"/>
-			    <ref bean="kenyaemr.common.report.artAdultmonthlyReport"/>
-				<ref bean="kenyaemr.common.report.artChildmonthlyReport"/>
-				<ref bean="kenyaemr.common.report.drugReport"/>
+				<ref bean="kenyaemr.common.report.labReport"/>-->
+			    
+				<!--<ref bean="kenyaemr.common.report.drugReport"/>-->
+				<!--<ref bean="kenyaemr.common.report.patientOutcomeART"/>-->
+				<!--<ref bean="kenyaemr.common.report.hivCohortAnalysis.6"/>-->
+				
 			</set>
 		</property>
 	</bean>
@@ -485,8 +497,7 @@
 		class="org.openmrs.module.kenyacore.report.CalculationReportDescriptor">
 		<property name="targetUuid" value="d3918592-4cdd-48db-a738-cc9da9c1ce25" />
 		<property name="name" value="Due for Viral load" />
-		<property name="calculation"
-			value="org.openmrs.module.kenyaemr.calculation.library.hiv.PatientsDueForViralLoadCalculation" />
+		<property name="calculation" value="org.openmrs.module.kenyaemr.calculation.library.hiv.PatientsDueForViralLoadCalculation" />
 		<property name="displayIdentifier" ref="kenyaemr.hiv.identifier.upn" />
 		<property name="apps">
 			<set>
@@ -565,22 +576,45 @@
 		</property>
 	</bean>
 	
-	<bean id="kenyaemr.hiv.report.HIVReceivingCTXWhoAreNotOnARTSixMonth"
-		class="org.openmrs.module.kenyacore.report.CalculationReportDescriptor">
+	<!-- Indicator Report -->
+	<bean id="kenyaemr.hiv.report.HIVReceivingCTXWhoAreNotOnART"
+		class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
 		<property name="targetUuid" value="9ec57ad3-a513-4ff6-93ce-6c7b27e130f0" />
-		<property name="name"
-			value="PLHIV receiving CTX (6 month)" />
-		<property name="calculation"
-			value="org.openmrs.module.kenyaemr.calculation.library.hiv.HIVReceivingCTXWhoAreNotOnARTSixMonthCalculation" />
-		<property name="displayIdentifier" ref="kenyaemr.hiv.identifier.upn" />
-		<property name="apps">
-			<set>
-				<ref bean="kenyaemr.app.reports" />
-			</set>
-		</property>
+		<property name="name" value="PLHIV receiving CTX" />
+		<property name="description" value="Number of people living with HIV receiving cotrimoxazole prophylaxis who are not on ART" />
+		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+		
 	</bean>
-
-	<bean id="kenyaemr.hiv.report.HIVReceivingCTXWhoAreNotOnARTTwelveMonth"
+	 <bean id="kenyaemr.hiv.report.treatmentTBCasesAmongPLHIV"
+		class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
+		<property name="targetUuid" value="c33409d0-793e-4cc9-8b4a-f1bb25999ea5" />
+		<property name="name" value="PLHIV on TB treatment" />
+		<property name="description" value=" Number of HIV-infected patients with incident TB diagnosed and started on TB treatment during the reporting period." />
+		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+	</bean>
+		<bean id="kenyaemr.hiv.report.incidentTBCasesAmongPLHIV"
+		class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
+		<property name="targetUuid" value="be7d3272-2a03-4b75-9154-8efa238dc9f0" />
+		<property name="name" value="PLHIV with incident TB" />
+		<property name="description" value=" Number of incident TB cases among PLHIV" />
+		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+	</bean>
+		<bean id="kenyaemr.hiv.report.newlyEnrolledIsoniazid"
+		class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
+		<property name="targetUuid" value="f0216cf8-812f-4005-b909-8ead2ff9aea2" />
+		<property name="name" value="PLHIV on IPT " />
+		<property name="description" value=" Number of adults and children newly enrolled in HIV care (pre-ART and ART) who also start isoniazid preventive therapy treatment during the reporting period" />
+	    <property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+	</bean>
+		<bean id="kenyaemr.hiv.report.enrolledInHivTBStatedLastVist"
+		class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
+		<property name="targetUuid" value="c61b334d-ffc0-41e9-9102-960e1aceb5f8" />
+		<property name="name" value="PPLHIV assessed for TB" />
+		<property name="description" value="Number of adults and children enrolled in HIV care who had TB status assessed and recorded during their last" />
+		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+	</bean>
+	
+    <!--  <bean id="kenyaemr.hiv.report.HIVReceivingCTXWhoAreNotOnARTTwelveMonth"
 		class="org.openmrs.module.kenyacore.report.CalculationReportDescriptor">
 		<property name="targetUuid" value="2813c39c-2807-4bcd-8d59-bf29df3eab6b" />
 		<property name="name"
@@ -593,24 +627,8 @@
 				<ref bean="kenyaemr.app.reports" />
 			</set>
 		</property>
-	</bean>
-	
-	<bean id="kenyaemr.hiv.report.incidentTBCasesAmongPLHIVSixMonth"
-		class="org.openmrs.module.kenyacore.report.CalculationReportDescriptor">
-		<property name="targetUuid" value="c33409d0-793e-4cc9-8b4a-f1bb25999ea5" />
-		<property name="name"
-			value="PLHIV on TB treatment (6 month)" />
-		<property name="calculation"
-			value="org.openmrs.module.kenyaemr.calculation.library.hiv.TBCasesAmongPLHIVSixMonthCalculation" />
-		<property name="displayIdentifier" ref="kenyaemr.hiv.identifier.upn" />
-		<property name="apps">
-			<set>
-				<ref bean="kenyaemr.app.reports" />
-			</set>
-		</property>
-	</bean>
-
-	<bean id="kenyaemr.hiv.report.incidentTBCasesAmongPLHIVTwelveMonth"
+	</bean>-->
+	<!--<bean id="kenyaemr.hiv.report.incidentTBCasesAmongPLHIVTwelveMonth"
 		class="org.openmrs.module.kenyacore.report.CalculationReportDescriptor">
 		<property name="targetUuid" value="af024e8c-dd4b-43b3-a4d9-d1785bb19e29" />
 		<property name="name"
@@ -623,69 +641,23 @@
 				<ref bean="kenyaemr.app.reports" />
 			</set>
 		</property>
-	</bean>
-
-	<bean id="kenyaemr.hiv.report.incidentTBCasesAmongPLHIVMonth"
-		class="org.openmrs.module.kenyacore.report.CalculationReportDescriptor">
-		<property name="targetUuid" value="be7d3272-2a03-4b75-9154-8efa238dc9f0" />
-		<property name="name"
-			value="PLHIV with incident TB" />
-		<property name="calculation"
-			value="org.openmrs.module.kenyaemr.calculation.library.hiv.TBCasesAmongPLHIVMonthCalculation" />
-		<property name="displayIdentifier" ref="kenyaemr.hiv.identifier.upn" />
-		<property name="apps">
-			<set>
-				<ref bean="kenyaemr.app.reports" />
-			</set>
-		</property>
-	</bean>
-
-	<bean id="kenyaemr.hiv.report.newlyEnrolledIsoniazid"
-		class="org.openmrs.module.kenyacore.report.CalculationReportDescriptor">
-		<property name="targetUuid" value="f0216cf8-812f-4005-b909-8ead2ff9aea2" />
-		<property name="name"
-			value="PLHIV on IPT (6 month)" />
-		<property name="calculation"
-			value="org.openmrs.module.kenyaemr.calculation.library.hiv.NewlyEnrolledIsoniazidCalculation" />
-		<property name="displayIdentifier" ref="kenyaemr.hiv.identifier.upn" />
-		<property name="apps">
-			<set>
-				<ref bean="kenyaemr.app.reports" />
-			</set>
-		</property>
-	</bean>
-
-	<bean id="kenyaemr.hiv.report.newlyEnrolledIsoniazidYear"
+	</bean>-->
+	<!--  <bean id="kenyaemr.hiv.report.newlyEnrolledIsoniazidYear"
 		class="org.openmrs.module.kenyacore.report.CalculationReportDescriptor">
 		<property name="targetUuid" value="c92f9abf-14e4-402a-bd76-9d91a13e6b9e" />
 		<property name="name"
 			value="PLHIV on IPT (12 month)" />
 		<property name="calculation"
 			value="org.openmrs.module.kenyaemr.calculation.library.hiv.NewlyEnrolledIsoniazidCalculationYearly" />
+		 <property name="description" value="Number of people living with HIV receiving cotrimoxazole prophylaxis who are not on ART (12 month)" />
 		<property name="displayIdentifier" ref="kenyaemr.hiv.identifier.upn" />
 		<property name="apps">
 			<set>
 				<ref bean="kenyaemr.app.reports" />
 			</set>
 		</property>
-	</bean>
-
-	<bean id="kenyaemr.hiv.enrolledInHivTBStatedLastVist.6month"
-		class="org.openmrs.module.kenyacore.report.CalculationReportDescriptor">
-		<property name="targetUuid" value="c61b334d-ffc0-41e9-9102-960e1aceb5f8" />
-		<property name="name"
-			value="PPLHIV assessed for TB (6 month)" />
-		<property name="calculation"
-			value="org.openmrs.module.kenyaemr.calculation.library.hiv.EnrolledInHivTBStatedLastVist6Month" />
-		<property name="displayIdentifier" ref="kenyaemr.hiv.identifier.upn" />
-		<property name="apps">
-			<set>
-				<ref bean="kenyaemr.app.reports" />
-			</set>
-		</property>
-	</bean>
-
-	<bean id="kenyaemr.hiv.enrolledInHivTBStatedLastVist.12month"
+	</bean>-->
+	<!--<bean id="kenyaemr.hiv.enrolledInHivTBStatedLastVist.12month"
 		class="org.openmrs.module.kenyacore.report.CalculationReportDescriptor">
 		<property name="targetUuid" value="915d7ecf-4d60-468d-836d-553fc3415a27" />
 		<property name="name"
@@ -698,13 +670,12 @@
 				<ref bean="kenyaemr.app.reports" />
 			</set>
 		</property>
-	</bean>
+	</bean>-->
 
 
 
 	<!-- Indicator Reports -->
-	
-	<bean id="kenyaemr.common.report.patientsNotInART" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
+	<!--<bean id="kenyaemr.common.report.patientsNotInART" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
 		<property name="targetUuid" value="6dac466d-394b-465a-87e3-8861efafe0b4" />
 		<property name="name" value="Eligible for ART" />
 		<property name="description" value="It details about the total No. of medically eligible patients currently remaining on waiting list for ART at the end of this month*" />
@@ -740,26 +711,27 @@
 		<property name="name" value="Level of adherence" />
 		<property name="description" value="Patients who assessed for adherence during this month Of those assessed for adherence, level of adherence" />
 		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
-	</bean>
+		
+	</bean>-->
 <!-- ===============================================
 New Added
  -->
-	<bean id="kenyaemr.common.report.newHIVPatientEnrolled" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
+	<!--  <bean id="kenyaemr.common.report.newHIVPatientEnrolled" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
 		<property name="targetUuid" value="7262d2ac-cf16-4efb-bb4e-aaaaaaaaaaaa" />
 		<property name="name" value="Enrollment on HIV " />
 		<property name="description" value="It details total patients(Adult) enrolled under HIV Program" />
 		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
 		<property name="template" value="kenyaemr:newHIVPatientEnrolled.xls" />
-	</bean>
+	</bean>-->
 	
 
-	 <bean id="kenyaemr.common.report.patientOutcomeART" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
+	<!-- <bean id="kenyaemr.common.report.patientOutcomeART" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
 		<property name="targetUuid" value="7262d2ac-cf16-4efb-bb4e-bbbbbbbbbbbb" />
 		<property name="name" value="Outcomes on ART" />
 		<property name="description" value="It details total patients(Adult) against various ART outcomes" />
 		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
 		<property name="template" value="kenyaemr:patientOutcomeART.xls" />
-	</bean>
+	</bean>-->
 	
  <!--   <bean id="kenyaemr.common.report.artDrug" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
 		<property name="targetUuid" value="5609a402-94b2-11e3-9ca9-93351facf9dd" />
@@ -770,40 +742,45 @@ New Added
 	</bean>-->
     
     
-	<bean id="kenyaemr.common.report.labReport" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
+<!--  	<bean id="kenyaemr.common.report.labReport" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
 		<property name="targetUuid" value="7262d2ac-cf16-4efb-bb4e-ccccccccccccc" />
 		<property name="name" value="Lab Report " />
 		<property name="description" value="It details total patients gone under various tests" />
 		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
 		<property name="template" value="kenyaemr:labReport.xls" />
-	</bean>
+	</bean>-->
 	
 	<bean id="kenyaemr.common.report.artAdultmonthlyReport" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
 		<property name="targetUuid" value="cf3709c1-92bc-426c-9dd4-6889cd4a564a" />
-		<property name="name" value="ART ADULT MONTHLY REPORT  " />
+		<property name="name" value="NAP MONTHLY REPORT(Adult)  " />
 		<property name="description" value="Combined report for all adult patients " />
 		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
 		<property name="template" value="kenyaemr:ART_AdultMonthlyReport.xls" />
 	</bean>
 	<bean id="kenyaemr.common.report.artChildmonthlyReport" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
 		<property name="targetUuid" value="9a07cdc9-aa24-4985-9c5d-491f5214c158" />
-		<property name="name" value="ART CHILD MONTHLY REPORT   " />
+		<property name="name" value="NAP MONTHLY REPORT(Child)" />
 		<property name="description" value="Combined report for all child patients " />
 		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
 		<property name="template" value="kenyaemr:ART_ChildMonthlyReport.xls" />
 	</bean>
 
-	<bean id="kenyaemr.common.report.drugReport" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
+	<!--<bean id="kenyaemr.common.report.drugReport" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
 		<property name="targetUuid" value="7262d2ac-cf16-4efb-bb4e-dddddddddddd" />
 		<property name="name" value="Drug stock out Report" />
 		<property name="description" value="It details total drugs dispensed in various categories" />
 		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
-	</bean>
 
-
+ </bean>-->
+ <!--<bean id="kenyaemr.common.report.hivCohortAnalysis.6" class="org.openmrs.module.kenyacore.report.IndicatorReportDescriptor">
+		<property name="targetUuid" value="8141342d-6cde-43a7-8583-75e88d192807" />
+		<property name="name" value="HIV Cohort Analysis (6 months)" />
+		<property name="description" value="Definition of patient Attributes for HIV Cohort Analysis for a cohort period of 6 months" />
+		<property name="apps"><set><ref bean="kenyaemr.app.reports" /></set></property>
+ </bean>-->
     <!-- =========================== RDQA Reports =============================-->
-<!-- 
-    <bean id="kenyaemr.common.report.rdqaReport" class="org.openmrs.module.kenyacore.report.HybridReportDescriptor">
+
+  <!--  <bean id="kenyaemr.common.report.rdqaReport" class="org.openmrs.module.kenyacore.report.HybridReportDescriptor">
         <property name="targetUuid" value="ed1cfbf2-64c6-11e4-86ed-10c37b209d8a" />
         <property name="name" value="RDQA Report" />
         <property name="description" value="Report for Routine Data Quality Analysis" />
@@ -813,6 +790,6 @@ New Added
             </set></property>
         <property name="template" value="kenyaemr:rdqa/rdqaTemplate.xls" />
         <property name="repeatingSection" value="sheet:1,row:11,dataset:allPatients" />
-    </bean>
- -->
+    </bean>-->
+
 </beans>

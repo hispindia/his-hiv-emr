@@ -80,7 +80,9 @@ public class HivIndicatorLibrary {
 			return cohortIndicator("patients on ART", map(hivCohorts.levelOfAdherence(minPercentage,maxPercentage), "onOrAfter=${startDate},onOrBefore=${endDate}"));
 		}
 	//==============
-
+		public CohortIndicator hivCohort() {  
+			return cohortIndicator("patients on hiv", map(hivCohorts.hivCohort(), "onOrAfter=${startDate}"));
+		}
 	/**
 	 * Number of patients who were enrolled (excluding transfers) after referral from services other than the given entry points
 	 * @return the indicator
@@ -119,7 +121,7 @@ public class HivIndicatorLibrary {
         }
         
         public CohortIndicator initiatedARTandTB(){ 
-                return cohortIndicator("TB patients received ART", map(hivCohorts.receivedART(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+                return cohortIndicator("TB patients received ART", map(hivCohorts.receivedART(), "onOrAfter=${startDate}"));
         }
         
         public CohortIndicator restartART(){
@@ -192,4 +194,22 @@ public class HivIndicatorLibrary {
            return cohortIndicator("out come art reason reason lost", map(hivCohorts.totalArtpatient(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
        } 
        
+       public CohortIndicator hivonCTX(){
+           return cohortIndicator("patient on ctx", map(hivCohorts.onCTX(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+       }  
+       
+       public CohortIndicator hivstartedTB(){
+           return cohortIndicator("patient strated TB", map(hivCohorts.startedTB(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+       }
+       
+       public CohortIndicator hivincidentTB(){
+           return cohortIndicator("patient initiated TB", map(hivCohorts.incidentTB(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+       }
+       
+       public CohortIndicator hivisoniazidTB(){
+           return cohortIndicator("patient initiated TB", map(hivCohorts.isoniazidTB(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+       }
+       public CohortIndicator hivscreenedTB(){
+           return cohortIndicator("patient initiated TB", map(hivCohorts.screenedTB(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+       }
 }
