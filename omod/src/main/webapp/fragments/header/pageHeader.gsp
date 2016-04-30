@@ -8,6 +8,9 @@
 						<img src="${ ui.resourceLink("kenyaemr", "images/logos/Red_ribbon.png") }" width="48" height="48" />
 					</a>
 				</div>
+				<div style="float: centre; text-align: left; font-size: 13px; font-weight: bold; padding: 39px 57px 0 0; color: #7f7b72;">
+					${ ui.message("kenyaemr.image") }
+				</div>
 				<div style="float: left"></div>
 			</td>
 	<!-- 	<span style="font-size: 24px;">${ ui.message("kenyaemr.title") }</span>
