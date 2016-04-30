@@ -36,6 +36,17 @@
 	<script type="text/javascript">
 		
 		jq(document).ready(function(){
+			
+			beforeSubmit.push(function() {
+				 var dischrgeDate = new Date(getValue('dischargeDate.value'));
+				 var admisnDate=new Date(getValue('admissionDate.value'));
+				if (dischrgeDate&lt;admisnDate)
+				{ 
+					getField('dischargeDate.error').html('Discharge date can not before admission date ').show();
+					return false;
+				}
+					
+				});
 			// show fields with data 
 			fieldIndex1 = 12;
 			count=1;
@@ -91,11 +102,11 @@
 			<table style="background-color: #e8efdc" align="center" class="tb1"  cellspacing="0" width="100%">
 					<tr>
 						<td>1. Date of Admission :</td>
-						<td><obs conceptId="b36da368-4705-4582-b213-74a7a990aff8" /></td>
+						<td><obs id="admissionDate" conceptId="b36da368-4705-4582-b213-74a7a990aff8"  /></td>
 					</tr>
 					<tr>
 						<td>2. Date of Discharge :</td>
-						<td><obs conceptId="1641AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
+						<td><obs  id="dischargeDate" conceptId="1641AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
 					</tr>
 					<tr>
 						<td valign="top">3. Hospital Diagnosis</td>
