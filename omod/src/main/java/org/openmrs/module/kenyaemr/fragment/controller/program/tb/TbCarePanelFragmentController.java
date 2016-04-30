@@ -31,6 +31,7 @@ import org.openmrs.module.kenyaemr.calculation.library.tb.TbTreatmentDrugSensiti
 import org.openmrs.module.kenyaemr.calculation.library.tb.TbTreatmentDrugRegimen;
 import org.openmrs.module.kenyaemr.calculation.library.tb.TbTreatmentStartDateCalculation;
 import org.openmrs.module.kenyaemr.regimen.RegimenChangeHistory;
+import org.openmrs.module.kenyaemr.wrapper.EncounterWrapper;
 import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
@@ -54,7 +55,42 @@ public class TbCarePanelFragmentController {
 
 		CalculationResult result = EmrCalculationUtils.evaluateForPatient(TbDiseaseClassificationCalculation.class, null, patient);
 		calculationResults.put("tbDiseaseSite", result != null ? result.getValue() : null);
+	String listAllSite = "";
+		
+		Obs siteList = getLatestObs(patient, Dictionary.TB_SITE);
+		
+		Obs consultationObs =   getAllLatestObs(patient, Dictionary.TB_DIAG_CLASSIFICATION);
+		
+		if(consultationObs!=null){
+			EncounterWrapper wrappedG = new EncounterWrapper(
+					consultationObs.getEncounter());
+			List<Obs> obsGroupList = wrappedG.allObs(consultationObs.getConcept());
+			for (Obs obsG : obsGroupList) {
+				if (siteList != null) {
+					List<Obs> obsList = Context.getObsService().getObservationsByPersonAndConcept(patient, Dictionary.getConcept(Dictionary.TB_SITE));
+					
+					for (Obs obs : obsList) {
+					
+						if(obs.getObsGroupId() == obsG.getObsId()){
+							if (listAllSite.isEmpty()) {
+								listAllSite = listAllSite.concat(obs
+										.getValueCoded().getName().toString());
+								
+							} else { 
+								listAllSite = listAllSite.concat(", "
+										+ obs.getValueCoded().getName().toString());
+								
+							}
+							
+						}
+					}
+				}
+			}
+			
+		}
 
+		model.addAttribute("listAllSite", listAllSite);	
+		
 		result = EmrCalculationUtils.evaluateForPatient(TbPatientClassificationCalculation.class, null, patient);
 		calculationResults.put("tbPatientStatus", result != null ? result.getValue() : null);
 
@@ -97,5 +133,27 @@ public class TbCarePanelFragmentController {
 		}
 		model.addAttribute("ipt", iptStatus);
 		model.addAttribute("iptDate", iptDate);
+	}
+	private Obs getAllLatestObs(Patient patient, String conceptIdentifier) {
+		Concept concept = Dictionary.getConcept(conceptIdentifier);
+		List<Obs> obs = Context.getObsService()
+				.getObservationsByPersonAndConcept(patient, concept);
+		int count = obs.size() - 1;
+		if (obs.size() > 0) {
+			// these are in reverse chronological order
+			return obs.get(count);
+		}
+		return null;
+	}
+	
+	private Obs getLatestObs(Patient patient, String conceptIdentifier) {
+		Concept concept = Dictionary.getConcept(conceptIdentifier);
+		List<Obs> obs = Context.getObsService()
+				.getObservationsByPersonAndConcept(patient, concept);
+		if (obs.size() > 0) {
+			// these are in reverse chronological order
+			return obs.get(0);
+		}
+		return null;
 	}
 }

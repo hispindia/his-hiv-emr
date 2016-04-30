@@ -11,12 +11,12 @@ else{
 	dataPoints << [ label: "TB Status", value:  "None" ];
 }
 
-if(calculations.tbDiseaseSite){
-		dataPoints << [ label: "Site", value: calculations.tbDiseaseSite, extra:calculations.tbDiseaseSite.obsDatetime ]
-}
-else{
-	dataPoints << [ label: "Site", value:  "None" ];
-}
+if (listAllSite) {
+		dataPoints << [ label: "Site", value: listAllSite ,extra:calculations.tbDiseaseSite.obsDatetime]
+	}
+	else{
+		dataPoints << [ label: "Site", value: "None" ]
+	}
 
 if(calculations.tbTreatmentDrugStartDate){
 		dataPoints << [ label: "TB treatment start date", value: calculations.tbTreatmentDrugStartDate ]

@@ -60,7 +60,7 @@ input[class=hasDatepicker] {
 			fieldIndex = 14;
 			count=1;
 			while(document.getElementById("w"+fieldIndex) &amp;&amp; document.getElementById("w"+fieldIndex).value!="" &amp;&amp; count &lt; 11){
-				jQuery('#'+count+'-toggleContainer1').show();   
+				jQuery('#'+count+'-toggleContainer').show();   
 				fieldIndex=fieldIndex+2;
 				if(document.getElementById("w"+fieldIndex).value != '')
 				{
@@ -97,7 +97,8 @@ input[class=hasDatepicker] {
 			// show fields with data 
 			fieldIndex1 = 68;
 			count=1;
-			while(document.getElementById("w"+fieldIndex1) &amp;&amp; document.getElementById("w"+fieldIndex1).value!="" &amp;&amp; count &lt; 11){
+		
+			while(document.getElementById("w"+fieldIndex1).value!="" &amp;&amp; count &lt; 11){
 				jQuery('#'+count+'-toggleContainer1').show();   
 				fieldIndex1=fieldIndex1+2;
 				if(document.getElementById("w"+fieldIndex1).value != '')
