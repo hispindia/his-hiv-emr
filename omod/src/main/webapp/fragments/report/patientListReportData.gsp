@@ -26,6 +26,7 @@
 			<th>Name</th>
 			<th>Age</th>
 			<th>Gender</th>
+			<th>Contact No.</th>
 			<th>Patient ID</th>
 			<th>NIC</th>
 		</tr>
@@ -38,11 +39,14 @@
 				def rowName = row.getColumnValue("Name")
 				def personName = rowName.toString().replaceAll('\\(NULL\\),','')
 				def personGender = row.getColumnValue("Sex").toLowerCase() 
+				
+				
 		%>
 			<tr>
 				<td>
 					<img src="${ ui.resourceLink("kenyaui", "images/glyphs/patient_" + personGender + ".png") }" class="ke-glyph" />
 					<a href="${ ui.pageLink("kenyaemr", "chart/chartViewPatient", [ patientId: patientId ]) }">${ personName }</a>
+					
 				</td>
 
 			<% nonIdOrNameColumns.each { col -> %>

@@ -15,11 +15,18 @@
 package org.openmrs.module.kenyaemr.fragment.controller.report;
 
 import org.apache.commons.collections.map.HashedMap;
+import org.openmrs.PersonAttribute;
+import org.openmrs.PersonAttributeType;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.kenyacore.report.CalculationReportDescriptor;
 import org.openmrs.module.kenyacore.report.ReportManager;
+import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
+import org.openmrs.module.metadatadeploy.MetadataUtils;
+import org.openmrs.module.reporting.data.converter.PropertyConverter;
+import org.openmrs.module.reporting.data.person.definition.PersonAttributeDataDefinition;
 import org.openmrs.module.reporting.dataset.DataSetRow;
 import org.openmrs.module.reporting.dataset.SimpleDataSet;
+import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.EvaluationContext;
 import org.openmrs.module.reporting.evaluation.EvaluationException;
 import org.openmrs.module.reporting.report.ReportData;
@@ -53,13 +60,15 @@ public class PatientListReportDataFragmentController {
 	 */
 	protected Map<String, Integer> createSummary(SimpleDataSet dataSet) {
 		Map<String, Integer> summary = new HashedMap();
-
+		 
+		
 		int males = 0, females = 0;
 		int child=0;
 		for (DataSetRow row : dataSet.getRows()) {
 			String gender = (String) row.getColumnValue("Sex");
 			String age =   row.getColumnValue("Age").toString();
-			System.out.println(row.getColumnValues() );
+			
+			
 			if(Integer.parseInt(age) > 12){
 				if (gender.equals("M")) {
 					++males;
