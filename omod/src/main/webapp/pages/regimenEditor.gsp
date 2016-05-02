@@ -15,19 +15,31 @@
 	}
 	
 	def regimenSearchField = {
-		[ label: "Regimen", formFieldName: "regimen", class: "org.openmrs.module.kenyaemr.regimen.Regimen", fieldFragment: "field/RegimenSearch", category: category,patient: currentPatient ]
+		[ label: "Info Buttons", formFieldName: "regimen", class: "org.openmrs.module.kenyaemr.regimen.Regimen", fieldFragment: "field/RegimenSearch", category: category,patient: currentPatient ]
 	}
 	
 	def substituteRegimenField = {
 		[ label: "Regimen", formFieldName: "regimen", class: "org.openmrs.module.kenyaemr.regimen.Regimen", fieldFragment: "field/Regimen", category: category,patient: currentPatient ]
 	}
 	
+	def substituteRegimenSearchField = {
+		[ label: "Regimen", formFieldName: "regimen", class: "org.openmrs.module.kenyaemr.regimen.Regimen", fieldFragment: "field/substituteRegimenSearch", category: category,patient: currentPatient ]
+	}
+	
 	def switchRegimenField = {
 		[ label: "Regimen", formFieldName: "regimen", class: "org.openmrs.module.kenyaemr.regimen.Regimen", fieldFragment: "field/switchRegimen", category: category,patient: currentPatient ]
 	}
 	
+	def switchRegimenSearchField = {
+		[ label: "Regimen", formFieldName: "regimen", class: "org.openmrs.module.kenyaemr.regimen.Regimen", fieldFragment: "field/switchRegimenSearch", category: category,patient: currentPatient ]
+	}
+	
 	def continueRegimenField = {
 		[ label: "Regimen", formFieldName: "regimen", class: "org.openmrs.module.kenyaemr.regimen.Regimen", fieldFragment: "field/continueRegimen", category: category,patient: currentPatient ]
+	}
+	
+	def continueRegimenSearchField = {
+		[ label: "Regimen", formFieldName: "regimen", class: "org.openmrs.module.kenyaemr.regimen.Regimen", fieldFragment: "field/continueRegimenSearch", category: category,patient: currentPatient ]
 	}
 
 	def reasonFields = { reasonType ->
@@ -90,7 +102,6 @@
 			<div id="regimen-action-buttons" style="text-align: center">
 			<% if (allowNew) { %>
 			${ ui.includeFragment("kenyaui", "widget/button", [ iconProvider: "kenyaui", icon: "buttons/regimen_start.png", label: "Start", extra: "a new regimen", onClick: "choseAction('start-new-regimen')" ]) }
-		    ${ ui.includeFragment("kenyaui", "widget/button", [ iconProvider: "kenyaui", icon: "buttons/regimen_start.png", label: "Start Fresh", extra: "a new regimen", onClick: "choseAction('start-new-regimengui')" ]) }
 			<% } %>
 
 			<% if (allowChange) { %>
@@ -111,7 +122,7 @@
 			</div>
 
 			<% if (allowNew) { %>
-			<fieldset id="start-new-regimen" class="regimen-action-form" style="display: none">
+			<fieldset id="start-new-regim" class="regimen-action-form" style="display: none">
 				<legend>Start New Regimen</legend>
 
 				${ ui.includeFragment("kenyaui", "widget/form", [
@@ -132,7 +143,7 @@
 				]) }
 			</fieldset>
 			
-			<fieldset id="start-new-regimengui" class="regimen-action-form" style="display: none">
+			<fieldset id="start-new-regimen" class="regimen-action-form" style="display: none">
 				<legend>Start New Regimen</legend>
 
 				${ ui.includeFragment("kenyaui", "widget/form", [
@@ -155,7 +166,7 @@
 			<% } %>
 
 			<% if (allowChange) { %>
-			<fieldset id="substitute-regimen" class="regimen-action-form" style="display: none">
+			<fieldset id="substitute-regim" class="regimen-action-form" style="display: none">
 				<legend>Substitute Regimen</legend>
 
 				${ ui.includeFragment("kenyaui", "widget/form", [
@@ -177,7 +188,29 @@
 				]) }
 			</fieldset>
 			
-			<fieldset id="switch-regimen" class="regimen-action-form" style="display: none">
+			<fieldset id="substitute-regimen" class="regimen-action-form" style="display: none">
+				<legend>Substitute Regimen</legend>
+
+				${ ui.includeFragment("kenyaui", "widget/form", [
+					fragmentProvider: "kenyaemr",
+					fragment: "regimenUtil",
+					action: "changeRegimen",
+					fields: [
+							[ hiddenInputName: "patient", value: currentPatient.id ],
+							[ hiddenInputName: "changeType", value: "Substitute" ],
+							[ hiddenInputName: "category", value: category ],
+							changeDateField("Change date"),
+							substituteRegimenSearchField(),
+							[ value: reasonFields("substitute") ]
+					],
+					submitLabel: "Save",
+					successCallbacks: [ "ui.reloadPage();" ],
+					cancelLabel: "Cancel",
+					cancelFunction: "cancelAction"
+				]) }
+			</fieldset>
+			
+			<fieldset id="switch-regim" class="regimen-action-form" style="display: none">
 				<legend>Switch Regimen</legend>
 
 				${ ui.includeFragment("kenyaui", "widget/form", [
@@ -198,8 +231,30 @@
 					cancelFunction: "cancelAction"
 				]) }
 			</fieldset>
+			
+			<fieldset id="switch-regimen" class="regimen-action-form" style="display: none">
+				<legend>Switch Regimen</legend>
 
-			<fieldset id="continue-regimen" class="regimen-action-form" style="display: none">
+				${ ui.includeFragment("kenyaui", "widget/form", [
+					fragmentProvider: "kenyaemr",
+					fragment: "regimenUtil",
+					action: "changeRegimen",
+					fields: [
+							[ hiddenInputName: "patient", value: currentPatient.id ],
+							[ hiddenInputName: "changeType", value: "Switch" ],
+							[ hiddenInputName: "category", value: category ],
+							changeDateField("Change date"),
+							switchRegimenSearchField(),
+							[ value: reasonFields("switch") ]
+					],
+					submitLabel: "Save",
+					successCallbacks: [ "ui.reloadPage();" ],
+					cancelLabel: "Cancel",
+					cancelFunction: "cancelAction"
+				]) }
+			</fieldset>
+
+			<fieldset id="continue-regim" class="regimen-action-form" style="display: none">
 				<legend>Continue Regimen</legend>
 
 				${ ui.includeFragment("kenyaui", "widget/form", [
@@ -212,6 +267,27 @@
 							[ hiddenInputName: "category", value: category ],
 							changeDateField("Continue date"),
 							continueRegimenField()
+					],
+					submitLabel: "Save",
+					successCallbacks: [ "ui.reloadPage();" ],
+					cancelLabel: "Cancel",
+					cancelFunction: "cancelAction"
+				]) }
+			</fieldset>
+			
+			<fieldset id="continue-regimen" class="regimen-action-form" style="display: none">
+				<legend>Continue Regimen</legend>
+
+				${ ui.includeFragment("kenyaui", "widget/form", [
+					fragmentProvider: "kenyaemr",
+					fragment: "regimenUtil",
+					action: "changeRegimen",
+					fields: [
+							[ hiddenInputName: "patient", value: currentPatient.id ],
+							[ hiddenInputName: "changeType", value: "Continue" ],
+							[ hiddenInputName: "category", value: category ],
+							changeDateField("Continue date"),
+							continueRegimenSearchField()
 					],
 					submitLabel: "Save",
 					successCallbacks: [ "ui.reloadPage();" ],

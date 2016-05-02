@@ -362,9 +362,9 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		return criteria.list();
 	}
 	
-	public DrugInfo getDrugInfo(String drugName) {
+	public DrugInfo getDrugInfo(String drugCode) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugInfo.class,"drugInfo");
-		criteria.add(Restrictions.eq("drugName", drugName));
+		criteria.add(Restrictions.eq("drugCode", drugCode));
 		return (DrugInfo) criteria.uniqueResult();
 	}
 	

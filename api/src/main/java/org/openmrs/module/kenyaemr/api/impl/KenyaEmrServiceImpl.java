@@ -395,8 +395,8 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 		return dao.getDrugInfo();
 	}
 	
-	public DrugInfo getDrugInfo(String drugName) {
-		return dao.getDrugInfo(drugName);
+	public DrugInfo getDrugInfo(String drugCode) {
+		return dao.getDrugInfo(drugCode);
 	}
 	
 	public DrugOrderProcessed getLastRegimenChangeType(Patient patient) {

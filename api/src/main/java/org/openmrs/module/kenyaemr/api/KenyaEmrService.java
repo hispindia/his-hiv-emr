@@ -142,7 +142,7 @@ public interface KenyaEmrService extends OpenmrsService {
 	public List<DrugOrderProcessed> getDrugOrdersByPatientAndProcessedDate(Patient patient,Date processedDate);
 	public List<DrugObsProcessed> getObsDrugOrdersByPatientAndProcessedDate(Patient patient,Date processedDate);
 	public List<DrugInfo> getDrugInfo();
-	public DrugInfo getDrugInfo(String drugName);
+	public DrugInfo getDrugInfo(String drugCode);
 	public DrugOrderProcessed getLastRegimenChangeType(Patient patient);
 	public List<ConceptAnswer> getConceptAnswerByAnsweConcept(Concept answerConcept);
 }
