@@ -25,6 +25,15 @@ kenyaemrApp.controller('DrugCtrl', ['$scope', function($scope) {
 		$scope.choices.push({srNo:newItemNo,srNumber:'srNumber'+newItemNo,id:'choice'+newItemNo,drugKey:'drugKey'+newItemNo,strength:'strength'+newItemNo,noOfTablet:'noOfTablet'+newItemNo,type: 'type'+newItemNo,frequncy:'frequncy'+newItemNo,duration:'duration'+newItemNo});
 	}
 	
+	$scope.removeChoice = function(index) {
+	    $scope.choices.splice(index,1);
+	    var newItemNo = $scope.choices.length;
+	    $scope.choices=[];
+	    for(var i=1;i<=newItemNo;i++){
+	    	$scope.choices.push({srNo:i,srNumber:'srNumber'+i,id:'choice'+i,drugKey:'drugKey'+i,strength:'strength'+i,noOfTablet:'noOfTablet'+i,type: 'type'+i,frequncy:'frequncy'+i,duration:'duration'+i});
+	    }
+	}
+	
 	$scope.drugSearch = function(drugKey,choice){
 	//var drugKey="drugKey"+count.toString();
 	//$scope.strength = $scope[drugKey].strength;
