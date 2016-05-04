@@ -205,6 +205,7 @@ public class EmrUtilsFragmentController {
 	
 	public JSONObject drugConcept(@RequestParam("patientId") Patient patient,
 			@RequestParam(value= "drugKey", required = false) String drugKey,
+			@RequestParam(value= "regimenChangeType", required = false) String regimenChangeType,
 			UiUtils ui, 
 			@SpringBean RegimenManager regimenManager,
 			@SpringBean EmrUiUtils kenyaUi) throws FileNotFoundException, IOException{

@@ -22,7 +22,10 @@
 <table>
 <tbody>
 <tr>
-<td class="colA" style="text-align:center">S.No</td>
+<td><input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="guide" name="guide" value="Guide" onClick="guideForContinRegimen();" /></td>
+<td><input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="artRegimen" name="artRegimen" value="Art Regimen" onClick="artForContinRegimen();" /></td>
+</tr>
+<tr>
 <td class="colB" style="text-align:center">Drug</td>
 <td class="colC" style="text-align:center">Strength(per tab or ml)</td>
 <td class="colD" style="text-align:center">Tablets</td>
@@ -32,6 +35,7 @@
 <td class="colH"></td>
 <td class="colI"></td>
 <td class="colJ"></td>
+<td class="colK"></td>
 </tr>
 </tbody>
 </table>
@@ -39,7 +43,6 @@
 <table>
 <tbody>
 <tr>
-<td class="colA" style="text-align:center">{{choice.srNo}}</td>
 <td class="colB" style="text-align:center"><input type="text" ng-model="drugKey" id={{choice.drugKey}} name={{choice.drugKey}} placeholder="search box" uib-typeahead="drug as drug.drugName for drug in myDrug | filter : drugKey" typeahead-on-select="drugSearch(drugKey,choice);"></td>
 <td class="colC" style="text-align:center"><select style='width: 155px;height: 30px;' id={{choice.strength}}  name={{choice.strength}}><option value="" />${ strengthOptions }</select></td>
 <td class="colD" style="text-align:center"><input type="text" ng-model="noOfTablet" id={{choice.noOfTablet}} name={{choice.noOfTablet}}></td>
@@ -48,7 +51,8 @@
 <td class="colG" style="text-align:center"><input type="text" ng-model="duration" id={{choice.duration}} name={{choice.duration}}></td>
 <td class="colH" style="text-align:center"><input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" size="5" id="info" name="info" value="Info" ng-click="artDrugInfoForRegimenSearch(drugKey);" /></td>
 <td class="colI" style="text-align:center"><input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="add" name="add" value="Add" ng-click="addNewChoice()"/></td>
-<td class="colJ" style="text-align:center"><input type="hidden" id={{choice.srNumber}} name="srNo" value={{choice.srNo}}></td>
+<td class="colJ"><input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" style="color:red" id="remove" name="remove" value="[X]" ng-click="removeChoice(choice)" /></td>
+<td class="colK" style="text-align:center"><input type="hidden" id={{choice.srNumber}} name="srNo" value={{choice.srNo}}></td>
 </tr>
 </tbody>
 </table>
@@ -56,13 +60,69 @@
 
 </div>
 
+<div id="artRegimenDiv" style="visibility:hidden;">
+
+</div>
+
 <script type="text/javascript">
 var patientId=${patient.patientId};
+var regimenChangeType="fresh";
+
+function guideForContinRegimen(){
+jQuery('#guideDiv').empty();
+jQuery('#drugInfoDiv').empty();
+var age=${patient.age};
+if(age>14){
+var htmlText =  "<img src='${ ui.resourceLink('kenyaui', 'images/glyphs/flow_chart_adult.jpg') }' />"
+var newElement = document.createElement('div');
+newElement.setAttribute("id", "guideDivAdult"); 
+newElement.innerHTML = htmlText;
+var fieldsArea = document.getElementById('guideDiv');
+fieldsArea.appendChild(newElement);
+var url = "#TB_inline?height=750&width=1150&inlineId=guideDivAdult";
+tb_show("Guide",url,false);
+}
+else{
+var htmlText =  "<img src='${ ui.resourceLink('kenyaui', 'images/glyphs/flow_chart_child.jpg') }' />"
+var newElement = document.createElement('div');
+newElement.setAttribute("id", "guideDivChild"); 
+newElement.innerHTML = htmlText;
+var fieldsArea = document.getElementById('guideDiv');
+fieldsArea.appendChild(newElement);
+var url = "#TB_inline?height=750&width=1350&inlineId=guideDivChild";
+tb_show("Guide",url,false);
+}
+}
+
+function artForContinRegimen(){
+jQuery('#artRegimenDiv').empty();
+//jQuery('#drugInfoDiv').empty();
+var age=${patient.age};
+if(age>14){
+var htmlText =  "<img src='${ ui.resourceLink('kenyaui', 'images/glyphs/artRegimen_adultImage.jpg') }' />"
+var newElement = document.createElement('div');
+newElement.setAttribute("id", "artRegimenDivAdult"); 
+newElement.innerHTML = htmlText;
+var fieldsArea = document.getElementById('artRegimenDiv');
+fieldsArea.appendChild(newElement);
+var url = "#TB_inline?height=700&width=1450&inlineId=artRegimenDivAdult";
+tb_show("Guide",url,false);
+}
+else{
+var htmlText =  "<img src='${ ui.resourceLink('kenyaui', 'images/glyphs/artRegimen_childImage.jpg') }' />"
+var newElement = document.createElement('div');
+newElement.setAttribute("id", "artRegimenDivChild"); 
+newElement.innerHTML = htmlText;
+var fieldsArea = document.getElementById('artRegimenDiv');
+fieldsArea.appendChild(newElement);
+var url = "#TB_inline?height=1000&width=1450&inlineId=artRegimenDivChild";
+tb_show("Guide",url,false);
+}
+}
 </script>
 
 <style type="text/css">
   table { width: 100%; }
-  td.colA { width: 5%; }
   td.colB { width: 10%; }
   td.colC { width: 10%; }
   td.colD { width: 10%; }
@@ -72,5 +132,5 @@ var patientId=${patient.patientId};
   td.colH { width: 5%; }
   td.colI { width: 5%; }
   td.colJ { width: 5%; }
+  td.colK { width: 5%; }
 </style>
-

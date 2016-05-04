@@ -26,7 +26,6 @@
 <td><input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="artRegimen" name="artRegimen" value="Art Regimen" onClick="artRegimenn();" /></td>
 </tr>
 <tr>
-<td class="colA" style="text-align:center">S.No</td>
 <td class="colB" style="text-align:center">Drug</td>
 <td class="colC" style="text-align:center">Strength(per tab or ml)</td>
 <td class="colD" style="text-align:center">Tablets</td>
@@ -44,7 +43,6 @@
 <table>
 <tbody>
 <tr>
-<td class="colA" style="text-align:center">{{choice.srNo}}</td>
 <td class="colB" style="text-align:center"><input type="text" ng-model="drugKey" id={{choice.drugKey}} name={{choice.drugKey}} placeholder="search box" uib-typeahead="drug as drug.drugName for drug in myDrug | filter : drugKey" typeahead-on-select="drugSearch(drugKey,choice);"></td>
 <td class="colC" style="text-align:center"><select style='width: 155px;height: 30px;' id={{choice.strength}}  name={{choice.strength}}><option value="" />${ strengthOptions }</select></td>
 <td class="colD" style="text-align:center"><input type="text" ng-model="noOfTablet" id={{choice.noOfTablet}} name={{choice.noOfTablet}}></td>
@@ -68,6 +66,7 @@
 
 <script type="text/javascript">
 var patientId=${patient.patientId};
+var regimenChangeType="fresh";
 
 function guidee(){
 jQuery('#guideDiv').empty();
@@ -124,7 +123,6 @@ tb_show("Guide",url,false);
 
 <style type="text/css">
   table { width: 100%; }
-  td.colA { width: 5%; }
   td.colB { width: 10%; }
   td.colC { width: 10%; }
   td.colD { width: 10%; }

@@ -26,12 +26,14 @@ kenyaemrApp.controller('DrugCtrl', ['$scope', function($scope) {
 	}
 	
 	$scope.removeChoice = function(index) {
+		alert("aaaaaa"+index);
 	    $scope.choices.splice(index,1);
+	    /*
 	    var newItemNo = $scope.choices.length;
 	    $scope.choices=[];
 	    for(var i=1;i<=newItemNo;i++){
 	    	$scope.choices.push({srNo:i,srNumber:'srNumber'+i,id:'choice'+i,drugKey:'drugKey'+i,strength:'strength'+i,noOfTablet:'noOfTablet'+i,type: 'type'+i,frequncy:'frequncy'+i,duration:'duration'+i});
-	    }
+	    }*/
 	}
 	
 	$scope.drugSearch = function(drugKey,choice){
@@ -113,7 +115,7 @@ kenyaemrApp.controller('DrugCtrl', ['$scope', function($scope) {
 	}
 	
 	$scope.init = function(){
-		jq.getJSON('/' + OPENMRS_CONTEXT_PATH + '/kenyaemr/emrUtils/drugConcept.action',{ patientId: patientId})
+		jq.getJSON('/' + OPENMRS_CONTEXT_PATH + '/kenyaemr/emrUtils/drugConcept.action',{ patientId: patientId,regimenChangeType:regimenChangeType})
 	    .done(function(data) {
 	    	$scope.$apply(function(){ 
 	    		$scope.myDrug = data.drugConceptName;

@@ -34,6 +34,7 @@ import org.openmrs.Order;
 import org.openmrs.Patient;
 import org.openmrs.User;
 import org.openmrs.Visit;
+import org.openmrs.api.OrderService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.kenyaemr.api.KenyaEmrService;
 import org.openmrs.module.kenyaemr.metadata.CommonMetadata._EncounterType;
@@ -233,18 +234,18 @@ public class RegimenUtilFragmentController {
 					}
 				}
 				
-				DrugOrder drugoOrder = new DrugOrder();
-				drugoOrder.setOrderType(Context.getOrderService().getOrderType(OpenmrsConstants.ORDERTYPE_DRUG));
-				drugoOrder.setEncounter(encounter);
-				drugoOrder.setPatient(patient);
-				drugoOrder.setStartDate(new Date());
-				drugoOrder.setConcept(drugConcept);
+				DrugOrder drugOrder = new DrugOrder();
+				drugOrder.setOrderType(Context.getOrderService().getOrderType(OpenmrsConstants.ORDERTYPE_DRUG));
+				drugOrder.setEncounter(encounter);
+				drugOrder.setPatient(patient);
+				drugOrder.setStartDate(new Date());
+				drugOrder.setConcept(drugConcept);
 				//drugoOrder.setDrug();
 				//drugoOrder.setDose(dose);
-				drugoOrder.setUnits(units);
-				drugoOrder.setFrequency(frequency);
+				drugOrder.setUnits(units);
+				drugOrder.setFrequency(frequency);
 				
-				Order order=Context.getOrderService().saveOrder(drugoOrder);
+				Order order=Context.getOrderService().saveOrder(drugOrder);
 				
 				DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
 				drugOrderProcessed.setDrugOrder(Context.getOrderService().getDrugOrder(order.getOrderId()));
@@ -270,6 +271,39 @@ public class RegimenUtilFragmentController {
 				List<DrugOrder> noChanges = new ArrayList<DrugOrder>();
 				List<DrugOrder> toChangeDose = new ArrayList<DrugOrder>();
 				List<DrugOrder> toStart = new ArrayList<DrugOrder>();
+				
+				/*
+				if (regimen != null) {
+					for (RegimenComponent component : regimen.getComponents()) {
+						changeRegimenHelper(baseline, component, noChanges, toChangeDose, toStart);
+					}
+				}
+				
+				List<DrugOrder> toStop = new ArrayList<DrugOrder>(baseline.getDrugOrders());
+				
+				toStop.removeAll(noChanges);
+				
+				OrderService os = Context.getOrderService();
+
+				for (DrugOrder o : toStop) {
+					o.setDiscontinued(true);
+					o.setDiscontinuedDate(changeDate);
+					o.setDiscontinuedBy(Context.getAuthenticatedUser());
+					o.setDiscontinuedReason(changeReason);
+					o.setDiscontinuedReasonNonCoded(changeReasonNonCoded);
+					os.saveOrder(o);
+				}
+				
+				for (DrugOrder o : toStart) {
+					o.setPatient(patient);
+					o.setStartDate(changeDate);
+					o.setOrderType(os.getOrderType(OpenmrsConstants.ORDERTYPE_DRUG));
+					os.saveOrder(o);
+				}*/
+				
+				for(DrugOrder drugOrder:baseline.getDrugOrders()){
+					//System.out.println("aaaaaaaaaaaaaaaaa----"+drugOrder.getConcept().getName().getName());	
+				}
 
 			  }
 			return encounter;
