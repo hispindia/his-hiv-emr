@@ -36,7 +36,7 @@
 	}
 	else {
 		if (cd4PerCount) {
-			dataPoints << [ label: "Last CD4 percentage", value: ui.format(cd4PerCount) + " %" ]
+			dataPoints << [ label: "Last CD4 percentage", value: ui.format(cd4PerCount) + " %" ,extra: calculations.lastCD4Percent.value.obsDatetime]
 		}
 		else {
 			dataPoints << [ label: "Last CD4 percentage", value: "None" ]
