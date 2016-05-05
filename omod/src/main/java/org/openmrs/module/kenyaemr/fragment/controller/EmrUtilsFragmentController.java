@@ -43,6 +43,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
+import org.openmrs.DrugOrder;
 import org.openmrs.Patient;
 import org.openmrs.Relationship;
 import org.openmrs.Visit;
@@ -58,6 +59,7 @@ import org.openmrs.module.kenyaemr.regimen.RegimenChangeHistory;
 import org.openmrs.module.kenyaemr.regimen.RegimenDefinition;
 import org.openmrs.module.kenyaemr.regimen.RegimenDefinitionGroup;
 import org.openmrs.module.kenyaemr.regimen.RegimenManager;
+import org.openmrs.module.kenyaemr.regimen.RegimenOrder;
 import org.openmrs.module.kenyaemr.regimen.RegimenPropertyConfiguration;
 import org.openmrs.module.kenyaemr.util.EmrUiUtils;
 import org.openmrs.module.kenyaui.KenyaUiUtils;
@@ -205,24 +207,66 @@ public class EmrUtilsFragmentController {
 	
 	public JSONObject drugConcept(@RequestParam("patientId") Patient patient,
 			@RequestParam(value= "drugKey", required = false) String drugKey,
-			@RequestParam(value= "regimenChangeType", required = false) String regimenChangeType,
 			UiUtils ui, 
 			@SpringBean RegimenManager regimenManager,
 			@SpringBean EmrUiUtils kenyaUi) throws FileNotFoundException, IOException{
+		KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
 		JSONObject conceptNameJson = new JSONObject();
 		JSONArray conceptNameJsonArray = new JSONArray();
+		JSONArray substituteConceptNameJsonArray = new JSONArray();
+		JSONArray switchConceptNameJsonArray = new JSONArray();
+		
+		String category="ARV";
+		String whichLine="";
+		Concept masterSet = regimenManager.getMasterSetConcept(category);
+		RegimenChangeHistory history = RegimenChangeHistory.forPatient(patient, masterSet);
+		RegimenChange lastChange = history.getLastChange();
+		RegimenOrder baseline = lastChange != null ? lastChange.getStarted() : null;
+		if(baseline!=null){
+		for(DrugOrder drugOrder:baseline.getDrugOrders()){
+			List<ConceptAnswer> conceptAnswers= kenyaEmrService.getConceptAnswerByAnsweConcept(drugOrder.getConcept());
+			for(ConceptAnswer conceptAnswer:conceptAnswers){
+				if(!(conceptAnswer.getConcept().getName().getName().equals("Fixed dose combinations (FDCs)") || conceptAnswer.getConcept().getName().getName().equals("ARV drugs for child"))){
+					whichLine=conceptAnswer.getConcept().getName().getName();
+				}
+			}
+		  }
+		}
 		
 		Collection<ConceptAnswer> conceptAnswers=new LinkedHashSet<ConceptAnswer>();
-		List<String> drugName=new LinkedList<String>();
+		Collection<ConceptAnswer> substituteConceptAnswers=new LinkedHashSet<ConceptAnswer>();
+		Collection<ConceptAnswer> switchConceptAnswers=new LinkedHashSet<ConceptAnswer>();
+		
 		if(patient.getAge()>14){
 			Concept concept1=Context.getConceptService().getConceptByName("First line Anti-retoviral drugs");
 			Concept concept2=Context.getConceptService().getConceptByName("Second line ART");
 			Concept concept3=Context.getConceptService().getConceptByName("HIV/HBV co-infection");
 			Concept concept4=Context.getConceptService().getConceptByName("Fixed dose combinations (FDCs)");
-			conceptAnswers.addAll(concept1.getAnswers(false));
-			conceptAnswers.addAll(concept2.getAnswers(false));
-			conceptAnswers.addAll(concept3.getAnswers(false));
-			conceptAnswers.addAll(concept4.getAnswers(false));
+			
+			if(whichLine.equals("")){
+				conceptAnswers.addAll(concept1.getAnswers(false));
+				conceptAnswers.addAll(concept2.getAnswers(false));
+				conceptAnswers.addAll(concept3.getAnswers(false));
+				conceptAnswers.addAll(concept4.getAnswers(false));
+			}
+			else if(whichLine.equals("First line Anti-retoviral drugs")){
+				substituteConceptAnswers.addAll(concept1.getAnswers(false));
+				switchConceptAnswers.addAll(concept2.getAnswers(false));
+				switchConceptAnswers.addAll(concept3.getAnswers(false));
+				switchConceptAnswers.addAll(concept4.getAnswers(false));
+			}
+            else if(whichLine.equals("Second line ART")){
+            	substituteConceptAnswers.addAll(concept2.getAnswers(false));
+				switchConceptAnswers.addAll(concept1.getAnswers(false));
+				switchConceptAnswers.addAll(concept3.getAnswers(false));
+				switchConceptAnswers.addAll(concept4.getAnswers(false));
+			}
+            else if(whichLine.equals("HIV/HBV co-infection")){
+            	substituteConceptAnswers.addAll(concept3.getAnswers(false));
+				switchConceptAnswers.addAll(concept1.getAnswers(false));
+				switchConceptAnswers.addAll(concept2.getAnswers(false));
+				switchConceptAnswers.addAll(concept4.getAnswers(false));
+            }
 		}
 		else{
 			Concept concept5=Context.getConceptService().getConceptByName("ARV drugs for child");
@@ -243,19 +287,111 @@ public class EmrUtilsFragmentController {
 					stream = loader.getResourceAsStream(configuration.getDefinitionsPath());
 			}
 			props.loadFromXML(stream);
-		    String strength = props.getProperty(drugNam+".strength");
-		    String noOfTablet = props.getProperty(drugNam+".noOfTablet");
-		    String type = props.getProperty(drugNam+".type");
-		    String frequency = props.getProperty(drugNam+".frequency");
+			if(patient.getAge()>14){
+		    String strength = props.getProperty(drugNam+".adult.strength");
+		    String noOfTablet = props.getProperty(drugNam+".adult.noOfTablet");
+		    String type = props.getProperty(drugNam+".adult.type");
+		    String frequency = props.getProperty(drugNam+".adult.frequency");
 			
 			conceptNameJson2.put("strength", strength);
 			conceptNameJson2.put("noOfTablet", noOfTablet);
 			conceptNameJson2.put("type", type);
 			conceptNameJson2.put("frequency", frequency);
 			conceptNameJsonArray.add(conceptNameJson2);
+			}
+			else{
+				String strength = props.getProperty(drugNam+".child.strength");
+			    String noOfTablet = props.getProperty(drugNam+".child.noOfTablet");
+			    String type = props.getProperty(drugNam+".child.type");
+			    String frequency = props.getProperty(drugNam+".child.frequency");
+				
+				conceptNameJson2.put("strength", strength);
+				conceptNameJson2.put("noOfTablet", noOfTablet);
+				conceptNameJson2.put("type", type);
+				conceptNameJson2.put("frequency", frequency);
+				conceptNameJsonArray.add(conceptNameJson2);	
+			}
+		}
+		
+		for(ConceptAnswer conceptAnswer:substituteConceptAnswers){
+			JSONObject conceptNameJson2 = new JSONObject();
+			String drugNam=conceptAnswer.getAnswerConcept().getName().getName();
+			conceptNameJson2.put("drugName", drugNam);
+			
+			Properties props = new Properties();
+			InputStream stream=null;
+			for (RegimenPropertyConfiguration configuration : Context.getRegisteredComponents(RegimenPropertyConfiguration.class)) {
+					ClassLoader loader = configuration.getClassLoader();
+					stream = loader.getResourceAsStream(configuration.getDefinitionsPath());
+			}
+			props.loadFromXML(stream);
+			if(patient.getAge()>14){
+		    String strength = props.getProperty(drugNam+".adult.strength");
+		    String noOfTablet = props.getProperty(drugNam+".adult.noOfTablet");
+		    String type = props.getProperty(drugNam+".adult.type");
+		    String frequency = props.getProperty(drugNam+".adult.frequency");
+			
+			conceptNameJson2.put("strength", strength);
+			conceptNameJson2.put("noOfTablet", noOfTablet);
+			conceptNameJson2.put("type", type);
+			conceptNameJson2.put("frequency", frequency);
+			substituteConceptNameJsonArray.add(conceptNameJson2);
+			}
+			else{
+				String strength = props.getProperty(drugNam+".child.strength");
+			    String noOfTablet = props.getProperty(drugNam+".child.noOfTablet");
+			    String type = props.getProperty(drugNam+".child.type");
+			    String frequency = props.getProperty(drugNam+".child.frequency");
+				
+				conceptNameJson2.put("strength", strength);
+				conceptNameJson2.put("noOfTablet", noOfTablet);
+				conceptNameJson2.put("type", type);
+				conceptNameJson2.put("frequency", frequency);
+				substituteConceptNameJsonArray.add(conceptNameJson2);	
+			}
+		}
+		
+		for(ConceptAnswer conceptAnswer:switchConceptAnswers){
+			JSONObject conceptNameJson2 = new JSONObject();
+			String drugNam=conceptAnswer.getAnswerConcept().getName().getName();
+			conceptNameJson2.put("drugName", drugNam);
+			
+			Properties props = new Properties();
+			InputStream stream=null;
+			for (RegimenPropertyConfiguration configuration : Context.getRegisteredComponents(RegimenPropertyConfiguration.class)) {
+					ClassLoader loader = configuration.getClassLoader();
+					stream = loader.getResourceAsStream(configuration.getDefinitionsPath());
+			}
+			props.loadFromXML(stream);
+			if(patient.getAge()>14){
+		    String strength = props.getProperty(drugNam+".adult.strength");
+		    String noOfTablet = props.getProperty(drugNam+".adult.noOfTablet");
+		    String type = props.getProperty(drugNam+".adult.type");
+		    String frequency = props.getProperty(drugNam+".adult.frequency");
+			
+			conceptNameJson2.put("strength", strength);
+			conceptNameJson2.put("noOfTablet", noOfTablet);
+			conceptNameJson2.put("type", type);
+			conceptNameJson2.put("frequency", frequency);
+			switchConceptNameJsonArray.add(conceptNameJson2);
+			}
+			else{
+				String strength = props.getProperty(drugNam+".child.strength");
+			    String noOfTablet = props.getProperty(drugNam+".child.noOfTablet");
+			    String type = props.getProperty(drugNam+".child.type");
+			    String frequency = props.getProperty(drugNam+".child.frequency");
+				
+				conceptNameJson2.put("strength", strength);
+				conceptNameJson2.put("noOfTablet", noOfTablet);
+				conceptNameJson2.put("type", type);
+				conceptNameJson2.put("frequency", frequency);
+				switchConceptNameJsonArray.add(conceptNameJson2);	
+			}
 		}
 		
 		conceptNameJson.put("drugConceptName", conceptNameJsonArray);
+		conceptNameJson.put("substituteConceptName", substituteConceptNameJsonArray);
+		conceptNameJson.put("switchConceptName", switchConceptNameJsonArray);
 		
 		return conceptNameJson;
 	}

@@ -66,7 +66,6 @@
 
 <script type="text/javascript">
 var patientId=${patient.patientId};
-var regimenChangeType="fresh";
 
 function guidee(){
 jQuery('#guideDiv').empty();

@@ -43,7 +43,7 @@
 <table>
 <tbody>
 <tr>
-<td class="colB" style="text-align:center"><input type="text" ng-model="drugKey" id={{choice.drugKey}} name={{choice.drugKey}} placeholder="search box" uib-typeahead="drug as drug.drugName for drug in myDrug | filter : drugKey" typeahead-on-select="drugSearch(drugKey,choice);"></td>
+<td class="colB" style="text-align:center"><input type="text" ng-model="drugKey" id={{choice.drugKey}} name={{choice.drugKey}} placeholder="search box" uib-typeahead="drug as drug.drugName for drug in myDrug3 | filter : drugKey" typeahead-on-select="drugSearch(drugKey,choice);"></td>
 <td class="colC" style="text-align:center"><select style='width: 155px;height: 30px;' id={{choice.strength}}  name={{choice.strength}}><option value="" />${ strengthOptions }</select></td>
 <td class="colD" style="text-align:center"><input type="text" ng-model="noOfTablet" id={{choice.noOfTablet}} name={{choice.noOfTablet}}></td>
 <td class="colE" style="text-align:center"><select style='width: 155px;height: 30px;' type="text" ng-model="type" id={{choice.type}} name={{choice.type}}>${typeOptions}</select></td>
@@ -66,7 +66,6 @@
 
 <script type="text/javascript">
 var patientId=${patient.patientId};
-var regimenChangeType="fresh";
 
 function guideForSwitchRegimen(){
 jQuery('#guideDiv').empty();

@@ -66,7 +66,7 @@
 
 <script type="text/javascript">
 var patientId=${patient.patientId};
-var regimenChangeType="fresh";
+changeType="Continue";
 
 function guideForContinRegimen(){
 jQuery('#guideDiv').empty();
