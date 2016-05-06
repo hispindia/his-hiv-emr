@@ -49,7 +49,7 @@
 <td class="colE" style="text-align:center"><select style='width: 155px;height: 30px;' type="text" ng-model="type" id={{choice.type}} name={{choice.type}}>${typeOptions}</select></td>
 <td class="colF" style="text-align:center"><select style='width: 155px;height: 30px;' type="text" ng-model="frequncy" id={{choice.frequncy}} name={{choice.frequncy}} >${ frequencyOptions }</select></td>
 <td class="colG" style="text-align:center"><input type="text" ng-model="duration" id={{choice.duration}} name={{choice.duration}}></td>
-<td class="colH" style="text-align:center"><input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" size="5" id="info" name="info" value="Info" ng-click="artDrugInfoForRegimenSearch(drugKey);" /></td>
+<td class="colH" style="text-align:center"><input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="info" name="info" value="Info" ng-click="artDrugInfoForRegimenSearch(drugKey);" /></td>
 <td class="colI" style="text-align:center"><input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="add" name="add" value="Add" ng-click="addNewChoice()"/></td>
 <td class="colJ" style="text-align:center"><input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" style="color:red" id="remove" name="remove" value="[X]" ng-click="removeChoice(choice)" /></td>
 <td class="colK" style="text-align:center"><input type="hidden" id={{choice.srNumber}} name="srNo" value={{choice.srNo}}></td>
@@ -65,7 +65,6 @@ var patientId=${patient.patientId};
 
 function guidee(){
 jQuery('#guideDiv').empty();
-jQuery('#drugInfoDiv').empty();
 var age=${patient.age};
 if(age>14){
 var htmlText =  "<img src='${ ui.resourceLink('kenyaui', 'images/glyphs/flow_chart_adult.jpg') }' />"
@@ -91,7 +90,6 @@ tb_show("Guide",url,false);
 
 function artRegimenn(){
 jQuery('#artRegimenDiv').empty();
-//jQuery('#drugInfoDiv').empty();
 var age=${patient.age};
 if(age>14){
 var htmlText =  "<img src='${ ui.resourceLink('kenyaui', 'images/glyphs/artRegimen_adultImage.jpg') }' />"
@@ -101,7 +99,7 @@ newElement.innerHTML = htmlText;
 var fieldsArea = document.getElementById('artRegimenDiv');
 fieldsArea.appendChild(newElement);
 var url = "#TB_inline?height=700&width=1450&inlineId=artRegimenDivAdult";
-tb_show("Guide",url,false);
+tb_show("Art Regimen",url,false);
 }
 else{
 var htmlText =  "<img src='${ ui.resourceLink('kenyaui', 'images/glyphs/artRegimen_childImage.jpg') }' />"
@@ -111,7 +109,7 @@ newElement.innerHTML = htmlText;
 var fieldsArea = document.getElementById('artRegimenDiv');
 fieldsArea.appendChild(newElement);
 var url = "#TB_inline?height=1000&width=1450&inlineId=artRegimenDivChild";
-tb_show("Guide",url,false);
+tb_show("Art Regimen",url,false);
 }
 }
 </script>

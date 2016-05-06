@@ -26,7 +26,7 @@
 <td class="colE" style="text-align:center"><input type="text" id="type${count}" name="type${count}" value="${drugOrderProcessed.drugOrder.units}" disabled></td>
 <td class="colF" style="text-align:center"><input type="text" id="frequncy${count}" name="frequncy${count}" value="${drugOrderProcessed.drugOrder.frequency}" disabled></td>
 <td class="colG" style="text-align:center"><input type="text" id="duration${count}" name="duration${count}"></td>
-<td class="colH" style="text-align:center"><input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" size="5" id="info" name="info" value="Info" ng-click="artDrugInfoForRegimenSearch(drugKey);" /></td>
+<td class="colH" style="text-align:center"><input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="info" name="info" value="Info" ng-click="artDrugInfoForRegimenSearch(drugKey);" /></td>
 <td class="colI" style="text-align:center"></td>
 <td class="colJ" style="text-align:center"></td>
 <td class="colK" style="text-align:center"><input type="hidden" id="srNumber${count}" name="srNo" value="${count++}"></td>
@@ -43,7 +43,6 @@ changeType="Continue";
 
 function guideForContinRegimen(){
 jQuery('#guideDiv').empty();
-jQuery('#drugInfoDiv').empty();
 var age=${patient.age};
 if(age>14){
 var htmlText =  "<img src='${ ui.resourceLink('kenyaui', 'images/glyphs/flow_chart_adult.jpg') }' />"
@@ -69,7 +68,6 @@ tb_show("Guide",url,false);
 
 function artForContinRegimen(){
 jQuery('#artRegimenDiv').empty();
-//jQuery('#drugInfoDiv').empty();
 var age=${patient.age};
 if(age>14){
 var htmlText =  "<img src='${ ui.resourceLink('kenyaui', 'images/glyphs/artRegimen_adultImage.jpg') }' />"
@@ -79,7 +77,7 @@ newElement.innerHTML = htmlText;
 var fieldsArea = document.getElementById('artRegimenDiv');
 fieldsArea.appendChild(newElement);
 var url = "#TB_inline?height=700&width=1450&inlineId=artRegimenDivAdult";
-tb_show("Guide",url,false);
+tb_show("Art Regimen",url,false);
 }
 else{
 var htmlText =  "<img src='${ ui.resourceLink('kenyaui', 'images/glyphs/artRegimen_childImage.jpg') }' />"
@@ -89,7 +87,7 @@ newElement.innerHTML = htmlText;
 var fieldsArea = document.getElementById('artRegimenDiv');
 fieldsArea.appendChild(newElement);
 var url = "#TB_inline?height=1000&width=1450&inlineId=artRegimenDivChild";
-tb_show("Guide",url,false);
+tb_show("Art Regimen",url,false);
 }
 }
 </script>

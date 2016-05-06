@@ -105,8 +105,6 @@ kenyaemrApp.controller('DrugCtrl', ['$scope', function($scope) {
       newElement.setAttribute("id", "drugDiv"); 
       newElement.innerHTML = htmlText;
       var fieldsArea = document.getElementById('drugInfoDiv');
-      jQuery('#guideDiv').empty();
-      jQuery('#drugInfoDiv').empty();
       fieldsArea.appendChild(newElement);
       var url = "#TB_inline?height=500&width=750&inlineId=drugDiv";
       tb_show("Drug Info",url,false);
