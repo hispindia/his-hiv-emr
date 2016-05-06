@@ -37,10 +37,15 @@ input[type=text] {
 input[class=hasDatepicker] {
 	width: 150px;
 }
+input[type=button], button{
+	
+	background-color:Transparent;
+	}
 </style>
 <script type="text/javascript">
 		
 		jq(document).ready(function(){
+		
 			var pbirthdate = new Date("<lookup expression="patient.birthdate" />").getTime();
 
 			//check if the date of tb treatment already exists
@@ -59,6 +64,7 @@ input[class=hasDatepicker] {
 			// show fields with data 
 			fieldIndex = 14;
 			count=1;
+			if(document.getElementById("w"+fieldIndex)!=null){
 			while(document.getElementById("w"+fieldIndex) &amp;&amp; document.getElementById("w"+fieldIndex).value!="" &amp;&amp; count &lt; 11){
 				jQuery('#'+count+'-toggleContainer').show();   
 				fieldIndex=fieldIndex+2;
@@ -69,19 +75,22 @@ input[class=hasDatepicker] {
 				}
 				count++;
 			}
+			}
 			
 			$j('#1-removeEntry').remove();
 			$j('#10-addEntry').remove();
 			$j('#1-toggleContainer').show();
 			
 			
-			$j('button.addEntry').on("click", function(){
+				$j('button.addEntry').on("click", function(){
 				var correctedAddButtonId = parseFloat(this.id) + 1;      
 				var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
 				$j(contentAddId).toggle(true);      
 				$j('#' + this.id).toggle(false); 
 				$j('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
 				return false;});    
+			
+			
 			 
 			$j('button.removeEntry').on("click", function(){ 
 				var correctedRemoveButtonId = parseFloat(this.id) - 1;
@@ -97,7 +106,7 @@ input[class=hasDatepicker] {
 			// show fields with data 
 			fieldIndex1 = 68;
 			count=1;
-		
+			if(document.getElementById("w"+fieldIndex1)!=null){
 			while(document.getElementById("w"+fieldIndex1).value!="" &amp;&amp; count &lt; 11){
 				jQuery('#'+count+'-toggleContainer1').show();   
 				fieldIndex1=fieldIndex1+2;
@@ -108,14 +117,15 @@ input[class=hasDatepicker] {
 				}
 				count++;
 			}
+			}
 			
 			$j('#1-removeEntry1').remove();
 			$j('#10-addEntry1').remove();
 			$j('#1-toggleContainer1').show();
 			
-			
+		
 			$j('button.addEntry1').on("click", function(){
-				var correctedAddButtonId = parseFloat(this.id) + 1;      
+				var correctedAddButtonId = parseFloat(this.id) + 1; 
 				var contentAddId = "#" + correctedAddButtonId + "-toggleContainer1";
 				$j(contentAddId).toggle(true);      
 				$j('#' + this.id).toggle(false); 
@@ -335,8 +345,8 @@ input[class=hasDatepicker] {
 														conceptId="5d710188-5b99-4d39-8c93-a562c02c452a"
 														style="autocomplete" type="autocomplete" labelText=" "
 														id="site" /></td>
-												<td><button id="{n}-addEntry" class="addEntry">Add</button>
-													<button id="{n}-removeEntry" class="removeEntry">Remove</button>
+												<td><button id="{n}-addEntry" class="addEntry"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/revisit.png" width="25" height="25" /></button>
+												<button id="{n}-removeEntry" class="removeEntry"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/close.png"  width="20" height="20" /></button>
 												</td>
 											</tr>
 											</template> <render n="1" concept=" " /> <render n="2" concept=" " /> <render
@@ -422,14 +432,14 @@ input[class=hasDatepicker] {
 								<td style="padding-left: 25px;" colspan="2" align="left"><obs
 										conceptId="159800AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 										answerConceptId="832AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-										answerLabel="Weight loss" style="checkbox" /></td>
+										answerLabel="Presence of Weight loss" style="checkbox" /></td>
 								<td></td>
 							</tr>
 							<tr>
 								<td style="padding-left: 25px;" colspan="2" align="left"><obs
 										conceptId="159800AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 										answerConceptId="133027AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-										answerLabel="Night sweat" style="checkbox" /></td>
+										answerLabel="Presence of Night sweat" style="checkbox" /></td>
 								<td></td>
 							</tr>
 							<tr>
@@ -437,14 +447,14 @@ input[class=hasDatepicker] {
 								<td style="padding-left: 25px;" colspan="2" align="left"><obs
 										conceptId="159800AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 										answerConceptId="1494AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-										answerLabel="Fever" style="checkbox" /></td>
+										answerLabel="Presence of Fever" style="checkbox" /></td>
 								<td></td>
 							</tr>
 							<tr>
 								<td style="padding-left: 25px;" colspan="2" align="left"><obs
 										conceptId="159800AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 										answerConceptId="159799AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-										answerLabel="Current cough" style="checkbox" /></td>
+										answerLabel="Presence of Current cough" style="checkbox" /></td>
 								<td></td>
 							</tr>
 							<tr>
@@ -452,7 +462,7 @@ input[class=hasDatepicker] {
 								<td style="padding-left: 25px;" colspan="2" align="left"><obs
 										conceptId="159800AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 										answerConceptId="157524AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-										answerLabel="Lymph node enlargement" style="checkbox" /></td>
+										answerLabel="Presence of Lymph node enlargement" style="checkbox" /></td>
 								<td></td>
 							</tr>
 							<tr>
@@ -499,8 +509,8 @@ input[class=hasDatepicker] {
 									conceptId="d8189970-d2a9-431d-864c-c8982d538dc9"
 									style="autocomplete" type="autocomplete" labelText=" "
 									id="daig_value" /></td>
-							<td><button id="{n}-addEntry1" class="addEntry1">Add</button>
-								<button id="{n}-removeEntry1" class="removeEntry1">Remove</button>
+							<td><button id="{n}-addEntry1" class="addEntry1"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/revisit.png" width="25" height="25" /></button>
+							<button id="{n}-removeEntry1" class="removeEntry1"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/close.png"  width="20" height="20" /></button>
 							</td>
 						</tr>
 						</template> <render n="1" concept=" " /> <render n="2" concept=" " /> <render

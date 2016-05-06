@@ -21,14 +21,17 @@
 			input[type=text]{
 			width: 300px;
 	}
+	   input[type=button], button{
 	
+	background-color:Transparent;
+	}
 		
 
 	</style>
+	
 	<script type="text/javascript">
 		jq(document).ready(function(){
-		
-	
+			
 			beforeSubmit.push(function() {
 				 var appointDate = new Date(getValue('appointmentDate.value'));
 				 var encount=new Date(getValue('encounter-date.value'));
@@ -158,6 +161,7 @@
 			// show fields with data 
 			fieldIndex = 8; 
 			j=1;
+			if(document.getElementById("w"+fieldIndex)!=null){
 			while(document.getElementById("w"+fieldIndex).value!="" &amp;&amp; j &lt; 11){
 				jQuery('#'+j+'-toggleContainer').show();   
 				fieldIndex=fieldIndex+2;
@@ -168,7 +172,7 @@
 				}
 				j++;
 			}
-			
+			}
 	
 			$j('#1-removeEntry').remove();
 			$j('#10-addEntry').remove();
@@ -201,7 +205,7 @@
 				hasPreviousData = 1;
 				fieldIndex1 = 80; 
 			}
-			
+			if(document.getElementById("w"+fieldIndex1)!=null){
 			while(document.getElementById("w"+fieldIndex1).value!="" &amp;&amp; count &lt; 11){
 				jQuery('#'+count+'-toggleContainer1').show();   
 				fieldIndex1=fieldIndex1+2;
@@ -212,6 +216,8 @@
 				}
 				count++;
 			}
+			}
+			
 			
 			$j('#1-removeEntry1').remove();
 			$j('#10-addEntry1').remove();
@@ -244,6 +250,7 @@
 			if(hasPreviousData==1){
 				fieldIndex2 = 38;
 			}
+			if(document.getElementById("w"+fieldIndex2)!=null){
 			while(document.getElementById("w"+fieldIndex2).value!="" &amp;&amp; count &lt; 11){
 				jQuery('#'+count2+'-toggleContainer2').show();   
 				fieldIndex2=fieldIndex2+2;
@@ -254,7 +261,7 @@
 				}
 				count2++;
 			}
-			
+			}
 			$j('#1-removeEntry2').remove();
 			$j('#10-addEntry2').remove();
 			$j('#1-toggleContainer2').show();
@@ -279,7 +286,6 @@
 				});
 			
 		});
-		
 		
 		
 		function onWeightOrHeightChange() {
@@ -339,7 +345,7 @@
 								<template>
 										<tr  id="{n}-toggleContainer" style="display:none;">
 											<td><obs conceptId="5219AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="autocomplete" labelText=" "  /></td>
-											<td><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button>
+											<td><button id="{n}-addEntry" class="addEntry"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/revisit.png" width="25" height="25" /></button><button id="{n}-removeEntry" class="removeEntry"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/close.png"  width="20" height="20" /></button>
 											</td>
 										</tr>
 								</template>
@@ -393,7 +399,7 @@
 									<template>
 										<tr  id="{n}-toggleContainer1" style="display:none;">
 											<td><obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" style="autocomplete" type="autocomplete" labelText=" "  id="daig_value"/></td>
-											<td><button id="{n}-addEntry1" class="addEntry1">Add</button><button id="{n}-removeEntry1" class="removeEntry1">Remove</button>
+											<td><button id="{n}-addEntry1" class="addEntry1"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/revisit.png" width="25" height="25"/></button><button id="{n}-removeEntry1" class="removeEntry1"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/close.png" width="20" height="20"/></button>
 											</td>
 										</tr>
 									</template>
@@ -425,7 +431,7 @@
 									<template>
 										<tr  id="{n}-toggleContainer2" style="display:none;">
 											<td valign="top"><obs conceptId="4b4e4b62-4e44-43f6-9c35-ca23861a153e" id="artSideEffectValue" /></td>
-											<td valign="top"><button id="{n}-addEntry2" class="addEntry2">Add</button><button id="{n}-removeEntry2" class="removeEntry2">Remove</button>
+											<td valign="top"><button id="{n}-addEntry2" class="addEntry2"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/revisit.png" width="25" height="25" /></button><button id="{n}-removeEntry2" class="removeEntry2"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/close.png" width="20" height="20" /></button>
 											</td>
 										</tr>
 									</template>

@@ -12,6 +12,12 @@
   ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
 -->
 <htmlform>
+<style>
+   input[type=button], button{
+	
+	background-color:Transparent;
+	}
+</style>
 <script type="text/javascript">
 jq(document).ready(function(){
 	if (getValue('status.value') == "135704" || getValue('status.value') == "1175") {
@@ -153,7 +159,9 @@ jq(document).ready(function(){
 											<td colspan="1" width="200px"><obs id="result" conceptId="1169AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
 											<td colspan="1" width="300px"><obs id="art"   conceptId="72ef6301-fbbb-4c44-8e5f-ec27f33afa22" /></td>
 											<td colspan="1" width="300px"><obs id="artreg" conceptId="1420AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
-											<td colspan="1" width="100px"><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button></td> 
+											<td colspan="1" width="100px"><button id="{n}-addEntry" class="addEntry"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/revisit.png" width="25" height="25" /></button>
+												<button id="{n}-removeEntry" class="removeEntry"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/close.png"  width="20" height="20" /></button>
+                                             </td>
 										</tr>
 									</table>	
 								</div>

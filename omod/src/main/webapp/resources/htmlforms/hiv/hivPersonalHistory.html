@@ -12,7 +12,12 @@
   ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
 -->
 <htmlform>
-
+<style>
+input[type=button], button{
+	
+	background-color:Transparent;
+	}
+</style>
 	<script type="text/javascript">
 		jq(document).ready(function () {
 			if (getValue('therapySelection.value') == 1066) {
@@ -52,6 +57,7 @@
 			// show fields with data 
 			fieldIndex = 34; 
 			j=1;
+			if(document.getElementById("w"+fieldIndex)!=null){
 			while(document.getElementById("w"+fieldIndex).value!="" &amp;&amp; j &lt; 6){
 				//alert(document.getElementById("w"+38).value);
 				jQuery('#'+j+'-toggleContainer').show();   
@@ -63,6 +69,7 @@
 					}
 				j++;
 				
+			}
 			}
 			//if(document.getElementById("w"+36).value == NULL)
 				//{
@@ -232,7 +239,8 @@
 			<template>
 					<tr  id="{n}-toggleContainer" style="display:none;">
 						<td valign="top">{n}.<obs conceptId="6f3ac1ca-0500-4286-9c62-7190c4e792d9" style="autocomplete"/>
-						</td><td><button id="{n}-addEntry" class="addEntry">Add</button><button id="{n}-removeEntry" class="removeEntry">Remove</button>
+						</td><td><button id="{n}-addEntry" class="addEntry"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/revisit.png" width="25" height="25" /></button>
+								<button id="{n}-removeEntry" class="removeEntry"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/close.png" width="20" height="20" /></button>
 						</td>
 					</tr>
 			</template>

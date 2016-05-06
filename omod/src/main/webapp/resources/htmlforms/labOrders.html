@@ -12,6 +12,12 @@
   ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
 -->
 <htmlform>
+<style>
+input[type=button], button{
+	
+	background-color:Transparent;
+	}
+</style>
 	<script type="text/javascript">
 		
 		jq(document).ready(function(){
@@ -103,7 +109,8 @@
 								<template>
 									<tr  id="{n}-toggleContainer1" style="display:none;">
 										<td valign="bottom">{n}. <obs conceptId="1283AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="autocomplete"/></td>
-										<td><button id="{n}-addEntry1" class="addEntry1">Add</button><button id="{n}-removeEntry1" class="removeEntry1">Remove</button>
+										<td>><button id="{n}-addEntry1" class="addEntry1"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/revisit.png" width="25" height="25" /></button>
+												<button id="{n}-removeEntry1" class="removeEntry1"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/close.png" width="20" height="20" /></button>
 										</td>
 									</tr>
 								</template>
