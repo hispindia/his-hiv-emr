@@ -116,7 +116,9 @@
 </div>
 
 <div id="guideDiv" style="visibility:hidden;">
+</div>
 
+<div id="artRegimenDiv" style="visibility:hidden;">
 </div>
 
 <div id="drugInfoDiv" style="visibility:hidden;">		

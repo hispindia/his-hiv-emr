@@ -25,6 +25,7 @@
 		<property name="discontinuedReasonNonCoded" column="discontinued_reason_non_coded" />
 		<property name="quantityPostProcess" column="quantity_postprocess" />
 		<property name="drugRegimen" column="drug_regimen" />
+		<property name="regimenChangeType" column="regimen_change_type" />
 		<property name="typeOfRegimen" column="type_of_regimen" />
 	</class>
 </hibernate-mapping>

@@ -238,7 +238,7 @@ public class RegimenUtilFragmentController {
 				drugOrder.setOrderType(Context.getOrderService().getOrderType(OpenmrsConstants.ORDERTYPE_DRUG));
 				drugOrder.setEncounter(encounter);
 				drugOrder.setPatient(patient);
-				drugOrder.setStartDate(new Date());
+				drugOrder.setStartDate(changeDate);
 				drugOrder.setConcept(drugConcept);
 				//drugoOrder.setDrug();
 				//drugoOrder.setDose(dose);
@@ -255,6 +255,7 @@ public class RegimenUtilFragmentController {
 				drugOrderProcessed.setDose(dose);
 				drugOrderProcessed.setNoOfTablet(noOfTablet);
 				drugOrderProcessed.setDurationPreProcess(duration);	
+				drugOrderProcessed.setRegimenChangeType(changeType.name());
 				drugOrderProcessed.setDrugRegimen(drugRegimen);
 				patient.getAge();
 				if(patient.getAge()>14){
@@ -268,44 +269,82 @@ public class RegimenUtilFragmentController {
 			  }
 			}
 			else {
-				List<DrugOrder> noChanges = new ArrayList<DrugOrder>();
-				List<DrugOrder> toChangeDose = new ArrayList<DrugOrder>();
-				List<DrugOrder> toStart = new ArrayList<DrugOrder>();
+				if (srNo != null) {
+					for (String srn : srNo) {
+				Concept drugConcept=null;
+				String drugRegimen=request.getParameter("drugKey"+srn);
+				//Double dose=Double.parseDouble(request.getParameter("strength"+srn));
+				String dose=request.getParameter("strength"+srn);
+				Integer noOfTablet=Integer.parseInt(request.getParameter("noOfTablet"+srn));
+				String units=request.getParameter("type"+srn);
+				String frequency=request.getParameter("frequncy"+srn);
+				Integer duration=Integer.parseInt(request.getParameter("duration"+srn));
+
+				if(drugRegimen!=null){
+					 drugConcept=Context.getConceptService().getConceptByName(drugRegimen);
+				}
 				
-				/*
-				if (regimen != null) {
-					for (RegimenComponent component : regimen.getComponents()) {
-						changeRegimenHelper(baseline, component, noChanges, toChangeDose, toStart);
+				List<ConceptAnswer> conceptAnswers=kenyaEmrService.getConceptAnswerByAnsweConcept(drugConcept);
+				Concept typeOfRegimenForChild=Context.getConceptService().getConceptByName("ARV drugs for child");
+				Map<String,Concept> conMap=new LinkedHashMap<String,Concept>();
+				for(ConceptAnswer conceptAnswer:conceptAnswers){
+					if(conceptAnswer.getConcept().getName().getName().equals("ARV drugs for child")){
+						conMap.put("child", conceptAnswer.getConcept());	
+					}
+					else{
+						conMap.put("adult", conceptAnswer.getConcept());	
 					}
 				}
 				
-				List<DrugOrder> toStop = new ArrayList<DrugOrder>(baseline.getDrugOrders());
-				
-				toStop.removeAll(noChanges);
-				
-				OrderService os = Context.getOrderService();
-
-				for (DrugOrder o : toStop) {
-					o.setDiscontinued(true);
-					o.setDiscontinuedDate(changeDate);
-					o.setDiscontinuedBy(Context.getAuthenticatedUser());
-					o.setDiscontinuedReason(changeReason);
-					o.setDiscontinuedReasonNonCoded(changeReasonNonCoded);
-					os.saveOrder(o);
-				}
-				
-				for (DrugOrder o : toStart) {
-					o.setPatient(patient);
-					o.setStartDate(changeDate);
-					o.setOrderType(os.getOrderType(OpenmrsConstants.ORDERTYPE_DRUG));
-					os.saveOrder(o);
-				}*/
-				
 				for(DrugOrder drugOrder:baseline.getDrugOrders()){
-					//System.out.println("aaaaaaaaaaaaaaaaa----"+drugOrder.getConcept().getName().getName());	
+					DrugOrderProcessed dop=kenyaEmrService.getDrugOrderProcessed(drugOrder);
+					if(dop.getDrugOrder().getConcept().equals(drugConcept) && dop.getDose().equals(dose) && dop.getDrugOrder().getFrequency().equals(frequency)){
+						
+					}
+					else{
+						drugOrder.setDiscontinued(true);
+						drugOrder.setDiscontinuedDate(changeDate);
+						drugOrder.setDiscontinuedBy(Context.getAuthenticatedUser());
+						drugOrder.setDiscontinuedReason(changeReason);
+						drugOrder.setDiscontinuedReasonNonCoded(changeReasonNonCoded);
+						Context.getOrderService().saveOrder(drugOrder);	
+				
+				DrugOrder drugOder = new DrugOrder();
+				drugOder.setOrderType(Context.getOrderService().getOrderType(OpenmrsConstants.ORDERTYPE_DRUG));
+				drugOder.setEncounter(encounter);
+				drugOder.setPatient(patient);
+				drugOder.setStartDate(changeDate);
+				drugOder.setConcept(drugConcept);
+				//drugOder.setDrug();
+				//drugOder.setDose(dose);
+				drugOder.setUnits(units);
+				drugOder.setFrequency(frequency);
+				
+				Order order=Context.getOrderService().saveOrder(drugOder);
+				
+				DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
+				drugOrderProcessed.setDrugOrder(Context.getOrderService().getDrugOrder(order.getOrderId()));
+				drugOrderProcessed.setPatient(patient);
+				drugOrderProcessed.setCreatedDate(new Date());
+				drugOrderProcessed.setProcessedStatus(false);
+				drugOrderProcessed.setDose(dose);
+				drugOrderProcessed.setNoOfTablet(noOfTablet);
+				drugOrderProcessed.setDurationPreProcess(duration);	
+				drugOrderProcessed.setRegimenChangeType(changeType.name());
+				drugOrderProcessed.setDrugRegimen(drugRegimen);
+				patient.getAge();
+				if(patient.getAge()>14){
+					drugOrderProcessed.setTypeOfRegimen(conMap.get("adult").getName().getName());	
 				}
-
+				else{
+					drugOrderProcessed.setTypeOfRegimen(conMap.get("child").getName().getName());	
+				}
+				kenyaEmrService.saveDrugOrderProcessed(drugOrderProcessed);
+			    }
+			   }
 			  }
+			 }
+			}
 			return encounter;
 		}
 		

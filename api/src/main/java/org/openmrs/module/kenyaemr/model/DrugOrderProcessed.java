@@ -23,6 +23,7 @@ public class DrugOrderProcessed implements java.io.Serializable {
 	private String discontinuedReasonNonCoded;
 	private Integer quantityPostProcess;
 	private String drugRegimen;
+	private String regimenChangeType;
 	private String typeOfRegimen;
 
 	public Integer getId() {
@@ -151,5 +152,13 @@ public class DrugOrderProcessed implements java.io.Serializable {
 
 	public void setTypeOfRegimen(String typeOfRegimen) {
 		this.typeOfRegimen = typeOfRegimen;
+	}
+
+	public String getRegimenChangeType() {
+		return regimenChangeType;
+	}
+
+	public void setRegimenChangeType(String regimenChangeType) {
+		this.regimenChangeType = regimenChangeType;
 	}
 }

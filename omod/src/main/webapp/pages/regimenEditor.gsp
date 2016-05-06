@@ -310,7 +310,7 @@
 							[ hiddenInputName: "changeType", value: "Restart" ],
 							[ hiddenInputName: "category", value: category ],
 							changeDateField("Restart date"),
-							regimenField()
+							regimenSearchField()
 					],
 					submitLabel: "Save",
 					successCallbacks: [ "ui.reloadPage();" ],

@@ -20,13 +20,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.openmrs.Concept;
+import org.openmrs.DrugOrder;
 import org.openmrs.Patient;
+import org.openmrs.api.OrderService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.kenyaemr.api.KenyaEmrService;
 import org.openmrs.module.kenyaemr.model.DrugInfo;
+import org.openmrs.module.kenyaemr.model.DrugOrderProcessed;
+import org.openmrs.module.kenyaemr.regimen.RegimenChange;
+import org.openmrs.module.kenyaemr.regimen.RegimenChangeHistory;
 import org.openmrs.module.kenyaemr.regimen.RegimenDefinition;
 import org.openmrs.module.kenyaemr.regimen.RegimenDefinitionGroup;
 import org.openmrs.module.kenyaemr.regimen.RegimenManager;
+import org.openmrs.module.kenyaemr.regimen.RegimenOrder;
 import org.openmrs.module.kenyaemr.util.EmrUiUtils;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.FragmentParam;
@@ -45,46 +52,22 @@ public class ContinueRegimenSearchFragmentController {
 						   UiUtils ui,
 						   @SpringBean RegimenManager regimenManager,
 						   @SpringBean EmrUiUtils kenyaUi) {
-
-		List<RegimenDefinitionGroup> regimenGroups = regimenManager.getRegimenGroups(category);
-
-		if (includeGroups != null) {
-			regimenGroups = filterGroups(regimenGroups, includeGroups);
-		}
-
-		List<RegimenDefinition> regimenDefinitions = new ArrayList<RegimenDefinition>();
-		for (RegimenDefinitionGroup group : regimenGroups) {
-			regimenDefinitions.addAll(group.getRegimens());
-		}
-		
 		KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
-		Map<String, DrugInfo> drugInfoMap = new LinkedHashMap<String, DrugInfo>();
-		for(DrugInfo drugInfo:kenyaEmrService.getDrugInfo()){
-			drugInfoMap.put(drugInfo.getDrugName().toString(), drugInfo);
-		}
-		
-		model.addAttribute("maxComponents", 5);
-		model.addAttribute("drugs", regimenManager.getDrugs(category));
-		model.addAttribute("regimenGroups", regimenGroups);
-		model.addAttribute("regimenDefinitions", kenyaUi.simpleRegimenDefinitions(regimenDefinitions, ui));
 		model.addAttribute("patient", patient);
-		model.addAttribute("drugInfoMap", drugInfoMap);
-		model.addAttribute("count", 1);
-	}
-
-	/**
-	 * Filter regimen groups by code
-	 * @param groups the groups
-	 * @param includeGroupCodes the group codes to include
-	 * @return the filtered groups
-	 */
-	private static List<RegimenDefinitionGroup> filterGroups(List<RegimenDefinitionGroup> groups, Set<String> includeGroupCodes) {
-		List<RegimenDefinitionGroup> filtered = new ArrayList<RegimenDefinitionGroup>();
-		for (RegimenDefinitionGroup group : groups) {
-			if (includeGroupCodes.contains(group.getCode())) {
-				filtered.add(group);
-			}
+		
+		OrderService os = Context.getOrderService();
+		Concept masterSet = regimenManager.getMasterSetConcept(category);
+		RegimenChangeHistory history = RegimenChangeHistory.forPatient(patient, masterSet);
+		RegimenChange lastChange = history.getLastChange();
+		RegimenOrder baseline = lastChange != null ? lastChange.getStarted() : null;
+		List<DrugOrder> continueRegimen = new ArrayList<DrugOrder>(baseline.getDrugOrders());
+		List<DrugOrderProcessed> drugOrderProcessed = new ArrayList<DrugOrderProcessed>();
+		for(DrugOrder continueRegim:continueRegimen){
+			DrugOrderProcessed drugOrderProcess=kenyaEmrService.getDrugOrderProcessed(continueRegim);
+			drugOrderProcessed.add(drugOrderProcess);
 		}
-		return filtered;
+		//model.addAttribute("continueRegimen", continueRegimen);
+		model.addAttribute("drugOrderProcesseds", drugOrderProcessed);
+		model.addAttribute("count", 1);
 	}
 }

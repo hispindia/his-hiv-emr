@@ -32,10 +32,10 @@
 <td class="colE" style="text-align:center">Tab/Ml</td>
 <td class="colF" style="text-align:center">Frequency</td>
 <td class="colG" style="text-align:center">Duration(in days)</td>
-<td class="colH"></td>
-<td class="colI"></td>
-<td class="colJ"></td>
-<td class="colK"></td>
+<td class="colH" style="text-align:center"></td>
+<td class="colI" style="text-align:center"></td>
+<td class="colJ" style="text-align:center"></td>
+<td class="colK" style="text-align:center"></td>
 </tr>
 </tbody>
 </table>
@@ -51,16 +51,12 @@
 <td class="colG" style="text-align:center"><input type="text" ng-model="duration" id={{choice.duration}} name={{choice.duration}}></td>
 <td class="colH" style="text-align:center"><input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" size="5" id="info" name="info" value="Info" ng-click="artDrugInfoForRegimenSearch(drugKey);" /></td>
 <td class="colI" style="text-align:center"><input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="add" name="add" value="Add" ng-click="addNewChoice()"/></td>
-<td class="colJ"><input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" style="color:red" id="remove" name="remove" value="[X]" ng-click="removeChoice(choice)" /></td>
+<td class="colJ" style="text-align:center"><input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" style="color:red" id="remove" name="remove" value="[X]" ng-click="removeChoice(choice)" /></td>
 <td class="colK" style="text-align:center"><input type="hidden" id={{choice.srNumber}} name="srNo" value={{choice.srNo}}></td>
 </tr>
 </tbody>
 </table>
 </fieldset>
-
-</div>
-
-<div id="artRegimenDiv" style="visibility:hidden;">
 
 </div>
 
