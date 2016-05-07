@@ -17,7 +17,6 @@ public class DrugOrderProcessed implements java.io.Serializable {
 	private String dose;
 	private Integer noOfTablet;
 	private Integer durationPreProcess;
-	private String changeType;
 	private Date discontinuedDate;
 	private Concept discontinuedReason;
 	private String discontinuedReasonNonCoded;
@@ -96,14 +95,6 @@ public class DrugOrderProcessed implements java.io.Serializable {
 
 	public void setDurationPreProcess(Integer durationPreProcess) {
 		this.durationPreProcess = durationPreProcess;
-	}
-	
-	public String getChangeType() {
-		return changeType;
-	}
-
-	public void setChangeType(String changeType) {
-		this.changeType = changeType;
 	}
 
 	public Date getDiscontinuedDate() {

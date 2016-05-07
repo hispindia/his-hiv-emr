@@ -255,8 +255,8 @@ public class RegimenUtilFragmentController {
 				drugOrderProcessed.setDose(dose);
 				drugOrderProcessed.setNoOfTablet(noOfTablet);
 				drugOrderProcessed.setDurationPreProcess(duration);	
-				drugOrderProcessed.setRegimenChangeType(changeType.name());
 				drugOrderProcessed.setDrugRegimen(drugRegimen);
+				drugOrderProcessed.setRegimenChangeType(changeType.name());
 				patient.getAge();
 				if(patient.getAge()>14){
 					drugOrderProcessed.setTypeOfRegimen(conMap.get("adult").getName().getName());	
@@ -330,8 +330,8 @@ public class RegimenUtilFragmentController {
 				drugOrderProcessed.setDose(dose);
 				drugOrderProcessed.setNoOfTablet(noOfTablet);
 				drugOrderProcessed.setDurationPreProcess(duration);	
-				drugOrderProcessed.setRegimenChangeType(changeType.name());
 				drugOrderProcessed.setDrugRegimen(drugRegimen);
+				drugOrderProcessed.setRegimenChangeType(changeType.name());
 				patient.getAge();
 				if(patient.getAge()>14){
 					drugOrderProcessed.setTypeOfRegimen(conMap.get("adult").getName().getName());	

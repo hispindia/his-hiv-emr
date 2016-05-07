@@ -19,7 +19,6 @@
 		<property name="dose" column="dose" />
 		<property name="noOfTablet" column="no_of_tablet" />
 		<property name="durationPreProcess" column="duration_preprocess" />
-		<property name="changeType" column="changetype" />
 		<property name="discontinuedDate" column="discontinued_date" />
 		<many-to-one name="discontinuedReason" column="discontinued_reason" class="org.openmrs.Concept" foreign-key="fk_discontinuedReasonfordrugordernotprocessed"/>
 		<property name="discontinuedReasonNonCoded" column="discontinued_reason_non_coded" />
