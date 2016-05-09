@@ -39,7 +39,6 @@
 
 <script type="text/javascript">
 var patientId=${patient.patientId};
-changeType="Continue";
 
 function guideForContinRegimen(){
 jQuery('#guideDiv').empty();

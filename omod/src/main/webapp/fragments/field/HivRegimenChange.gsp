@@ -1,5 +1,5 @@
 
 <% if (drugOrderProcessed!=null) { %>
 Change Type:
-<strong> ${drugOrderProcessed.changeType}  ${date} </strong>
+<strong> ${drugOrderProcessed.regimenChangeType}  ${date} </strong>
 <% } %>

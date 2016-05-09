@@ -20,7 +20,7 @@
 	  	<tr <%  if (change.current) { %>style="font-weight: bold"<% } %>>
 			<td>${ change.startDate }</td>
 			<td>${ change.endDate }</td>
-			<td style="text-align: left">${ change.regimen.shortDisplay }<br/><small>${ change.regimen.longDisplay }</small></td>
+			<td style="text-align: left"><small>${ change.regimen.longDisplay }</small></td>
 			<td style="text-align: left">
 				<% if (change.changeReasons) { %>
 				${ change.changeReasons.join(",") }

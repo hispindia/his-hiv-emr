@@ -371,7 +371,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	public DrugOrderProcessed getLastRegimenChangeType(Patient patient) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class,"drugOrderProcessed");
 		criteria.add(Restrictions.eq("patient", patient));
-		criteria.add(Restrictions.isNotNull("changeType"));
+		criteria.add(Restrictions.isNotNull("regimenChangeType"));
 		criteria.add(Restrictions.isNotNull("discontinuedDate"));
 		criteria.addOrder(Order.desc("discontinuedDate"));
 		criteria.setMaxResults(1);
