@@ -22,8 +22,16 @@ input[type=button], button{
 		
 		jq(document).ready(function(){
 			// show fields with data 
+			var addImageLink = "/"+OPENMRS_CONTEXT_PATH+"/ms/uiframework/resource/kenyaui/images/glyphs/revisit.png";
+			var removeImageLink = "/"+OPENMRS_CONTEXT_PATH+"/ms/uiframework/resource/kenyaui/images/glyphs/close.png";
+
+			
 			fieldIndex1 = 8;
 			count=1;
+			document.getElementById(count+'-addImage').src = addImageLink;
+			document.getElementById(count+'-removeImage').src = removeImageLink;
+			
+			
 			while(document.getElementById("w"+fieldIndex1).value!="" &amp;&amp; count &lt; 11){
 				jQuery('#'+count+'-toggleContainer1').show();   
 				fieldIndex1=fieldIndex1+2;
@@ -33,6 +41,8 @@ input[type=button], button{
 			$j('#'+count+'-addEntry1').toggle(false);
 				}
 				count++;
+				document.getElementById(count+'-addImage').src = addImageLink;
+				document.getElementById(count+'-removeImage').src = removeImageLink;
 			}
 			
 			$j('#1-removeEntry1').remove();
@@ -46,6 +56,13 @@ input[type=button], button{
 				$j(contentAddId).toggle(true);      
 				$j('#' + this.id).toggle(false); 
 				$j('#' + parseFloat(this.id) + '-removeEntry1').toggle(false);
+				if(correctedAddButtonId &lt; 10) {
+					document.getElementById(correctedAddButtonId+'-addImage').src = addImageLink;
+				}
+				if(correctedAddButtonId &gt; 1) {
+					document.getElementById(correctedAddButtonId+'-removeImage').src = removeImageLink;
+				}
+				
 				return false;});    
 			 
 			$j('button.removeEntry1').on("click", function(){ 
@@ -55,8 +72,27 @@ input[type=button], button{
 				$j( ':input:not(:button)', contentAddId).val([]);
 				$j('#' + correctedRemoveButtonId + '-addEntry1').toggle(true);
 				$j('#' + correctedRemoveButtonId + '-removeEntry1').toggle(true);
+				if(correctedRemoveButtonId &gt; 1) {
+					document.getElementById(correctedRemoveButtonId+'-removeImage').src = removeImageLink;
+				}
 				return false;
 				});
+			
+			
+			beforeSubmit.push(function() {
+				fieldIndex = 8; 
+				j=1;
+				while(document.getElementById("w"+fieldIndex).value!="" &amp;&amp; j &lt; 6){
+					var id = document.getElementById("w"+fieldIndex+"_hid").value
+					if(id=="ERROR"){
+						alert("Kindly enter data in correct format");
+						return false;
+					}
+					j++;
+					fieldIndex=fieldIndex+2;
+				}
+				return true;
+			});
 		});
 		
 		
@@ -109,8 +145,8 @@ input[type=button], button{
 								<template>
 									<tr  id="{n}-toggleContainer1" style="display:none;">
 										<td valign="bottom">{n}. <obs conceptId="1283AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="autocomplete"/></td>
-										<td>><button id="{n}-addEntry1" class="addEntry1"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/revisit.png" width="25" height="25" /></button>
-												<button id="{n}-removeEntry1" class="removeEntry1"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/close.png" width="20" height="20" /></button>
+										<td><button id="{n}-addEntry1" class="addEntry1"><img id="{n}-addImage" width="20" height="20" /></button>
+												<button id="{n}-removeEntry1" class="removeEntry1"><img id="{n}-removeImage" width="20" height="20" /></button>
 										</td>
 									</tr>
 								</template>

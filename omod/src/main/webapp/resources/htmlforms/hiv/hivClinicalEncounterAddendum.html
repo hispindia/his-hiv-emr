@@ -40,8 +40,38 @@
 					getField('appointmentDate.error').html('Appointment date can not before encounter date ').show();
 					return false;
 				}
-					
-				});
+				
+				fieldIndex = 8; 
+				j=1;
+				while(document.getElementById("w"+fieldIndex).value!="" &amp;&amp; j &lt; 11){
+					if(document.getElementById("w"+fieldIndex+"_hid")){
+						var id = document.getElementById("w"+fieldIndex+"_hid").value
+						if(id=="ERROR"){
+							alert("Kindly enter data in correct format");
+							return false;
+						}
+					}
+					j++;
+					fieldIndex=fieldIndex+2;
+				}
+
+				fieldIndex = 36; 
+				j=1;
+				while(document.getElementById("w"+fieldIndex).value!=""){
+					if(document.getElementById("w"+fieldIndex+"_hid")){
+						var id = document.getElementById("w"+fieldIndex+"_hid").value
+						if(id=="ERROR"){
+							alert("Kindly enter data in correct format");
+							return false;
+						}
+					}
+					j++;
+					fieldIndex=fieldIndex+2;
+				}
+				
+				return true;
+
+			});
 			if (getValue('artSideEffectPresent.value') == 1065) {
 				jq('#artSideEffectList :input').prop('disabled', false);
 			}
@@ -157,10 +187,14 @@
 				return true;
 			});
 			
-			
+			var addImageLink = "/"+OPENMRS_CONTEXT_PATH+"/ms/uiframework/resource/kenyaui/images/glyphs/revisit.png";
+			var removeImageLink = "/"+OPENMRS_CONTEXT_PATH+"/ms/uiframework/resource/kenyaui/images/glyphs/close.png";
+
 			// show fields with data 
 			fieldIndex = 8; 
 			j=1;
+			document.getElementById(j+'-addImage').src = addImageLink;
+			document.getElementById(j+'-removeImage').src = removeImageLink;
 			if(document.getElementById("w"+fieldIndex)!=null){
 			while(document.getElementById("w"+fieldIndex).value!="" &amp;&amp; j &lt; 11){
 				jQuery('#'+j+'-toggleContainer').show();   
@@ -171,6 +205,8 @@
 			$j('#'+j+'-addEntry').toggle(false);
 				}
 				j++;
+				document.getElementById(j+'-addImage').src = addImageLink;
+				document.getElementById(j+'-removeImage').src = removeImageLink;
 			}
 			}
 	
@@ -185,6 +221,12 @@
 				$j(contentAddId).toggle(true);      
 				$j('#' + this.id).toggle(false); 
 				$j('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
+				if(correctedAddButtonId &lt; 10) {
+					document.getElementById(correctedAddButtonId+'-addImage').src = addImageLink;
+				}
+				if(correctedAddButtonId &gt; 1) {
+					document.getElementById(correctedAddButtonId+'-removeImage').src = removeImageLink;
+				}
 				return false;});    
 			 
 			$j('button.removeEntry').on("click", function(){ 
@@ -194,6 +236,9 @@
 				$j( ':input:not(:button)', contentAddId).val([]);
 				$j('#' + correctedRemoveButtonId + '-addEntry').toggle(true);
 				$j('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
+				if(correctedRemoveButtonId &gt; 1) {
+					document.getElementById(correctedRemoveButtonId+'-removeImage').src = removeImageLink;
+				}
 				return false;
 				});
 			
@@ -201,6 +246,9 @@
 			// show fields with data 
 			fieldIndex1 = 36; 
 			count=1;
+			document.getElementById(count+'-addImage1').src = addImageLink;
+			document.getElementById(count+'-removeImage1').src = removeImageLink;
+
 			if(document.getElementById("w"+fieldIndex1)==null){
 				hasPreviousData = 1;
 				fieldIndex1 = 80; 
@@ -215,6 +263,8 @@
 			$j('#'+count+'-addEntry1').toggle(false);
 				}
 				count++;
+				document.getElementById(count+'-addImage1').src = addImageLink;
+				document.getElementById(count+'-removeImage1').src = removeImageLink;
 			}
 			}
 			
@@ -230,6 +280,12 @@
 				$j(contentAddId).toggle(true);      
 				$j('#' + this.id).toggle(false); 
 				$j('#' + parseFloat(this.id) + '-removeEntry1').toggle(false);
+				if(correctedAddButtonId &lt; 10) {
+					document.getElementById(correctedAddButtonId+'-addImage1').src = addImageLink;
+				}
+				if(correctedAddButtonId &gt; 1) {
+					document.getElementById(correctedAddButtonId+'-removeImage1').src = removeImageLink;
+				}
 				return false;});    
 			 
 			$j('button.removeEntry1').on("click", function(){ 
@@ -239,6 +295,9 @@
 				$j( ':input:not(:button)', contentAddId).val([]);
 				$j('#' + correctedRemoveButtonId + '-addEntry1').toggle(true);
 				$j('#' + correctedRemoveButtonId + '-removeEntry1').toggle(true);
+				if(correctedRemoveButtonId &gt; 1) {
+					document.getElementById(correctedRemoveButtonId+'-removeImage1').src = removeImageLink;
+				}
 				return false;
 				});
 			
@@ -246,6 +305,9 @@
 			// show fields with data 
 			fieldIndex2 = 58; 
 			count2=1;
+			document.getElementById(count2+'-addImage2').src = addImageLink;
+			document.getElementById(count2+'-removeImage2').src = removeImageLink;
+
 			hasPreviousData =0;
 			if(hasPreviousData==1){
 				fieldIndex2 = 38;
@@ -260,6 +322,9 @@
 			$j('#'+count2+'-addEntry2').toggle(false);
 				}
 				count2++;
+				document.getElementById(count2+'-addImage2').src = addImageLink;
+				document.getElementById(count2+'-removeImage2').src = removeImageLink;
+
 			}
 			}
 			$j('#1-removeEntry2').remove();
@@ -273,6 +338,12 @@
 				$j(contentAddId).toggle(true);      
 				$j('#' + this.id).toggle(false); 
 				$j('#' + parseFloat(this.id) + '-removeEntry2').toggle(false);
+				if(correctedAddButtonId &lt; 10) {
+					document.getElementById(correctedAddButtonId+'-addImage2').src = addImageLink;
+				}
+				if(correctedAddButtonId &gt; 1) {
+					document.getElementById(correctedAddButtonId+'-removeImage2').src = removeImageLink;
+				}
 				return false;});    
 			 
 			$j('button.removeEntry2').on("click", function(){ 
@@ -282,6 +353,9 @@
 				$j( ':input:not(:button)', contentAddId).val([]);
 				$j('#' + correctedRemoveButtonId + '-addEntry2').toggle(true);
 				$j('#' + correctedRemoveButtonId + '-removeEntry2').toggle(true);
+				if(correctedRemoveButtonId &gt; 1) {
+					document.getElementById(correctedRemoveButtonId+'-removeImage1').src = removeImageLink;
+				}
 				return false;
 				});
 			
@@ -345,7 +419,7 @@
 								<template>
 										<tr  id="{n}-toggleContainer" style="display:none;">
 											<td><obs conceptId="5219AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="autocomplete" labelText=" "  /></td>
-											<td><button id="{n}-addEntry" class="addEntry"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/revisit.png" width="25" height="25" /></button><button id="{n}-removeEntry" class="removeEntry"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/close.png"  width="20" height="20" /></button>
+											<td><button id="{n}-addEntry" class="addEntry"><img id="{n}-addImage" width="25" height="25" /></button><button id="{n}-removeEntry" class="removeEntry"><img id="{n}-removeImage" width="20" height="20" /></button>
 											</td>
 										</tr>
 								</template>
@@ -399,7 +473,7 @@
 									<template>
 										<tr  id="{n}-toggleContainer1" style="display:none;">
 											<td><obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" style="autocomplete" type="autocomplete" labelText=" "  id="daig_value"/></td>
-											<td><button id="{n}-addEntry1" class="addEntry1"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/revisit.png" width="25" height="25"/></button><button id="{n}-removeEntry1" class="removeEntry1"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/close.png" width="20" height="20"/></button>
+											<td><button id="{n}-addEntry1" class="addEntry1"><img id="{n}-addImage1" width="25" height="25" /></button><button id="{n}-removeEntry1" class="removeEntry1"><img id="{n}-removeImage1" width="20" height="20" /></button>
 											</td>
 										</tr>
 									</template>
@@ -431,7 +505,7 @@
 									<template>
 										<tr  id="{n}-toggleContainer2" style="display:none;">
 											<td valign="top"><obs conceptId="4b4e4b62-4e44-43f6-9c35-ca23861a153e" id="artSideEffectValue" /></td>
-											<td valign="top"><button id="{n}-addEntry2" class="addEntry2"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/revisit.png" width="25" height="25" /></button><button id="{n}-removeEntry2" class="removeEntry2"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/close.png" width="20" height="20" /></button>
+											<td valign="top"><button id="{n}-addEntry2" class="addEntry2"><img id="{n}-addImage2" width="25" height="25" /></button><button id="{n}-removeEntry2" class="removeEntry2"><img id="{n}-removeImage2" width="20" height="20" /></button>
 											</td>
 										</tr>
 									</template>

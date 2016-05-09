@@ -60,19 +60,31 @@ jq(document).ready(function(){
 		
 	});
 	
+	var addImageLink = "/"+OPENMRS_CONTEXT_PATH+"/ms/uiframework/resource/kenyaui/images/glyphs/revisit.png";
+	var removeImageLink = "/"+OPENMRS_CONTEXT_PATH+"/ms/uiframework/resource/kenyaui/images/glyphs/close.png";
+
 	
 	// show fields with data 
 	fieldIndex = 10; 
 	j=1;
+	
+	document.getElementById(j+'-addImage').src = addImageLink;
+	document.getElementById(j+'-removeImage').src = removeImageLink;
+
 	while(document.getElementById("w"+fieldIndex).value!="" &amp;&amp; j &lt; 8){
 		jQuery('#'+j+'-toggleContainer').show();   
-		fieldIndex=fieldIndex+14;
+		fieldIndex=fieldIndex+16;
 		if(document.getElementById("w"+fieldIndex).value != '')
 		{
 	$j('#'+j+'-removeEntry').toggle(false);
 	$j('#'+j+'-addEntry').toggle(false);
 		}
 		j++;
+
+		document.getElementById(j+'-addImage').src = addImageLink;
+		document.getElementById(j+'-removeImage').src = removeImageLink;
+
+	
 	}
 	//jQuery('#'+i+'-toggleContainer').show();
 	
@@ -87,6 +99,15 @@ jq(document).ready(function(){
 		$j(contentAddId).toggle(true);      
 		$j('#' + this.id).toggle(false); 
 		$j('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
+		
+		if(correctedAddButtonId &lt; 8) {
+			document.getElementById(correctedAddButtonId+'-addImage').src = addImageLink;
+		}
+		if(correctedAddButtonId &gt; 1) {
+			document.getElementById(correctedAddButtonId+'-removeImage').src = removeImageLink;
+		}
+		
+		
 		return false;});    
 	 
 	$j('button.removeEntry').on("click", function(){ 
@@ -96,6 +117,11 @@ jq(document).ready(function(){
 		$j( ':input:not(:button)', contentAddId).val([]);
 		$j('#' + correctedRemoveButtonId + '-addEntry').toggle(true);
 		$j('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
+		
+		if(correctedRemoveButtonId &gt; 1) {
+			document.getElementById(correctedRemoveButtonId+'-removeImage').src = removeImageLink;
+		}
+		
 		return false;
 		});
 	
@@ -159,8 +185,8 @@ jq(document).ready(function(){
 											<td colspan="1" width="200px"><obs id="result" conceptId="1169AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
 											<td colspan="1" width="300px"><obs id="art"   conceptId="72ef6301-fbbb-4c44-8e5f-ec27f33afa22" /></td>
 											<td colspan="1" width="300px"><obs id="artreg" conceptId="1420AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /></td>
-											<td colspan="1" width="100px"><button id="{n}-addEntry" class="addEntry"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/revisit.png" width="25" height="25" /></button>
-												<button id="{n}-removeEntry" class="removeEntry"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/close.png"  width="20" height="20" /></button>
+											<td colspan="1" width="100px"><button id="{n}-addEntry" class="addEntry"><img id="{n}-addImage" width="20" height="20" /></button>
+												<button id="{n}-removeEntry" class="removeEntry"><img id="{n}-removeImage" width="20" height="20" /></button>
                                              </td>
 										</tr>
 									</table>	

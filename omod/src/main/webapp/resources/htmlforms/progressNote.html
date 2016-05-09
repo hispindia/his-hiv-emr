@@ -36,20 +36,17 @@
 	<script type="text/javascript">
 		
 		jq(document).ready(function(){
-			
-			beforeSubmit.push(function() {
-				 var dischrgeDate = new Date(getValue('dischargeDate.value'));
-				 var admisnDate=new Date(getValue('admissionDate.value'));
-				if (dischrgeDate&lt;admisnDate)
-				{ 
-					getField('dischargeDate.error').html('Discharge date can not before admission date ').show();
-					return false;
-				}
-					
-				});
+
+
+			var addImageLink = "/"+OPENMRS_CONTEXT_PATH+"/ms/uiframework/resource/kenyaui/images/glyphs/revisit.png";
+			var removeImageLink = "/"+OPENMRS_CONTEXT_PATH+"/ms/uiframework/resource/kenyaui/images/glyphs/close.png";
+
 			// show fields with data 
 			fieldIndex1 = 12;
 			count=1;
+			document.getElementById(count+'-addImage').src = addImageLink;
+			document.getElementById(count+'-removeImage').src = removeImageLink;
+
 			while(document.getElementById("w"+fieldIndex1).value!="" &amp;&amp; count &lt; 11){
 				jQuery('#'+count+'-toggleContainer1').show();   
 				fieldIndex1=fieldIndex1+2;
@@ -59,6 +56,8 @@
 			$j('#'+count+'-addEntry1').toggle(false);
 				}
 				count++;
+				document.getElementById(count+'-addImage').src = addImageLink;
+				document.getElementById(count+'-removeImage').src = removeImageLink;
 			}
 			
 			$j('#1-removeEntry1').remove();
@@ -72,6 +71,14 @@
 				$j(contentAddId).toggle(true);      
 				$j('#' + this.id).toggle(false); 
 				$j('#' + parseFloat(this.id) + '-removeEntry1').toggle(false);
+				
+				if(correctedAddButtonId &lt; 10) {
+					document.getElementById(correctedAddButtonId+'-addImage').src = addImageLink;
+				}
+				if(correctedAddButtonId &gt; 1) {
+					document.getElementById(correctedAddButtonId+'-removeImage').src = removeImageLink;
+				}
+
 				return false;});    
 			 
 			$j('button.removeEntry1').on("click", function(){ 
@@ -81,7 +88,34 @@
 				$j( ':input:not(:button)', contentAddId).val([]);
 				$j('#' + correctedRemoveButtonId + '-addEntry1').toggle(true);
 				$j('#' + correctedRemoveButtonId + '-removeEntry1').toggle(true);
+				if(correctedRemoveButtonId &gt; 1) {
+					document.getElementById(correctedRemoveButtonId+'-removeImage').src = removeImageLink;
+				}
 				return false;
+				});
+			
+			
+			beforeSubmit.push(function() {
+				 var dischrgeDate = new Date(getValue('dischargeDate.value'));
+				 var admisnDate=new Date(getValue('admissionDate.value'));
+				if (dischrgeDate&lt;admisnDate)
+				{ 
+					getField('dischargeDate.error').html('Discharge date can not before admission date ').show();
+					return false;
+				}
+				
+				fieldIndex = 12; 
+				j=1;
+				while(document.getElementById("w"+fieldIndex).value!=""){
+					var id = document.getElementById("w"+fieldIndex+"_hid").value
+					if(id=="ERROR"){
+						alert("Kindly enter data in correct format");
+						return false;
+					}
+					j++;
+					fieldIndex=fieldIndex+2;
+				}
+					
 				});
 		});
 		
@@ -116,7 +150,12 @@
 									<template>
 										<tr  id="{n}-toggleContainer1" style="display:none;">
 											<td valign="bottom">{n}. <obs conceptId="d8189970-d2a9-431d-864c-c8982d538dc9" style="autocomplete"/></td>
-											<td><button id="{n}-addEntry1" class="addEntry1">Add</button><button id="{n}-removeEntry1" class="removeEntry1">Remove</button>
+											<td><button id="{n}-addEntry1" class="addEntry1">
+									<img id="{n}-addImage" width="20" height="20" />
+								</button>
+								<button id="{n}-removeEntry1" class="removeEntry1">
+									<img id="{n}-removeImage" width="20" height="20" />
+								</button>
 											</td>
 										</tr>
 									</template>

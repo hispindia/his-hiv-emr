@@ -133,9 +133,16 @@ input[type=button], button{
 <script type="text/javascript">
 		jq(document).ready(function () {
 			
+			var addImageLink = "/"+OPENMRS_CONTEXT_PATH+"/ms/uiframework/resource/kenyaui/images/glyphs/revisit.png";
+			var removeImageLink = "/"+OPENMRS_CONTEXT_PATH+"/ms/uiframework/resource/kenyaui/images/glyphs/close.png";
+
 			// show fields with data 
 			fieldIndex = 24; 
 			j=1;
+			
+			document.getElementById(j+'-addImage').src = addImageLink;
+			document.getElementById(j+'-removeImage').src = removeImageLink;
+			
 			if(document.getElementById("w"+fieldIndex)!=null){
 				while(document.getElementById("w"+fieldIndex).value!="" &amp;&amp; j &lt; 5){
 					jQuery('#'+j+'-toggleContainer').show();   
@@ -147,6 +154,8 @@ input[type=button], button{
 				$j('#'+j+'-addEntry').toggle(false);
 					}
 					j++;
+					document.getElementById(j+'-addImage').src = addImageLink;
+					document.getElementById(j+'-removeImage').src = removeImageLink;
 				}
 				
 			}
@@ -163,6 +172,13 @@ input[type=button], button{
 				$j(contentAddId).toggle(true);      
 				$j('#' + this.id).toggle(false); 
 				$j('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
+				if(correctedAddButtonId &lt; 4) {
+					document.getElementById(correctedAddButtonId+'-addImage').src = addImageLink;
+				}
+				if(correctedAddButtonId &gt; 1) {
+					document.getElementById(correctedAddButtonId+'-removeImage').src = removeImageLink;
+				}
+				
 				return false;});    
 			 
 			$j('button.removeEntry').on("click", function(){ 
@@ -172,6 +188,9 @@ input[type=button], button{
 				$j( ':input:not(:button)', contentAddId).val([]);
 				$j('#' + correctedRemoveButtonId + '-addEntry').toggle(true);
 				$j('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
+				if(correctedRemoveButtonId &gt; 1) {
+					document.getElementById(correctedRemoveButtonId+'-removeImage').src = removeImageLink;
+				}
 				return false;
 				});
 			
@@ -538,8 +557,12 @@ input[type=button], button{
 								<obs conceptId="8cf2bda5-f2cc-48e3-a1b8-16ff76b7bed8" />
 							</center></td>
 						<td class="col10"><center>
-							<button id="{n}-addEntry" class="addEntry"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/revisit.png" width="25" height="25" /></button>
-							<button id="{n}-removeEntry" class="removeEntry"><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/close.png"  width="20" height="20" /></button>
+							<button id="{n}-addEntry" class="addEntry">
+									<img id="{n}-addImage" width="20" height="20" />
+								</button>
+								<button id="{n}-removeEntry" class="removeEntry">
+									<img id="{n}-removeImage" width="20" height="20" />
+								</button>
 							</center></td>
 					</tr>
 				</table>

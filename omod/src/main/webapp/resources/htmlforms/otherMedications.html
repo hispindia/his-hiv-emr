@@ -24,18 +24,27 @@
 			border: 0;
 			padding: 5px;
 		}
-		
-
 	</style>
-    <script type="text/javascript">
-		var value1;
-		jq(document).ready(function(){
-			
-		beforeSubmit.push(function() {
-			return true;	
-		});
-		});
-	</script>
+   <script type="text/javascript">
+	var value1;
+	jq(document).ready(function(){
+		
+	beforeSubmit.push(function() {
+		fieldIndex = 8; 
+		while(fieldIndex &lt; 157){
+			if(document.getElementById("w"+fieldIndex+"_hid")){
+				var id = document.getElementById("w"+fieldIndex+"_hid").value
+				if(id=="ERROR"){
+					alert("Kindly enter data in correct format");
+					return false;
+				}
+			}
+			fieldIndex=fieldIndex+2;
+		}
+		return true;	
+	});
+	});
+</script>
 		
 	<div class="ke-form-header">
 		<table width="100%" align="center" style="background-color: #c7d8a7">
