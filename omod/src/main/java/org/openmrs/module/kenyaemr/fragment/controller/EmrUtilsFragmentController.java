@@ -226,9 +226,24 @@ public class EmrUtilsFragmentController {
 		for(DrugOrder drugOrder:baseline.getDrugOrders()){
 			List<ConceptAnswer> conceptAnswers= kenyaEmrService.getConceptAnswerByAnsweConcept(drugOrder.getConcept());
 			for(ConceptAnswer conceptAnswer:conceptAnswers){
-				//Fixed dose combinations (FDCs) && ARV drugs for child
-				if(!(conceptAnswer.getConcept().getUuid().equals("b8d460f8-0563-4416-9e0a-d77aafa7e5c3") || conceptAnswer.getConcept().getUuid().equals("4c132bde-0e0f-4586-a874-fe6335945144"))){
-					whichLine=conceptAnswer.getConcept().getUuid();
+				//ARV drugs for child
+				if(!(conceptAnswer.getConcept().getUuid().equals("4c132bde-0e0f-4586-a874-fe6335945144"))){
+					//First line Anti-retoviral drugs
+					if(conceptAnswer.getConcept().getUuid().equals("363c2193-f3d1-4e97-9dd3-09361bbcc233")){
+						whichLine=conceptAnswer.getConcept().getUuid();
+					}
+					//Second line ART
+					else if(conceptAnswer.getConcept().getUuid().equals("f7693b07-789f-46d6-892a-fcf499b97228")){
+						whichLine=conceptAnswer.getConcept().getUuid();	
+					}
+					//HIV/HBV co-infection
+					else if(conceptAnswer.getConcept().getUuid().equals("ab9b1c9a-9acb-4e7f-b696-ac6870083117")){
+						whichLine=conceptAnswer.getConcept().getUuid();		
+					}
+					//Fixed dose combinations (FDCs)
+					else if(conceptAnswer.getConcept().getUuid().equals("b8d460f8-0563-4416-9e0a-d77aafa7e5c3")){
+						whichLine=conceptAnswer.getConcept().getUuid();			
+					}
 				}
 			}
 		  }
@@ -277,6 +292,17 @@ public class EmrUtilsFragmentController {
 				switchConceptAnswers.addAll(concept1.getAnswers(false));
 				switchConceptAnswers.addAll(concept2.getAnswers(false));
 				switchConceptAnswers.addAll(concept4.getAnswers(false));
+            }
+			//Fixed dose combinations (FDCs)
+            else if(whichLine.equals("b8d460f8-0563-4416-9e0a-d77aafa7e5c3")){
+            	substituteConceptAnswers.addAll(concept1.getAnswers(false));
+            	substituteConceptAnswers.addAll(concept2.getAnswers(false));
+            	substituteConceptAnswers.addAll(concept3.getAnswers(false));
+            	substituteConceptAnswers.addAll(concept4.getAnswers(false));
+				switchConceptAnswers.addAll(concept1.getAnswers(false));
+				switchConceptAnswers.addAll(concept2.getAnswers(false));
+				switchConceptAnswers.addAll(concept3.getAnswers(false));
+				switchConceptAnswers.addAll(concept4.getAnswers(false));	
             }
 		}
 		else{

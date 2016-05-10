@@ -372,7 +372,8 @@ public class RegimenUtilFragmentController {
 				for(DrugOrder drugOrder:baseline.getDrugOrders()){
 					DrugOrderProcessed dop=kenyaEmrService.getLastDrugOrderProcessed(drugOrder);
 					if(dop!=null){
-					if(dop.getDrugOrder().getConcept().equals(drugConcept) && dop.getDose().equals(dose) && dop.getDrugOrder().getFrequency().equals(frequency)){
+					if(dop.getDrugOrder().getConcept().equals(drugConcept)){
+						if(dop.getDose().equals(dose) && dop.getDrugOrder().getFrequency().equals(frequency)){
 						dop.setDiscontinuedDate(new Date());
 						kenyaEmrService.saveDrugOrderProcessed(dop);
 						DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
@@ -387,16 +388,20 @@ public class RegimenUtilFragmentController {
 						drugOrderProcessed.setRegimenChangeType(changeType.name());
 						drugOrderProcessed.setTypeOfRegimen(typeOfRegimen);	
 						kenyaEmrService.saveDrugOrderProcessed(drugOrderProcessed);
+						}
 					}
 					else{
-						encounter=createEncounterForBaseLine(patient);
 						drugOrder.setDiscontinued(true);
 						drugOrder.setDiscontinuedDate(date);
 						drugOrder.setDiscontinuedBy(Context.getAuthenticatedUser());
 						drugOrder.setDiscontinuedReason(changeReason);
 						drugOrder.setDiscontinuedReasonNonCoded(changeReasonNonCoded);
-						Context.getOrderService().saveOrder(drugOrder);	
-				
+						Context.getOrderService().saveOrder(drugOrder);		
+					 }
+				   }
+				}
+								
+				encounter=createEncounterForBaseLine(patient);
 				DrugOrder drugOder = new DrugOrder();
 				drugOder.setOrderType(Context.getOrderService().getOrderType(OpenmrsConstants.ORDERTYPE_DRUG));
 				drugOder.setEncounter(encounter);
@@ -422,9 +427,6 @@ public class RegimenUtilFragmentController {
 				drugOrderProcessed.setRegimenChangeType(changeType.name());
 				drugOrderProcessed.setTypeOfRegimen(typeOfRegimen);	
 				kenyaEmrService.saveDrugOrderProcessed(drugOrderProcessed);
-			     }
-				}
-			   }
 			  }
 			 }
 			}
