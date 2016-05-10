@@ -49,6 +49,71 @@ kenyaemrApp.controller('DrugCtrl', ['$scope', function($scope) {
 	
 	$scope.artDrugInfoForRegimenSearch=function(drugKey){
 		var drugName=drugKey.drugName;
+		jQuery('#drugInfoDiv').empty();
+		jQuery.ajax(ui.fragmentActionLink("kenyaemr", "field/drugInfo", "drugDetails"), { data: { drugNames: drugName }, dataType: 'json'
+		}).done(function(data) {
+        var htmlText =  "<table style='width: 100%'>"
+        +"<tr>"
+        +"<th>"
+        +"Drug Name&nbsp;"
+        +"</th>"
+        +"<th>"
+        +'Toxicity&nbsp;'
+        +"</th>"
+        +"<th>"
+        +"Risk Factor&nbsp;"
+        +"</th>"
+        +"<th>"
+        +"Suggested Management&nbsp;"
+        +"</th>"
+        +"<th>"
+        +"Drug Interaction&nbsp;"
+        +"</th>"
+        +"<th>"
+        +'Suggested Management Interaction'
+        +"</th>"
+        +"</tr>"
+
+        $.each(data, function(i, item){
+            $.each(this,function(j) {
+        
+            	htmlText=htmlText
+            	 +"<tr>"
+            	 +"<td>"
+                 +this.drugName
+                 +"</td>"
+                 +"<td>"
+                 +this.toxicity
+                 +"</td>"
+                 +"<td>"
+                 +this.riskFactor
+                 +"</td>"
+                 +"<td>"
+                 +this.suggestedManagement
+                 +"</td>"
+                 +"<td>"
+                 +this.drugInteraction
+                 +"</td>"
+                 +"<td>"
+                 +this.suggestedManagementInteraction
+                 +"</td>"
+                 +"</tr>"
+            });
+        });
+		htmlText=htmlText
+		 +"</table>"
+       var newElement = document.createElement('div');
+      newElement.setAttribute("id", "drugDiv"); 
+      newElement.innerHTML = htmlText;
+      var fieldsArea = document.getElementById('drugInfoDiv');
+      fieldsArea.appendChild(newElement);
+      var url = "#TB_inline?height=500&width=750&inlineId=drugDiv";
+      tb_show("Drug Info",url,false);
+      });
+	}
+	
+	$scope.artDrugInfoForContinueRegimenSearch=function(drugName){
+		jQuery('#drugInfoDiv').empty();
 		jQuery.ajax(ui.fragmentActionLink("kenyaemr", "field/drugInfo", "drugDetails"), { data: { drugNames: drugName }, dataType: 'json'
 		}).done(function(data) {
         var htmlText =  "<table style='width: 100%'>"

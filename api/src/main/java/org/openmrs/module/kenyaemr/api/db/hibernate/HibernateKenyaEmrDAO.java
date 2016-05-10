@@ -281,6 +281,15 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		return (DrugOrderProcessed) criteria.uniqueResult();
 	}
 	
+	public DrugOrderProcessed getLastDrugOrderProcessed(DrugOrder drugOrder) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class,"drugOrderProcessed");
+		criteria.add(Restrictions.eq("drugOrder", drugOrder));
+		criteria.add(Restrictions.isNull("discontinuedDate"));
+		criteria.addOrder(Order.desc("createdDate"));
+		criteria.setMaxResults(1);
+		return (DrugOrderProcessed) criteria.uniqueResult();
+	}
+	
 	public List<DrugOrderProcessed> getDrugOrderProcessedCompleted(DrugOrder drugOrder) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class,"drugOrderProcessed");
 		criteria.add(Restrictions.eq("drugOrder", drugOrder));

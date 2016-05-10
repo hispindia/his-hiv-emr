@@ -14,6 +14,8 @@
 
 package org.openmrs.module.kenyaemr.fragment.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -223,14 +225,30 @@ public class RegimenUtilFragmentController {
 				}
 				
 				List<ConceptAnswer> conceptAnswers=kenyaEmrService.getConceptAnswerByAnsweConcept(drugConcept);
-				Concept typeOfRegimenForChild=Context.getConceptService().getConceptByName("ARV drugs for child");
+				String typeOfRegimen="";
 				Map<String,Concept> conMap=new LinkedHashMap<String,Concept>();
 				for(ConceptAnswer conceptAnswer:conceptAnswers){
-					if(conceptAnswer.getConcept().getName().getName().equals("ARV drugs for child")){
-						conMap.put("child", conceptAnswer.getConcept());	
+					//Fixed dose combinations
+					if(conceptAnswer.getConcept().getUuid().equals("b8d460f8-0563-4416-9e0a-d77aafa7e5c3")){
+						typeOfRegimen=conceptAnswer.getConcept().getName().getName();	
 					}
 					else{
-						conMap.put("adult", conceptAnswer.getConcept());	
+						//ARV drugs for child
+						if(patient.getAge()<=14 && conceptAnswer.getConcept().getUuid().equals("4c132bde-0e0f-4586-a874-fe6335945144")){
+							typeOfRegimen=conceptAnswer.getConcept().getName().getName();	
+						}
+						//First line Anti-retoviral drugs
+						else if(conceptAnswer.getConcept().getUuid().equals("363c2193-f3d1-4e97-9dd3-09361bbcc233")){
+							typeOfRegimen=conceptAnswer.getConcept().getName().getName();		
+						}
+						//Second line ART
+						else if(conceptAnswer.getConcept().getUuid().equals("f7693b07-789f-46d6-892a-fcf499b97228")){
+							typeOfRegimen=conceptAnswer.getConcept().getName().getName();	
+						}
+						//HIV/HBV co-infection
+						else if(conceptAnswer.getConcept().getUuid().equals("ab9b1c9a-9acb-4e7f-b696-ac6870083117")){
+							typeOfRegimen=conceptAnswer.getConcept().getName().getName();	
+						}
 					}
 				}
 				
@@ -257,18 +275,42 @@ public class RegimenUtilFragmentController {
 				drugOrderProcessed.setDurationPreProcess(duration);	
 				drugOrderProcessed.setDrugRegimen(drugRegimen);
 				drugOrderProcessed.setRegimenChangeType(changeType.name());
-				patient.getAge();
-				if(patient.getAge()>14){
-					drugOrderProcessed.setTypeOfRegimen(conMap.get("adult").getName().getName());	
-				}
-				else{
-					drugOrderProcessed.setTypeOfRegimen(conMap.get("child").getName().getName());	
-				}
+				drugOrderProcessed.setTypeOfRegimen(typeOfRegimen);	
 				kenyaEmrService.saveDrugOrderProcessed(drugOrderProcessed);
 			   }
 			  }
 			}
 			else {
+				if (changeType == RegimenChangeType.Continue) {
+					List<DrugOrder> continu = new ArrayList<DrugOrder>(baseline.getDrugOrders());	
+					for (DrugOrder drugOrder : continu){
+						    DrugOrderProcessed dop=new DrugOrderProcessed();
+						    DrugOrderProcessed drugOrderProcess=kenyaEmrService.getDrugOrderProcessed(drugOrder);
+						    if(drugOrderProcess!=null){
+						    	dop=drugOrderProcess;
+							drugOrderProcess.setDiscontinuedDate(changeDate);
+							kenyaEmrService.saveDrugOrderProcessed(drugOrderProcess);
+							}
+						    else{
+						    	List<DrugOrderProcessed> drugOrderProcessCompleted=kenyaEmrService.getDrugOrderProcessedCompleted(drugOrder);
+						    	for(DrugOrderProcessed drugOrderProcessCompletd:drugOrderProcessCompleted){
+						    		dop=drugOrderProcessCompletd;
+						    	}
+						    }
+							DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
+							drugOrderProcessed.setDrugOrder(dop.getDrugOrder());
+							drugOrderProcessed.setPatient(patient);
+							drugOrderProcessed.setCreatedDate(new Date());
+							drugOrderProcessed.setProcessedStatus(false);
+							Integer duration=Integer.parseInt(request.getParameter("duration"+drugOrder.getConcept().getName()));
+							drugOrderProcessed.setDurationPreProcess(duration);
+							drugOrderProcessed.setDrugRegimen(dop.getDrugRegimen());
+							drugOrderProcessed.setRegimenChangeType(changeType.name());
+							drugOrderProcessed.setTypeOfRegimen(dop.getTypeOfRegimen());	
+							kenyaEmrService.saveDrugOrderProcessed(drugOrderProcessed);
+					}	
+				}
+				else{
 				if (srNo != null) {
 					for (String srn : srNo) {
 				Concept drugConcept=null;
@@ -285,23 +327,54 @@ public class RegimenUtilFragmentController {
 				}
 				
 				List<ConceptAnswer> conceptAnswers=kenyaEmrService.getConceptAnswerByAnsweConcept(drugConcept);
-				Concept typeOfRegimenForChild=Context.getConceptService().getConceptByName("ARV drugs for child");
+				String typeOfRegimen="";
 				Map<String,Concept> conMap=new LinkedHashMap<String,Concept>();
 				for(ConceptAnswer conceptAnswer:conceptAnswers){
-					if(conceptAnswer.getConcept().getName().getName().equals("ARV drugs for child")){
-						conMap.put("child", conceptAnswer.getConcept());	
+					//Fixed dose combinations
+					if(conceptAnswer.getConcept().getUuid().equals("b8d460f8-0563-4416-9e0a-d77aafa7e5c3")){
+						typeOfRegimen=conceptAnswer.getConcept().getName().getName();	
 					}
 					else{
-						conMap.put("adult", conceptAnswer.getConcept());	
+						//ARV drugs for child
+						if(patient.getAge()<=14 && conceptAnswer.getConcept().getUuid().equals("4c132bde-0e0f-4586-a874-fe6335945144")){
+							typeOfRegimen=conceptAnswer.getConcept().getName().getName();	
+						}
+						//First line Anti-retoviral drugs
+						else if(conceptAnswer.getConcept().getUuid().equals("363c2193-f3d1-4e97-9dd3-09361bbcc233")){
+							typeOfRegimen=conceptAnswer.getConcept().getName().getName();		
+						}
+						//Second line ART
+						else if(conceptAnswer.getConcept().getUuid().equals("f7693b07-789f-46d6-892a-fcf499b97228")){
+							typeOfRegimen=conceptAnswer.getConcept().getName().getName();	
+						}
+						//HIV/HBV co-infection
+						else if(conceptAnswer.getConcept().getUuid().equals("ab9b1c9a-9acb-4e7f-b696-ac6870083117")){
+							typeOfRegimen=conceptAnswer.getConcept().getName().getName();	
+						}
 					}
 				}
 				
 				for(DrugOrder drugOrder:baseline.getDrugOrders()){
-					DrugOrderProcessed dop=kenyaEmrService.getDrugOrderProcessed(drugOrder);
+					DrugOrderProcessed dop=kenyaEmrService.getLastDrugOrderProcessed(drugOrder);
+					if(dop!=null){
 					if(dop.getDrugOrder().getConcept().equals(drugConcept) && dop.getDose().equals(dose) && dop.getDrugOrder().getFrequency().equals(frequency)){
-						
+						dop.setDiscontinuedDate(changeDate);
+						kenyaEmrService.saveDrugOrderProcessed(dop);
+						DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
+						drugOrderProcessed.setDrugOrder(dop.getDrugOrder());
+						drugOrderProcessed.setPatient(patient);
+						drugOrderProcessed.setCreatedDate(changeDate);
+						drugOrderProcessed.setProcessedStatus(false);
+						drugOrderProcessed.setDose(dose);
+						drugOrderProcessed.setNoOfTablet(noOfTablet);
+						drugOrderProcessed.setDurationPreProcess(duration);	
+						drugOrderProcessed.setDrugRegimen(drugRegimen);
+						drugOrderProcessed.setRegimenChangeType(changeType.name());
+						drugOrderProcessed.setTypeOfRegimen(typeOfRegimen);	
+						kenyaEmrService.saveDrugOrderProcessed(drugOrderProcessed);
 					}
 					else{
+						encounter=createEncounterForBaseLine(patient);
 						drugOrder.setDiscontinued(true);
 						drugOrder.setDiscontinuedDate(changeDate);
 						drugOrder.setDiscontinuedBy(Context.getAuthenticatedUser());
@@ -325,26 +398,22 @@ public class RegimenUtilFragmentController {
 				DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
 				drugOrderProcessed.setDrugOrder(Context.getOrderService().getDrugOrder(order.getOrderId()));
 				drugOrderProcessed.setPatient(patient);
-				drugOrderProcessed.setCreatedDate(new Date());
+				drugOrderProcessed.setCreatedDate(changeDate);
 				drugOrderProcessed.setProcessedStatus(false);
 				drugOrderProcessed.setDose(dose);
 				drugOrderProcessed.setNoOfTablet(noOfTablet);
 				drugOrderProcessed.setDurationPreProcess(duration);	
 				drugOrderProcessed.setDrugRegimen(drugRegimen);
 				drugOrderProcessed.setRegimenChangeType(changeType.name());
-				patient.getAge();
-				if(patient.getAge()>14){
-					drugOrderProcessed.setTypeOfRegimen(conMap.get("adult").getName().getName());	
-				}
-				else{
-					drugOrderProcessed.setTypeOfRegimen(conMap.get("child").getName().getName());	
-				}
+				drugOrderProcessed.setTypeOfRegimen(typeOfRegimen);	
 				kenyaEmrService.saveDrugOrderProcessed(drugOrderProcessed);
-			    }
+			     }
+				}
 			   }
 			  }
 			 }
 			}
+		   }
 			return encounter;
 		}
 		
@@ -562,6 +631,10 @@ public class RegimenUtilFragmentController {
 		}
 	}
 	
+	private void changeRegimenHelperr(RegimenOrder baseline,List<DrugOrder> noChanges, List<DrugOrder> toChangeDose,List<DrugOrder> toStart) {
+		
+	}
+	
     public Encounter createEncounterForBaseLine(Patient patient){
     	Encounter encounter = new Encounter();
 		Location location = new Location(1);
@@ -578,7 +651,20 @@ public class RegimenUtilFragmentController {
 		if(visitSize==1){
 			for(Visit visit:visits){
 		encounter.setVisit(visit);
-		encounter.setEncounterDatetime(visit.getStartDatetime());
+		Date curDate = new Date();
+		SimpleDateFormat mysqlDateTimeFormatter = new SimpleDateFormat(
+				"dd-MMM-yy HH:mm:ss");
+		Date date = new Date();
+		String modifiedDate= new SimpleDateFormat("dd-MMM-yyyy").format(visit.getStartDatetime());
+		try {
+			date = mysqlDateTimeFormatter.parse(modifiedDate
+					+ " " + curDate.getHours() + ":" + curDate.getMinutes()
+					+ ":" + curDate.getSeconds());
+		} catch (ParseException e) {
+			date = curDate;
+			e.printStackTrace();
+		}
+		encounter.setEncounterDatetime(date);
 			}
 		}
 		else{
