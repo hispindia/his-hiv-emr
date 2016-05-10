@@ -125,6 +125,9 @@ public class EditPatientFragmentController {
 			model.addAttribute("statusother", 0);
 		}
 
+		model.addAttribute("townShipList",
+				Dictionary.getConcept(Dictionary.TOWNSHIP));
+		
 		Obs savedEntryPointConcept;
 		savedEntryPointConcept = getLatestObs(patient,
 				Dictionary.METHOD_OF_ENROLLMENT);
@@ -363,7 +366,8 @@ public class EditPatientFragmentController {
 		private String checkInType;
 
 		private String nationalId;
-		private String placeOfBirth;
+		private Concept placeOfBirth;
+		private Obs savedPlaceOfBirth;
 		private String dateOfRegistration;
 
 		/**
@@ -432,8 +436,14 @@ public class EditPatientFragmentController {
 			hivTestPerformedPlace = wrapper.getPreviousHivTestPlace();
 			fatherName = wrapper.getFatherName();
 			nationalId = wrapper.getNationalId();
-			placeOfBirth = wrapper.getPlaceOfBirth();
+//			placeOfBirth = wrapper.getPlaceOfBirth();
 
+			savedPlaceOfBirth = getLatestObs(patient,
+					Dictionary.TOWNSHIP);
+			if (savedPlaceOfBirth != null) {
+				placeOfBirth = savedPlaceOfBirth.getValueCoded();
+			}
+			
 			try {
 				String datestr = wrapper.getPreviousHivTestDate();
 				DateFormat formatter;
@@ -510,12 +520,12 @@ public class EditPatientFragmentController {
 			}
 			;
 
-			if (placeOfBirth.length() > 50) {
+/*			if (placeOfBirth.length() > 50) {
 				errors.rejectValue("placeOfBirth",
 						"Expected length of Birth Place is exceeding");
 			}
 			;
-
+*/
 			if (nameOfNextOfKin.length() > 50) {
 				errors.rejectValue("nameOfNextOfKin",
 						"Expected length of Name is exceeding");
@@ -804,7 +814,7 @@ public class EditPatientFragmentController {
 
 			wrapper.getPerson().setFatherName(fatherName);
 			wrapper.getPerson().setNationalId(nationalId);
-			wrapper.getPerson().setPlaceOfBirth(placeOfBirth);
+//			wrapper.getPerson().setPlaceOfBirth(placeOfBirth);
 
 			// Make sure everyone gets an OpenMRS ID
 			PatientIdentifierType openmrsIdType = MetadataUtils.existing(
@@ -837,6 +847,9 @@ public class EditPatientFragmentController {
 			List<Obs> obsToSave = new ArrayList<Obs>();
 			List<Obs> obsToVoid = new ArrayList<Obs>();
 
+			handleOncePerPatientObs(ret, obsToSave, obsToVoid,
+					Dictionary.getConcept(Dictionary.TOWNSHIP),
+					savedPlaceOfBirth, placeOfBirth);
 			handleOncePerPatientObs(ret, obsToSave, obsToVoid,
 					Dictionary.getConcept(Dictionary.CIVIL_STATUS),
 					savedMaritalStatus, maritalStatus);
@@ -1581,12 +1594,20 @@ public class EditPatientFragmentController {
 			this.nationalId = nationalId;
 		}
 
-		public String getPlaceOfBirth() {
+		public Concept getPlaceOfBirth() {
 			return placeOfBirth;
 		}
 
-		public void setPlaceOfBirth(String placeOfBirth) {
+		public void setPlaceOfBirth(Concept placeOfBirth) {
 			this.placeOfBirth = placeOfBirth;
+		}
+
+		public Obs getSavedPlaceOfBirth() {
+			return savedPlaceOfBirth;
+		}
+
+		public void setSavedPlaceOfBirth(Obs savedPlaceOfBirth) {
+			this.savedPlaceOfBirth = savedPlaceOfBirth;
 		}
 
 		public String getDateOfRegistration() {
