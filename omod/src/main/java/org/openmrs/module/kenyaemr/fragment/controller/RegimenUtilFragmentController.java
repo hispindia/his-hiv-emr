@@ -207,6 +207,21 @@ public class RegimenUtilFragmentController {
 			RegimenOrder baseline = lastChange != null ? lastChange.getStarted() : null;
 			Encounter encounter=null;
 			KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
+			
+			Date curDate = new Date();
+			SimpleDateFormat mysqlDateTimeFormatter = new SimpleDateFormat(
+					"dd-MMM-yy HH:mm:ss");
+			Date date = new Date();
+			String modifiedDate= new SimpleDateFormat("dd-MMM-yyyy").format(changeDate);
+			try {
+				date = mysqlDateTimeFormatter.parse(modifiedDate
+						+ " " + curDate.getHours() + ":" + curDate.getMinutes()
+						+ ":" + curDate.getSeconds());
+			} catch (ParseException e) {
+				date = curDate;
+				e.printStackTrace();
+			}
+			
 			if (baseline == null) {
 				encounter=createEncounterForBaseLine(patient);
 				if (srNo != null) {
@@ -256,7 +271,7 @@ public class RegimenUtilFragmentController {
 				drugOrder.setOrderType(Context.getOrderService().getOrderType(OpenmrsConstants.ORDERTYPE_DRUG));
 				drugOrder.setEncounter(encounter);
 				drugOrder.setPatient(patient);
-				drugOrder.setStartDate(changeDate);
+				drugOrder.setStartDate(date);
 				drugOrder.setConcept(drugConcept);
 				//drugoOrder.setDrug();
 				//drugoOrder.setDose(dose);
@@ -288,7 +303,7 @@ public class RegimenUtilFragmentController {
 						    DrugOrderProcessed drugOrderProcess=kenyaEmrService.getDrugOrderProcessed(drugOrder);
 						    if(drugOrderProcess!=null){
 						    	dop=drugOrderProcess;
-							drugOrderProcess.setDiscontinuedDate(changeDate);
+							drugOrderProcess.setDiscontinuedDate(new Date());
 							kenyaEmrService.saveDrugOrderProcessed(drugOrderProcess);
 							}
 						    else{
@@ -358,12 +373,12 @@ public class RegimenUtilFragmentController {
 					DrugOrderProcessed dop=kenyaEmrService.getLastDrugOrderProcessed(drugOrder);
 					if(dop!=null){
 					if(dop.getDrugOrder().getConcept().equals(drugConcept) && dop.getDose().equals(dose) && dop.getDrugOrder().getFrequency().equals(frequency)){
-						dop.setDiscontinuedDate(changeDate);
+						dop.setDiscontinuedDate(new Date());
 						kenyaEmrService.saveDrugOrderProcessed(dop);
 						DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
 						drugOrderProcessed.setDrugOrder(dop.getDrugOrder());
 						drugOrderProcessed.setPatient(patient);
-						drugOrderProcessed.setCreatedDate(changeDate);
+						drugOrderProcessed.setCreatedDate(new Date());
 						drugOrderProcessed.setProcessedStatus(false);
 						drugOrderProcessed.setDose(dose);
 						drugOrderProcessed.setNoOfTablet(noOfTablet);
@@ -376,7 +391,7 @@ public class RegimenUtilFragmentController {
 					else{
 						encounter=createEncounterForBaseLine(patient);
 						drugOrder.setDiscontinued(true);
-						drugOrder.setDiscontinuedDate(changeDate);
+						drugOrder.setDiscontinuedDate(date);
 						drugOrder.setDiscontinuedBy(Context.getAuthenticatedUser());
 						drugOrder.setDiscontinuedReason(changeReason);
 						drugOrder.setDiscontinuedReasonNonCoded(changeReasonNonCoded);
@@ -386,7 +401,7 @@ public class RegimenUtilFragmentController {
 				drugOder.setOrderType(Context.getOrderService().getOrderType(OpenmrsConstants.ORDERTYPE_DRUG));
 				drugOder.setEncounter(encounter);
 				drugOder.setPatient(patient);
-				drugOder.setStartDate(changeDate);
+				drugOder.setStartDate(date);
 				drugOder.setConcept(drugConcept);
 				//drugOder.setDrug();
 				//drugOder.setDose(dose);
@@ -398,7 +413,7 @@ public class RegimenUtilFragmentController {
 				DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
 				drugOrderProcessed.setDrugOrder(Context.getOrderService().getDrugOrder(order.getOrderId()));
 				drugOrderProcessed.setPatient(patient);
-				drugOrderProcessed.setCreatedDate(changeDate);
+				drugOrderProcessed.setCreatedDate(new Date());
 				drugOrderProcessed.setProcessedStatus(false);
 				drugOrderProcessed.setDose(dose);
 				drugOrderProcessed.setNoOfTablet(noOfTablet);
@@ -629,10 +644,6 @@ public class RegimenUtilFragmentController {
 		if (anyDoseChanges || sameGeneric.size() == 0) {
 			toStart.add(component.toDrugOrder(null, null,null));
 		}
-	}
-	
-	private void changeRegimenHelperr(RegimenOrder baseline,List<DrugOrder> noChanges, List<DrugOrder> toChangeDose,List<DrugOrder> toStart) {
-		
 	}
 	
     public Encounter createEncounterForBaseLine(Patient patient){

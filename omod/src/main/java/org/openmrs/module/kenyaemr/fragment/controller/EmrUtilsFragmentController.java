@@ -226,8 +226,9 @@ public class EmrUtilsFragmentController {
 		for(DrugOrder drugOrder:baseline.getDrugOrders()){
 			List<ConceptAnswer> conceptAnswers= kenyaEmrService.getConceptAnswerByAnsweConcept(drugOrder.getConcept());
 			for(ConceptAnswer conceptAnswer:conceptAnswers){
-				if(!(conceptAnswer.getConcept().getName().getName().equals("Fixed dose combinations (FDCs)") || conceptAnswer.getConcept().getName().getName().equals("ARV drugs for child"))){
-					whichLine=conceptAnswer.getConcept().getName().getName();
+				//Fixed dose combinations (FDCs) && ARV drugs for child
+				if(!(conceptAnswer.getConcept().getUuid().equals("b8d460f8-0563-4416-9e0a-d77aafa7e5c3") || conceptAnswer.getConcept().getUuid().equals("4c132bde-0e0f-4586-a874-fe6335945144"))){
+					whichLine=conceptAnswer.getConcept().getUuid();
 				}
 			}
 		  }
@@ -238,10 +239,14 @@ public class EmrUtilsFragmentController {
 		Collection<ConceptAnswer> switchConceptAnswers=new LinkedHashSet<ConceptAnswer>();
 		
 		if(patient.getAge()>14){
-			Concept concept1=Context.getConceptService().getConceptByName("First line Anti-retoviral drugs");
-			Concept concept2=Context.getConceptService().getConceptByName("Second line ART");
-			Concept concept3=Context.getConceptService().getConceptByName("HIV/HBV co-infection");
-			Concept concept4=Context.getConceptService().getConceptByName("Fixed dose combinations (FDCs)");
+			//First line Anti-retoviral drugs
+			Concept concept1=Context.getConceptService().getConceptByUuid("363c2193-f3d1-4e97-9dd3-09361bbcc233");
+			//Second line ART
+			Concept concept2=Context.getConceptService().getConceptByUuid("f7693b07-789f-46d6-892a-fcf499b97228");
+			//HIV/HBV co-infection
+			Concept concept3=Context.getConceptService().getConceptByUuid("ab9b1c9a-9acb-4e7f-b696-ac6870083117");
+			//Fixed dose combinations (FDCs)
+			Concept concept4=Context.getConceptService().getConceptByUuid("b8d460f8-0563-4416-9e0a-d77aafa7e5c3");
 			
 			if(whichLine.equals("")){
 				conceptAnswers.addAll(concept1.getAnswers(false));
@@ -249,30 +254,42 @@ public class EmrUtilsFragmentController {
 				conceptAnswers.addAll(concept3.getAnswers(false));
 				conceptAnswers.addAll(concept4.getAnswers(false));
 			}
-			else if(whichLine.equals("First line Anti-retoviral drugs")){
+			//First line Anti-retoviral drugs
+			else if(whichLine.equals("363c2193-f3d1-4e97-9dd3-09361bbcc233")){
 				substituteConceptAnswers.addAll(concept1.getAnswers(false));
+				substituteConceptAnswers.addAll(concept4.getAnswers(false));
 				switchConceptAnswers.addAll(concept2.getAnswers(false));
 				switchConceptAnswers.addAll(concept3.getAnswers(false));
 				switchConceptAnswers.addAll(concept4.getAnswers(false));
 			}
-            else if(whichLine.equals("Second line ART")){
+			//Second line ART
+            else if(whichLine.equals("f7693b07-789f-46d6-892a-fcf499b97228")){
             	substituteConceptAnswers.addAll(concept2.getAnswers(false));
+            	substituteConceptAnswers.addAll(concept4.getAnswers(false));
 				switchConceptAnswers.addAll(concept1.getAnswers(false));
 				switchConceptAnswers.addAll(concept3.getAnswers(false));
 				switchConceptAnswers.addAll(concept4.getAnswers(false));
 			}
-            else if(whichLine.equals("HIV/HBV co-infection")){
+			//HIV/HBV co-infection
+            else if(whichLine.equals("ab9b1c9a-9acb-4e7f-b696-ac6870083117")){
             	substituteConceptAnswers.addAll(concept3.getAnswers(false));
+            	substituteConceptAnswers.addAll(concept4.getAnswers(false));
 				switchConceptAnswers.addAll(concept1.getAnswers(false));
 				switchConceptAnswers.addAll(concept2.getAnswers(false));
 				switchConceptAnswers.addAll(concept4.getAnswers(false));
             }
 		}
 		else{
-			Concept concept5=Context.getConceptService().getConceptByName("ARV drugs for child");
-			Concept concept6=Context.getConceptService().getConceptByName("Fixed dose combinations (FDCs)");
+			//ARV drugs for child
+			Concept concept5=Context.getConceptService().getConceptByUuid("4c132bde-0e0f-4586-a874-fe6335945144");
+			//Fixed dose combinations (FDCs)
+			Concept concept6=Context.getConceptService().getConceptByUuid("b8d460f8-0563-4416-9e0a-d77aafa7e5c3");
 			conceptAnswers.addAll(concept5.getAnswers(false));
 			conceptAnswers.addAll(concept6.getAnswers(false));
+			substituteConceptAnswers.addAll(concept5.getAnswers(false));
+			substituteConceptAnswers.addAll(concept6.getAnswers(false));
+			switchConceptAnswers.addAll(concept5.getAnswers(false));
+			switchConceptAnswers.addAll(concept6.getAnswers(false));
 		}
 		
 		for(ConceptAnswer conceptAnswer:conceptAnswers){
