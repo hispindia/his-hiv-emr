@@ -20,7 +20,7 @@
 <tr>
 <td>${count}</td>
 <td style="text-align:center">${drugOrderProcessed.drugOrder.concept.name} </td>
-<td>${drugOrderProcessed.drugOrder.dose}</td>
+<td>${drugOrderProcessed.dose}</td>
 <td>${drugOrderProcessed.drugOrder.units} </td>
 <td>${drugOrderProcessed.drugOrder.frequency}</td>
 <td>${drugOrderProcessed.durationPreProcess}</td>

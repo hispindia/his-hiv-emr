@@ -134,6 +134,7 @@ public interface KenyaEmrService extends OpenmrsService {
 	public DrugObsProcessed saveDrugObsProcessed(DrugObsProcessed drugObsProcessed);
 	public DrugOrderProcessed getDrugOrderProcessed(DrugOrder drugOrder);
 	public DrugOrderProcessed getLastDrugOrderProcessed(DrugOrder drugOrder);
+	public DrugOrderProcessed getLastDrugOrderProcessedNotDiscontinued(DrugOrder drugOrder);
 	public List<DrugOrderProcessed> getDrugOrderProcessedCompleted(DrugOrder drugOrder);
 	public DrugOrderProcessed getDrugOrderProcesedById(Integer id);
 	public Encounter getLabbOrderEncounter(Visit visit);

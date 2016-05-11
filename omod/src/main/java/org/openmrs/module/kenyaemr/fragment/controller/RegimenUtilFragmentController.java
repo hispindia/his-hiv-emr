@@ -370,7 +370,7 @@ public class RegimenUtilFragmentController {
 				}
 				
 				for(DrugOrder drugOrder:baseline.getDrugOrders()){
-					DrugOrderProcessed dop=kenyaEmrService.getLastDrugOrderProcessed(drugOrder);
+					DrugOrderProcessed dop=kenyaEmrService.getLastDrugOrderProcessedNotDiscontinued(drugOrder);
 					if(dop!=null){
 					if(dop.getDrugOrder().getConcept().equals(drugConcept)){
 						if(dop.getDose().equals(dose) && dop.getDrugOrder().getFrequency().equals(frequency)){

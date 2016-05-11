@@ -341,6 +341,10 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 		return dao.getLastDrugOrderProcessed(drugOrder);
 	}
 	
+	public DrugOrderProcessed getLastDrugOrderProcessedNotDiscontinued(DrugOrder drugOrder) {
+		return dao.getLastDrugOrderProcessedNotDiscontinued(drugOrder);
+	}
+	
 	public List<DrugOrderProcessed> getDrugOrderProcessedCompleted(DrugOrder drugOrder) {
 		return dao.getDrugOrderProcessedCompleted(drugOrder);
 	}

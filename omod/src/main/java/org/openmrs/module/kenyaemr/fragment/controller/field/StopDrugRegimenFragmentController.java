@@ -9,6 +9,8 @@ import org.openmrs.DrugOrder;
 import org.openmrs.Patient;
 import org.openmrs.api.OrderService;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.kenyaemr.api.KenyaEmrService;
+import org.openmrs.module.kenyaemr.model.DrugOrderProcessed;
 import org.openmrs.module.kenyaemr.regimen.RegimenChange;
 import org.openmrs.module.kenyaemr.regimen.RegimenChangeHistory;
 import org.openmrs.module.kenyaemr.regimen.RegimenManager;
@@ -22,6 +24,7 @@ public class StopDrugRegimenFragmentController {
 			@RequestParam(value="otherReason",required = false) String otherReason,
 			@SpringBean RegimenManager regimenManager) {
 		OrderService os = Context.getOrderService();
+		KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
 		String category="ARV";
 		Concept masterSet = regimenManager.getMasterSetConcept(category);
 		RegimenChangeHistory history = RegimenChangeHistory.forPatient(patient, masterSet);
@@ -29,6 +32,11 @@ public class StopDrugRegimenFragmentController {
 		RegimenOrder baseline = lastChange != null ? lastChange.getStarted() : null;
 		List<DrugOrder> toStop = new ArrayList<DrugOrder>(baseline.getDrugOrders());
 		for (DrugOrder o : toStop) {
+			DrugOrderProcessed dop=kenyaEmrService.getDrugOrderProcessed(o);
+			if(dop!=null){
+			dop.setDiscontinuedDate(new Date());
+			kenyaEmrService.saveDrugOrderProcessed(dop);
+			}
 			o.setDiscontinued(true);
 			o.setDiscontinuedDate(new Date());
 			o.setDiscontinuedBy(Context.getAuthenticatedUser());

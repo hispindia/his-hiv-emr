@@ -60,6 +60,7 @@ public interface KenyaEmrDAO {
 	public DrugObsProcessed saveDrugObsProcessed(DrugObsProcessed drugObsProcessed);
 	public DrugOrderProcessed getDrugOrderProcessed(DrugOrder drugOrder);
 	public DrugOrderProcessed getLastDrugOrderProcessed(DrugOrder drugOrder);
+	public DrugOrderProcessed getLastDrugOrderProcessedNotDiscontinued(DrugOrder drugOrder);
 	public List<DrugOrderProcessed> getDrugOrderProcessedCompleted(DrugOrder drugOrder);
 	public DrugOrderProcessed getDrugOrderProcesedById(Integer id);
 	public List<DrugOrderProcessed> getDrugOrdersByProcessedDate(Date date);
