@@ -2,6 +2,13 @@
 	ui.decorateWith("kenyaui", "panel", [ heading: "Visit Summary", frameOnly: true ])
 
 	def nonVoidedEncounters = visit.encounters.findAll { !it.voided }
+	
+	def dataPoints = []
+	
+	if (appointmentDate) {
+		dataPoints << [ label: "Next Appointment Date ", value: appointmentDate, showDateInterval: true ]
+	} 
+	
 %>
 <script type="text/javascript">
 	function ke_deleteVisit(visitId) {
@@ -26,6 +33,7 @@
 	${ ui.includeFragment("kenyaui", "widget/dataPoint", [ label: "Location", value: visit.location ]) }
 	${ ui.includeFragment("kenyaui", "widget/dataPoint", [ label: "When", value: kenyaui.formatVisitDates(visit) ]) }
 	${ ui.includeFragment("kenyaui", "widget/dataPoint", [ label: "Entry", value: sourceForm ?: "Registration" ]) }
+	<% dataPoints.each { print ui.includeFragment("kenyaui", "widget/dataPoint", it) } %>
 </div>
 
 <% if (allowVoid && !visit.voided) { %>

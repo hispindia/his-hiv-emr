@@ -57,18 +57,20 @@
 
 				fieldIndex = 36; 
 				j=1;
-				while(document.getElementById("w"+fieldIndex).value!=""){
-					if(document.getElementById("w"+fieldIndex+"_hid")){
-						var id = document.getElementById("w"+fieldIndex+"_hid").value
-						if(id=="ERROR"){
-							alert("Kindly enter data in correct format");
-							return false;
+				if(document.getElementById("w"+fieldIndex)){
+					while(document.getElementById("w"+fieldIndex).value!=""){
+						if(document.getElementById("w"+fieldIndex+"_hid")){
+							var id = document.getElementById("w"+fieldIndex+"_hid").value
+							if(id=="ERROR"){
+								alert("Kindly enter data in correct format");
+								return false;
+							}
 						}
+						j++;
+						fieldIndex=fieldIndex+2;
 					}
-					j++;
-					fieldIndex=fieldIndex+2;
 				}
-				
+
 				return true;
 
 			});
@@ -581,14 +583,13 @@
 						</div>
 					</td>	
 				</tr>
-				<tr>	
+				<!-- <tr>	
 					<td style="padding-left:10px;">11. Next Step</td>
 					<td  style="padding: 5px"><div>Next appointment date : <obs id="appointmentDate" conceptId="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowFutureDates="true" /></div></td>
-				</tr>
+				</tr> -->
 			</table>
 
 		</fieldset>
-
 	</div>
 
 	<div class="ke-form-footer">

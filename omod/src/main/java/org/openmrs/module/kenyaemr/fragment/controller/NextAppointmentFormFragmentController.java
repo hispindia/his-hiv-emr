@@ -18,30 +18,53 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openmrs.Concept;
+import org.openmrs.Encounter;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.appframework.domain.AppDescriptor;
+import org.openmrs.module.kenyacore.form.FormDescriptor;
+import org.openmrs.module.kenyacore.form.FormManager;
 import org.openmrs.module.kenyaemr.Dictionary;
+import org.openmrs.module.kenyaemr.api.KenyaEmrService;
 import org.openmrs.module.kenyaemr.wrapper.EncounterWrapper;
-import org.openmrs.module.kenyaemr.wrapper.VisitWrapper;
+import org.openmrs.module.kenyaui.KenyaUiUtils;
+import org.openmrs.ui.framework.SimpleObject;
+import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.FragmentParam;
+import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
-import org.openmrs.util.PrivilegeConstants;
+import org.openmrs.ui.framework.page.PageRequest;
 
 /**
- * Visit summary fragment
+ * Fragment to display available forms for a given visit
  */
-public class VisitSummaryFragmentController {
+public class NextAppointmentFormFragmentController {
 	
-	public void controller(@FragmentParam("visit") Visit visit, FragmentModel model) {
+	protected static final Log log = LogFactory.getLog(NextAppointmentFormFragmentController.class);
 
-		model.addAttribute("visit", visit);
-		model.addAttribute("sourceForm", new VisitWrapper(visit).getSourceForm());
-		model.addAttribute("allowVoid", Context.hasPrivilege(PrivilegeConstants.DELETE_VISITS));
+	public void controller(FragmentModel model,
+						   @FragmentParam("patient") Patient patient,
+						   UiUtils ui,
+						   PageRequest request,
+						   @SpringBean FormManager formManager,
+						   @SpringBean KenyaUiUtils kenyaUi) {
+
+		AppDescriptor currentApp = kenyaUi.getCurrentApp(request);
+		model.addAttribute("patient", patient);
 		
-		Obs obsDate = getAllLatestObs( Dictionary.RETURN_VISIT_DATE, visit);
+		Visit activeVisit = null;
+		List<Visit> activeVisitList = Context.getVisitService()
+				.getActiveVisitsByPatient(patient);
+		for (Visit v : activeVisitList) {
+			activeVisit = v;
+		}
+		
+		Obs obsDate = getAllLatestObs( Dictionary.RETURN_VISIT_DATE, activeVisit);
 		if (obsDate != null) {
 			EncounterWrapper wrapped = new EncounterWrapper(
 					obsDate.getEncounter());
@@ -51,17 +74,15 @@ public class VisitSummaryFragmentController {
 				obsDate = obs;
 			}
 		}
-		
 		if(obsDate!=null){
-			model.addAttribute("appointmentDate", new SimpleDateFormat(
-					"dd-MMMM-yyyy").format(obsDate.getValueDate()));
+			model.addAttribute("appointmentDate", obsDate.getValueDate());
 		}
 		else{
-			model.addAttribute("appointmentDate", null);
+			model.addAttribute("appointmentDate","");
 		}
-
+		
 	}
-
+	
 	private Obs getAllLatestObs( String conceptIdentifier, Visit visit) {
 		Concept concept = Dictionary.getConcept(conceptIdentifier);
 		List<Obs> obs = Context.getObsService()
