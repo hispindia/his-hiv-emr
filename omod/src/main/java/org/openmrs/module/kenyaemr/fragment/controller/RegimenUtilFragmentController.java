@@ -391,6 +391,8 @@ public class RegimenUtilFragmentController {
 						}
 					}
 					else{
+						dop.setDiscontinuedDate(new Date());
+						kenyaEmrService.saveDrugOrderProcessed(dop);
 						drugOrder.setDiscontinued(true);
 						drugOrder.setDiscontinuedDate(date);
 						drugOrder.setDiscontinuedBy(Context.getAuthenticatedUser());

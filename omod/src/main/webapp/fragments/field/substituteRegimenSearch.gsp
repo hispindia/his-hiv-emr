@@ -17,7 +17,7 @@
 
 %>
 
-<div ng-controller="DrugCtrl" data-ng-init="init()">
+<div id="substituteRegimenSearch" ng-controller="DrugCtrl" data-ng-init="init()">
 
 <table>
 <tbody>

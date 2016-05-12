@@ -17,7 +17,7 @@
 
 %>
 
-<div ng-controller="DrugCtrl" data-ng-init="init()">
+<div id="switchRegimenSearch" ng-controller="DrugCtrl" data-ng-init="init()">
 
 <table>
 <tbody>
@@ -43,7 +43,7 @@
 <table>
 <tbody>
 <tr>
-<td class="colB" style="text-align:center"><input type="text" ng-model="drugKey" id={{choice.drugKey}} name={{choice.drugKey}} placeholder="search box" uib-typeahead="drug as drug.drugName for drug in myDrug3 | filter : drugKey" typeahead-on-select="drugSearch(drugKey,choice);"></td>
+<td class="colB" style="text-align:center"><input type="text" ng-model="drugKey" id={{choice.drugKey}} name={{choice.drugKey}} placeholder="search box" uib-typeahead="drug as drug.drugName for drug in myDrug3 | filter : drugKey" typeahead-on-select="drugSearchForSwitch(drugKey,choice);"></td>
 <td class="colC" style="text-align:center"><select style='width: 155px;height: 30px;' id={{choice.strength}}  name={{choice.strength}}><option value="" />${ strengthOptions }</select></td>
 <td class="colD" style="text-align:center"><input type="text" ng-model="noOfTablet" id={{choice.noOfTablet}} name={{choice.noOfTablet}}></td>
 <td class="colE" style="text-align:center"><select style='width: 155px;height: 30px;' type="text" ng-model="type" id={{choice.type}} name={{choice.type}}>${typeOptions}</select></td>

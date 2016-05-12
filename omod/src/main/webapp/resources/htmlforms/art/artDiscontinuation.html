@@ -68,10 +68,11 @@
 			var patient = "<lookup expression="patient.patientId" />";
 			var reason=getValue('idReason.value');
 			var otherReason;
+			var discontinueDate=getValue('encounter-date.value');
 			if (reason == 5622) {
 				otherReason=getValue('otherReason.value');
 			}
-			jQuery.ajax(ui.fragmentActionLink("kenyaemr", "field/stopDrugRegimen", "stopRegimen",{ patient: patient,reason:reason,otherReason:otherReason}));
+			jQuery.ajax(ui.fragmentActionLink("kenyaemr", "field/stopDrugRegimen", "stopRegimen",{ patient: patient,reason:reason,otherReason:otherReason,discontinueDate:discontinueDate}));
 		}
 	</script>
 
@@ -80,7 +81,7 @@
 			<table class="baseline-aligned" width="40%" border="0">
 				<tr>
 					<td>Date:</td>
-					<td><encounterDate id="encounter-date" showTime="true" /></td>
+					<td><encounterDate id="encounter-date" showTime="true"/></td>
 					<td> </td>
 				</tr>
 				<tr>

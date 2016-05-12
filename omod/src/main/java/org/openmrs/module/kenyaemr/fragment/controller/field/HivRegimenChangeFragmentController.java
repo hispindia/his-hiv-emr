@@ -15,12 +15,20 @@
 package org.openmrs.module.kenyaemr.fragment.controller.field;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import org.openmrs.Concept;
+import org.openmrs.DrugOrder;
 import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.kenyaemr.api.KenyaEmrService;
 import org.openmrs.module.kenyaemr.model.DrugOrderProcessed;
+import org.openmrs.module.kenyaemr.regimen.RegimenChange;
+import org.openmrs.module.kenyaemr.regimen.RegimenChangeHistory;
+import org.openmrs.module.kenyaemr.regimen.RegimenManager;
+import org.openmrs.module.kenyaemr.regimen.RegimenOrder;
 import org.openmrs.ui.framework.annotation.FragmentParam;
+import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 
 /**
@@ -29,17 +37,30 @@ import org.openmrs.ui.framework.fragment.FragmentModel;
 public class HivRegimenChangeFragmentController {
 
 	public void controller(@FragmentParam("patient") Patient patient,
-			FragmentModel model) {
+			@SpringBean RegimenManager regimenManager,FragmentModel model) {
 		KenyaEmrService kenyaEmrService = (KenyaEmrService) Context
 				.getService(KenyaEmrService.class);
 		DrugOrderProcessed drugOrderProcessed = kenyaEmrService
 				.getLastRegimenChangeType(patient);
 		model.addAttribute("drugOrderProcessed", drugOrderProcessed);
 		SimpleDateFormat formatterExt = new SimpleDateFormat("dd-MMM-yyyy");
-		if(drugOrderProcessed!=null){
-		String date = formatterExt.format(drugOrderProcessed.getDiscontinuedDate());
+		Date startDate=new Date();
+		String category="ARV";
+		Concept masterSet = regimenManager.getMasterSetConcept(category);
+		RegimenChangeHistory history = RegimenChangeHistory.forPatient(patient, masterSet);
+		RegimenChange lastChange = history.getLastChange();
+		RegimenOrder baseline = lastChange != null ? lastChange.getStarted() : null;
+		if (baseline != null) {
+		for(DrugOrder drugOrder:baseline.getDrugOrders()){
+			startDate=drugOrder.getStartDate();
+		}
+		String date = formatterExt.format(startDate);
 		model.addAttribute("date", date);
 		}
+		else{
+			model.addAttribute("date", "");	
+		}
+
 	}
 
 }

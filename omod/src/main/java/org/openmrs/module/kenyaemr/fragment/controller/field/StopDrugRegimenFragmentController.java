@@ -1,5 +1,7 @@
 package org.openmrs.module.kenyaemr.fragment.controller.field;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,9 +24,32 @@ public class StopDrugRegimenFragmentController {
 	public void stopRegimen(@RequestParam("patient") Patient patient,
 			@RequestParam("reason") Concept reason,
 			@RequestParam(value="otherReason",required = false) String otherReason,
+			@RequestParam(value="discontinueDate",required = false) String discontinueDate,
 			@SpringBean RegimenManager regimenManager) {
 		OrderService os = Context.getOrderService();
 		KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date changeDate=new Date();
+		try {
+			changeDate = dateFormat.parse(discontinueDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		Date curDate = new Date();
+		SimpleDateFormat mysqlDateTimeFormatter = new SimpleDateFormat(
+				"dd-MMM-yy HH:mm:ss");
+		Date date = new Date();
+		String modifiedDate= new SimpleDateFormat("dd-MMM-yyyy").format(changeDate);
+		try {
+			date = mysqlDateTimeFormatter.parse(modifiedDate
+					+ " " + curDate.getHours() + ":" + curDate.getMinutes()
+					+ ":" + curDate.getSeconds());
+		} catch (ParseException e) {
+			date = curDate;
+			e.printStackTrace();
+		}
+		
 		String category="ARV";
 		Concept masterSet = regimenManager.getMasterSetConcept(category);
 		RegimenChangeHistory history = RegimenChangeHistory.forPatient(patient, masterSet);
@@ -38,7 +63,7 @@ public class StopDrugRegimenFragmentController {
 			kenyaEmrService.saveDrugOrderProcessed(dop);
 			}
 			o.setDiscontinued(true);
-			o.setDiscontinuedDate(new Date());
+			o.setDiscontinuedDate(date);
 			o.setDiscontinuedBy(Context.getAuthenticatedUser());
 			o.setDiscontinuedReason(reason);
 			o.setDiscontinuedReasonNonCoded(otherReason);

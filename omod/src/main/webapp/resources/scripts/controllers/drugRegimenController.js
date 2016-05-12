@@ -40,6 +40,17 @@ kenyaemrApp.controller('DrugCtrl', ['$scope', function($scope) {
 	//$scope.strength = $scope[drugKey].strength;
 	//$scope.strength = $scope.drugKey.strength;
 	var srNo=choice.srNo;
+	jQuery('#switchRegimenSearch').empty();
+	$('#strength'+srNo).val(drugKey.strength);
+	$('#noOfTablet'+srNo).val(drugKey.noOfTablet);
+	$('#type'+srNo).val(drugKey.type);
+	$('#frequncy'+srNo).val(drugKey.frequency);
+	$('#duration'+srNo).val(drugKey.duration);
+	}
+	
+	$scope.drugSearchForSwitch = function(drugKey,choice){
+	var srNo=choice.srNo;
+	jQuery('#substituteRegimenSearch').empty();
 	$('#strength'+srNo).val(drugKey.strength);
 	$('#noOfTablet'+srNo).val(drugKey.noOfTablet);
 	$('#type'+srNo).val(drugKey.type);
