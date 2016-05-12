@@ -73,6 +73,9 @@
 		<% if (visit) { %>
 			<input type="hidden" name="visitId" value="${ visit.visitId }"/>
 		<% } %>
+		
+		<input  id="preArtPatient" name="preArtPatient" value="${ preArtPatient}"/>
+
 		<% if (command.returnUrl) { %>
 			<input type="hidden" name="returnUrl" value="${ command.returnUrl }"/>
 		<% } %>

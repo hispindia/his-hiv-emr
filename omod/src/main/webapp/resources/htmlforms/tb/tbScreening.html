@@ -296,6 +296,7 @@ input[type=button], button{
 						jq('#tbSufferedPatientYes :input').prop('disabled', false);
 				}
 					if (jq(this).val() == 1066) {
+						alert("Isoniazid Prophylaxis is recommended.");
 						jq('#tbSufferedPatientYes :input').prop('disabled', true);
 						jq('#tbSufferedPatientNo :input').prop('disabled', false);
 				}

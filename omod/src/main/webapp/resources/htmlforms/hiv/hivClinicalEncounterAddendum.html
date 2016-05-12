@@ -33,14 +33,14 @@
 		jq(document).ready(function(){
 			
 			beforeSubmit.push(function() {
-				 var appointDate = new Date(getValue('appointmentDate.value'));
+			/*	 var appointDate = new Date(getValue('appointmentDate.value'));
 				 var encount=new Date(getValue('encounter-date.value'));
 				if (appointDate&lt;encount)
 				{
 					getField('appointmentDate.error').html('Appointment date can not before encounter date ').show();
 					return false;
 				}
-				
+			*/	
 				fieldIndex = 8; 
 				j=1;
 				while(document.getElementById("w"+fieldIndex).value!="" &amp;&amp; j &lt; 11){
@@ -74,6 +74,22 @@
 				return true;
 
 			});
+			if(document.getElementById("preArtPatient").value==1){
+				jq('#artSideEffectPresent :input').prop('disabled', false);
+				jq('#totalDoseCount :input').prop('disabled', false);
+				jq('#missedDoseCount :input').prop('disabled', false);
+			}
+			else{
+				jq('#artSideEffectPresent :input').prop('disabled', true);
+				jq('#artSideEffectList :input').prop('disabled', true);
+				jq('#totalDoseCount :input').prop('disabled', true);
+				jq('#missedDoseCount :input').prop('disabled', true);
+				jq('#reasonForNonAdherence :input').prop('disabled', true);
+				jq('#w100').prop('disabled', true);
+				
+			}
+			
+			
 			if (getValue('artSideEffectPresent.value') == 1065) {
 				jq('#artSideEffectList :input').prop('disabled', false);
 			}
@@ -371,26 +387,27 @@
 			
 				var count =  100-((doseCount * 100)/ (totalDoseCount));
 				if(isNaN(count)){
-					display = '<input id="w100" type="text" value="0" name="w100" size="5" autocomplete="off" />';									
+					display = '<input id="w100" type="text" value="0" name="w100" size="5"  disabled="disabled" autocomplete="off" />';									
 				}
 				else{
 					if(count > 94){
-						display = '<input id="w100" type="text" value=" &gt;95%" name="w100" size="5" autocomplete="off" />';
+						display = '<input id="w100" type="text" value=" &gt;95%" name="w100" size="5"  disabled="disabled" autocomplete="off" />';
 					}
 					else if(count > 79){
-						display = '<input id="w100" type="text" value=" 80-95 %" name="w100" size="5" autocomplete="off" />';
+						display = '<input id="w100" type="text" value=" 80-95 %" name="w100" size="5"  disabled="disabled" autocomplete="off" />';
 					}
 					else{
-						display = '<input id="w100" type="text" value=" &lt;80%" name="w100" size="5" autocomplete="off" />';
+						display = '<input id="w100" type="text" value=" &lt;80%" name="w100" size="5"  disabled="disabled" autocomplete="off" />';
 					}
 				}
 				jQuery('#calculated-adherence').html(display);
 				
-				if(count > 94 ){
+				if(count &lt; 95 ){
+					jq('#reasonForNonAdherence :input').prop('disabled', false);
+				}
+				else{
 					jq('#reasonForNonAdherence :input').prop('disabled', true);	
 				}
-				else
-					jq('#reasonForNonAdherence :input').prop('disabled', false);
 		}
 		
 		jQuery(function() {

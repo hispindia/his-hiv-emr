@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openmrs.Encounter;
 import org.openmrs.Patient;
 import org.openmrs.Visit;
 import org.openmrs.VisitType;
@@ -129,11 +130,9 @@ public class RegistrationUtilFragmentController {
 	 */
 	@SharedAction({EmrConstants.APP_REGISTRATION, EmrConstants.APP_INTAKE, EmrConstants.APP_CLINICIAN})
 	public SimpleObject stopVisit(@RequestParam("visitId") Visit visit, @RequestParam("stopDatetime") Date stopDatetime, UiUtils ui) {
-		stopDatetime.setSeconds(new Date().getSeconds());
+//		stopDatetime.setSeconds(new Date().getSeconds());
 		visit.setStopDatetime(stopDatetime);
-
 		ui.validate(visit, new StopVisitValidator(), null);
-
 		Context.getVisitService().saveVisit(visit);
 		
 		return ui.simplifyObject(visit);
@@ -175,9 +174,15 @@ public class RegistrationUtilFragmentController {
 			Visit visit = (Visit)obj;
 			KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
 			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-			Date date=kenyaEmrService.getLastEncounterByCreatedDateTime(visit.getPatient(),visit).getEncounterDatetime();
-			String dat = formatter.format(date);
 
+			Date date= visit.getStartDatetime();
+			List<Encounter> enList = Context.getEncounterService().getEncountersByVisit(visit, false);
+			for(Encounter e : enList){
+				if(e.getEncounterDatetime().after(date)){
+					date = e.getEncounterDatetime();
+				}
+			}
+			String dat = formatter.format(date);
 			if (visit.getStopDatetime() == null) {
 				errors.rejectValue("stopDatetime", "Stop date cannot be empty");
 				visit.setStopDatetime(null);
