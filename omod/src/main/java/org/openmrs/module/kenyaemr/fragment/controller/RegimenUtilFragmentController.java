@@ -222,9 +222,31 @@ public class RegimenUtilFragmentController {
 				e.printStackTrace();
 			}
 			
+			String drugRegimenn="";
+			if (srNo != null) {
+				for (String srn : srNo) {
+					Concept drugConcept=null;
+					String drugRegimen=request.getParameter("drugKey"+srn);	
+					if(drugRegimen!=null){
+						 drugConcept=Context.getConceptService().getConceptByName(drugRegimen);
+					}
+					List<ConceptAnswer> conceptAnswers=kenyaEmrService.getConceptAnswerByAnsweConcept(drugConcept);
+					for(ConceptAnswer conceptAnswer:conceptAnswers){
+						//Fixed dose combinations
+						if(conceptAnswer.getConcept().getUuid().equals("b8d460f8-0563-4416-9e0a-d77aafa7e5c3")){
+							drugRegimenn=drugRegimenn+drugRegimen+"+";
+						}
+					}
+				}
+			}
+			
+			String lastCharacter=drugRegimenn.substring(drugRegimenn.length() - 1);
+			if(lastCharacter.equals("+")){
+			drugRegimenn=drugRegimenn.substring(0,drugRegimenn.length() - 1);
+			}
+			
 			if (baseline == null) {
 				encounter=createEncounterForBaseLine(patient);
-				if (srNo != null) {
 					for (String srn : srNo) {
 				Concept drugConcept=null;
 				String drugRegimen=request.getParameter("drugKey"+srn);
@@ -245,7 +267,8 @@ public class RegimenUtilFragmentController {
 				for(ConceptAnswer conceptAnswer:conceptAnswers){
 					//Fixed dose combinations
 					if(conceptAnswer.getConcept().getUuid().equals("b8d460f8-0563-4416-9e0a-d77aafa7e5c3")){
-						typeOfRegimen=conceptAnswer.getConcept().getName().getName();	
+						typeOfRegimen=conceptAnswer.getConcept().getName().getName();
+						drugRegimen=drugRegimenn;
 					}
 					else{
 						//ARV drugs for child
@@ -293,7 +316,6 @@ public class RegimenUtilFragmentController {
 				drugOrderProcessed.setTypeOfRegimen(typeOfRegimen);	
 				kenyaEmrService.saveDrugOrderProcessed(drugOrderProcessed);
 			   }
-			  }
 			}
 			else {
 				if (changeType == RegimenChangeType.Continue) {
@@ -325,7 +347,7 @@ public class RegimenUtilFragmentController {
 							kenyaEmrService.saveDrugOrderProcessed(drugOrderProcessed);
 					}	
 				}
-				else{
+				else if(changeType == RegimenChangeType.Substitute || changeType == RegimenChangeType.Switch){
 				if (srNo != null) {
 					for (String srn : srNo) {
 				Concept drugConcept=null;
@@ -347,7 +369,8 @@ public class RegimenUtilFragmentController {
 				for(ConceptAnswer conceptAnswer:conceptAnswers){
 					//Fixed dose combinations
 					if(conceptAnswer.getConcept().getUuid().equals("b8d460f8-0563-4416-9e0a-d77aafa7e5c3")){
-						typeOfRegimen=conceptAnswer.getConcept().getName().getName();	
+						typeOfRegimen=conceptAnswer.getConcept().getName().getName();
+						drugRegimen=drugRegimenn;
 					}
 					else{
 						//ARV drugs for child
