@@ -755,6 +755,7 @@ public class WhiteCardFragmentController {
 			String regName = "";
 			String changeStopReason = "";
 			if(en.getEncounterType().getUuid().equals("00d1b629-4335-4031-b012-03f8af3231f8")){
+				DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
 				List<Order> orderListByEn =  Context.getOrderService().getOrdersByEncounter(en);
 					for(Order o : orderListByEn){
 						DrugOrder dr = Context.getOrderService().getDrugOrder(o.getOrderId());
@@ -768,10 +769,18 @@ public class WhiteCardFragmentController {
 						if(dr.getDiscontinuedReason()!=null){
 							changeStopReason = dr.getDiscontinuedReason().getName().toString();	
 						}
+						if(dop.getRegimenChangeType().equals("Restart")){
+							drugOrderProcessed=dop;	
+						}
 					}
 					
 					if(regName!=""){
-						regimenList.put(regimenIndex,new SimpleDateFormat("dd-MMMM-yyyy").format(en.getEncounterDatetime()) + ", " + changeStopReason+ ", "+ new SimpleDateFormat("dd-MMMM-yyyy").format(en.getEncounterDatetime()) + ", "+regName  );
+						if(drugOrderProcessed.getDrugOrder()!=null){
+						regimenList.put(regimenIndex,new SimpleDateFormat("dd-MMMM-yyyy").format(en.getEncounterDatetime()) + ", " + changeStopReason+ ", "+ new SimpleDateFormat("dd-MMMM-yyyy").format(drugOrderProcessed.getDrugOrder().getStartDate()) + ", "+regName  );
+						}
+						else{
+							regimenList.put(regimenIndex,new SimpleDateFormat("dd-MMMM-yyyy").format(en.getEncounterDatetime()) + ", " + changeStopReason+ ", "+ " "+ ", "+regName  );	
+						}
 						regimenIndex++;
 					}
 				}

@@ -158,7 +158,7 @@
 							regimenSearchField()
 					],
 					submitLabel: "Save",
-					successCallbacks: [ "ui.reloadPage();" ],
+					successCallbacks: [ back ],
 					cancelLabel: "Cancel",
 					cancelFunction: "cancelAction"
 				]) }
@@ -204,7 +204,7 @@
 							[ value: reasonFields("substitute") ]
 					],
 					submitLabel: "Save",
-					successCallbacks: [ "ui.reloadPage();" ],
+					successCallbacks: [ back ],
 					cancelLabel: "Cancel",
 					cancelFunction: "cancelAction"
 				]) }
@@ -248,7 +248,7 @@
 							[ value: reasonFields("switch") ]
 					],
 					submitLabel: "Save",
-					successCallbacks: [ "ui.reloadPage();" ],
+					successCallbacks: [ back ],
 					cancelLabel: "Cancel",
 					cancelFunction: "cancelAction"
 				]) }
@@ -290,7 +290,7 @@
 							continueRegimenSearchField()
 					],
 					submitLabel: "Save",
-					successCallbacks: [ "ui.reloadPage();" ],
+					successCallbacks: [ back ],
 					cancelLabel: "Cancel",
 					cancelFunction: "cancelAction"
 				]) }
@@ -334,7 +334,7 @@
 							regimenSearchField()
 					],
 					submitLabel: "Save",
-					successCallbacks: [ "ui.reloadPage();" ],
+					successCallbacks: [ back ],
 					cancelLabel: "Cancel",
 					cancelFunction: "cancelAction"
 				]) }
