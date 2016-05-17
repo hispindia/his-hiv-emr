@@ -18,6 +18,7 @@
 		<property name="processedStatus" column="processed_status" />
 		<property name="dose" column="dose" />
 		<property name="noOfTablet" column="no_of_tablet" />
+		<many-to-one name="route" column="route_concept" class="org.openmrs.Concept" foreign-key="fk_route"/>
 		<property name="durationPreProcess" column="duration_preprocess" />
 		<property name="discontinuedDate" column="discontinued_date" />
 		<many-to-one name="discontinuedReason" column="discontinued_reason" class="org.openmrs.Concept" foreign-key="fk_discontinuedReasonfordrugordernotprocessed"/>

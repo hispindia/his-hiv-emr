@@ -12,11 +12,12 @@
 <td><input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="artRegimen" name="artRegimen" value="Art Regimen" onClick="artForContinRegimen();" /></td>
 </tr>
 <tr>
-<td class="colB" style="text-align:center">Drug</td>
-<td class="colC" style="text-align:center">Strength(per tab or ml)</td>
-<td class="colD" style="text-align:center">Tablets</td>
-<td class="colE" style="text-align:center">Tab/Ml</td>
-<td class="colF" style="text-align:center">Frequency</td>
+<td class="colA" style="text-align:center">Drug</td>
+<td class="colB" style="text-align:center">Strength(per tab or ml)</td>
+<td class="colC" style="text-align:center">Tablets</td>
+<td class="colD" style="text-align:center">Tab/Ml</td>
+<td class="colE" style="text-align:center">Frequency</td>
+<td class="colF" style="text-align:center">Route</td>
 <td class="colG" style="text-align:center">Duration(in days)</td>
 <td class="colH" style="text-align:center"></td>
 <td class="colI" style="text-align:center"></td>
@@ -25,11 +26,12 @@
 </tr>
 <% drugOrderProcesseds.each { drugOrderProcessed -> %>
 <tr>
-<td class="colB" style="text-align:center"><input type="text" id="drugKey${count}" name="drugKey${count}" value="${drugOrderProcessed.drugOrder.concept.name}" disabled></td>
-<td class="colC" style="text-align:center"><input type="text" id="strength${count}" name="strength${count}" value="${drugOrderProcessed.dose}" disabled></td>
-<td class="colD" style="text-align:center"><input type="text" id="noOfTablet${count}" name="noOfTablet${count}" value="${drugOrderProcessed.noOfTablet}" disabled></td>
-<td class="colE" style="text-align:center"><input type="text" id="type${count}" name="type${count}" value="${drugOrderProcessed.drugOrder.units}" disabled></td>
-<td class="colF" style="text-align:center"><input type="text" id="frequncy${count}" name="frequncy${count}" value="${drugOrderProcessed.drugOrder.frequency}" disabled></td>
+<td class="colA" style="text-align:center"><input type="text" id="drugKey${count}" name="drugKey${count}" value="${drugOrderProcessed.drugOrder.concept.name}" disabled></td>
+<td class="colB" style="text-align:center"><input type="text" id="strength${count}" name="strength${count}" value="${drugOrderProcessed.dose}" disabled></td>
+<td class="colC" style="text-align:center"><input type="text" id="noOfTablet${count}" name="noOfTablet${count}" value="${drugOrderProcessed.noOfTablet}" disabled></td>
+<td class="colD" style="text-align:center"><input type="text" id="type${count}" name="type${count}" value="${drugOrderProcessed.drugOrder.units}" disabled></td>
+<td class="colE" style="text-align:center"><input type="text" id="frequncy${count}" name="frequncy${count}" value="${drugOrderProcessed.drugOrder.frequency}" disabled></td>
+<td class="colF" style="text-align:center"><input type="text" id="route${count}" name="route${count}" value="${drugOrderProcessed.route.name}" disabled></td>
 <td class="colG" style="text-align:center"><input type="text" id="duration${drugOrderProcessed.drugOrder.concept.name}" name="duration${drugOrderProcessed.drugOrder.concept.name}"></td>
 <td class="colH" style="text-align:center"><input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="info" name="info" value="Info" ng-click="artDrugInfoForContinueRegimenSearch('${drugOrderProcessed.drugOrder.concept.name}');" /></td>
 <td class="colI" style="text-align:center"></td>
@@ -98,12 +100,13 @@ tb_show("Art Regimen",url,false);
 
 <style type="text/css">
   table { width: 100%; }
+  td.colA { width: 10%; }
   td.colB { width: 10%; }
   td.colC { width: 10%; }
   td.colD { width: 10%; }
   td.colE { width: 10%; }
   td.colF { width: 10%; }
-  td.colG { width: 10%; }
+  td.colG { width: 5%; }
   td.colH { width: 5%; }
   td.colI { width: 5%; }
   td.colJ { width: 5%; }

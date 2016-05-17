@@ -26,11 +26,12 @@
 <td><input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="artRegimen" name="artRegimen" value="Art Regimen" onClick="artForSwitchRegimen();" /></td>
 </tr>
 <tr>
-<td class="colB" style="text-align:center">Drug</td>
-<td class="colC" style="text-align:center">Strength(per tab or ml)</td>
-<td class="colD" style="text-align:center">Tablets</td>
-<td class="colE" style="text-align:center">Tab/Ml</td>
-<td class="colF" style="text-align:center">Frequency</td>
+<td class="colA" style="text-align:center">Drug</td>
+<td class="colB" style="text-align:center">Strength(per tab or ml)</td>
+<td class="colC" style="text-align:center">Tablets</td>
+<td class="colD" style="text-align:center">Tab/Ml</td>
+<td class="colE" style="text-align:center">Frequency</td>
+<td class="colF" style="text-align:center">Route</td>
 <td class="colG" style="text-align:center">Duration(in days)</td>
 <td class="colH" style="text-align:center"></td>
 <td class="colI" style="text-align:center"></td>
@@ -43,11 +44,18 @@
 <table>
 <tbody>
 <tr>
-<td class="colB" style="text-align:center"><input type="text" ng-model="drugKey" id={{choice.drugKey}} name={{choice.drugKey}} placeholder="search box" uib-typeahead="drug as drug.drugName for drug in myDrug3 | filter : drugKey" typeahead-on-select="drugSearchForSwitch(drugKey,choice);"></td>
-<td class="colC" style="text-align:center"><select style='width: 155px;height: 30px;' id={{choice.strength}}  name={{choice.strength}}><option value="" />${ strengthOptions }</select></td>
-<td class="colD" style="text-align:center"><input type="text" ng-model="noOfTablet" id={{choice.noOfTablet}} name={{choice.noOfTablet}}></td>
-<td class="colE" style="text-align:center"><select style='width: 155px;height: 30px;' type="text" ng-model="type" id={{choice.type}} name={{choice.type}}>${typeOptions}</select></td>
-<td class="colF" style="text-align:center"><select style='width: 155px;height: 30px;' type="text" ng-model="frequncy" id={{choice.frequncy}} name={{choice.frequncy}} >${ frequencyOptions }</select></td>
+<td class="colA" style="text-align:center"><input type="text" ng-model="drugKey" id={{choice.drugKey}} name={{choice.drugKey}} placeholder="search box" uib-typeahead="drug as drug.drugName for drug in myDrug3 | filter : drugKey" typeahead-on-select="drugSearchForSwitch(drugKey,choice);"></td>
+<td class="colB" style="text-align:center"><select style='width: 155px;height: 30px;' id={{choice.strength}}  name={{choice.strength}}><option value="" />${ strengthOptions }</select></td>
+<td class="colC" style="text-align:center"><input type="text" ng-model="noOfTablet" id={{choice.noOfTablet}} name={{choice.noOfTablet}}></td>
+<td class="colD" style="text-align:center"><select style='width: 155px;height: 30px;' type="text" ng-model="type" id={{choice.type}} name={{choice.type}}>${typeOptions}</select></td>
+<td class="colE" style="text-align:center"><select style='width: 155px;height: 30px;' type="text" ng-model="frequncy" id={{choice.frequncy}} name={{choice.frequncy}} >${ frequencyOptions }</select></td>
+<td class="colF" style="text-align:center">
+<select ng-model="route" id={{choice.route}} name={{choice.route}} style='width: 155px;height: 30px;'>
+<% routeConAnss.each { routeConAns -> %>
+<option value="${routeConAns.answerConcept.conceptId}">${routeConAns.answerConcept.name}</option>
+<% } %>
+</select>
+</td>
 <td class="colG" style="text-align:center"><input type="text" ng-model="duration" id={{choice.duration}} name={{choice.duration}}></td>
 <td class="colH" style="text-align:center"><input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="info" name="info" value="Info" ng-click="artDrugInfoForRegimenSearch(drugKey);" /></td>
 <td class="colI" style="text-align:center"><input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="add" name="add" value="Add" ng-click="addNewChoice()"/></td>
@@ -116,12 +124,13 @@ tb_show("Art Regimen",url,false);
 
 <style type="text/css">
   table { width: 100%; }
+  td.colA { width: 10%; }
   td.colB { width: 10%; }
   td.colC { width: 10%; }
   td.colD { width: 10%; }
   td.colE { width: 10%; }
   td.colF { width: 10%; }
-  td.colG { width: 10%; }
+  td.colG { width: 5%; }
   td.colH { width: 5%; }
   td.colI { width: 5%; }
   td.colJ { width: 5%; }

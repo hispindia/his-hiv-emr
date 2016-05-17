@@ -223,10 +223,13 @@ public class RegimenUtilFragmentController {
 			}
 			
 			String drugRegimenn="";
+			String dosee="";
 			if (srNo != null) {
 				for (String srn : srNo) {
 					Concept drugConcept=null;
 					String drugRegimen=request.getParameter("drugKey"+srn);	
+					String dose=request.getParameter("strength"+srn);
+					dose=dose.substring(0,dose.length() - 3);
 					if(drugRegimen!=null){
 						 drugConcept=Context.getConceptService().getConceptByName(drugRegimen);
 					}
@@ -235,14 +238,18 @@ public class RegimenUtilFragmentController {
 						//Fixed dose combinations
 						if(conceptAnswer.getConcept().getUuid().equals("b8d460f8-0563-4416-9e0a-d77aafa7e5c3")){
 							drugRegimenn=drugRegimenn+drugRegimen+"+";
+							dosee=dosee+dose+"+";
 						}
 					}
 				}
 			}
 			
+			if(!drugRegimenn.equals("")){
 			String lastCharacter=drugRegimenn.substring(drugRegimenn.length() - 1);
 			if(lastCharacter.equals("+")){
 			drugRegimenn=drugRegimenn.substring(0,drugRegimenn.length() - 1);
+			dosee=dosee.substring(0,dosee.length() - 1)+" "+"mg";
+			}
 			}
 			
 			if (baseline == null) {
@@ -255,6 +262,7 @@ public class RegimenUtilFragmentController {
 				Integer noOfTablet=Integer.parseInt(request.getParameter("noOfTablet"+srn));
 				String units=request.getParameter("type"+srn);
 				String frequency=request.getParameter("frequncy"+srn);
+				Integer route=Integer.parseInt(request.getParameter("route"+srn));
 				Integer duration=Integer.parseInt(request.getParameter("duration"+srn));
 
 				if(drugRegimen!=null){
@@ -269,6 +277,7 @@ public class RegimenUtilFragmentController {
 					if(conceptAnswer.getConcept().getUuid().equals("b8d460f8-0563-4416-9e0a-d77aafa7e5c3")){
 						typeOfRegimen=conceptAnswer.getConcept().getName().getName();
 						drugRegimen=drugRegimenn;
+						dose=dosee;
 					}
 					else{
 						//ARV drugs for child
@@ -310,6 +319,7 @@ public class RegimenUtilFragmentController {
 				drugOrderProcessed.setProcessedStatus(false);
 				drugOrderProcessed.setDose(dose);
 				drugOrderProcessed.setNoOfTablet(noOfTablet);
+				drugOrderProcessed.setRoute(Context.getConceptService().getConcept(route));
 				drugOrderProcessed.setDurationPreProcess(duration);	
 				drugOrderProcessed.setDrugRegimen(drugRegimen);
 				drugOrderProcessed.setRegimenChangeType(changeType.name());
@@ -339,6 +349,9 @@ public class RegimenUtilFragmentController {
 							drugOrderProcessed.setPatient(patient);
 							drugOrderProcessed.setCreatedDate(new Date());
 							drugOrderProcessed.setProcessedStatus(false);
+							drugOrderProcessed.setDose(dop.getDose());
+							drugOrderProcessed.setNoOfTablet(dop.getNoOfTablet());
+							drugOrderProcessed.setRoute(dop.getRoute());
 							Integer duration=Integer.parseInt(request.getParameter("duration"+drugOrder.getConcept().getName()));
 							drugOrderProcessed.setDurationPreProcess(duration);
 							drugOrderProcessed.setDrugRegimen(dop.getDrugRegimen());
@@ -357,6 +370,7 @@ public class RegimenUtilFragmentController {
 				Integer noOfTablet=Integer.parseInt(request.getParameter("noOfTablet"+srn));
 				String units=request.getParameter("type"+srn);
 				String frequency=request.getParameter("frequncy"+srn);
+				Integer route=Integer.parseInt(request.getParameter("route"+srn));
 				Integer duration=Integer.parseInt(request.getParameter("duration"+srn));
 
 				if(drugRegimen!=null){
@@ -371,6 +385,7 @@ public class RegimenUtilFragmentController {
 					if(conceptAnswer.getConcept().getUuid().equals("b8d460f8-0563-4416-9e0a-d77aafa7e5c3")){
 						typeOfRegimen=conceptAnswer.getConcept().getName().getName();
 						drugRegimen=drugRegimenn;
+						dose=dosee;
 					}
 					else{
 						//ARV drugs for child
@@ -406,6 +421,7 @@ public class RegimenUtilFragmentController {
 						drugOrderProcessed.setProcessedStatus(false);
 						drugOrderProcessed.setDose(dose);
 						drugOrderProcessed.setNoOfTablet(noOfTablet);
+						drugOrderProcessed.setRoute(Context.getConceptService().getConcept(route));
 						drugOrderProcessed.setDurationPreProcess(duration);	
 						drugOrderProcessed.setDrugRegimen(drugRegimen);
 						drugOrderProcessed.setRegimenChangeType(changeType.name());
@@ -447,6 +463,7 @@ public class RegimenUtilFragmentController {
 				drugOrderProcessed.setProcessedStatus(false);
 				drugOrderProcessed.setDose(dose);
 				drugOrderProcessed.setNoOfTablet(noOfTablet);
+				drugOrderProcessed.setRoute(Context.getConceptService().getConcept(route));
 				drugOrderProcessed.setDurationPreProcess(duration);	
 				drugOrderProcessed.setDrugRegimen(drugRegimen);
 				drugOrderProcessed.setRegimenChangeType(changeType.name());

@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.openmrs.Concept;
 import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.kenyaemr.api.KenyaEmrService;
@@ -70,6 +71,8 @@ public class SwitchRegimenSearchFragmentController {
 		model.addAttribute("patient", patient);
 		model.addAttribute("drugInfoMap", drugInfoMap);
 		model.addAttribute("count", 1);
+		Concept routeCon=Context.getConceptService().getConceptByUuid("162394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		model.addAttribute("routeConAnss",routeCon.getAnswers());
 	}
 
 	/**

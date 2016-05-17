@@ -19,10 +19,10 @@ $scope.drugSearch = function(drugKey){
 
 kenyaemrApp.controller('DrugCtrl', ['$scope', function($scope) {
 	
-	$scope.choices = [{srNo:'1',srNumber:'srNumber1',id:'choice1',drugKey:'drugKey1',strength:'strength1',noOfTablet:'noOfTablet1',type: 'type1',frequncy: 'frequncy1',duration:'duration1'}];
+	$scope.choices = [{srNo:'1',srNumber:'srNumber1',id:'choice1',drugKey:'drugKey1',strength:'strength1',noOfTablet:'noOfTablet1',route:'route1',type: 'type1',frequncy: 'frequncy1',duration:'duration1'}];
 	$scope.addNewChoice = function() {
 		var newItemNo = $scope.choices.length+1;
-		$scope.choices.push({srNo:newItemNo,srNumber:'srNumber'+newItemNo,id:'choice'+newItemNo,drugKey:'drugKey'+newItemNo,strength:'strength'+newItemNo,noOfTablet:'noOfTablet'+newItemNo,type: 'type'+newItemNo,frequncy:'frequncy'+newItemNo,duration:'duration'+newItemNo});
+		$scope.choices.push({srNo:newItemNo,srNumber:'srNumber'+newItemNo,id:'choice'+newItemNo,drugKey:'drugKey'+newItemNo,strength:'strength'+newItemNo,noOfTablet:'noOfTablet'+newItemNo,route:'route'+newItemNo,type: 'type'+newItemNo,frequncy:'frequncy'+newItemNo,duration:'duration'+newItemNo});
 	}
 	
 	$scope.removeChoice = function(index) {
@@ -45,7 +45,7 @@ kenyaemrApp.controller('DrugCtrl', ['$scope', function($scope) {
 	$('#noOfTablet'+srNo).val(drugKey.noOfTablet);
 	$('#type'+srNo).val(drugKey.type);
 	$('#frequncy'+srNo).val(drugKey.frequency);
-	$('#duration'+srNo).val(drugKey.duration);
+	//$('#duration'+srNo).val(drugKey.duration);
 	}
 	
 	$scope.drugSearchForSwitch = function(drugKey,choice){
@@ -55,7 +55,7 @@ kenyaemrApp.controller('DrugCtrl', ['$scope', function($scope) {
 	$('#noOfTablet'+srNo).val(drugKey.noOfTablet);
 	$('#type'+srNo).val(drugKey.type);
 	$('#frequncy'+srNo).val(drugKey.frequency);
-	$('#duration'+srNo).val(drugKey.duration);
+	//$('#duration'+srNo).val(drugKey.duration);
 	}
 	
 	$scope.artDrugInfoForRegimenSearch=function(drugKey){
