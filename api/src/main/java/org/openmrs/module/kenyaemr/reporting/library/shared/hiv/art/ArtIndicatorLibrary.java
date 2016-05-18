@@ -15,6 +15,7 @@
 package org.openmrs.module.kenyaemr.reporting.library.shared.hiv.art;
 
 import org.openmrs.Concept;
+import org.openmrs.module.reporting.evaluation.parameter.Parameterizable;
 import org.openmrs.module.reporting.indicator.CohortIndicator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -113,7 +114,22 @@ public class ArtIndicatorLibrary {
 		return cohortIndicator("patients who have ever started ART", map(artCohorts.startedArtExcludingTransferinsOnDate(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
 	}
 	
-	public CohortIndicator startedArtCumulativeResult() { System.out.println("testiing artc result");
+	public CohortIndicator startedArtCumulativeResult() { 
 	return cohortIndicator("patients who have ever started ART", map(artCohorts.startedArtExcludingTransferinsOnDates(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
 }
+	
+	public CohortIndicator onoriginal() { 
+	return cohortIndicator("patients who have first line", map(artCohorts.onOriginalFirstLine(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+}
+	public CohortIndicator onsubsitute() { 
+	return cohortIndicator("patients who have subsitute line", map(artCohorts.onSubstitueFirstLine(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+}    
+	public CohortIndicator onswitchsecond() { 
+	return cohortIndicator("patients who have switched to second line", map(artCohorts.onSwitchSecondLine(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+}
+	public CohortIndicator onswitchthird() { 
+		return cohortIndicator("patients who have switched to third line", map(artCohorts.onSwitchThirdLine(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+	}
+
+	
 }

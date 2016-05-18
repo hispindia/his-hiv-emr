@@ -22,10 +22,73 @@ import org.openmrs.module.kenyacore.report.ReportUtils;
 import org.openmrs.module.kenyacore.report.cohort.definition.CalculationCohortDefinition;
 import org.openmrs.module.kenyacore.report.cohort.definition.DateObsValueBetweenCohortDefinition;
 import org.openmrs.module.kenyaemr.Dictionary;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.ABC3TCATVrCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.ABC3TCDTGCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.ABC3TCEFVCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.ABC3TCNVPCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.ABCFTCDTGCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.ABCFTCEFVCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.ABCFTCNVPCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.AZT3TCATVrCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.AZT3TCEFVCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.AZT3TCLPVrCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.AZT3TCNVPCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.AZT3TCplusNVPCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.D4T3TCEFVCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.D4T3TCLrCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.D4T3TCNVPCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FirstLineCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedABC3TCplusATVrCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedABC3TCplusRALCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedAZT3TCplusATVrCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedAZT3TCplusRALCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedD4T3TCplusABCCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedD4T3TCplusEFVCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedDoseABC3TCplusEFVCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedDoseABC3TCplusEFVSixCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedDoseABC3TCplusEFVTwoCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedDoseABC3TCplusLPVrCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedDoseABC3TCplusNVPCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedDoseAZT3TCplusABCCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedDoseAZT3TCplusEFVSixCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedDoseAZT3TCplusEFVTwoCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedDoseAZT3TCplusLPVrCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedDoseAZT3TCplusNVPCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedDoseAZT3TCplusTDFplusLPVrCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedDoseCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedDoseD4T3TCplusEFVCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedDoseD4T3TCplusNVPCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedDoseTDF3TCplusEFVSixCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedDoseTDF3TCplusEFVTwoCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedDoseTDF3TCplusLPVrCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedDoseTDF3TCplusNVPCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedDoseTDFABCplusLPVrCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedDoseTDFFTCplusEFVCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedDoseTDFFTCplusEFVFourCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedDoseTDFFTCplusLPVrCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedDoseTDFFTCplusNVPCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedTDF3TCplusATVrCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedTDF3TCplusEFVCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedTDF3TCplusLPVrCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedTDF3TCplusNVPCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedTDF3TCplusRALCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.OnCtxWithinDurationCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.TBCasesAmongPLHIVSixMonthCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.TDF3TCATVrCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.TDF3TCDTGCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.TDF3TCEFVCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.TDF3TCLPVrCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.TDF3TCNVPCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.TDFABCLPVrCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.TDFFTCDTGCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.TDFFTCEFVCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.TDFFTCEFVSixhundredCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.TDFFTCLPVrCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.TDFFTCNVPCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.art.LevelOfAdherenceCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.art.NewHIVPatientEnrolledCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.art.OnAlternateFirstLineArtCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.art.OnOriginalFirstLineArtCalculation;
 import org.openmrs.module.kenyaemr.metadata.HivMetadata;
 import org.openmrs.module.kenyaemr.reporting.library.shared.common.CommonCohortLibrary;
 import org.openmrs.module.kenyaemr.reporting.library.shared.hiv.art.ArtCohortLibrary;
@@ -35,6 +98,7 @@ import org.openmrs.module.reporting.cohort.definition.CohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CompositionCohortDefinition;
 import org.openmrs.module.reporting.common.SetComparator;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
+import org.openmrs.module.reporting.evaluation.parameter.Parameterizable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -323,6 +387,469 @@ public class HivCohortLibrary {
            
            return cd;
         }
+       
+       public CohortDefinition onOriginalFirstLine() {
+   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FirstLineCalculation());
+   		cd.setName("on original first line regimen");
+   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+   		return cd;
+   	}
+      
+       
+       public CohortDefinition onAZT3TCEFV() {
+      		CalculationCohortDefinition cd = new CalculationCohortDefinition(new AZT3TCEFVCalculation());
+      		cd.setName("on AZT3TCEFV regimen");
+      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+      		return cd;
+      	}
+       
+       public CohortDefinition onAZT3TCNVP() {
+     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new AZT3TCNVPCalculation());
+     		cd.setName("on AZT3TCNVP regimen");
+     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+     		return cd;
+     	}
+       
+       public CohortDefinition onTDF3TCNVP() {
+    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new TDF3TCNVPCalculation());
+    		cd.setName("on TDF3TCNVP regimen");
+    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+ 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+    		return cd;
+    	}
+       
+       public CohortDefinition onTDF3TCEFV() {
+   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new TDF3TCEFVCalculation());
+   		cd.setName("on TDF3TCEFV regimen");
+   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+   		return cd;
+   	}
+       
+       public CohortDefinition onTDFFTCNVP() {
+      		CalculationCohortDefinition cd = new CalculationCohortDefinition(new TDFFTCNVPCalculation());
+      		cd.setName("on TDFFTCNVP regimen");
+      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+      		return cd;
+      	}
+       
+       public CohortDefinition onTDFFTCEFV() {
+     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new TDFFTCEFVCalculation());
+     		cd.setName("on TDFFTCEFV regimen");
+     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+     		return cd;
+     	}
+       public CohortDefinition onTDFFTCEF() {
+    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new TDFFTCEFVSixhundredCalculation());
+    		cd.setName("on TDFFTCEFV regimen");
+    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+ 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+    		return cd;
+    	}
+       
+       public CohortDefinition onD4T3TCNVP() {
+    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new D4T3TCNVPCalculation());
+    		cd.setName("on D4T3TCNVP regimen");
+    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+ 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+    		return cd;
+    	}
+       public CohortDefinition onD4T3TCEFV() {
+   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new D4T3TCEFVCalculation());
+   		cd.setName("on D4T3TCEFV regimen");
+   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+   		return cd;
+   	}
+       
+       public CohortDefinition onRegimenNotDose() {
+      		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FirstLineCalculation());
+      		cd.setName("on D4T3TCEFV regimen");
+      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+      		return cd;
+      	}
+       
+       public CohortDefinition onAZT3TCLPVr() {
+     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new AZT3TCLPVrCalculation());
+     		cd.setName("on AZT3TCLPVr regimen");
+     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+     		return cd;
+     	}
+       
+       public CohortDefinition onTDF3TCLPVr() {
+    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new TDF3TCLPVrCalculation());
+    		cd.setName("on TDF3TCLPVr regimen");
+    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+ 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+    		return cd;
+    	}
+       
+       public CohortDefinition onTDFFTCLPVr() {
+   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new TDFFTCLPVrCalculation());
+   		cd.setName("on TDFFTCLPVr regimen");
+   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+   		return cd;
+   	}  
+       public CohortDefinition onTDFABCLPVr() {
+      		CalculationCohortDefinition cd = new CalculationCohortDefinition(new TDFABCLPVrCalculation());
+      		cd.setName("on TDFABCLPVr regimen");
+      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+      		return cd;
+      	}
+       
+       public CohortDefinition onabc3tcatvr() {
+     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new ABC3TCATVrCalculation());
+     		cd.setName("on regimen");
+     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+     		return cd;
+     	}
+       public CohortDefinition onazt3tcatvr() {
+    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new AZT3TCATVrCalculation());
+    		cd.setName("on regimen");
+    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+ 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+    		return cd;
+    	}
+       public CohortDefinition ontdf3tcatvr() {
+   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new TDF3TCATVrCalculation());
+   		cd.setName("on regimen");
+   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+   		return cd;
+   	}
+       public CohortDefinition onD4T3TCplusNVP() {
+     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseCalculation());
+     		cd.setName("on D4T3TCplusNVP regimen");
+     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+     		return cd;
+     	}
+       public CohortDefinition onD4T3TCLr() {
+    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new D4T3TCLrCalculation());
+    		cd.setName("on D4T3TCLr regimen");
+    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+ 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+    		return cd;
+    	}
+       
+       public CohortDefinition onD4T3TCplusEFV() {
+   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedD4T3TCplusEFVCalculation());
+   		cd.setName("on D4T3TCplusEFV regimen");
+   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+   		return cd;
+   	}
+       public CohortDefinition onD4T3TCplusABC() {
+      		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedD4T3TCplusABCCalculation());
+      		cd.setName("on D4T3TCplusABC regimen");
+      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+      		return cd;
+      	}
+      
+       public CohortDefinition onAZT3TCplusRAL() {
+     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedAZT3TCplusRALCalculation());
+     		cd.setName("on AZT3TCplusRAL regimen");
+     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+     		return cd;
+     	}
+       
+       public CohortDefinition onAZT3TCplusATVr() {
+    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedAZT3TCplusATVrCalculation());
+    		cd.setName("on AZT3TCplusATVr regimen");
+    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+ 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+    		return cd;
+    	}
+       
+       public CohortDefinition onABC3TCplusRAL() {
+   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedABC3TCplusRALCalculation());
+   		cd.setName("on ABC3TCplusRAL regimen");
+   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+   		return cd;
+   	}
+       public CohortDefinition onTDF3TCplusEFV() {
+      		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedTDF3TCplusEFVCalculation());
+      		cd.setName("on TDF3TCplusEFV regimen");
+      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+      		return cd;
+      	}
+       
+       public CohortDefinition onTDF3TCplusNVP() {
+     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedTDF3TCplusNVPCalculation());
+     		cd.setName("on TDF3TCplusNVP regimen");
+     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+     		return cd;
+     	}
+       public CohortDefinition onTDF3TCplusLPVr() {
+    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedTDF3TCplusLPVrCalculation());
+    		cd.setName("on TDF3TCplusLPVr regimen");
+    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+ 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+    		return cd;
+    	}
+       public CohortDefinition onTDF3TCplusRAL() {
+   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedTDF3TCplusRALCalculation());
+   		cd.setName("on TDF3TCplusRAL regimen");
+   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+   		return cd;
+   	}
+       public CohortDefinition onTDF3TCplusATVr() {
+      		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedTDF3TCplusATVrCalculation());
+      		cd.setName("on TDF3TCplusATVr regimen");
+      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+      		return cd;
+      	}
+       public CohortDefinition onABC3TCplusATVr() {
+     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedABC3TCplusATVrCalculation());
+     		cd.setName("on ABC3TCplusATVr regimen");
+     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+     		return cd;
+     	}
+       public CohortDefinition onAZT3TCplusNVP() {
+    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseAZT3TCplusNVPCalculation());
+    		cd.setName("on AZT3TCplusNVP regimen");
+    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+ 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+    		return cd;
+    	}
+       public CohortDefinition onAZT3TCplusLPVr() {
+   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseAZT3TCplusLPVrCalculation());
+   		cd.setName("on AZT3TCplusLPVr regimen");
+   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+   		return cd;
+   	}
+       public CohortDefinition onAZT3TCplusEFVtwo() {
+      		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseAZT3TCplusEFVTwoCalculation());
+      		cd.setName("on AZT3TCplusEFV regimen");
+      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+      		return cd;
+      	}
+       public CohortDefinition onAZT3TCplusEFVsix() {
+      		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseAZT3TCplusEFVSixCalculation());
+      		cd.setName("on AZT3TCplusEFV regimen");
+      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+      		return cd;
+      	}
+       
+       public CohortDefinition onABC3TCplusEFVtwo() {
+     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseABC3TCplusEFVTwoCalculation());
+     		cd.setName("on ABC3TCplusEFV Two hundred EFV regimen");
+     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+     		return cd;
+     	}
+       
+       public CohortDefinition onABC3TCplusEFVsix() {
+    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseABC3TCplusEFVSixCalculation());
+    		cd.setName("on ABC3TCplusEFV Six hundred EFV regimen");
+    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+ 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+    		return cd;
+    	}
+       public CohortDefinition onAZT3TCplusABC() {
+   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseAZT3TCplusABCCalculation());
+   		cd.setName("on AZT3TCplusABC regimen");
+   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+   		return cd;
+   	}
+       
+       public CohortDefinition onABC3TCplusNVP() {
+      		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseABC3TCplusNVPCalculation());
+      		cd.setName("on ABC3TCplusNVP regimen");
+      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+      		return cd;
+      	}
+       
+       public CohortDefinition onTdfFtcDtg() {
+     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new TDFFTCDTGCalculation());
+     		cd.setName("on TDFFTCDTG regimen");
+     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+     		return cd;
+     	}
+       public CohortDefinition onTdf3tcDtg() {
+    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new TDF3TCDTGCalculation());
+    		cd.setName("on TDF3TCDTG regimen");
+    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+ 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+    		return cd;
+    	}
+       public CohortDefinition onAbcFtcEfv() {
+   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new ABCFTCEFVCalculation());
+   		cd.setName("on ABCFTCEFV regimen");
+   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+   		return cd;
+   	}
+       
+       public CohortDefinition onAbc3tcDtg() {
+      		CalculationCohortDefinition cd = new CalculationCohortDefinition(new ABC3TCDTGCalculation());
+      		cd.setName("on ABC3TCDTG regimen");
+      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+      		return cd;
+      	}
+       public CohortDefinition onAbcftcDtg() {
+     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new ABCFTCDTGCalculation());
+     		cd.setName("on ABCFTCDTG regimen");
+     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+     		return cd;
+     	}
+       
+       public CohortDefinition onAbc3tcNvp() {
+    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new ABC3TCNVPCalculation());
+    		cd.setName("on ABC3TCNVP regimen");
+    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+ 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+    		return cd;
+    	}
+       
+       public CohortDefinition onAbcftcNvp() {
+   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new ABCFTCNVPCalculation());
+   		cd.setName("on ABCFTCNVP regimen");
+   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+   		return cd;
+   	}
+       public CohortDefinition onAbc3tcEfv() {
+      		CalculationCohortDefinition cd = new CalculationCohortDefinition(new ABC3TCEFVCalculation());
+      		cd.setName("on ABC3TCEFV regimen");
+      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+      		return cd;
+      	}
+       
+       public CohortDefinition onTdf3tcNvp() {
+     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseTDF3TCplusNVPCalculation());
+     		cd.setName("on TDF3TC+NVP regimen");
+     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+     		return cd;
+     	}
+       
+       public CohortDefinition onTdf3tcplusefvtwo() {
+    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseTDF3TCplusEFVTwoCalculation());
+    		cd.setName("on TDF3TC+EFV regimen");
+    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+ 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+    		return cd;
+    	}
+       public CohortDefinition onTdf3tcplusefvsix() {
+   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseTDF3TCplusEFVSixCalculation());
+   		cd.setName("on TDF3TC+EFV regimen");
+   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+   		return cd;
+   	}
+       
+       public CohortDefinition onTdfftcplusnvp() {
+      		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseTDFFTCplusNVPCalculation());
+      		cd.setName("on TDFFTC+NVP regimen");
+      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+      		return cd;
+      	}
+       
+       public CohortDefinition onTdfftcplusefv() {
+     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseTDFFTCplusEFVFourCalculation());
+     		cd.setName("on TDFFTC+EFV regimen");
+     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+     		return cd;
+     	}
+       
+       public CohortDefinition onTdfftcplusefvsix() {
+    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseTDFFTCplusEFVCalculation());
+    		cd.setName("on TDFFTC+EFV regimen");
+    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+ 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+    		return cd;
+    	}
+       public CohortDefinition ond4t3tcplusnvp() {
+   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseD4T3TCplusNVPCalculation());
+   		cd.setName("on D4T3TC+NVP regimen");
+   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+   		return cd;
+   	}
+       public CohortDefinition ond4t3tcplusefvsix() {
+      		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseD4T3TCplusEFVCalculation());
+      		cd.setName("on D4T3TC+EFV regimen");
+      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+      		return cd;
+      	}
+       public CohortDefinition onabc3tcplusefv() {
+     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseABC3TCplusEFVCalculation());
+     		cd.setName("on ABC3TC+EFV regimen");
+     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+     		return cd;
+     	}
+       
+       public CohortDefinition ontdf3tcpluslpvr() {
+    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseTDF3TCplusLPVrCalculation());
+    		cd.setName("on TDF/3TC + LPV/r regimen");
+    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+ 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+    		return cd;
+    	}
+       
+       public CohortDefinition ontdfftcpluslpvr() {
+     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseTDFFTCplusLPVrCalculation());
+     		cd.setName("on TDF/FTC + LPV/r regimen");
+     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+     		return cd;
+     	}
+       
+       public CohortDefinition ontdfabcpluslpvr() {
+    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseTDFABCplusLPVrCalculation());
+    		cd.setName("on TDF+ABC+ LPV/r  regimen");
+    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+ 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+    		return cd;
+    	}
+       
+       public CohortDefinition onabc3tcpluslpvr() {
+   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseABC3TCplusLPVrCalculation());
+   		cd.setName("on ABC/3TC+ LPV/r regimen");
+   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+   		return cd;
+   	}
+       
+       public CohortDefinition onazt3tcplustdfpluslpvr() {
+      		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseAZT3TCplusTDFplusLPVrCalculation());
+      		cd.setName("on AZT/3TC+ TDF+ LPV/r regimen");
+      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+      		return cd;
+      	}
 	/**
 	 * Patients with a CD4 result between {onOrAfter} and {onOrBefore}
 	 * @return the cohort definition
@@ -719,4 +1246,6 @@ public class HivCohortLibrary {
 		cd.addParameter(new Parameter("onDate", "On Date", Date.class));
 		return cd;
 	}
+
+	
 }

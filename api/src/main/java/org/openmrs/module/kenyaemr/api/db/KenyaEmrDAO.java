@@ -71,4 +71,5 @@ public interface KenyaEmrDAO {
 	public DrugInfo getDrugInfo(String drugName);
 	public DrugOrderProcessed getLastRegimenChangeType(Patient patient);
 	public List<ConceptAnswer> getConceptAnswerByAnsweConcept(Concept answerConcept);
+	public List<DrugOrderProcessed> getAllfirstLine();
 }

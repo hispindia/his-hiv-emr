@@ -14,15 +14,19 @@
 
 package org.openmrs.module.kenyaemr.calculation.library.hiv.art;
 
+import org.openmrs.api.context.Context;
 import org.openmrs.calculation.patient.PatientCalculationContext;
 import org.openmrs.calculation.result.CalculationResultMap;
 import org.openmrs.calculation.result.SimpleResult;
 import org.openmrs.module.kenyacore.calculation.AbstractPatientCalculation;
 import org.openmrs.module.kenyacore.calculation.BooleanResult;
+import org.openmrs.module.kenyaemr.api.KenyaEmrService;
 import org.openmrs.module.kenyaemr.calculation.EmrCalculationUtils;
+import org.openmrs.module.kenyaemr.model.DrugOrderProcessed;
 import org.openmrs.module.kenyaemr.regimen.RegimenOrder;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,24 +43,28 @@ public class OnOriginalFirstLineArtCalculation extends AbstractPatientCalculatio
 	@Override
     public CalculationResultMap evaluate(Collection<Integer> cohort, Map<String, Object> arg1, PatientCalculationContext context) {
 
-		// Get initial and current ART regimen of each patient
-		CalculationResultMap initialArvs = calculate(new InitialArtRegimenCalculation(), cohort, context);
-		CalculationResultMap currentArvs = calculate(new CurrentArtRegimenCalculation(), cohort, context);
-
+		
 		CalculationResultMap ret = new CalculationResultMap();
 		for (Integer ptId : cohort) {
 			boolean onOrigFirstLine = false;
-
-			SimpleResult initialArvsResult = (SimpleResult) initialArvs.get(ptId);
-			SimpleResult currentArvsResult = (SimpleResult) currentArvs.get(ptId);
-
-			if (initialArvsResult != null && currentArvsResult != null) {
-				RegimenOrder initialRegimen = (RegimenOrder) initialArvsResult.getValue();
-				RegimenOrder currentRegimen = (RegimenOrder) currentArvsResult.getValue();
-
-				onOrigFirstLine = initialRegimen.hasSameDrugs(currentRegimen) && EmrCalculationUtils.regimenInGroup(currentRegimen, "ARV", "adult-first");
-			}
-
+			 KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
+		 	   List<DrugOrderProcessed> drugorderprocess = kenyaEmrService.getAllfirstLine();
+		 	   {
+		 	  for(DrugOrderProcessed order:drugorderprocess)
+		 	  {
+		 		 
+		 	  if((ptId.equals(order.getPatient().getPatientId()) && (order.getTypeOfRegimen().equals("First line Anti-retoviral drugs"))))
+		 		 {  
+		 			onOrigFirstLine=true; 
+		 		 }
+		 	  if(order.getDiscontinuedDate()!=null)
+		 	  {
+		 		 onOrigFirstLine=false;  
+		 	  }
+		 		
+		 	  }
+		}
+			
 			ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
 		}
 		return ret;

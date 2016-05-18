@@ -414,4 +414,7 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 	public List<ConceptAnswer> getConceptAnswerByAnsweConcept(Concept answerConcept){
 		return dao.getConceptAnswerByAnsweConcept(answerConcept);
 	}
+		public List<DrugOrderProcessed> getAllfirstLine() {
+		return dao.getAllfirstLine();
+	}
 }

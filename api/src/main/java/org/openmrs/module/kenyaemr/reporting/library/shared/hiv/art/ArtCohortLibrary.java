@@ -24,6 +24,9 @@ import org.openmrs.module.kenyaemr.Dictionary;
 import org.openmrs.module.kenyaemr.Metadata;
 import org.openmrs.module.kenyaemr.calculation.library.MissedLastAppointmentCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.LostToFollowUpCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.OnSubsituteFirstLineArtCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.OnSwitchLineArtCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.OnSwitchThirdLineArtCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.art.EligibleForArtCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.art.EligibleForArtExclusiveCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.art.InitialArtStartDateCalculation;
@@ -170,10 +173,33 @@ public class ArtCohortLibrary {
 	public CohortDefinition onOriginalFirstLine() {
 		CalculationCohortDefinition cd = new CalculationCohortDefinition(new OnOriginalFirstLineArtCalculation());
 		cd.setName("on original first line regimen");
-		cd.addParameter(new Parameter("onDate", "On Date", Date.class));
+		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
 		return cd;
 	}
-
+	public CohortDefinition onSubstitueFirstLine() {
+		CalculationCohortDefinition cd = new CalculationCohortDefinition(new OnSubsituteFirstLineArtCalculation());
+		cd.setName("on subsitute first line regimen");
+		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		return cd;
+	}
+	
+	public CohortDefinition onSwitchSecondLine() {
+		CalculationCohortDefinition cd = new CalculationCohortDefinition(new OnSwitchLineArtCalculation());
+		cd.setName("on subsitute first line regimen");
+		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		return cd;
+	}
+	public CohortDefinition onSwitchThirdLine() {
+		CalculationCohortDefinition cd = new CalculationCohortDefinition(new OnSwitchThirdLineArtCalculation());
+		cd.setName("on subsitute first line regimen");
+		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		return cd;
+	}
+	
 	/**
 	 * Patients who are taking an alternate first line regimen on ${onDate}
 	 * @return the cohort definition
@@ -260,7 +286,8 @@ public class ArtCohortLibrary {
 		cd.addParameter(new Parameter("onDate", "On Date", Date.class));
 		cd.addSearch("inHivProgram", ReportUtils.map(commonCohorts.inProgram(MetadataUtils.existing(Program.class, HivMetadata._Program.HIV)), "onDate=${onDate}"));
 		cd.addSearch("onRegimen", ReportUtils.map(onRegimen(drugConcepts), "onDate=${onDate}"));
-		cd.setCompositionString("inHivProgram AND onRegimen");
+		
+		cd.setCompositionString("inHivProgram AND onRegimen ");
 		return cd;
 
 	}

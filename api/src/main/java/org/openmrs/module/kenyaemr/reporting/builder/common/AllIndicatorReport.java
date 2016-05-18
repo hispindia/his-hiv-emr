@@ -129,7 +129,7 @@ public class AllIndicatorReport extends AbstractReportBuilder{
 	private DataSetDefinition createHIVPositiveIsoniazidstartedTB() {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 		dsd.setName("D");
-		dsd.setDescription("PLHIV on IPT");
+		dsd.setDescription("Number of adults and children newly enrolled in HIV care (pre-ART and ART) who also start isoniazid preventive therapy treatment");
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		dsd.addDimension("age", map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
@@ -155,7 +155,7 @@ public class AllIndicatorReport extends AbstractReportBuilder{
 	private DataSetDefinition createHIVPositiveassessedTBstatus() {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 		dsd.setName("E");
-		dsd.setDescription("Number of incident TB cases among PLHIV");
+		dsd.setDescription("Number of adults and children enrolled in HIV care who had TB status assessed and recorded ");
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		dsd.addDimension("age", map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));

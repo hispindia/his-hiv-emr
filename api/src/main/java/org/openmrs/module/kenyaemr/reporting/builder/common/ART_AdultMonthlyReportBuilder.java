@@ -74,7 +74,14 @@ public class ART_AdultMonthlyReportBuilder extends AbstractReportBuilder{
 				ReportUtils.map(createOIDataSet(), "startDate=${startDate},endDate=${endDate}"),
 				ReportUtils.map(createHIVAdherenceDataSet(), "startDate=${startDate},endDate=${endDate}"),
 				ReportUtils.map(createLevelAdherenceDataSet(), "startDate=${startDate},endDate=${endDate}"),
-				ReportUtils.map(createElligibleARTDataSet(), "startDate=${startDate},endDate=${endDate}")
+				ReportUtils.map(createElligibleARTDataSet(), "startDate=${startDate},endDate=${endDate}"),
+				ReportUtils.map(firstregimensDataset(), "startDate=${startDate},endDate=${endDate}"),
+			    ReportUtils.map(secondregimensDataset(), "startDate=${startDate},endDate=${endDate}"),
+				ReportUtils.map(hivhbvregimensDataset(), "startDate=${startDate},endDate=${endDate}"),
+				ReportUtils.map(originalDataset(), "startDate=${startDate},endDate=${endDate}"), 
+				ReportUtils.map(onsubsituteDataset(), "startDate=${startDate},endDate=${endDate}"),
+				ReportUtils.map(onswitchsecondDataset(), "startDate=${startDate},endDate=${endDate}"),
+				ReportUtils.map(onswitchthirdDataset(), "startDate=${startDate},endDate=${endDate}")
 				
 				
 		);
@@ -593,6 +600,194 @@ public class ART_AdultMonthlyReportBuilder extends AbstractReportBuilder{
 			return dsd;
 		}
 		
+		private DataSetDefinition firstregimensDataset() {
+			CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
+			dsd.setName("U");
+			dsd.setDescription(" First Line regimen at the end of month");
+			dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+			dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+			dsd.addDimension("age", ReportUtils.map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
+
+			
+			ColumnParameters adults =new ColumnParameters("AP", "Adults", "age=15+");
+			ColumnParameters colTotal = new ColumnParameters("TP", "grand total", "age=15+");
+
+			String indParams = "startDate=${startDate},endDate=${endDate}";
+            
+			
+			List<ColumnParameters> allColumns = Arrays.asList(adults, colTotal);
+			List<String> indSuffixes = Arrays.asList("AD", "TT");
+			EmrReportingUtils.addRow(dsd, "U1", "Patients having (AZT/3TC/NVP)(300/150/200)mg regimen", ReportUtils.map(hivIndicators.onregimenNVP(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U2", "Patients having (AZT/3TC+NVP) (300/150+200) mg regimen", ReportUtils.map(hivIndicators.onregimendosenvp(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U3", "Patients having (AZT/3TC/EFV) (300/150/600)mg regimen", ReportUtils.map(hivIndicators.onregimenEFV(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U4", "Patients having (AZT/3TC+EFV) (300/150+600) mg regimen", ReportUtils.map(hivIndicators.onregimendoseefvtwo(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U5", "Patients having (TDF/3TC/NVP) (300/300/200)mg regimen", ReportUtils.map(hivIndicators.onregimenTDF(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U6", "Patients having (TDF/3TC+NVP) (300/300+200) mg regimen", ReportUtils.map(hivIndicators.onregimentdf3tcnvp(), indParams), allColumns, indSuffixes);
+		    EmrReportingUtils.addRow(dsd, "U7", "Patients having (TDF/3TC/EFV) (300/300/600)mg regimen", ReportUtils.map(hivIndicators.onregimenTDFEFV(), indParams), allColumns, indSuffixes);
+		    EmrReportingUtils.addRow(dsd, "U8", "Patients having (TDF/3TC+EFV) (300/300+400) mg regimen", ReportUtils.map(hivIndicators.onregimen3tcefvtwo(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U9", "Patients having (TDF/3TC+EFV) (300/300+600) mg regimen", ReportUtils.map(hivIndicators.onregimen3tcefvsix(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U10", "Patients having (TDF/FTC/NVP) (300/200/200)mg regimen", ReportUtils.map(hivIndicators.onregimenTDFFTC(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U11", "Patients having (TDF/FTC+NVP) (300/200+200) mg regimen", ReportUtils.map(hivIndicators.onregimentdfftcnvp(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U12", "Patients having (TDF/FTC/EFV) (300/200/200)mg regimen", ReportUtils.map(hivIndicators.onregimenTDFFTCEFV(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U13", "Patients having (TDF/FTC+EFV) (300/200+400) mg regimen", ReportUtils.map(hivIndicators.onregimenftcefvfour(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U14", "Patients having (TDF/FTC/EFV) (300/200/600)mg regimen", ReportUtils.map(hivIndicators.onregimenTDFFTCE(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U15", "Patients having (TDF/FTC+EFV) (300/200+600) mg regimen", ReportUtils.map(hivIndicators.onregimenftcefvsix(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U16", "Patients having (D4T/3TC/NVP)  (30/150/200)mg regimen", ReportUtils.map(hivIndicators.onregimenDT(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U17", "Patients having (D4T/3TC+NVP)  (30/150+200)mg regimen", ReportUtils.map(hivIndicators.onregimendt3tcnvp(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U18", "Patients having (D4T/3TC/EFV) (30/150/600)mg regimen", ReportUtils.map(hivIndicators.onregimenDTEFV(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U19", "Patients having (D4T/3TC+EFV) (30/150+600) mg regimen", ReportUtils.map(hivIndicators.onregimendt3tcefv(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U20", "Patients having (TDF/FTC/DTG) regimen", ReportUtils.map(hivIndicators.onregimenftcdtg(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U21", "Patients having (TDF/3TC/DTG) regimen", ReportUtils.map(hivIndicators.onregimen3tcdtg(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U22", "Patients having (ABC/3TC+EFV) (600/300+600) mg regimen", ReportUtils.map(hivIndicators.onregimenabcefv(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U23", "Patients having (ABC/3TC/DTG) regimen", ReportUtils.map(hivIndicators.onregimenabc3tcdtg(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U24", "Patients having (ABC/3TC/NVP) regimen", ReportUtils.map(hivIndicators.onregimen3tcnvp(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U25", "Patients having (ABC/FTC/EFV) regimen", ReportUtils.map(hivIndicators.onregimenftcefv(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U26", "Patients having (ABC/FTC/DTG) regimen", ReportUtils.map(hivIndicators.onregimenabcftcdtg(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U27", "Patients having (ABC/FTC/NVP) regimen", ReportUtils.map(hivIndicators.onregimenftcnvp(), indParams), allColumns, indSuffixes);
+			return dsd;
+		}
+		
+		private DataSetDefinition secondregimensDataset() {
+			CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
+			dsd.setName("V");
+			dsd.setDescription("Second line Regimen at the end of month");
+			dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+			dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+			dsd.addDimension("age", ReportUtils.map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
+
+			
+			ColumnParameters adults =new ColumnParameters("AP", "Adults", "age=15+");
+			ColumnParameters colTotal = new ColumnParameters("TP", "grand total", "age=15+");
+
+			String indParams = "startDate=${startDate},endDate=${endDate}";
+
+			
+		
+			List<ColumnParameters> allColumns = Arrays.asList(adults, colTotal);
+			List<String> indSuffixes = Arrays.asList("AD", "TT");
+			EmrReportingUtils.addRow(dsd, "V1", "Patients having (AZT/3TC/LPV/r) (300/150/200/50)mg regimen", ReportUtils.map(hivIndicators.onregimenAzt(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "V2", "Patients having (AZT/3TC+LPV/r)(300/150+200/50)mg regimen", ReportUtils.map(hivIndicators.onregimendoselpvr(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "V3", "Patients having (TDF/3TC/LPV/r) (300/300/200/50)mg regimen", ReportUtils.map(hivIndicators.onregimenTdf(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "V4", "Patients having (TDF/3TC+LPV/r)(300/300+200/50)mg regimen", ReportUtils.map(hivIndicators.onregimentdf3tc(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "V5", "Patients having (TDF/FTC/LPV/r) (300/200/200/50)mg regimen", ReportUtils.map(hivIndicators.onregimenTdfftc(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "V6", "Patients having (TDF/FTC+LPV/r)(300/200+200/50)mg regimen", ReportUtils.map(hivIndicators.onregimentdfftc(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "V7", "Patients having (TDF/ABC/LPV/r) (300/300/200/50)mg regimen", ReportUtils.map(hivIndicators.onregimenTdfabc(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "V8", "Patients having (TDF+ABC+LPV/r )(300/300+200/50)mg regimen", ReportUtils.map(hivIndicators.onregimentdf(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "V9", "Patients having (ABC/3TC+LPV/r)(600/300+200/50)mg regimen", ReportUtils.map(hivIndicators.onregimenabcdoselpvr(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "V10", "Patients having (ABC/3TC/ATV/r) regimen", ReportUtils.map(hivIndicators.onregimenabcatv(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "V11", "Patients having (AZT/3TC/ATV/r) regimen", ReportUtils.map(hivIndicators.onregimenaztatv(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "V12", "Patients having (TDF/3TC/ATV/r) regimen", ReportUtils.map(hivIndicators.onregimentdfatvr(), indParams), allColumns, indSuffixes);
+			return dsd;
+		}
+		
+		private DataSetDefinition hivhbvregimensDataset() {
+			CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
+			dsd.setName("W");
+			dsd.setDescription("Groups Patients HIV and HBV co-infection ART Regimen and Age");
+			dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+			dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+			dsd.addDimension("age", ReportUtils.map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
+
+			
+			ColumnParameters adults =new ColumnParameters("AP", "Adults", "age=15+");
+			ColumnParameters colTotal = new ColumnParameters("TP", "grand total", "age=15+");
+
+			String indParams = "startDate=${startDate},endDate=${endDate}";
+			List<ColumnParameters> allColumns = Arrays.asList(adults, colTotal);
+			List<String> indSuffixes = Arrays.asList("AD", "TT");
+			
+			EmrReportingUtils.addRow(dsd, "W1", "Patients having (AZT/3TC+TDF+LPV/r)(300/150+300+200/50) mg regimen", ReportUtils.map(hivIndicators.onRegimenazt3tc(), indParams), allColumns, indSuffixes);
+			
+			
+			return dsd;
+		}
+		
+		private DataSetDefinition originalDataset() {
+			CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
+			dsd.setName("X");
+			dsd.setDescription(" No. on original 1st line regimen");
+			dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+			dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+			dsd.addDimension("age", ReportUtils.map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
+			dsd.addDimension("gender", map(commonDimensions.gender()));
+			
+			ColumnParameters female = new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+");
+			ColumnParameters male = new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+");
+			ColumnParameters total = new ColumnParameters("T", "grand total", "age=15+");
+
+			String indParams = "startDate=${startDate},endDate=${endDate}";
+			List<ColumnParameters> allColumns = Arrays.asList(female,male,total);
+			List<String> indSuffixes = Arrays.asList("FM","MA", "TT"); 
+			EmrReportingUtils.addRow(dsd, "X1", "No. on original 1st line regimen", ReportUtils.map(artIndicators.onoriginal(), indParams), allColumns, indSuffixes);
+			
+			
+			return dsd;
+		}
+		private DataSetDefinition onsubsituteDataset() {
+			CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
+			dsd.setName("Y");
+			dsd.setDescription("No. on substituted 1st line regimen");
+			dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+			dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+			dsd.addDimension("age", ReportUtils.map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
+			dsd.addDimension("gender", map(commonDimensions.gender()));
+			
+			ColumnParameters female = new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+");
+			ColumnParameters male = new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+");
+			ColumnParameters total = new ColumnParameters("T", "grand total", "age=15+");
+
+			String indParams = "startDate=${startDate},endDate=${endDate}";
+			List<ColumnParameters> allColumns = Arrays.asList(female,male,total);
+			List<String> indSuffixes = Arrays.asList("FM","MA", "TT"); 
+			EmrReportingUtils.addRow(dsd, "Y1", "No. on substituted 1st line regimen", ReportUtils.map(artIndicators.onsubsitute(), indParams), allColumns, indSuffixes);
+			
+			
+			return dsd;
+		}
+		
+		private DataSetDefinition onswitchsecondDataset() {
+			CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
+			dsd.setName("Z");
+			dsd.setDescription("No. switched to 2nd line regimen");
+			dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+			dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+			dsd.addDimension("age", ReportUtils.map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
+			dsd.addDimension("gender", map(commonDimensions.gender()));
+			
+			ColumnParameters female = new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+");
+			ColumnParameters male = new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+");
+			ColumnParameters total = new ColumnParameters("T", "grand total", "age=15+");
+
+			String indParams = "startDate=${startDate},endDate=${endDate}";
+			List<ColumnParameters> allColumns = Arrays.asList(female,male,total);
+			List<String> indSuffixes = Arrays.asList("FM","MA", "TT"); 
+			EmrReportingUtils.addRow(dsd, "Z1", "No. switched to 2nd line regimen", ReportUtils.map(artIndicators.onswitchsecond(), indParams), allColumns, indSuffixes);
+			
+			
+			return dsd;
+		}
+		
+		private DataSetDefinition onswitchthirdDataset() {
+			CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
+			dsd.setName("AA");
+			dsd.setDescription("No. switched to 3rd line regimen");
+			dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+			dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+			dsd.addDimension("age", ReportUtils.map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
+			dsd.addDimension("gender", map(commonDimensions.gender()));
+			
+			ColumnParameters female = new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+");
+			ColumnParameters male = new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+");
+			ColumnParameters total = new ColumnParameters("T", "grand total", "age=15+");
+
+			String indParams = "startDate=${startDate},endDate=${endDate}";
+			List<ColumnParameters> allColumns = Arrays.asList(female,male,total);
+			List<String> indSuffixes = Arrays.asList("FM","MA", "TT"); 
+			EmrReportingUtils.addRow(dsd, "AA1", "No. switched to 3rd line regimen", ReportUtils.map(artIndicators.onswitchthird(), indParams), allColumns, indSuffixes);
+			
+			
+			return dsd;
+		}
 		
 }
 
