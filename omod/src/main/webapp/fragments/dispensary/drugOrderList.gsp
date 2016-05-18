@@ -8,6 +8,7 @@
 <th>Strength </th>
 <th>Unit </th>
 <th>Frequency </th>
+<th>Route </th>
 <th>Duration </th>
 <th>Issue Qunatity </th>
 <th>Drug Regimen </th>
@@ -23,6 +24,7 @@
 <td>${drugOrderProcessed.dose}</td>
 <td>${drugOrderProcessed.drugOrder.units} </td>
 <td>${drugOrderProcessed.drugOrder.frequency}</td>
+<td>${drugOrderProcessed.route.name}</td>
 <td>${drugOrderProcessed.durationPreProcess}</td>
 <td><input type="text" id="${drugOrderProcessed.id}issueQuantity" name="${drugOrderProcessed.id}issueQuantity" size="12"></td>
 <td>${drugOrderProcessed.drugRegimen}</td>
