@@ -246,7 +246,7 @@ input[type=button], button {
 </div>
 
 <div class="ke-form-content">
-	<table width="100%" align="left" style="background-color: #c7d8a7">
+	<table width="100%" align="left" style="background-color: #c7d8a7; margin-left: 0px !important;">
 		<tr>
 			<td>
 				<table align="left" class="tb1" cellspacing="10" width="50%"
@@ -266,7 +266,7 @@ input[type=button], button {
 					<tr>
 						<td colspan="2"><br /> <br />
 							<div id="table1">
-								<table width="100%" align="center" cellspacing="10">
+								<table  width="99%"  align="left" >
 									<tr>
 										<th>Sr. No</th>
 										<th>Drug Regimen</th>
@@ -279,10 +279,10 @@ input[type=button], button {
 									<repeat> <template> <obsgroup
 										groupingConceptId="5706AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
 									<div id="{n}-toggleContainer" style="display: none;">
-										<table width="100%">
+										<table width="50%">
 											<tr>
-												<td style="width: 260px;">{n}</td>
-												<td style="width: 260px;"><obs
+												<td>{n}</td>
+												<td><obs
 														conceptId="1193AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 														style="autocomplete" id="drugName1" /></td>
 												<td><obs
@@ -294,7 +294,7 @@ input[type=button], button {
 												<td><obs
 														conceptId="51e7342a-c0aa-4dea-9e1a-71a3dd1519fa"
 														id="eDate1" allowFutureDates="true" /></td>
-												<td id="s"><obs id="duration1"
+												<td><obs id="duration1" 
 														conceptId="24646d76-c162-4bcd-b611-4a34e3f98123" /></td>
 												<td colspan="1" width="100px"><button id="{n}-addEntry"
 														class="addEntry">
