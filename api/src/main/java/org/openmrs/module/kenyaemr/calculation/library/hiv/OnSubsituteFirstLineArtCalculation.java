@@ -29,23 +29,63 @@ public class OnSubsituteFirstLineArtCalculation extends AbstractPatientCalculati
 			boolean onOrigFirstLines = false;
 			 KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
 		 	   List<DrugOrderProcessed> drugorderprocess = kenyaEmrService.getAllfirstLine();
+		 	  DrugOrderProcessed drugorder = new DrugOrderProcessed();
 		 	   {
 		 	  for(DrugOrderProcessed order:drugorderprocess)
-		 	  {  
-		 		 if((ptId.equals(order.getPatient().getPatientId()) && (order.getRegimenChangeType().equals("Substitute")) && order.getTypeOfRegimen().equals("First line Anti-retoviral drugs") ))
+		 	  {
+		 		 if(order.getPatient().getAge()<=14) 
 		 		 {
-		 			onOrigFirstLines=true; 
-		 		 }
-		 		if(order.getDiscontinuedDate()!=null)
-			 	  {
-			 		 onOrigFirstLines=false;  
+		 	 
+		 	  if((ptId.equals(order.getPatient().getPatientId())&&(order.getRegimenChangeType().equals("Substitute")) &&(order.getTypeOfRegimen().equals("Fixed dose combinations (FDCs)"))))
+		 	  { if(order.getDrugRegimen().equals(drugorder.getDrugRegimen()))
+		 		  { 
+		 			 onOrigFirstLines = false;
+		 			
+		 		  }
+		 		  else
+		 		  {  onOrigFirstLines = true;
+		 			drugorder=order;
+		 			ret.put(ptId, new BooleanResult(onOrigFirstLines, this, context));
+		 		  }
+		 		 if(order.getDiscontinuedDate()!=null)
+			 	  { 
+			 		 onOrigFirstLines=false; 
+			 		ret.put(ptId, new BooleanResult(onOrigFirstLines, this, context));
 			 	  }
+		 		
+		 	  }
+		 		 }
+		 		 else
+		 		 {
+		 			if((ptId.equals(order.getPatient().getPatientId()) &&(order.getRegimenChangeType().equals("Substitute")) &&(order.getTypeOfRegimen().equals("First line Anti-retoviral drugs"))))
+			 		 {  
+			 			onOrigFirstLines=true; 
+			 			ret.put(ptId, new BooleanResult(onOrigFirstLines, this, context));
+			 		 }
+			 	  if((ptId.equals(order.getPatient().getPatientId())&&(order.getRegimenChangeType().equals("Substitute")) &&(order.getTypeOfRegimen().equals("Fixed dose combinations (FDCs)"))))
+			 	  { if(order.getDrugRegimen().equals(drugorder.getDrugRegimen()))
+			 		  { 
+			 			 onOrigFirstLines = false;
+			 			
+			 		  }
+			 		  else
+			 		  {  onOrigFirstLines = true;
+			 			drugorder=order;
+			 			ret.put(ptId, new BooleanResult(onOrigFirstLines, this, context));
+			 		  }
+			 		 if(order.getDiscontinuedDate()!=null)
+				 	  { 
+				 		 onOrigFirstLines=false; 
+				 		ret.put(ptId, new BooleanResult(onOrigFirstLines, this, context));
+				 	  }
+			 		
+			 	  }
+		 		 }
 		 	  }
 		}
 			
-			ret.put(ptId, new BooleanResult(onOrigFirstLines, this, context));
-		}
-		return ret;
-    }
+		
+    }return ret;
+}
 }
 

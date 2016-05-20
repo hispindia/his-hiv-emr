@@ -610,13 +610,13 @@ public class ART_AdultMonthlyReportBuilder extends AbstractReportBuilder{
 
 			
 			ColumnParameters adults =new ColumnParameters("AP", "Adults", "age=15+");
-			ColumnParameters colTotal = new ColumnParameters("TP", "grand total", "age=15+");
+			
 
 			String indParams = "startDate=${startDate},endDate=${endDate}";
             
 			
-			List<ColumnParameters> allColumns = Arrays.asList(adults, colTotal);
-			List<String> indSuffixes = Arrays.asList("AD", "TT");
+			List<ColumnParameters> allColumns = Arrays.asList(adults);
+			List<String> indSuffixes = Arrays.asList("AD");
 			EmrReportingUtils.addRow(dsd, "U1", "Patients having (AZT/3TC/NVP)(300/150/200)mg regimen", ReportUtils.map(hivIndicators.onregimenNVP(), indParams), allColumns, indSuffixes);
 			EmrReportingUtils.addRow(dsd, "U2", "Patients having (AZT/3TC+NVP) (300/150+200) mg regimen", ReportUtils.map(hivIndicators.onregimendosenvp(), indParams), allColumns, indSuffixes);
 			EmrReportingUtils.addRow(dsd, "U3", "Patients having (AZT/3TC/EFV) (300/150/600)mg regimen", ReportUtils.map(hivIndicators.onregimenEFV(), indParams), allColumns, indSuffixes);
@@ -657,14 +657,11 @@ public class ART_AdultMonthlyReportBuilder extends AbstractReportBuilder{
 
 			
 			ColumnParameters adults =new ColumnParameters("AP", "Adults", "age=15+");
-			ColumnParameters colTotal = new ColumnParameters("TP", "grand total", "age=15+");
-
+		
 			String indParams = "startDate=${startDate},endDate=${endDate}";
 
-			
-		
-			List<ColumnParameters> allColumns = Arrays.asList(adults, colTotal);
-			List<String> indSuffixes = Arrays.asList("AD", "TT");
+			List<ColumnParameters> allColumns = Arrays.asList(adults);
+			List<String> indSuffixes = Arrays.asList("AD");
 			EmrReportingUtils.addRow(dsd, "V1", "Patients having (AZT/3TC/LPV/r) (300/150/200/50)mg regimen", ReportUtils.map(hivIndicators.onregimenAzt(), indParams), allColumns, indSuffixes);
 			EmrReportingUtils.addRow(dsd, "V2", "Patients having (AZT/3TC+LPV/r)(300/150+200/50)mg regimen", ReportUtils.map(hivIndicators.onregimendoselpvr(), indParams), allColumns, indSuffixes);
 			EmrReportingUtils.addRow(dsd, "V3", "Patients having (TDF/3TC/LPV/r) (300/300/200/50)mg regimen", ReportUtils.map(hivIndicators.onregimenTdf(), indParams), allColumns, indSuffixes);
@@ -672,7 +669,7 @@ public class ART_AdultMonthlyReportBuilder extends AbstractReportBuilder{
 			EmrReportingUtils.addRow(dsd, "V5", "Patients having (TDF/FTC/LPV/r) (300/200/200/50)mg regimen", ReportUtils.map(hivIndicators.onregimenTdfftc(), indParams), allColumns, indSuffixes);
 			EmrReportingUtils.addRow(dsd, "V6", "Patients having (TDF/FTC+LPV/r)(300/200+200/50)mg regimen", ReportUtils.map(hivIndicators.onregimentdfftc(), indParams), allColumns, indSuffixes);
 			EmrReportingUtils.addRow(dsd, "V7", "Patients having (TDF/ABC/LPV/r) (300/300/200/50)mg regimen", ReportUtils.map(hivIndicators.onregimenTdfabc(), indParams), allColumns, indSuffixes);
-			EmrReportingUtils.addRow(dsd, "V8", "Patients having (TDF+ABC+LPV/r )(300/300+200/50)mg regimen", ReportUtils.map(hivIndicators.onregimentdf(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "V8", "Patients having (TDF+ABC+LPV/r )(300+300+200/50)mg regimen", ReportUtils.map(hivIndicators.onregimentdf(), indParams), allColumns, indSuffixes);
 			EmrReportingUtils.addRow(dsd, "V9", "Patients having (ABC/3TC+LPV/r)(600/300+200/50)mg regimen", ReportUtils.map(hivIndicators.onregimenabcdoselpvr(), indParams), allColumns, indSuffixes);
 			EmrReportingUtils.addRow(dsd, "V10", "Patients having (ABC/3TC/ATV/r) regimen", ReportUtils.map(hivIndicators.onregimenabcatv(), indParams), allColumns, indSuffixes);
 			EmrReportingUtils.addRow(dsd, "V11", "Patients having (AZT/3TC/ATV/r) regimen", ReportUtils.map(hivIndicators.onregimenaztatv(), indParams), allColumns, indSuffixes);
@@ -690,11 +687,10 @@ public class ART_AdultMonthlyReportBuilder extends AbstractReportBuilder{
 
 			
 			ColumnParameters adults =new ColumnParameters("AP", "Adults", "age=15+");
-			ColumnParameters colTotal = new ColumnParameters("TP", "grand total", "age=15+");
-
+		
 			String indParams = "startDate=${startDate},endDate=${endDate}";
-			List<ColumnParameters> allColumns = Arrays.asList(adults, colTotal);
-			List<String> indSuffixes = Arrays.asList("AD", "TT");
+			List<ColumnParameters> allColumns = Arrays.asList(adults);
+			List<String> indSuffixes = Arrays.asList("AD");
 			
 			EmrReportingUtils.addRow(dsd, "W1", "Patients having (AZT/3TC+TDF+LPV/r)(300/150+300+200/50) mg regimen", ReportUtils.map(hivIndicators.onRegimenazt3tc(), indParams), allColumns, indSuffixes);
 			

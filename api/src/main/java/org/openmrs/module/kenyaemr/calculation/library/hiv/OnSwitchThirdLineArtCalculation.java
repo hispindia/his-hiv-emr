@@ -29,17 +29,51 @@ public class OnSwitchThirdLineArtCalculation extends AbstractPatientCalculation 
 			boolean onOrigFirstLine = false;
 			 KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
 		 	   List<DrugOrderProcessed> drugorderprocess = kenyaEmrService.getAllfirstLine();
+		 	  DrugOrderProcessed drugorder = new DrugOrderProcessed();
 		 	   {
 		 	  for(DrugOrderProcessed order:drugorderprocess)
-		 	  { 
-		 		 if((ptId.equals(order.getPatient().getPatientId())) && (order.getTypeOfRegimen().equals("HIV/HBV co-infection")) && (order.getRegimenChangeType().equals("Switch")))
-		 		 {
-		 			onOrigFirstLine=true; 
-		 		 }
-		 		if(order.getDiscontinuedDate()!=null)
-			 	  { 
-			 		 onOrigFirstLine=false; 
+		 	  {  if(order.getPatient().getAge()<=14) 
+		 	  {
+		 		 if((ptId.equals(order.getPatient().getPatientId())&&(order.getRegimenChangeType().equals("Switch")) &&(order.getTypeOfRegimen().equals("Fixed dose combinations (FDCs)"))))
+			 	  { if(order.getDrugRegimen().equals(drugorder.getDrugRegimen()))
+			 		  { 
+			 			 onOrigFirstLine = false;
+			 			
+			 		  }
+			 		  else
+			 		  {  onOrigFirstLine = true;
+			 			drugorder=order;
+			 			ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
+			 		  }
+			 		 if(order.getDiscontinuedDate()!=null)
+				 	  { 
+				 		 onOrigFirstLine=false; 
+				 		ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
+				 	  }
+			 		
 			 	  }
+		 	  }
+		 	  else
+		 	  {
+		 		 if((ptId.equals(order.getPatient().getPatientId())&&(order.getRegimenChangeType().equals("Switch")) &&(order.getTypeOfRegimen().equals("Fixed dose combinations (FDCs)"))))
+			 	  { if(order.getDrugRegimen().equals(drugorder.getDrugRegimen()))
+			 		  { 
+			 			 onOrigFirstLine = false;
+			 			
+			 		  }
+			 		  else
+			 		  {  onOrigFirstLine = true;
+			 			drugorder=order;
+			 			ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
+			 		  }
+			 		 if(order.getDiscontinuedDate()!=null)
+				 	  { 
+				 		 onOrigFirstLine=false; 
+				 		ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
+				 	  }
+			 		
+			 	  }  
+		 	  }
 		 	  }
 		}
 			

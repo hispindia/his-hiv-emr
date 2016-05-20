@@ -43,7 +43,7 @@ public class FixedDoseTDFFTCplusEFVCalculation  extends AbstractPatientCalculati
 		 			
 		 		  }
 		 		  else
-		 		  {  
+		 		  {  onOrigFirstLine = true;
 		 			drugorder=orderprocess;
 		 			ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
 		 		  }

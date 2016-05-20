@@ -74,7 +74,11 @@ public class ART_ChildMonthlyReportBuilder extends AbstractReportBuilder{
 				ReportUtils.map(createHIVAdherenceDataSet(), "startDate=${startDate},endDate=${endDate}"),
 				ReportUtils.map(createLevelAdherenceDataSet(), "startDate=${startDate},endDate=${endDate}"),
 				ReportUtils.map(createElligibleARTDataSet(), "startDate=${startDate},endDate=${endDate}"),
-				ReportUtils.map(childregimensDataset(), "startDate=${startDate},endDate=${endDate}")
+				ReportUtils.map(childregimensDataset(), "startDate=${startDate},endDate=${endDate}"),
+				ReportUtils.map(originalDataset(), "startDate=${startDate},endDate=${endDate}"), 
+				ReportUtils.map(onsubsituteDataset(), "startDate=${startDate},endDate=${endDate}"),
+				ReportUtils.map(onswitchsecondDataset(), "startDate=${startDate},endDate=${endDate}"),
+				ReportUtils.map(onswitchthirdDataset(), "startDate=${startDate},endDate=${endDate}")
 				
 		);
 	}
@@ -579,12 +583,12 @@ public class ART_ChildMonthlyReportBuilder extends AbstractReportBuilder{
 
 			
 			ColumnParameters child =new ColumnParameters("CP", "Child", "age=<15");
-			ColumnParameters colTotal = new ColumnParameters("TP", "grand total", "age=<15");
+			
 
 			String indParams = "startDate=${startDate},endDate=${endDate}";
 
-			List<ColumnParameters> allColumns = Arrays.asList(child, colTotal);
-			List<String> indSuffixes = Arrays.asList("CD", "TT");
+			List<ColumnParameters> allColumns = Arrays.asList(child);
+			List<String> indSuffixes = Arrays.asList("CD");
 			
 			EmrReportingUtils.addRow(dsd, "U1", "Patients having (AZT/3TC+NVP) (60/30+50) mg regimen", ReportUtils.map(hivIndicators.onregimendosenvp(), indParams), allColumns, indSuffixes);
 			EmrReportingUtils.addRow(dsd, "U2", "Patients having (AZT/3TC+LPV/r)(60/30+100/25) mg regimen", ReportUtils.map(hivIndicators.onregimendoselpvr(), indParams), allColumns, indSuffixes);
@@ -621,13 +625,13 @@ public class ART_ChildMonthlyReportBuilder extends AbstractReportBuilder{
 			dsd.addDimension("age", ReportUtils.map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
 			dsd.addDimension("gender", map(commonDimensions.gender()));
 			
-			ColumnParameters female = new ColumnParameters("FA", ">14 years, female", "gender=F|age=<15");
-			ColumnParameters male = new ColumnParameters("MA", ">14 years, male", "gender=M|age=<15");
+			ColumnParameters female = new ColumnParameters("FA", "<14 years, female", "gender=F|age=<15");
+			ColumnParameters male = new ColumnParameters("MA", "<14 years, male", "gender=M|age=<15");
 			ColumnParameters total = new ColumnParameters("T", "grand total", "age=<15");
 
 			String indParams = "startDate=${startDate},endDate=${endDate}";
 			List<ColumnParameters> allColumns = Arrays.asList(female,male,total);
-			List<String> indSuffixes = Arrays.asList("FM","MA", "TT"); 
+			List<String> indSuffixes = Arrays.asList("CM","CF", "TT"); 
 			EmrReportingUtils.addRow(dsd, "V1", "No. on original 1st line regimen", ReportUtils.map(artIndicators.onoriginal(), indParams), allColumns, indSuffixes);
 			
 			
@@ -642,13 +646,13 @@ public class ART_ChildMonthlyReportBuilder extends AbstractReportBuilder{
 			dsd.addDimension("age", ReportUtils.map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
 			dsd.addDimension("gender", map(commonDimensions.gender()));
 			
-			ColumnParameters female = new ColumnParameters("FA", ">14 years, female", "gender=F|age=<15");
-			ColumnParameters male = new ColumnParameters("MA", ">14 years, male", "gender=M|age=<15");
+			ColumnParameters female = new ColumnParameters("FA", "<14 years, female", "gender=F|age=<15");
+			ColumnParameters male = new ColumnParameters("MA", "<14 years, male", "gender=M|age=<15");
 			ColumnParameters total = new ColumnParameters("T", "grand total", "age=<15");
 
 			String indParams = "startDate=${startDate},endDate=${endDate}";
 			List<ColumnParameters> allColumns = Arrays.asList(female,male,total);
-			List<String> indSuffixes = Arrays.asList("FM","MA", "TT"); 
+			List<String> indSuffixes = Arrays.asList("CM","CF", "TT"); 
 			EmrReportingUtils.addRow(dsd, "W1", "No. on substituted 1st line regimen", ReportUtils.map(artIndicators.onsubsitute(), indParams), allColumns, indSuffixes);
 			
 			
@@ -664,13 +668,13 @@ public class ART_ChildMonthlyReportBuilder extends AbstractReportBuilder{
 			dsd.addDimension("age", ReportUtils.map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
 			dsd.addDimension("gender", map(commonDimensions.gender()));
 			
-			ColumnParameters female = new ColumnParameters("FA", ">14 years, female", "gender=F|age=<15");
-			ColumnParameters male = new ColumnParameters("MA", ">14 years, male", "gender=M|age=<15");
+			ColumnParameters female = new ColumnParameters("FA", "<14 years, female", "gender=F|age=<15");
+			ColumnParameters male = new ColumnParameters("MA", "<14 years, male", "gender=M|age=<15");
 			ColumnParameters total = new ColumnParameters("T", "grand total", "age=<15");
 
 			String indParams = "startDate=${startDate},endDate=${endDate}";
 			List<ColumnParameters> allColumns = Arrays.asList(female,male,total);
-			List<String> indSuffixes = Arrays.asList("FM","MA", "TT"); 
+			List<String> indSuffixes = Arrays.asList("CM","CF", "TT"); 
 			EmrReportingUtils.addRow(dsd, "X1", "No. switched to 2nd line regimen", ReportUtils.map(artIndicators.onswitchsecond(), indParams), allColumns, indSuffixes);
 			
 			
@@ -686,13 +690,13 @@ public class ART_ChildMonthlyReportBuilder extends AbstractReportBuilder{
 			dsd.addDimension("age", ReportUtils.map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
 			dsd.addDimension("gender", map(commonDimensions.gender()));
 			
-			ColumnParameters female = new ColumnParameters("FA", ">14 years, female", "gender=F|age=<15");
-			ColumnParameters male = new ColumnParameters("MA", ">14 years, male", "gender=M|age=<15");
+			ColumnParameters female = new ColumnParameters("FA", "<14 years, female", "gender=F|age=<15");
+			ColumnParameters male = new ColumnParameters("MA", "<14 years, male", "gender=M|age=<15");
 			ColumnParameters total = new ColumnParameters("T", "grand total", "age=<15");
 
 			String indParams = "startDate=${startDate},endDate=${endDate}";
 			List<ColumnParameters> allColumns = Arrays.asList(female,male,total);
-			List<String> indSuffixes = Arrays.asList("FM","MA", "TT"); 
+			List<String> indSuffixes = Arrays.asList("CM","CF", "TT"); 
 			EmrReportingUtils.addRow(dsd, "Y1", "No. switched to 3rd line regimen", ReportUtils.map(artIndicators.onswitchthird(), indParams), allColumns, indSuffixes);
 			
 			
