@@ -562,14 +562,16 @@ jQuery(document).ready(function(){  if(patientId==null)
     };
     function getSelectEntryPoint(elem)
     { 
-        if(elem== 5622){
+       
+     if(patientId==null) 
+             {  if(elem== 5622){
             document.getElementById("otherEntryPoint").style.display = "";
             document.getElementById("previousClinicName").style.display ='none';
             document.getElementById("transferredInDateId").style.display = 'none';
            
     }
-    else if(patientId==null) 
-             { if(elem== 162870||elem== 162871)
+             
+           else  if(elem== 162870||elem== 162871)
                { 
             document.getElementById("otherEntryPoint").style.display = 'none';
             document.getElementById("previousClinicName").style.display = "";
@@ -586,8 +588,13 @@ jQuery(document).ready(function(){  if(patientId==null)
         }
         }
         else
-        { 
-        if(elem== 162870||elem== 162871)
+        {  if(elem== 5622){
+            document.getElementById("otherEntryPoint").style.display = "";
+            document.getElementById("previousClinicName").style.display ='none';
+            document.getElementById("transferredInDateTd").style.display = 'none';
+           
+    }
+       else if(elem== 162870||elem== 162871)
         { 
             document.getElementById("otherEntryPoint").style.display = 'none';
             document.getElementById("previousClinicName").style.display = "";
@@ -604,6 +611,7 @@ jQuery(document).ready(function(){  if(patientId==null)
             
         }
         }
+        
        
    };
 	function updateBirthdate(data) {
