@@ -65,17 +65,11 @@
 	] 
 	
 	def patientSource2 = [
-			[
-					[ object: command, property: "previousClinicName", label: "Previous Clinic Name ", config: [ width: 350 ] ],
-					[object: command, property: "transferredInDate", label: "Transferred In Date " , class: java.util.Date, initialValue: new Date(), config: [ width: 300 ] ]
-			]		
+				
 	]   
 
 	def patientSource3 = [
-			[
-					[ object: command, property: "previousClinicName", label: "Previous Clinic Name ", config: [ width: 350 ] ],
-					[ object: command, property: "transferredInDate", label: "Transferred In Date " ,  config: [ width: 300 ] ]
-			]		
+				
 	]  
 	
 	def addressFieldRows = [
@@ -298,7 +292,7 @@
 				</tr>
 			</table>
 			  <%if(command.original) { %>
-			 <% patientSource3.each { %>
+			 
 			 <table>
 				<tr> 
 			                  <td  id="previousClinicName">
@@ -307,7 +301,7 @@
 				 ${ ui.includeFragment("kenyaui", "widget/field", [id:"previousClinicName", object: command, property: "previousClinicName" , config: [ width: 350 ] ]) }
 				 </span>	
 					</td>
-					<td  id="transferredInDate">
+					<td  id="transferredInDateTd">
 						 <center><label class="ke-field-label">Transferred In Date</label></center>
 						<span  class="ke-field-content">
 							${ ui.includeFragment("kenyaui", "widget/field",[ id:"transferredInDate",object: command, property: "transferredInDate", config: [ width: 300 ] ]) }
@@ -315,8 +309,8 @@
 					</td>
 					</tr>
 					</table>
-			 <% } } else {%>
-				  <% patientSource2.each { %>
+			 <% }  else {%>
+				  
 				  		<table>
 				<tr> 
 				   <td  id="previousClinicName">
@@ -325,7 +319,7 @@
 				   ${ ui.includeFragment("kenyaui", "widget/field", [id:"previousClinicName", object: command, property: "previousClinicName" ,label: "Previous Clinic Name ",  config: [ width: 350 ] ]) }
 				    </span>	
 					</td>
-				    <td  id="transferredInDate">
+				    <td  id="transferredInDateId">
 				     <center><label class="ke-field-label">Transferred In Date</label></center>
 				    <span  class="ke-field-content">
 					${ ui.includeFragment("kenyaui", "widget/field",[id:"transferredInDate",object: command, property: "transferredInDate", label: "Transferred In Date " , class: java.util.Date, initialValue: new Date(), config: [ width: 300 ] ]) }
@@ -333,7 +327,7 @@
 					</td>
 				</tr>
 			</table>
-			 <% } }%>
+			 <% } %>
 			
 
 		</fieldset>
@@ -432,8 +426,8 @@ var patientId=${patientId};
 jQuery(document).ready(function(){  if(patientId==null)
                                      { jq("#otherStatus").hide();
                                        jq("#otherEntryPoint").hide(); 
-                                        jq("#transferredInDate").hide(); 
-                                         jq("#previousClinicName").hide();
+                                       jq("#transferredInDateId").hide(); 
+                                       jq("#previousClinicName").hide();
                                      }
                                     else
                                     {
@@ -451,19 +445,22 @@ jQuery(document).ready(function(){  if(patientId==null)
                                      {
                                      jq("#otherEntryPoint").show();
                                      jq("#previousClinicName").hide();
-                                     jq("#transferredInDate").hide();
+                                     jq("#transferredInDateTd").hide();
+                                    
                                      } 
                                      else if(entry==162870||entry==162871)
                                      {
                                      jq("#previousClinicName").show();
-                                     jq("#transferredInDate").show();
+                                     jq("#transferredInDateTd").show();
+                                    
                                      jq("#otherEntryPoint").hide();
                                      } 
                                       else
                                      {
                                       jq("#otherEntryPoint").hide();
                                       jq("#previousClinicName").hide();
-                                     jq("#transferredInDate").hide();
+                                     jq("#transferredInDateTd").hide();
+                                     
                                      }
                                      
                                      }
@@ -568,19 +565,46 @@ jQuery(document).ready(function(){  if(patientId==null)
         if(elem== 5622){
             document.getElementById("otherEntryPoint").style.display = "";
             document.getElementById("previousClinicName").style.display ='none';
-            document.getElementById("transferredInDate").style.display = 'none';
+            document.getElementById("transferredInDateId").style.display = 'none';
+           
     }
-    else if(elem== 162870||elem== 162871){ 
-            document.getElementById("previousClinicName").style.display = "";
-            document.getElementById("transferredInDate").style.display = "";
+    else if(patientId==null) 
+             { if(elem== 162870||elem== 162871)
+               { 
             document.getElementById("otherEntryPoint").style.display = 'none';
+            document.getElementById("previousClinicName").style.display = "";
+            document.getElementById("transferredInDateId").style.display = "";
+           
+           
         }
-        else
+         else
         {
           document.getElementById("otherEntryPoint").style.display = 'none';
           document.getElementById("previousClinicName").style.display ='none';
-            document.getElementById("transferredInDate").style.display = 'none';
+          document.getElementById("transferredInDateId").style.display = 'none';
+            
         }
+        }
+        else
+        { 
+        if(elem== 162870||elem== 162871)
+        { 
+            document.getElementById("otherEntryPoint").style.display = 'none';
+            document.getElementById("previousClinicName").style.display = "";
+            document.getElementById("transferredInDateTd").style.display = "";
+           
+           
+        
+        }
+         else
+        { 
+          document.getElementById("otherEntryPoint").style.display = 'none';
+          document.getElementById("previousClinicName").style.display ='none';
+            document.getElementById("transferredInDateTd").style.display = 'none';
+            
+        }
+        }
+       
    };
 	function updateBirthdate(data) {
 		var birthdate = new Date(data.birthdate);
