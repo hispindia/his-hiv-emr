@@ -424,7 +424,7 @@ public class EditPatientFragmentController {
 			napArtRegistrationNumber = wrapper.getNapArtRegistrationNumber();
 			systemPatientId = wrapper.getSystemPatientId();
 
-			uniquePatientNumber = wrapper.getUniquePatientNumber();
+			//uniquePatientNumber = wrapper.getUniquePatientNumber();
 
 			nameOfNextOfKin = wrapper.getNextOfKinName();
 			nextOfKinRelationship = wrapper.getNextOfKinRelationship();
@@ -788,13 +788,19 @@ public class EditPatientFragmentController {
 			wrapper.getPerson().setTelephoneContact(telephoneContact);
 			// wrapper.setNationalIdNumber(nationalIdNumber, location);
 			// wrapper.setPatientClinicNumber(patientClinicNumber, location);
+			if(!preArtRegistrationNumber.equals("")){
 			wrapper.setPreArtRegistrationNumber(preArtRegistrationNumber,
 					location);
+			}
+			if(!artRegistrationNumber.equals("")){
 			wrapper.setArtRegistrationNumber(artRegistrationNumber, location);
+			}
+			if(!napArtRegistrationNumber.equals("")){
 			wrapper.setNapArtRegistrationNumber(napArtRegistrationNumber,
 					location);
+			}
 			wrapper.setSystemPatientId(systemPatientId, location);
-			wrapper.setUniquePatientNumber(uniquePatientNumber, location);
+			//wrapper.setUniquePatientNumber(uniquePatientNumber, location);
 			wrapper.setNextOfKinName(nameOfNextOfKin);
 			wrapper.setNextOfKinRelationship(nextOfKinRelationship);
 			wrapper.setNextOfKinContact(nextOfKinContact);

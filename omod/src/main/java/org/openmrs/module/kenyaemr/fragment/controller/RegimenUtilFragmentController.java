@@ -224,6 +224,7 @@ public class RegimenUtilFragmentController {
 			
 			String drugRegimenn="";
 			String dosee="";
+			if (changeType == RegimenChangeType.Start || changeType == RegimenChangeType.Change) {
 			if (srNo != null) {
 				for (String srn : srNo) {
 					Concept drugConcept=null;
@@ -249,7 +250,8 @@ public class RegimenUtilFragmentController {
 			if(lastCharacter.equals("+")){
 			drugRegimenn=drugRegimenn.substring(0,drugRegimenn.length() - 1);
 			dosee=dosee.substring(0,dosee.length() - 1)+" "+"mg";
-			}
+			    }
+			  }
 			}
 			
 			if (baseline == null) {
