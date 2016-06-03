@@ -16,6 +16,7 @@
 	<script type="text/javascript">
 		var value1;
 		jq(document).ready(function(){
+			jq("#enc").hide();
 			
 			if ((getValue('idReason.value')) == 5622) {
 				jq('#otherReason :input').prop('disabled', false);
@@ -31,8 +32,9 @@
 				else{
 					jq('#otherReason :input').prop('disabled', true);
 				}
+				
 			});
-
+               
 			var pbirthdate = new Date("<lookup expression="patient.birthdate" />").getTime();
 			var discontinueDate;
 			var otherReason;
@@ -93,8 +95,8 @@
 			</table>
 			
 			
-			<!--  <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete"/>
-			-->
+		  <encounterLocation id="enc" default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete"/>
+			
 			<br/>
 
 		</fieldset>
