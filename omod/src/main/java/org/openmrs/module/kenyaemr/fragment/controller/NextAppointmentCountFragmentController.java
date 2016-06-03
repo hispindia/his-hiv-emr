@@ -18,6 +18,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.openmrs.Concept;
+import org.openmrs.ConceptAnswer;
 import org.openmrs.Encounter;
 import org.openmrs.Form;
 import org.openmrs.Obs;
@@ -59,7 +61,7 @@ public class NextAppointmentCountFragmentController {
 			.getLog(NextAppointmentCountFragmentController.class);
 
 	public JSONObject getTotalPatient(@RequestParam("patient") Patient patient,
-			@RequestParam("date") String date, UiUtils ui) {
+			@RequestParam("date") String date,UiUtils ui) {
 
 		SimpleDateFormat mysqlDateTimeFormatter = new SimpleDateFormat(
 				"dd-MMM-yy");
@@ -111,8 +113,8 @@ public class NextAppointmentCountFragmentController {
 		}
 		
 		List<Obs> obsAllList = Context.getObsService().getObservationsByPersonAndConcept(patient, Context.getConceptService().getConceptByUuid(
-									Dictionary.RETURN_VISIT_DATE));
-
+									Dictionary.RETURN_VISIT_DATE ));
+		
 		List<Obs> currentVisitObs = new ArrayList<Obs>();
 		for(Obs o : obsAllList){
 			if(o.getEncounter().getVisit().equals(activeVisit)){
@@ -170,6 +172,7 @@ public class NextAppointmentCountFragmentController {
 			obs.setValueDatetime(dateEntered);
 			obs.setConcept(Context.getConceptService().getConceptByUuid(
 					Dictionary.RETURN_VISIT_DATE));
+			obs.setComment("next apointment");
 			Context.getObsService().saveObs(obs, null);
 			
 		} else {
@@ -232,6 +235,7 @@ public class NextAppointmentCountFragmentController {
 			obs.setValueDatetime(dateEntered);
 			obs.setConcept(Context.getConceptService().getConceptByUuid(
 					Dictionary.RETURN_VISIT_DATE));
+			obs.setComment("next apointment");
 			Context.getObsService().saveObs(obs, null);
 		}
 

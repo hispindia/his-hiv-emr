@@ -24,6 +24,7 @@ import org.openmrs.Concept;
 import org.openmrs.Encounter;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
+import org.openmrs.Person;
 import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.appframework.domain.AppDescriptor;
@@ -57,6 +58,7 @@ public class NextAppointmentFormFragmentController {
 		AppDescriptor currentApp = kenyaUi.getCurrentApp(request);
 		model.addAttribute("patient", patient);
 		
+		
 		Visit activeVisit = null;
 		List<Visit> activeVisitList = Context.getVisitService()
 				.getActiveVisitsByPatient(patient);
@@ -64,6 +66,22 @@ public class NextAppointmentFormFragmentController {
 			activeVisit = v;
 		}
 		
+		Obs o=getLatestObs(patient);
+		if(o!=null){
+			if(o.getComment()!=null)
+			{
+				
+				model.addAttribute("appoint", o.getComment());
+			}
+			else
+			{
+				model.addAttribute("appoint","");
+			}
+		}
+		else
+		{
+			model.addAttribute("appoint","");
+		}
 		Obs obsDate = getAllLatestObs( Dictionary.RETURN_VISIT_DATE, activeVisit);
 		if (obsDate != null) {
 			EncounterWrapper wrapped = new EncounterWrapper(
@@ -74,12 +92,43 @@ public class NextAppointmentFormFragmentController {
 				obsDate = obs;
 			}
 		}
+		Obs obsafterDate = getAllLatestObs( Dictionary.AFTERDATE, activeVisit);
+		if (obsafterDate != null) {
+			EncounterWrapper wrapped = new EncounterWrapper(
+					obsafterDate.getEncounter());
+			List<Obs> obsafterList = wrapped.allObs(obsafterDate
+					.getConcept());
+			for (Obs obss : obsafterList) {
+				obsafterDate = obss;
+			}
+		}
+		
 		if(obsDate!=null){
+			
 			model.addAttribute("appointmentDate", obsDate.getValueDate());
+		  
+			
 		}
 		else{
 			model.addAttribute("appointmentDate","");
+			
 		}
+		
+		if(obsafterDate!=null)
+		{  
+			model.addAttribute("appointmentafterDate", obsafterDate.getValueDate());
+			
+			model.addAttribute("appointmentafterDay", obsafterDate.getValueCoded().getConceptId());
+		}
+		else
+		{  model.addAttribute("appointmentafterDate","");
+		    model.addAttribute("appointmentafterDay","");
+			
+		}
+		
+		
+		Concept afterDate=Context.getConceptService().getConceptByUuid("1879AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		model.addAttribute("afterDate",afterDate.getAnswers());
 		
 	}
 	
@@ -98,6 +147,16 @@ public class NextAppointmentFormFragmentController {
 		if (currentVisitObs.size() > 0) {
 			// these are in reverse chronological order
 			return currentVisitObs.get(count);
+		}
+		return null;
+	}
+	private Obs getLatestObs(Patient patient) {
+		
+		List<Obs> obs = Context.getObsService()
+				.getObservationsByPerson(patient);
+		if (obs.size() > 0) {
+			// these are in reverse chronological order
+			return obs.get(0);
 		}
 		return null;
 	}
