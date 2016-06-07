@@ -90,7 +90,7 @@ public class NextAppointmentCountAfterDayFragmentController {
 			enounterAvailable=o.getEncounter();
 		}
 		
-		if (enounterAvailable != null) { System.out.println("jiji");
+		if (enounterAvailable != null) { 
 			Date curDate = new Date();
 			SimpleDateFormat mysqlDateTimeFormatter1 = new SimpleDateFormat(
 					"dd-MMM-yy HH:mm:ss");
@@ -140,7 +140,7 @@ public class NextAppointmentCountAfterDayFragmentController {
 			
 			Context.getObsService().saveObs(obs, null);
 			
-		} else {System.out.println("ji");
+		} else {
 			Date curDate = new Date();
 			SimpleDateFormat mysqlDateTimeFormatter1 = new SimpleDateFormat(
 					"dd-MMM-yy HH:mm:ss");
