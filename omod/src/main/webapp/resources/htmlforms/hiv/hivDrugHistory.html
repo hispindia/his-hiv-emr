@@ -111,8 +111,10 @@
 			fieldIndex = 20; 
 			j=1;
 			
-			document.getElementById(j+'-addImage').src = addImageLink;
+			document.getElementById(j+'-addImage').src = addImageLink; 
+			
 			document.getElementById(j+'-removeImage').src = removeImageLink;
+			
 			if(document.getElementById("w"+fieldIndex)){
 			while(document.getElementById("w"+fieldIndex).value!="" &amp;&amp; j &lt; 11){
 				jQuery('#'+j+'-toggleContainer').show();   
@@ -123,19 +125,19 @@
 			$j('#'+j+'-addEntry').toggle(false);
 				}
 				j++;
-
+                
 				document.getElementById(j+'-addImage').src = addImageLink;
 				document.getElementById(j+'-removeImage').src = removeImageLink;
 
 			
-			}
+			}}
 			
 			//jQuery('#'+i+'-toggleContainer').show();
 			
 			$j('#1-removeEntry').remove();
 			$j('#10-addEntry').remove();
 			$j('#1-toggleContainer').show();
-			}
+			
 			
 			$j('button.addEntry').on("click", function(){
 				var correctedAddButtonId = parseFloat(this.id) + 1;      
@@ -177,18 +179,24 @@
 				else{
 					fieldIndex = 12; 
 				}
-				j=1;
-				
+				j=1; 
+				if(document.getElementById("w"+fieldIndex))
+					{
 				while(document.getElementById("w"+fieldIndex).value!="" &amp;&amp; j &lt; 5){
+					
+					if(document.getElementById("w"+fieldIndex+"_hid"))
+						{
 					var id = document.getElementById("w"+fieldIndex+"_hid").value
+					
 					if(id=="ERROR"){
 						alert("Kindly enter data in correct format");
 						return false;
 					}
+						}
 					j++;
 					fieldIndex=fieldIndex+10;
 				}
-				
+					}
 				return true;
 			});
 			
