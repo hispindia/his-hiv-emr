@@ -20,7 +20,7 @@
 </style>
 <script type="text/javascript">
 jq(document).ready(function(){
-	if (getValue('status.value') == "135704" || getValue('status.value') == "1175") {
+	if (getValue('status.value') == "135704" || getValue('status.value') == "1175") { 
 		jQuery('#tableFamily :input').prop('disabled', true);
 	}
 	else
@@ -38,8 +38,9 @@ jq(document).ready(function(){
 		}
 	});
 	
-		if (getValue('result.value') == "664") {
-				jQuery('#art :input').prop('disabled', true);
+		if (getValue('result.value') == "664" || getValue('status.value') == "135704" || getValue('status.value') == "1175") {
+				
+			jQuery('#art :input').prop('disabled', true);
 		     jQuery('#artreg :input').prop('disabled', true);
 		}
 		else
