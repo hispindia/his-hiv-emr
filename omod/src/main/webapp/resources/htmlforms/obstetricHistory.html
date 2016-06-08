@@ -132,7 +132,25 @@ input[type=button], button{
 
 <script type="text/javascript">
 		jq(document).ready(function () {
-			
+			var pgender  = "<lookup expression="patient.gender" />";
+           
+            if (pgender == 'M' )
+			{
+			if (getValue('fPlanning1.value') == 1065) { 
+				jq('#fPlanningOption1 :input').prop('disabled', false);
+			}
+			else{
+				jq('#fPlanningOption1 :input').prop('disabled', true);
+			} 
+			jq("#fPlanning1 input:radio").change(function() {
+				if (getValue('fPlanning1.value') == 1065) { 
+					jq('#fPlanningOption1 :input').prop('disabled', false);
+				}
+				else{
+					jq('#fPlanningOption1 :input').prop('disabled', true);
+				} 
+			});
+			}
 			var addImageLink = "/"+OPENMRS_CONTEXT_PATH+"/ms/uiframework/resource/kenyaui/images/glyphs/revisit.png";
 			var removeImageLink = "/"+OPENMRS_CONTEXT_PATH+"/ms/uiframework/resource/kenyaui/images/glyphs/close.png";
 
@@ -159,6 +177,7 @@ input[type=button], button{
 				}
 				
 			}
+			
 			//jQuery('#'+i+'-toggleContainer').show();
 			
 			$j('#1-removeEntry').remove();
@@ -194,21 +213,8 @@ input[type=button], button{
 				return false;
 				});
 			
-				if (getValue('fPlanning1.value') == 1065) {
-					jq('#fPlanningOption1 :input').prop('disabled', false);
-				}
-				else{
-					jq('#fPlanningOption1 :input').prop('disabled', true);
-				} 
-	
-				jq("#fPlanning1 input:radio").change(function() {
-					if (getValue('fPlanning1.value') == 1065) {
-						jq('#fPlanningOption1 :input').prop('disabled', false);
-					}
-					else{
-						jq('#fPlanningOption1 :input').prop('disabled', true);
-					} 
-				});
+			
+				
 			
 				if (getValue('fPlanning.value') == 1065) {
 					jq('#fPlanningOption :input').prop('disabled', false);
@@ -352,6 +358,11 @@ input[type=button], button{
 					document.getElementById("w12").value = "";
 				}
 			});
+			
+			
+			
+			
+			
 		});
 	</script> <script type="text/javascript">
 		function mbdCalculation() {
