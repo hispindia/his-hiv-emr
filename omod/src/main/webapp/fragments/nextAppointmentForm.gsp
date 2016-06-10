@@ -69,7 +69,8 @@ function saveAppointment(){
       { 
       jQuery.ajax(ui.fragmentActionLink("kenyaemr" , "nextAppointmentCount",  "saveAppointment"),{ data: { patient:patientId ,date:dateStart}, dataType: 'json'
 		}).done(function(data) {
-	            alert("Saved");
+	            alert("Saved");	            
+                ui.reloadPage();
 	 });
 		
 	 }
@@ -78,6 +79,7 @@ function saveAppointment(){
 	 jQuery.ajax(ui.fragmentActionLink("kenyaemr" , "nextAppointmentCountAfterDay",  "saveAppointment"),{ data: { patient:patientId ,date:dateStart,answer:value}, dataType: 'json'
 		}).done(function(data) {
 	            alert("Saved");
+                ui.reloadPage();
 	 });
 	 }
 	 
