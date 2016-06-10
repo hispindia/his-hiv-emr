@@ -19,13 +19,16 @@
 		${ ui.includeFragment("kenyaui", "widget/dataPoint", [ label: ui.format(it.attributeType), value: it ]) }
 		<% } %>
 -->		
+		<% if (personWrap.fatherName) { %>
 		Father name : <strong>${personWrap.fatherName}</strong>
+		<% } %>
 		<% if (personWrap.telephoneContact) { %>
 			<br/>Patient contact number : <strong> ${personWrap.telephoneContact}</strong>
 		<% } %>
-		<% if (patientAdd.countyDistrict!="?") { %>
+		<% if (patientAdd.countyDistrict) { %>
+			<% if (patientAdd.countyDistrict!="?") { %>
 			<br/>Patient Address : <strong>${patientAdd.countyDistrict}</strong>
-		<% } %>
+		<% }} %>
 		<% if (patientWrap.nextOfKinName) { %>
 			<br/>Treatment Supporter's Name: <strong>${patientWrap.nextOfKinName}</strong>
 		<% } %>

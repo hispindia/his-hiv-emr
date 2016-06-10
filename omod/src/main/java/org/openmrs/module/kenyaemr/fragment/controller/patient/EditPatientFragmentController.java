@@ -507,8 +507,8 @@ public class EditPatientFragmentController {
 			}
 			;
 
-			require(errors, "fatherName");
-			if (fatherName.length() > 50) {
+//			require(errors, "fatherName");
+			if (fatherName !=null && fatherName.length() > 50) {
 				errors.rejectValue("fatherName",
 						"Expected length of Name is exceeding");
 			}

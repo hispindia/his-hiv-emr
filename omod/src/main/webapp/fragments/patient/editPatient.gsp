@@ -11,7 +11,7 @@
 	
 	def fatherNameField = [
 			[
-					[ object: command, property: "fatherName", label: "Father's Name *" ]
+					[ object: command, property: "fatherName", label: "Father's Name" ]
 			]
 	]
 	
