@@ -35,7 +35,7 @@ kenyaemrApp.service('PatientService2', function ($rootScope) {
 	 * Broadcasts new patient search parameters
 	 */
 	this.updateSearch = function(query, which, date) {
-		if(which!="scheudled"){
+		if(which!="scheduled"){
 			$rootScope.$broadcast('patient-search2', { query: query, which: which});
 		}
 		else{
