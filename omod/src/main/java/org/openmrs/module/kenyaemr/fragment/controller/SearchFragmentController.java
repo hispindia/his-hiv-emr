@@ -318,6 +318,8 @@ public class SearchFragmentController {
 						.extractResultValues(visitsResult);
 
 				so.put("visits", ui.simplifyCollection(visits));
+				
+				so.put("patientName", p.getGivenName());
 
 				simplePatients.add(so);
 
