@@ -140,10 +140,6 @@ public class ImportPatientsListFragmentController {
 					}
 				}
 				int i = 0;
-				for (String s : legacyData) {
-					System.out.println(s + "-" + i);
-					i++;
-				}
 
 				/*
 				 * Start Patient Creation
@@ -453,7 +449,7 @@ public class ImportPatientsListFragmentController {
 								ret,
 								Dictionary
 										.getConcept(Dictionary.HIV_RISK_FACTOR),
-								riskFactor, "", null, enPersonalHistoryNew,
+								riskFactor, "", null,null, enPersonalHistoryNew,
 								null);
 					}
 
@@ -464,7 +460,7 @@ public class ImportPatientsListFragmentController {
 										Integer.parseInt(legacyData.get(18)));
 						handleOncePerPatientObs(ret,
 								Dictionary.getConcept(Dictionary.LITERATE),
-								literate, "", null, enPersonalHistoryNew, null);
+								literate, "", null,null, enPersonalHistoryNew, null);
 					}
 
 					// Employed
@@ -474,7 +470,7 @@ public class ImportPatientsListFragmentController {
 										Integer.parseInt(legacyData.get(30)));
 						handleOncePerPatientObs(ret,
 								Dictionary.getConcept(Dictionary.EMPLOYED),
-								employed, "", null, enPersonalHistoryNew, null);
+								employed, "", null, null,enPersonalHistoryNew, null);
 					}
 
 					// Alcoholic
@@ -485,7 +481,7 @@ public class ImportPatientsListFragmentController {
 						handleOncePerPatientObs(ret,
 								Dictionary
 										.getConcept(Dictionary.ALCOHOLIC_TYPE),
-								alcoholic, "", null, enPersonalHistoryNew, null);
+								alcoholic, "", null, null,enPersonalHistoryNew, null);
 					}
 
 					// IDU Substitute
@@ -496,7 +492,7 @@ public class ImportPatientsListFragmentController {
 						handleOncePerPatientObs(ret,
 
 						Dictionary.getConcept(Dictionary.IDU_PERSONAL_HISTORY),
-								iduSubstitute, "", null, enPersonalHistoryNew,
+								iduSubstitute, "", null,null, enPersonalHistoryNew,
 								null);
 					}
 
@@ -509,7 +505,7 @@ public class ImportPatientsListFragmentController {
 								ret,
 								Dictionary
 										.getConcept(Dictionary.IDU_NAME_PERSONAL_HISTORY),
-								iduSubstituteType, "", null,
+								iduSubstituteType, "",null, null,
 								enPersonalHistoryNew, null);
 					}
 
@@ -543,7 +539,7 @@ public class ImportPatientsListFragmentController {
 										Integer.parseInt(legacyData.get(19)));
 						handleOncePerPatientObs(ret,
 								Dictionary.getConcept(Dictionary.CIVIL_STATUS),
-								married, "", null, enFamilyHistoryNew, null);
+								married, "", null, null,enFamilyHistoryNew, null);
 					}
 
 					/*
@@ -578,7 +574,7 @@ public class ImportPatientsListFragmentController {
 								ret,
 								Dictionary
 										.getConcept(Dictionary.PREGNANCY_STATUS),
-								pregnancy, "", null, enObstetricHistoryNew,
+								pregnancy, "", null,null, enObstetricHistoryNew,
 								null);
 					}
 
@@ -591,7 +587,7 @@ public class ImportPatientsListFragmentController {
 								ret,
 								Dictionary
 										.getConcept(Dictionary.FAMILY_PLANNING),
-								pregnancy, "", null, enObstetricHistoryNew,
+								pregnancy, "", null, null,enObstetricHistoryNew,
 								null);
 					}
 
@@ -626,7 +622,7 @@ public class ImportPatientsListFragmentController {
 
 								Dictionary
 										.getConcept(Dictionary.DRUG_HISTORY_ART_RECEIVED),
-								previousArt, "", null, enDrugHistoryNew, null);
+								previousArt, "", null,null, enDrugHistoryNew, null);
 					}
 
 					// Previous ART Type
@@ -638,7 +634,7 @@ public class ImportPatientsListFragmentController {
 								ret,
 								Dictionary
 										.getConcept(Dictionary.DRUG_HISTORY_ART_RECEIVED_TYPE),
-								previousArtType, "", null, enDrugHistoryNew,
+								previousArtType, "", null, null,enDrugHistoryNew,
 								null);
 					}
 
@@ -650,6 +646,8 @@ public class ImportPatientsListFragmentController {
 						o.setConcept(Dictionary
 								.getConcept(Dictionary.DRUG_HISTORY_GROUP));
 						o.setObsDatetime(new Date());
+						// Added value coded as per default obs object format.
+						o.setValueCoded(Context.getConceptService().getConcept(1066));
 						o.setLocation(Context.getService(KenyaEmrService.class)
 								.getDefaultLocation());
 						o.setEncounter(enDrugHistoryNew);
@@ -658,15 +656,12 @@ public class ImportPatientsListFragmentController {
 
 						// Duration
 						if (legacyData.get(29)!=null) {
-							Concept duration = Context
-									.getConceptService()
-									.getConcept(
-											Integer.parseInt(legacyData.get(29)));
+							double duration = Integer.parseInt(legacyData.get(29));
 							handleOncePerPatientObs(
 									ret,
 									Dictionary
 											.getConcept(Dictionary.DRUG_DURATION),
-									duration, "", null, enDrugHistoryNew,
+									null, "", null,duration, enDrugHistoryNew,
 									drugGroup.getObsGroupId());
 						}
 
@@ -680,7 +675,7 @@ public class ImportPatientsListFragmentController {
 									ret,
 									Dictionary
 											.getConcept(Dictionary.DRUG_HISTORY_ART_RECEIVED_PLACE),
-									place, "", null, enDrugHistoryNew,
+									place, "", null,null, enDrugHistoryNew,
 									drugGroup.getObsGroupId());
 						}
 
@@ -691,24 +686,15 @@ public class ImportPatientsListFragmentController {
 								ret,
 								Dictionary
 										.getConcept(Dictionary.DRUG_REGIMEN_DRUG_HISTORY),
-								place, "", null, enDrugHistoryNew, drugGroup
+								place, "", null, null,enDrugHistoryNew, drugGroup
 										.getObsGroupId());
 
 					}
 
 				}
-				
-				System.out.println("#############################Patient done:"+ rowCount+1);
 			}
 			rowCount++;
 		}
-		
-		
-		
-		
-		
-		
-		
 		
 		
 		Sheet secondSheet = workbook.getSheetAt(1);
@@ -754,12 +740,6 @@ public class ImportPatientsListFragmentController {
 			}
 		}	
 		
-		
-		
-		
-		
-		
-
 		inputStream.close();
 		return SimpleObject.create("success", true);
 
@@ -792,9 +772,8 @@ public class ImportPatientsListFragmentController {
 	}
 
 	protected void handleOncePerPatientObs(Patient patient, Concept question,
-			Concept newValue, String textValue, Date textDate, Encounter en,
+			Concept newValue, String textValue, Date textDate,Double numnericValue, Encounter en,
 			Integer obsGroup) {
-		if (!newValue.equals("")) {
 			Obs o = new Obs();
 			o.setPerson(patient);
 			o.setConcept(question);
@@ -807,6 +786,10 @@ public class ImportPatientsListFragmentController {
 			if (textValue != null && !textValue.equals("")) {
 				o.setValueText(textValue);
 			}
+			
+			if(numnericValue!=null){
+				o.setValueNumeric(numnericValue);
+			}
 			if (textDate != null && !textDate.equals("")) {
 				o.setValueDate(textDate);
 			}
@@ -817,8 +800,6 @@ public class ImportPatientsListFragmentController {
 				o.setObsGroupId(obsGroup);
 			}
 			Context.getObsService().saveObs(o, "KenyaEMR History Details");
-
-		}
 	}
 
 	protected void handleOncePerPatientObs(Patient patient, Concept question,
