@@ -387,20 +387,23 @@
 			
 				var count =  100-((doseCount * 100)/ (totalDoseCount));
 				if(isNaN(count)){
-					display = '<input id="w100" type="text" value="0" name="w100" size="5"  disabled="disabled" autocomplete="off" />';									
+					 setValue('calculated-adherence.value','0');
 				}
 				else{
 					if(count > 94){
-						display = '<input id="w100" type="text" value=" &gt;95%" name="w100" size="5"  disabled="disabled" autocomplete="off" />';
+					  
+					
+				    setValue('calculated-adherence.value','&gt;95%');
+					
 					}
-					else if(count > 79){
-						display = '<input id="w100" type="text" value=" 80-95 %" name="w100" size="5"  disabled="disabled" autocomplete="off" />';
+					else if(count > 79){ 
+					setValue('calculated-adherence.value','80-95 %');
 					}
 					else{
-						display = '<input id="w100" type="text" value=" &lt;80%" name="w100" size="5"  disabled="disabled" autocomplete="off" />';
+					setValue('calculated-adherence.value','&lt;80%');
 					}
 				}
-				jQuery('#calculated-adherence').html(display);
+				
 				
 				if(count &lt; 95 ){
 					jq('#reasonForNonAdherence :input').prop('disabled', false);
@@ -560,7 +563,7 @@
 				
 				<tr>	
 					<td style="padding-left:28px;">% of adherence to ART</td>
-					<td><obs id="calculated-adherence" class="value" conceptId="360716f8-c50b-4bb7-bce8-edbe4aa9445c"/>
+					<td><obs id="calculated-adherence"  conceptId="360716f8-c50b-4bb7-bce8-edbe4aa9445c"/>
 					<br/> Reason for non-adherence : <obs id="reasonForNonAdherence" conceptId="160582AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
 					</td>
 				</tr>
