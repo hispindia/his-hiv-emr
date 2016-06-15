@@ -244,11 +244,11 @@ public class HivIndicatorLibrary {
        }
        
        public CohortIndicator onregimenDT(){
-           return cohortIndicator("Patients having (D4T/3TC/NVP)  (30/150/200)mg regimen", map(hivCohorts.onD4T3TCNVP(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+           return cohortIndicator("Patients having (d4T/3TC/NVP)  (30/150/200)mg regimen", map(hivCohorts.onD4T3TCNVP(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
        }
        
        public CohortIndicator onregimenDTEFV(){
-           return cohortIndicator("Patients having (D4T/3TC/EFV) (30/150/600)mg regimen", map(hivCohorts.onD4T3TCEFV(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+           return cohortIndicator("Patients having (d4T/3TC/EFV) (30/150/600)mg regimen", map(hivCohorts.onD4T3TCEFV(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
        }
        public CohortIndicator onregimenNotDose(){
            return cohortIndicator("Patients having  regimen", map(hivCohorts.onRegimenNotDose(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
@@ -272,18 +272,18 @@ public class HivIndicatorLibrary {
        
        
        public CohortIndicator onregimenazt(){
-           return cohortIndicator("Patients having (D4T+3TC+NVP) regimen", map(hivCohorts.onD4T3TCplusNVP(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+           return cohortIndicator("Patients having (d4T+3TC+NVP) regimen", map(hivCohorts.onD4T3TCplusNVP(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
        }
        public CohortIndicator onregimend4t(){
-           return cohortIndicator("Patients having (D4T+3TC+L/r)  regimen", map(hivCohorts.onD4T3TCLr(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+           return cohortIndicator("Patients having (d4T+3TC+L/r)  regimen", map(hivCohorts.onD4T3TCLr(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
        }
        
        public CohortIndicator onregimend4tefv(){
-           return cohortIndicator("Patients having (D4T+3TC+EFV)  regimen", map(hivCohorts.onD4T3TCplusEFV(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+           return cohortIndicator("Patients having (d4T+3TC+EFV)  regimen", map(hivCohorts.onD4T3TCplusEFV(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
        }
        
        public CohortIndicator onregimend4tabc(){
-           return cohortIndicator("Patients having (D4T+3TC+ABC)  regimen", map(hivCohorts.onD4T3TCplusABC(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+           return cohortIndicator("Patients having (d4T+3TC+ABC)  regimen", map(hivCohorts.onD4T3TCplusABC(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
        }
        public CohortIndicator onregimenaztral(){
            return cohortIndicator("Patients having (AZT+3TC+RAL)  regimen", map(hivCohorts.onAZT3TCplusRAL(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
@@ -411,11 +411,11 @@ public class HivIndicatorLibrary {
 		}
 
 		public CohortIndicator onregimendt3tcnvp() {
-			return  cohortIndicator("Patients having (D4T/3TC+NVP) (30/150+200) mg regimen", map(hivCohorts.ond4t3tcplusnvp(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+			return  cohortIndicator("Patients having (d4T/3TC+NVP) (30/150+200) mg regimen", map(hivCohorts.ond4t3tcplusnvp(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
 		}
 
 		public CohortIndicator onregimendt3tcefv() {
-			return  cohortIndicator("Patients having (D4T/3TC+EFV) (30/150+600) mg regimen", map(hivCohorts.ond4t3tcplusefvsix(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+			return  cohortIndicator("Patients having (d4T/3TC+EFV) (30/150+600) mg regimen", map(hivCohorts.onD4t3tcplusefvsix(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
 		}
 
 		public CohortIndicator onregimenabcefv() {

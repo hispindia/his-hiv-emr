@@ -403,7 +403,7 @@ public class EditPatientFragmentController {
 
 			gender = person.getGender();
 			birthdate = person.getBirthdate();
-			birthdateEstimated = person.getBirthdateEstimated();
+//			birthdateEstimated = person.getBirthdateEstimated();
 			dead = person.isDead();
 			deathDate = person.getDeathDate();
 
@@ -756,7 +756,7 @@ public class EditPatientFragmentController {
 
 			toSave.setGender(gender);
 			toSave.setBirthdate(birthdate);
-			toSave.setBirthdateEstimated(birthdateEstimated);
+			toSave.setBirthdateEstimated(true);
 			toSave.setDead(dead);
 			toSave.setDeathDate(deathDate);
 			toSave.setCauseOfDeath(dead ? Dictionary

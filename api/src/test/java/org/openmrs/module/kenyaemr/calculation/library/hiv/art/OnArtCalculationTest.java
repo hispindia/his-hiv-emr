@@ -61,6 +61,6 @@ public class OnArtCalculationTest extends BaseModuleContextSensitiveTest {
 		CalculationResultMap resultMap = new OnArtCalculation().evaluate(cohort, null, Context.getService(PatientCalculationService.class).createCalculationContext());
 		Assert.assertThat((Boolean) resultMap.get(6).getValue(), is(false)); // isn't on any drugs
 		Assert.assertThat((Boolean) resultMap.get(7).getValue(), is(false)); // isn't on any ARTs
-		Assert.assertThat((Boolean) resultMap.get(8).getValue(), is(true)); // is taking D4T
+		Assert.assertThat((Boolean) resultMap.get(8).getValue(), is(true)); // is taking d4T
 	}
 }

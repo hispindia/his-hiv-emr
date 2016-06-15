@@ -599,10 +599,10 @@ public class ART_ChildMonthlyReportBuilder extends AbstractReportBuilder{
 			EmrReportingUtils.addRow(dsd, "U7", "Patients having (ABC/3TC+EFV) (60/30+600) mg regimen", ReportUtils.map(hivIndicators.onregimendoseabcefvsix(), indParams), allColumns, indSuffixes);
 			EmrReportingUtils.addRow(dsd, "U8", "Patients having (ABC/3TC+LPV/r) (60/30+100/25) mg regimen", ReportUtils.map(hivIndicators.onregimenabcdoselpvr(), indParams), allColumns, indSuffixes);
 			EmrReportingUtils.addRow(dsd, "U9", "Patients having (AZT/3TC+ABC) (60/30+60) mg regimen", ReportUtils.map(hivIndicators.onregimendoseabc(), indParams), allColumns, indSuffixes);
-			EmrReportingUtils.addRow(dsd, "U10", "Patients having (D4T+3TC+NVP) regimen", ReportUtils.map(hivIndicators.onregimenazt(), indParams), allColumns, indSuffixes);
-			EmrReportingUtils.addRow(dsd, "U11", "Patients having (D4T+3TC+LPV/r) regimen", ReportUtils.map(hivIndicators.onregimend4t(), indParams), allColumns, indSuffixes);
-			EmrReportingUtils.addRow(dsd, "U12", "Patients having (D4T+3TC+EFV) regimen", ReportUtils.map(hivIndicators.onregimend4tefv(), indParams), allColumns, indSuffixes);
-			EmrReportingUtils.addRow(dsd, "U13", "Patients having (D4T+3TC+ABC) regimen", ReportUtils.map(hivIndicators.onregimend4tabc(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U10", "Patients having (d4T+3TC+NVP) regimen", ReportUtils.map(hivIndicators.onregimenazt(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U11", "Patients having (d4T+3TC+LPV/r) regimen", ReportUtils.map(hivIndicators.onregimend4t(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U12", "Patients having (d4T+3TC+EFV) regimen", ReportUtils.map(hivIndicators.onregimend4tefv(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U13", "Patients having (d4T+3TC+ABC) regimen", ReportUtils.map(hivIndicators.onregimend4tabc(), indParams), allColumns, indSuffixes);
 			EmrReportingUtils.addRow(dsd, "U14", "Patients having (AZT+3TC+RAL) regimen", ReportUtils.map(hivIndicators.onregimenaztral(), indParams), allColumns, indSuffixes);
 			EmrReportingUtils.addRow(dsd, "U15", "Patients having (AZT+3TC+ATV/r) regimen", ReportUtils.map(hivIndicators.onregimenatv(), indParams), allColumns, indSuffixes);
 			EmrReportingUtils.addRow(dsd, "U16", "Patients having (ABC+3TC+RAL) regimen", ReportUtils.map(hivIndicators.onregimenral(), indParams), allColumns, indSuffixes);

@@ -9,7 +9,7 @@
 <tbody>
 <tr>
 <td><input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="guide" name="guide" value="Guide" onClick="guideForContinRegimen();" /></td>
-<td><input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="artRegimen" name="artRegimen" value="Art Regimen" onClick="artForContinRegimen();" /></td>
+<td><input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="artRegimen" name="artRegimen" value="ART Regimen" onClick="artForContinRegimen();" /></td>
 </tr>
 <tr>
 <td class="colA" style="text-align:center">Drug</td>

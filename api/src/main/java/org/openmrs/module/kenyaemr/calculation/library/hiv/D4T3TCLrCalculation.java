@@ -34,7 +34,7 @@ public class D4T3TCLrCalculation extends AbstractPatientCalculation {
 		 	  for(DrugOrderProcessed orderprocess:drugorderprocess)
 		 	  {
 		 		 
-		 	  if((ptId.equals(orderprocess.getPatient().getPatientId()) && (orderprocess.getDrugRegimen().equals("D4T+3TC+LPV/r"))))
+		 	  if((ptId.equals(orderprocess.getPatient().getPatientId()) && (orderprocess.getDrugRegimen().equals("d4T+3TC+LPV/r"))))
 		 		 { 
 		 		  if(orderprocess.getDrugRegimen().equals(drugorder.getDrugRegimen()))
 		 		  {  

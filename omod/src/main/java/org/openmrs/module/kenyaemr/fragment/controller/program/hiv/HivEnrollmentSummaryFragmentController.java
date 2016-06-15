@@ -82,8 +82,8 @@ public class HivEnrollmentSummaryFragmentController {
 				.getEncountersByPatient(patient);
 		List<Encounter> enFormList = new ArrayList<Encounter>();
 		for (Encounter e : eList) {
-			if (e.getForm().getUuid()
-					.endsWith("e4b506c1-7379-42b6-a374-284469cba8da")) {
+			if (e.getForm()!=null && e.getForm().getUuid()
+					.equals("e4b506c1-7379-42b6-a374-284469cba8da")) {
 				enFormList.add(e);
 			}
 		}

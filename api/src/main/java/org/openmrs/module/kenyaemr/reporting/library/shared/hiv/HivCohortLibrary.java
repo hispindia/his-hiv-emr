@@ -454,14 +454,14 @@ public class HivCohortLibrary {
        
        public CohortDefinition onD4T3TCNVP() {
     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new D4T3TCNVPCalculation());
-    		cd.setName("on D4T3TCNVP regimen");
+    		cd.setName("on d4T3TCNVP regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
     		return cd;
     	}
        public CohortDefinition onD4T3TCEFV() {
    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new D4T3TCEFVCalculation());
-   		cd.setName("on D4T3TCEFV regimen");
+   		cd.setName("on d4T3TCEFV regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
    		return cd;
@@ -469,7 +469,7 @@ public class HivCohortLibrary {
        
        public CohortDefinition onRegimenNotDose() {
       		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FirstLineCalculation());
-      		cd.setName("on D4T3TCEFV regimen");
+      		cd.setName("on d4T3TCEFV regimen");
       		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
    		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
       		return cd;
@@ -529,14 +529,14 @@ public class HivCohortLibrary {
    	}
        public CohortDefinition onD4T3TCplusNVP() {
      		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseCalculation());
-     		cd.setName("on D4T3TCplusNVP regimen");
+     		cd.setName("on d4T3TCplusNVP regimen");
      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
      		return cd;
      	}
        public CohortDefinition onD4T3TCLr() {
     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new D4T3TCLrCalculation());
-    		cd.setName("on D4T3TCLr regimen");
+    		cd.setName("on d4T3TCLr regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
     		return cd;
@@ -544,14 +544,14 @@ public class HivCohortLibrary {
        
        public CohortDefinition onD4T3TCplusEFV() {
    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedD4T3TCplusEFVCalculation());
-   		cd.setName("on D4T3TCplusEFV regimen");
+   		cd.setName("on d4T3TCplusEFV regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
    		return cd;
    	}
        public CohortDefinition onD4T3TCplusABC() {
       		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedD4T3TCplusABCCalculation());
-      		cd.setName("on D4T3TCplusABC regimen");
+      		cd.setName("on d4T3TCplusABC regimen");
       		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
    		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
       		return cd;
@@ -791,14 +791,14 @@ public class HivCohortLibrary {
     	}
        public CohortDefinition ond4t3tcplusnvp() {
    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseD4T3TCplusNVPCalculation());
-   		cd.setName("on D4T3TC+NVP regimen");
+   		cd.setName("on d4T3TC+NVP regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
    		return cd;
    	}
-       public CohortDefinition ond4t3tcplusefvsix() {
+       public CohortDefinition onD4t3tcplusefvsix() {
       		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseD4T3TCplusEFVCalculation());
-      		cd.setName("on D4T3TC+EFV regimen");
+      		cd.setName("on d4T3TC+EFV regimen");
       		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
    		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
       		return cd;

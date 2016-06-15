@@ -4,7 +4,7 @@
 <regimens xmlns="http://www.kenyaemr.org/regimens" version="3">
 	<category code="ARV" masterSetUuid="${metadata.concept.ANTIRETROVIRAL_DRUGS}">
 		<drugs>
-			<drug code="D4T" conceptUuid="84309AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /><!-- Stavudine -->
+			<drug code="d4T" conceptUuid="84309AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /><!-- Stavudine -->
 			<drug code="AZT" conceptUuid="86663AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /><!-- Zidovudine -->
 			<drug code="TDF" conceptUuid="84795AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /><!-- Tenofovir -->
 			<drug code="3TC" conceptUuid="78643AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /><!-- Lamivudine -->
@@ -52,8 +52,8 @@
 				<component drugCode="3TC" dose="300" units="mg" frequency="OD" />
 				<component drugCode="EFV" dose="600" units="mg" frequency="OD" />
 			</regimen>
-			<regimen name="D4T + 3TC + NVP (30mg BD/150mg BD/200mg BD)">
-				<component drugCode="D4T" dose="30" units="mg" frequency="BD" />
+			<regimen name="d4T + 3TC + NVP (30mg BD/150mg BD/200mg BD)">
+				<component drugCode="d4T" dose="30" units="mg" frequency="BD" />
 				<component drugCode="3TC" dose="150" units="mg" frequency="BD" />
 				<component drugCode="NVP" dose="200" units="mg" frequency="BD" />
 			</regimen>

@@ -34,7 +34,7 @@ public class FixedD4T3TCplusABCCalculation  extends AbstractPatientCalculation {
 		 	  for(DrugOrderProcessed orderprocess:drugorderprocess)
 		 	  {
 		 		 
-		 	  if((ptId.equals(orderprocess.getPatient().getPatientId()) && (orderprocess.getDrugRegimen().equals("D4T+3TC+ABC"))))
+		 	  if((ptId.equals(orderprocess.getPatient().getPatientId()) && (orderprocess.getDrugRegimen().equals("d4T+3TC+ABC"))))
 		 		 {
 		 		  if(orderprocess.getDrugRegimen().equals(drugorder.getDrugRegimen()))
 		 		  {  

@@ -632,10 +632,10 @@ public class ART_AdultMonthlyReportBuilder extends AbstractReportBuilder{
 			EmrReportingUtils.addRow(dsd, "U13", "Patients having (TDF/FTC+EFV) (300/200+400) mg regimen", ReportUtils.map(hivIndicators.onregimenftcefvfour(), indParams), allColumns, indSuffixes);
 			EmrReportingUtils.addRow(dsd, "U14", "Patients having (TDF/FTC/EFV) (300/200/600)mg regimen", ReportUtils.map(hivIndicators.onregimenTDFFTCE(), indParams), allColumns, indSuffixes);
 			EmrReportingUtils.addRow(dsd, "U15", "Patients having (TDF/FTC+EFV) (300/200+600) mg regimen", ReportUtils.map(hivIndicators.onregimenftcefvsix(), indParams), allColumns, indSuffixes);
-			EmrReportingUtils.addRow(dsd, "U16", "Patients having (D4T/3TC/NVP)  (30/150/200)mg regimen", ReportUtils.map(hivIndicators.onregimenDT(), indParams), allColumns, indSuffixes);
-			EmrReportingUtils.addRow(dsd, "U17", "Patients having (D4T/3TC+NVP)  (30/150+200)mg regimen", ReportUtils.map(hivIndicators.onregimendt3tcnvp(), indParams), allColumns, indSuffixes);
-			EmrReportingUtils.addRow(dsd, "U18", "Patients having (D4T/3TC/EFV) (30/150/600)mg regimen", ReportUtils.map(hivIndicators.onregimenDTEFV(), indParams), allColumns, indSuffixes);
-			EmrReportingUtils.addRow(dsd, "U19", "Patients having (D4T/3TC+EFV) (30/150+600) mg regimen", ReportUtils.map(hivIndicators.onregimendt3tcefv(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U16", "Patients having (d4T/3TC/NVP)  (30/150/200)mg regimen", ReportUtils.map(hivIndicators.onregimenDT(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U17", "Patients having (d4T/3TC+NVP)  (30/150+200)mg regimen", ReportUtils.map(hivIndicators.onregimendt3tcnvp(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U18", "Patients having (d4T/3TC/EFV) (30/150/600)mg regimen", ReportUtils.map(hivIndicators.onregimenDTEFV(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "U19", "Patients having (d4T/3TC+EFV) (30/150+600) mg regimen", ReportUtils.map(hivIndicators.onregimendt3tcefv(), indParams), allColumns, indSuffixes);
 			EmrReportingUtils.addRow(dsd, "U20", "Patients having (TDF/FTC/DTG) regimen", ReportUtils.map(hivIndicators.onregimenftcdtg(), indParams), allColumns, indSuffixes);
 			EmrReportingUtils.addRow(dsd, "U21", "Patients having (TDF/3TC/DTG) regimen", ReportUtils.map(hivIndicators.onregimen3tcdtg(), indParams), allColumns, indSuffixes);
 			EmrReportingUtils.addRow(dsd, "U22", "Patients having (ABC/3TC+EFV) (600/300+600) mg regimen", ReportUtils.map(hivIndicators.onregimenabcefv(), indParams), allColumns, indSuffixes);

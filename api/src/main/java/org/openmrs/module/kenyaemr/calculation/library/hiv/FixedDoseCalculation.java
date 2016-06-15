@@ -35,7 +35,7 @@ public class FixedDoseCalculation extends AbstractPatientCalculation {
 		 	  for(DrugOrderProcessed orderprocess:drugorderprocess)
 		 	  {
 		 		 
-		 	  if((ptId.equals(orderprocess.getPatient().getPatientId()) && (orderprocess.getDrugRegimen().equals("D4T+3TC+NVP"))))
+		 	  if((ptId.equals(orderprocess.getPatient().getPatientId()) && (orderprocess.getDrugRegimen().equals("d4T+3TC+NVP"))))
 		 		 {
 		 		  if(orderprocess.getDrugRegimen().equals(drugorder.getDrugRegimen()))
 		 		  {  

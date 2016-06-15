@@ -64,6 +64,12 @@
 			]		
 	] 
 	
+	def patientContact = [
+		[
+				[ object: command, property: "telephoneContact", label: "Contact Number" ]
+		]		
+	]
+	
 	def patientSource2 = [
 				
 	]   
@@ -75,8 +81,7 @@
 	def addressFieldRows = [
 			[
 					[ object: command, property: "personAddress.address1", label: "Permanent Address ", config: [ type: "textarea", size: 20 ] ],
-					[ object: command, property: "personAddress.address2", label: "Temporary Address ", config: [ type: "textarea", size: 20 ] ],
-					[ object: command, property: "telephoneContact", label: "Contact Number" ]
+					[ object: command, property: "personAddress.address2", label: "Temporary Address ", config: [ type: "textarea", size: 20 ] ]
 			]
 	]
 %>
@@ -148,10 +153,7 @@
 						<span class="ke-field-content">
 							${ ui.includeFragment("kenyaui", "widget/field", [ id: "patient-birthdate", object: command, property: "birthdate" ]) }
 
-							<span id="patient-birthdate-estimated">
-								<input type="radio" name="birthdateEstimated" value="true" ${ command.birthdateEstimated ? 'checked="checked"' : '' }/> Estimated
-								<input type="radio" name="birthdateEstimated" value="false" ${ !command.birthdateEstimated ? 'checked="checked"' : '' }/> Exact
-							</span>
+							
 							&nbsp;&nbsp;&nbsp;
 
 							<span id="from-age-button-placeholder"></span>
@@ -222,6 +224,11 @@
         </tr>
         </table>
         </div>
+        
+         <% patientContact.each { %>
+			   ${ ui.includeFragment("kenyaui", "widget/rowOfFields", [ fields: it ]) }
+		<% } %>
+        
 		</fieldset>
 
 		<fieldset>

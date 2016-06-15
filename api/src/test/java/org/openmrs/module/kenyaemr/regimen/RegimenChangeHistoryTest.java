@@ -54,7 +54,7 @@ public class RegimenChangeHistoryTest extends BaseModuleContextSensitiveTest {
 		/* Test case like this:
 		 * 3TC: <---->
 		 * AZT: |  <----->
-		 * D4T: |  |  <-----...
+		 * d4T: |  |  <-----...
 		 * Dap: |  |  <-----... (this drug is not relevant)
 		 *      |  |  |  |
 		 *      t0 t1 t2 t3
@@ -62,7 +62,7 @@ public class RegimenChangeHistoryTest extends BaseModuleContextSensitiveTest {
 
 		drug1 = Dictionary.getConcept("78643AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"); // 3TC
 		drug2 = Dictionary.getConcept("86663AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"); // AZT
-		drug3 = Dictionary.getConcept("84309AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"); // D4T
+		drug3 = Dictionary.getConcept("84309AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"); // d4T
 		drug4 = Dictionary.getConcept(Dictionary.DAPSONE); // Dapsone
 
 		order1 = TestUtils.saveDrugOrder(TestUtils.getPatient(6), drug1, t0, t2);

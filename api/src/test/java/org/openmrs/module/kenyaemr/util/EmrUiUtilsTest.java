@@ -123,7 +123,7 @@ public class EmrUiUtilsTest extends BaseModuleContextSensitiveTest {
 		Assert.assertThat(kenyaUi.formatRegimenLong(empty, ui), is("Empty"));
 
 		// Check regular regimen
-		Assert.assertThat(kenyaUi.formatRegimenLong(regimen, ui), is("DAPSONE 100mg OD + D4T 30ml BD"));
+		Assert.assertThat(kenyaUi.formatRegimenLong(regimen, ui), is("DAPSONE 100mg OD + d4T 30ml BD"));
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class EmrUiUtilsTest extends BaseModuleContextSensitiveTest {
 
 		Concept drug1 = Dictionary.getConcept("78643AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"); // 3TC
 		Concept drug2 = Dictionary.getConcept("86663AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"); // AZT
-		Concept drug3 = Dictionary.getConcept("84309AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"); // D4T
+		Concept drug3 = Dictionary.getConcept("84309AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"); // d4T
 
 		DrugOrder order1 = TestUtils.saveDrugOrder(TestUtils.getPatient(6), drug1, t0, t2);
 		order1.setDiscontinuedReasonNonCoded("Testing");

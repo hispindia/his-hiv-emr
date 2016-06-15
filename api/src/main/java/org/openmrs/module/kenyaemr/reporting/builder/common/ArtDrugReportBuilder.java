@@ -98,7 +98,7 @@ public class ArtDrugReportBuilder extends AbstractReportBuilder {
 		Concept efv = Dictionary.getConcept(Dictionary.EFAVIRENZ);
 		Concept abc = Dictionary.getConcept(Dictionary.ABACAVIR);
 		Concept tdf = Dictionary.getConcept(Dictionary.TENOFOVIR);
-		Concept d4t = Dictionary.getConcept(Dictionary.STAVUDINE);
+		Concept d4T = Dictionary.getConcept(Dictionary.STAVUDINE);
 		Concept lvp = Dictionary.getConcept(Dictionary.LOPINAVIR);
 		Concept rit = Dictionary.getConcept(Dictionary.RITONAVIR);
 		Concept ddi = Dictionary.getConcept(Dictionary.DIDANOSINE);
@@ -133,14 +133,14 @@ public class ArtDrugReportBuilder extends AbstractReportBuilder {
 		//ABC+3TC+EFV
 		EmrReportingUtils.addRow(dsd, "ABC+3TC+EFV", "Patients having (ABC+3TC+EFV) regimen", ReportUtils.map(artIndicators.onRegimen(Arrays.asList(abc, tc3, efv)), indParams), allColumns, indSuffixes);
 
-		//D4T+3TC+NVP
-		EmrReportingUtils.addRow(dsd, "D4T+3TC+NVP", "Patients having (D4T+3TC+NVP) regimen", ReportUtils.map(artIndicators.onRegimen(Arrays.asList(d4t, tc3, nvp)), indParams), allColumns, indSuffixes);
+		//d4T+3TC+NVP
+		EmrReportingUtils.addRow(dsd, "d4T+3TC+NVP", "Patients having (d4T+3TC+NVP) regimen", ReportUtils.map(artIndicators.onRegimen(Arrays.asList(d4T, tc3, nvp)), indParams), allColumns, indSuffixes);
 
-		//D4T+3TC+EFV
-		EmrReportingUtils.addRow(dsd, "D4T+3TC+EFV", "Patients having (D4T+3TC+EFV) regimen", ReportUtils.map(artIndicators.onRegimen(Arrays.asList(d4t, tc3, efv)), indParams), allColumns, indSuffixes);
+		//d4T+3TC+EFV
+		EmrReportingUtils.addRow(dsd, "d4T+3TC+EFV", "Patients having (d4T+3TC+EFV) regimen", ReportUtils.map(artIndicators.onRegimen(Arrays.asList(d4T, tc3, efv)), indParams), allColumns, indSuffixes);
 
-		//D4T+3TC+ABC
-		EmrReportingUtils.addRow(dsd, "D4T+3TC+ABC", "Patients having (D4T+3TC+ABC) regimen", ReportUtils.map(artIndicators.onRegimen(Arrays.asList(d4t, tc3, abc)), indParams), allColumns, indSuffixes);
+		//d4T+3TC+ABC
+		EmrReportingUtils.addRow(dsd, "d4T+3TC+ABC", "Patients having (d4T+3TC+ABC) regimen", ReportUtils.map(artIndicators.onRegimen(Arrays.asList(d4T, tc3, abc)), indParams), allColumns, indSuffixes);
 
 		//ABC+3TC+LVP/r
 		EmrReportingUtils.addRow(dsd, "ABC+3TC+LVP+RIT", "Patients having (ABC+3TC+LVP+RIT) regimen", ReportUtils.map(artIndicators.onRegimen(Arrays.asList(abc, tc3, lvp, rit)), indParams), allColumns, indSuffixes);
@@ -157,8 +157,8 @@ public class ArtDrugReportBuilder extends AbstractReportBuilder {
 		//ABC+DDI+LVP/r
 		EmrReportingUtils.addRow(dsd, "ABC+DDI+LVP+RIT", "Patients having (ABC+DDI+LVP+RIT) regimen", ReportUtils.map(artIndicators.onRegimen(Arrays.asList(abc, ddi, lvp, rit)), indParams), allColumns, indSuffixes);
 
-		//D4T+3TC+LVP/r
-		EmrReportingUtils.addRow(dsd, "D4T+3TC+LVP+RIT", "Patients having (D4T+3TC+LVP+RIT) regimen", ReportUtils.map(artIndicators.onRegimen(Arrays.asList(d4t, tc3, lvp, rit)), indParams), allColumns, indSuffixes);
+		//d4T+3TC+LVP/r
+		EmrReportingUtils.addRow(dsd, "d4T+3TC+LVP+RIT", "Patients having (d4T+3TC+LVP+RIT) regimen", ReportUtils.map(artIndicators.onRegimen(Arrays.asList(d4T, tc3, lvp, rit)), indParams), allColumns, indSuffixes);
 
 		//AZT+TDF+3TC+LVP/r
 		EmrReportingUtils.addRow(dsd, "AZT+TDF+3TC+LVP+RIT", "Patients having (AZT+TDF+3TC+LVP+RIT) regimen", ReportUtils.map(artIndicators.onRegimen(Arrays.asList(azt, tdf, tc3, lvp, rit)), indParams), allColumns, indSuffixes);
