@@ -12,53 +12,80 @@
   ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
 -->
 <htmlform>
+  <style type="text/css">
+		table.tb {
+			background-color: #c7d8a7;
+			border: 1px solid black;
+			
+		}
+		table.tb1 {
+			border: 1px solid black;
+			vertical-align: baseline;
+			text-align: left;
+			background-color: #FFFFFF;
+		}
+		table.tb1 tr th,table.tb1 tr td{
+			border: 0;
+			padding: 5px;
+		}
+		
 
+	</style>
 	<script type="text/javascript">
 		var value1;
 		jq(document).ready(function(){
 			
+			jq('#diedDate :input').prop('disabled', true);
+			jq('#transferFacility :input').prop('disabled', true);
+			jq('#transferDate :input').prop('disabled', true);
+			jq('#lastVisitDate-date :input').prop('disabled', true);
 			if ((getValue('idReason.value')) == 160034) {
-				jq('#pdied :input').prop('disabled', false);
-				jq('#ptransferred :input').prop('disabled', true);
+				jq('#diedDate :input').prop('disabled', false);
+				jq('#transferFacility :input').prop('disabled', true);
+				jq('#transferDate :input').prop('disabled', true);
 				jq('#lastVisitDate-date :input').prop('disabled', true);
 			}
 			else if((getValue('idReason.value')) == 159492) {
-				jq('#pdied :input').prop('disabled', true);
-				jq('#ptransferred :input').prop('disabled', false);
+				jq('#diedDate :input').prop('disabled', true);
+				jq('#transferFacility :input').prop('disabled', false);
+				jq('#transferDate :input').prop('disabled', false);
 				jq('#lastVisitDate-date :input').prop('disabled', true);
 			}
 			else if((getValue('idReason.value')) == 5240) {
-				jq('#pdied :input').prop('disabled', true);
-				jq('#ptransferred :input').prop('disabled', true);
+				jq('#diedDate :input').prop('disabled', true);
+				jq('#transferFacility :input').prop('disabled', true);
+				jq('#transferDate :input').prop('disabled', true);
 				jq('#lastVisitDate-date :input').prop('disabled', false);
 			}
 			else {
-				jq('#pdied :input').prop('disabled', true);
-				jq('#ptransferred :input').prop('disabled', true);
+				jq('#diedDate :input').prop('disabled', true);
+				jq('#transferFacility :input').prop('disabled', true);
+				jq('#transferDate :input').prop('disabled', true);
 				jq('#lastVisitDate-date :input').prop('disabled', true);
 			}
 
 			jq("#idReason select").change(function() {
 				if ((getValue('idReason.value')) == 160034) {
-					jq('#pdied :input').prop('disabled', false);
-					jq('#ptransferred :input').prop('disabled', true);
+					jq('#diedDate :input').prop('disabled', false);
+					jq('#transferFacility :input').prop('disabled', true);
+					jq('#transferDate :input').prop('disabled', true);
 					jq('#lastVisitDate-date :input').prop('disabled', true);
 				}
 				else if((getValue('idReason.value')) == 159492) {
-					jq('#pdied :input').prop('disabled', true);
-					jq('#ptransferred :input').prop('disabled', false);
+					jq('#diedDate :input').prop('disabled', true);
+					jq('#transferFacility :input').prop('disabled', false);
+					jq('#transferDate :input').prop('disabled', false);
 					jq('#lastVisitDate-date :input').prop('disabled', true);
 				}
 				else if((getValue('idReason.value')) == 5240) {
-					jq('#pdied :input').prop('disabled', true);
-					jq('#ptransferred :input').prop('disabled', true);
+					jq('#diedDate :input').prop('disabled', true);
+					jq('#transferFacility :input').prop('disabled', true);
+					jq('#transferDate :input').prop('disabled', true);
 					jq('#lastVisitDate-date :input').prop('disabled', false);
 				}
-				else {
-					jq('#pdied :input').prop('disabled', true);
-					jq('#ptransferred :input').prop('disabled', true);
-					jq('#lastVisitDate-date :input').prop('disabled', true);
-				}
+				
+					
+				
 			});
 
 			var pbirthdate = new Date("<lookup expression="patient.birthdate" />").getTime();
@@ -120,7 +147,7 @@
 
 	<div class="ke-form-content">
 		<fieldset>
-			<table class="baseline-aligned" border="0">
+			<table style="background-color: #e8efdc"  align="center"  border="0" class="tb1" cellspacing="10" width="70%">
 				<tr>
 					<td>Current Date and Time:</td>
 					<td> <encounterDate id="encounter-date" showTime="true" /></td>
@@ -136,20 +163,18 @@
 					<td>Last day of Visit:<b>(> 3 months)</b></td>
 					<td><obs conceptId="162850AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="lastVisitDate-date"/> </td>
 				</tr>
-			</table>
-			<div id="pdied">
-				<table>
+			
+			
 					<tr>
 						<td>If Patient Died, please provide Date of Death if Known:</td>
 						<td><obs conceptId="1543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="diedDate"/></td>
 						<td></td>
 						<td></td>
 					</tr>
-				</table>
-			</div>
+				
+			
 
-			<div id="ptransferred">
-				<table>
+			
 					<tr>
 						<td><i>(If transferred out)</i> <br/>Transfer to Facility:</td>
 						<td ><br/><obs conceptId="159495AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="transferFacility" labelText=" "/></td>
@@ -157,7 +182,7 @@
 						<td><br/><obs conceptId="160649AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="transferDate" labelText=" "/></td>
 					</tr>
 				</table>
-			</div>
+			
 			<br/>
 			<hr/>
 			<br/>
