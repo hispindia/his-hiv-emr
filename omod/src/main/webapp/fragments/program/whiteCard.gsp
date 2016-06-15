@@ -558,7 +558,7 @@ function print(){
 						<table border="1" width="100%">
 						<tr >
 							<td class="tbheader" bgcolor="#778899">
-								<center><strong>Antiretroviral treatmentttt</strong></center>
+								<center><strong>Antiretroviral treatment</strong></center>
 							</td>
 						</tr>
 						<tr>

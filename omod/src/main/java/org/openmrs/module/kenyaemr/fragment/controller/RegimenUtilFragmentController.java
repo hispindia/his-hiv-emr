@@ -224,7 +224,7 @@ public class RegimenUtilFragmentController {
 			
 			String drugRegimenn="";
 			String dosee="";
-			if (changeType == RegimenChangeType.Start || changeType == RegimenChangeType.Change) {
+			if (changeType == RegimenChangeType.Start || changeType == RegimenChangeType.Substitute || changeType == RegimenChangeType.Switch) {
 			if (srNo != null) {
 				for (String srn : srNo) {
 					Concept drugConcept=null;
@@ -363,6 +363,7 @@ public class RegimenUtilFragmentController {
 					}	
 				}
 				else if(changeType == RegimenChangeType.Substitute || changeType == RegimenChangeType.Switch){
+				encounter=createEncounterForBaseLine(patient);
 				if (srNo != null) {
 					for (String srn : srNo) {
 				Concept drugConcept=null;
@@ -444,7 +445,6 @@ public class RegimenUtilFragmentController {
 				   }
 				}
 								
-				encounter=createEncounterForBaseLine(patient);
 				DrugOrder drugOder = new DrugOrder();
 				drugOder.setOrderType(Context.getOrderService().getOrderType(OpenmrsConstants.ORDERTYPE_DRUG));
 				drugOder.setEncounter(encounter);
