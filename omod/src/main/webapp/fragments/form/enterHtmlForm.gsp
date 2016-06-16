@@ -64,6 +64,10 @@
 	<form id="htmlform" method="post" action="${ ui.actionLink("kenyaemr", "form/enterHtmlForm", "submit") }">
 		<input type="hidden" name="appId" value="${ currentApp.id }"/>
 		<input type="hidden" name="personId" value="${ command.patient.personId }"/>
+		<input type="hidden" id="personAge" name="personAge" value="${ command.patient.age }"/>
+		<input type="hidden" id="personSex" name="personSex" value="${ command.patient.gender }"/>
+		<input type="hidden" id="personName" name="personName" value="${ command.patient.givenName }"/>
+		<input type="hidden" id="personIdentifier" name="personIdentifier" value="${ patientIdentifier}"/>
 		<input type="hidden" name="formId" value="${ command.form.formId }"/>
 		<input type="hidden" name="formModifiedTimestamp" value="${ command.formModifiedTimestamp }"/>
 		<input type="hidden" name="encounterModifiedTimestamp" value="${ command.encounterModifiedTimestamp }"/>

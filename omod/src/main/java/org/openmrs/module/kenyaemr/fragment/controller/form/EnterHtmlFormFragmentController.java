@@ -38,6 +38,7 @@ import org.openmrs.module.kenyacore.form.FormUtils;
 import org.openmrs.module.kenyaemr.api.KenyaEmrService;
 import org.openmrs.module.kenyaemr.util.EmrUtils;
 import org.openmrs.module.kenyaemr.wrapper.EncounterWrapper;
+import org.openmrs.module.kenyaemr.wrapper.PatientWrapper;
 import org.openmrs.module.kenyaui.KenyaUiUtils;
 import org.openmrs.module.kenyaui.annotation.SharedAction;
 import org.openmrs.ui.framework.SimpleObject;
@@ -127,7 +128,8 @@ public class EnterHtmlFormFragmentController {
 		} else {
 			model.addAttribute("preArtPatient", 0);
 		}
-
+		PatientWrapper wrapper = new PatientWrapper(patient);
+		model.addAttribute("patientIdentifier", wrapper.getSystemPatientId());
 	}
 
 	/**
