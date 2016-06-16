@@ -12,6 +12,6 @@ import org.openmrs.module.kenyaemr.Dictionary;
 public class LastCptCalculation  extends AbstractPatientCalculation{
 	@Override
 	public CalculationResultMap evaluate(Collection<Integer> cohort, Map<String, Object> parameterValues, PatientCalculationContext context) {
-		return Calculations.lastObs(Dictionary.getConcept(Dictionary.OI_TREATMENT_DRUG), cohort, context);
+		return Calculations.lastObs(Dictionary.getConcept(Dictionary.PROPHYLAXIS), cohort, context);
 	}
 }
