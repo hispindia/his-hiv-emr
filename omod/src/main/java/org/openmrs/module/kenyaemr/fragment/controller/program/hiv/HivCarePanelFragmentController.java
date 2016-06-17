@@ -121,7 +121,7 @@ public class HivCarePanelFragmentController {
 		String listAllDiag = "";
 		
 		Obs diagList = getLatestObs(patient, Dictionary.HIV_CARE_DIAGNOSIS);
-		Obs consultationObs =   getAllLatestObs(patient, Dictionary.CONSULTATION_DETAIL);
+		Obs consultationObs =   getLatestObs(patient, Dictionary.CONSULTATION_DETAIL);
 		if(consultationObs!=null){
 			EncounterWrapper wrappedG = new EncounterWrapper(
 					consultationObs.getEncounter());
@@ -129,7 +129,6 @@ public class HivCarePanelFragmentController {
 			for (Obs obsG : obsGroupList) {
 				if (diagList != null) {
 					List<Obs> obsList = Context.getObsService().getObservationsByPersonAndConcept(patient, Dictionary.getConcept(Dictionary.HIV_CARE_DIAGNOSIS));
-					
 					for (Obs obs : obsList) {
 						if(obs.getObsGroupId() == obsG.getObsId()){
 							if (listAllDiag.isEmpty()) {
@@ -221,17 +220,18 @@ public class HivCarePanelFragmentController {
 		
 	}
 	
-	private Obs getAllLatestObs(Patient patient, String conceptIdentifier) {
+/*	private Obs getAllLatestObs(Patient patient, String conceptIdentifier) {
 		Concept concept = Dictionary.getConcept(conceptIdentifier);
 		List<Obs> obs = Context.getObsService()
 				.getObservationsByPersonAndConcept(patient, concept);
-		int count = obs.size() - 1;
 		if (obs.size() > 0) {
 			// these are in reverse chronological order
-			return obs.get(count);
+			return obs.get(0);
 		}
 		return null;
 	}
+*/
+	
 	
 	private Obs getLatestObs(Patient patient, String conceptIdentifier) {
 		Concept concept = Dictionary.getConcept(conceptIdentifier);
