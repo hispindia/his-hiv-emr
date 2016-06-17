@@ -39,6 +39,7 @@ import org.openmrs.OrderType;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.Person;
+import org.openmrs.PersonAddress;
 import org.openmrs.Visit;
 import org.openmrs.api.APIException;
 import org.openmrs.api.EncounterService;
@@ -416,5 +417,13 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 	}
 		public List<DrugOrderProcessed> getAllfirstLine() {
 		return dao.getAllfirstLine();
+	}
+		
+	public List<PersonAddress> getPatientsByTownship(String township){
+		return dao.getPatientsByTownship(township);
+	}
+	
+	public List<Obs> getObsByScheduledDate(Date date){
+		return dao.getObsByScheduledDate(date);
 	}
 }

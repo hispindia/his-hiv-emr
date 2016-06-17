@@ -31,6 +31,7 @@ import org.openmrs.Obs;
 import org.openmrs.OrderType;
 import org.openmrs.Patient;
 import org.openmrs.Person;
+import org.openmrs.PersonAddress;
 import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.db.DAOException;
@@ -41,6 +42,7 @@ import org.openmrs.module.kenyaemr.model.DrugOrderProcessed;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
@@ -408,6 +410,22 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		criteria.add(Restrictions.isNotNull("typeOfRegimen"));
 		
 		return criteria.list();
+	}
+	
+	public List<PersonAddress> getPatientsByTownship(String township) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PersonAddress.class,"personAddress");
+		criteria.add(Restrictions.ilike("countyDistrict", township+"%"));
+		return criteria.list();
+	}
+	
+	public List<Obs> getObsByScheduledDate(Date date) {
+	Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
+	Collection<Concept> conList=new	ArrayList<Concept>();
+	conList.add(Context.getConceptService().getConceptByUuid("5096AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"));
+	conList.add(Context.getConceptService().getConceptByUuid("1879AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"));
+	criteria.add(Restrictions.in("concept", conList));
+	criteria.add(Restrictions.eq("valueDatetime", date));
+	return criteria.list();
 	}
 
 }

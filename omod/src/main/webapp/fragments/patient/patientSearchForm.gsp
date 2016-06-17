@@ -25,8 +25,19 @@
 	
 	<label class="ke-field-label">Scheduled Date</label>
 	<span class="ke-field-content">
-	${ ui.includeFragment("kenyaui", "field/java.util.Date" ,[id:'scheduledDate',  formFieldName:'date', showTime: false])}
-	
+		<input type="text" id="date" name="date" ng-model="date" ng-change="updateSearch()" style="width: 260px" />
+		<script type="text/javascript">
+                        jQuery(document).ready(function () {
+                            jQuery('#date').datepicker({
+                                showAnim: 'blind'
+                            });
+                        });
+                    </script>
 	</span>
+	
+	<span class="ke-field-content">
+		<input type="hidden" id="township" name="township" ng-model="township" ng-change="updateSearch()" style="width: 260px" />
+	</span>
+	
 	<input type="button" value="Search" ng-click="updateSearch();"/>
 </form>
