@@ -127,9 +127,6 @@ public class TbCarePanelFragmentController {
 			iptStatus="Yes";
 			iptDate = formatterExt.format(obsListForProphylaxi.getDateCreated());
 		  }
-		else{
-			iptStatus="No";		
-		}
 		}
 		model.addAttribute("ipt", iptStatus);
 		model.addAttribute("iptDate", iptDate);

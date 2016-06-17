@@ -178,7 +178,7 @@ public class HivCarePanelFragmentController {
 		}
 		model.addAttribute("listAllOI", listAllOI);	
 		
-		String cptStatus="No";
+		String cptStatus="";
 		List<Obs> obsListForOiTreatments = Context.getObsService().getObservationsByPersonAndConcept(patient, Dictionary.getConcept(Dictionary.PROPHYLAXIS));
 		for(Obs obsListForOiTreatment:obsListForOiTreatments){
 		if(obsListForOiTreatment.getValueCoded().getUuid().equals("105281AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")){
