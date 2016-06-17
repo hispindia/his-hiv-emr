@@ -65,14 +65,19 @@
 		else{
 			dataPoints << [ label: "Last OI", value: "None" ]
 		}
-
+if(duration)
+{
 	if (cpt) {
 		dataPoints << [ label: "Currently on CTX", value: cpt ,extra:calculations.onCpt.value.obsDatetime]
 	}
 	else{
 		dataPoints << [ label: "Currently on CTX", value: "None" ]
 	}
-	
+	}
+	else
+	{
+	dataPoints << [ label: "Currently on CTX", value: "None" ]
+	}
 %>
 
 <% if (config.complete) { %>

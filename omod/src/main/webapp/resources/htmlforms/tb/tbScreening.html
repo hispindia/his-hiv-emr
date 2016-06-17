@@ -228,10 +228,13 @@ input[type=button], button{
 				fieldIndex = 14; 
 				j=1;
 				while(document.getElementById("w"+fieldIndex).value!="" &amp;&amp; j &lt; 11){
+					if(document.getElementById("w"+fieldIndex+"_hid"))
+					{
 					var id = document.getElementById("w"+fieldIndex+"_hid").value
 					if(id=="ERROR"){
 						alert("Kindly enter data in correct format");
 						return false;
+					}
 					}
 					j++;
 					fieldIndex=fieldIndex+2;
@@ -240,10 +243,13 @@ input[type=button], button{
 				fieldIndex = 68; 
 				j=1;
 				while(document.getElementById("w"+fieldIndex).value!="" &amp;&amp; j &lt; 11){
+					if(document.getElementById("w"+fieldIndex+"_hid"))
+					{
 					var id = document.getElementById("w"+fieldIndex+"_hid").value
 					if(id=="ERROR"){
 						alert("Kindly enter data in correct format");
 						return false;
+					}
 					}
 					j++;
 					fieldIndex=fieldIndex+2;

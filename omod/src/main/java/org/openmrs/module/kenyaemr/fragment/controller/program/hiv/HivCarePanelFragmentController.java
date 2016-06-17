@@ -15,6 +15,7 @@
 package org.openmrs.module.kenyaemr.fragment.controller.program.hiv;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -182,7 +183,9 @@ public class HivCarePanelFragmentController {
 		for(Obs obsListForOiTreatment:obsListForOiTreatments){
 		if(obsListForOiTreatment.getValueCoded().getUuid().equals("105281AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")){
 			cptStatus="Yes";	
+			
 		  }
+		
 		}
 		model.addAttribute("cpt", cptStatus);
 		calculationResults.put("lastOI", EmrCalculationUtils.evaluateForPatient(LastOICalculation.class, null, patient));
@@ -190,9 +193,51 @@ public class HivCarePanelFragmentController {
 		calculationResults.put("onCpt", EmrCalculationUtils.evaluateForPatient(LastCptCalculation.class, null, patient));
 		
 		model.addAttribute("calculations", calculationResults);
-
-		
-		Concept medSet = regimenManager.getMasterSetConcept("ARV");
+		Double duration=0.0;Integer duratin=0;
+		Obs o=getLatestObs(patient, Dictionary.MEDICATION_DURATION);
+		 if(o!=null){
+		List<Obs> obsListForOiTreat = Context.getObsService().getObservationsByPersonAndConcept(patient, Dictionary.getConcept(Dictionary.PROPHYLAXIS));
+		for(Obs obsListForProphylaxi:obsListForOiTreat){ 
+		if(obsListForProphylaxi.getValueCoded().getUuid().equals("105281AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")){
+		List<Obs> obsListForDuration = Context.getObsService().getObservationsByPersonAndConcept(patient, Dictionary.getConcept(Dictionary.MEDICATION_DURATION));
+	          for(Obs obsListForDurationss:obsListForDuration)
+	          {
+	        	  if(obsListForDurationss.getObsGroupId().equals(obsListForProphylaxi.getObsGroupId()))
+	        	  {
+	        				duration= obsListForDurationss.getValueNumeric();
+	        				
+	        				duratin=duration.intValue();
+	        				Calendar calendar = Calendar.getInstance();
+	        		        Date endDatecpt = obsListForDurationss.getObsDatetime(); 
+	        		        calendar.setTime(endDatecpt);
+	        				calendar.add(Calendar.DATE, duratin);
+	        				endDatecpt = calendar.getTime();
+	        				SimpleDateFormat smd=new SimpleDateFormat("dd/M/YYYY");
+	        				Date startDatecpt=new Date();
+	        				 if(smd.format(startDatecpt).equals(smd.format(endDatecpt)) || (startDatecpt.before(endDatecpt)) )
+	        				 { 
+	        					 model.addAttribute("duration",duratin);
+	        				 }
+	        				 else
+	        				 {
+	        					 model.addAttribute("duration","");
+	        				 }
+	        	  }
+	          }
+	          break;
+		}
+		 else
+		 {
+			 model.addAttribute("duration","");
+		 }
+       
+		}
+}	 
+else
+{ 
+	 model.addAttribute("duration","");
+}
+	Concept medSet = regimenManager.getMasterSetConcept("ARV");
 		RegimenChangeHistory history = RegimenChangeHistory.forPatient(patient, medSet);
 		model.addAttribute("regimenHistory", history);
 		

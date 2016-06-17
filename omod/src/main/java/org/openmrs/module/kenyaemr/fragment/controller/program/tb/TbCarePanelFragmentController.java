@@ -17,11 +17,13 @@ package org.openmrs.module.kenyaemr.fragment.controller.program.tb;
 import org.openmrs.Concept;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
+import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
 import org.openmrs.calculation.result.CalculationResult;
 import org.openmrs.module.kenyaemr.Dictionary;
 import org.openmrs.module.kenyaemr.calculation.EmrCalculationUtils;
 import org.openmrs.module.kenyaemr.regimen.RegimenManager;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.LastCptCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.tb.TbDiseaseClassificationCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.tb.TbPatientClassificationCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.tb.TbTreatmentNumberCalculation;
@@ -37,6 +39,8 @@ import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -112,6 +116,7 @@ public class TbCarePanelFragmentController {
 		result = EmrCalculationUtils.evaluateForPatient(TbTreatmentStartDateCalculation.class, null, patient);
 		calculationResults.put("tbTreatmentDrugStartDate", result != null ? result.getValue() : null);
 		
+		calculationResults.put("onIpt", EmrCalculationUtils.evaluateForPatient(LastCptCalculation.class, null, patient));
 		model.addAttribute("calculations", calculationResults);
 
 		Concept medSet = regimenManager.getMasterSetConcept("TB");
@@ -119,17 +124,63 @@ public class TbCarePanelFragmentController {
 		model.addAttribute("regimenHistory", history);
 		
 		String iptStatus="";
-		String iptDate="";
+		
 		SimpleDateFormat formatterExt = new SimpleDateFormat("dd-MMM-yyyy");
 		List<Obs> obsListForProphylaxis = Context.getObsService().getObservationsByPersonAndConcept(patient, Dictionary.getConcept(Dictionary.PROPHYLAXIS));
 		for(Obs obsListForProphylaxi:obsListForProphylaxis){
 		if(obsListForProphylaxi.getValueCoded().getUuid().equals("78280AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")){
 			iptStatus="Yes";
-			iptDate = formatterExt.format(obsListForProphylaxi.getDateCreated());
+			
 		  }
+		
+		
 		}
 		model.addAttribute("ipt", iptStatus);
-		model.addAttribute("iptDate", iptDate);
+		Double duration=0.0;Integer duratin=0;
+		Obs o=getLatestObs(patient, Dictionary.MEDICATION_DURATION);
+		if(o!=null){
+		List<Obs> obsListForProphyl = Context.getObsService().getObservationsByPersonAndConcept(patient, Dictionary.getConcept(Dictionary.PROPHYLAXIS));
+		for(Obs obsListForProphylaxi:obsListForProphyl){ 
+		if(obsListForProphylaxi.getValueCoded().getUuid().equals("78280AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")){
+		List<Obs> obsListForDuration = Context.getObsService().getObservationsByPersonAndConcept(patient, Dictionary.getConcept(Dictionary.MEDICATION_DURATION));
+	          for(Obs obsListForDurationss:obsListForDuration)
+	          {
+	        	  if(obsListForDurationss!=null && obsListForDurationss.getObsGroupId().equals(obsListForProphylaxi.getObsGroupId()))
+	        	  {         duration= obsListForDurationss.getValueNumeric();
+	        				duratin=duration.intValue();
+	        				Calendar calendar = Calendar.getInstance();
+	        		        Date endDatecpt =obsListForDurationss.getObsDatetime(); 
+	        		        calendar.setTime(endDatecpt);
+	        				calendar.add(Calendar.DATE, duratin);
+	        				endDatecpt = calendar.getTime();
+	        				SimpleDateFormat smd=new SimpleDateFormat("dd/M/YYYY");
+	        				Date startDatecpt=new Date();
+	        				 if(smd.format(startDatecpt).equals(smd.format(endDatecpt)) || (startDatecpt.before(endDatecpt)) )
+	        				 { 
+	        					 model.addAttribute("duration",duratin);
+	        					 
+	        				 }
+	        				 else
+	        				 {
+	        					 model.addAttribute("duration","");
+	        				 }
+	        				 
+	        	  }
+	          }
+	          break;
+	 		
+		       }
+		else
+		 { 
+			 model.addAttribute("duration","");
+		 }
+}
+	}
+		else
+		 {
+			 model.addAttribute("duration","");
+		 }
+		
 	}
 	private Obs getAllLatestObs(Patient patient, String conceptIdentifier) {
 		Concept concept = Dictionary.getConcept(conceptIdentifier);

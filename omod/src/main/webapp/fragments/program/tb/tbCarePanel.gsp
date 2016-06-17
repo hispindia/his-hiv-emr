@@ -54,21 +54,28 @@ if(calculations.tbTreatmentOutcomeDate){
 
 
 
-
-
+if(duration)
+{
 if (ipt) {
-	dataPoints << [ label: "Currently on IPT", value: ipt ]
-	dataPoints << [ label: "IPT Date", value: iptDate ]
+	dataPoints << [ label: "Currently on IPT", value: ipt ,extra:calculations.onIpt.value.obsDatetime ]
+	
 	}
 else{
 	dataPoints << [ label: "Currently on IPT", value: "None" ]
 	}
-		
+	}
+	else
+	{
+	dataPoints << [ label: "Currently on IPT", value: "None" ]
+	}
+	
+	
 %>
 
 <div class="ke-stack-item">
 	<% dataPoints.each { print ui.includeFragment("kenyaui", "widget/dataPoint", it) } %>
 </div>
+
 <!--
 <div class="ke-stack-item">
 	<% if (activeVisit) { %>
@@ -90,4 +97,5 @@ else{
 	${ ui.includeFragment("kenyaui", "widget/dataPoint", [ label: "Regimen", value: ui.message("kenyaemr.neverOnTbRegimen") ]) }
 	<% } %>
 </div>
+
 -->
