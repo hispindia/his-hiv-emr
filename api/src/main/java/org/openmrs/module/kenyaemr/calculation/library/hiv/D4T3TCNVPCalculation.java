@@ -33,7 +33,7 @@ public class D4T3TCNVPCalculation extends AbstractPatientCalculation {
 		 	  for(DrugOrderProcessed order:drugorderprocess)
 		 	  {
 		 		 
-		 	  if((ptId.equals(order.getPatient().getPatientId()) && (order.getDrugRegimen().equals("d4T/3TC/NVP")) && (order.getDose().equals("30/150/200 mg"))))
+		 	  if((ptId.equals(order.getPatient().getPatientId()) && (order.getDrugRegimen().equals("d4T/3TC/NVP")) && (order.getDoseRegimen().equals("30/150/200 mg"))))
 		 		 {  
 		 			onOrigFirstLine=true; 
 		 		 }

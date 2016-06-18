@@ -34,7 +34,7 @@ public class FixedDoseABC3TCplusEFVSixCalculation extends AbstractPatientCalcula
 		 	  for(DrugOrderProcessed orderprocess:drugorderprocess)
 		 	  {
 		 		 
-		 	  if((ptId.equals(orderprocess.getPatient().getPatientId()) && (orderprocess.getDrugRegimen().equals("ABC/3TC+EFV")) && (orderprocess.getDose().equals("60/30+600 mg"))))
+		 	  if((ptId.equals(orderprocess.getPatient().getPatientId()) && (orderprocess.getDrugRegimen().equals("ABC/3TC+EFV")) && (orderprocess.getDoseRegimen().equals("60/30+600 mg"))))
 		 		 {
 		 		  if(orderprocess.getDrugRegimen().equals(drugorder.getDrugRegimen()))
 		 		  {  

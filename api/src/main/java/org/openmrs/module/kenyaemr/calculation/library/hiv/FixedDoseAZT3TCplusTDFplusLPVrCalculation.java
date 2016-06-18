@@ -34,7 +34,7 @@ public class FixedDoseAZT3TCplusTDFplusLPVrCalculation extends AbstractPatientCa
 		 	  for(DrugOrderProcessed orderprocess:drugorderprocess)
 		 	  {  
 		 	 
-		 		 if((ptId.equals(orderprocess.getPatient().getPatientId()) &&(orderprocess.getDrugRegimen().equals("AZT/3TC+TDF+LPV/r")) && (orderprocess.getDose().equals("300/150+300+200/50 mg"))))
+		 		 if((ptId.equals(orderprocess.getPatient().getPatientId()) &&(orderprocess.getDrugRegimen().equals("AZT/3TC+TDF+LPV/r")) && (orderprocess.getDoseRegimen().equals("300/150+300+200/50 mg"))))
 		 			 
 		 		 { 
 		 		  if(orderprocess.getDrugRegimen().equals(drugorder.getDrugRegimen()))

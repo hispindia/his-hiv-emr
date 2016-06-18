@@ -33,7 +33,7 @@ public class AZT3TCLPVrCalculation extends AbstractPatientCalculation {
 		 	  for(DrugOrderProcessed order:drugorderprocess)
 		 	  {
 		 		 
-		 	  if((ptId.equals(order.getPatient().getPatientId()) && (order.getDrugRegimen().equals("AZT/3TC/LPV/r")) && (order.getDose().equals("300/150/200/50 mg"))))
+		 	  if((ptId.equals(order.getPatient().getPatientId()) && (order.getDrugRegimen().equals("AZT/3TC/LPV/r")) && (order.getDoseRegimen().equals("300/150/200/50 mg"))))
 		 		 {  
 		 			onOrigFirstLine=true; 
 		 		 }

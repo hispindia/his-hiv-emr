@@ -34,7 +34,7 @@ public class FixedDoseTDF3TCplusLPVrCalculation extends AbstractPatientCalculati
 		 	  for(DrugOrderProcessed orderprocess:drugorderprocess)
 		 	  {  
 		 	 
-		 		 if((ptId.equals(orderprocess.getPatient().getPatientId()) &&(orderprocess.getDrugRegimen().equals("TDF/3TC+LPV/r")) && (orderprocess.getDose().equals("300/300+200/50 mg"))))
+		 		 if((ptId.equals(orderprocess.getPatient().getPatientId()) &&(orderprocess.getDrugRegimen().equals("TDF/3TC+LPV/r")) && (orderprocess.getDoseRegimen().equals("300/300+200/50 mg"))))
 		 			 
 		 		 { 
 		 		  if(orderprocess.getDrugRegimen().equals(drugorder.getDrugRegimen()))

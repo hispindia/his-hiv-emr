@@ -33,7 +33,7 @@ public class TDFFTCLPVrCalculation extends AbstractPatientCalculation {
 		 	  for(DrugOrderProcessed order:drugorderprocess)
 		 	  {
 		 		 
-		 	  if((ptId.equals(order.getPatient().getPatientId()) && (order.getDrugRegimen().equals("TDF/FTC/LPV/r")) && (order.getDose().equals("300/200/200/50 mg"))))
+		 	  if((ptId.equals(order.getPatient().getPatientId()) && (order.getDrugRegimen().equals("TDF/FTC/LPV/r")) && (order.getDoseRegimen().equals("300/200/200/50 mg"))))
 		 		 {  
 		 			onOrigFirstLine=true; 
 		 		 }

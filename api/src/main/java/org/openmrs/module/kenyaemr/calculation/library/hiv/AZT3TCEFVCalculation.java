@@ -33,7 +33,7 @@ public class AZT3TCEFVCalculation extends AbstractPatientCalculation {
 		 	  for(DrugOrderProcessed order:drugorderprocess)
 		 	  {
 		 		 
-		 	  if((ptId.equals(order.getPatient().getPatientId()) && (order.getDrugRegimen().equals("AZT/3TC/EFV")) && (order.getDose().equals("300/150/600 mg"))))
+		 	  if((ptId.equals(order.getPatient().getPatientId()) && (order.getDrugRegimen().equals("AZT/3TC/EFV")) && (order.getDoseRegimen().equals("300/150/600 mg"))))
 		 		 {  
 		 			onOrigFirstLine=true; 
 		 		 }

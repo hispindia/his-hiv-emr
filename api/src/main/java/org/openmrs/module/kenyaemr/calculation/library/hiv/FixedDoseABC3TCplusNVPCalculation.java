@@ -34,7 +34,7 @@ public class FixedDoseABC3TCplusNVPCalculation extends AbstractPatientCalculatio
 		 	  for(DrugOrderProcessed orderprocess:drugorderprocess)
 		 	  {
 		 		 
-		 	  if((ptId.equals(orderprocess.getPatient().getPatientId()) && (orderprocess.getDrugRegimen().equals("ABC/3TC+NVP")) && (orderprocess.getDose().equals("60/30+50 mg"))))
+		 	  if((ptId.equals(orderprocess.getPatient().getPatientId()) && (orderprocess.getDrugRegimen().equals("ABC/3TC+NVP")) && (orderprocess.getDoseRegimen().equals("60/30+50 mg"))))
 		 		 {
 		 		  if(orderprocess.getDrugRegimen().equals(drugorder.getDrugRegimen()))
 		 		  {  

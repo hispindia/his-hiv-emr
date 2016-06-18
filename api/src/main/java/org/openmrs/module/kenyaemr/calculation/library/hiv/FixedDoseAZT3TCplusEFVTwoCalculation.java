@@ -34,7 +34,7 @@ public class FixedDoseAZT3TCplusEFVTwoCalculation extends AbstractPatientCalcula
 		 	  for(DrugOrderProcessed orderprocess:drugorderprocess)
 		 	  {  if(orderprocess.getPatient().getAge()<=14)
 		 	     {
-		 	  if((ptId.equals(orderprocess.getPatient().getPatientId()) && (orderprocess.getDrugRegimen().equals("AZT/3TC+EFV")) && (orderprocess.getDose().equals("60/30+200 mg"))))
+		 	  if((ptId.equals(orderprocess.getPatient().getPatientId()) && (orderprocess.getDrugRegimen().equals("AZT/3TC+EFV")) && (orderprocess.getDoseRegimen().equals("60/30+200 mg"))))
 		 		 { 
 		 		
 		 		  if(orderprocess.getDrugRegimen().equals(drugorder.getDrugRegimen()))
@@ -57,7 +57,7 @@ public class FixedDoseAZT3TCplusEFVTwoCalculation extends AbstractPatientCalcula
 		 	  }
 		 	  else
 		 	  {
-		 		 if((ptId.equals(orderprocess.getPatient().getPatientId()) &&(orderprocess.getDrugRegimen().equals("AZT/3TC+EFV")) && (orderprocess.getDose().equals("300/150+600 mg"))))
+		 		 if((ptId.equals(orderprocess.getPatient().getPatientId()) &&(orderprocess.getDrugRegimen().equals("AZT/3TC+EFV")) && (orderprocess.getDoseRegimen().equals("300/150+600 mg"))))
 		 			 
 		 		 { 
 		 		  if(orderprocess.getDrugRegimen().equals(drugorder.getDrugRegimen()))

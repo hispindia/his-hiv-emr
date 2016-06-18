@@ -33,7 +33,7 @@ public class TDFFTCEFVCalculation extends AbstractPatientCalculation {
 		 	  for(DrugOrderProcessed order:drugorderprocess)
 		 	  {
 		 		 
-		 	  if((ptId.equals(order.getPatient().getPatientId()) && (order.getDrugRegimen().equals("TDF/FTC/EFV")) && (order.getDose().equals("300/200/200 mg"))))
+		 	  if((ptId.equals(order.getPatient().getPatientId()) && (order.getDrugRegimen().equals("TDF/FTC/EFV")) && (order.getDoseRegimen().equals("300/200/200 mg"))))
 		 		 {  
 		 			onOrigFirstLine=true; 
 		 		 }

@@ -33,7 +33,7 @@ public class D4T3TCEFVCalculation extends AbstractPatientCalculation {
 		 	  for(DrugOrderProcessed order:drugorderprocess)
 		 	  {
 		 		 
-		 	  if((ptId.equals(order.getPatient().getPatientId()) && (order.getDrugRegimen().equals("d4T/3TC/EFV")) && (order.getDose().equals("30/150/600 mg"))))
+		 	  if((ptId.equals(order.getPatient().getPatientId()) && (order.getDrugRegimen().equals("d4T/3TC/EFV")) && (order.getDoseRegimen().equals("30/150/600 mg"))))
 		 		 {  
 		 			onOrigFirstLine=true; 
 		 		 }

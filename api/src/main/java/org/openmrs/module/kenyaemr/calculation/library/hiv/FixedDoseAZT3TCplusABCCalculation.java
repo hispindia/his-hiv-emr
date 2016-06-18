@@ -34,7 +34,7 @@ public class FixedDoseAZT3TCplusABCCalculation extends AbstractPatientCalculatio
 		 	  for(DrugOrderProcessed orderprocess:drugorderprocess)
 		 	  {
 		 		 
-		 	  if((ptId.equals(orderprocess.getPatient().getPatientId()) && (orderprocess.getDrugRegimen().equals("AZT/3TC+ABC")) && (orderprocess.getDose().equals("60/30+60 mg"))))
+		 	  if((ptId.equals(orderprocess.getPatient().getPatientId()) && (orderprocess.getDrugRegimen().equals("AZT/3TC+ABC")) && (orderprocess.getDoseRegimen().equals("60/30+60 mg"))))
 		 		 { 
 		 		  
 		 		  if(orderprocess.getDrugRegimen().equals(drugorder.getDrugRegimen()))

@@ -34,7 +34,7 @@ public class FixedDoseTDFFTCplusEFVCalculation  extends AbstractPatientCalculati
 		 	  for(DrugOrderProcessed orderprocess:drugorderprocess)
 		 	  {  
 		 	 
-		 		 if((ptId.equals(orderprocess.getPatient().getPatientId()) &&(orderprocess.getDrugRegimen().equals("TDF/FTC+EFV")) && (orderprocess.getDose().equals("300/200+600 mg"))))
+		 		 if((ptId.equals(orderprocess.getPatient().getPatientId()) &&(orderprocess.getDrugRegimen().equals("TDF/FTC+EFV")) && (orderprocess.getDoseRegimen().equals("300/200+600 mg"))))
 		 			 
 		 		 {
 		 		  if(orderprocess.getDrugRegimen().equals(drugorder.getDrugRegimen()))

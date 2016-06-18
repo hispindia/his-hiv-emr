@@ -33,7 +33,7 @@ public class TDFFTCNVPCalculation extends AbstractPatientCalculation {
 		 	  for(DrugOrderProcessed orderprocess:drugorderprocess)
 		 	  {
 		 		 
-		 	  if((ptId.equals(orderprocess.getPatient().getPatientId()) && (orderprocess.getDrugRegimen().equals("TDF/FTC/NVP")) && (orderprocess.getDose().equals("300/200/200 mg"))))
+		 	  if((ptId.equals(orderprocess.getPatient().getPatientId()) && (orderprocess.getDrugRegimen().equals("TDF/FTC/NVP")) && (orderprocess.getDoseRegimen().equals("300/200/200 mg"))))
 		 		 {  
 		 			onOrigFirstLine=true; 
 		 		 }

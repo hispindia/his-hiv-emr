@@ -34,7 +34,7 @@ public class FixedDoseD4T3TCplusNVPCalculation  extends AbstractPatientCalculati
 		 	  for(DrugOrderProcessed orderprocess:drugorderprocess)
 		 	  {  
 		 	 
-		 		 if((ptId.equals(orderprocess.getPatient().getPatientId()) &&(orderprocess.getDrugRegimen().equals("d4T/3TC+NVP")) && (orderprocess.getDose().equals("30/150+200 mg"))))
+		 		 if((ptId.equals(orderprocess.getPatient().getPatientId()) &&(orderprocess.getDrugRegimen().equals("d4T/3TC+NVP")) && (orderprocess.getDoseRegimen().equals("30/150+200 mg"))))
 		 			 
 		 		 {
 		 		  if(orderprocess.getDrugRegimen().equals(drugorder.getDrugRegimen()))
