@@ -17,11 +17,14 @@ package org.openmrs.module.kenyaemr.fragment.controller.form;
 import org.openmrs.Encounter;
 import org.openmrs.Form;
 import org.openmrs.Obs;
+import org.openmrs.PatientProgram;
 import org.openmrs.User;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.htmlformentry.FormEntryContext;
 import org.openmrs.module.htmlformentry.FormEntrySession;
 import org.openmrs.module.htmlformentry.HtmlForm;
 import org.openmrs.module.kenyacore.form.FormUtils;
+import org.openmrs.module.kenyaemr.Metadata.Program;
 import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.FragmentParam;
@@ -30,6 +33,7 @@ import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.openmrs.ui.framework.resource.ResourceFactory;
 
 import javax.servlet.http.HttpSession;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -49,8 +53,18 @@ public class ViewHtmlFormFragmentController {
 						   @SpringBean ResourceFactory resourceFactory) throws Exception {
 
 		Form form = encounter.getForm();
-
-		// Get html form from database or UI resource
+        
+        PatientProgram patientprogram=Context.getProgramWorkflowService().getPatientProgramByUuid("96ec813f-aaf0-45b2-add6-e661d5bf79d6");
+	     if(patientprogram!=null)
+	     {
+	    	 model.addAttribute("preArtPatient", 1);
+	     }
+	     else
+	     {
+	    	 model.addAttribute("preArtPatient", 0);
+	     }
+        
+        // Get html form from database or UI resource
 		HtmlForm hf = FormUtils.getHtmlForm(form, resourceFactory);
 
 		if (hf == null) {
@@ -61,6 +75,8 @@ public class ViewHtmlFormFragmentController {
 
 		model.addAttribute("formHtml", fes.getHtmlToDisplay());
 		model.addAttribute("changeHistory", new EncounterChangeHistory(encounter).simplify());
+		
+		
 	}
 
 	/**

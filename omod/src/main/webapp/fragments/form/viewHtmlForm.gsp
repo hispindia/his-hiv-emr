@@ -44,7 +44,8 @@
 <div>
 	${ formHtml }
 
-	<fieldset>
+	<fieldset> 
+	<input  id="preArtPatient" type="hidden"  name="preArtPatient" value="${ preArtPatient}"/>
 		<legend>Change history</legend>
 
 		<% changeHistory.each { change -> %>

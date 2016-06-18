@@ -118,7 +118,7 @@ public class ART_AdultMonthlyReportBuilder extends AbstractReportBuilder{
 	private DataSetDefinition creatArtOutcomeTransferredOutDataSet() {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 		dsd.setName("B");
-		dsd.setDescription("No. of death reported at the end of this month ");
+		dsd.setDescription("No. of patients transferred out under ARV at the end of this month ");
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		dsd.addDimension("age", map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
@@ -140,7 +140,7 @@ public class ART_AdultMonthlyReportBuilder extends AbstractReportBuilder{
 	private DataSetDefinition creatArtOutcomeLostMissingDataSet() {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 		dsd.setName("C");
-		dsd.setDescription("No. of death reported at the end of this month ");
+		dsd.setDescription("No. of patients missing/lost to follow-up at the end of this month");
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		dsd.addDimension("age", map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
@@ -510,7 +510,7 @@ public class ART_AdultMonthlyReportBuilder extends AbstractReportBuilder{
 		private DataSetDefinition createOIDataSet() {
 			CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 			dsd.setName("Q");
-			dsd.setDescription("Treated for Opportunistic Infection");
+			dsd.setDescription(" No. of patients treated for  Opportunistic Infections during this month ");
 			dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 			dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 			dsd.addDimension("gender", map(commonDimensions.gender()));

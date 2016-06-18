@@ -111,7 +111,7 @@ public class ART_ChildMonthlyReportBuilder extends AbstractReportBuilder{
 	private DataSetDefinition creatArtOutcomeTransferredOutDataSet() {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 		dsd.setName("B");
-		dsd.setDescription("No. of death reported at the end of this month ");
+		dsd.setDescription("No. of patients transferred out under ARV at the end of this month  ");
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		dsd.addDimension("age", map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
@@ -132,7 +132,7 @@ public class ART_ChildMonthlyReportBuilder extends AbstractReportBuilder{
 	private DataSetDefinition creatArtOutcomeLostMissingDataSet() {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 		dsd.setName("C");
-		dsd.setDescription("No. of death reported at the end of this month ");
+		dsd.setDescription("No. of patients missing/lost to follow-up at the end of this month ");
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		dsd.addDimension("age", map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
@@ -153,7 +153,7 @@ public class ART_ChildMonthlyReportBuilder extends AbstractReportBuilder{
 	private DataSetDefinition creatArtOutcomeCompletedArtDataSet() {
 		CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
 		dsd.setName("D");
-		dsd.setDescription("No. of patients stopping ART at the end of this month  ");
+		dsd.setDescription("No. of patients stopping ART at the end of this month ");
 		dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
 		dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 		dsd.addDimension("age", map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
