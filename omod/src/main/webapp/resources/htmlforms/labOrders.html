@@ -19,7 +19,7 @@ input[type=button], button{
 	}
 </style>
 	<script type="text/javascript">
-		
+	 	var buttonId=1;
 		jq(document).ready(function(){
 			// show fields with data 
 			var addImageLink = "/"+OPENMRS_CONTEXT_PATH+"/ms/uiframework/resource/kenyaui/images/glyphs/revisit.png";
@@ -43,8 +43,10 @@ input[type=button], button{
 				count++;
 				document.getElementById(count+'-addImage').src = addImageLink;
 				document.getElementById(count+'-removeImage').src = removeImageLink;
+				buttonId=count-1;
 			}
 			
+
 			$j('#1-removeEntry1').remove();
 			$j('#10-addEntry1').remove();
 			$j('#1-toggleContainer1').show();
@@ -62,7 +64,7 @@ input[type=button], button{
 				if(correctedAddButtonId &gt; 1) {
 					document.getElementById(correctedAddButtonId+'-removeImage').src = removeImageLink;
 				}
-				
+				buttonId=correctedAddButtonId;
 				return false;});    
 			 
 			$j('button.removeEntry1').on("click", function(){ 
@@ -75,6 +77,7 @@ input[type=button], button{
 				if(correctedRemoveButtonId &gt; 1) {
 					document.getElementById(correctedRemoveButtonId+'-removeImage').src = removeImageLink;
 				}
+				buttonId=correctedRemoveButtonId;
 				return false;
 				});
 			
@@ -105,9 +108,13 @@ input[type=button], button{
 								"<tr><td><b>Age : </b>"+ document.getElementById("personAge").value +"</td><td><b>Sex : </b>" + 
 									document.getElementById("personSex").value+"</td></tr>"
 								;
+		  	if(document.getElementById(buttonId+'-addEntry1')!=null){
+				document.getElementById(buttonId+'-addEntry1').style.display= 'none';
+		  	}
+		  	if(document.getElementById(buttonId+'-removeEntry1')!=null){
+			  	document.getElementById(buttonId+'-removeEntry1').style.display= 'none';
+		  	}
 
-		    document.getElementById(count-1+'-addEntry1').style.display= 'none';
-		    document.getElementById(count-1+'-removeEntry1').style.display= 'none';
 			$('#labTable').prepend(patientDetails);
 			
 			$('#labOrderPrintArea').printArea({
