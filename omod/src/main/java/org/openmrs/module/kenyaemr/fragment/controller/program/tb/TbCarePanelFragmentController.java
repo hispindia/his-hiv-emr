@@ -154,7 +154,7 @@ public class TbCarePanelFragmentController {
 	        		        calendar.setTime(endDatecpt);
 	        				calendar.add(Calendar.DATE, duratin);
 	        				endDatecpt = calendar.getTime();
-	        				SimpleDateFormat smd=new SimpleDateFormat("dd/M/YYYY");
+	        				SimpleDateFormat smd=new SimpleDateFormat("dd/M/yyyy");
 	        				Date startDatecpt=new Date();
 	        				for(Visit visi:visit)
 	        				 {

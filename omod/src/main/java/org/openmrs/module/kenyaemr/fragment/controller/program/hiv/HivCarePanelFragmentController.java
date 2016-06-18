@@ -206,7 +206,7 @@ public class HivCarePanelFragmentController {
 	          for(Obs obsListForDurationss:obsListForDuration)
 	          {
 	        	  if(obsListForDurationss.getObsGroupId().equals(obsListForProphylaxi.getObsGroupId()))
-	        	  {
+	        	  {  
 	        				duration= obsListForDurationss.getValueNumeric();
 	        				
 	        				duratin=duration.intValue();
@@ -215,7 +215,7 @@ public class HivCarePanelFragmentController {
 	        		        calendar.setTime(endDatecpt);
 	        				calendar.add(Calendar.DATE, duratin);
 	        				endDatecpt = calendar.getTime();
-	        				SimpleDateFormat smd=new SimpleDateFormat("dd/M/YYYY");
+	        				SimpleDateFormat smd=new SimpleDateFormat("dd/M/yyyy");
 	        				Date startDatecpt=new Date();
 	        				for(Visit visi:visit)
 	        				 {
