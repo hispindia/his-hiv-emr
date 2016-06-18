@@ -15,6 +15,7 @@ public class DrugOrderProcessed implements java.io.Serializable {
 	private Date processedDate;
 	private Boolean processedStatus = Boolean.FALSE;
 	private String dose;
+	private String doseRegimen;
 	private Integer noOfTablet;
 	private Concept route;
 	private Integer durationPreProcess;
@@ -80,6 +81,14 @@ public class DrugOrderProcessed implements java.io.Serializable {
 
 	public void setDose(String dose) {
 		this.dose = dose;
+	}
+	
+	public String getDoseRegimen() {
+		return doseRegimen;
+	}
+
+	public void setDoseRegimen(String doseRegimen) {
+		this.doseRegimen = doseRegimen;
 	}
 
 	public Integer getNoOfTablet() {

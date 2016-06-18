@@ -17,6 +17,7 @@
 		<property name="processedDate" column="processed_date"  />
 		<property name="processedStatus" column="processed_status" />
 		<property name="dose" column="dose" />
+		<property name="doseRegimen" column="dose_regimen" />
 		<property name="noOfTablet" column="no_of_tablet" />
 		<many-to-one name="route" column="route_concept" class="org.openmrs.Concept" foreign-key="fk_route"/>
 		<property name="durationPreProcess" column="duration_preprocess" />

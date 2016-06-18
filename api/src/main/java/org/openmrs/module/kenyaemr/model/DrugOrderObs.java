@@ -1,10 +1,13 @@
 package org.openmrs.module.kenyaemr.model;
 
+import org.openmrs.Concept;
+
 public class DrugOrderObs {
 	private String drug;
 	private String formulation;
 	private String strength;
 	private String frequency;
+	private Concept route;
 	private String duration;
 	private Integer obsGroupId;
 
@@ -38,6 +41,14 @@ public class DrugOrderObs {
 
 	public void setFrequency(String frequency) {
 		this.frequency = frequency;
+	}
+	
+	public Concept getRoute() {
+		return route;
+	}
+
+	public void setRoute(Concept route) {
+		this.route = route;
 	}
 
 	public String getDuration() {

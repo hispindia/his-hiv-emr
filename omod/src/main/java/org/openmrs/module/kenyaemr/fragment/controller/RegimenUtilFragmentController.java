@@ -261,6 +261,7 @@ public class RegimenUtilFragmentController {
 				String drugRegimen=request.getParameter("drugKey"+srn);
 				//Double dose=Double.parseDouble(request.getParameter("strength"+srn));
 				String dose=request.getParameter("strength"+srn);
+				String doseRegimen="";
 				Integer noOfTablet=Integer.parseInt(request.getParameter("noOfTablet"+srn));
 				String units=request.getParameter("type"+srn);
 				String frequency=request.getParameter("frequncy"+srn);
@@ -279,24 +280,28 @@ public class RegimenUtilFragmentController {
 					if(conceptAnswer.getConcept().getUuid().equals("b8d460f8-0563-4416-9e0a-d77aafa7e5c3")){
 						typeOfRegimen=conceptAnswer.getConcept().getName().getName();
 						drugRegimen=drugRegimenn;
-						dose=dosee;
+						doseRegimen=dosee;
 					}
 					else{
 						//ARV drugs for child
 						if(patient.getAge()<=14 && conceptAnswer.getConcept().getUuid().equals("4c132bde-0e0f-4586-a874-fe6335945144")){
-							typeOfRegimen=conceptAnswer.getConcept().getName().getName();	
+							typeOfRegimen=conceptAnswer.getConcept().getName().getName();
+							doseRegimen=dose;
 						}
 						//First line Anti-retoviral drugs
 						else if(conceptAnswer.getConcept().getUuid().equals("363c2193-f3d1-4e97-9dd3-09361bbcc233")){
-							typeOfRegimen=conceptAnswer.getConcept().getName().getName();		
+							typeOfRegimen=conceptAnswer.getConcept().getName().getName();	
+							doseRegimen=dose;
 						}
 						//Second line ART
 						else if(conceptAnswer.getConcept().getUuid().equals("f7693b07-789f-46d6-892a-fcf499b97228")){
 							typeOfRegimen=conceptAnswer.getConcept().getName().getName();	
+							doseRegimen=dose;
 						}
 						//HIV/HBV co-infection
 						else if(conceptAnswer.getConcept().getUuid().equals("ab9b1c9a-9acb-4e7f-b696-ac6870083117")){
 							typeOfRegimen=conceptAnswer.getConcept().getName().getName();	
+							doseRegimen=dose;
 						}
 					}
 				}
@@ -320,6 +325,7 @@ public class RegimenUtilFragmentController {
 				drugOrderProcessed.setCreatedDate(new Date());
 				drugOrderProcessed.setProcessedStatus(false);
 				drugOrderProcessed.setDose(dose);
+				drugOrderProcessed.setDoseRegimen(doseRegimen);
 				drugOrderProcessed.setNoOfTablet(noOfTablet);
 				drugOrderProcessed.setRoute(Context.getConceptService().getConcept(route));
 				drugOrderProcessed.setDurationPreProcess(duration);	
@@ -352,6 +358,7 @@ public class RegimenUtilFragmentController {
 							drugOrderProcessed.setCreatedDate(new Date());
 							drugOrderProcessed.setProcessedStatus(false);
 							drugOrderProcessed.setDose(dop.getDose());
+							drugOrderProcessed.setDoseRegimen(dop.getDoseRegimen());
 							drugOrderProcessed.setNoOfTablet(dop.getNoOfTablet());
 							drugOrderProcessed.setRoute(dop.getRoute());
 							Integer duration=Integer.parseInt(request.getParameter("duration"+drugOrder.getConcept().getName()));
@@ -370,6 +377,7 @@ public class RegimenUtilFragmentController {
 				String drugRegimen=request.getParameter("drugKey"+srn);
 				//Double dose=Double.parseDouble(request.getParameter("strength"+srn));
 				String dose=request.getParameter("strength"+srn);
+				String doseRegimen="";
 				Integer noOfTablet=Integer.parseInt(request.getParameter("noOfTablet"+srn));
 				String units=request.getParameter("type"+srn);
 				String frequency=request.getParameter("frequncy"+srn);
@@ -388,24 +396,28 @@ public class RegimenUtilFragmentController {
 					if(conceptAnswer.getConcept().getUuid().equals("b8d460f8-0563-4416-9e0a-d77aafa7e5c3")){
 						typeOfRegimen=conceptAnswer.getConcept().getName().getName();
 						drugRegimen=drugRegimenn;
-						dose=dosee;
+						doseRegimen=dosee;
 					}
 					else{
 						//ARV drugs for child
 						if(patient.getAge()<=14 && conceptAnswer.getConcept().getUuid().equals("4c132bde-0e0f-4586-a874-fe6335945144")){
 							typeOfRegimen=conceptAnswer.getConcept().getName().getName();	
+							doseRegimen=dose;
 						}
 						//First line Anti-retoviral drugs
 						else if(conceptAnswer.getConcept().getUuid().equals("363c2193-f3d1-4e97-9dd3-09361bbcc233")){
-							typeOfRegimen=conceptAnswer.getConcept().getName().getName();		
+							typeOfRegimen=conceptAnswer.getConcept().getName().getName();	
+							doseRegimen=dose;
 						}
 						//Second line ART
 						else if(conceptAnswer.getConcept().getUuid().equals("f7693b07-789f-46d6-892a-fcf499b97228")){
-							typeOfRegimen=conceptAnswer.getConcept().getName().getName();	
+							typeOfRegimen=conceptAnswer.getConcept().getName().getName();
+							doseRegimen=dose;
 						}
 						//HIV/HBV co-infection
 						else if(conceptAnswer.getConcept().getUuid().equals("ab9b1c9a-9acb-4e7f-b696-ac6870083117")){
 							typeOfRegimen=conceptAnswer.getConcept().getName().getName();	
+							doseRegimen=dose;
 						}
 					}
 				}
@@ -423,6 +435,7 @@ public class RegimenUtilFragmentController {
 						drugOrderProcessed.setCreatedDate(new Date());
 						drugOrderProcessed.setProcessedStatus(false);
 						drugOrderProcessed.setDose(dose);
+						drugOrderProcessed.setDoseRegimen(dosee);
 						drugOrderProcessed.setNoOfTablet(noOfTablet);
 						drugOrderProcessed.setRoute(Context.getConceptService().getConcept(route));
 						drugOrderProcessed.setDurationPreProcess(duration);	
@@ -464,6 +477,7 @@ public class RegimenUtilFragmentController {
 				drugOrderProcessed.setCreatedDate(new Date());
 				drugOrderProcessed.setProcessedStatus(false);
 				drugOrderProcessed.setDose(dose);
+				drugOrderProcessed.setDoseRegimen(dosee);
 				drugOrderProcessed.setNoOfTablet(noOfTablet);
 				drugOrderProcessed.setRoute(Context.getConceptService().getConcept(route));
 				drugOrderProcessed.setDurationPreProcess(duration);	

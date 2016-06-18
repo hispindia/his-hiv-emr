@@ -63,15 +63,21 @@ public class DrugOrderListFragmentController {
         		}
                 
                 if(obsDrugOrder.getConcept().getUuid().equals("1443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")){
-                	drugOrder.setStrength(obsDrugOrder.getValueNumeric().toString());	
+                	Integer strength=Integer.valueOf(obsDrugOrder.getValueNumeric().intValue());
+                	drugOrder.setStrength(strength.toString());	
         		}
                 
                 if(obsDrugOrder.getConcept().getUuid().equals("160855AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")){
                 	drugOrder.setFrequency(obsDrugOrder.getValueCoded().getName().toString());		
         		}
                 
+                if(obsDrugOrder.getConcept().getUuid().equals("162394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")){
+                	drugOrder.setRoute(obsDrugOrder.getValueCoded());		
+        		}
+                
                 if(obsDrugOrder.getConcept().getUuid().equals("159368AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")){
-                	drugOrder.setDuration(obsDrugOrder.getValueNumeric().toString());	
+                	Integer duration=Integer.valueOf(obsDrugOrder.getValueNumeric().intValue());
+                	drugOrder.setDuration(duration.toString());	
         		}
         	}
         	 drugOrder.setObsGroupId(obs.getObsId());

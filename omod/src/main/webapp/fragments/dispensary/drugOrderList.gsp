@@ -49,6 +49,7 @@
 <td>${drugOrderObs.strength}</td>
 <td>${drugOrderObs.formulation} </td>
 <td>${drugOrderObs.frequency}</td>
+<td>${drugOrderObs.route.name} </td>
 <td>${drugOrderObs.duration}</td>
 <td><input type="text" id="${drugOrderObs.obsGroupId}obsIssueQuantity" name="${drugOrderObs.obsGroupId}obsIssueQuantity" size="12"></td>
 <td> </td>
