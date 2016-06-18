@@ -27,6 +27,7 @@ import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.PatientProgram;
 import org.openmrs.Program;
+import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
 import org.openmrs.calculation.result.CalculationResult;
 import org.openmrs.module.kenyacore.program.ProgramManager;
@@ -193,9 +194,11 @@ public class HivCarePanelFragmentController {
 		calculationResults.put("onCpt", EmrCalculationUtils.evaluateForPatient(LastCptCalculation.class, null, patient));
 		
 		model.addAttribute("calculations", calculationResults);
+		List<Visit> visit=Context.getVisitService().getVisitsByPatient(patient);
+	 
 		Double duration=0.0;Integer duratin=0;
 		Obs o=getLatestObs(patient, Dictionary.MEDICATION_DURATION);
-		 if(o!=null){
+		 if(o!=null ){
 		List<Obs> obsListForOiTreat = Context.getObsService().getObservationsByPersonAndConcept(patient, Dictionary.getConcept(Dictionary.PROPHYLAXIS));
 		for(Obs obsListForProphylaxi:obsListForOiTreat){ 
 		if(obsListForProphylaxi.getValueCoded().getUuid().equals("105281AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")){
@@ -214,14 +217,29 @@ public class HivCarePanelFragmentController {
 	        				endDatecpt = calendar.getTime();
 	        				SimpleDateFormat smd=new SimpleDateFormat("dd/M/YYYY");
 	        				Date startDatecpt=new Date();
-	        				 if(smd.format(startDatecpt).equals(smd.format(endDatecpt)) || (startDatecpt.before(endDatecpt)) )
-	        				 { 
-	        					 model.addAttribute("duration",duratin);
-	        				 }
-	        				 else
+	        				for(Visit visi:visit)
 	        				 {
-	        					 model.addAttribute("duration","");
+	        					 
+	        						if(visi.getStopDatetime()==null && duratin>=1 )
+	    	        				{
+	    	        				 
+	    	        					 model.addAttribute("duration",duratin);
+	    	        				 
+	    	   
+	    	        				}
+	    	        				else
+	    	        				{
+	    	        					if(smd.format(startDatecpt).equals(smd.format(endDatecpt)) || (startDatecpt.before(endDatecpt)) )
+	    		        				 { 
+	    		        					 model.addAttribute("duration",duratin);
+	    		        				 }
+	    		        				 else
+	    		        				 {
+	    		        					 model.addAttribute("duration","");
+	    		        				 }
+	    	        				}
 	        				 }
+	        			
 	        	  }
 	          }
 	          break;

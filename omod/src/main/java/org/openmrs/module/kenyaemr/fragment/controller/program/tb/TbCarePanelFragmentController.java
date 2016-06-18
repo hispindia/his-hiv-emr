@@ -136,6 +136,7 @@ public class TbCarePanelFragmentController {
 		
 		}
 		model.addAttribute("ipt", iptStatus);
+		List<Visit> visit=Context.getVisitService().getVisitsByPatient(patient);
 		Double duration=0.0;Integer duratin=0;
 		Obs o=getLatestObs(patient, Dictionary.MEDICATION_DURATION);
 		if(o!=null){
@@ -155,16 +156,28 @@ public class TbCarePanelFragmentController {
 	        				endDatecpt = calendar.getTime();
 	        				SimpleDateFormat smd=new SimpleDateFormat("dd/M/YYYY");
 	        				Date startDatecpt=new Date();
-	        				 if(smd.format(startDatecpt).equals(smd.format(endDatecpt)) || (startDatecpt.before(endDatecpt)) )
-	        				 { 
-	        					 model.addAttribute("duration",duratin);
-	        					 
-	        				 }
-	        				 else
+	        				for(Visit visi:visit)
 	        				 {
-	        					 model.addAttribute("duration","");
+	        					 
+	        						if(visi.getStopDatetime()==null && duratin>=1 )
+	    	        				{
+	    	        				 
+	    	        					 model.addAttribute("duration",duratin);
+	    	        				 
+	    	   
+	    	        				}
+	    	        				else
+	    	        				{
+	    	        					if(smd.format(startDatecpt).equals(smd.format(endDatecpt)) || (startDatecpt.before(endDatecpt)) )
+	    		        				 { 
+	    		        					 model.addAttribute("duration",duratin);
+	    		        				 }
+	    		        				 else
+	    		        				 {
+	    		        					 model.addAttribute("duration","");
+	    		        				 }
+	    	        				}
 	        				 }
-	        				 
 	        	  }
 	          }
 	          break;
