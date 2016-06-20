@@ -197,8 +197,9 @@ public class HivCarePanelFragmentController {
 		List<Visit> visit=Context.getVisitService().getVisitsByPatient(patient);
 	 
 		Double duration=0.0;Integer duratin=0;
-		Obs o=getLatestObs(patient, Dictionary.PROPHYLAXIS);
-		 if(o!=null ){
+		Obs prophly=getLatestObs(patient, Dictionary.PROPHYLAXIS);
+		Obs medduration=getLatestObs(patient, Dictionary.MEDICATION_DURATION);
+		 if(prophly!=null && medduration!=null){
 		List<Obs> obsListForOiTreat = Context.getObsService().getObservationsByPersonAndConcept(patient, Dictionary.getConcept(Dictionary.PROPHYLAXIS));
        
 		for(Obs obsListForProphylaxi:obsListForOiTreat){ 
