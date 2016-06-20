@@ -432,9 +432,16 @@ public class WhiteCardFragmentController {
 			EncounterWrapper wrapped = new EncounterWrapper(
 					tbSite.getEncounter());
 			List<Obs> obsList = wrapped.allObs(tbSite.getConcept());
-			for (Obs obs : obsList) {
+			for (Obs obs : obsList) {	
+				if (tbSiteVal.isEmpty()) {
 				tbSiteVal = tbSiteVal.concat(obs.getValueCoded()
 						.getName().toString());
+				
+			} else { 
+				tbSiteVal = tbSiteVal.concat(", "+obs.getValueCoded()
+						.getName().toString());
+			}
+				
 			}
 		}
 		model.addAttribute("tbSiteVal", tbSiteVal);
@@ -939,7 +946,8 @@ public class WhiteCardFragmentController {
 					Dictionary.PERFORMANCE,
 					Dictionary.PREGNANCY_STATUS,
 					Dictionary.METHOD_OF_FAMILY_PLANNING,
-					Dictionary.OI_TB_FORM,
+					Dictionary.HIV_CARE_DIAGNOSIS,
+					Dictionary.NUTRITIONAL_PROBLEMS,
 				    Dictionary.TB_PATIENT,
 				    Dictionary.CPT_VALUE,
 				    Dictionary.IPT_VALUE,
@@ -955,7 +963,8 @@ public class WhiteCardFragmentController {
 					Dictionary.PERFORMANCE,
 					Dictionary.PREGNANCY_STATUS,
 					Dictionary.METHOD_OF_FAMILY_PLANNING,
-				    Dictionary.OI_TB_FORM,
+				    Dictionary.HIV_CARE_DIAGNOSIS,
+				    Dictionary.NUTRITIONAL_PROBLEMS,
 					Dictionary.TB_PATIENT,
 					Dictionary.CPT_VALUE,
 					Dictionary.IPT_VALUE,

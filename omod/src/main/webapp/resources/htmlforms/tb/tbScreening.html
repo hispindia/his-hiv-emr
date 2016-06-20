@@ -45,7 +45,15 @@ input[type=button], button{
 <script type="text/javascript">
 		
 		jq(document).ready(function(){
-		
+			
+			var opportunisticInfection = getValue('opportunisticInfection.value');
+			if (opportunisticInfection == 1066) { 
+				jq('#opportunisticInfectionYes :input').prop('disabled', true);
+			}
+			if (opportunisticInfection == 1065) { 
+				jq('#opportunisticInfectionYes :input').prop('disabled', false);
+			}
+			
 			var pbirthdate = new Date("<lookup expression="patient.birthdate" />").getTime();
 
 			//check if the date of tb treatment already exists
@@ -58,6 +66,7 @@ input[type=button], button{
 			//set the value of the treatment outcome date if available
 			setValue('treatmentoutcomedate.value',treatmentOutcomeDateVal );
 			var pbirthdate = new Date("<lookup expression="patient.birthdate" />").getTime();
+		
 			var dstartoftreatment;
 			var treatmentoutcomedate;
 
@@ -263,7 +272,7 @@ input[type=button], button{
 				if (optValues == 42){
 					jq('#expul :input').prop('disabled', true);
 				}
-				else if (optValues == 5042  || optValues == 163055){
+				else if (optValues == 156204  || optValues == 163055){
 					jq('#expul :input').prop('disabled', false);
 				}
 				else {
@@ -275,7 +284,7 @@ input[type=button], button{
 					if (optValues == 42) {
 						jq('#expul :input').prop('disabled', true);
 					}
-					if (optValues == 5042 || optValues == 163055) {
+					if (optValues == 156204  || optValues == 163055) {
 						jq('#expul :input').prop('disabled', false);
 					}
 				});
@@ -310,10 +319,13 @@ input[type=button], button{
 				
 				$('#opportunisticInfection input:radio').click(function() {
 					var opportunisticInfection = getValue('opportunisticInfection.value');
-					if (opportunisticInfection == 1066) {
+					
+					if (opportunisticInfection == 1066) { 
+						jq('#opportunisticInfection').value= opportunisticInfection;
 						jq('#opportunisticInfectionYes :input').prop('disabled', true);
 					}
 					if (opportunisticInfection == 1065) {
+						jq('#opportunisticInfection').value= opportunisticInfection;
 						jq('#opportunisticInfectionYes :input').prop('disabled', false);
 					}
 				});
