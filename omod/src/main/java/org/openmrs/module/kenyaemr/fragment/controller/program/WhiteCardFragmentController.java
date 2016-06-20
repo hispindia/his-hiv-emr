@@ -461,18 +461,9 @@ public class WhiteCardFragmentController {
 		model.addAttribute("tbRegVal", tbRegVal);
 		
 		String tbTownVal = "";
-
-		Obs tbTownship = getAllLatestObs(patient,
+		Obs tbTownship = getLatestObs(patient,
 				Dictionary.TOWNSHIP);
-		if (tbTownship != null) {
-			EncounterWrapper wrapped = new EncounterWrapper(
-					tbTownship.getEncounter());
-			List<Obs> obsList = wrapped.allObs(tbTownship.getConcept());
-			for (Obs obs : obsList) {
-				tbTownVal = tbTownVal.concat(obs.getValueCoded()
-						.getName().toString());
-			}
-		}
+		tbTownVal = tbTownship.getValueCoded().getName().toString();
 		model.addAttribute("tbTownVal", tbTownVal);
 		
 		String tbClinicVal = "";
