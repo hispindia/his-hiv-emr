@@ -1,0 +1,198 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http://license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+-->
+<htmlform>
+<style>
+input[type=button], button{
+	
+	background-color:Transparent;
+	}
+</style>
+	<script type="text/javascript">
+	 	var buttonId=1;
+		jq(document).ready(function(){
+			// show fields with data 
+			var addImageLink = "/"+OPENMRS_CONTEXT_PATH+"/ms/uiframework/resource/kenyaui/images/glyphs/revisit.png";
+			var removeImageLink = "/"+OPENMRS_CONTEXT_PATH+"/ms/uiframework/resource/kenyaui/images/glyphs/close.png";
+
+			
+			fieldIndex1 = 8;
+			count=1;
+			document.getElementById(count+'-addImage').src = addImageLink;
+			document.getElementById(count+'-removeImage').src = removeImageLink;
+			
+			
+			while(document.getElementById("w"+fieldIndex1).value!="" &amp;&amp; count &lt; 11){
+				jQuery('#'+count+'-toggleContainer1').show();   
+				fieldIndex1=fieldIndex1+2;
+				if(document.getElementById("w"+fieldIndex1).value != '')
+				{
+			$j('#'+count+'-removeEntry1').toggle(false);
+			$j('#'+count+'-addEntry1').toggle(false);
+				}
+				count++;
+				document.getElementById(count+'-addImage').src = addImageLink;
+				document.getElementById(count+'-removeImage').src = removeImageLink;
+				buttonId=count-1;
+			}
+			
+
+			$j('#1-removeEntry1').remove();
+			$j('#10-addEntry1').remove();
+			$j('#1-toggleContainer1').show();
+			
+			
+			$j('button.addEntry1').on("click", function(){
+				var correctedAddButtonId = parseFloat(this.id) + 1;      
+				var contentAddId = "#" + correctedAddButtonId + "-toggleContainer1";
+				$j(contentAddId).toggle(true);      
+				$j('#' + this.id).toggle(false); 
+				$j('#' + parseFloat(this.id) + '-removeEntry1').toggle(false);
+				if(correctedAddButtonId &lt; 10) {
+					document.getElementById(correctedAddButtonId+'-addImage').src = addImageLink;
+				}
+				if(correctedAddButtonId &gt; 1) {
+					document.getElementById(correctedAddButtonId+'-removeImage').src = removeImageLink;
+				}
+				buttonId=correctedAddButtonId;
+				return false;});    
+			 
+			$j('button.removeEntry1').on("click", function(){ 
+				var correctedRemoveButtonId = parseFloat(this.id) - 1;
+				var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer1";
+				$j(contentAddId).toggle(false);
+				$j( ':input:not(:button)', contentAddId).val([]);
+				$j('#' + correctedRemoveButtonId + '-addEntry1').toggle(true);
+				$j('#' + correctedRemoveButtonId + '-removeEntry1').toggle(true);
+				if(correctedRemoveButtonId &gt; 1) {
+					document.getElementById(correctedRemoveButtonId+'-removeImage').src = removeImageLink;
+				}
+				buttonId=correctedRemoveButtonId;
+				return false;
+				});
+			
+			
+			beforeSubmit.push(function() {
+				fieldIndex = 8; 
+				j=1;
+				while(document.getElementById("w"+fieldIndex).value!="" &amp;&amp; j &lt; 6){
+					var id = document.getElementById("w"+fieldIndex+"_hid").value
+					if(id=="ERROR"){
+						alert("Kindly enter data in correct format");
+						return false;
+					}
+					j++;
+					fieldIndex=fieldIndex+2;
+				}
+				return true;
+			});
+		});
+		
+		
+		// Print the slip
+		function print(){
+			
+			var patientDetails = "<tr><td><center><b>Lab Order</b></center><br /><br /></td></tr>"+
+								"<tr><td><b>Name : </b>"+ document.getElementById("personName").value +"</td><td><b>Patient Id : </b>" + 
+								document.getElementById("personIdentifier").value+"</td></tr>" +
+								"<tr><td><b>Age : </b>"+ document.getElementById("personAge").value +"</td><td><b>Sex : </b>" + 
+									document.getElementById("personSex").value+"</td></tr>"
+								;
+		  	if(document.getElementById(buttonId+'-addEntry1')!=null){
+				document.getElementById(buttonId+'-addEntry1').style.display= 'none';
+		  	}
+		  	if(document.getElementById(buttonId+'-removeEntry1')!=null){
+			  	document.getElementById(buttonId+'-removeEntry1').style.display= 'none';
+		  	}
+
+			$('#labTable').prepend(patientDetails);
+			
+			$('#labOrderPrintArea').printArea({
+				mode : "popup",
+				popClose : true
+			});
+			submitHtmlForm();
+		}
+		</script>		
+
+<style type="text/css">
+		
+		table.tb1 {
+			border: 1px solid black;
+			vertical-align: baseline;
+			text-align: left;
+			background-color: #FFFFFF;
+		}
+		table.tb1 tr th,table.tb1 tr td{
+			border: 0;
+			padding: 5px;
+		}
+		input[type=text]{
+			width:400px;
+		}
+		
+
+	</style>
+	<div class="ke-form-header">
+		<table width="100%" align="center" style="background-color: #c7d8a7">
+			<tr>
+				<td  align="left">Date: <encounterDate id="encounter-date" showTime="true" /></td>
+				<td align="right">Location: <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete" /></td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="ke-form-content" id="labOrderPrintArea" style="width:100%;   padding: 2px;">
+		<table id="labTable" style="background-color: #e8efdc" align="center" class="tb1"  cellspacing="0" width="100%">
+				<tr>
+				<td valign="top">
+					<br />
+					<b>Test Name :</b> 
+				</td>
+				<td valign="top">
+					<br />
+						<table>
+							<repeat>
+								<template>
+									<tr  id="{n}-toggleContainer1" style="display:none;">
+										<td valign="bottom">{n}. <obs conceptId="1283AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="autocomplete"/></td>
+										<td><button id="{n}-addEntry1" class="addEntry1"><img id="{n}-addImage" width="20" height="20" /></button>
+												<button id="{n}-removeEntry1" class="removeEntry1"><img id="{n}-removeImage" width="20" height="20" /></button>
+										</td>
+									</tr>
+								</template>
+								<render n="1" concept=" "/>
+								<render n="2" concept=" "/>
+								<render n="3" concept=" "/>
+								<render n="4" concept=" "/>
+								<render n="5" concept=" "/>
+								<render n="6" concept=" "/>
+								<render n="7" concept=" "/>
+								<render n="8" concept=" "/>
+								<render n="9" concept=" "/>
+								<render n="10" concept=" "/>
+							</repeat>
+						</table>
+				</td>	
+			</tr>
+			<tr>
+				<td><br /><b>Clinical Note </b></td>
+				<td><br /><div><obs conceptId="c987183f-713b-4f83-9ff5-232b57769f7f" rows="5" cols="100" style="textarea" /></div></td>
+			</tr>
+   		</table>
+	</div>
+	<div class="ke-form-footer">
+		<submit />
+		<input id="printButton" name="printButton" type="button" onclick="print();" value="Save and Print"/>
+	</div>
+</htmlform>
