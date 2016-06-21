@@ -463,7 +463,11 @@ public class WhiteCardFragmentController {
 		String tbTownVal = "";
 		Obs tbTownship = getLatestObs(patient,
 				Dictionary.TOWNSHIP);
+			if(tbTownship!=null)
+		{
 		tbTownVal = tbTownship.getValueCoded().getName().toString();
+		
+		}
 		model.addAttribute("tbTownVal", tbTownVal);
 		
 		String tbClinicVal = "";
