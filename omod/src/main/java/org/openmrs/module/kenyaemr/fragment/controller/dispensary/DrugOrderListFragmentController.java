@@ -55,7 +55,7 @@ public class DrugOrderListFragmentController {
         			drugOrder.setDrug(obsDrugOrder.getValueCoded().getName().toString());		
         		}
                 else if(obsDrugOrder.getConcept().getUuid().equals("163020AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")){
-                	drugOrder.setDrug(obsDrugOrder.getValueCoded().getName().toString());		
+                	drugOrder.setDrug(obsDrugOrder.getValueText());			
         		}
         		
                 if(obsDrugOrder.getConcept().getUuid().equals("162384AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")){
