@@ -325,7 +325,7 @@ public class WhiteCardFragmentController {
 				String spGenderVal = "";
 				String spInfectedVal = "";
 				String spArtVal = "";
-
+               
 				if (spName != null) {
 					EncounterWrapper wrapped = new EncounterWrapper(
 							spName.getEncounter());
@@ -346,6 +346,7 @@ public class WhiteCardFragmentController {
 						if (obs.getObsGroupId() == obsG.getObsId()) {
 							spAgeVal = spAgeVal.concat(obs.getValueNumeric()
 									.toString());
+							
 						}
 					}
 				}
@@ -394,13 +395,15 @@ public class WhiteCardFragmentController {
 						if (obs.getObsGroupId() == obsG.getObsId()) {
 							spArtVal = spArtVal.concat(obs.getValueCoded()
 									.getName().toString());
+							
 						}
 					}
 				}
-				String val = spNameVal + ", " + spAgeVal + ", " + spAgeUnitVal
-						+ ", " + spGenderVal + ", " + spInfectedVal + " ,"
+				String val = spNameVal + ", " +" "+ spAgeVal + ", "+" "+spAgeUnitVal
+						+ ", " +" "+ spGenderVal + ", " +" "+ spInfectedVal + " ,"+" "
 						+ spArtVal;
 				familyMembers.put(index, val);
+				
 				index++;
 
 			}
@@ -463,7 +466,7 @@ public class WhiteCardFragmentController {
 		String tbTownVal = "";
 		Obs tbTownship = getLatestObs(patient,
 				Dictionary.TOWNSHIP);
-			if(tbTownship!=null)
+		if(tbTownship!=null)
 		{
 		tbTownVal = tbTownship.getValueCoded().getName().toString();
 		

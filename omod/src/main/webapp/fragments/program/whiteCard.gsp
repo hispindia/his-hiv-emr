@@ -52,9 +52,7 @@ function print(){
 
 <% if (config.complete) { %>
 <div class="ke-stack-item" width="100%">
-	
-	<div class="widget-content" id="printArea" width="100%">
-		<div id="print" hidden="hidden" >
+	<div id="print" hidden="hidden" >
 		    <div style="float: left; text-align: right">
 					<img src="${ ui.resourceLink("kenyaemr", "images/logos/MOH_logo.png") }" width="48" height="48" />
 				
@@ -116,12 +114,13 @@ function print(){
 						<tr><td><strong>Entry Point</strong><small></td><td> : ${savedEntryPoint.valueCoded.name}</small></br> </td></tr>
 						<%}} %>
 						
-						<% if (patientWrap.previousClinicName) { %>
+						<% if(entryPoint=='Patient transferred in pre ART from another clinic'||entryPoint=='Patient transferred in on ART from another HIV care or ART clinic'){ %> 
+						 <% if (patientWrap.previousClinicName) { %>
 						<tr><td><strong>Name Previous Clinic</strong><small></td><td> : ${patientWrap.previousClinicName}</small> </td></tr>
 						<%} %>
 						<% if (savedEntryPointValueDate) { %>	
 							<tr><td><strong>Date Transferred in</strong><small></td><td align="left"> : ${savedEntryPointValueDate}</small></br> </td></tr>
-						 <%}   %>
+						 <%}  } %>
 						 <% if (patientWrap.nextOfKinName) { %>
 							<tr><td><strong>Treatment Supporter's Name</strong></td> <td><small> : ${patientWrap.nextOfKinName}</small></td></tr>
 						<% } %>
@@ -235,6 +234,7 @@ function print(){
 									<tr>
 										<td><strong>Name of Spouse/Children</strong></td>
 										<td><strong>Age</strong></td>
+										<td><strong></strong></td>
 										<td><strong>Sex</strong></td>
 										<td><strong>HIV +/-/ Unknown</strong></td>
 										<td><strong>ART Y/N</strong></br></td>
@@ -247,7 +247,8 @@ function print(){
 											<td><% println  values[1] %> </td>
 											<td><% println  values[2] %> </td>
 											<td><% println  values[3] %> </td>
-											<td><% println  values[4] %> </br></td>
+											<td><% println  values[4] %> </td>
+											<td><% println  values[5] %> </br></td>
 										</tr>
 									<% } %>						
 								</table>
@@ -360,6 +361,8 @@ function print(){
 		</table>
 		
 				</div>
+	<div class="widget-content" id="printArea" width="100%">
+		
 				
 		<!--PATIENT DETAILS ==========================================================================================================================================-->
 		<table border="1" width="100%">
@@ -400,13 +403,13 @@ function print(){
 						 <% }  else { %>
 						<tr><td><strong>Entry Point</strong><small></td><td> : ${savedEntryPoint.valueCoded.name}</small></br> </td></tr>
 						<%}} %>
-						
-						<% if (patientWrap.previousClinicName) { %>
+						<% if(entryPoint=='Patient transferred in pre ART from another clinic'||entryPoint=='Patient transferred in on ART from another HIV care or ART clinic'){ %> 
+						 <% if (patientWrap.previousClinicName) { %>
 						<tr><td><strong>Name Previous Clinic</strong><small></td><td> : ${patientWrap.previousClinicName}</small> </td></tr>
 						<%} %>
 						<% if (savedEntryPointValueDate) { %>	
 							<tr><td><strong>Date Transferred in</strong><small></td><td align="left"> : ${savedEntryPointValueDate}</small></br> </td></tr>
-						 <%}   %>
+						 <%}  } %>
 						 <% if (patientWrap.nextOfKinName) { %>
 							<tr><td><strong>Treatment Supporter's Name</strong></td> <td><small> : ${patientWrap.nextOfKinName}</small></td></tr>
 						<% } %>
@@ -520,6 +523,7 @@ function print(){
 									<tr>
 										<td><strong>Name of Spouse/Children</strong></td>
 										<td><strong>Age</strong></td>
+										<td><strong></strong></td>
 										<td><strong>Sex</strong></td>
 										<td><strong>HIV +/-/ Unknown</strong></td>
 										<td><strong>ART Y/N</strong></br></td>
@@ -532,7 +536,8 @@ function print(){
 											<td><% println  values[1] %> </td>
 											<td><% println  values[2] %> </td>
 											<td><% println  values[3] %> </td>
-											<td><% println  values[4] %> </br></td>
+											<td><% println  values[4] %> </td>
+											<td><% println  values[5] %> </br></td>
 										</tr>
 									<% } %>						
 								</table>
