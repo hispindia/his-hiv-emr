@@ -935,46 +935,36 @@ public class HivCohortLibrary {
         public CohortDefinition performanceScale(){
         	Concept performance = Dictionary.getConcept(Dictionary.PERFORMANCE);
         	Concept scaleA = Dictionary.getConcept(Dictionary.PERFSCALE_A);
-        	
-        	
             CompositionCohortDefinition cd = new CompositionCohortDefinition();
             cd.setName("patient with performance scale A");
             cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
             cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
-            cd.addSearch("enrolledHIV", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.HIV)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
-            cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrBefore=${onOrBefore}"));
             cd.addSearch("scaleA", ReportUtils.map(commonCohorts.hasObs(performance,scaleA), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
-            cd.setCompositionString("enrolledHIV AND scaleA AND NOT enrolled");
+            cd.setCompositionString("scaleA ");
             return cd;
         } 
         public CohortDefinition performanceScaleb(){
         	Concept performance = Dictionary.getConcept(Dictionary.PERFORMANCE);
-        	
         	Concept scaleB = Dictionary.getConcept(Dictionary.PERFSCALE_B);
         	
             CompositionCohortDefinition cd = new CompositionCohortDefinition();
             cd.setName("patient with performance scale A");
             cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
             cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
-            cd.addSearch("enrolledHIV", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.HIV)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
-            cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrBefore=${onOrBefore}"));
             cd.addSearch("scaleB", ReportUtils.map(commonCohorts.hasObs(performance,scaleB), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
-            cd.setCompositionString("enrolledHIV AND scaleB AND NOT enrolled");
+            cd.setCompositionString("scaleB");
             return cd;
         } 
         public CohortDefinition performanceScalec(){
         	Concept performance = Dictionary.getConcept(Dictionary.PERFORMANCE);
-        	
         	Concept scaleC = Dictionary.getConcept(Dictionary.PERFSCALE_C);
         	
             CompositionCohortDefinition cd = new CompositionCohortDefinition();
             cd.setName("patient with performance scale A");
             cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
             cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
-            cd.addSearch("enrolledHIV", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.HIV)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
-            cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrBefore=${onOrBefore}"));
             cd.addSearch("scaleC", ReportUtils.map(commonCohorts.hasObs(performance,scaleC), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
-            cd.setCompositionString("enrolledHIV AND scaleC AND NOT enrolled");
+            cd.setCompositionString("scaleC");
             return cd;
         } 
         
@@ -982,118 +972,96 @@ public class HivCohortLibrary {
         
         public CohortDefinition riskFactors1(){
         	Concept risk = Dictionary.getConcept(Dictionary.HIV_RISK_FACTOR);
-        	
         	Concept risk1 = Dictionary.getConcept(Dictionary.RISK_FACTOR_MSM);
         	
             CompositionCohortDefinition cd = new CompositionCohortDefinition();
             cd.setName("patient with risk 1");
             cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
             cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
-            cd.addSearch("enrolledHIV", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.HIV)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
-            cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrBefore=${onOrBefore}"));
             cd.addSearch("risk1", ReportUtils.map(commonCohorts.hasObs(risk,risk1), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
-            cd.setCompositionString("enrolledHIV AND risk1 AND NOT enrolled");
+            cd.setCompositionString("risk1 ");
             return cd;
         }
         
         public CohortDefinition riskFactors2(){
         	Concept risk = Dictionary.getConcept(Dictionary.HIV_RISK_FACTOR);
-        	
         	Concept risk2 = Dictionary.getConcept(Dictionary.RISK_FACTOR_SW);
         	
             CompositionCohortDefinition cd = new CompositionCohortDefinition();
             cd.setName("patient with risk 2");
             cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
             cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
-            cd.addSearch("enrolledHIV", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.HIV)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
-            cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrBefore=${onOrBefore}"));
             cd.addSearch("risk2", ReportUtils.map(commonCohorts.hasObs(risk,risk2), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
-            cd.setCompositionString("enrolledHIV AND risk2 AND NOT enrolled");
+            cd.setCompositionString("risk2");
             return cd;
         }
         
         public CohortDefinition riskFactors3(){
         	Concept risk = Dictionary.getConcept(Dictionary.HIV_RISK_FACTOR);
-        	
         	Concept risk3 = Dictionary.getConcept(Dictionary.RISK_FACTOR_HETRO);
         	
             CompositionCohortDefinition cd = new CompositionCohortDefinition();
             cd.setName("patient with risk 3");
             cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
             cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
-            cd.addSearch("enrolledHIV", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.HIV)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
-            cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrBefore=${onOrBefore}"));
             cd.addSearch("risk3", ReportUtils.map(commonCohorts.hasObs(risk,risk3), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
-            cd.setCompositionString("enrolledHIV AND risk3 AND NOT enrolled");
+            cd.setCompositionString(" risk3 ");
             return cd;
         }
         
         
         public CohortDefinition riskFactors4(){
         	Concept risk = Dictionary.getConcept(Dictionary.HIV_RISK_FACTOR);
-        	
         	Concept risk4 = Dictionary.getConcept(Dictionary.RISK_FACTOR_IDU);
         	
             CompositionCohortDefinition cd = new CompositionCohortDefinition();
             cd.setName("patient with risk 4");
             cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-            cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
-            cd.addSearch("enrolledHIV", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.HIV)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
-            cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrBefore=${onOrBefore}"));
+            cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class)); 
             cd.addSearch("risk4", ReportUtils.map(commonCohorts.hasObs(risk,risk4), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
-            cd.setCompositionString("enrolledHIV AND risk4 AND NOT enrolled");
+            cd.setCompositionString("risk4 ");
             return cd;
         }
         
         public CohortDefinition riskFactors5(){
         	Concept risk = Dictionary.getConcept(Dictionary.HIV_RISK_FACTOR);
-        	
         	Concept risk5 = Dictionary.getConcept(Dictionary.RISK_FACTOR_MOTHERTOCHILD);
         	
             CompositionCohortDefinition cd = new CompositionCohortDefinition();
             cd.setName("patient with risk 5");
             cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
             cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
-            cd.addSearch("enrolledHIV", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.HIV)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
-            cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrBefore=${onOrBefore}"));
             cd.addSearch("risk5", ReportUtils.map(commonCohorts.hasObs(risk,risk5), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
-            cd.setCompositionString("enrolledHIV AND risk5 AND NOT enrolled");
+            cd.setCompositionString(" risk5");
             return cd;
         }
         
         public CohortDefinition riskFactors6(){
         	Concept risk = Dictionary.getConcept(Dictionary.HIV_RISK_FACTOR);
-        	
         	Concept risk6 = Dictionary.getConcept(Dictionary.RISK_FACTOR_BLOODTRANS);
         	
             CompositionCohortDefinition cd = new CompositionCohortDefinition();
             cd.setName("patient with risk 6");
             cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
             cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
-            cd.addSearch("enrolledHIV", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.HIV)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
-            cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrBefore=${onOrBefore}"));
             cd.addSearch("risk6", ReportUtils.map(commonCohorts.hasObs(risk,risk6), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
-            cd.setCompositionString("enrolledHIV AND risk6 AND NOT enrolled");
+            cd.setCompositionString(" risk6 ");
             return cd;
         }
         
         
         public CohortDefinition riskFactors7(){
         	Concept risk = Dictionary.getConcept(Dictionary.HIV_RISK_FACTOR);
-        	
         	Concept risk7 = Dictionary.getConcept(Dictionary.RISK_FACTOR_UNKNOWN);
         	
             CompositionCohortDefinition cd = new CompositionCohortDefinition();
             cd.setName("patient with risk 7");
             cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
             cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
-            cd.addSearch("enrolledHIV", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.HIV)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
-            cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrBefore=${onOrBefore}"));
             cd.addSearch("risk7", ReportUtils.map(commonCohorts.hasObs(risk,risk7), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
-            cd.setCompositionString("enrolledHIV AND risk7 AND NOT enrolled");
+            cd.setCompositionString(" risk7 ");
             return cd;
         }
-        
         
    
 	/**

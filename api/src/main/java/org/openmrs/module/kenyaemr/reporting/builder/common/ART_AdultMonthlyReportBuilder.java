@@ -424,25 +424,19 @@ public class ART_AdultMonthlyReportBuilder extends AbstractReportBuilder{
 			
 			
 			List<ColumnParameters> columnsA = new ArrayList<ColumnParameters>();
-			columnsA.add(new ColumnParameters("FP", "Performance scale A,0-14 years, female", "gender=F|age=<15|parameter=A"));
-			columnsA.add(new ColumnParameters("MP", "Performance scale A,0-14 years, male", "gender=M|age=<15|parameter=A"));
 			columnsA.add(new ColumnParameters("FA", "Performance scale A,>14 years, female", "gender=F|age=15+|parameter=A"));
 			columnsA.add(new ColumnParameters("MA", "Performance scale A,>14 years, male", "gender=M|age=15+|parameter=A"));
-			columnsA.add(new ColumnParameters("T", "Performance scale A,total", ""));
+			columnsA.add(new ColumnParameters("T", "Performance scale A ,>14 years,total", "age=15+"));
 			
 			List<ColumnParameters> columnsB = new ArrayList<ColumnParameters>();
-			columnsB.add(new ColumnParameters("FP1", "Performance scale B,0-14 years, female", "gender=F|age=<15|parameter=B"));
-			columnsB.add(new ColumnParameters("MP1", "Performance scale B,0-14 years, male", "gender=M|age=<15|parameter=B"));
 			columnsB.add(new ColumnParameters("FA1", "Performance scale B,>14 years, female", "gender=F|age=15+|parameter=B"));
 			columnsB.add(new ColumnParameters("MA1", "Performance scale B,>14 years, male", "gender=M|age=15+|parameter=B"));
-			columnsB.add(new ColumnParameters("T1", "Performance scale B,total", ""));
+			columnsB.add(new ColumnParameters("T1", "Performance scale B ,>14 years,total", "age=15+"));
 			
 			List<ColumnParameters> columnsC = new ArrayList<ColumnParameters>();
-			columnsC.add(new ColumnParameters("FP2", "Performance scale C,0-14 years, female", "gender=F|age=<15|parameter=C"));
-			columnsC.add(new ColumnParameters("MP2", "Performance scale C,0-14 years, male", "gender=M|age=<15|parameter=C"));
 			columnsC.add(new ColumnParameters("FA2", "Performance scale C,>14 years, female", "gender=F|age=15+|parameter=C"));
 			columnsC.add(new ColumnParameters("MA2", "Performance scale C,>14 years, male", "gender=M|age=15+|parameter=C"));
-			columnsC.add(new ColumnParameters("T2", "Performance scale C,total", ""));
+			columnsC.add(new ColumnParameters("T2", "Performance scale C, >14 years,total", "age=15+"));
 			String indParams = "startDate=${startDate},endDate=${endDate}";
 	                
 			EmrReportingUtils.addRow(dsd, "O1", "No. of detected case (Performance Scale A) ", ReportUtils.map(hivIndicators.performanceScaleA(), indParams), columnsA);

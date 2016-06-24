@@ -122,7 +122,7 @@ public class HivIndicatorLibrary {
         }
         
         public CohortIndicator initiatedARTandTB(){ 
-                return cohortIndicator("TB patients received ART", map(hivCohorts.receivedART(), "onOrAfter=${startDate}"));
+                return cohortIndicator("TB patients received ART", map(hivCohorts.receivedART(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
         }
         
         public CohortIndicator restartART(){
