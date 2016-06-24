@@ -249,6 +249,10 @@ KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrS
 			matched = matchedByNameOrID;
 			Collections.sort(matched, new PersonByNameComparator()); // Sort by	person name
 		} 
+		else if (StringUtils.isBlank(query) && "scheduled".equals(which)) {
+			matched = Context.getPatientService().getAllPatients();
+			Collections.sort(matched, new PersonByNameComparator()); // Sort by	person name
+		} 
 		else {
 			if ("all".equals(which)) {
 				matched = matchedByNameOrID;
