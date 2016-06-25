@@ -16,7 +16,7 @@ No record found.
 <tr>
 <th><b>No.</b></th>
 <th><b>Lab Test</b></th>
-<th><b>Test Result</b></th>
+<th><center><b>Test Result</b></center></th>
 <th>Unit</th>
 <th><b>Reference Range</b></th>
 <th><b>Comment</b></th>
