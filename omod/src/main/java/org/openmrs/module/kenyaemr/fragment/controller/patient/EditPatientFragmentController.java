@@ -437,11 +437,25 @@ public class EditPatientFragmentController {
 			fatherName = wrapper.getFatherName();
 			nationalId = wrapper.getNationalId();
 //			placeOfBirth = wrapper.getPlaceOfBirth();
-
-			savedPlaceOfBirth = getLatestObs(patient,
-					Dictionary.TOWNSHIP);
+			
+			
+		  savedPlaceOfBirth = getLatestObs(patient,
+							Dictionary.TOWNSHIP);
+				
+			
+			
 			if (savedPlaceOfBirth != null) {
-				placeOfBirth = savedPlaceOfBirth.getValueCoded();
+				List<Obs>BirthPlace= Context.getObsService().getObservationsByPersonAndConcept(patient, Dictionary.getConcept(Dictionary.TOWNSHIP));
+				for(Obs placeofbirth:BirthPlace)
+				{
+					if(placeofbirth.getEncounter()==null)
+					{
+				
+				placeOfBirth =placeofbirth.getValueCoded();
+					}
+					
+				}
+				
 			}
 			
 			try {

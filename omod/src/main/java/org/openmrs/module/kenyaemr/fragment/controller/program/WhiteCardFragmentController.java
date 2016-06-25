@@ -161,6 +161,7 @@ public class WhiteCardFragmentController {
 		String comorbidity = "" ; 
 
 		Obs riskFactor = getAllLatestObs(patient, Dictionary.HIV_RISK_FACTOR);
+		
 		if (riskFactor != null) {
 			EncounterWrapper wrapped = new EncounterWrapper(
 					riskFactor.getEncounter());
@@ -413,32 +414,35 @@ public class WhiteCardFragmentController {
          * Tb 
          */
 		String tbTreatmentVal = "";
-
-		Obs tbTreatment = getAllLatestObs(patient,
-				Dictionary.SITE_OF_TUBERCULOSIS_DISEASE);
+		Obs tbTreatment = getLatestObs(patient,Dictionary.SITE_OF_TUBERCULOSIS_DISEASE);
+		
+		
 		if (tbTreatment != null) {
 			EncounterWrapper wrapped = new EncounterWrapper(
 					tbTreatment.getEncounter());
 			List<Obs> obsList = wrapped.allObs(tbTreatment.getConcept());
-			for (Obs obs : obsList) {
+			for (Obs obs : obsList) { 
 				tbTreatmentVal = tbTreatmentVal.concat(obs.getValueCoded()
 						.getName().toString());
 			}
 		}
+		
 		model.addAttribute("tbTreatmentVal", tbTreatmentVal);
 		
 		String tbSiteVal = "";
 
-		Obs tbSite = getAllLatestObs(patient,
+		Obs tbSite = getLatestObs(patient,
 				Dictionary.TB_SITE);
 		if (tbSite != null) {
 			EncounterWrapper wrapped = new EncounterWrapper(
 					tbSite.getEncounter());
+			
 			List<Obs> obsList = wrapped.allObs(tbSite.getConcept());
-			for (Obs obs : obsList) {	
+			for (Obs obs : obsList) {	 
 				if (tbSiteVal.isEmpty()) {
 				tbSiteVal = tbSiteVal.concat(obs.getValueCoded()
 						.getName().toString());
+				
 				
 			} else { 
 				tbSiteVal = tbSiteVal.concat(", "+obs.getValueCoded()
@@ -451,7 +455,7 @@ public class WhiteCardFragmentController {
 		
 		String tbRegVal = "";
 
-		Obs tbRegistration = getAllLatestObs(patient,
+		Obs tbRegistration = getLatestObs(patient,
 				Dictionary.TUBERCULOSIS_TREATMENT_NUMBER);
 		if (tbRegistration != null) {
 			EncounterWrapper wrapped = new EncounterWrapper(
@@ -459,23 +463,36 @@ public class WhiteCardFragmentController {
 			List<Obs> obsList = wrapped.allObs(tbRegistration.getConcept());
 			for (Obs obs : obsList) {
 				tbRegVal = tbRegVal.concat(obs.getValueText());
+				
 			}
+			
 		}
 		model.addAttribute("tbRegVal", tbRegVal);
 		
 		String tbTownVal = "";
 		Obs tbTownship = getLatestObs(patient,
 				Dictionary.TOWNSHIP);
+		
 		if(tbTownship!=null)
 		{
-		tbTownVal = tbTownship.getValueCoded().getName().toString();
-		
+		List<Obs>tbTown= Context.getObsService().getObservationsByPersonAndConcept(patient, Dictionary.getConcept(Dictionary.TOWNSHIP));
+		for(Obs Tbtown:tbTown)
+		{  
+			if(Tbtown.getEncounter()!=null)
+			{  
+				tbTownVal =Tbtown.getValueCoded().getName().toString();
+				break;
+			}
+				
 		}
+		}
+		
+	
 		model.addAttribute("tbTownVal", tbTownVal);
 		
 		String tbClinicVal = "";
-
-		Obs tbClinic = getAllLatestObs(patient,
+        
+		Obs tbClinic = getLatestObs(patient,
 				Dictionary.TB_CLINIC_NAME);
 		if (tbClinic != null) {
 			EncounterWrapper wrapped = new EncounterWrapper(
@@ -483,14 +500,16 @@ public class WhiteCardFragmentController {
 			List<Obs> obsList = wrapped.allObs(tbClinic.getConcept());
 			for (Obs obs : obsList) {
 				tbClinicVal = tbClinicVal.concat(obs.getValueText());
+				
 			}
 		}
 		model.addAttribute("tbClinicVal", tbClinicVal);
 		
 		String tbRegimenVal = "";
 
-		Obs tbRegimen = getAllLatestObs(patient,
+		Obs tbRegimen = getLatestObs(patient,
 				Dictionary.TB_FORM_REGIMEN);
+		
 		if (tbRegimen != null) {
 			EncounterWrapper wrapped = new EncounterWrapper(
 					tbRegimen.getEncounter());
@@ -498,6 +517,8 @@ public class WhiteCardFragmentController {
 			for (Obs obs : obsList) {
 				tbRegimenVal = tbRegimenVal.concat(obs.getValueCoded()
 						.getName().toString());
+				
+				
 			}
 		}
 		model.addAttribute("tbRegimenVal", tbRegimenVal);
