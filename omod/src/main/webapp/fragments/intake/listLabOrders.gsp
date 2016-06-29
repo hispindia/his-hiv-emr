@@ -15,7 +15,7 @@
 <td>${labOrder.visitDate}</td>
 <td>${labOrder.orderDate}</td>
 <% /*<td>${labOrder.updateDate}</td>  */%>
-<td><button class="ke-compact" type="button" onclick="enterResult('${labOrder.encounterId}')" ><img src="/openmrs/ms/uiframework/resource/kenyaui/images/glyphs/edit.png"></button</td>
+<td><button class="ke-compact" type="button" onclick="enterResult('${labOrder.encounterId}')" ><img src="${ ui.resourceLink("kenyaui", "images/glyphs/edit.png") }" /></button</td>
 </tr>
 <% } %>
 </table>

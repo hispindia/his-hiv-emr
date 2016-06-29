@@ -129,7 +129,6 @@ public class DrugOrderListFragmentController {
 			}
 			else{
 				Integer notDispensedReason= Integer.parseInt(request.getParameter(drugOrderProcessedId+"notDispensedReason"));	
-				System.out.println("xxxxxxxxxxxx"+notDispensedReason);
 				Concept notDispensedReasonConcept = Context.getConceptService().getConcept(notDispensedReason);
 				DrugOrderProcessed drugOrderProces=kes.getDrugOrderProcesedById(drugOrderProcessId);
 				drugOrderProces.setDiscontinuedDate(new Date());

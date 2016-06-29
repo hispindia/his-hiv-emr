@@ -30,84 +30,87 @@ import org.openmrs.module.kenyaemr.wrapper.PatientWrapper;
 import org.openmrs.module.kenyaemr.wrapper.PersonWrapper;
 import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.fragment.FragmentModel;
+import org.openmrs.util.OpenmrsConstants;
 import org.springframework.web.bind.annotation.RequestParam;
 
 public class WhiteCardFragmentController {
 	public void controller(
 			@RequestParam(value = "patientId", required = false) Person person,
 			@RequestParam(value = "patientId", required = false) Patient patient,
-			@RequestParam("returnUrl") String returnUrl,
-			FragmentModel model) {
+			@RequestParam("returnUrl") String returnUrl, FragmentModel model) {
 
-		KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
+		KenyaEmrService kenyaEmrService = (KenyaEmrService) Context
+				.getService(KenyaEmrService.class);
 		/*
 		 * Constant value across all visit
 		 */
 		model.addAttribute("returnUrl", returnUrl);
 		model.addAttribute("patientName", person.getGivenName());
-		Set <PatientIdentifier> pat=patient.getIdentifiers();
-		for(PatientIdentifier p:pat)
-		{ 
-		if(p.getIdentifier().startsWith("HIV"))
-		{
-			model.addAttribute("patientIdd", p.getIdentifier());
-		}
-		if(p.getIdentifierType().getId()==9)
-		{  
-			 model.addAttribute("Value", 0);
-		     model.addAttribute("patientpreart", p.getIdentifier());
-		}
-		else
-		{
-			 model.addAttribute("Value",1);
-		}
-		
-		}
-		
-		
-		for(PatientIdentifier pa:pat)
-		{
-			if(pa.getIdentifierType().getId()==10)
-			{  
-			     model.addAttribute("Flag", 0);
-				 model.addAttribute("patientnap", pa.getIdentifier());
-				 break;
+		Set<PatientIdentifier> pat = patient.getIdentifiers();
+		for (PatientIdentifier p : pat) {
+			String shortName = Context
+					.getAdministrationService()
+					.getGlobalProperty(
+							OpenmrsConstants.GLOBAL_PROPERTY_PATIENT_IDENTIFIER_PREFIX);
+
+			if (p.getIdentifier().startsWith(shortName)) {
+				model.addAttribute("patientIdd", p.getIdentifier());
 			}
-			else
-			{
-				 model.addAttribute("Flag", 1);
+			if (p.getIdentifierType().getId() == 9) {
+				model.addAttribute("Value", 0);
+				model.addAttribute("patientpreart", p.getIdentifier());
+			} else {
+				model.addAttribute("Value", 1);
 			}
-			
+
 		}
-		
-//		model.addAttribute("patientAge", person.getAge());
+
+		for (PatientIdentifier pa : pat) {
+			if (pa.getIdentifierType().getId() == 10) {
+				model.addAttribute("Flag", 0);
+				model.addAttribute("patientnap", pa.getIdentifier());
+				break;
+			} else {
+				model.addAttribute("Flag", 1);
+			}
+
+		}
+
+		// model.addAttribute("patientAge", person.getAge());
 		model.addAttribute("birthDate", new SimpleDateFormat("dd-MMMM-yyyy")
 				.format(person.getBirthdate()));
 
-		
 		Date d = new Date();
-		int daysInMon[] = {31, 28, 31, 30, 31, 30,31, 31, 30, 31, 30, 31};  //Days in month
-		if(d.getYear()==person.getBirthdate().getYear()){
-			if(d.getMonth()==person.getBirthdate().getMonth()){
-				model.addAttribute("patientAge", d.getDay()-person.getBirthdate().getDay() + " days");
-			}
-			else{
-				int mdiff = d.getMonth()-person.getBirthdate().getMonth();
-				if(mdiff == 1 && d.getDate() - person.getBirthdate().getDate() < 1){
-					model.addAttribute("patientAge", daysInMon[person.getBirthdate().getMonth()] - person.getBirthdate().getDate() + d.getDate()+ " days");
+		int daysInMon[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }; // Days
+																				// in
+																				// month
+		if (d.getYear() == person.getBirthdate().getYear()) {
+			if (d.getMonth() == person.getBirthdate().getMonth()) {
+				model.addAttribute("patientAge", d.getDay()
+						- person.getBirthdate().getDay() + " days");
+			} else {
+				int mdiff = d.getMonth() - person.getBirthdate().getMonth();
+				if (mdiff == 1
+						&& d.getDate() - person.getBirthdate().getDate() < 1) {
+					model.addAttribute("patientAge", daysInMon[person
+							.getBirthdate().getMonth()]
+							- person.getBirthdate().getDate()
+							+ d.getDate()
+							+ " days");
+				} else {
+					model.addAttribute("patientAge", mdiff + " months");
 				}
-				else {
-					model.addAttribute("patientAge", mdiff+ " months");
-				}
 			}
+		} else if (d.getYear() - person.getBirthdate().getYear() == 1
+				&& d.getMonth() - person.getBirthdate().getMonth() < 1) {
+			model.addAttribute("patientAge", 12
+					- person.getBirthdate().getMonth() + d.getMonth()
+					+ " months");
+		} else {
+			model.addAttribute("patientAge", d.getYear()
+					- person.getBirthdate().getYear() + " years");
 		}
-		else if(d.getYear()-person.getBirthdate().getYear() ==1 && d.getMonth() - person.getBirthdate().getMonth() < 1 ){
-			model.addAttribute("patientAge", 12 - person.getBirthdate().getMonth() + d.getMonth()+ " months");
-		}
-		else {
-			model.addAttribute("patientAge",d.getYear()-person.getBirthdate().getYear() +" years");
-		}
-		
+
 		model.addAttribute("patientGender", person.getGender());
 		model.addAttribute("address", person.getPersonAddress());
 
@@ -121,30 +124,30 @@ public class WhiteCardFragmentController {
 				Dictionary.METHOD_OF_ENROLLMENT);
 		model.addAttribute("savedEntryPoint", savedEntryPoint);
 
-		if(savedEntryPoint != null){
-			model.addAttribute("entryPoint", savedEntryPoint.getValueCoded().getName().toString());
-			
+		if (savedEntryPoint != null) {
+			model.addAttribute("entryPoint", savedEntryPoint.getValueCoded()
+					.getName().toString());
+
 			if (savedEntryPoint.getValueDate() != null) {
 				model.addAttribute("savedEntryPointValueDate",
-						new SimpleDateFormat("dd-MMMM-yyyy").format(savedEntryPoint
-								.getValueDate()));
+						new SimpleDateFormat("dd-MMMM-yyyy")
+								.format(savedEntryPoint.getValueDate()));
 			} else {
 				model.addAttribute("savedEntryPointValueDate", "");
 			}
-			
-			if (savedEntryPoint.getValueText()!= null) {
-				model.addAttribute("otherEntryPoint", savedEntryPoint.getValueText());
+
+			if (savedEntryPoint.getValueText() != null) {
+				model.addAttribute("otherEntryPoint",
+						savedEntryPoint.getValueText());
 			} else {
 				model.addAttribute("otherEntryPoint", "");
 			}
 
-		}
-		else{
+		} else {
 			model.addAttribute("entryPoint", "");
 			model.addAttribute("savedEntryPointValueDate", "");
 			model.addAttribute("otherEntryPoint", "");
 		}
-	
 
 		/*
 		 * Personal History
@@ -158,10 +161,10 @@ public class WhiteCardFragmentController {
 		String alcoholic = "";
 		String alcoholicType = "";
 		String income = "";
-		String comorbidity = "" ; 
+		String comorbidity = "";
 
 		Obs riskFactor = getAllLatestObs(patient, Dictionary.HIV_RISK_FACTOR);
-		
+
 		if (riskFactor != null) {
 			EncounterWrapper wrapped = new EncounterWrapper(
 					riskFactor.getEncounter());
@@ -188,8 +191,8 @@ public class WhiteCardFragmentController {
 
 			for (Obs obs : obsList) {
 				if (comorbidity.isEmpty()) {
-					comorbidity = comorbidity.concat(obs
-							.getValueCoded().getName().toString());
+					comorbidity = comorbidity.concat(obs.getValueCoded()
+							.getName().toString());
 				} else {
 					comorbidity = comorbidity.concat(", "
 							+ obs.getValueCoded().getName().toString());
@@ -199,7 +202,6 @@ public class WhiteCardFragmentController {
 
 		model.addAttribute("comorbidity", comorbidity);
 
-		
 		Obs iduStatusObs = getAllLatestObs(patient,
 				Dictionary.IDU_PERSONAL_HISTORY);
 		if (iduStatusObs != null) {
@@ -326,7 +328,7 @@ public class WhiteCardFragmentController {
 				String spGenderVal = "";
 				String spInfectedVal = "";
 				String spArtVal = "";
-               
+
 				if (spName != null) {
 					EncounterWrapper wrapped = new EncounterWrapper(
 							spName.getEncounter());
@@ -347,7 +349,7 @@ public class WhiteCardFragmentController {
 						if (obs.getObsGroupId() == obsG.getObsId()) {
 							spAgeVal = spAgeVal.concat(obs.getValueNumeric()
 									.toString());
-							
+
 						}
 					}
 				}
@@ -396,63 +398,61 @@ public class WhiteCardFragmentController {
 						if (obs.getObsGroupId() == obsG.getObsId()) {
 							spArtVal = spArtVal.concat(obs.getValueCoded()
 									.getName().toString());
-							
+
 						}
 					}
 				}
-				String val = spNameVal + ", " +" "+ spAgeVal + ", "+" "+spAgeUnitVal
-						+ ", " +" "+ spGenderVal + ", " +" "+ spInfectedVal + " ,"+" "
-						+ spArtVal;
+				String val = spNameVal + ", " + " " + spAgeVal + ", " + " "
+						+ spAgeUnitVal + ", " + " " + spGenderVal + ", " + " "
+						+ spInfectedVal + " ," + " " + spArtVal;
 				familyMembers.put(index, val);
-				
+
 				index++;
 
 			}
 		}
 		model.addAttribute("familyMembers", familyMembers);
-        /*
-         * Tb 
-         */
+		/*
+		 * Tb
+		 */
 		String tbTreatmentVal = "";
-		Obs tbTreatment = getLatestObs(patient,Dictionary.SITE_OF_TUBERCULOSIS_DISEASE);
-		
-		
+		Obs tbTreatment = getLatestObs(patient,
+				Dictionary.SITE_OF_TUBERCULOSIS_DISEASE);
+
 		if (tbTreatment != null) {
 			EncounterWrapper wrapped = new EncounterWrapper(
 					tbTreatment.getEncounter());
 			List<Obs> obsList = wrapped.allObs(tbTreatment.getConcept());
-			for (Obs obs : obsList) { 
+			for (Obs obs : obsList) {
 				tbTreatmentVal = tbTreatmentVal.concat(obs.getValueCoded()
 						.getName().toString());
 			}
 		}
-		
+
 		model.addAttribute("tbTreatmentVal", tbTreatmentVal);
-		
+
 		String tbSiteVal = "";
 
-		Obs tbSite = getLatestObs(patient,
-				Dictionary.TB_SITE);
+		Obs tbSite = getLatestObs(patient, Dictionary.TB_SITE);
 		if (tbSite != null) {
 			EncounterWrapper wrapped = new EncounterWrapper(
 					tbSite.getEncounter());
-			
+
 			List<Obs> obsList = wrapped.allObs(tbSite.getConcept());
-			for (Obs obs : obsList) {	 
+			for (Obs obs : obsList) {
 				if (tbSiteVal.isEmpty()) {
-				tbSiteVal = tbSiteVal.concat(obs.getValueCoded()
-						.getName().toString());
-				
-				
-			} else { 
-				tbSiteVal = tbSiteVal.concat(", "+obs.getValueCoded()
-						.getName().toString());
-			}
-				
+					tbSiteVal = tbSiteVal.concat(obs.getValueCoded().getName()
+							.toString());
+
+				} else {
+					tbSiteVal = tbSiteVal.concat(", "
+							+ obs.getValueCoded().getName().toString());
+				}
+
 			}
 		}
 		model.addAttribute("tbSiteVal", tbSiteVal);
-		
+
 		String tbRegVal = "";
 
 		Obs tbRegistration = getLatestObs(patient,
@@ -463,53 +463,48 @@ public class WhiteCardFragmentController {
 			List<Obs> obsList = wrapped.allObs(tbRegistration.getConcept());
 			for (Obs obs : obsList) {
 				tbRegVal = tbRegVal.concat(obs.getValueText());
-				
+
 			}
-			
+
 		}
 		model.addAttribute("tbRegVal", tbRegVal);
-		
+
 		String tbTownVal = "";
-		Obs tbTownship = getLatestObs(patient,
-				Dictionary.TOWNSHIP);
-		
-		if(tbTownship!=null)
-		{
-		List<Obs>tbTown= Context.getObsService().getObservationsByPersonAndConcept(patient, Dictionary.getConcept(Dictionary.TOWNSHIP));
-		for(Obs Tbtown:tbTown)
-		{  
-			if(Tbtown.getEncounter()!=null)
-			{  
-				tbTownVal =Tbtown.getValueCoded().getName().toString();
-				break;
+		Obs tbTownship = getLatestObs(patient, Dictionary.TOWNSHIP);
+
+		if (tbTownship != null) {
+			List<Obs> tbTown = Context.getObsService()
+					.getObservationsByPersonAndConcept(patient,
+							Dictionary.getConcept(Dictionary.TOWNSHIP));
+			for (Obs Tbtown : tbTown) {
+				if (Tbtown.getEncounter() != null) {
+					tbTownVal = Tbtown.getValueCoded().getName().toString();
+					break;
+				}
+
 			}
-				
 		}
-		}
-		
-	
+
 		model.addAttribute("tbTownVal", tbTownVal);
-		
+
 		String tbClinicVal = "";
-        
-		Obs tbClinic = getLatestObs(patient,
-				Dictionary.TB_CLINIC_NAME);
+
+		Obs tbClinic = getLatestObs(patient, Dictionary.TB_CLINIC_NAME);
 		if (tbClinic != null) {
 			EncounterWrapper wrapped = new EncounterWrapper(
 					tbClinic.getEncounter());
 			List<Obs> obsList = wrapped.allObs(tbClinic.getConcept());
 			for (Obs obs : obsList) {
 				tbClinicVal = tbClinicVal.concat(obs.getValueText());
-				
+
 			}
 		}
 		model.addAttribute("tbClinicVal", tbClinicVal);
-		
+
 		String tbRegimenVal = "";
 
-		Obs tbRegimen = getLatestObs(patient,
-				Dictionary.TB_FORM_REGIMEN);
-		
+		Obs tbRegimen = getLatestObs(patient, Dictionary.TB_FORM_REGIMEN);
+
 		if (tbRegimen != null) {
 			EncounterWrapper wrapped = new EncounterWrapper(
 					tbRegimen.getEncounter());
@@ -517,8 +512,7 @@ public class WhiteCardFragmentController {
 			for (Obs obs : obsList) {
 				tbRegimenVal = tbRegimenVal.concat(obs.getValueCoded()
 						.getName().toString());
-				
-				
+
 			}
 		}
 		model.addAttribute("tbRegimenVal", tbRegimenVal);
@@ -554,14 +548,14 @@ public class WhiteCardFragmentController {
 			}
 		}
 		model.addAttribute("artReceivedTypeValue", artReceivedTypeValue);
-		
+
 		Obs drugHistoryGroup = getAllLatestObs(patient,
 				Dictionary.DRUG_HISTORY_GROUP);
 		Obs artReceivedPlace = getAllLatestObs(patient,
 				Dictionary.DRUG_HISTORY_ART_RECEIVED_PLACE);
 		Obs drugName = getAllLatestObs(patient, Dictionary.DRUG_HISTORY_ARV);
 		Obs drugDuration = getAllLatestObs(patient, Dictionary.DRUG_DURATION);
-		
+
 		Map<Integer, String> drugMembers = new HashMap<Integer, String>();
 		Integer indexDrug = 0;
 		if (drugHistoryGroup != null) {
@@ -573,8 +567,7 @@ public class WhiteCardFragmentController {
 				String artReceivedPlaceValue = "";
 				String drugDurationVal = "";
 				String drugNameVal = "";
-	
-				
+
 				if (drugName != null) {
 					EncounterWrapper wrapped = new EncounterWrapper(
 							drugName.getEncounter());
@@ -584,10 +577,10 @@ public class WhiteCardFragmentController {
 						if (obs.getObsGroupId() == obsG.getObsId()) {
 							drugNameVal = drugNameVal.concat(obs
 									.getValueCoded().getName().toString());
-						} 
+						}
 					}
 				}
-				
+
 				if (drugDuration != null) {
 					EncounterWrapper wrapped = new EncounterWrapper(
 							drugDuration.getEncounter());
@@ -597,70 +590,58 @@ public class WhiteCardFragmentController {
 						if (obs.getObsGroupId() == obsG.getObsId()) {
 							drugDurationVal = drugDurationVal.concat(obs
 									.getValueNumeric().toString());
-						}	
+						}
 					}
 				}
-				
 
 				if (artReceivedPlace != null) {
 					EncounterWrapper wrapped = new EncounterWrapper(
 							artReceivedPlace.getEncounter());
-					List<Obs> obsList = wrapped.allObs(artReceivedPlace.getConcept());
+					List<Obs> obsList = wrapped.allObs(artReceivedPlace
+							.getConcept());
 					for (Obs obs : obsList) {
 						if (obs.getObsGroupId() == obsG.getObsId()) {
-							artReceivedPlaceValue = artReceivedPlaceValue.concat(obs
-									.getValueCoded().getName().toString());
+							artReceivedPlaceValue = artReceivedPlaceValue
+									.concat(obs.getValueCoded().getName()
+											.toString());
 						}
 					}
 				}
-     
 
-				String val = drugNameVal + ", " + drugDurationVal + ", " + artReceivedPlaceValue;
+				String val = drugNameVal + ", " + drugDurationVal + ", "
+						+ artReceivedPlaceValue;
 				drugMembers.put(indexDrug, val);
 				indexDrug++;
-				
+
 			}
 		}
-		
+
 		model.addAttribute("drugMembers", drugMembers);
-		
-	
-/*		
-		Obs drugFormGroup = getAllLatestObs(patient,
-				Dictionary.DRUG_HISTORY_GROUP);
 
-		Map<Integer, String> drugList = new HashMap<Integer, String>();
-		Integer drugIndex = 0;
-		if (drugFormGroup != null) {
-			EncounterWrapper wrappedObsGroup = new EncounterWrapper(
-					drugFormGroup.getEncounter());
-			List<Obs> obsGroupList = wrappedObsGroup.allObs(drugFormGroup
-					.getConcept());
-			for (Obs obsG : obsGroupList) {
-				String drugNameVal = "";
-				
-
-				if (drugName != null) {
-					EncounterWrapper wrapped = new EncounterWrapper(
-							drugName.getEncounter());
-					List<Obs> obsList = wrapped.allObs(drugName.getConcept());
-					for (Obs obs : obsList) {
-						if (obs.getObsGroupId() == obsG.getObsId()) {
-							drugNameVal = drugNameVal.concat(obs
-									.getValueCoded().getName().toString());
-						}
-					}
-				}
-
-
-
-				String val = drugNameVal;
-				drugList.put(drugIndex, val);
-				drugIndex++;
-
-			}
-		} */
-		
+		/*
+		 * Obs drugFormGroup = getAllLatestObs(patient,
+		 * Dictionary.DRUG_HISTORY_GROUP);
+		 * 
+		 * Map<Integer, String> drugList = new HashMap<Integer, String>();
+		 * Integer drugIndex = 0; if (drugFormGroup != null) { EncounterWrapper
+		 * wrappedObsGroup = new EncounterWrapper(
+		 * drugFormGroup.getEncounter()); List<Obs> obsGroupList =
+		 * wrappedObsGroup.allObs(drugFormGroup .getConcept()); for (Obs obsG :
+		 * obsGroupList) { String drugNameVal = "";
+		 * 
+		 * 
+		 * if (drugName != null) { EncounterWrapper wrapped = new
+		 * EncounterWrapper( drugName.getEncounter()); List<Obs> obsList =
+		 * wrapped.allObs(drugName.getConcept()); for (Obs obs : obsList) { if
+		 * (obs.getObsGroupId() == obsG.getObsId()) { drugNameVal =
+		 * drugNameVal.concat(obs .getValueCoded().getName().toString()); } } }
+		 * 
+		 * 
+		 * 
+		 * String val = drugNameVal; drugList.put(drugIndex, val); drugIndex++;
+		 * 
+		 * } }
+		 */
 
 		/*
 		 * Personal History
@@ -720,7 +701,8 @@ public class WhiteCardFragmentController {
 							.getConcept());
 					for (Obs obs : obsList) {
 						if (obs.getObsGroupId() == obsG.getObsId()) {
-							infantBirtdateVal = new SimpleDateFormat("dd-MMMM-yyyy").format(obs.getValueDate());
+							infantBirtdateVal = new SimpleDateFormat(
+									"dd-MMMM-yyyy").format(obs.getValueDate());
 						}
 					}
 				}
@@ -733,7 +715,8 @@ public class WhiteCardFragmentController {
 					for (Obs obs : obsList) {
 						if (obs.getObsGroupId() == obsG.getObsId()) {
 							infantFeedingPracticeVal = infantFeedingPracticeVal
-									.concat(obs.getValueCoded().getName().toString());
+									.concat(obs.getValueCoded().getName()
+											.toString());
 						}
 					}
 				}
@@ -745,7 +728,8 @@ public class WhiteCardFragmentController {
 							.getConcept());
 					for (Obs obs : obsList) {
 						if (obs.getObsGroupId() == obsG.getObsId()) {
-							infantCptDateVal = new SimpleDateFormat("dd-MMMM-yyyy").format(obs.getValueDate());
+							infantCptDateVal = new SimpleDateFormat(
+									"dd-MMMM-yyyy").format(obs.getValueDate());
 						}
 					}
 				}
@@ -783,7 +767,8 @@ public class WhiteCardFragmentController {
 							.getConcept());
 					for (Obs obs : obsList) {
 						if (obs.getObsGroupId() == obsG.getObsId()) {
-							infantResultDateVal = new SimpleDateFormat("dd-MMMM-yyyy").format(obs.getValueDate());	
+							infantResultDateVal = new SimpleDateFormat(
+									"dd-MMMM-yyyy").format(obs.getValueDate());
 						}
 					}
 				}
@@ -816,57 +801,59 @@ public class WhiteCardFragmentController {
 
 				String val = infantNameVal + ", " + infantBirtdateVal + ", "
 						+ infantFeedingPracticeVal + ", " + infantCptDateVal
-						+ ", " + infantTestTypeVal + ", " + infantResultVal + ", " + infantResultDateVal 
-						+ ", " + infantStatusVal +", " +infantUniqueIdVal;
+						+ ", " + infantTestTypeVal + ", " + infantResultVal
+						+ ", " + infantResultDateVal + ", " + infantStatusVal
+						+ ", " + infantUniqueIdVal;
 				infantList.put(infantIndex, val);
 				infantIndex++;
 
 			}
 		}
 		model.addAttribute("infantList", infantList);
-		
+
 		/*
 		 * End of follow up for Antiretroviral therapy
-		 * */
-		
+		 */
+
 		String programDiscontinuationReasonVal = "";
-		String reasonConcept = "" ; 
-		String dataPlaceVal ="";
-		
+		String reasonConcept = "";
+		String dataPlaceVal = "";
+
 		Obs programDiscontinuationReason = getLatestObs(patient,
 				Dictionary.REASON_FOR_PROGRAM_DISCONTINUATION);
 		if (programDiscontinuationReason != null) {
-				programDiscontinuationReasonVal = programDiscontinuationReason.getValueCoded().getName().toString();
-				reasonConcept = programDiscontinuationReason.getValueCoded().toString();
-			
+			programDiscontinuationReasonVal = programDiscontinuationReason
+					.getValueCoded().getName().toString();
+			reasonConcept = programDiscontinuationReason.getValueCoded()
+					.toString();
+
 		}
-		model.addAttribute("programDiscontinuationReasonVal", programDiscontinuationReasonVal);
-		
-		if(reasonConcept.equals("5240")){
-			Obs dataPlace = getAllLatestObs(patient,
-					Dictionary.DATE_LAST_VISIT);
+		model.addAttribute("programDiscontinuationReasonVal",
+				programDiscontinuationReasonVal);
+
+		if (reasonConcept.equals("5240")) {
+			Obs dataPlace = getAllLatestObs(patient, Dictionary.DATE_LAST_VISIT);
 			if (dataPlace != null) {
 				EncounterWrapper wrapped = new EncounterWrapper(
 						dataPlace.getEncounter());
 				List<Obs> obsList = wrapped.allObs(dataPlace.getConcept());
 				for (Obs obs : obsList) {
-					dataPlaceVal = new SimpleDateFormat("dd-MMMM-yyyy").format(obs.getValueDate());
+					dataPlaceVal = new SimpleDateFormat("dd-MMMM-yyyy")
+							.format(obs.getValueDate());
 				}
 			}
-		}
-		else if(reasonConcept.equals("160034")){
-			Obs dataPlace = getAllLatestObs(patient,
-					Dictionary.DEATH_DATE);
+		} else if (reasonConcept.equals("160034")) {
+			Obs dataPlace = getAllLatestObs(patient, Dictionary.DEATH_DATE);
 			if (dataPlace != null) {
 				EncounterWrapper wrapped = new EncounterWrapper(
 						dataPlace.getEncounter());
 				List<Obs> obsList = wrapped.allObs(dataPlace.getConcept());
 				for (Obs obs : obsList) {
-					dataPlaceVal = new SimpleDateFormat("dd-MMMM-yyyy").format(obs.getValueDate());
+					dataPlaceVal = new SimpleDateFormat("dd-MMMM-yyyy")
+							.format(obs.getValueDate());
 				}
 			}
-		}
-		else if(reasonConcept.equals("159492")){
+		} else if (reasonConcept.equals("159492")) {
 			Obs datePlace = getAllLatestObs(patient,
 					Dictionary.DATE_TRANSFERRED_OUT);
 			if (datePlace != null) {
@@ -874,125 +861,142 @@ public class WhiteCardFragmentController {
 						datePlace.getEncounter());
 				List<Obs> obsList = wrapped.allObs(datePlace.getConcept());
 				for (Obs obs : obsList) {
-					dataPlaceVal = new SimpleDateFormat("dd-MMMM-yyyy").format(obs.getValueDate());
+					dataPlaceVal = new SimpleDateFormat("dd-MMMM-yyyy")
+							.format(obs.getValueDate());
 				}
 			}
 
-			Obs place = getAllLatestObs(patient,
-					Dictionary.TRANSFERRED_OUT_TO);
+			Obs place = getAllLatestObs(patient, Dictionary.TRANSFERRED_OUT_TO);
 			if (place != null) {
 				EncounterWrapper wrapped = new EncounterWrapper(
 						place.getEncounter());
 				List<Obs> obsList = wrapped.allObs(place.getConcept());
 				for (Obs obs : obsList) {
-					dataPlaceVal = dataPlaceVal + " / Place : "+ obs.getValueText().toString();
+					dataPlaceVal = dataPlaceVal + " / Place : "
+							+ obs.getValueText().toString();
 				}
 			}
 		}
-		
+
 		model.addAttribute("dataPlaceVal", dataPlaceVal);
-		
+
 		/*
 		 * Get regimen history
-		 * */
+		 */
 		Map<Integer, String> regimenList = new HashMap<Integer, String>();
 		Integer regimenIndex = 0;
-		
-		List<DrugOrder> orderList =  Context.getOrderService().getDrugOrdersByPatient(patient);
-		
-		List<Encounter> encounterList =  Context.getEncounterService().getEncounters(patient);
-		for(Encounter en : encounterList ){
+
+		List<DrugOrder> orderList = Context.getOrderService()
+				.getDrugOrdersByPatient(patient);
+
+		List<Encounter> encounterList = Context.getEncounterService()
+				.getEncounters(patient);
+		for (Encounter en : encounterList) {
 			String regName = "";
 			String changeStopReason = "";
-			if(en.getEncounterType().getUuid().equals("00d1b629-4335-4031-b012-03f8af3231f8")){
-				DrugOrderProcessed drugOrderProcessed=new DrugOrderProcessed();
-				List<Order> orderListByEn =  Context.getOrderService().getOrdersByEncounter(en);
-					for(Order o : orderListByEn){
-						DrugOrder dr = Context.getOrderService().getDrugOrder(o.getOrderId());
-						DrugOrderProcessed dop=kenyaEmrService.getLastDrugOrderProcessed(dr);
-						if(regName.equals("")){
-							regName = regName.concat(dr.getConcept().getName() + "(" + dop.getDose()+" "+dr.getUnits()+" "+dr.getFrequency()+")");	
-						}
-						else{
-							regName = regName.concat(" + " +dr.getConcept().getName() + "(" + dop.getDose()+" "+dr.getUnits()+" "+dr.getFrequency()+")");
-						}
-						if((dop.getRegimenChangeType()!=null) ){
-							changeStopReason = dop.getRegimenChangeType();	
-							
-							
-						}
-						if((o.getDiscontinuedReason()!=null) ){
-							changeStopReason = changeStopReason +"("+o.getDiscontinuedReason().getName() +")";	
-							
-							
-						}
-						
-						if(dop.getRegimenChangeType().equals("Restart")){
-							drugOrderProcessed=dop;	
-						}
+			if (en.getEncounterType().getUuid()
+					.equals("00d1b629-4335-4031-b012-03f8af3231f8")) {
+				DrugOrderProcessed drugOrderProcessed = new DrugOrderProcessed();
+				List<Order> orderListByEn = Context.getOrderService()
+						.getOrdersByEncounter(en);
+				for (Order o : orderListByEn) {
+					DrugOrder dr = Context.getOrderService().getDrugOrder(
+							o.getOrderId());
+					DrugOrderProcessed dop = kenyaEmrService
+							.getLastDrugOrderProcessed(dr);
+					if (regName.equals("")) {
+						regName = regName.concat(dr.getConcept().getName()
+								+ "(" + dop.getDose() + " " + dr.getUnits()
+								+ " " + dr.getFrequency() + ")");
+					} else {
+						regName = regName.concat(" + "
+								+ dr.getConcept().getName() + "("
+								+ dop.getDose() + " " + dr.getUnits() + " "
+								+ dr.getFrequency() + ")");
 					}
-					
-					if(regName!=""){
-						if(drugOrderProcessed.getDrugOrder()!=null){
-						regimenList.put(regimenIndex,new SimpleDateFormat("dd-MMMM-yyyy").format(en.getEncounterDatetime()) + ", " + changeStopReason+ ", "+ new SimpleDateFormat("dd-MMMM-yyyy").format(drugOrderProcessed.getDrugOrder().getStartDate()) + ", "+regName  );
-						}
-						else{ 
-							
-							regimenList.put(regimenIndex,new SimpleDateFormat("dd-MMMM-yyyy").format(en.getEncounterDatetime()) + ", " + changeStopReason+ ", "+ " "+ ", "+regName  );	
-						
-						}
-						regimenIndex++;
-						
+					if ((dop.getRegimenChangeType() != null)) {
+						changeStopReason = dop.getRegimenChangeType();
+
+					}
+					if ((o.getDiscontinuedReason() != null)) {
+						changeStopReason = changeStopReason + "("
+								+ o.getDiscontinuedReason().getName() + ")";
+
+					}
+
+					if (dop.getRegimenChangeType().equals("Restart")) {
+						drugOrderProcessed = dop;
 					}
 				}
+
+				if (regName != "") {
+					if (drugOrderProcessed.getDrugOrder() != null) {
+						regimenList.put(
+								regimenIndex,
+								new SimpleDateFormat("dd-MMMM-yyyy").format(en
+										.getEncounterDatetime())
+										+ ", "
+										+ changeStopReason
+										+ ", "
+										+ new SimpleDateFormat("dd-MMMM-yyyy")
+												.format(drugOrderProcessed
+														.getDrugOrder()
+														.getStartDate())
+										+ ", "
+										+ regName);
+					} else {
+
+						regimenList.put(
+								regimenIndex,
+								new SimpleDateFormat("dd-MMMM-yyyy").format(en
+										.getEncounterDatetime())
+										+ ", "
+										+ changeStopReason
+										+ ", "
+										+ " "
+										+ ", "
+										+ regName);
+
+					}
+					regimenIndex++;
+
+				}
+			}
 		}
 		model.addAttribute("regimenList", regimenList);
-         
-		
-//		List<DrugOrder> completedOrders = new ArrayList<DrugOrder>();
 
+		// List<DrugOrder> completedOrders = new ArrayList<DrugOrder>();
 
-			
-//		model.put("completedOrders", completedOrders);
-		
+		// model.put("completedOrders", completedOrders);
+
 		/*
 		 * Varaible for each visit
 		 */
-		if(patient.getAge() > 15){
+		if (patient.getAge() > 15) {
 			model.addAttribute("graphingConcepts", Dictionary.getConcepts(
 					Dictionary.RETURN_VISIT_DATE, Dictionary.WEIGHT_KG,
 					Dictionary.HEIGHT_CM, Dictionary.CURRENT_WHO_STAGE,
-					Dictionary.PERFORMANCE,
-					Dictionary.PREGNANCY_STATUS,
+					Dictionary.PERFORMANCE, Dictionary.PREGNANCY_STATUS,
 					Dictionary.METHOD_OF_FAMILY_PLANNING,
 					Dictionary.HIV_CARE_DIAGNOSIS,
-					Dictionary.NUTRITIONAL_PROBLEMS,
-				    Dictionary.TB_PATIENT,
-				    Dictionary.CPT_VALUE,
-				    Dictionary.IPT_VALUE,
-				    Dictionary.ART_ADHERENCE,
-					Dictionary.ART_SIDE_EFFECTS_VALUES,
-					Dictionary.CD4_COUNT,
+					Dictionary.NUTRITIONAL_PROBLEMS, Dictionary.TB_PATIENT,
+					Dictionary.CPT_VALUE, Dictionary.IPT_VALUE,
+					Dictionary.ART_ADHERENCE,
+					Dictionary.ART_SIDE_EFFECTS_VALUES, Dictionary.CD4_COUNT,
 					Dictionary.HIV_VIRAL_LOAD));
-		}
-		else{
+		} else {
 			model.addAttribute("graphingConcepts", Dictionary.getConcepts(
 					Dictionary.RETURN_VISIT_DATE, Dictionary.WEIGHT_KG,
 					Dictionary.HEIGHT_CM, Dictionary.CURRENT_WHO_STAGE,
-					Dictionary.PERFORMANCE,
-					Dictionary.PREGNANCY_STATUS,
+					Dictionary.PERFORMANCE, Dictionary.PREGNANCY_STATUS,
 					Dictionary.METHOD_OF_FAMILY_PLANNING,
-				    Dictionary.HIV_CARE_DIAGNOSIS,
-				    Dictionary.NUTRITIONAL_PROBLEMS,
-					Dictionary.TB_PATIENT,
-					Dictionary.CPT_VALUE,
-					Dictionary.IPT_VALUE,
+					Dictionary.HIV_CARE_DIAGNOSIS,
+					Dictionary.NUTRITIONAL_PROBLEMS, Dictionary.TB_PATIENT,
+					Dictionary.CPT_VALUE, Dictionary.IPT_VALUE,
 					Dictionary.ART_ADHERENCE,
-					Dictionary.ART_SIDE_EFFECTS_VALUES,
-					Dictionary.CD4_PERCENT,
+					Dictionary.ART_SIDE_EFFECTS_VALUES, Dictionary.CD4_PERCENT,
 					Dictionary.HIV_VIRAL_LOAD));
 		}
-		
 
 	}
 

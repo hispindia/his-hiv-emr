@@ -46,11 +46,11 @@
 <tr>
 <td>${count}</td>
 <td>${drugOrderObs.drug} </td>
-<td>${drugOrderObs.strength}</td>
-<td>${drugOrderObs.formulation} </td>
-<td>${drugOrderObs.frequency}</td>
-<td>${drugOrderObs.route.name} </td>
-<td>${drugOrderObs.duration}</td>
+<td><%if(drugOrderObs.strength) { %> ${drugOrderObs.strength}<%}%></td>
+<td><%if(drugOrderObs.formulation) { %>${drugOrderObs.formulation} <%}%></td>
+<td><%if(drugOrderObs.frequency) { %>${drugOrderObs.frequency}<%}%></td>
+<td><%if(drugOrderObs.route) { %>${drugOrderObs.route.name}<%}%> </td>
+<td><%if(drugOrderObs.duration) { %>${drugOrderObs.duration}<%}%></td>
 <td><input type="text" id="${drugOrderObs.obsGroupId}obsIssueQuantity" name="${drugOrderObs.obsGroupId}obsIssueQuantity" size="12"></td>
 <td> </td>
 <td><input type="checkbox" id="${count}drugOrderProcessedOrNot" name="${count}drugOrderProcessedOrNot" checked="checked" onClick="hideReasonForNotDispensed(${count},'${drugOrderObs.obsGroupId}obsIssueQuantity');"> </td>
