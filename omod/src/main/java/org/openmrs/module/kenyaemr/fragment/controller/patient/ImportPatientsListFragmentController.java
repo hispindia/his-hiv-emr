@@ -50,6 +50,7 @@ import org.openmrs.util.OpenmrsConstants;
 import org.openmrs.util.OpenmrsUtil;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
@@ -58,6 +59,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import java.io.File;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -95,15 +97,9 @@ public class ImportPatientsListFragmentController {
 
 	public SimpleObject submit(HttpServletRequest request) throws Exception {
 
-		Enumeration params = request.getParameterNames();
-		while (params.hasMoreElements()) {
-			String paramName = (String) params.nextElement();
-			// System.out.println("Parameter Name - " + paramName + ", Value - "
-			// + request.getParameter(paramName));
-		}
-
-		FileInputStream inputStream = new FileInputStream(new File(
-				"C:/Users/Sagar/Downloads/Legacy_data.xlsm"));
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		MultipartFile multipartModuleFile = multipartRequest.getFile("upload");
+		InputStream inputStream = multipartModuleFile.getInputStream();
 
 		Workbook workbook = new XSSFWorkbook(inputStream);
 		Sheet firstSheet = workbook.getSheetAt(0);

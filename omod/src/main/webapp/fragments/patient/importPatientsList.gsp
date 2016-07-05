@@ -1,6 +1,6 @@
 
 <div class="ke-page-content">
-	<form id="importPatientForm" name="importPatientForm" >
+	<form id="importPatientForm" name="importPatientForm" action="${ ui.actionLink("kenyaemr", "patient/importPatientsList", "submit") }" method="post" enctype="multipart/form-data">
 	  <table>
 	    <tr>
 	      <td class="NormalB">Upload/Import (XLS) File :</td>
@@ -16,7 +16,7 @@
 	
 	    <tr>
 	      <td class="NormalB">
-	        <input type="submit" name="importReport" value='Import Data' style="width:150px" onclick="savePatient();">
+	        <input type="submit" name="importReport" value='Import Data' style="width:150px">
 	      </td>
 	    </tr>
 	  </table>
