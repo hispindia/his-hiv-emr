@@ -304,15 +304,15 @@ input[type=button], button{
 						}
 				});
 			
-			var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+			var months = {1:"Jan", 2:"Feb",3:"Mar", 4:"Apr", 5:"May",6:"Jun", 7:"Jul",8:"Aug", 9:"Sep",10:"Oct",11:"Nov",12:"Dec"};
 			var d = new Date(getValue('curDate.value'));
 			var today = new Date();
 			
 			if(document.getElementById("w12-display")!=null){
 				if(d!="Invalid Date"){
 					d.setDate(d.getDate() + 280);
-					document.getElementById("w12-display").value =  ("0" + d.getDate()).slice(-2) + "-" + months[d.getMonth()] + "-" + d.getFullYear();
-					document.getElementById("w12").value = d.getFullYear()  + "-" +  d.getMonth() 	+ "-" + d.getDate();
+					document.getElementById("w12-display").value =  ("0" + d.getDate()).slice(-2) + "-" + months[d.getMonth()+1] + "-" + d.getFullYear();
+					document.getElementById("w12").value = d.getFullYear()  + "-" +  (d.getMonth()+1) 	+ "-" + d.getDate();
 				}
 				else{
 					document.getElementById("w12-display").value =  "";
@@ -343,14 +343,14 @@ input[type=button], button{
 		
 
 			jq("#curDate :input").change(function() {
-				var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+				var months = {1:"Jan", 2:"Feb",3:"Mar", 4:"Apr", 5:"May",6:"Jun", 7:"Jul",8:"Aug", 9:"Sep",10:"Oct",11:"Nov",12:"Dec"};
 				var d = new Date(getValue('curDate.value'));
 				var today = new Date();
 				if(d!=""){
 					jQuery('#mbdDate').html(Math.round(parseInt((today - d) / (1000 * 60 * 60 * 24)) /7));
 					d.setDate(d.getDate() + 280);
-					document.getElementById("w12-display").value =   ("0" + d.getDate()).slice(-2) + "-" + months[d.getMonth()] + "-" + d.getFullYear();
-					document.getElementById("w12").value = d.getFullYear()  + "-" +  d.getMonth() 	+ "-" + d.getDate();
+					document.getElementById("w12-display").value =   ("0" + d.getDate()).slice(-2) + "-" + months[d.getMonth()+1] + "-" + d.getFullYear();
+					document.getElementById("w12").value = d.getFullYear()  + "-" +  (d.getMonth()+1) 	+ "-" + d.getDate();
 					
 				}
 				else{
