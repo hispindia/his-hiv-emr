@@ -414,9 +414,11 @@
 		}
 		
 		jQuery(function() {
+			if(getValue('calculated-adherence.value')==''){
+				onWeightOrHeightChange();
+			}
 			getField('missedDoseCount.value').change(onWeightOrHeightChange);
 			getField('totalDoseCount.value').change(onWeightOrHeightChange);
-			onWeightOrHeightChange();
 		});
 	
 	</script>
