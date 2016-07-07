@@ -435,7 +435,7 @@ public class RegimenUtilFragmentController {
 						drugOrderProcessed.setCreatedDate(new Date());
 						drugOrderProcessed.setProcessedStatus(false);
 						drugOrderProcessed.setDose(dose);
-						drugOrderProcessed.setDoseRegimen(dosee);
+						drugOrderProcessed.setDoseRegimen(doseRegimen);
 						drugOrderProcessed.setNoOfTablet(noOfTablet);
 						drugOrderProcessed.setRoute(Context.getConceptService().getConcept(route));
 						drugOrderProcessed.setDurationPreProcess(duration);	
@@ -477,7 +477,7 @@ public class RegimenUtilFragmentController {
 				drugOrderProcessed.setCreatedDate(new Date());
 				drugOrderProcessed.setProcessedStatus(false);
 				drugOrderProcessed.setDose(dose);
-				drugOrderProcessed.setDoseRegimen(dosee);
+				drugOrderProcessed.setDoseRegimen(doseRegimen);
 				drugOrderProcessed.setNoOfTablet(noOfTablet);
 				drugOrderProcessed.setRoute(Context.getConceptService().getConcept(route));
 				drugOrderProcessed.setDurationPreProcess(duration);	
