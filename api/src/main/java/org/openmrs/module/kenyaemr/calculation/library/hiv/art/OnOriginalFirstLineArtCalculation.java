@@ -79,23 +79,26 @@ public class OnOriginalFirstLineArtCalculation extends AbstractPatientCalculatio
 		 	  else
 		 	  {
 		 		 if((ptId.equals(order.getPatient().getPatientId()) &&(order.getRegimenChangeType().equals("Start")) &&(order.getTypeOfRegimen().equals("First line Anti-retoviral drugs"))))
-		 		 {  
+		 		 { 
 		 			onOrigFirstLine=true; 
 		 			ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
+		 			 if(order.getDiscontinuedDate()!=null)
+				 	  { 
+				 		 onOrigFirstLine=false; 
+				 		ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
+				 	  }
 		 		 }
-		 	  else
+		 	 
+		 		 else if((ptId.equals(order.getPatient().getPatientId())&&(order.getRegimenChangeType().equals("Start")) &&(order.getTypeOfRegimen().equals("Fixed dose combinations (FDCs)"))))
 		 	  {
-		 		 onOrigFirstLine=false;  
-		 		ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
-		 	  }
-		 	  if((ptId.equals(order.getPatient().getPatientId())&&(order.getRegimenChangeType().equals("Start")) &&(order.getTypeOfRegimen().equals("Fixed dose combinations (FDCs)"))))
-		 	  { if(order.getDrugRegimen().equals(drugorder.getDrugRegimen()))
+		 	  if(order.getDrugRegimen().equals(drugorder.getDrugRegimen()))
 		 		  { 
 		 			 onOrigFirstLine = false;
 		 			
 		 		  }
 		 		  else
-		 		  {  onOrigFirstLine = true;
+		 		  { 
+		 			  onOrigFirstLine = true;
 		 			drugorder=order;
 		 			ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
 		 		  }

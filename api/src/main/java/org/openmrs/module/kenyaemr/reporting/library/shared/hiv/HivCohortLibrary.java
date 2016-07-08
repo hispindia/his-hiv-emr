@@ -901,8 +901,7 @@ public class HivCohortLibrary {
             cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
             cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
             cd.addSearch("enrolledHIV", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.HIV)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
-            cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrBefore=${onOrBefore}"));
-            cd.setCompositionString("enrolledHIV AND NOT enrolled");
+            cd.setCompositionString("enrolledHIV");
             return cd;
         }
         

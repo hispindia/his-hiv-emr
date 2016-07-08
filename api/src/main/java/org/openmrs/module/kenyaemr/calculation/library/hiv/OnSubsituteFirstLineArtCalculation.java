@@ -61,8 +61,13 @@ public class OnSubsituteFirstLineArtCalculation extends AbstractPatientCalculati
 			 		 {  
 			 			onOrigFirstLines=true; 
 			 			ret.put(ptId, new BooleanResult(onOrigFirstLines, this, context));
+			 			 if(order.getDiscontinuedDate()!=null)
+					 	  { 
+					 		 onOrigFirstLines=false; 
+					 		ret.put(ptId, new BooleanResult(onOrigFirstLines, this, context));
+					 	  }
 			 		 }
-			 	  if((ptId.equals(order.getPatient().getPatientId())&&(order.getRegimenChangeType().equals("Substitute")) &&(order.getTypeOfRegimen().equals("Fixed dose combinations (FDCs)"))))
+		 			else if((ptId.equals(order.getPatient().getPatientId())&&(order.getRegimenChangeType().equals("Substitute")) &&(order.getTypeOfRegimen().equals("Fixed dose combinations (FDCs)"))))
 			 	  { if(order.getDrugRegimen().equals(drugorder.getDrugRegimen()))
 			 		  { 
 			 			 onOrigFirstLines = false;

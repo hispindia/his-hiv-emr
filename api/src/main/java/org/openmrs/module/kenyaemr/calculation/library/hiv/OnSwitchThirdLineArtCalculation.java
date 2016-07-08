@@ -55,22 +55,23 @@ public class OnSwitchThirdLineArtCalculation extends AbstractPatientCalculation 
 		 	  }
 		 	  else
 		 	  {
-		 		 if((ptId.equals(order.getPatient().getPatientId())&&(order.getRegimenChangeType().equals("Switch")) &&(order.getTypeOfRegimen().equals("Fixed dose combinations (FDCs)"))))
+		 		 if((ptId.equals(order.getPatient().getPatientId())&&(order.getDrugRegimen().equals("AZT/3TC+TDF+LPV/r"))&&(order.getRegimenChangeType().equals("Switch")) &&(order.getTypeOfRegimen().equals("Fixed dose combinations (FDCs)"))))
 			 	  { if(order.getDrugRegimen().equals(drugorder.getDrugRegimen()))
 			 		  { 
 			 			 onOrigFirstLine = false;
 			 			
 			 		  }
 			 		  else
-			 		  {  onOrigFirstLine = true;
+			 		  { 
+			 		    onOrigFirstLine = true;
 			 			drugorder=order;
 			 			ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
 			 		  }
-			 		 if(order.getDiscontinuedDate()!=null)
-				 	  { 
-				 		 onOrigFirstLine=false; 
-				 		ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
-				 	  }
+			 	 if(order.getDiscontinuedDate()!=null)
+			 	  { 
+			 		 onOrigFirstLine=false; 
+			 		ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
+			 	  }
 			 		
 			 	  }  
 		 	  }
@@ -78,7 +79,7 @@ public class OnSwitchThirdLineArtCalculation extends AbstractPatientCalculation 
 		}
 			
 
-			ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
+			
 		}
 		return ret;
     }
