@@ -46,13 +46,7 @@ input[type=button], button{
 		
 		jq(document).ready(function(){
 			
-			var opportunisticInfection = getValue('opportunisticInfection.value');
-			if (opportunisticInfection == 1066) { 
-				jq('#opportunisticInfectionYes :input').prop('disabled', true);
-			}
-			if (opportunisticInfection == 1065) { 
-				jq('#opportunisticInfectionYes :input').prop('disabled', false);
-			}
+		
 			
 			var pbirthdate = new Date("<lookup expression="patient.birthdate" />").getTime();
 
@@ -130,7 +124,26 @@ input[type=button], button{
 			
 			
 			// show fields with data 
-			fieldIndex1 = 68;
+			var tbValues = getValue('tbSufferedPatient.value');
+			var opportunistic= getValue('opportunisticInfection.value');
+			if(tbValues==1065 || tbValues==1066)
+				{
+				if(opportunistic==1065)
+					{
+					
+					fieldIndex1 = 48;
+					}
+				else
+					{
+					fieldIndex1 = 76;
+					}
+				}
+			else
+				{
+				fieldIndex1 = 68;
+				}
+		
+			
 			count=1;
 			document.getElementById(count+'-addImage1').src = addImageLink;
 			document.getElementById(count+'-removeImage1').src = removeImageLink;
@@ -316,10 +329,17 @@ input[type=button], button{
 						jq('#tbSufferedPatientNo :input').prop('disabled', false);
 				}
 				});
-				
+				if( opportunisticInfection==1066)
+					{
+					jq('#opportunisticInfectionYes :input').prop('disabled', true);
+					}
+				else
+					{
+					jq('#opportunisticInfectionYes :input').prop('disabled', false);
+					}
 				$('#opportunisticInfection input:radio').click(function() {
 					var opportunisticInfection = getValue('opportunisticInfection.value');
-					
+				
 					if (opportunisticInfection == 1066) { 
 						jq('#opportunisticInfection').value= opportunisticInfection;
 						jq('#opportunisticInfectionYes :input').prop('disabled', true);
