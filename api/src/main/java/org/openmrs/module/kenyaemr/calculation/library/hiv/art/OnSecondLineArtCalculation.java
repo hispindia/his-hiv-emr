@@ -14,19 +14,22 @@
 
 package org.openmrs.module.kenyaemr.calculation.library.hiv.art;
 
+import org.openmrs.api.context.Context;
 import org.openmrs.calculation.patient.PatientCalculationContext;
 import org.openmrs.calculation.result.CalculationResultMap;
 import org.openmrs.calculation.result.SimpleResult;
-
 import org.openmrs.module.kenyacore.calculation.AbstractPatientCalculation;
 import org.openmrs.module.kenyacore.calculation.BooleanResult;
 import org.openmrs.module.kenyacore.calculation.CalculationUtils;
+import org.openmrs.module.kenyaemr.api.KenyaEmrService;
 import org.openmrs.module.kenyaemr.calculation.BaseEmrCalculation;
 import org.openmrs.module.kenyaemr.calculation.EmrCalculationUtils;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.LostToFollowUpCalculation;
+import org.openmrs.module.kenyaemr.model.DrugOrderProcessed;
 import org.openmrs.module.kenyaemr.regimen.RegimenOrder;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -44,24 +47,41 @@ public class OnSecondLineArtCalculation extends AbstractPatientCalculation {
     public CalculationResultMap evaluate(Collection<Integer> cohort, Map<String, Object> arg1, PatientCalculationContext context) {
 
 		// Get active ART regimen of each patient
-		CalculationResultMap currentArvs = calculate(new CurrentArtRegimenCalculation(), cohort, context);
-		Set<Integer> ltfu = CalculationUtils.patientsThatPass(calculate(new LostToFollowUpCalculation(), cohort, context));
-
 		CalculationResultMap ret = new CalculationResultMap();
 		for (Integer ptId : cohort) {
-			boolean onSecondLine = false;
-			SimpleResult currentArvResult = (SimpleResult) currentArvs.get(ptId);
+			boolean onOrigFirstLine = false;
+			 KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
+		 	   List<DrugOrderProcessed> drugorderprocess = kenyaEmrService.getAllfirstLine();
+		 	  DrugOrderProcessed drugorder = new DrugOrderProcessed();
+		 	   {
+		 	  for(DrugOrderProcessed order:drugorderprocess)
+		 	  { 
+		 		
+		 		
+		 			if((ptId.equals(order.getPatient().getPatientId())&&(!order.getDrugRegimen().equals("AZT/3TC+TDF+LPV/r"))&&(order.getRegimenChangeType().equals("Switch")) &&(order.getTypeOfRegimen().equals("Fixed dose combinations (FDCs)"))))
+				 	  { if(order.getDrugRegimen().equals(drugorder.getDrugRegimen()))
+				 		  { 
+				 			 onOrigFirstLine = false;
+				 			
+				 		  }
+				 		  else
+				 		  {  onOrigFirstLine = true;
+				 			drugorder=order;
+				 			ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
+				 		  }
+				 		 if(order.getDiscontinuedDate()!=null)
+					 	  { 
+					 		 onOrigFirstLine=false; 
+					 		ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
+					 	  }
+				 		
+				 	  }
+		 		
+		 	  }
+		}
+			
 
-			if (currentArvResult != null) {
-				RegimenOrder currentRegimen = (RegimenOrder) currentArvResult.getValue();
-
-				onSecondLine = EmrCalculationUtils.regimenInGroup(currentRegimen, "ARV", "adult-second");
-			}
-			if (ltfu.contains(ptId)) {
-				onSecondLine = false;
-			}
-
-			ret.put(ptId, new BooleanResult(onSecondLine, this, context));
+			
 		}
 		return ret;
     }
