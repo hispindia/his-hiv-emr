@@ -15,15 +15,26 @@
 package org.openmrs.module.kenyaemr.calculation.library.tb;
 
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.openmrs.Concept;
+import org.openmrs.Obs;
 import org.openmrs.Program;
+import org.openmrs.api.context.Context;
 import org.openmrs.calculation.patient.PatientCalculationContext;
+import org.openmrs.calculation.result.CalculationResult;
 import org.openmrs.calculation.result.CalculationResultMap;
 import org.openmrs.module.kenyacore.calculation.AbstractPatientCalculation;
+import org.openmrs.module.kenyacore.calculation.BooleanResult;
+import org.openmrs.module.kenyacore.calculation.CalculationUtils;
 import org.openmrs.module.kenyacore.calculation.Calculations;
 import org.openmrs.module.kenyacore.calculation.Filters;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
+import org.openmrs.module.kenyaemr.Dictionary;
+import org.openmrs.module.kenyaemr.calculation.EmrCalculationUtils;
 import org.openmrs.module.kenyaemr.metadata.TbMetadata;
 
 /**
@@ -36,6 +47,37 @@ public class InTbProgramCalculation extends AbstractPatientCalculation {
 	 */
 	@Override
 	public CalculationResultMap evaluate(Collection<Integer> cohort, Map<String, Object> params, PatientCalculationContext context) {
-		return passing(Calculations.activeEnrollment(MetadataUtils.existing(Program.class, TbMetadata._Program.TB), Filters.alive(cohort, context), context));
+		Program tbProgram = MetadataUtils.existing(Program.class, TbMetadata._Program.TB);
+
+		// Get all patients who are alive and in TB program
+		Set<Integer> alive = Filters.alive(cohort, context);
+		Set<Integer> inTbProgram = Filters.inProgram(tbProgram, alive, context);
+
+		// Get concepts
+		Concept methodOfenrollment = Dictionary.getConcept(Dictionary.METHOD_OF_ENROLLMENT);
+		Concept tbprogram = Dictionary.getConcept(Dictionary.TUBERCULOSIS_TREATMENT_PROGRAM);
+
+		CalculationResultMap ret = new CalculationResultMap();
+		for (Integer ptId : cohort) {
+			boolean eligible = false;
+
+			// check if a patient is alive
+			if (alive.contains(ptId)) {
+
+				List<Obs> obs = Context.getObsService()
+						.getObservationsByPersonAndConcept(Context.getPatientService().getPatient(ptId), methodOfenrollment);
+				List<Obs> requiredObs = new LinkedList<Obs>();
+				for(Obs o : obs ) {
+					if(o.getValueCoded()==tbprogram){
+						requiredObs.add(o);
+						eligible=true;
+					}
+				}
+			ret.put(ptId, new BooleanResult(eligible, this));
+		}
+
+		
 	}
+		return ret;
+}
 }
