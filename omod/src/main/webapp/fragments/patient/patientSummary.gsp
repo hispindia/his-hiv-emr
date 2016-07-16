@@ -35,11 +35,16 @@
 		<% if (patientWrap.nextOfKinContact) { %>
 			<br/>Treatment Supporter's contact number: <strong>${patientWrap.nextOfKinContact}</strong>
 		<% } %>
+		<% if (patientWrap.previousHivTestStatus) { %>
+			<br/>HIV confirmation test Status : <strong>${patientWrap.previousHivTestStatus}</strong>
+		<% } %>
+		<% if (patientWrap.previousHivTestStatus=="Yes") { %>
 		<% if (patientWrap.previousHivTestDate) { %>
 			<br/>HIV confirmation test date : <strong>${patientWrap.previousHivTestDate}</strong>
 		<% } %>
 		<% if (patientWrap.previousHivTestPlace) { %>
 			<br/>HIV confirmation test place : <strong>${patientWrap.previousHivTestPlace}</strong>
+		<% } %>
 		<% } %>
 		<% if (savedEntryPoint) { %>
 		          <% if(entryPoint=='Other') {%>

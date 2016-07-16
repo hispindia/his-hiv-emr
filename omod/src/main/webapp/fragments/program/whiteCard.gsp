@@ -103,11 +103,15 @@ function print(){
 						<% if (address.stateProvince != '?') { %>
 						<tr><td><strong>State or Region</strong><small> </td><td> : ${ address.stateProvince}.</small></br> </td></tr>
 						<% } %>
+						<% if (patientWrap.previousHivTestStatus) { %>
+			            <tr><td><strong>HIV confirmation test Status <small> </td><td> : ${patientWrap.previousHivTestStatus}</small> </td></tr>
+		                <% } %>
+		                <% if (patientWrap.previousHivTestStatus=="Yes") { %>
 						<% if (patientWrap.previousHivTestDate) { %>
 						<tr><td><strong>Date HIV+ test</strong><small></td><td> : ${patientWrap.previousHivTestDate}</small> </td></tr>
 						<tr><td><strong>Plcae</strong><small></td><td> : ${patientWrap.previousHivTestPlace}</small> </td></tr>
 						<% } %>
-						
+						<% } %>
 						<% if(savedEntryPoint) { %>  <% if(entryPoint=='Other') {%> 
 						<tr><td><strong>Entry Point</strong><small></td><td> : ${savedEntryPoint.valueCoded.name} (${otherEntryPoint})</small></br> </td></tr>
 						 <% }  else { %>
@@ -393,9 +397,14 @@ function print(){
 						<% if (address.stateProvince != '?') { %>
 						<tr><td><strong>State or Region</strong><small> </td><td> : ${ address.stateProvince}.</small></br> </td></tr>
 						<% } %>
+						<% if (patientWrap.previousHivTestStatus) { %>
+			            <tr><td><strong>HIV confirmation test Status <small> </td><td> : ${patientWrap.previousHivTestStatus}</small> </td></tr>
+		                <% } %>
+		                <% if (patientWrap.previousHivTestStatus=="Yes") { %>
 						<% if (patientWrap.previousHivTestDate) { %>
 						<tr><td><strong>Date HIV+ test</strong><small></td><td> : ${patientWrap.previousHivTestDate}</small> </td></tr>
 						<tr><td><strong>Plcae</strong><small></td><td> : ${patientWrap.previousHivTestPlace}</small> </td></tr>
+						<% } %>
 						<% } %>
 						
 						<% if(savedEntryPoint) { %>  <% if(entryPoint=='Other') {%> 
