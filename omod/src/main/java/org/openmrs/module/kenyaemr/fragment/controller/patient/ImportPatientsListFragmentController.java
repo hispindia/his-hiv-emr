@@ -44,6 +44,7 @@ import org.openmrs.module.kenyaemr.metadata.HivMetadata;
 import org.openmrs.module.kenyaemr.wrapper.PatientWrapper;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.ui.framework.SimpleObject;
+import org.openmrs.ui.framework.fragment.action.SuccessResult;
 import org.openmrs.ui.framework.page.PageModel;
 import org.openmrs.ui.framework.resource.ResourceFactory;
 import org.openmrs.util.OpenmrsConstants;
@@ -95,7 +96,7 @@ public class ImportPatientsListFragmentController {
 		model.addAttribute("returnUrl", returnUrl);
 	}
 
-	public SimpleObject submit(HttpServletRequest request) throws Exception {
+	public Object submit(HttpServletRequest request) throws Exception {
 
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		MultipartFile multipartModuleFile = multipartRequest.getFile("upload");
@@ -136,7 +137,10 @@ public class ImportPatientsListFragmentController {
 					}
 				}
 				int i = 0;
-
+				for (String s : legacyData) {
+					System.out.println(s + "-" + i);
+					i++;
+				}
 				/*
 				 * Start Patient Creation
 				 */
@@ -325,7 +329,7 @@ public class ImportPatientsListFragmentController {
 					Date curDate = new Date();
 					Date dateVisit = null;
 					try {
-						dateVisit = formatter.parse(legacyData.get(32));
+						dateVisit = formatter.parse(legacyData.get(18));
 
 					} catch (ParseException e) {
 						e.printStackTrace();
@@ -337,7 +341,7 @@ public class ImportPatientsListFragmentController {
 					SimpleDateFormat mysqlDateTimeFormatter = new SimpleDateFormat(
 							"dd-MMM-yy HH:mm:ss");
 
-					if (legacyData.get(32)!=null) {
+					if (legacyData.get(18)!=null) {
 						try {
 							dateVisit = mysqlDateTimeFormatter.parse(dateCheck
 									+ " " + curDate.getHours() + ":"
@@ -412,9 +416,11 @@ public class ImportPatientsListFragmentController {
 					 * End : Visit, Encounter and Program creation for Patient
 					 * entered as Legacy Data
 					 */
+
+					
+					
 					/*
 					 * Personal History encounter
-					 */
 
 					Encounter personalHistoryEncounter = new Encounter();
 
@@ -504,10 +510,10 @@ public class ImportPatientsListFragmentController {
 								iduSubstituteType, "",null, null,
 								enPersonalHistoryNew, null);
 					}
-
+*/
 					/*
 					 * Family History encounter
-					 */
+					
 					Encounter familyHistoryEncounter = new Encounter();
 
 					familyHistoryEncounter
@@ -537,10 +543,10 @@ public class ImportPatientsListFragmentController {
 								Dictionary.getConcept(Dictionary.CIVIL_STATUS),
 								married, "", null, null,enFamilyHistoryNew, null);
 					}
-
+ */
 					/*
 					 * Obstertric History encounter
-					 */
+					 
 					Encounter obstetricHistoryEncounter = new Encounter();
 
 					obstetricHistoryEncounter
@@ -586,10 +592,10 @@ public class ImportPatientsListFragmentController {
 								pregnancy, "", null, null,enObstetricHistoryNew,
 								null);
 					}
-
+*/
 					/*
 					 * Drug History encounter
-					 */
+					 
 					Encounter drugHistoryEncounter = new Encounter();
 
 					drugHistoryEncounter.setEncounterType(hivEnrollEncType);
@@ -685,8 +691,8 @@ public class ImportPatientsListFragmentController {
 								place, "", null, null,enDrugHistoryNew, drugGroup
 										.getObsGroupId());
 
-					}
-
+					}*/
+				
 				}
 			}
 			rowCount++;
@@ -698,12 +704,11 @@ public class ImportPatientsListFragmentController {
 		int rowCountVisit = 0;
 
 		while (iteratorSecond.hasNext()) {
-			System.out.println("######################################Inside Second sheet");
 			Row nextRow = iteratorSecond.next();
 			Iterator<Cell> cellIterator = nextRow.cellIterator();
 			if (rowCountVisit > 0) {
+				System.out.println("######################################Inside Second sheet");
 				ArrayList<String> legacyData = new ArrayList<String>();
-
 				while (cellIterator.hasNext()) {
 					Cell cell = cellIterator.next();
 					switch (cell.getCellType()) {
@@ -732,13 +737,12 @@ public class ImportPatientsListFragmentController {
 					System.out.println(s + "-" + i);
 					i++;
 				}
-		
 			}
+			rowCountVisit++;
 		}	
-		
+		System.out.println("Hellooooooo###################");
 		inputStream.close();
-		return SimpleObject.create("success", true);
-
+		return new SuccessResult("Saved Patient Data");
 	}
 
 	private static int generateCheckdigit(String input) {
