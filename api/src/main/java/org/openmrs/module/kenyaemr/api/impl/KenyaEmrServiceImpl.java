@@ -38,8 +38,10 @@ import org.openmrs.Order;
 import org.openmrs.OrderType;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifierType;
+import org.openmrs.PatientProgram;
 import org.openmrs.Person;
 import org.openmrs.PersonAddress;
+import org.openmrs.Program;
 import org.openmrs.Visit;
 import org.openmrs.api.APIException;
 import org.openmrs.api.EncounterService;
@@ -425,5 +427,9 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 	
 	public List<Obs> getObsByScheduledDate(Date date){
 		return dao.getObsByScheduledDate(date);
+	}
+	
+	public List<PatientProgram> getPatientProgram(Program program,String startDate,String endDate){
+		return dao.getPatientProgram(program,startDate,endDate);
 	}
 }

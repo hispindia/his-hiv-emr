@@ -30,8 +30,10 @@ import org.openmrs.EncounterType;
 import org.openmrs.Obs;
 import org.openmrs.OrderType;
 import org.openmrs.Patient;
+import org.openmrs.PatientProgram;
 import org.openmrs.Person;
 import org.openmrs.PersonAddress;
+import org.openmrs.Program;
 import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.db.DAOException;
@@ -427,5 +429,20 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	criteria.add(Restrictions.eq("valueDatetime", date));
 	return criteria.list();
 	}
+	
+	public List<PatientProgram> getPatientProgram(Program program,String startDate,String endDate) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PatientProgram.class,"patientProgram");
+		criteria.add(Restrictions.eq("program", program));
+		criteria.add(Restrictions.isNull("dateCompleted"));
+		String startFromDate = startDate + " 00:00:00";
+		String endFromDate = endDate + " 23:59:59";
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("dateCreated", formatter.parse(startFromDate)),
+				    Restrictions.le("dateCreated", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return criteria.list();
+		}
 
 }

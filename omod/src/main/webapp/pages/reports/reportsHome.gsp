@@ -14,6 +14,8 @@
 
 	def indicatorReports = { it.findAll({ it.isIndicator }) }
 	def cohortReports = { it.findAll({ !it.isIndicator }) }
+	
+	def iconPath = "reports/" + "patient_list" + ".png"
 %>
 
 <div class="ke-page-content">
@@ -28,7 +30,7 @@
 		<div class="ke-tab" data-tabid="${ programNameToSlug(programName) }">
 			<table cellspacing="0" cellpadding="0" width="100%">
 				<tr>
-					<td style="width: 50%; vertical-align: top">
+					<td style="width: 35%; vertical-align: top">
 						<div class="ke-panel-frame">
 							<div class="ke-panel-heading">Report & Indicator</div>
 							<div class="ke-panel-content">
@@ -36,7 +38,7 @@
 							</div>
 						</div>
 					</td>
-					<td style="width: 50%; vertical-align: top; padding-left: 5px">
+					<td style="width: 35%; vertical-align: top; padding-left: 5px">
 						<div class="ke-panel-frame">
 							<div class="ke-panel-heading">Patient Lists</div>
 							<div class="ke-panel-content">
@@ -44,9 +46,41 @@
 							</div>
 						</div>
 					</td>
+					<td style="width: 30%; vertical-align: top; padding-left: 5px">
+					<div class="ke-panel-frame">
+						<div class="ke-panel-heading">Custom report</div>
+						<div class="ke-panel-content">
+						
+						<div class="ke-stack-item ke-navigable" onclick="reportView();">
+	                    ${ ui.includeFragment("kenyaui", "widget/icon", [ iconProvider: "kenyaui", icon: iconPath, tooltip: "View report" ]) }
+	                    <b>Yearly Report</b>
+	                    <div class="ke-extra"></div>
+                        </div>
+                        
+                        <div class="ke-stack-item ke-navigable" onclick="reportView();">
+	                    ${ ui.includeFragment("kenyaui", "widget/icon", [ iconProvider: "kenyaui", icon: iconPath, tooltip: "View report" ]) }
+	                    <b>Half Yearly Report</b>
+	                    <div class="ke-extra"></div>
+                        </div>
+                        
+                        <div class="ke-stack-item ke-navigable" onclick="reportView();">
+	                    ${ ui.includeFragment("kenyaui", "widget/icon", [ iconProvider: "kenyaui", icon: iconPath, tooltip: "View report" ]) }
+	                    <b>Quaterly Report</b>
+	                    <div class="ke-extra"></div>
+                        </div>
+                        
+						</div>
+					</div
+				</td>
 				</tr>
 			</table>
 		</div>
 		<% } %>
 	</div>
 </div>
+
+<script type="text/javascript">
+function reportView() {
+ui.navigate('kenyaemr', 'reports/yearlyReport');
+}
+</script>

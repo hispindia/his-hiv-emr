@@ -29,8 +29,10 @@ import org.openmrs.Obs;
 import org.openmrs.Order;
 import org.openmrs.OrderType;
 import org.openmrs.Patient;
+import org.openmrs.PatientProgram;
 import org.openmrs.Person;
 import org.openmrs.PersonAddress;
+import org.openmrs.Program;
 import org.openmrs.Visit;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.kenyaemr.model.DrugInfo;
@@ -151,4 +153,5 @@ public interface KenyaEmrService extends OpenmrsService {
 	public List<DrugOrderProcessed> getAllfirstLine();
 	public List<PersonAddress> getPatientsByTownship(String township);
 	public List<Obs> getObsByScheduledDate(Date date);
+	public List<PatientProgram> getPatientProgram(Program program,String startDate,String endDate);
 }
