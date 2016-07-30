@@ -211,8 +211,8 @@ public class SearchFragmentController {
 			@RequestParam(value = "townShip", required = false) String townShip,
 			UiUtils ui) {
 KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
-		
-		SimpleDateFormat mysqlDateTimeFormatter = new SimpleDateFormat(
+
+SimpleDateFormat mysqlDateTimeFormatter = new SimpleDateFormat(
 				"MM/dd/yyyy HH:mm:ss");
 		Date scheduledDate = null;
 		if(!date.equals("")){
@@ -317,7 +317,10 @@ KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrS
 		if ("scheduled".equals(which)) {
 			List<Obs> obsList=kenyaEmrService.getObsByScheduledDate(scheduledDate);	
 			for(Obs obs:obsList){
-        		searchedPatients.add(obs.getPatient());
+				if(!obs.getVoided()){
+					searchedPatients.add(obs.getPatient());	
+				}
+				
         	}	
 		}
 		else{
@@ -416,7 +419,9 @@ KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrS
 				matched.add(drugOrder.getPatient());
 			}
 			for (Obs obs : obss) {
-				matched.add(obs.getPatient());
+				if(!obs.getVoided()){
+					matched.add(obs.getPatient());	
+				}
 			}
 		}
 
