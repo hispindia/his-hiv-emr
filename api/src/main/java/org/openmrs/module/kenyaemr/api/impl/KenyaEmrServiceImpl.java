@@ -484,4 +484,9 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 	public List<Obs> getNoOfPatientLostToFollowUp(String startDate,String endDate){
 		return dao.getNoOfPatientLostToFollowUp(startDate,endDate);
 	}
+	@Override
+	public List<DrugOrderProcessed> getDrugOrderProcessedByPatient(Patient patient) {
+		// TODO Auto-generated method stub
+		return dao.getDrugOrderProcessedByPatient(patient);
+	}
 }

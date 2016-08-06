@@ -91,4 +91,5 @@ public interface KenyaEmrDAO {
 	public List<PatientProgram> getNoOfArtStoppedCohort(Program program,String startDate,String endDate);
 	public List<PatientProgram> getNoOfArtDiedCohort(Program program,String startDate,String endDate);
 	public List<Obs> getNoOfPatientLostToFollowUp(String startDate,String endDate);
+	public List<DrugOrderProcessed> getDrugOrderProcessedByPatient(Patient patient);
 }

@@ -651,5 +651,11 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		}
 		return criteria.list();
 		}
+		@Override
+	public List<DrugOrderProcessed> getDrugOrderProcessedByPatient(Patient patient) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class);
+		criteria.add(Restrictions.eq("patient", patient));
+		return criteria.list();
+	}
 
 }

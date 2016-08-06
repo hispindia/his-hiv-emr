@@ -45,8 +45,15 @@ input[type=button], button{
 <script type="text/javascript">
 		
 		jq(document).ready(function(){
-			
-		
+			var opportunisticInfection = getValue('opportunisticInfection.value');
+			if( opportunisticInfection==1066)
+			{
+			jq('#opportunisticInfectionYes :input').prop('disabled', true);
+			}
+			else
+			{
+			jq('#opportunisticInfectionYes :input').prop('disabled', false);
+			}
 			
 			var pbirthdate = new Date("<lookup expression="patient.birthdate" />").getTime();
 
@@ -304,39 +311,32 @@ input[type=button], button{
 				//==========part 1 division---------------------------
 				var tbValues = getValue('tbSufferedPatient.value');
 				
-				if (tbValues == 1065){
+				if (tbValues == 1663){
 					
 					jq('#tbSufferedPatientNo :input').prop('disabled', true);
 				}
-				else if (tbValues == 1066){
-					
+				else if(tbValues == 142177 || tbValues == 1660 || tbValues == 1118)
+					{
 					jq('#tbSufferedPatientYes :input').prop('disabled', true);
-				}
+					}
 				else
 					{
 					jq('#tbSufferedPatientYes :input').prop('disabled', true);
 					jq('#tbSufferedPatientNo :input').prop('disabled', true);
 					}
 				
-				$('#tbSufferedPatient input:radio').click(function() {
-					if (jq(this).val() == 1065) {
+				$('#tbSufferedPatient').change(function() {
+					if (getValue('tbSufferedPatient.value') ==1663) {
 						jq('#tbSufferedPatientNo :input').prop('disabled', true);
 						jq('#tbSufferedPatientYes :input').prop('disabled', false);
 				}
-					if (jq(this).val() == 1066) {
+					else{
 						alert("Isoniazid Prophylaxis is recommended.");
 						jq('#tbSufferedPatientYes :input').prop('disabled', true);
 						jq('#tbSufferedPatientNo :input').prop('disabled', false);
 				}
 				});
-				if( opportunisticInfection==1066)
-					{
-					jq('#opportunisticInfectionYes :input').prop('disabled', true);
-					}
-				else
-					{
-					jq('#opportunisticInfectionYes :input').prop('disabled', false);
-					}
+				
 				$('#opportunisticInfection input:radio').click(function() {
 					var opportunisticInfection = getValue('opportunisticInfection.value');
 				
@@ -401,8 +401,8 @@ input[type=button], button{
 			<td style="padding-left: 10px;" align="left" colspan="2"><b>1.
 					Is the Patient Suffered from TB?*</b> <obs
 					conceptId="5fcb62a7-f1b5-4cc6-bf69-4455719036a6" labelText=" "
-					answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-					style="radio" answerLabels="Yes,No" id="tbSufferedPatient" /></td>
+					answerConceptIds="1663AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,142177AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1660AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1118AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+					id="tbSufferedPatient" /></td>
 		</tr>
 		<tr id="topMost">
 			<td align="center" style="padding-left: 10px; padding-right: 30px;"
