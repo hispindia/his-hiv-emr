@@ -432,4 +432,56 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 	public List<PatientProgram> getPatientProgram(Program program,String startDate,String endDate){
 		return dao.getPatientProgram(program,startDate,endDate);
 	}
+	
+	public List<Obs> getNoOfPatientTransferredIn(String startDate,String endDate){
+		return dao.getNoOfPatientTransferredIn(startDate,endDate);
+	}
+	
+	public List<Obs> getNoOfPatientTransferredOut(String startDate,String endDate){
+		return dao.getNoOfPatientTransferredOut(startDate,endDate);
+	}
+	
+	public Visit getVisitsByPatient(Patient patient){
+		return dao.getVisitsByPatient(patient);
+	}
+	
+	public Integer getTotalNoOfCohort(String startDate,String endDate){
+		return dao.getTotalNoOfCohort(startDate,endDate);
+	}
+	
+	public Integer getCohortBasedOnGender(String gender,String startDate,String endDate){
+		return dao.getCohortBasedOnGender(gender,startDate,endDate);
+	}
+	
+	public Integer getCohortBasedOnAge(Integer age1,Integer age2,String startDate,String endDate){
+		return dao.getCohortBasedOnAge(age1,age2,startDate,endDate);
+	}
+	
+	public List<PatientProgram> getNoOfCohortAliveAndOnArt(Program program,String startDate,String endDate){
+		return dao.getNoOfCohortAliveAndOnArt(program,startDate,endDate);
+	}
+	
+	public List<DrugOrderProcessed> getOriginalFirstLineRegimen(String startDate,String endDate){
+		return dao.getOriginalFirstLineRegimen(startDate,endDate);
+	}
+	
+	public List<DrugOrderProcessed> getAlternateFirstLineRegimen(String startDate,String endDate){
+		return dao.getAlternateFirstLineRegimen(startDate,endDate);
+	}
+	
+	public List<DrugOrderProcessed> getSecondLineRegimen(String startDate,String endDate){
+		return dao.getSecondLineRegimen(startDate,endDate);
+	}
+	
+	public List<PatientProgram> getNoOfArtStoppedCohort(Program program,String startDate,String endDate){
+		return dao.getNoOfArtStoppedCohort(program,startDate,endDate);
+	}
+	
+	public List<PatientProgram> getNoOfArtDiedCohort(Program program,String startDate,String endDate){
+		return dao.getNoOfArtDiedCohort(program,startDate,endDate);
+	}
+	
+	public List<Obs> getNoOfPatientLostToFollowUp(String startDate,String endDate){
+		return dao.getNoOfPatientLostToFollowUp(startDate,endDate);
+	}
 }

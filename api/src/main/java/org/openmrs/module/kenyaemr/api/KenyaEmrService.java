@@ -154,4 +154,18 @@ public interface KenyaEmrService extends OpenmrsService {
 	public List<PersonAddress> getPatientsByTownship(String township);
 	public List<Obs> getObsByScheduledDate(Date date);
 	public List<PatientProgram> getPatientProgram(Program program,String startDate,String endDate);
+	public List<Obs> getNoOfPatientTransferredIn(String startDate,String endDate);
+	public List<Obs> getNoOfPatientTransferredOut(String startDate,String endDate);
+	public Visit getVisitsByPatient(Patient patient);
+	public Integer getTotalNoOfCohort(String startDate,String endDate);
+	public Integer getCohortBasedOnGender(String gender,String startDate,String endDate);
+	public Integer getCohortBasedOnAge(Integer age1,Integer age2,String startDate,String endDate);
+	public List<PatientProgram> getNoOfCohortAliveAndOnArt(Program program,String startDate,String endDate);
+	
+	public List<DrugOrderProcessed> getOriginalFirstLineRegimen(String startDate,String endDate);
+	public List<DrugOrderProcessed> getAlternateFirstLineRegimen(String startDate,String endDate);
+	public List<DrugOrderProcessed> getSecondLineRegimen(String startDate,String endDate);
+	public List<PatientProgram> getNoOfArtStoppedCohort(Program program,String startDate,String endDate);
+	public List<PatientProgram> getNoOfArtDiedCohort(Program program,String startDate,String endDate);
+	public List<Obs> getNoOfPatientLostToFollowUp(String startDate,String endDate);
 }

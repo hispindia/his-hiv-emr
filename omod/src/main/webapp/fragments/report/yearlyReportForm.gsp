@@ -28,7 +28,7 @@ jQuery('#viewReport').empty();
 
 jQuery.ajax({
 				type : "GET",
-				url : getContextPath() + "/kenyaemr/reports/getReport.page",
+				url : getContextPath() + "/kenyaemr/reports/getYearlyReport.page",
 				data : ({
 					year:year
 				}),

@@ -51,19 +51,19 @@
 						<div class="ke-panel-heading">Custom report</div>
 						<div class="ke-panel-content">
 						
-						<div class="ke-stack-item ke-navigable" onclick="reportView();">
+						<div class="ke-stack-item ke-navigable" onclick="yearlyReportView();">
 	                    ${ ui.includeFragment("kenyaui", "widget/icon", [ iconProvider: "kenyaui", icon: iconPath, tooltip: "View report" ]) }
 	                    <b>Yearly Report</b>
 	                    <div class="ke-extra"></div>
                         </div>
                         
-                        <div class="ke-stack-item ke-navigable" onclick="reportView();">
+                        <div class="ke-stack-item ke-navigable" onclick="halfYearlyReport();">
 	                    ${ ui.includeFragment("kenyaui", "widget/icon", [ iconProvider: "kenyaui", icon: iconPath, tooltip: "View report" ]) }
 	                    <b>Half Yearly Report</b>
 	                    <div class="ke-extra"></div>
                         </div>
                         
-                        <div class="ke-stack-item ke-navigable" onclick="reportView();">
+                        <div class="ke-stack-item ke-navigable" onclick="quaterlyReportView();">
 	                    ${ ui.includeFragment("kenyaui", "widget/icon", [ iconProvider: "kenyaui", icon: iconPath, tooltip: "View report" ]) }
 	                    <b>Quaterly Report</b>
 	                    <div class="ke-extra"></div>
@@ -80,7 +80,15 @@
 </div>
 
 <script type="text/javascript">
-function reportView() {
+function yearlyReportView() {
 ui.navigate('kenyaemr', 'reports/yearlyReport');
+}
+
+function halfYearlyReport() {
+ui.navigate('kenyaemr', 'reports/halfYearlyReport');
+}
+
+function quaterlyReportView() {
+ui.navigate('kenyaemr', 'reports/quaterlyReport');
 }
 </script>

@@ -5,15 +5,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 
 public class YearlyReportFormFragmentController {
-	public void controller(FragmentModel model, UiUtils ui,
-			HttpServletRequest request, HttpServletResponse response) {
+	public void controller(FragmentModel model, UiUtils ui) {
 		Date date = new Date();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy");
 		String year = df.format(date);

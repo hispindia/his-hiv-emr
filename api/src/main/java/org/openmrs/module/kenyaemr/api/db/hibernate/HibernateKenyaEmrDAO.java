@@ -437,8 +437,215 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		String startFromDate = startDate + " 00:00:00";
 		String endFromDate = endDate + " 23:59:59";
 		try {
-			criteria.add(Restrictions.and(Restrictions.ge("dateCreated", formatter.parse(startFromDate)),
-				    Restrictions.le("dateCreated", formatter.parse(endFromDate))));
+			criteria.add(Restrictions.and(Restrictions.ge("dateEnrolled", formatter.parse(startFromDate)),
+				    Restrictions.le("dateEnrolled", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return criteria.list();
+		}
+	
+	public List<Obs> getNoOfPatientTransferredIn(String startDate,String endDate) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
+		//Concept concept=Context.getConceptService().getConceptByUuid("160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		Collection<Concept> conList=new	ArrayList<Concept>();
+		conList.add(Context.getConceptService().getConceptByUuid("4b73234a-15db-49a0-b089-c26c239fe90d"));
+		conList.add(Context.getConceptService().getConceptByUuid("feee14d1-6cd6-4f5d-a3f6-056ed91526e5"));
+		
+		//criteria.add(Restrictions.eq("concept", concept));
+		criteria.add(Restrictions.in("valueCoded", conList));
+		String startFromDate = startDate + " 00:00:00";
+		String endFromDate = endDate + " 23:59:59";
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("obsDatetime", formatter.parse(startFromDate)),
+				    Restrictions.le("obsDatetime", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return criteria.list();
+		}
+	
+	public List<Obs> getNoOfPatientTransferredOut(String startDate,String endDate) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
+		//Concept concept=Context.getConceptService().getConceptByUuid("161555AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		Concept conceptTransferredOut=Context.getConceptService().getConceptByUuid("159492AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+
+		//criteria.add(Restrictions.eq("concept", concept));
+		criteria.add(Restrictions.eq("valueCoded", conceptTransferredOut));
+		String startFromDate = startDate + " 00:00:00";
+		String endFromDate = endDate + " 23:59:59";
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("obsDatetime", formatter.parse(startFromDate)),
+				    Restrictions.le("obsDatetime", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return criteria.list();
+		}
+	
+	public Visit getVisitsByPatient(Patient patient) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Visit.class,"visit");
+		criteria.add(Restrictions.eq("patient", patient));
+		criteria.addOrder(Order.asc("startDatetime"));
+		//criteria.addOrder(Order.desc("startDatetime"));
+		criteria.setMaxResults(1);
+		return (Visit) criteria.uniqueResult();
+		}
+	
+	public Integer getTotalNoOfCohort(String startDate,String endDate) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Visit.class,"visit");
+		String startFromDate = startDate + " 00:00:00";
+		String endFromDate = endDate + " 23:59:59";
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("startDatetime", formatter.parse(startFromDate)),
+				    Restrictions.le("startDatetime", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		List<Visit> visits=criteria.list();
+		return visits.size();
+		}
+	
+	public Integer getCohortBasedOnGender(String gender,String startDate,String endDate) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Visit.class,"visit");
+		String startFromDate = startDate + " 00:00:00";
+		String endFromDate = endDate + " 23:59:59";
+		//criteria.add(Restrictions.eq("visit.patient.gender", gender));
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("startDatetime", formatter.parse(startFromDate)),
+				    Restrictions.le("startDatetime", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		List<Visit> visits=criteria.list();
+		return visits.size();
+		}
+	
+	public Integer getCohortBasedOnAge(Integer age1,Integer age2,String startDate,String endDate) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Visit.class,"visit");
+		//criteria.add(Restrictions.and(Restrictions.ge("age", age1),Restrictions.le("age",age2)));
+		
+		String startFromDate = startDate + " 00:00:00";
+		String endFromDate = endDate + " 23:59:59";
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("startDatetime", formatter.parse(startFromDate)),
+				    Restrictions.le("startDatetime", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		List<Visit> visits=criteria.list();
+		return visits.size();
+		}
+	
+	public List<PatientProgram> getNoOfCohortAliveAndOnArt(Program program,String startDate,String endDate) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PatientProgram.class,"patientProgram");
+		criteria.add(Restrictions.eq("program", program));
+		criteria.add(Restrictions.isNull("dateCompleted"));
+		String startFromDate = startDate + " 00:00:00";
+		String endFromDate = endDate + " 23:59:59";
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("dateEnrolled", formatter.parse(startFromDate)),
+				    Restrictions.le("dateEnrolled", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		//criteria.add(Restrictions.eq("patientProgram.patient.dead", TRUE));
+		return criteria.list();
+		}
+	
+	public List<DrugOrderProcessed> getOriginalFirstLineRegimen(String startDate,String endDate) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class,"drugOrderProcessed");
+		criteria.add(Restrictions.eq("regimenChangeType", "Start"));
+		criteria.add(Restrictions.eq("typeOfRegimen", "First line Anti-retoviral drugs"));
+		String startFromDate = startDate + " 00:00:00";
+		String endFromDate = endDate + " 23:59:59";
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("createdDate", formatter.parse(startFromDate)),
+				    Restrictions.le("createdDate", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return criteria.list();
+	}
+	
+	public List<DrugOrderProcessed> getAlternateFirstLineRegimen(String startDate,String endDate) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class,"drugOrderProcessed");
+		criteria.add(Restrictions.eq("regimenChangeType", "Substitute"));
+		criteria.add(Restrictions.eq("typeOfRegimen", "First line Anti-retoviral drugs"));
+		String startFromDate = startDate + " 00:00:00";
+		String endFromDate = endDate + " 23:59:59";
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("createdDate", formatter.parse(startFromDate)),
+				    Restrictions.le("createdDate", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return criteria.list();
+	}
+	
+	public List<DrugOrderProcessed> getSecondLineRegimen(String startDate,String endDate) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class,"drugOrderProcessed");
+		
+		List<String> typeOfRegimen=new ArrayList<String>();
+		typeOfRegimen.add("Second line ART");
+		typeOfRegimen.add("Fixed dose combinations (FDCs)");
+		
+		criteria.add(Restrictions.eq("regimenChangeType", "Switch"));
+		criteria.add(Restrictions.in("typeOfRegimen", typeOfRegimen));
+		String startFromDate = startDate + " 00:00:00";
+		String endFromDate = endDate + " 23:59:59";
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("createdDate", formatter.parse(startFromDate)),
+				    Restrictions.le("createdDate", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return criteria.list();
+	}
+	
+	public List<PatientProgram> getNoOfArtStoppedCohort(Program program,String startDate,String endDate) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PatientProgram.class,"patientProgram");
+		criteria.add(Restrictions.eq("program", program));
+		criteria.add(Restrictions.isNotNull("dateCompleted"));
+		String startFromDate = startDate + " 00:00:00";
+		String endFromDate = endDate + " 23:59:59";
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("dateCompleted", formatter.parse(startFromDate)),
+				    Restrictions.le("dateCompleted", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		//criteria.add(Restrictions.eq("patientProgram.patient.dead", 0));
+		return criteria.list();
+		}
+	
+	public List<PatientProgram> getNoOfArtDiedCohort(Program program,String startDate,String endDate) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PatientProgram.class,"patientProgram");
+		criteria.add(Restrictions.eq("program", program));
+		criteria.add(Restrictions.isNull("dateCompleted"));
+		String startFromDate = startDate + " 00:00:00";
+		String endFromDate = endDate + " 23:59:59";
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("patientProgram.patient.deathDate", formatter.parse(startFromDate)),
+				    Restrictions.le("patientProgram.patient.deathDate", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		//criteria.add(Restrictions.eq("patientProgram.patient.dead", true));
+		return criteria.list();
+		}
+	
+	public List<Obs> getNoOfPatientLostToFollowUp(String startDate,String endDate) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
+		Concept conceptLostToFollowUp=Context.getConceptService().getConceptByUuid("5240AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+
+		//criteria.add(Restrictions.eq("concept", concept));
+		criteria.add(Restrictions.eq("valueCoded", conceptLostToFollowUp));
+		String startFromDate = startDate + " 00:00:00";
+		String endFromDate = endDate + " 23:59:59";
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("obsDatetime", formatter.parse(startFromDate)),
+				    Restrictions.le("obsDatetime", formatter.parse(endFromDate))));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
