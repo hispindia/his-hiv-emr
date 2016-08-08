@@ -91,5 +91,11 @@ public interface KenyaEmrDAO {
 	public List<PatientProgram> getNoOfArtStoppedCohort(Program program,String startDate,String endDate);
 	public List<PatientProgram> getNoOfArtDiedCohort(Program program,String startDate,String endDate);
 	public List<Obs> getNoOfPatientLostToFollowUp(String startDate,String endDate);
+	public List<Obs> getNoOfPatientWithCD4(String startDate,String endDate);
+	public List<Obs> getNoOfPatientNormalActivity(String startDate,String endDate);
+	public List<Obs> getNoOfPatientBedriddenLessThanFifty(String startDate,String endDate);
+	public List<Obs> getNoOfPatientBedriddenMoreThanFifty(String startDate,String endDate);
+	public List<Obs> getNoOfPatientPickedUpArvForSixMonth(String startDate,String endDate);
+	public List<Obs> getNoOfPatientPickedUpArvForTwelveMonth(String startDate,String endDate);
 	public List<DrugOrderProcessed> getDrugOrderProcessedByPatient(Patient patient);
 }

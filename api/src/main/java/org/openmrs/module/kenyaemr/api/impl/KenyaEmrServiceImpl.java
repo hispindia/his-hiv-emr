@@ -484,6 +484,31 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 	public List<Obs> getNoOfPatientLostToFollowUp(String startDate,String endDate){
 		return dao.getNoOfPatientLostToFollowUp(startDate,endDate);
 	}
+	
+	public List<Obs> getNoOfPatientWithCD4(String startDate,String endDate){
+		return dao.getNoOfPatientWithCD4(startDate,endDate);
+	}
+	
+	public List<Obs> getNoOfPatientNormalActivity(String startDate,String endDate){
+		return dao.getNoOfPatientNormalActivity(startDate,endDate);
+	}
+	
+	public List<Obs> getNoOfPatientBedriddenLessThanFifty(String startDate,String endDate){
+		return dao.getNoOfPatientBedriddenLessThanFifty(startDate,endDate);
+	}
+	
+	public List<Obs> getNoOfPatientBedriddenMoreThanFifty(String startDate,String endDate){
+		return dao.getNoOfPatientBedriddenMoreThanFifty(startDate,endDate);
+	}
+	
+	public List<Obs> getNoOfPatientPickedUpArvForSixMonth(String startDate,String endDate){
+		return dao.getNoOfPatientPickedUpArvForSixMonth(startDate,endDate);
+	}
+	
+	public List<Obs> getNoOfPatientPickedUpArvForTwelveMonth(String startDate,String endDate){
+		return dao.getNoOfPatientPickedUpArvForTwelveMonth(startDate,endDate);
+	}
+	
 	@Override
 	public List<DrugOrderProcessed> getDrugOrderProcessedByPatient(Patient patient) {
 		// TODO Auto-generated method stub

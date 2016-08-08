@@ -26,6 +26,41 @@ public class GetQuaterlyReportFragmentController {
 	Program program=Context.getProgramWorkflowService().getProgramByUuid("96ec813f-aaf0-45b2-add6-e661d5bf79d6");
 	
 	if(quaterly!=null && quaterly.equals("First Quater")){
+    	String janStartDate=year+"-"+"01"+"-"+"01";
+		String janEndDate=year+"-"+"01"+"-"+"31";
+		
+		String febStartDate=year+"-"+"02"+"-"+"01";
+		String febEndDate=year+"-"+"02"+"-"+"28";
+		
+		String marchStartDate=year+"-"+"03"+"-"+"01";
+		String marchEndDate=year+"-"+"03"+"-"+"31";	
+		
+		List<PatientProgram> patientProgramForJan=kenyaEmrService.getPatientProgram(program,janStartDate,janEndDate);
+		List<PatientProgram> patientProgramForFeb=kenyaEmrService.getPatientProgram(program,febStartDate,febEndDate);
+		List<PatientProgram> patientProgramForMarch=kenyaEmrService.getPatientProgram(program,marchStartDate,marchEndDate);
+		
+		List<Obs> patientTransferInForJan=kenyaEmrService.getNoOfPatientTransferredIn(janStartDate,janEndDate);
+		List<Obs> patientTransferInForFeb=kenyaEmrService.getNoOfPatientTransferredIn(febStartDate,febEndDate);
+		List<Obs> patientTransferInForMarch=kenyaEmrService.getNoOfPatientTransferredIn(marchStartDate,marchEndDate);
+		
+		List<Obs> patientTransferOutForJan=kenyaEmrService.getNoOfPatientTransferredOut(janStartDate,janEndDate);
+		List<Obs> patientTransferOutForFeb=kenyaEmrService.getNoOfPatientTransferredOut(febStartDate,febEndDate);
+		List<Obs> patientTransferOutForMarch=kenyaEmrService.getNoOfPatientTransferredOut(marchStartDate,marchEndDate);
+		
+		model.addAttribute("patientProgramForJan",patientProgramForJan.size());
+		model.addAttribute("patientProgramForFeb",patientProgramForFeb.size());
+		model.addAttribute("patientProgramForMarch",patientProgramForMarch.size());
+		
+		model.addAttribute("patientTransferInForJan",patientTransferInForJan.size());
+		model.addAttribute("patientTransferInForFeb",patientTransferInForFeb.size());
+		model.addAttribute("patientTransferInForMarch",patientTransferInForMarch.size());
+		
+		model.addAttribute("patientTransferOutForJan",patientTransferOutForJan.size());
+		model.addAttribute("patientTransferOutForFeb",patientTransferOutForFeb.size());
+		model.addAttribute("patientTransferOutForMarch",patientTransferOutForMarch.size());
+      }
+	
+	if(quaterly!=null && quaterly.equals("Second Quater")){
 		String aprilStartDate=year+"-"+"04"+"-"+"01";
 		String aprilEndDate=year+"-"+"04"+"-"+"30";
 		
@@ -60,7 +95,7 @@ public class GetQuaterlyReportFragmentController {
 		model.addAttribute("patientTransferOutForJune",patientTransferOutForJune.size());
 	}
 	
-    if(quaterly!=null && quaterly.equals("Second Quater")){
+    if(quaterly!=null && quaterly.equals("Third Quater")){
     	String julyStartDate=year+"-"+"07"+"-"+"01";
 		String julyEndDate=year+"-"+"07"+"-"+"31";
 		
@@ -95,7 +130,7 @@ public class GetQuaterlyReportFragmentController {
 		model.addAttribute("patientTransferOutForSeptember",patientTransferOutForSeptember.size());
 	}
     
-    if(quaterly!=null && quaterly.equals("Third Quater")){
+    if(quaterly!=null && quaterly.equals("Fourth Quater")){
     	String octoberStartDate=year+"-"+"10"+"-"+"01";
 		String octoberEndDate=year+"-"+"10"+"-"+"31";
 		
@@ -129,41 +164,6 @@ public class GetQuaterlyReportFragmentController {
 		model.addAttribute("patientTransferOutForNovember",patientTransferOutForNovember.size());
 		model.addAttribute("patientTransferOutForDecember",patientTransferOutForDecember.size());
     }
-    
-    if(quaterly!=null && quaterly.equals("Fourth Quater")){
-    	String janStartDate=year+"-"+"01"+"-"+"01";
-		String janEndDate=year+"-"+"01"+"-"+"31";
-		
-		String febStartDate=year+"-"+"02"+"-"+"01";
-		String febEndDate=year+"-"+"02"+"-"+"28";
-		
-		String marchStartDate=year+"-"+"03"+"-"+"01";
-		String marchEndDate=year+"-"+"03"+"-"+"31";	
-		
-		List<PatientProgram> patientProgramForJan=kenyaEmrService.getPatientProgram(program,janStartDate,janEndDate);
-		List<PatientProgram> patientProgramForFeb=kenyaEmrService.getPatientProgram(program,febStartDate,febEndDate);
-		List<PatientProgram> patientProgramForMarch=kenyaEmrService.getPatientProgram(program,marchStartDate,marchEndDate);
-		
-		List<Obs> patientTransferInForJan=kenyaEmrService.getNoOfPatientTransferredIn(janStartDate,janEndDate);
-		List<Obs> patientTransferInForFeb=kenyaEmrService.getNoOfPatientTransferredIn(febStartDate,febEndDate);
-		List<Obs> patientTransferInForMarch=kenyaEmrService.getNoOfPatientTransferredIn(marchStartDate,marchEndDate);
-		
-		List<Obs> patientTransferOutForJan=kenyaEmrService.getNoOfPatientTransferredOut(janStartDate,janEndDate);
-		List<Obs> patientTransferOutForFeb=kenyaEmrService.getNoOfPatientTransferredOut(febStartDate,febEndDate);
-		List<Obs> patientTransferOutForMarch=kenyaEmrService.getNoOfPatientTransferredOut(marchStartDate,marchEndDate);
-		
-		model.addAttribute("patientProgramForJan",patientProgramForJan.size());
-		model.addAttribute("patientProgramForFeb",patientProgramForFeb.size());
-		model.addAttribute("patientProgramForMarch",patientProgramForMarch.size());
-		
-		model.addAttribute("patientTransferInForJan",patientTransferInForJan.size());
-		model.addAttribute("patientTransferInForFeb",patientTransferInForFeb.size());
-		model.addAttribute("patientTransferInForMarch",patientTransferInForMarch.size());
-		
-		model.addAttribute("patientTransferOutForJan",patientTransferOutForJan.size());
-		model.addAttribute("patientTransferOutForFeb",patientTransferOutForFeb.size());
-		model.addAttribute("patientTransferOutForMarch",patientTransferOutForMarch.size());
-      }
 		
 		model.addAttribute("year",year);
 		model.addAttribute("quaterly",quaterly);

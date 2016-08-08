@@ -651,6 +651,109 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		}
 		return criteria.list();
 		}
+	
+	public List<Obs> getNoOfPatientWithCD4(String startDate,String endDate) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
+		Concept conceptLostToFollowUp=Context.getConceptService().getConceptByUuid("5240AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+
+		//criteria.add(Restrictions.eq("concept", concept));
+		criteria.add(Restrictions.eq("valueCoded", conceptLostToFollowUp));
+		String startFromDate = startDate + " 00:00:00";
+		String endFromDate = endDate + " 23:59:59";
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("obsDatetime", formatter.parse(startFromDate)),
+				    Restrictions.le("obsDatetime", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return criteria.list();
+		}
+		
+		public List<Obs> getNoOfPatientNormalActivity(String startDate,String endDate) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
+		Concept conceptLostToFollowUp=Context.getConceptService().getConceptByUuid("5240AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+
+		//criteria.add(Restrictions.eq("concept", concept));
+		criteria.add(Restrictions.eq("valueCoded", conceptLostToFollowUp));
+		String startFromDate = startDate + " 00:00:00";
+		String endFromDate = endDate + " 23:59:59";
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("obsDatetime", formatter.parse(startFromDate)),
+				    Restrictions.le("obsDatetime", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return criteria.list();
+		}
+		
+		public List<Obs> getNoOfPatientBedriddenLessThanFifty(String startDate,String endDate) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
+		Concept conceptLostToFollowUp=Context.getConceptService().getConceptByUuid("5240AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+
+		//criteria.add(Restrictions.eq("concept", concept));
+		criteria.add(Restrictions.eq("valueCoded", conceptLostToFollowUp));
+		String startFromDate = startDate + " 00:00:00";
+		String endFromDate = endDate + " 23:59:59";
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("obsDatetime", formatter.parse(startFromDate)),
+				    Restrictions.le("obsDatetime", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return criteria.list();
+		}
+		
+		public List<Obs> getNoOfPatientBedriddenMoreThanFifty(String startDate,String endDate) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
+		Concept conceptLostToFollowUp=Context.getConceptService().getConceptByUuid("5240AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+
+		//criteria.add(Restrictions.eq("concept", concept));
+		criteria.add(Restrictions.eq("valueCoded", conceptLostToFollowUp));
+		String startFromDate = startDate + " 00:00:00";
+		String endFromDate = endDate + " 23:59:59";
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("obsDatetime", formatter.parse(startFromDate)),
+				    Restrictions.le("obsDatetime", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return criteria.list();
+		}
+		
+		public List<Obs> getNoOfPatientPickedUpArvForSixMonth(String startDate,String endDate) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
+		Concept conceptLostToFollowUp=Context.getConceptService().getConceptByUuid("5240AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+
+		//criteria.add(Restrictions.eq("concept", concept));
+		criteria.add(Restrictions.eq("valueCoded", conceptLostToFollowUp));
+		String startFromDate = startDate + " 00:00:00";
+		String endFromDate = endDate + " 23:59:59";
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("obsDatetime", formatter.parse(startFromDate)),
+				    Restrictions.le("obsDatetime", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return criteria.list();
+		}
+		
+		public List<Obs> getNoOfPatientPickedUpArvForTwelveMonth(String startDate,String endDate) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
+		Concept conceptLostToFollowUp=Context.getConceptService().getConceptByUuid("5240AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+
+		//criteria.add(Restrictions.eq("concept", concept));
+		criteria.add(Restrictions.eq("valueCoded", conceptLostToFollowUp));
+		String startFromDate = startDate + " 00:00:00";
+		String endFromDate = endDate + " 23:59:59";
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("obsDatetime", formatter.parse(startFromDate)),
+				    Restrictions.le("obsDatetime", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return criteria.list();
+		}
+		
 		@Override
 	public List<DrugOrderProcessed> getDrugOrderProcessedByPatient(Patient patient) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class);

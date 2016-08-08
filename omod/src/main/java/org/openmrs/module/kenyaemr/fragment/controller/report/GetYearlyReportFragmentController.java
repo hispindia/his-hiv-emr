@@ -119,7 +119,6 @@ public class GetYearlyReportFragmentController {
 		Integer totalCohortForOctober=kenyaEmrService.getTotalNoOfCohort(octoberStartDate,octoberStartDate);
 		Integer totalCohortForNovember=kenyaEmrService.getTotalNoOfCohort(novemberStartDate,novemberStartDate);
 		Integer totalCohortForDecember=kenyaEmrService.getTotalNoOfCohort(decemberStartDate,decemberEndDate);
-		System.out.println("xxxxxxxxxxxxxxxxxxxx"+totalCohortForJuly);
 		
 		Integer maleCohortForJan=kenyaEmrService.getCohortBasedOnGender("M",janStartDate, janEndDate);
 		Integer maleCohortForFeb=kenyaEmrService.getCohortBasedOnGender("M",febStartDate,febEndDate);
@@ -133,7 +132,6 @@ public class GetYearlyReportFragmentController {
 		Integer maleCohortForOctober=kenyaEmrService.getCohortBasedOnGender("M",octoberStartDate,octoberStartDate);
 		Integer maleCohortForNovember=kenyaEmrService.getCohortBasedOnGender("M",novemberStartDate,novemberStartDate);
 		Integer maleCohortForDecember=kenyaEmrService.getCohortBasedOnGender("M",decemberStartDate,decemberEndDate);
-		System.out.println("yyyyyyyyyyyyyyyyyy"+maleCohortForJuly);
 		
 		Integer femaleCohortForJan=kenyaEmrService.getCohortBasedOnGender("F",janStartDate, janEndDate);
 		Integer femaleCohortForFeb=kenyaEmrService.getCohortBasedOnGender("F",febStartDate,febEndDate);
@@ -147,7 +145,6 @@ public class GetYearlyReportFragmentController {
 		Integer femaleCohortForOctober=kenyaEmrService.getCohortBasedOnGender("F",octoberStartDate,octoberStartDate);
 		Integer femaleCohortForNovember=kenyaEmrService.getCohortBasedOnGender("F",novemberStartDate,novemberStartDate);
 		Integer femaleCohortForDecember=kenyaEmrService.getCohortBasedOnGender("F",decemberStartDate,decemberEndDate);
-		System.out.println("zzzzzzzzzzzzzzzzzzzzz"+maleCohortForJuly);
 		
 		Integer age1=0;
 		Integer age2=14;
@@ -207,7 +204,6 @@ public class GetYearlyReportFragmentController {
 		List<PatientProgram> noOfCohortAliveAndOnArtForNovember=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,novemberStartDate,novemberStartDate);
 		List<PatientProgram> noOfCohortAliveAndOnArtForDecember=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,decemberStartDate,decemberEndDate);
 		
-		//
 		List<DrugOrderProcessed> noOfOriginalFirstLineRegimenForJan=kenyaEmrService.getOriginalFirstLineRegimen(janStartDate,janEndDate);
 		List<DrugOrderProcessed> noOfOriginalFirstLineRegimenForFeb=kenyaEmrService.getOriginalFirstLineRegimen(febStartDate,febEndDate);
 		List<DrugOrderProcessed> noOfOriginalFirstLineRegimenForMarch=kenyaEmrService.getOriginalFirstLineRegimen(marchStartDate,marchEndDate);
@@ -246,6 +242,123 @@ public class GetYearlyReportFragmentController {
 		List<DrugOrderProcessed> noOfSecondLineRegimenForOctober=kenyaEmrService.getSecondLineRegimen(octoberStartDate,octoberStartDate);
 		List<DrugOrderProcessed> noOfSecondLineRegimenForNovember=kenyaEmrService.getSecondLineRegimen(novemberStartDate,novemberStartDate);
 		List<DrugOrderProcessed> noOfSecondLineRegimenForDecember=kenyaEmrService.getSecondLineRegimen(decemberStartDate,decemberEndDate);
+		
+		List<PatientProgram> noOfArtStoppedCohortForJan=kenyaEmrService.getNoOfArtStoppedCohort(program,janStartDate,janEndDate);
+		List<PatientProgram> noOfArtStoppedCohortForFeb=kenyaEmrService.getNoOfArtStoppedCohort(program,febStartDate,febEndDate);
+		List<PatientProgram> noOfArtStoppedCohortForMarch=kenyaEmrService.getNoOfArtStoppedCohort(program,marchStartDate,marchEndDate);
+		List<PatientProgram> noOfArtStoppedCohortForApril=kenyaEmrService.getNoOfArtStoppedCohort(program,aprilStartDate,aprilEndDate);
+		List<PatientProgram> noOfArtStoppedCohortForMay=kenyaEmrService.getNoOfArtStoppedCohort(program,mayStartDate,mayEndDate);
+		List<PatientProgram> noOfArtStoppedCohortForJune=kenyaEmrService.getNoOfArtStoppedCohort(program,juneStartDate,juneEndDate);
+		List<PatientProgram> noOfArtStoppedCohortForJuly=kenyaEmrService.getNoOfArtStoppedCohort(program,julyStartDate,julyEndDate);
+		List<PatientProgram> noOfArtStoppedCohortForAugust=kenyaEmrService.getNoOfArtStoppedCohort(program,augustStartDate,augustEndDate);
+		List<PatientProgram> noOfArtStoppedCohortForSeptember=kenyaEmrService.getNoOfArtStoppedCohort(program,septemberStartDate,septemberEndDate);
+		List<PatientProgram> noOfArtStoppedCohortForOctober=kenyaEmrService.getNoOfArtStoppedCohort(program,octoberStartDate,octoberStartDate);
+		List<PatientProgram> noOfArtStoppedCohortForNovember=kenyaEmrService.getNoOfArtStoppedCohort(program,novemberStartDate,novemberStartDate);
+		List<PatientProgram> noOfArtStoppedCohortForForDecember=kenyaEmrService.getNoOfArtStoppedCohort(program,decemberStartDate,decemberEndDate);
+		
+		List<PatientProgram> noOfArtDiedCohortForJan=kenyaEmrService.getNoOfArtDiedCohort(program,janStartDate,janEndDate);
+		List<PatientProgram> noOfArtDiedCohortForFeb=kenyaEmrService.getNoOfArtDiedCohort(program,febStartDate,febEndDate);
+		List<PatientProgram> noOfArtDiedCohortForMarch=kenyaEmrService.getNoOfArtDiedCohort(program,marchStartDate,marchEndDate);
+		List<PatientProgram> noOfArtDiedCohortForApril=kenyaEmrService.getNoOfArtDiedCohort(program,aprilStartDate,aprilEndDate);
+		List<PatientProgram> noOfArtDiedCohortForMay=kenyaEmrService.getNoOfArtDiedCohort(program,mayStartDate,mayEndDate);
+		List<PatientProgram> noOfArtDiedCohortForJune=kenyaEmrService.getNoOfArtDiedCohort(program,juneStartDate,juneEndDate);
+		List<PatientProgram> noOfArtDiedCohortForJuly=kenyaEmrService.getNoOfArtDiedCohort(program,julyStartDate,julyEndDate);
+		List<PatientProgram> noOfArtDiedCohortForAugust=kenyaEmrService.getNoOfArtDiedCohort(program,augustStartDate,augustEndDate);
+		List<PatientProgram> noOfArtDiedCohortForSeptember=kenyaEmrService.getNoOfArtDiedCohort(program,septemberStartDate,septemberEndDate);
+		List<PatientProgram> noOfArtDiedCohortForOctober=kenyaEmrService.getNoOfArtDiedCohort(program,octoberStartDate,octoberStartDate);
+		List<PatientProgram> noOfArtDiedCohortForNovember=kenyaEmrService.getNoOfArtDiedCohort(program,novemberStartDate,novemberStartDate);
+		List<PatientProgram> noOfArtDiedCohortForDecember=kenyaEmrService.getNoOfArtDiedCohort(program,decemberStartDate,decemberEndDate);
+		
+		List<Obs> noOfPatientLostToFollowUpForJan=kenyaEmrService.getNoOfPatientLostToFollowUp(janStartDate,janEndDate);
+		List<Obs> noOfPatientLostToFollowUpForFeb=kenyaEmrService.getNoOfPatientLostToFollowUp(febStartDate,febEndDate);
+		List<Obs> noOfPatientLostToFollowUpForMarch=kenyaEmrService.getNoOfPatientLostToFollowUp(marchStartDate,marchEndDate);
+		List<Obs> noOfPatientLostToFollowUpForApril=kenyaEmrService.getNoOfPatientLostToFollowUp(aprilStartDate,aprilEndDate);
+		List<Obs> noOfPatientLostToFollowUpForMay=kenyaEmrService.getNoOfPatientLostToFollowUp(mayStartDate,mayEndDate);
+		List<Obs> noOfPatientLostToFollowUpForJune=kenyaEmrService.getNoOfPatientLostToFollowUp(juneStartDate,juneEndDate);
+		List<Obs> noOfPatientLostToFollowUpForJuly=kenyaEmrService.getNoOfPatientLostToFollowUp(julyStartDate,julyEndDate);
+		List<Obs> noOfPatientLostToFollowUpForAugust=kenyaEmrService.getNoOfPatientLostToFollowUp(augustStartDate,augustEndDate);
+		List<Obs> noOfPatientLostToFollowUpForSeptember=kenyaEmrService.getNoOfPatientLostToFollowUp(septemberStartDate,septemberEndDate);
+		List<Obs> noOfPatientLostToFollowUpForOctober=kenyaEmrService.getNoOfPatientLostToFollowUp(octoberStartDate,octoberStartDate);
+		List<Obs> noOfPatientLostToFollowUpForNovember=kenyaEmrService.getNoOfPatientLostToFollowUp(novemberStartDate,novemberStartDate);
+		List<Obs> noOfPatientLostToFollowUpForDecember=kenyaEmrService.getNoOfPatientLostToFollowUp(decemberStartDate,decemberEndDate);
+		//
+		List<Obs> noOfPatientWithCD4ForJan=kenyaEmrService.getNoOfPatientWithCD4(janStartDate,janEndDate);
+		List<Obs> noOfPatientWithCD4ForFeb=kenyaEmrService.getNoOfPatientWithCD4(febStartDate,febEndDate);
+		List<Obs> noOfPatientWithCD4ForMarch=kenyaEmrService.getNoOfPatientWithCD4(marchStartDate,marchEndDate);
+		List<Obs> noOfPatientWithCD4ForApril=kenyaEmrService.getNoOfPatientWithCD4(aprilStartDate,aprilEndDate);
+		List<Obs> noOfPatientWithCD4ForMay=kenyaEmrService.getNoOfPatientWithCD4(mayStartDate,mayEndDate);
+		List<Obs> noOfPatientWithCD4ForJune=kenyaEmrService.getNoOfPatientWithCD4(juneStartDate,juneEndDate);
+		List<Obs> noOfPatientWithCD4ForJuly=kenyaEmrService.getNoOfPatientWithCD4(julyStartDate,julyEndDate);
+		List<Obs> noOfPatientWithCD4ForAugust=kenyaEmrService.getNoOfPatientWithCD4(augustStartDate,augustEndDate);
+		List<Obs> noOfPatientWithCD4ForSeptember=kenyaEmrService.getNoOfPatientWithCD4(septemberStartDate,septemberEndDate);
+		List<Obs> noOfPatientWithCD4ForOctober=kenyaEmrService.getNoOfPatientWithCD4(octoberStartDate,octoberStartDate);
+		List<Obs> noOfPatientWithCD4ForNovember=kenyaEmrService.getNoOfPatientWithCD4(novemberStartDate,novemberStartDate);
+		List<Obs> noOfPatientWithCD4ForDecember=kenyaEmrService.getNoOfPatientWithCD4(decemberStartDate,decemberEndDate);
+		
+		List<Obs> noOfPatientNormalActivityForJan=kenyaEmrService.getNoOfPatientNormalActivity(janStartDate,janEndDate);
+		List<Obs> noOfPatientNormalActivityForFeb=kenyaEmrService.getNoOfPatientNormalActivity(febStartDate,febEndDate);
+		List<Obs> noOfPatientNormalActivityForMarch=kenyaEmrService.getNoOfPatientNormalActivity(marchStartDate,marchEndDate);
+		List<Obs> noOfPatientNormalActivityForApril=kenyaEmrService.getNoOfPatientNormalActivity(aprilStartDate,aprilEndDate);
+		List<Obs> noOfPatientNormalActivityForMay=kenyaEmrService.getNoOfPatientNormalActivity(mayStartDate,mayEndDate);
+		List<Obs> noOfPatientNormalActivityForJune=kenyaEmrService.getNoOfPatientNormalActivity(juneStartDate,juneEndDate);
+		List<Obs> noOfPatientNormalActivityForJuly=kenyaEmrService.getNoOfPatientNormalActivity(julyStartDate,julyEndDate);
+		List<Obs> noOfPatientNormalActivityForAugust=kenyaEmrService.getNoOfPatientNormalActivity(augustStartDate,augustEndDate);
+		List<Obs> noOfPatientNormalActivityForSeptember=kenyaEmrService.getNoOfPatientNormalActivity(septemberStartDate,septemberEndDate);
+		List<Obs> noOfPatientNormalActivityForOctober=kenyaEmrService.getNoOfPatientNormalActivity(octoberStartDate,octoberStartDate);
+		List<Obs> noOfPatientNormalActivityForNovember=kenyaEmrService.getNoOfPatientNormalActivity(novemberStartDate,novemberStartDate);
+		List<Obs> noOfPatientNormalActivityForDecember=kenyaEmrService.getNoOfPatientNormalActivity(decemberStartDate,decemberEndDate);
+		
+		List<Obs> noOfPatientBedriddenLessThanFiftyForJan=kenyaEmrService.getNoOfPatientBedriddenLessThanFifty(janStartDate,janEndDate);
+		List<Obs> noOfPatientBedriddenLessThanFiftyForFeb=kenyaEmrService.getNoOfPatientBedriddenLessThanFifty(febStartDate,febEndDate);
+		List<Obs> noOfPatientBedriddenLessThanFiftyForMarch=kenyaEmrService.getNoOfPatientBedriddenLessThanFifty(marchStartDate,marchEndDate);
+		List<Obs> noOfPatientBedriddenLessThanFiftyForApril=kenyaEmrService.getNoOfPatientBedriddenLessThanFifty(aprilStartDate,aprilEndDate);
+		List<Obs> noOfPatientBedriddenLessThanFiftyForMay=kenyaEmrService.getNoOfPatientBedriddenLessThanFifty(mayStartDate,mayEndDate);
+		List<Obs> noOfPatientBedriddenLessThanFiftyForJune=kenyaEmrService.getNoOfPatientBedriddenLessThanFifty(juneStartDate,juneEndDate);
+		List<Obs> noOfPatientBedriddenLessThanFiftyForJuly=kenyaEmrService.getNoOfPatientBedriddenLessThanFifty(julyStartDate,julyEndDate);
+		List<Obs> noOfPatientBedriddenLessThanFiftyForAugust=kenyaEmrService.getNoOfPatientBedriddenLessThanFifty(augustStartDate,augustEndDate);
+		List<Obs> noOfPatientBedriddenLessThanFiftyForSeptember=kenyaEmrService.getNoOfPatientBedriddenLessThanFifty(septemberStartDate,septemberEndDate);
+		List<Obs> noOfPatientBedriddenLessThanFiftyForOctober=kenyaEmrService.getNoOfPatientBedriddenLessThanFifty(octoberStartDate,octoberStartDate);
+		List<Obs> noOfPatientBedriddenLessThanFiftyForNovember=kenyaEmrService.getNoOfPatientBedriddenLessThanFifty(novemberStartDate,novemberStartDate);
+		List<Obs> noOfPatientBedriddenLessThanFiftyForDecember=kenyaEmrService.getNoOfPatientBedriddenLessThanFifty(decemberStartDate,decemberEndDate);
+		
+		List<Obs> noOfPatientBedriddenMoreThanFiftyForJan=kenyaEmrService.getNoOfPatientBedriddenMoreThanFifty(janStartDate,janEndDate);
+		List<Obs> noOfPatientBedriddenMoreThanFiftyForFeb=kenyaEmrService.getNoOfPatientBedriddenMoreThanFifty(febStartDate,febEndDate);
+		List<Obs> noOfPatientBedriddenMoreThanFiftyForMarch=kenyaEmrService.getNoOfPatientBedriddenMoreThanFifty(marchStartDate,marchEndDate);
+		List<Obs> noOfPatientBedriddenMoreThanFiftyForApril=kenyaEmrService.getNoOfPatientBedriddenMoreThanFifty(aprilStartDate,aprilEndDate);
+		List<Obs> noOfPatientBedriddenMoreThanFiftyForMay=kenyaEmrService.getNoOfPatientBedriddenMoreThanFifty(mayStartDate,mayEndDate);
+		List<Obs> noOfPatientBedriddenMoreThanFiftyForJune=kenyaEmrService.getNoOfPatientBedriddenMoreThanFifty(juneStartDate,juneEndDate);
+		List<Obs> noOfPatientBedriddenMoreThanFiftyForJuly=kenyaEmrService.getNoOfPatientBedriddenMoreThanFifty(julyStartDate,julyEndDate);
+		List<Obs> noOfPatientBedriddenMoreThanFiftyForAugust=kenyaEmrService.getNoOfPatientBedriddenMoreThanFifty(augustStartDate,augustEndDate);
+		List<Obs> noOfPatientBedriddenMoreThanFiftyForSeptember=kenyaEmrService.getNoOfPatientBedriddenMoreThanFifty(septemberStartDate,septemberEndDate);
+		List<Obs> noOfPatientBedriddenMoreThanFiftyForOctober=kenyaEmrService.getNoOfPatientBedriddenMoreThanFifty(octoberStartDate,octoberStartDate);
+		List<Obs> noOfPatientBedriddenMoreThanFiftyForNovember=kenyaEmrService.getNoOfPatientBedriddenMoreThanFifty(novemberStartDate,novemberStartDate);
+		List<Obs> noOfPatientBedriddenMoreThanFiftyForDecember=kenyaEmrService.getNoOfPatientBedriddenMoreThanFifty(decemberStartDate,decemberEndDate);
+		
+		List<Obs> noOfPatientPickedUpArvForSixMonthForJan=kenyaEmrService.getNoOfPatientPickedUpArvForSixMonth(janStartDate,janEndDate);
+		List<Obs> noOfPatientPickedUpArvForSixMonthForFeb=kenyaEmrService.getNoOfPatientPickedUpArvForSixMonth(febStartDate,febEndDate);
+		List<Obs> noOfPatientPickedUpArvForSixMonthForMarch=kenyaEmrService.getNoOfPatientPickedUpArvForSixMonth(marchStartDate,marchEndDate);
+		List<Obs> noOfPatientPickedUpArvForSixMonthForApril=kenyaEmrService.getNoOfPatientPickedUpArvForSixMonth(aprilStartDate,aprilEndDate);
+		List<Obs> noOfPatientPickedUpArvForSixMonthForMay=kenyaEmrService.getNoOfPatientPickedUpArvForSixMonth(mayStartDate,mayEndDate);
+		List<Obs> noOfPatientPickedUpArvForSixMonthForJune=kenyaEmrService.getNoOfPatientPickedUpArvForSixMonth(juneStartDate,juneEndDate);
+		List<Obs> noOfPatientPickedUpArvForSixMonthForJuly=kenyaEmrService.getNoOfPatientPickedUpArvForSixMonth(julyStartDate,julyEndDate);
+		List<Obs> noOfPatientPickedUpArvForSixMonthForAugust=kenyaEmrService.getNoOfPatientPickedUpArvForSixMonth(augustStartDate,augustEndDate);
+		List<Obs> noOfPatientPickedUpArvForSixMonthForSeptember=kenyaEmrService.getNoOfPatientPickedUpArvForSixMonth(septemberStartDate,septemberEndDate);
+		List<Obs> noOfPatientPickedUpArvForSixMonthForOctober=kenyaEmrService.getNoOfPatientPickedUpArvForSixMonth(octoberStartDate,octoberStartDate);
+		List<Obs> noOfPatientPickedUpArvForSixMonthForNovember=kenyaEmrService.getNoOfPatientPickedUpArvForSixMonth(novemberStartDate,novemberStartDate);
+		List<Obs> noOfPatientPickedUpArvForSixMonthForDecember=kenyaEmrService.getNoOfPatientPickedUpArvForSixMonth(decemberStartDate,decemberEndDate);
+		
+		List<Obs> noOfPatientPickedUpArvForTwelveMonthForJan=kenyaEmrService.getNoOfPatientPickedUpArvForTwelveMonth(janStartDate,janEndDate);
+		List<Obs> noOfPatientPickedUpArvForTwelveMonthForFeb=kenyaEmrService.getNoOfPatientPickedUpArvForTwelveMonth(febStartDate,febEndDate);
+		List<Obs> noOfPatientPickedUpArvForTwelveMonthForMarch=kenyaEmrService.getNoOfPatientPickedUpArvForTwelveMonth(marchStartDate,marchEndDate);
+		List<Obs> noOfPatientPickedUpArvForTwelveMonthForApril=kenyaEmrService.getNoOfPatientPickedUpArvForTwelveMonth(aprilStartDate,aprilEndDate);
+		List<Obs> noOfPatientPickedUpArvForTwelveMonthForMay=kenyaEmrService.getNoOfPatientPickedUpArvForTwelveMonth(mayStartDate,mayEndDate);
+		List<Obs> noOfPatientPickedUpArvForTwelveMonthForJune=kenyaEmrService.getNoOfPatientPickedUpArvForTwelveMonth(juneStartDate,juneEndDate);
+		List<Obs> noOfPatientPickedUpArvForTwelveMonthForJuly=kenyaEmrService.getNoOfPatientPickedUpArvForTwelveMonth(julyStartDate,julyEndDate);
+		List<Obs> noOfPatientPickedUpArvForTwelveMonthForAugust=kenyaEmrService.getNoOfPatientPickedUpArvForTwelveMonth(augustStartDate,augustEndDate);
+		List<Obs> noOfPatientPickedUpArvForTwelveMonthForSeptember=kenyaEmrService.getNoOfPatientPickedUpArvForTwelveMonth(septemberStartDate,septemberEndDate);
+		List<Obs> noOfPatientPickedUpArvForTwelveMonthForOctober=kenyaEmrService.getNoOfPatientPickedUpArvForTwelveMonth(octoberStartDate,octoberStartDate);
+		List<Obs> noOfPatientPickedUpArvForTwelveMonthForNovember=kenyaEmrService.getNoOfPatientPickedUpArvForTwelveMonth(novemberStartDate,novemberStartDate);
+		List<Obs> noOfPatientPickedUpArvForTwelveMonthForDecember=kenyaEmrService.getNoOfPatientPickedUpArvForTwelveMonth(decemberStartDate,decemberEndDate);
 		
 		model.addAttribute("year",year);
 		
@@ -379,34 +492,161 @@ public class GetYearlyReportFragmentController {
 		model.addAttribute("noOfCohortAliveAndOnArtNovember",noOfCohortAliveAndOnArtForNovember.size());
 		model.addAttribute("noOfCohortAliveAndOnArtForDecember",noOfCohortAliveAndOnArtForDecember.size());
 		
-		//
-		model.addAttribute("noOfCohortAliveAndOnArtForJan",noOfCohortAliveAndOnArtForJan.size());
-		model.addAttribute("noOfCohortAliveAndOnArtForFeb",noOfCohortAliveAndOnArtForFeb.size());
-		model.addAttribute("noOfCohortAliveAndOnArtForMarch",noOfCohortAliveAndOnArtForMarch.size());
-		model.addAttribute("noOfCohortAliveAndOnArtForApril",noOfCohortAliveAndOnArtForApril.size());
-		model.addAttribute("noOfCohortAliveAndOnArtForMay",noOfCohortAliveAndOnArtForMay.size());
-		model.addAttribute("noOfCohortAliveAndOnArtForJune",noOfCohortAliveAndOnArtForJune.size());
-		model.addAttribute("noOfCohortAliveAndOnArtForJuly",noOfCohortAliveAndOnArtForJuly.size());
-		model.addAttribute("noOfCohortAliveAndOnArtForAugust",noOfCohortAliveAndOnArtForAugust.size());
-		model.addAttribute("noOfCohortAliveAndOnArtForSeptember",noOfCohortAliveAndOnArtForSeptember.size());
-		model.addAttribute("noOfCohortAliveAndOnArtForOctober",noOfCohortAliveAndOnArtForOctober.size());
-		model.addAttribute("noOfCohortAliveAndOnArtNovember",noOfCohortAliveAndOnArtForNovember.size());
-		model.addAttribute("noOfCohortAliveAndOnArtForDecember",noOfCohortAliveAndOnArtForDecember.size());
+		model.addAttribute("noOfOriginalFirstLineRegimenForJan",noOfOriginalFirstLineRegimenForJan.size());
+		model.addAttribute("noOfOriginalFirstLineRegimenForFeb",noOfOriginalFirstLineRegimenForFeb.size());
+		model.addAttribute("noOfOriginalFirstLineRegimenForMarch",noOfOriginalFirstLineRegimenForMarch.size());
+		model.addAttribute("noOfOriginalFirstLineRegimenForApril",noOfOriginalFirstLineRegimenForApril.size());
+		model.addAttribute("noOfOriginalFirstLineRegimenForMay",noOfOriginalFirstLineRegimenForMay.size());
+		model.addAttribute("noOfOriginalFirstLineRegimenForJune",noOfOriginalFirstLineRegimenForJune.size());
+		model.addAttribute("noOfOriginalFirstLineRegimenForJuly",noOfOriginalFirstLineRegimenForJuly.size());
+		model.addAttribute("noOfOriginalFirstLineRegimenForAugust",noOfOriginalFirstLineRegimenForAugust.size());
+		model.addAttribute("noOfOriginalFirstLineRegimenForSeptember",noOfOriginalFirstLineRegimenForSeptember.size());
+		model.addAttribute("noOfOriginalFirstLineRegimenForOctober",noOfOriginalFirstLineRegimenForOctober.size());
+		model.addAttribute("noOfOriginalFirstLineRegimenNovember",noOfOriginalFirstLineRegimenForNovember.size());
+		model.addAttribute("noOfOriginalFirstLineRegimenForDecember",noOfCohortAliveAndOnArtForDecember.size());
 		
+		model.addAttribute("noOfAlternateFirstLineRegimenForJan",noOfAlternateFirstLineRegimenForJan.size());
+		model.addAttribute("noOfAlternateFirstLineRegimenForFeb",noOfAlternateFirstLineRegimenForFeb.size());
+		model.addAttribute("noOfAlternateFirstLineRegimenForMarch",noOfAlternateFirstLineRegimenForMarch.size());
+		model.addAttribute("noOfAlternateFirstLineRegimenForApril",noOfAlternateFirstLineRegimenForApril.size());
+		model.addAttribute("noOfAlternateFirstLineRegimenForMay",noOfAlternateFirstLineRegimenForMay.size());
+		model.addAttribute("noOfAlternateFirstLineRegimenForJune",noOfAlternateFirstLineRegimenForJune.size());
+		model.addAttribute("noOfAlternateFirstLineRegimenForJuly",noOfAlternateFirstLineRegimenForJuly.size());
+		model.addAttribute("noOfAlternateFirstLineRegimenForAugust",noOfAlternateFirstLineRegimenForAugust.size());
+		model.addAttribute("noOfAlternateFirstLineRegimenForSeptember",noOfAlternateFirstLineRegimenForSeptember.size());
+		model.addAttribute("noOfAlternateFirstLineRegimenForOctober",noOfAlternateFirstLineRegimenForOctober.size());
+		model.addAttribute("noOfAlternateFirstLineRegimenNovember",noOfAlternateFirstLineRegimenForNovember.size());
+		model.addAttribute("noOfAlternateFirstLineRegimenForDecember",noOfAlternateFirstLineRegimenForDecember.size());
 		
+		model.addAttribute("noOfSecondLineRegimenForJan",noOfSecondLineRegimenForJan.size());
+		model.addAttribute("noOfSecondLineRegimenForFeb",noOfSecondLineRegimenForFeb.size());
+		model.addAttribute("noOfSecondLineRegimenForMarch",noOfSecondLineRegimenForMarch.size());
+		model.addAttribute("noOfSecondLineRegimenForApril",noOfSecondLineRegimenForApril.size());
+		model.addAttribute("noOfSecondLineRegimenForMay",noOfSecondLineRegimenForMay.size());
+		model.addAttribute("noOfSecondLineRegimenForJune",noOfSecondLineRegimenForJune.size());
+		model.addAttribute("noOfSecondLineRegimenForJuly",noOfSecondLineRegimenForJuly.size());
+		model.addAttribute("noOfSecondLineRegimenForAugust",noOfSecondLineRegimenForAugust.size());
+		model.addAttribute("noOfSecondLineRegimenForSeptember",noOfSecondLineRegimenForSeptember.size());
+		model.addAttribute("noOfSecondLineRegimenForOctober",noOfSecondLineRegimenForOctober.size());
+		model.addAttribute("noOfSecondLineRegimenNovember",noOfSecondLineRegimenForNovember.size());
+		model.addAttribute("noOfSecondLineRegimenForDecember",noOfCohortAliveAndOnArtForDecember.size());
 		
-		/*model.addAttribute("",);
-		model.addAttribute("",);
-		model.addAttribute("",);
-		model.addAttribute("",);
-		model.addAttribute("",);
-		model.addAttribute("",);
-		model.addAttribute("",);
-		model.addAttribute("",);
-		model.addAttribute("",);
-		model.addAttribute("",);
-		model.addAttribute("",);
-		model.addAttribute("",);*/
+		model.addAttribute("noOfArtStoppedCohortForJan",noOfArtStoppedCohortForJan.size());
+		model.addAttribute("noOfArtStoppedCohortForFeb",noOfArtStoppedCohortForFeb.size());
+		model.addAttribute("noOfArtStoppedCohortForMarch",noOfArtStoppedCohortForMarch.size());
+		model.addAttribute("noOfArtStoppedCohortForApril",noOfArtStoppedCohortForApril.size());
+		model.addAttribute("noOfArtStoppedCohortForMay",noOfArtStoppedCohortForMay.size());
+		model.addAttribute("noOfArtStoppedCohortForJune",noOfArtStoppedCohortForJune.size());
+		model.addAttribute("noOfArtStoppedCohortForJuly",noOfArtStoppedCohortForJuly.size());
+		model.addAttribute("noOfArtStoppedCohortForAugust",noOfArtStoppedCohortForAugust.size());
+		model.addAttribute("noOfArtStoppedCohortForSeptember",noOfArtStoppedCohortForSeptember.size());
+		model.addAttribute("noOfArtStoppedCohortForOctober",noOfArtStoppedCohortForOctober.size());
+		model.addAttribute("noOfArtStoppedCohortNovember",noOfArtStoppedCohortForNovember.size());
+		model.addAttribute("noOfArtStoppedCohortForDecember",noOfCohortAliveAndOnArtForDecember.size());
+		
+		model.addAttribute("noOfArtDiedCohortForJan",noOfArtDiedCohortForJan.size());
+		model.addAttribute("noOfArtDiedCohortForFeb",noOfArtDiedCohortForFeb.size());
+		model.addAttribute("noOfArtDiedCohortForMarch",noOfArtDiedCohortForMarch.size());
+		model.addAttribute("noOfArtDiedCohortForApril",noOfArtDiedCohortForApril.size());
+		model.addAttribute("noOfArtDiedCohortForMay",noOfArtDiedCohortForMay.size());
+		model.addAttribute("noOfArtDiedCohortForJune",noOfArtDiedCohortForJune.size());
+		model.addAttribute("noOfArtDiedCohortForJuly",noOfArtDiedCohortForJuly.size());
+		model.addAttribute("noOfArtDiedCohortForAugust",noOfArtDiedCohortForAugust.size());
+		model.addAttribute("noOfArtDiedCohortForSeptember",noOfArtDiedCohortForSeptember.size());
+		model.addAttribute("noOfArtDiedCohortForOctober",noOfArtDiedCohortForOctober.size());
+		model.addAttribute("noOfArtDiedCohortNovember",noOfArtDiedCohortForNovember.size());
+		model.addAttribute("noOfArtDiedCohortForDecember",noOfArtDiedCohortForDecember.size());
+		
+		model.addAttribute("noOfPatientLostToFollowUpForJan",noOfPatientLostToFollowUpForJan.size());
+		model.addAttribute("noOfPatientLostToFollowUpForFeb",noOfPatientLostToFollowUpForFeb.size());
+		model.addAttribute("noOfPatientLostToFollowUpForMarch",noOfPatientLostToFollowUpForMarch.size());
+		model.addAttribute("noOfPatientLostToFollowUpForApril",noOfPatientLostToFollowUpForApril.size());
+		model.addAttribute("noOfPatientLostToFollowUpForMay",noOfPatientLostToFollowUpForMay.size());
+		model.addAttribute("noOfPatientLostToFollowUpForJune",noOfPatientLostToFollowUpForJune.size());
+		model.addAttribute("noOfPatientLostToFollowUpForJuly",noOfPatientLostToFollowUpForJuly.size());
+		model.addAttribute("noOfPatientLostToFollowUpForAugust",noOfPatientLostToFollowUpForAugust.size());
+		model.addAttribute("noOfPatientLostToFollowUpForSeptember",noOfPatientLostToFollowUpForSeptember.size());
+		model.addAttribute("noOfPatientLostToFollowUpForOctober",noOfPatientLostToFollowUpForOctober.size());
+		model.addAttribute("noOfPatientLostToFollowUpNovember",noOfPatientLostToFollowUpForNovember.size());
+		model.addAttribute("noOfPatientLostToFollowUpForDecember",noOfPatientLostToFollowUpForDecember.size());
+		
+		model.addAttribute("noOfPatientWithCD4ForJan",noOfPatientWithCD4ForJan.size());
+		model.addAttribute("noOfPatientWithCD4ForFeb",noOfPatientWithCD4ForFeb.size());
+		model.addAttribute("noOfPatientWithCD4ForMarch",noOfPatientWithCD4ForMarch.size());
+		model.addAttribute("noOfPatientWithCD4ForApril",noOfPatientWithCD4ForApril.size());
+		model.addAttribute("noOfPatientWithCD4ForMay",noOfPatientWithCD4ForMay.size());
+		model.addAttribute("noOfPatientWithCD4ForJune",noOfPatientWithCD4ForJune.size());
+		model.addAttribute("noOfPatientWithCD4ForJuly",noOfPatientWithCD4ForJuly.size());
+		model.addAttribute("noOfPatientWithCD4ForAugust",noOfPatientWithCD4ForAugust.size());
+		model.addAttribute("noOfPatientWithCD4ForSeptember",noOfPatientWithCD4ForSeptember.size());
+		model.addAttribute("noOfPatientWithCD4ForOctober",noOfPatientWithCD4ForOctober.size());
+		model.addAttribute("noOfPatientWithCD4November",noOfPatientWithCD4ForNovember.size());
+		model.addAttribute("noOfPatientWithCD4ForDecember",noOfPatientWithCD4ForDecember.size());
+		
+		model.addAttribute("noOfPatientNormalActivityForJan",noOfPatientNormalActivityForJan.size());
+		model.addAttribute("noOfPatientNormalActivityForFeb",noOfPatientNormalActivityForFeb.size());
+		model.addAttribute("noOfPatientNormalActivityForMarch",noOfPatientNormalActivityForMarch.size());
+		model.addAttribute("noOfPatientNormalActivityForApril",noOfPatientNormalActivityForApril.size());
+		model.addAttribute("noOfPatientNormalActivityForMay",noOfPatientNormalActivityForMay.size());
+		model.addAttribute("noOfPatientNormalActivityForJune",noOfPatientNormalActivityForJune.size());
+		model.addAttribute("noOfPatientNormalActivityForJuly",noOfPatientNormalActivityForJuly.size());
+		model.addAttribute("noOfPatientNormalActivityForAugust",noOfPatientNormalActivityForAugust.size());
+		model.addAttribute("noOfPatientNormalActivityForSeptember",noOfPatientNormalActivityForSeptember.size());
+		model.addAttribute("noOfPatientNormalActivityForOctober",noOfPatientNormalActivityForOctober.size());
+		model.addAttribute("noOfPatientNormalActivityNovember",noOfPatientNormalActivityForNovember.size());
+		model.addAttribute("noOfPatientNormalActivityForDecember",noOfPatientNormalActivityForDecember.size());
+		
+		model.addAttribute("noOfPatientBedriddenLessThanFiftyForJan",noOfPatientBedriddenLessThanFiftyForJan.size());
+		model.addAttribute("noOfPatientBedriddenLessThanFiftyForFeb",noOfPatientBedriddenLessThanFiftyForFeb.size());
+		model.addAttribute("noOfPatientBedriddenLessThanFiftyForMarch",noOfPatientBedriddenLessThanFiftyForMarch.size());
+		model.addAttribute("noOfPatientBedriddenLessThanFiftyForApril",noOfPatientBedriddenLessThanFiftyForApril.size());
+		model.addAttribute("noOfPatientBedriddenLessThanFiftyForMay",noOfPatientBedriddenLessThanFiftyForMay.size());
+		model.addAttribute("noOfPatientBedriddenLessThanFiftyForJune",noOfPatientBedriddenLessThanFiftyForJune.size());
+		model.addAttribute("noOfPatientBedriddenLessThanFiftyForJuly",noOfPatientBedriddenLessThanFiftyForJuly.size());
+		model.addAttribute("noOfPatientBedriddenLessThanFiftyForAugust",noOfPatientBedriddenLessThanFiftyForAugust.size());
+		model.addAttribute("noOfPatientBedriddenLessThanFiftyForSeptember",noOfPatientBedriddenLessThanFiftyForSeptember.size());
+		model.addAttribute("noOfPatientBedriddenLessThanFiftyForOctober",noOfPatientBedriddenLessThanFiftyForOctober.size());
+		model.addAttribute("noOfPatientBedriddenLessThanFiftyNovember",noOfPatientBedriddenLessThanFiftyForNovember.size());
+		model.addAttribute("noOfPatientBedriddenLessThanFiftyForDecember",noOfPatientBedriddenLessThanFiftyForDecember.size());
+		
+		model.addAttribute("noOfPatientBedriddenMoreThanFiftyForJan",noOfPatientBedriddenMoreThanFiftyForJan.size());
+		model.addAttribute("noOfPatientBedriddenMoreThanFiftyForFeb",noOfPatientBedriddenMoreThanFiftyForFeb.size());
+		model.addAttribute("noOfPatientBedriddenMoreThanFiftyForMarch",noOfPatientBedriddenMoreThanFiftyForMarch.size());
+		model.addAttribute("noOfPatientBedriddenMoreThanFiftyForApril",noOfPatientBedriddenMoreThanFiftyForApril.size());
+		model.addAttribute("noOfPatientBedriddenMoreThanFiftyForMay",noOfPatientBedriddenMoreThanFiftyForMay.size());
+		model.addAttribute("noOfPatientBedriddenMoreThanFiftyForJune",noOfPatientBedriddenMoreThanFiftyForJune.size());
+		model.addAttribute("noOfPatientBedriddenMoreThanFiftyForJuly",noOfPatientBedriddenMoreThanFiftyForJuly.size());
+		model.addAttribute("noOfPatientBedriddenMoreThanFiftyForAugust",noOfPatientBedriddenMoreThanFiftyForAugust.size());
+		model.addAttribute("noOfPatientBedriddenMoreThanFiftyForSeptember",noOfPatientBedriddenMoreThanFiftyForSeptember.size());
+		model.addAttribute("noOfPatientBedriddenMoreThanFiftyForOctober",noOfPatientBedriddenMoreThanFiftyForOctober.size());
+		model.addAttribute("noOfPatientBedriddenMoreThanFiftyNovember",noOfPatientBedriddenMoreThanFiftyForNovember.size());
+		model.addAttribute("noOfPatientBedriddenMoreThanFiftyForDecember",noOfPatientBedriddenMoreThanFiftyForDecember.size());
+		
+		model.addAttribute("noOfPatientPickedUpArvForSixMonthForJan",noOfPatientPickedUpArvForSixMonthForJan.size());
+		model.addAttribute("noOfPatientPickedUpArvForSixMonthForFeb",noOfPatientWithCD4ForFeb.size());
+		model.addAttribute("noOfPatientWithCD4ForMarch",noOfPatientPickedUpArvForSixMonthForMarch.size());
+		model.addAttribute("noOfPatientPickedUpArvForSixMonthForApril",noOfPatientPickedUpArvForSixMonthForApril.size());
+		model.addAttribute("noOfPatientPickedUpArvForSixMonthForMay",noOfPatientPickedUpArvForSixMonthForMay.size());
+		model.addAttribute("noOfPatientPickedUpArvForSixMonthForJune",noOfPatientPickedUpArvForSixMonthForJune.size());
+		model.addAttribute("noOfPatientPickedUpArvForSixMonthForJuly",noOfPatientPickedUpArvForSixMonthForJuly.size());
+		model.addAttribute("noOfPatientPickedUpArvForSixMonthForAugust",noOfPatientPickedUpArvForSixMonthForAugust.size());
+		model.addAttribute("noOfPatientPickedUpArvForSixMonthForSeptember",noOfPatientPickedUpArvForSixMonthForSeptember.size());
+		model.addAttribute("noOfPatientPickedUpArvForSixMonthForOctober",noOfPatientPickedUpArvForSixMonthForOctober.size());
+		model.addAttribute("noOfPatientPickedUpArvForSixMonthNovember",noOfPatientPickedUpArvForSixMonthForNovember.size());
+		model.addAttribute("noOfPatientPickedUpArvForSixMonthForDecember",noOfPatientPickedUpArvForSixMonthForDecember.size());
+		
+		model.addAttribute("noOfPatientPickedUpArvForTwelveMonthForJan",noOfPatientPickedUpArvForTwelveMonthForJan.size());
+		model.addAttribute("noOfPatientPickedUpArvForTwelveMonthForFeb",noOfPatientPickedUpArvForTwelveMonthForFeb.size());
+		model.addAttribute("noOfPatientPickedUpArvForTwelveMonthForMarch",noOfPatientPickedUpArvForTwelveMonthForMarch.size());
+		model.addAttribute("noOfPatientPickedUpArvForTwelveMonthForApril",noOfPatientPickedUpArvForTwelveMonthForApril.size());
+		model.addAttribute("noOfPatientPickedUpArvForTwelveMonthForMay",noOfPatientPickedUpArvForTwelveMonthForMay.size());
+		model.addAttribute("noOfPatientPickedUpArvForTwelveMonthForJune",noOfPatientPickedUpArvForTwelveMonthForJune.size());
+		model.addAttribute("noOfPatientPickedUpArvForTwelveMonthForJuly",noOfPatientPickedUpArvForTwelveMonthForJuly.size());
+		model.addAttribute("noOfPatientPickedUpArvForTwelveMonthForAugust",noOfPatientPickedUpArvForTwelveMonthForAugust.size());
+		model.addAttribute("noOfPatientPickedUpArvForTwelveMonthForSeptember",noOfPatientPickedUpArvForTwelveMonthForSeptember.size());
+		model.addAttribute("noOfPatientPickedUpArvForTwelveMonthForOctober",noOfPatientPickedUpArvForTwelveMonthForOctober.size());
+		model.addAttribute("noOfPatientPickedUpArvForTwelveMonthNovember",noOfPatientPickedUpArvForTwelveMonthForNovember.size());
+		model.addAttribute("noOfPatientPickedUpArvForTwelveMonthForDecember",noOfPatientPickedUpArvForTwelveMonthForDecember.size());
 	}
   }
 }
