@@ -641,7 +641,6 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
 		Concept conceptLostToFollowUp=Context.getConceptService().getConceptByUuid("5240AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
-		//criteria.add(Restrictions.eq("concept", concept));
 		criteria.add(Restrictions.eq("valueCoded", conceptLostToFollowUp));
 		String startFromDate = startDate + " 00:00:00";
 		String endFromDate = endDate + " 23:59:59";
@@ -656,10 +655,11 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	
 	public List<Obs> getNoOfPatientWithCD4(String startDate,String endDate) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
-		Concept conceptLostToFollowUp=Context.getConceptService().getConceptByUuid("5240AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		Concept cd4Concept=Context.getConceptService().getConceptByUuid("5497AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		Integer obj = new Integer(200);
+		double doub = obj.doubleValue();
 
-		//criteria.add(Restrictions.eq("concept", concept));
-		criteria.add(Restrictions.eq("valueCoded", conceptLostToFollowUp));
+		criteria.add(Restrictions.and(Restrictions.eq("concept", cd4Concept),Restrictions.ge("valueNumeric", doub)));
 		String startFromDate = startDate + " 00:00:00";
 		String endFromDate = endDate + " 23:59:59";
 		try {
@@ -675,7 +675,6 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
 		Concept scaleA=Context.getConceptService().getConceptByUuid("e8a480a7-1f05-402c-9adf-9acbd6ff446f");
 
-		//criteria.add(Restrictions.eq("concept", concept));
 		criteria.add(Restrictions.eq("valueCoded", scaleA));
 		String startFromDate = startDate + " 00:00:00";
 		String endFromDate = endDate + " 23:59:59";
@@ -692,7 +691,6 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
 		Concept scaleB=Context.getConceptService().getConceptByUuid("585dcf92-c42f-42af-ac44-fdd2fb66ae3a");
 
-		//criteria.add(Restrictions.eq("concept", concept));
 		criteria.add(Restrictions.eq("valueCoded", scaleB));
 		String startFromDate = startDate + " 00:00:00";
 		String endFromDate = endDate + " 23:59:59";
@@ -709,7 +707,6 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
 		Concept scaleC=Context.getConceptService().getConceptByUuid("a70cd549-aa63-4310-9a38-715dfc3ebbd2");
 
-		//criteria.add(Restrictions.eq("concept", concept));
 		criteria.add(Restrictions.eq("valueCoded", scaleC));
 		String startFromDate = startDate + " 00:00:00";
 		String endFromDate = endDate + " 23:59:59";
