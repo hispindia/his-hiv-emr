@@ -341,6 +341,13 @@ public class GetHalfYearlyReportFragmentController {
 		model.addAttribute("noOfPatientLostToFollowUpForMay",noOfPatientLostToFollowUpForMay.size());
 		model.addAttribute("noOfPatientLostToFollowUpForJune",noOfPatientLostToFollowUpForJune.size());
 		
+		model.addAttribute("noOfPatientWithCD4ForJan",noOfPatientWithCD4ForJan.size());
+		model.addAttribute("noOfPatientWithCD4ForFeb",noOfPatientWithCD4ForFeb.size());
+		model.addAttribute("noOfPatientWithCD4ForMarch",noOfPatientWithCD4ForMarch.size());
+		model.addAttribute("noOfPatientWithCD4ForApril",noOfPatientWithCD4ForApril.size());
+		model.addAttribute("noOfPatientWithCD4ForMay",noOfPatientWithCD4ForMay.size());
+		model.addAttribute("noOfPatientWithCD4ForJune",noOfPatientWithCD4ForJune.size());
+		
 		model.addAttribute("noOfPatientNormalActivityForJan",noOfPatientNormalActivityForJan.size());
 		model.addAttribute("noOfPatientNormalActivityForFeb",noOfPatientNormalActivityForFeb.size());
 		model.addAttribute("noOfPatientNormalActivityForMarch",noOfPatientNormalActivityForMarch.size());
@@ -363,8 +370,8 @@ public class GetHalfYearlyReportFragmentController {
 		model.addAttribute("noOfPatientBedriddenMoreThanFiftyForJune",noOfPatientBedriddenMoreThanFiftyForJune.size());
 		
 		model.addAttribute("noOfPatientPickedUpArvForSixMonthForJan",noOfPatientPickedUpArvForSixMonthForJan.size());
-		model.addAttribute("noOfPatientPickedUpArvForSixMonthForFeb",noOfPatientWithCD4ForFeb.size());
-		model.addAttribute("noOfPatientWithCD4ForMarch",noOfPatientPickedUpArvForSixMonthForMarch.size());
+		model.addAttribute("noOfPatientPickedUpArvForSixMonthForFeb",noOfPatientPickedUpArvForSixMonthForFeb.size());
+		model.addAttribute("noOfPatientPickedUpArvForSixMonthForMarch",noOfPatientPickedUpArvForSixMonthForMarch.size());
 		model.addAttribute("noOfPatientPickedUpArvForSixMonthForApril",noOfPatientPickedUpArvForSixMonthForApril.size());
 		model.addAttribute("noOfPatientPickedUpArvForSixMonthForMay",noOfPatientPickedUpArvForSixMonthForMay.size());
 		model.addAttribute("noOfPatientPickedUpArvForSixMonthForJune",noOfPatientPickedUpArvForSixMonthForJune.size());

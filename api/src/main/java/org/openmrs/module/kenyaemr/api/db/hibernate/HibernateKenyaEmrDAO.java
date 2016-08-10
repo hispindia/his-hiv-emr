@@ -625,12 +625,14 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		criteria.add(Restrictions.isNull("dateCompleted"));
 		String startFromDate = startDate + " 00:00:00";
 		String endFromDate = endDate + " 23:59:59";
+		/*
 		try {
 			criteria.add(Restrictions.and(Restrictions.ge("patientProgram.patient.deathDate", formatter.parse(startFromDate)),
 				    Restrictions.le("patientProgram.patient.deathDate", formatter.parse(endFromDate))));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		*/
 		//criteria.add(Restrictions.eq("patientProgram.patient.dead", true));
 		return criteria.list();
 		}
@@ -671,10 +673,10 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		
 		public List<Obs> getNoOfPatientNormalActivity(String startDate,String endDate) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
-		Concept conceptLostToFollowUp=Context.getConceptService().getConceptByUuid("5240AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		Concept scaleA=Context.getConceptService().getConceptByUuid("e8a480a7-1f05-402c-9adf-9acbd6ff446f");
 
 		//criteria.add(Restrictions.eq("concept", concept));
-		criteria.add(Restrictions.eq("valueCoded", conceptLostToFollowUp));
+		criteria.add(Restrictions.eq("valueCoded", scaleA));
 		String startFromDate = startDate + " 00:00:00";
 		String endFromDate = endDate + " 23:59:59";
 		try {
@@ -688,10 +690,10 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		
 		public List<Obs> getNoOfPatientBedriddenLessThanFifty(String startDate,String endDate) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
-		Concept conceptLostToFollowUp=Context.getConceptService().getConceptByUuid("5240AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		Concept scaleB=Context.getConceptService().getConceptByUuid("585dcf92-c42f-42af-ac44-fdd2fb66ae3a");
 
 		//criteria.add(Restrictions.eq("concept", concept));
-		criteria.add(Restrictions.eq("valueCoded", conceptLostToFollowUp));
+		criteria.add(Restrictions.eq("valueCoded", scaleB));
 		String startFromDate = startDate + " 00:00:00";
 		String endFromDate = endDate + " 23:59:59";
 		try {
@@ -705,10 +707,10 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		
 		public List<Obs> getNoOfPatientBedriddenMoreThanFifty(String startDate,String endDate) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
-		Concept conceptLostToFollowUp=Context.getConceptService().getConceptByUuid("5240AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		Concept scaleC=Context.getConceptService().getConceptByUuid("a70cd549-aa63-4310-9a38-715dfc3ebbd2");
 
 		//criteria.add(Restrictions.eq("concept", concept));
-		criteria.add(Restrictions.eq("valueCoded", conceptLostToFollowUp));
+		criteria.add(Restrictions.eq("valueCoded", scaleC));
 		String startFromDate = startDate + " 00:00:00";
 		String endFromDate = endDate + " 23:59:59";
 		try {

@@ -338,18 +338,18 @@ ${patientProgramForDecember}
 
 <tr>
 <td><font face="verdana" color="green">Percent of Cohort Alive and on ART</font></td>
-<td>${} </td>
-<td>${} </td>
-<td>${} </td>
-<td>${} </td>
-<td>${} </td>
-<td>${} </td>
-<td>${} </td>
-<td>${} </td>
-<td>${} </td>
-<td>${} </td>
-<td>${} </td>
-<td>${} </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
 </tr>
 
 <tr>
@@ -370,18 +370,18 @@ ${patientProgramForDecember}
 
 <tr>
 <td>Performance Scale </td>
-<td>${} </td>
-<td>${} </td>
-<td>${} </td>
-<td>${} </td>
-<td>${} </td>
-<td>${} </td>
-<td>${} </td>
-<td>${} </td>
-<td>${} </td>
-<td>${} </td>
-<td>${} </td>
-<td>${} </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
 </tr>
 
 <tr>
@@ -436,7 +436,7 @@ ${patientProgramForDecember}
 <td>No. of Persons who picked up ARVs consistently in every month for 6 mths</td>
 <td>${noOfPatientPickedUpArvForSixMonthForJan} </td>
 <td>${noOfPatientPickedUpArvForSixMonthForFeb} </td>
-<td>${noOfPatientWithCD4ForMarch} </td>
+<td>${noOfPatientPickedUpArvForSixMonthForMarch} </td>
 <td>${noOfPatientPickedUpArvForSixMonthForApril} </td>
 <td>${noOfPatientPickedUpArvForSixMonthForMay} </td>
 <td>${noOfPatientPickedUpArvForSixMonthForJune} </td>

@@ -623,8 +623,8 @@ public class GetYearlyReportFragmentController {
 		model.addAttribute("noOfPatientBedriddenMoreThanFiftyForDecember",noOfPatientBedriddenMoreThanFiftyForDecember.size());
 		
 		model.addAttribute("noOfPatientPickedUpArvForSixMonthForJan",noOfPatientPickedUpArvForSixMonthForJan.size());
-		model.addAttribute("noOfPatientPickedUpArvForSixMonthForFeb",noOfPatientWithCD4ForFeb.size());
-		model.addAttribute("noOfPatientWithCD4ForMarch",noOfPatientPickedUpArvForSixMonthForMarch.size());
+		model.addAttribute("noOfPatientPickedUpArvForSixMonthForFeb",noOfPatientPickedUpArvForSixMonthForFeb.size());
+		model.addAttribute("noOfPatientPickedUpArvForSixMonthForMarch",noOfPatientPickedUpArvForSixMonthForMarch.size());
 		model.addAttribute("noOfPatientPickedUpArvForSixMonthForApril",noOfPatientPickedUpArvForSixMonthForApril.size());
 		model.addAttribute("noOfPatientPickedUpArvForSixMonthForMay",noOfPatientPickedUpArvForSixMonthForMay.size());
 		model.addAttribute("noOfPatientPickedUpArvForSixMonthForJune",noOfPatientPickedUpArvForSixMonthForJune.size());
