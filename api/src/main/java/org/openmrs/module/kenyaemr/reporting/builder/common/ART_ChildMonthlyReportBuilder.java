@@ -78,7 +78,8 @@ public class ART_ChildMonthlyReportBuilder extends AbstractReportBuilder{
 				ReportUtils.map(originalDataset(), "startDate=${startDate},endDate=${endDate}"), 
 				ReportUtils.map(onsubsituteDataset(), "startDate=${startDate},endDate=${endDate}"),
 				ReportUtils.map(onswitchsecondDataset(), "startDate=${startDate},endDate=${endDate}"),
-				ReportUtils.map(onswitchthirdDataset(), "startDate=${startDate},endDate=${endDate}")
+				ReportUtils.map(onswitchthirdDataset(), "startDate=${startDate},endDate=${endDate}"),
+				ReportUtils.map(onstockDispensedDataset(), "startDate=${startDate},endDate=${endDate}")
 				
 		);
 	}
@@ -702,5 +703,45 @@ public class ART_ChildMonthlyReportBuilder extends AbstractReportBuilder{
 			
 			return dsd;
 		}
+		
+		private DataSetDefinition onstockDispensedDataset() {
+			CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
+			dsd.setName("Z");
+			dsd.setDescription("Stock dispensed this mnth");
+			dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+			dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+			dsd.addDimension("age", ReportUtils.map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
+			
+			
+			
+			ColumnParameters total = new ColumnParameters("T", "grand total", "age=<15");
+
+			String indParams = "startDate=${startDate},endDate=${endDate}";
+			List<ColumnParameters> allColumns = Arrays.asList(total);
+			List<String> indSuffixes = Arrays.asList("TT"); 
+			EmrReportingUtils.addRow(dsd, "Z1", "Patients having (AZT/3TC+NVP) (60/30+50) mg regimen", ReportUtils.map(artIndicators.onregimendosenvp(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "Z2", "Patients having (AZT/3TC+LPV/r)(60/30+100/25) mg regimen", ReportUtils.map(artIndicators.onregimendoselpvr(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "Z3", "Patients having (AZT/3TC+EFV) (60/30+200) mg regimen", ReportUtils.map(artIndicators.onregimendoseefvtwo(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "Z4", "Patients having (AZT/3TC+EFV) (60/30+600) mg regimen", ReportUtils.map(artIndicators.onregimendoseefvsix(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "Z5", "Patients having (ABC/3TC+NVP) (60/30+50) mg regimen", ReportUtils.map(artIndicators.onregimendoseabcnvp(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "Z6", "Patients having (ABC/3TC+EFV) (60/30+200) mg regimen", ReportUtils.map(artIndicators.onregimendoseabcefvtwo(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "Z7", "Patients having (ABC/3TC+EFV) (60/30+600) mg regimen", ReportUtils.map(artIndicators.onregimendoseabcefvsix(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "Z8", "Patients having (ABC/3TC+LPV/r) (60/30+100/25) mg regimen", ReportUtils.map(artIndicators.onregimenabcdoselpvr(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "Z9", "Patients having (AZT/3TC+ABC) (60/30+60) mg regimen", ReportUtils.map(artIndicators.onregimendoseabc(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "Z10", "Patients having (d4T+3TC+NVP) regimen", ReportUtils.map(artIndicators.onregimenazt(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "Z11", "Patients having (d4T+3TC+LPV/r) regimen", ReportUtils.map(artIndicators.onregimend4t(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "Z12", "Patients having (d4T+3TC+EFV) regimen", ReportUtils.map(artIndicators.onregimend4tefv(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "Z13", "Patients having (d4T+3TC+ABC) regimen", ReportUtils.map(artIndicators.onregimend4tabc(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "Z14", "Patients having (AZT+3TC+RAL) regimen", ReportUtils.map(artIndicators.onregimenaztral(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "Z15", "Patients having (AZT+3TC+ATV/r) regimen", ReportUtils.map(artIndicators.onregimenatv(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "Z16", "Patients having (ABC+3TC+RAL) regimen", ReportUtils.map(artIndicators.onregimenral(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "Z17", "Patients having (TDF+3TC+EFV) regimen", ReportUtils.map(artIndicators.onregimenefv(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "Z18", "Patients having (TDF+3TC+NVP) regimen", ReportUtils.map(artIndicators.onregimennvp(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "Z19", "Patients having (TDF+3TC+LPV/r) regimen", ReportUtils.map(artIndicators.onregimenlpv(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "Z20", "Patients having (TDF+3TC+RAL) regimen", ReportUtils.map(artIndicators.onregimentdfral(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "Z21", "Patients having (TDF+3TC+ATV/r) regimen", ReportUtils.map(artIndicators.onregimentdfatv(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "Z22", "Patients having (ABC+3TC+ATV/r) regimen", ReportUtils.map(artIndicators.onregimenabc(), indParams), allColumns, indSuffixes);
+			return dsd;
+		}	
 	
 }

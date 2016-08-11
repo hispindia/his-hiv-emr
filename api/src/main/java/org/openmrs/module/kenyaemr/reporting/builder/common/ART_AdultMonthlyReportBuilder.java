@@ -81,7 +81,8 @@ public class ART_AdultMonthlyReportBuilder extends AbstractReportBuilder{
 				ReportUtils.map(originalDataset(), "startDate=${startDate},endDate=${endDate}"), 
 				ReportUtils.map(onsubsituteDataset(), "startDate=${startDate},endDate=${endDate}"),
 				ReportUtils.map(onswitchsecondDataset(), "startDate=${startDate},endDate=${endDate}"),
-				ReportUtils.map(onswitchthirdDataset(), "startDate=${startDate},endDate=${endDate}")
+				ReportUtils.map(onswitchthirdDataset(), "startDate=${startDate},endDate=${endDate}"),
+				ReportUtils.map(onstockDispensedDataset(), "startDate=${startDate},endDate=${endDate}")
 				
 				
 		);
@@ -397,8 +398,6 @@ public class ART_AdultMonthlyReportBuilder extends AbstractReportBuilder{
 			dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
 			dsd.addDimension("age", map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
 			dsd.addDimension("gender", map(commonDimensions.gender()));
-			
-			
 			
 			ColumnParameters female=new ColumnParameters("FA", ">14 years, female", "gender=F|age=15+");
 			ColumnParameters male=new ColumnParameters("MA", ">14 years, male", "gender=M|age=15+");
@@ -778,6 +777,62 @@ public class ART_AdultMonthlyReportBuilder extends AbstractReportBuilder{
 			
 			return dsd;
 		}
-		
+		private DataSetDefinition onstockDispensedDataset() {
+			CohortIndicatorDataSetDefinition dsd = new CohortIndicatorDataSetDefinition();
+			dsd.setName("BB");
+			dsd.setDescription("Stock dispensed this mnth");
+			dsd.addParameter(new Parameter("startDate", "Start Date", Date.class));
+			dsd.addParameter(new Parameter("endDate", "End Date", Date.class));
+			dsd.addDimension("age", ReportUtils.map(commonDimensions.standardAgeGroups(), "onDate=${endDate}"));
+			
+			
+			
+			ColumnParameters total = new ColumnParameters("T", "grand total", "age=15+");
+
+			String indParams = "startDate=${startDate},endDate=${endDate}";
+			List<ColumnParameters> allColumns = Arrays.asList(total);
+			List<String> indSuffixes = Arrays.asList("TT"); 
+			EmrReportingUtils.addRow(dsd, "BB1", "Patients having (AZT/3TC/NVP)(300/150/200)mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimenNVP(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB2", "Patients having (AZT/3TC+NVP) (300/150+200) mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimendosenvp(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB3", "Patients having (AZT/3TC/EFV) (300/150/600)mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimenEFV(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB4", "Patients having (AZT/3TC+EFV) (300/150+600) mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimendoseefvtwo(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB5", "Patients having (TDF/3TC/NVP) (300/300/200)mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimenTDF(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB6", "Patients having (TDF/3TC+NVP) (300/300+200) mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimentdf3tcnvp(), indParams), allColumns, indSuffixes);
+		    EmrReportingUtils.addRow(dsd, "BB7", "Patients having (TDF/3TC/EFV) (300/300/600)mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimenTDFEFV(), indParams), allColumns, indSuffixes);
+		    EmrReportingUtils.addRow(dsd, "BB8", "Patients having (TDF/3TC+EFV) (300/300+400) mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimen3tcefvtwo(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB9", "Patients having (TDF/3TC+EFV) (300/300+600) mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimen3tcefvsix(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB10", "Patients having (TDF/FTC/NVP) (300/200/200)mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimenTDFFTC(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB11", "Patients having (TDF/FTC+NVP) (300/200+200) mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimentdfftcnvp(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB12", "Patients having (TDF/FTC/EFV) (300/200/200)mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimenTDFFTCEFV(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB13", "Patients having (TDF/FTC+EFV) (300/200+400) mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimenftcefvfour(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB14", "Patients having (TDF/FTC/EFV) (300/200/600)mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimenTDFFTCE(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB15", "Patients having (TDF/FTC+EFV) (300/200+600) mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimenftcefvsix(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB16", "Patients having (d4T/3TC/NVP)  (30/150/200)mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimenDT(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB17", "Patients having (d4T/3TC+NVP)  (30/150+200)mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimendt3tcnvp(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB18", "Patients having (d4T/3TC/EFV) (30/150/600)mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimenDTEFV(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB19", "Patients having (d4T/3TC+EFV) (30/150+600) mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimendt3tcefv(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB20", "Patients having (TDF/FTC/DTG) regimen dispensed For this month", ReportUtils.map(artIndicators.onregimenftcdtg(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB21", "Patients having (TDF/3TC/DTG) regimen dispensed For this month", ReportUtils.map(artIndicators.onregimen3tcdtg(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB22", "Patients having (ABC/3TC+EFV) (600/300+600) mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimenabcefv(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB23", "Patients having (ABC/3TC/DTG) regimen dispensed For this month", ReportUtils.map(artIndicators.onregimenabc3tcdtg(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB24", "Patients having (ABC/3TC/NVP) regimen dispensed For this month", ReportUtils.map(artIndicators.onregimen3tcnvp(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB25", "Patients having (ABC/FTC/EFV) regimen dispensed For this month", ReportUtils.map(artIndicators.onregimenftcefv(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB26", "Patients having (ABC/FTC/DTG) regimen dispensed For this month", ReportUtils.map(artIndicators.onregimenabcftcdtg(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB27", "Patients having (ABC/FTC/NVP) regimen dispensed For this month", ReportUtils.map(artIndicators.onregimenftcnvp(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB28", "Patients having (AZT/3TC/LPV/r) (300/150/200/50)mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimenAzt(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB29", "Patients having (AZT/3TC+LPV/r)(300/150+200/50)mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimendoselpvr(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB30", "Patients having (TDF/3TC/LPV/r) (300/300/200/50)mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimenTdf(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB31", "Patients having (TDF/3TC+LPV/r)(300/300+200/50)mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimentdf3tc(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB32", "Patients having (TDF/FTC/LPV/r) (300/200/200/50)mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimenTdfftc(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB33", "Patients having (TDF/FTC+LPV/r)(300/200+200/50)mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimentdfftc(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB34", "Patients having (TDF/ABC/LPV/r) (300/300/200/50)mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimenTdfabc(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB35", "Patients having (TDF+ABC+LPV/r )(300+300+200/50)mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimentdf(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB36", "Patients having (ABC/3TC+LPV/r)(600/300+200/50)mg regimen dispensed For this month", ReportUtils.map(artIndicators.onregimenabcdoselpvr(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB37", "Patients having (ABC/3TC/ATV/r) regimen dispensed For this month", ReportUtils.map(artIndicators.onregimenabcatv(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB38", "Patients having (AZT/3TC/ATV/r) regimen dispensed For this month", ReportUtils.map(artIndicators.onregimenaztatv(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB39", "Patients having (TDF/3TC/ATV/r) regimen dispensed For this month", ReportUtils.map(artIndicators.onregimentdfatvr(), indParams), allColumns, indSuffixes);
+			EmrReportingUtils.addRow(dsd, "BB40", "Patients having (AZT/3TC+TDF+LPV/r)(300/150+300+200/50) mg regimen dispensed For this month", ReportUtils.map(artIndicators.onRegimenazt3tc(), indParams), allColumns, indSuffixes);
+			return dsd;
+		}	
 }
 
