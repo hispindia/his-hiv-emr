@@ -141,7 +141,6 @@ import org.openmrs.module.kenyaemr.calculation.library.hiv.art.OnArtCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.art.OnOriginalFirstLineArtCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.art.OnSecondLineArtCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.art.PregnantAtArtStartCalculation;
-import org.openmrs.module.kenyaemr.calculation.library.hiv.art.StockDispensedCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.art.TDF3TCATVrStockDispensedCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.art.TDF3TCDTGStockDispensedCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.art.TDF3TCEFVStockDispensedCalculation;
@@ -598,15 +597,6 @@ public class ArtCohortLibrary {
 		cd.addSearch("withWhoStage", ReportUtils.map(whoStageAtArtStart(stage)));
 		cd.setCompositionString("startedArt AND withWhoStage");
 		return cd;
-	}
-
-	public CohortDefinition StockDispnsedForThisMonth() {
-		CalculationCohortDefinition stckdispensed = new CalculationCohortDefinition(new StockDispensedCalculation());
-		stckdispensed.setName("stock dispensed on date");
-		
-		stckdispensed.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
-		stckdispensed.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-		return stckdispensed;
 	}
 
 	 public CohortDefinition onAZT3TCNVP() {

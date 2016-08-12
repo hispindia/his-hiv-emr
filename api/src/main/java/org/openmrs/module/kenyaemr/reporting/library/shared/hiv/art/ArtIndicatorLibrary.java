@@ -131,10 +131,6 @@ public class ArtIndicatorLibrary {
 		return cohortIndicator("patients who have switched to third line", map(artCohorts.onSwitchThirdLine(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
 	}
 
-	public CohortIndicator stockDispensed() {
-		return cohortIndicator("stock dispensed for this mnth", map(artCohorts.StockDispnsedForThisMonth(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
-	}
-
     public CohortIndicator onregimenNVP(){
         return cohortIndicator("Patients having (AZT/3TC/NVP)(300/150/200)mg regimen", map(artCohorts.onAZT3TCNVP(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
     }
