@@ -14,39 +14,10 @@
 
 package org.openmrs.module.kenyaemr.page.controller.admin;
 
-import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openmrs.Concept;
-import org.openmrs.Encounter;
-import org.openmrs.Obs;
-import org.openmrs.Visit;
-import org.openmrs.api.EncounterService;
-import org.openmrs.api.context.Context;
-import org.openmrs.module.kenyacore.form.FormManager;
-import org.openmrs.module.kenyadq.DqConstants;
 import org.openmrs.module.kenyaemr.EmrConstants;
-import org.openmrs.module.kenyaui.KenyaUiUtils;
 import org.openmrs.module.kenyaui.annotation.AppPage;
-import org.openmrs.ui.framework.SimpleObject;
-import org.openmrs.ui.framework.UiUtils;
-import org.openmrs.ui.framework.annotation.SpringBean;
-import org.openmrs.ui.framework.fragment.FragmentActionRequest;
-import org.openmrs.ui.framework.resource.ResourceFactory;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import jxl.Sheet;
-import jxl.Workbook;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.servlet.http.HttpSession;
 
 /**
  * Find duplicate patients page
