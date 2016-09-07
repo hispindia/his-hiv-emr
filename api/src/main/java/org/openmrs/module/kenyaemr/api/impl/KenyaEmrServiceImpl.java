@@ -477,7 +477,7 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 		return dao.getNoOfArtStoppedCohort(program,startDate,endDate);
 	}
 	
-	public List<PatientProgram> getNoOfArtDiedCohort(Program program,String startDate,String endDate){
+	public Integer getNoOfArtDiedCohort(Program program,String startDate,String endDate){
 		return dao.getNoOfArtDiedCohort(program,startDate,endDate);
 	}
 	

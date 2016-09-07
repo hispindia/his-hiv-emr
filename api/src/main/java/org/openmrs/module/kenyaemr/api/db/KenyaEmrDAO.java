@@ -89,7 +89,7 @@ public interface KenyaEmrDAO {
 	public List<DrugOrderProcessed> getAlternateFirstLineRegimen(String startDate,String endDate);
 	public List<DrugOrderProcessed> getSecondLineRegimen(String startDate,String endDate);
 	public List<PatientProgram> getNoOfArtStoppedCohort(Program program,String startDate,String endDate);
-	public List<PatientProgram> getNoOfArtDiedCohort(Program program,String startDate,String endDate);
+	public Integer getNoOfArtDiedCohort(Program program,String startDate,String endDate);
 	public List<Obs> getNoOfPatientLostToFollowUp(String startDate,String endDate);
 	public List<Obs> getNoOfPatientWithCD4(String startDate,String endDate);
 	public List<Obs> getNoOfPatientNormalActivity(String startDate,String endDate);

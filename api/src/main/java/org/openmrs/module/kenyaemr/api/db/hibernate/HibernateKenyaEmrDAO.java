@@ -619,22 +619,29 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		return criteria.list();
 		}
 	
-	public List<PatientProgram> getNoOfArtDiedCohort(Program program,String startDate,String endDate) {
+	public Integer getNoOfArtDiedCohort(Program program,String startDate,String endDate) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PatientProgram.class,"patientProgram");
 		criteria.add(Restrictions.eq("program", program));
 		criteria.add(Restrictions.isNull("dateCompleted"));
 		String startFromDate = startDate + " 00:00:00";
 		String endFromDate = endDate + " 23:59:59";
-		/*
-		try {
-			criteria.add(Restrictions.and(Restrictions.ge("patientProgram.patient.deathDate", formatter.parse(startFromDate)),
-				    Restrictions.le("patientProgram.patient.deathDate", formatter.parse(endFromDate))));
-		} catch (ParseException e) {
-			e.printStackTrace();
+	
+		List<Person> personList=getListOfDiedPatient(startDate,endDate);
+		List<Patient> patientList=new LinkedList<Patient>();
+		for(Person person:personList){
+			Patient patient=(Patient) person;
+			patientList.add(patient);
 		}
-		*/
-		//criteria.add(Restrictions.eq("patientProgram.patient.dead", true));
-		return criteria.list();
+		
+		Integer noOfArtDiedCohort=0;
+		if(patientList.size()!=0){
+			criteria.add(Restrictions.in("patient", patientList));
+			noOfArtDiedCohort=criteria.list().size();
+		}
+		else{
+			noOfArtDiedCohort=0;	
+		}
+		return noOfArtDiedCohort;
 		}
 	
 	public List<Obs> getNoOfPatientLostToFollowUp(String startDate,String endDate) {
@@ -758,6 +765,22 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class);
 		criteria.add(Restrictions.eq("patient", patient));
 		return criteria.list();
+	}
+	
+	public List<Person> getListOfDiedPatient(String startDate,String endDate) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Person.class,"person");
+		String startFromDate = startDate + " 00:00:00";
+		String endFromDate = endDate + " 23:59:59";
+			
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("deathDate", formatter.parse(startFromDate)),
+					    Restrictions.le("deathDate", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+				e.printStackTrace();
+		}
+			
+		criteria.add(Restrictions.eq("dead", true));
+		return criteria.list();	
 	}
 
 }
