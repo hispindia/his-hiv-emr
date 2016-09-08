@@ -139,4 +139,16 @@ public class Moh731CohortLibrary {
 		cd.setCompositionString("art12MonthNetCohort AND currentlyOnArt");
 		return cd;
 	}
+	public CohortDefinition startedArtExcludingTransferinsOnDates()
+	{ 
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.addParameter(new Parameter("fromDate", "From Date", Date.class));
+		cd.addParameter(new Parameter("toDate", "To Date", Date.class));
+		cd.addSearch("art12MonthNetCohort", ReportUtils.map(artCohorts.netCohortMonths(12), "onDate=${toDate}"));
+		cd.addSearch("currentlyOnArt", ReportUtils.map(artCohorts.onArt(), "onDate=${toDate}"));
+		cd.setCompositionString("art12MonthNetCohort AND currentlyOnArt");
+		return cd;
+
+	}
+	
 }
