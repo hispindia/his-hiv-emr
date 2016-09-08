@@ -96,25 +96,35 @@ public class HivCarePanelFragmentController {
 		calculationResults.put("lastCD4Percent", EmrCalculationUtils.evaluateForPatient(LastCd4PercentageCalculation.class, null, patient));
 		calculationResults.put("viralDateResult", EmrCalculationUtils.evaluateForPatient(LastViralLoadCalculation.class, null, patient));
 		Obs cdList = getLatestObs(patient, Dictionary.CD4_COUNT);
+	
 		String cd4Count = "";
 		if (cdList != null) {
+			if(cdList.getValueText()!= null)
+			{
 			cd4Count=cdList.getValueText().toString();
+			}
 		}
 		model.addAttribute("cd4Count", cd4Count);
 		
 		Obs cdPerList = getLatestObs(patient, Dictionary.CD4_PERCENT);
+		
 		String cd4PerCount = "";
-		if (cdPerList != null) {
+		if(cdPerList !=null)
+		{
+		if (cdPerList.getValueText() != null) {
 			cd4PerCount=cdPerList.getValueText().toString();
+		}
 		}
 		model.addAttribute("cd4PerCount", cd4PerCount);
 		
 		Obs viralLoad = getLatestObs(patient, Dictionary.HIV_VIRAL_LOAD);
+	
 		String viralLoadResult = ""; 
 		if (viralLoad != null) {
+			if (viralLoad.getValueText() != null) {
 			viralLoadResult=viralLoad.getValueText().toString();
 			
-			 
+			}
 		}
 		model.addAttribute("viralLoadResult", viralLoadResult);
 		
@@ -242,6 +252,10 @@ public class HivCarePanelFragmentController {
 	    	        				}
 	        				 }
 	        			
+	        	  }
+	        	  else
+	        	  {
+	        		  model.addAttribute("duration","");  
 	        	  }
 	          }
 	          break;

@@ -180,6 +180,10 @@ public class TbCarePanelFragmentController {
 	    	        				}
 	        				 }
 	        	  }
+	        	  else
+	        	  {
+	        		  model.addAttribute("duration","");  
+	        	  }
 	          }
 	          break;
 	 		
