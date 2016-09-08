@@ -50,8 +50,8 @@ public class OnSwitchLineArtCalculation extends AbstractPatientCalculation {
 		 	  }
 		 		}
 		 		else
-		 		{
-		 			if((ptId.equals(order.getPatient().getPatientId())&&(order.getRegimenChangeType().equals("Switch")) &&(order.getTypeOfRegimen().equals("Fixed dose combinations (FDCs)"))))
+		 		{  
+		 			if((ptId.equals(order.getPatient().getPatientId())&&(order.getRegimenChangeType().equals("Switch")) &&(order.getTypeOfRegimen().equals("Fixed dose combinations (FDCs)"))&&(!(order.getDrugRegimen().equals("AZT/3TC+TDF+LPV/r")))))
 				 	  { if(order.getDrugRegimen().equals(drugorder.getDrugRegimen()))
 				 		  { 
 				 			 onOrigFirstLine = false;
@@ -60,15 +60,42 @@ public class OnSwitchLineArtCalculation extends AbstractPatientCalculation {
 				 		  else
 				 		  {  onOrigFirstLine = true;
 				 			drugorder=order;
+				 			
 				 			ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
 				 		  }
-				 		 if(order.getDiscontinuedDate()!=null)
+				 		 if((ptId.equals(order.getPatient().getPatientId()))&&order.getDiscontinuedDate()!=null)
 					 	  { 
 					 		 onOrigFirstLine=false; 
 					 		ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
 					 	  }
 				 		
 				 	  }
+		 			else
+		 				{ 
+		 				
+		 				if((ptId.equals(order.getPatient().getPatientId())&&(order.getRegimenChangeType().equals("Switch")) &&(order.getTypeOfRegimen().equals("Second line ART"))&&(!(order.getDrugRegimen().equals("AZT/3TC+TDF+LPV/r")))))
+		 				
+					 	  { if(order.getDrugRegimen().equals(drugorder.getDrugRegimen()))
+					 		  { 
+					 			 onOrigFirstLine = false;
+					 			
+					 		  }
+					 		  else
+					 		  {  onOrigFirstLine = true;
+					 			drugorder=order;
+					 		
+					 			ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
+					 		  }
+					 		 if((ptId.equals(order.getPatient().getPatientId()))&&order.getDiscontinuedDate()!=null)
+						 	  { 
+						 		 onOrigFirstLine=false; 
+						 		ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
+						 	  }
+					 		
+					 	  }
+		 				
+		 				}
+		 			
 		 		}
 		 	  }
 		}
@@ -76,6 +103,7 @@ public class OnSwitchLineArtCalculation extends AbstractPatientCalculation {
 
 			
 		}
+		
 		return ret;
     }
 }

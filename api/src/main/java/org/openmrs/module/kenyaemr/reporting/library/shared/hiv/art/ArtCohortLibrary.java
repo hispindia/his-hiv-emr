@@ -517,15 +517,15 @@ public class ArtCohortLibrary {
 	 * Patients who started ART on ${onOrBefore} excluding transfer ins
 	 * @return the cohort definition
 	 */
-	public CohortDefinition startedArtExcludingTransferinsOnDate() { 
+	public CohortDefinition startedArtOnDate() { 
 		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.setName("Started ART excluding transfer ins on date in this facility");
 		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-		cd.addSearch("startedArt", ReportUtils.map(startsART(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
-		cd.addSearch("transferIns", ReportUtils.map(hivCohortLibrary.startedArtFromTransferringFacilityOnDate(), "onOrBefore=${onOrBefore}"));
+		cd.addSearch("startedArt", ReportUtils.map(startsART(), "onOrAfter=${onOrBefore-1m},onOrBefore=${onOrBefore}"));
+		
 		cd.addSearch("completeProgram", ReportUtils.map(commonCohorts.compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.ART)), "completedOnOrBefore=${onOrBefore}"));
-		cd.setCompositionString("startedArt AND NOT transferIns AND NOT completeProgram");
+		cd.setCompositionString("startedArt  AND NOT completeProgram");
 		return  cd;
 	}
      

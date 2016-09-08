@@ -73,6 +73,7 @@ import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedTDF3TCplusLPVrCa
 import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedTDF3TCplusNVPCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.FixedTDF3TCplusRALCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.OnCtxWithinDurationCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.hiv.PatientWaitinglistArtCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.TBCasesAmongPLHIVSixMonthCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.TDF3TCATVrCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.TDF3TCDTGCalculation;
@@ -230,15 +231,29 @@ public class HivCohortLibrary {
 		cd.setCompositionString("enrolledExcludingTransfers AND referredNotFrom AND NOT completeProgram");
 		return cd;
 	}
+	public CohortDefinition stoppArt() { 
+		CompositionCohortDefinition cd = new CompositionCohortDefinition();
+		cd.setName("Started ART excluding transfer ins on date in this facility");
+		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		cd.addSearch("startedArt", ReportUtils.map(artCohorts.startArt(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		cd.addSearch("completeProgram", ReportUtils.map(commonCohorts.compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.ART)), "completedOnOrBefore=${onOrBefore}"));
+		cd.setCompositionString("startedArt AND completeProgram");
+		return  cd;
+	}
         
         public CohortDefinition restartedProgram(){
+        	Concept entrypoint = Dictionary.getConcept(Dictionary.METHOD_OF_ENROLLMENT);
+        	Concept reason = Dictionary.getConcept(Dictionary.PATIENT_TRANSFERED_PRE_ART);
+        	Concept reason1 = Dictionary.getConcept(Dictionary.PATIENT_TRANSFERED_ON_ART);
             CompositionCohortDefinition cd = new CompositionCohortDefinition();
             cd.setName("enrolled excluding transfers in HIV care not from entry points");
             cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
             cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
             cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
-            cd.addSearch("completeProgram", ReportUtils.map(commonCohorts.compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.ART)), "completedOnOrBefore=${onOrBefore}"));
-            cd.setCompositionString("enrolled AND  completeProgram");
+            cd.addSearch("entrypoint", ReportUtils.map(commonCohorts.hasObs(entrypoint ,reason), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+            cd.addSearch("entrypointOne", ReportUtils.map(commonCohorts.hasObs(entrypoint ,reason1), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+            cd.setCompositionString("enrolled AND (entrypointOne OR entrypoint)");
             return cd;
         }
 
@@ -896,12 +911,16 @@ public class HivCohortLibrary {
         }
         
         public CohortDefinition notinitializedART(){
+        	CalculationCohortDefinition comp = new CalculationCohortDefinition(new PatientWaitinglistArtCalculation());
+    		comp.setName("On CTX on date");
+    		comp.addParameter(new Parameter("onDate", "On Date", Date.class));
             CompositionCohortDefinition cd = new CompositionCohortDefinition();
             cd.setName("waiting list for ART");
             cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
             cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+            cd.addSearch("onwaitinglistArt", ReportUtils.map(comp, "onDate=${onOrBefore}"));
             cd.addSearch("enrolledHIV", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.HIV)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
-            cd.setCompositionString("enrolledHIV");
+            cd.setCompositionString("enrolledHIV AND onwaitinglistArt ");
             return cd;
         }
         

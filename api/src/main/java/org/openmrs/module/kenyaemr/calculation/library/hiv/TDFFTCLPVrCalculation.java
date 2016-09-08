@@ -37,7 +37,7 @@ public class TDFFTCLPVrCalculation extends AbstractPatientCalculation {
 		 		 {  
 		 			onOrigFirstLine=true; 
 		 		 }
-		 	 if(order.getDiscontinuedDate()!=null)
+		 	 if(ptId.equals(order.getPatient().getPatientId()) && order.getDiscontinuedDate()!=null)
 		 	  { 
 		 		 onOrigFirstLine=false; 
 		 	  }

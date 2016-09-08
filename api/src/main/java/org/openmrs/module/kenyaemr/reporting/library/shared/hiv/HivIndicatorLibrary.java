@@ -125,6 +125,9 @@ public class HivIndicatorLibrary {
                 return cohortIndicator("TB patients received ART", map(hivCohorts.receivedART(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
         }
         
+        public CohortIndicator stopART(){
+            return cohortIndicator("patients Restarted ART", map(hivCohorts.stoppArt(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+    }
         public CohortIndicator restartART(){
                 return cohortIndicator("patients Restarted ART", map(hivCohorts.restartedProgram(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
         }
@@ -385,19 +388,19 @@ public class HivIndicatorLibrary {
 		}
 
 		public  CohortIndicator onregimen3tcefvtwo() {
-			// TODO Auto-generated method stub
+			
 			return  cohortIndicator("Patients having (TDF/3TC+EFV) (300/300+400) mg regimen", map(hivCohorts.onTdf3tcplusefvtwo(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
 		
 		}
 
 		public  CohortIndicator onregimen3tcefvsix() {
-			// TODO Auto-generated method stub
+			
 			return  cohortIndicator("Patients having (TDF/3TC+EFV) (300/300+600) mg regimen", map(hivCohorts.onTdf3tcplusefvsix(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
 		
 		}
 
 		public  CohortIndicator onregimentdfftcnvp() {
-			// TODO Auto-generated method stub
+			
 			return  cohortIndicator("Patients having (TDF/FTC+NVP) (300/200+200) mg regimen", map(hivCohorts.onTdfftcplusnvp(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
 		
 		}
@@ -454,5 +457,6 @@ public class HivIndicatorLibrary {
 			return  cohortIndicator("Patients having (TDF/3TC/ATV/r) regimen", map(hivCohorts.ontdf3tcatvr(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
 		}
 
+		
 		
 }

@@ -59,7 +59,7 @@ public class FixedDoseABC3TCplusLPVrCalculation extends AbstractPatientCalculati
 		 	  }
 		 		 else
 		 		 {
-		 			if((ptId.equals(orderprocess.getPatient().getPatientId()) &&(orderprocess.getDrugRegimen().equals("ABC/3TC+ LPV/r")) && (orderprocess.getDoseRegimen().equals("600/300+200/50 mg"))))
+		 			if((ptId.equals(orderprocess.getPatient().getPatientId()) &&(orderprocess.getDrugRegimen().equals("ABC/3TC+LPV/r")) && (orderprocess.getDoseRegimen().equals("600/300+200/50 mg"))))
 			 			 
 			 		 { 
 			 		  if(orderprocess.getDrugRegimen().equals(drugorder.getDrugRegimen()))

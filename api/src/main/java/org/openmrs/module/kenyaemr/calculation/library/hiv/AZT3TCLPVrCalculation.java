@@ -29,6 +29,7 @@ public class AZT3TCLPVrCalculation extends AbstractPatientCalculation {
 			boolean onOrigFirstLine = false;
 			 KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
 		 	   List<DrugOrderProcessed> drugorderprocess = kenyaEmrService.getAllfirstLine();
+		 	  DrugOrderProcessed drugorder = new DrugOrderProcessed();
 		 	   {
 		 	  for(DrugOrderProcessed order:drugorderprocess)
 		 	  {
@@ -36,16 +37,22 @@ public class AZT3TCLPVrCalculation extends AbstractPatientCalculation {
 		 	  if((ptId.equals(order.getPatient().getPatientId()) && (order.getDrugRegimen().equals("AZT/3TC/LPV/r")) && (order.getDoseRegimen().equals("300/150/200/50 mg"))))
 		 		 {  
 		 			onOrigFirstLine=true; 
+		 			
+		 			ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
 		 		 }
-		 	 if(order.getDiscontinuedDate()!=null)
+		 
+		 	 if((ptId.equals(order.getPatient().getPatientId())) && order.getDiscontinuedDate()!=null)
 		 	  { 
 		 		 onOrigFirstLine=false; 
+		 	
+		 		ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
 		 	  }
 		 	  }
 		}
 			
-			ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
+			
 		}
+		
 		return ret;
     }
 }

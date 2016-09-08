@@ -89,7 +89,10 @@ public class OnOriginalFirstLineArtCalculation extends AbstractPatientCalculatio
 				 	  }
 		 		 }
 		 	 
-		 		 else if((ptId.equals(order.getPatient().getPatientId())&&(order.getRegimenChangeType().equals("Start")) &&(order.getTypeOfRegimen().equals("Fixed dose combinations (FDCs)"))))
+		 		 else 
+		 		 {
+		 			 if((ptId.equals(order.getPatient().getPatientId())&&(order.getRegimenChangeType().equals("Start")) &&(order.getTypeOfRegimen().equals("Fixed dose combinations (FDCs)"))))
+		 		 
 		 	  {
 		 	  if(order.getDrugRegimen().equals(drugorder.getDrugRegimen()))
 		 		  { 
@@ -109,6 +112,7 @@ public class OnOriginalFirstLineArtCalculation extends AbstractPatientCalculatio
 			 	  }
 		 		
 		 	  }
+		 		 }
 		 	  }  
 		 	  }
 		}
