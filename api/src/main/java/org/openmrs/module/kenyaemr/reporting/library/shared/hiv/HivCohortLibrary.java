@@ -310,7 +310,7 @@ public class HivCohortLibrary {
             cd.addSearch("outcomeReason1", ReportUtils.map(reasonOfoutcome(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
             cd.addSearch("outcomeReason2", ReportUtils.map(reasonOfoutcometransfer(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
             cd.addSearch("outcomeReason3", ReportUtils.map(reasonOfoutcomeMissing(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
-            cd.addSearch("complete", ReportUtils.map(restartedProgram(),"onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+            cd.addSearch("complete", ReportUtils.map(stoppArt(),"onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
             cd.addSearch("completeprog",ReportUtils.map(artCohorts.startedArtExcludingTransferinsOnDates(),"onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
             cd.setCompositionString("enrolled AND completeprog AND NOT outcomeReason1 AND NOT outcomeReason2 AND NOT outcomeReason3 AND NOT complete");
             return cd;
@@ -909,7 +909,18 @@ public class HivCohortLibrary {
                 
                 return cd;
         }
+        public CohortDefinition initializedHIV(){
         
+            CompositionCohortDefinition cd = new CompositionCohortDefinition();
+            cd.setName("waiting list for ART");
+            cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+            cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+         
+            cd.addSearch("enrolledHIV", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.HIV)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
+            cd.addSearch("completeProgram", ReportUtils.map(commonCohorts.compltedProgram(), "completedOnOrBefore=${onOrBefore}"));
+            cd.setCompositionString("enrolledHIV AND NOT completeProgram ");
+            return cd;
+        }
         public CohortDefinition notinitializedART(){
         	CalculationCohortDefinition comp = new CalculationCohortDefinition(new PatientWaitinglistArtCalculation());
     		comp.setName("On CTX on date");

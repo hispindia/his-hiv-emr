@@ -168,7 +168,7 @@ public class ART_ChildMonthlyReportBuilder extends AbstractReportBuilder{
 		List<ColumnParameters> allColumns = Arrays.asList(childfemale, childmale ,total);
 		List<String> indSuffixes = Arrays.asList("CF","CM","TT");    
                 
-		EmrReportingUtils.addRow(dsd, "D1", "No. of ", ReportUtils.map(hivIndicators.restartART(), indParams), allColumns,indSuffixes);
+		EmrReportingUtils.addRow(dsd, "D1", "No. of ", ReportUtils.map(hivIndicators.stopART(), indParams), allColumns,indSuffixes);
 		return dsd;
 	}
 	
@@ -391,7 +391,7 @@ public class ART_ChildMonthlyReportBuilder extends AbstractReportBuilder{
 			List<ColumnParameters> allColumns = Arrays.asList(childfemale, childmale ,total);
 			List<String> indSuffixes = Arrays.asList("CF","CM","TT");  
 	                
-			EmrReportingUtils.addRow(dsd, "N1", "No. of ", ReportUtils.map(hivIndicators.notInART(), indParams), allColumns,indSuffixes);
+			EmrReportingUtils.addRow(dsd, "N1", "No. of ", ReportUtils.map(hivIndicators.inHIV(), indParams), allColumns,indSuffixes);
 			return dsd;
 		}
 		

@@ -536,9 +536,10 @@ public class ArtCohortLibrary {
 		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
 		cd.addSearch("startedArt", ReportUtils.map( startArt(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
-		cd.addSearch("transferIns", ReportUtils.map(hivCohortLibrary.startedArtFromTransferringFacilityOnDate(), "onOrBefore=${onOrBefore}"));
-		
-		cd.setCompositionString("startedArt AND NOT transferIns");
+		cd.addSearch("transferIn", ReportUtils.map(hivCohortLibrary.restartedProgram(), "onOrBefore=${onOrBefore}"));
+		cd.addSearch("begining", ReportUtils.map(startedArtOnDate(), "onOrBefore=${onOrBefore}"));
+		cd.addSearch("completeProgram", ReportUtils.map(commonCohorts.compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.ART)), "completedOnOrBefore=${onOrBefore}"));
+		cd.setCompositionString("startedArt OR  transferIn OR begining AND NOT completeProgram");
 		return  cd;
 	}
 	

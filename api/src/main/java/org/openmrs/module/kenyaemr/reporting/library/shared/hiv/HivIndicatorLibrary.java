@@ -131,7 +131,9 @@ public class HivIndicatorLibrary {
         public CohortIndicator restartART(){
                 return cohortIndicator("patients Restarted ART", map(hivCohorts.restartedProgram(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
         }
-        
+        public CohortIndicator inHIV(){
+            return cohortIndicator("patients initalized for HIV", map(hivCohorts.initializedHIV(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+    }
         public CohortIndicator notInART(){
                 return cohortIndicator("patients not initialized for ART", map(hivCohorts.notinitializedART(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
         }
