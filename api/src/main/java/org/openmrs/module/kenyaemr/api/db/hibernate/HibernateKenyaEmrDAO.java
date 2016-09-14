@@ -47,10 +47,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
+
+import javax.validation.constraints.Size;
 
 /**
  * Hibernate specific data access functions. This class should not be used directly.
@@ -433,7 +437,6 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	public List<PatientProgram> getPatientProgram(Program program,String startDate,String endDate) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PatientProgram.class,"patientProgram");
 		criteria.add(Restrictions.eq("program", program));
-		criteria.add(Restrictions.isNull("dateCompleted"));
 		String startFromDate = startDate + " 00:00:00";
 		String endFromDate = endDate + " 23:59:59";
 		try {
@@ -442,17 +445,15 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		
 		return criteria.list();
 		}
 	
 	public List<Obs> getNoOfPatientTransferredIn(String startDate,String endDate) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
-		//Concept concept=Context.getConceptService().getConceptByUuid("160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		Collection<Concept> conList=new	ArrayList<Concept>();
 		conList.add(Context.getConceptService().getConceptByUuid("4b73234a-15db-49a0-b089-c26c239fe90d"));
 		conList.add(Context.getConceptService().getConceptByUuid("feee14d1-6cd6-4f5d-a3f6-056ed91526e5"));
-		
-		//criteria.add(Restrictions.eq("concept", concept));
 		criteria.add(Restrictions.in("valueCoded", conList));
 		String startFromDate = startDate + " 00:00:00";
 		String endFromDate = endDate + " 23:59:59";
@@ -467,10 +468,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	
 	public List<Obs> getNoOfPatientTransferredOut(String startDate,String endDate) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
-		//Concept concept=Context.getConceptService().getConceptByUuid("161555AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		Concept conceptTransferredOut=Context.getConceptService().getConceptByUuid("159492AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-
-		//criteria.add(Restrictions.eq("concept", concept));
 		criteria.add(Restrictions.eq("valueCoded", conceptTransferredOut));
 		String startFromDate = startDate + " 00:00:00";
 		String endFromDate = endDate + " 23:59:59";
@@ -487,70 +485,94 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Visit.class,"visit");
 		criteria.add(Restrictions.eq("patient", patient));
 		criteria.addOrder(Order.asc("startDatetime"));
-		//criteria.addOrder(Order.desc("startDatetime"));
 		criteria.setMaxResults(1);
 		return (Visit) criteria.uniqueResult();
 		}
 	
 	public Integer getTotalNoOfCohort(String startDate,String endDate) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Visit.class,"visit");
-		String startFromDate = startDate + " 00:00:00";
-		String endFromDate = endDate + " 23:59:59";
-		try {
-			criteria.add(Restrictions.and(Restrictions.ge("startDatetime", formatter.parse(startFromDate)),
-				    Restrictions.le("startDatetime", formatter.parse(endFromDate))));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		List<Visit> visits=criteria.list();
-		return visits.size();
+		Program program=Context.getProgramWorkflowService().getProgramByUuid("96ec813f-aaf0-45b2-add6-e661d5bf79d6");
+		Integer noOfPaientOnART=getPatientProgram(program,startDate,endDate).size();
+		Integer noOfPaientTransferredOut=getNoOfPatientTransferredOut(startDate,endDate).size();
+		return noOfPaientOnART-noOfPaientTransferredOut;
 		}
 	
 	public Integer getCohortBasedOnGender(String gender,String startDate,String endDate) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Visit.class,"visit");
-		String startFromDate = startDate + " 00:00:00";
-		String endFromDate = endDate + " 23:59:59";
-		//criteria.add(Restrictions.eq("visit.patient.gender", gender));
-		try {
-			criteria.add(Restrictions.and(Restrictions.ge("startDatetime", formatter.parse(startFromDate)),
-				    Restrictions.le("startDatetime", formatter.parse(endFromDate))));
-		} catch (ParseException e) {
-			e.printStackTrace();
+		Program program=Context.getProgramWorkflowService().getProgramByUuid("96ec813f-aaf0-45b2-add6-e661d5bf79d6");
+		List<PatientProgram> noOfPatientOnCohort=getPatientProgram(program,startDate,endDate);
+		List<Obs> noOfPaientTransferredOut=getNoOfPatientTransferredOut(startDate,endDate);
+		
+		List<Person> personList=getListOfPatient(gender);
+		List<Patient> patientList=new LinkedList<Patient>();
+		for(Person person:personList){
+			Patient patient=(Patient) person;
+			patientList.add(patient);
 		}
-		List<Visit> visits=criteria.list();
-		return visits.size();
+		
+		Integer noOfPatientOnART=0;
+		for(PatientProgram patientProgram:noOfPatientOnCohort){
+			if(patientList.contains(patientProgram.getPatient())){
+				noOfPatientOnART++;	
+			}	
+		}
+		
+		Integer noOfPatientTransferredOut=0;
+		for(Obs obs:noOfPaientTransferredOut){
+			if(patientList.contains(obs.getPatient())){
+				noOfPatientTransferredOut++;	
+			}	
+		}
+		return noOfPatientOnART-noOfPatientTransferredOut;
 		}
 	
 	public Integer getCohortBasedOnAge(Integer age1,Integer age2,String startDate,String endDate) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Visit.class,"visit");
-		//criteria.add(Restrictions.and(Restrictions.ge("age", age1),Restrictions.le("age",age2)));
+		Program program=Context.getProgramWorkflowService().getProgramByUuid("96ec813f-aaf0-45b2-add6-e661d5bf79d6");
+		List<PatientProgram> noOfPatientOnCohort=getPatientProgram(program,startDate,endDate);
+		List<Obs> noOfPaientTransferredOut=getNoOfPatientTransferredOut(startDate,endDate);
 		
-		String startFromDate = startDate + " 00:00:00";
-		String endFromDate = endDate + " 23:59:59";
-		try {
-			criteria.add(Restrictions.and(Restrictions.ge("startDatetime", formatter.parse(startFromDate)),
-				    Restrictions.le("startDatetime", formatter.parse(endFromDate))));
-		} catch (ParseException e) {
-			e.printStackTrace();
+		List<Person> personList=getListOfPatient(age1,age2);
+		List<Patient> patientList=new LinkedList<Patient>();
+		for(Person person:personList){
+			if(person.getAge()>=age1 && person.getAge()<=age2){
+			Patient patient=(Patient) person;
+			patientList.add(patient);
+			}
 		}
-		List<Visit> visits=criteria.list();
-		return visits.size();
+		
+		Integer noOfPatientOnART=0;
+		for(PatientProgram patientProgram:noOfPatientOnCohort){
+			if(patientList.contains(patientProgram.getPatient())){
+				noOfPatientOnART++;	
+			}	
+		}
+		
+		Integer noOfPatientTransferredOut=0;
+		for(Obs obs:noOfPaientTransferredOut){
+			if(patientList.contains(obs.getPatient())){
+				noOfPatientTransferredOut++;	
+			}	
+		}
+		return noOfPatientOnART-noOfPatientTransferredOut;
 		}
 	
-	public List<PatientProgram> getNoOfCohortAliveAndOnArt(Program program,String startDate,String endDate) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PatientProgram.class,"patientProgram");
-		criteria.add(Restrictions.eq("program", program));
-		criteria.add(Restrictions.isNull("dateCompleted"));
-		String startFromDate = startDate + " 00:00:00";
-		String endFromDate = endDate + " 23:59:59";
-		try {
-			criteria.add(Restrictions.and(Restrictions.ge("dateEnrolled", formatter.parse(startFromDate)),
-				    Restrictions.le("dateEnrolled", formatter.parse(endFromDate))));
-		} catch (ParseException e) {
-			e.printStackTrace();
+	public Integer getNoOfCohortAliveAndOnArt(Program program,String startDate,String endDate) {
+		Set<Patient> patientList=new LinkedHashSet<Patient>();
+		List<PatientProgram> noOfArtStoppedCohorts=getNoOfArtStoppedCohort(program,startDate,endDate);
+		List<PatientProgram> noOfArtDiedCohorts=getNoOfArtDiedCohort(program,startDate,endDate);
+		List<Obs> noOfPatientLostToFollowUps=getNoOfPatientLostToFollowUp(startDate,endDate);
+		
+		for(PatientProgram noOfArtStoppedCohort:noOfArtStoppedCohorts){
+			patientList.add(noOfArtStoppedCohort.getPatient());	
 		}
-		//criteria.add(Restrictions.eq("patientProgram.patient.dead", TRUE));
-		return criteria.list();
+		
+        for(PatientProgram noOfArtDiedCohort:noOfArtDiedCohorts){
+        	patientList.add(noOfArtDiedCohort.getPatient());		
+		}
+        
+        for(Obs noOfPatientLostToFollowUp:noOfPatientLostToFollowUps){
+        	patientList.add(noOfPatientLostToFollowUp.getPatient());	
+		}
+	
+		return getTotalNoOfCohort(startDate,endDate)-patientList.size();
 		}
 	
 	public List<DrugOrderProcessed> getOriginalFirstLineRegimen(String startDate,String endDate) {
@@ -615,11 +637,11 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		//criteria.add(Restrictions.eq("patientProgram.patient.dead", 0));
 		return criteria.list();
 		}
 	
-	public Integer getNoOfArtDiedCohort(Program program,String startDate,String endDate) {
+	
+	public List<PatientProgram> getNoOfArtDiedCohort(Program program,String startDate,String endDate) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PatientProgram.class,"patientProgram");
 		criteria.add(Restrictions.eq("program", program));
 		criteria.add(Restrictions.isNull("dateCompleted"));
@@ -633,15 +655,13 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 			patientList.add(patient);
 		}
 		
-		Integer noOfArtDiedCohort=0;
+		List<PatientProgram> patientProgram=new ArrayList<PatientProgram>();
 		if(patientList.size()!=0){
 			criteria.add(Restrictions.in("patient", patientList));
-			noOfArtDiedCohort=criteria.list().size();
+			patientProgram=criteria.list();	
 		}
-		else{
-			noOfArtDiedCohort=0;	
-		}
-		return noOfArtDiedCohort;
+		
+		return patientProgram;
 		}
 	
 	public List<Obs> getNoOfPatientLostToFollowUp(String startDate,String endDate) {
@@ -729,8 +749,6 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		public List<Obs> getNoOfPatientPickedUpArvForSixMonth(String startDate,String endDate) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
 		Concept conceptLostToFollowUp=Context.getConceptService().getConceptByUuid("5240AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-
-		//criteria.add(Restrictions.eq("concept", concept));
 		criteria.add(Restrictions.eq("valueCoded", conceptLostToFollowUp));
 		String startFromDate = startDate + " 00:00:00";
 		String endFromDate = endDate + " 23:59:59";
@@ -746,8 +764,6 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		public List<Obs> getNoOfPatientPickedUpArvForTwelveMonth(String startDate,String endDate) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
 		Concept conceptLostToFollowUp=Context.getConceptService().getConceptByUuid("5240AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-
-		//criteria.add(Restrictions.eq("concept", concept));
 		criteria.add(Restrictions.eq("valueCoded", conceptLostToFollowUp));
 		String startFromDate = startDate + " 00:00:00";
 		String endFromDate = endDate + " 23:59:59";
@@ -780,6 +796,33 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		}
 			
 		criteria.add(Restrictions.eq("dead", true));
+		return criteria.list();	
+	}
+	
+	public List<Person> getListOfDiedPatient() {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Person.class,"person");
+		criteria.add(Restrictions.eq("dead", true));
+		criteria.add(Restrictions.ge("personId", 38));
+		return criteria.list();	
+	}
+	
+	public List<Person> getListOfAlivePatient() {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Person.class,"person");
+		criteria.add(Restrictions.eq("dead", false));
+		criteria.add(Restrictions.ge("personId", 38));
+		return criteria.list();	
+	}
+	
+	public List<Person> getListOfPatient(String gender) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Person.class,"person");
+		criteria.add(Restrictions.eq("gender", gender));
+		criteria.add(Restrictions.ge("personId", 38));
+		return criteria.list();	
+	}
+	
+	public List<Person> getListOfPatient(Integer age1,Integer age2) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Person.class,"person");
+		criteria.add(Restrictions.ge("personId", 38));
 		return criteria.list();	
 	}
 

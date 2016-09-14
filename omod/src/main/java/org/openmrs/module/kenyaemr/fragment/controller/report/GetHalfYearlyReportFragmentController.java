@@ -114,12 +114,12 @@ public class GetHalfYearlyReportFragmentController {
 		Integer cohortFor25_60AgeForMay=kenyaEmrService.getCohortBasedOnGender("F",mayStartDate,mayEndDate);
 		Integer cohortFor25_60AgeForJune=kenyaEmrService.getCohortBasedOnGender("F",juneStartDate,juneEndDate);
 		
-		List<PatientProgram> noOfCohortAliveAndOnArtForJan=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,janStartDate,janEndDate);
-		List<PatientProgram> noOfCohortAliveAndOnArtForFeb=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,febStartDate,febEndDate);
-		List<PatientProgram> noOfCohortAliveAndOnArtForMarch=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,marchStartDate,marchEndDate);
-		List<PatientProgram> noOfCohortAliveAndOnArtForApril=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,aprilStartDate,aprilEndDate);
-		List<PatientProgram> noOfCohortAliveAndOnArtForMay=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,mayStartDate,mayEndDate);
-		List<PatientProgram> noOfCohortAliveAndOnArtForJune=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,juneStartDate,juneEndDate);
+		Integer noOfCohortAliveAndOnArtForJan=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,janStartDate,janEndDate);
+		Integer noOfCohortAliveAndOnArtForFeb=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,febStartDate,febEndDate);
+		Integer noOfCohortAliveAndOnArtForMarch=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,marchStartDate,marchEndDate);
+		Integer noOfCohortAliveAndOnArtForApril=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,aprilStartDate,aprilEndDate);
+		Integer noOfCohortAliveAndOnArtForMay=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,mayStartDate,mayEndDate);
+		Integer noOfCohortAliveAndOnArtForJune=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,juneStartDate,juneEndDate);
 		
 		List<DrugOrderProcessed> noOfOriginalFirstLineRegimenForJan=kenyaEmrService.getOriginalFirstLineRegimen(janStartDate,janEndDate);
 		List<DrugOrderProcessed> noOfOriginalFirstLineRegimenForFeb=kenyaEmrService.getOriginalFirstLineRegimen(febStartDate,febEndDate);
@@ -149,12 +149,12 @@ public class GetHalfYearlyReportFragmentController {
 		List<PatientProgram> noOfArtStoppedCohortForMay=kenyaEmrService.getNoOfArtStoppedCohort(program,mayStartDate,mayEndDate);
 		List<PatientProgram> noOfArtStoppedCohortForJune=kenyaEmrService.getNoOfArtStoppedCohort(program,juneStartDate,juneEndDate);
 		
-		Integer noOfArtDiedCohortForJan=kenyaEmrService.getNoOfArtDiedCohort(program,janStartDate,janEndDate);
-		Integer noOfArtDiedCohortForFeb=kenyaEmrService.getNoOfArtDiedCohort(program,febStartDate,febEndDate);
-		Integer noOfArtDiedCohortForMarch=kenyaEmrService.getNoOfArtDiedCohort(program,marchStartDate,marchEndDate);
-		Integer noOfArtDiedCohortForApril=kenyaEmrService.getNoOfArtDiedCohort(program,aprilStartDate,aprilEndDate);
-		Integer noOfArtDiedCohortForMay=kenyaEmrService.getNoOfArtDiedCohort(program,mayStartDate,mayEndDate);
-		Integer noOfArtDiedCohortForJune=kenyaEmrService.getNoOfArtDiedCohort(program,juneStartDate,juneEndDate);
+		List<PatientProgram> noOfArtDiedCohortForJan=kenyaEmrService.getNoOfArtDiedCohort(program,janStartDate,janEndDate);
+		List<PatientProgram> noOfArtDiedCohortForFeb=kenyaEmrService.getNoOfArtDiedCohort(program,febStartDate,febEndDate);
+		List<PatientProgram> noOfArtDiedCohortForMarch=kenyaEmrService.getNoOfArtDiedCohort(program,marchStartDate,marchEndDate);
+		List<PatientProgram> noOfArtDiedCohortForApril=kenyaEmrService.getNoOfArtDiedCohort(program,aprilStartDate,aprilEndDate);
+		List<PatientProgram> noOfArtDiedCohortForMay=kenyaEmrService.getNoOfArtDiedCohort(program,mayStartDate,mayEndDate);
+		List<PatientProgram> noOfArtDiedCohortForJune=kenyaEmrService.getNoOfArtDiedCohort(program,juneStartDate,juneEndDate);
 		
 		List<Obs> noOfPatientLostToFollowUpForJan=kenyaEmrService.getNoOfPatientLostToFollowUp(janStartDate,janEndDate);
 		List<Obs> noOfPatientLostToFollowUpForFeb=kenyaEmrService.getNoOfPatientLostToFollowUp(febStartDate,febEndDate);
@@ -250,54 +250,54 @@ public class GetHalfYearlyReportFragmentController {
 		model.addAttribute("patientTransferOutForMay",patientTransferOutForMay.size());
 		model.addAttribute("patientTransferOutForJune",patientTransferOutForJune.size());
 		
-		model.addAttribute("totalCohortForJan",totalCohortForJan.SIZE);
-		model.addAttribute("totalCohortForFeb",totalCohortForFeb.SIZE);
-		model.addAttribute("totalCohortForMarch",totalCohortForMarch.SIZE);
-		model.addAttribute("totalCohortForApril",totalCohortForApril.SIZE);
-		model.addAttribute("totalCohortForMay",totalCohortForMay.SIZE);
-		model.addAttribute("totalCohortForJune",totalCohortForJune.SIZE);
+		model.addAttribute("totalCohortForJan",totalCohortForJan);
+		model.addAttribute("totalCohortForFeb",totalCohortForFeb);
+		model.addAttribute("totalCohortForMarch",totalCohortForMarch);
+		model.addAttribute("totalCohortForApril",totalCohortForApril);
+		model.addAttribute("totalCohortForMay",totalCohortForMay);
+		model.addAttribute("totalCohortForJune",totalCohortForJune);
 		
-		model.addAttribute("maleCohortForJan",maleCohortForJan.SIZE);
-		model.addAttribute("maleCohortForFeb",maleCohortForFeb.SIZE);
-		model.addAttribute("maleCohortForMarch",maleCohortForMarch.SIZE);
-		model.addAttribute("maleCohortForApril",maleCohortForApril.SIZE);
-		model.addAttribute("maleCohortForMay",maleCohortForMay.SIZE);
-		model.addAttribute("maleCohortForJune",maleCohortForJune.SIZE);
+		model.addAttribute("maleCohortForJan",maleCohortForJan);
+		model.addAttribute("maleCohortForFeb",maleCohortForFeb);
+		model.addAttribute("maleCohortForMarch",maleCohortForMarch);
+		model.addAttribute("maleCohortForApril",maleCohortForApril);
+		model.addAttribute("maleCohortForMay",maleCohortForMay);
+		model.addAttribute("maleCohortForJune",maleCohortForJune);
 		
-		model.addAttribute("femaleCohortForJan",femaleCohortForJan.SIZE);
-		model.addAttribute("femaleCohortForFeb",femaleCohortForFeb.SIZE);
-		model.addAttribute("femaleCohortForMarch",femaleCohortForMarch.SIZE);
-		model.addAttribute("femaleCohortForApril",femaleCohortForApril.SIZE);
-		model.addAttribute("femaleCohortForMay",femaleCohortForMay.shortValue());
-		model.addAttribute("femaleCohortForJune",femaleCohortForJune.SIZE);
+		model.addAttribute("femaleCohortForJan",femaleCohortForJan);
+		model.addAttribute("femaleCohortForFeb",femaleCohortForFeb);
+		model.addAttribute("femaleCohortForMarch",femaleCohortForMarch);
+		model.addAttribute("femaleCohortForApril",femaleCohortForApril);
+		model.addAttribute("femaleCohortForMay",femaleCohortForMay);
+		model.addAttribute("femaleCohortForJune",femaleCohortForJune);
 		
-		model.addAttribute("cohortFor0_14AgeForJan",cohortFor0_14AgeForJan.SIZE);
-		model.addAttribute("cohortFor0_14AgeForFeb",cohortFor0_14AgeForFeb.SIZE);
-		model.addAttribute("cohortFor0_14AgeForMarch",cohortFor0_14AgeForMarch.SIZE);
-		model.addAttribute("cohortFor0_14AgeForApril",cohortFor0_14AgeForApril.SIZE);
-		model.addAttribute("cohortFor0_14AgeForMay",cohortFor0_14AgeForMay.SIZE);
-		model.addAttribute("cohortFor0_14AgeForJune",cohortFor0_14AgeForJune.SIZE);
+		model.addAttribute("cohortFor0_14AgeForJan",cohortFor0_14AgeForJan);
+		model.addAttribute("cohortFor0_14AgeForFeb",cohortFor0_14AgeForFeb);
+		model.addAttribute("cohortFor0_14AgeForMarch",cohortFor0_14AgeForMarch);
+		model.addAttribute("cohortFor0_14AgeForApril",cohortFor0_14AgeForApril);
+		model.addAttribute("cohortFor0_14AgeForMay",cohortFor0_14AgeForMay);
+		model.addAttribute("cohortFor0_14AgeForJune",cohortFor0_14AgeForJune);
 		
-		model.addAttribute("cohortFor15_24AgeForJan",cohortFor15_24AgeForJan.SIZE);
-		model.addAttribute("cohortFor15_24AgeForFeb",cohortFor15_24AgeForFeb.SIZE);
-		model.addAttribute("cohortFor15_24AgeForMarch",cohortFor15_24AgeForMarch.SIZE);
-		model.addAttribute("cohortFor15_24AgeForApril",cohortFor15_24AgeForApril.SIZE);
-		model.addAttribute("cohortFor15_24AgeForMay",cohortFor15_24AgeForMay.SIZE);
-		model.addAttribute("cohortFor15_24AgeForJune",cohortFor15_24AgeForJune.SIZE);
+		model.addAttribute("cohortFor15_24AgeForJan",cohortFor15_24AgeForJan);
+		model.addAttribute("cohortFor15_24AgeForFeb",cohortFor15_24AgeForFeb);
+		model.addAttribute("cohortFor15_24AgeForMarch",cohortFor15_24AgeForMarch);
+		model.addAttribute("cohortFor15_24AgeForApril",cohortFor15_24AgeForApril);
+		model.addAttribute("cohortFor15_24AgeForMay",cohortFor15_24AgeForMay);
+		model.addAttribute("cohortFor15_24AgeForJune",cohortFor15_24AgeForJune);
 		
-		model.addAttribute("cohortFor25_60AgeForJan",cohortFor25_60AgeForJan.SIZE);
-		model.addAttribute("cohortFor25_60AgeForFeb",cohortFor25_60AgeForFeb.SIZE);
-		model.addAttribute("cohortFor25_60AgeForMarch",cohortFor25_60AgeForMarch.SIZE);
-		model.addAttribute("cohortFor25_60AgeForApril",cohortFor25_60AgeForApril.SIZE);
-		model.addAttribute("cohortFor25_60AgeForMay",cohortFor25_60AgeForMay.SIZE);
-		model.addAttribute("cohortFor25_60AgeForJune",cohortFor25_60AgeForJune.SIZE);
+		model.addAttribute("cohortFor25_60AgeForJan",cohortFor25_60AgeForJan);
+		model.addAttribute("cohortFor25_60AgeForFeb",cohortFor25_60AgeForFeb);
+		model.addAttribute("cohortFor25_60AgeForMarch",cohortFor25_60AgeForMarch);
+		model.addAttribute("cohortFor25_60AgeForApril",cohortFor25_60AgeForApril);
+		model.addAttribute("cohortFor25_60AgeForMay",cohortFor25_60AgeForMay);
+		model.addAttribute("cohortFor25_60AgeForJune",cohortFor25_60AgeForJune);
 		
-		model.addAttribute("noOfCohortAliveAndOnArtForJan",noOfCohortAliveAndOnArtForJan.size());
-		model.addAttribute("noOfCohortAliveAndOnArtForFeb",noOfCohortAliveAndOnArtForFeb.size());
-		model.addAttribute("noOfCohortAliveAndOnArtForMarch",noOfCohortAliveAndOnArtForMarch.size());
-		model.addAttribute("noOfCohortAliveAndOnArtForApril",noOfCohortAliveAndOnArtForApril.size());
-		model.addAttribute("noOfCohortAliveAndOnArtForMay",noOfCohortAliveAndOnArtForMay.size());
-		model.addAttribute("noOfCohortAliveAndOnArtForJune",noOfCohortAliveAndOnArtForJune.size());
+		model.addAttribute("noOfCohortAliveAndOnArtForJan",noOfCohortAliveAndOnArtForJan);
+		model.addAttribute("noOfCohortAliveAndOnArtForFeb",noOfCohortAliveAndOnArtForFeb);
+		model.addAttribute("noOfCohortAliveAndOnArtForMarch",noOfCohortAliveAndOnArtForMarch);
+		model.addAttribute("noOfCohortAliveAndOnArtForApril",noOfCohortAliveAndOnArtForApril);
+		model.addAttribute("noOfCohortAliveAndOnArtForMay",noOfCohortAliveAndOnArtForMay);
+		model.addAttribute("noOfCohortAliveAndOnArtForJune",noOfCohortAliveAndOnArtForJune);
 		
 		model.addAttribute("noOfOriginalFirstLineRegimenForJan",noOfOriginalFirstLineRegimenForJan.size());
 		model.addAttribute("noOfOriginalFirstLineRegimenForFeb",noOfOriginalFirstLineRegimenForFeb.size());
@@ -327,12 +327,12 @@ public class GetHalfYearlyReportFragmentController {
 		model.addAttribute("noOfArtStoppedCohortForMay",noOfArtStoppedCohortForMay.size());
 		model.addAttribute("noOfArtStoppedCohortForJune",noOfArtStoppedCohortForJune.size());
 		
-		model.addAttribute("noOfArtDiedCohortForJan",noOfArtDiedCohortForJan);
-		model.addAttribute("noOfArtDiedCohortForFeb",noOfArtDiedCohortForFeb);
-		model.addAttribute("noOfArtDiedCohortForMarch",noOfArtDiedCohortForMarch);
-		model.addAttribute("noOfArtDiedCohortForApril",noOfArtDiedCohortForApril);
-		model.addAttribute("noOfArtDiedCohortForMay",noOfArtDiedCohortForMay);
-		model.addAttribute("noOfArtDiedCohortForJune",noOfArtDiedCohortForJune);
+		model.addAttribute("noOfArtDiedCohortForJan",noOfArtDiedCohortForJan.size());
+		model.addAttribute("noOfArtDiedCohortForFeb",noOfArtDiedCohortForFeb.size());
+		model.addAttribute("noOfArtDiedCohortForMarch",noOfArtDiedCohortForMarch.size());
+		model.addAttribute("noOfArtDiedCohortForApril",noOfArtDiedCohortForApril.size());
+		model.addAttribute("noOfArtDiedCohortForMay",noOfArtDiedCohortForMay.size());
+		model.addAttribute("noOfArtDiedCohortForJune",noOfArtDiedCohortForJune.size());
 		
 		model.addAttribute("noOfPatientLostToFollowUpForJan",noOfPatientLostToFollowUpForJan.size());
 		model.addAttribute("noOfPatientLostToFollowUpForFeb",noOfPatientLostToFollowUpForFeb.size());
@@ -473,12 +473,12 @@ public class GetHalfYearlyReportFragmentController {
 		Integer cohortFor25_60AgeForNovember=kenyaEmrService.getCohortBasedOnGender("F",novemberStartDate,novemberStartDate);
 		Integer cohortFor25_60AgeForDecember=kenyaEmrService.getCohortBasedOnGender("F",decemberStartDate,decemberEndDate);
 		
-		List<PatientProgram> noOfCohortAliveAndOnArtForJuly=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,julyStartDate,julyEndDate);
-		List<PatientProgram> noOfCohortAliveAndOnArtForAugust=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,augustStartDate,augustEndDate);
-		List<PatientProgram> noOfCohortAliveAndOnArtForSeptember=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,septemberStartDate,septemberEndDate);
-		List<PatientProgram> noOfCohortAliveAndOnArtForOctober=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,octoberStartDate,octoberStartDate);
-		List<PatientProgram> noOfCohortAliveAndOnArtForNovember=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,novemberStartDate,novemberStartDate);
-		List<PatientProgram> noOfCohortAliveAndOnArtForDecember=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,decemberStartDate,decemberEndDate);
+		Integer noOfCohortAliveAndOnArtForJuly=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,julyStartDate,julyEndDate);
+		Integer noOfCohortAliveAndOnArtForAugust=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,augustStartDate,augustEndDate);
+		Integer noOfCohortAliveAndOnArtForSeptember=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,septemberStartDate,septemberEndDate);
+		Integer noOfCohortAliveAndOnArtForOctober=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,octoberStartDate,octoberStartDate);
+		Integer noOfCohortAliveAndOnArtForNovember=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,novemberStartDate,novemberStartDate);
+		Integer noOfCohortAliveAndOnArtForDecember=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,decemberStartDate,decemberEndDate);
 		
 		List<DrugOrderProcessed> noOfOriginalFirstLineRegimenForJuly=kenyaEmrService.getOriginalFirstLineRegimen(julyStartDate,julyEndDate);
 		List<DrugOrderProcessed> noOfOriginalFirstLineRegimenForAugust=kenyaEmrService.getOriginalFirstLineRegimen(augustStartDate,augustEndDate);
@@ -508,12 +508,12 @@ public class GetHalfYearlyReportFragmentController {
 		List<PatientProgram> noOfArtStoppedCohortForNovember=kenyaEmrService.getNoOfArtStoppedCohort(program,novemberStartDate,novemberStartDate);
 		List<PatientProgram> noOfArtStoppedCohortForForDecember=kenyaEmrService.getNoOfArtStoppedCohort(program,decemberStartDate,decemberEndDate);
 		
-		Integer noOfArtDiedCohortForJuly=kenyaEmrService.getNoOfArtDiedCohort(program,julyStartDate,julyEndDate);
-		Integer noOfArtDiedCohortForAugust=kenyaEmrService.getNoOfArtDiedCohort(program,augustStartDate,augustEndDate);
-		Integer noOfArtDiedCohortForSeptember=kenyaEmrService.getNoOfArtDiedCohort(program,septemberStartDate,septemberEndDate);
-		Integer noOfArtDiedCohortForOctober=kenyaEmrService.getNoOfArtDiedCohort(program,octoberStartDate,octoberStartDate);
-		Integer noOfArtDiedCohortForNovember=kenyaEmrService.getNoOfArtDiedCohort(program,novemberStartDate,novemberStartDate);
-		Integer noOfArtDiedCohortForDecember=kenyaEmrService.getNoOfArtDiedCohort(program,decemberStartDate,decemberEndDate);
+		List<PatientProgram> noOfArtDiedCohortForJuly=kenyaEmrService.getNoOfArtDiedCohort(program,julyStartDate,julyEndDate);
+		List<PatientProgram> noOfArtDiedCohortForAugust=kenyaEmrService.getNoOfArtDiedCohort(program,augustStartDate,augustEndDate);
+		List<PatientProgram> noOfArtDiedCohortForSeptember=kenyaEmrService.getNoOfArtDiedCohort(program,septemberStartDate,septemberEndDate);
+		List<PatientProgram> noOfArtDiedCohortForOctober=kenyaEmrService.getNoOfArtDiedCohort(program,octoberStartDate,octoberStartDate);
+		List<PatientProgram> noOfArtDiedCohortForNovember=kenyaEmrService.getNoOfArtDiedCohort(program,novemberStartDate,novemberStartDate);
+		List<PatientProgram> noOfArtDiedCohortForDecember=kenyaEmrService.getNoOfArtDiedCohort(program,decemberStartDate,decemberEndDate);
 		
 		List<Obs> noOfPatientLostToFollowUpForJuly=kenyaEmrService.getNoOfPatientLostToFollowUp(julyStartDate,julyEndDate);
 		List<Obs> noOfPatientLostToFollowUpForAugust=kenyaEmrService.getNoOfPatientLostToFollowUp(augustStartDate,augustEndDate);
@@ -648,19 +648,19 @@ public class GetHalfYearlyReportFragmentController {
 		model.addAttribute("cohortFor25_60AgeForNovember",cohortFor25_60AgeForNovember.SIZE);
 		model.addAttribute("cohortFor25_60AgeForDecember",cohortFor25_60AgeForDecember.SIZE);
 		
-		model.addAttribute("noOfCohortAliveAndOnArtForJuly",noOfCohortAliveAndOnArtForJuly.size());
-		model.addAttribute("noOfCohortAliveAndOnArtForAugust",noOfCohortAliveAndOnArtForAugust.size());
-		model.addAttribute("noOfCohortAliveAndOnArtForSeptember",noOfCohortAliveAndOnArtForSeptember.size());
-		model.addAttribute("noOfCohortAliveAndOnArtForOctober",noOfCohortAliveAndOnArtForOctober.size());
-		model.addAttribute("noOfCohortAliveAndOnArtNovember",noOfCohortAliveAndOnArtForNovember.size());
-		model.addAttribute("noOfCohortAliveAndOnArtForDecember",noOfCohortAliveAndOnArtForDecember.size());
+		model.addAttribute("noOfCohortAliveAndOnArtForJuly",noOfCohortAliveAndOnArtForJuly);
+		model.addAttribute("noOfCohortAliveAndOnArtForAugust",noOfCohortAliveAndOnArtForAugust);
+		model.addAttribute("noOfCohortAliveAndOnArtForSeptember",noOfCohortAliveAndOnArtForSeptember);
+		model.addAttribute("noOfCohortAliveAndOnArtForOctober",noOfCohortAliveAndOnArtForOctober);
+		model.addAttribute("noOfCohortAliveAndOnArtNovember",noOfCohortAliveAndOnArtForNovember);
+		model.addAttribute("noOfCohortAliveAndOnArtForDecember",noOfCohortAliveAndOnArtForDecember);
 		
 		model.addAttribute("noOfOriginalFirstLineRegimenForJuly",noOfOriginalFirstLineRegimenForJuly.size());
 		model.addAttribute("noOfOriginalFirstLineRegimenForAugust",noOfOriginalFirstLineRegimenForAugust.size());
 		model.addAttribute("noOfOriginalFirstLineRegimenForSeptember",noOfOriginalFirstLineRegimenForSeptember.size());
 		model.addAttribute("noOfOriginalFirstLineRegimenForOctober",noOfOriginalFirstLineRegimenForOctober.size());
 		model.addAttribute("noOfOriginalFirstLineRegimenNovember",noOfOriginalFirstLineRegimenForNovember.size());
-		model.addAttribute("noOfOriginalFirstLineRegimenForDecember",noOfCohortAliveAndOnArtForDecember.size());
+		model.addAttribute("noOfOriginalFirstLineRegimenForDecember",noOfOriginalFirstLineRegimenForDecember.size());
 		
 		model.addAttribute("noOfAlternateFirstLineRegimenForJuly",noOfAlternateFirstLineRegimenForJuly.size());
 		model.addAttribute("noOfAlternateFirstLineRegimenForAugust",noOfAlternateFirstLineRegimenForAugust.size());
@@ -674,21 +674,21 @@ public class GetHalfYearlyReportFragmentController {
 		model.addAttribute("noOfSecondLineRegimenForSeptember",noOfSecondLineRegimenForSeptember.size());
 		model.addAttribute("noOfSecondLineRegimenForOctober",noOfSecondLineRegimenForOctober.size());
 		model.addAttribute("noOfSecondLineRegimenNovember",noOfSecondLineRegimenForNovember.size());
-		model.addAttribute("noOfSecondLineRegimenForDecember",noOfCohortAliveAndOnArtForDecember.size());
+		model.addAttribute("noOfSecondLineRegimenForDecember",noOfSecondLineRegimenForDecember.size());
 		
 		model.addAttribute("noOfArtStoppedCohortForJuly",noOfArtStoppedCohortForJuly.size());
 		model.addAttribute("noOfArtStoppedCohortForAugust",noOfArtStoppedCohortForAugust.size());
 		model.addAttribute("noOfArtStoppedCohortForSeptember",noOfArtStoppedCohortForSeptember.size());
 		model.addAttribute("noOfArtStoppedCohortForOctober",noOfArtStoppedCohortForOctober.size());
 		model.addAttribute("noOfArtStoppedCohortNovember",noOfArtStoppedCohortForNovember.size());
-		model.addAttribute("noOfArtStoppedCohortForDecember",noOfCohortAliveAndOnArtForDecember.size());
+		model.addAttribute("noOfArtStoppedCohortForDecember",noOfArtStoppedCohortForNovember.size());
 		
-		model.addAttribute("noOfArtDiedCohortForJuly",noOfArtDiedCohortForJuly);
-		model.addAttribute("noOfArtDiedCohortForAugust",noOfArtDiedCohortForAugust);
-		model.addAttribute("noOfArtDiedCohortForSeptember",noOfArtDiedCohortForSeptember);
-		model.addAttribute("noOfArtDiedCohortForOctober",noOfArtDiedCohortForOctober);
-		model.addAttribute("noOfArtDiedCohortNovember",noOfArtDiedCohortForNovember);
-		model.addAttribute("noOfArtDiedCohortForDecember",noOfArtDiedCohortForDecember);
+		model.addAttribute("noOfArtDiedCohortForJuly",noOfArtDiedCohortForJuly.size());
+		model.addAttribute("noOfArtDiedCohortForAugust",noOfArtDiedCohortForAugust.size());
+		model.addAttribute("noOfArtDiedCohortForSeptember",noOfArtDiedCohortForSeptember.size());
+		model.addAttribute("noOfArtDiedCohortForOctober",noOfArtDiedCohortForOctober.size());
+		model.addAttribute("noOfArtDiedCohortNovember",noOfArtDiedCohortForNovember.size());
+		model.addAttribute("noOfArtDiedCohortForDecember",noOfArtDiedCohortForDecember.size());
 		
 		model.addAttribute("noOfPatientLostToFollowUpForJuly",noOfPatientLostToFollowUpForJuly.size());
 		model.addAttribute("noOfPatientLostToFollowUpForAugust",noOfPatientLostToFollowUpForAugust.size());

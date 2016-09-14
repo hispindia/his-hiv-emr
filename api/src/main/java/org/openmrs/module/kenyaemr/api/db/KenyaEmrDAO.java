@@ -84,12 +84,12 @@ public interface KenyaEmrDAO {
 	public Integer getTotalNoOfCohort(String startDate,String endDate);
 	public Integer getCohortBasedOnGender(String gender,String startDate,String endDate);
 	public Integer getCohortBasedOnAge(Integer age1,Integer age2,String startDate,String endDate);
-	public List<PatientProgram> getNoOfCohortAliveAndOnArt(Program program,String startDate,String endDate);
+	public Integer getNoOfCohortAliveAndOnArt(Program program,String startDate,String endDate);
 	public List<DrugOrderProcessed> getOriginalFirstLineRegimen(String startDate,String endDate);
 	public List<DrugOrderProcessed> getAlternateFirstLineRegimen(String startDate,String endDate);
 	public List<DrugOrderProcessed> getSecondLineRegimen(String startDate,String endDate);
 	public List<PatientProgram> getNoOfArtStoppedCohort(Program program,String startDate,String endDate);
-	public Integer getNoOfArtDiedCohort(Program program,String startDate,String endDate);
+	public List<PatientProgram> getNoOfArtDiedCohort(Program program,String startDate,String endDate);
 	public List<Obs> getNoOfPatientLostToFollowUp(String startDate,String endDate);
 	public List<Obs> getNoOfPatientWithCD4(String startDate,String endDate);
 	public List<Obs> getNoOfPatientNormalActivity(String startDate,String endDate);

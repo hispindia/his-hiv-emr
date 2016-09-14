@@ -457,7 +457,7 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 		return dao.getCohortBasedOnAge(age1,age2,startDate,endDate);
 	}
 	
-	public List<PatientProgram> getNoOfCohortAliveAndOnArt(Program program,String startDate,String endDate){
+	public Integer getNoOfCohortAliveAndOnArt(Program program,String startDate,String endDate){
 		return dao.getNoOfCohortAliveAndOnArt(program,startDate,endDate);
 	}
 	
@@ -477,7 +477,7 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 		return dao.getNoOfArtStoppedCohort(program,startDate,endDate);
 	}
 	
-	public Integer getNoOfArtDiedCohort(Program program,String startDate,String endDate){
+	public List<PatientProgram> getNoOfArtDiedCohort(Program program,String startDate,String endDate){
 		return dao.getNoOfArtDiedCohort(program,startDate,endDate);
 	}
 	
