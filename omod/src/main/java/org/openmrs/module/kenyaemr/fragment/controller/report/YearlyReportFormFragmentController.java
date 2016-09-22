@@ -19,6 +19,8 @@ public class YearlyReportFormFragmentController {
 			listOfYear.add(i);
 		}
 		model.addAttribute("listOfYear", listOfYear);
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		model.addAttribute("currDate", formatter.format(new Date()));
 	}
-	
 }
