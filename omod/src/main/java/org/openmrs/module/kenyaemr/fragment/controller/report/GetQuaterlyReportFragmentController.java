@@ -3,8 +3,10 @@ package org.openmrs.module.kenyaemr.fragment.controller.report;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.openmrs.Obs;
+import org.openmrs.Patient;
 import org.openmrs.PatientProgram;
 import org.openmrs.Program;
 import org.openmrs.api.context.Context;
@@ -63,36 +65,36 @@ public class GetQuaterlyReportFragmentController {
 		Integer age1=0;
 		Integer age2=14;
 		Integer cohortFor0_14AgeForJan=kenyaEmrService.getCohortBasedOnAge(age1,age2,janStartDate, janEndDate);
-		Integer cohortFor0_14AgeForFeb=kenyaEmrService.getCohortBasedOnGender("F",febStartDate,febEndDate);
-		Integer cohortFor0_14AgeForMarch=kenyaEmrService.getCohortBasedOnGender("F",marchStartDate,marchEndDate);
+		Integer cohortFor0_14AgeForFeb=kenyaEmrService.getCohortBasedOnAge(age1,age2,febStartDate,febEndDate);
+		Integer cohortFor0_14AgeForMarch=kenyaEmrService.getCohortBasedOnAge(age1,age2,marchStartDate,marchEndDate);
 		
 		age1=15;
 		age2=24;
 		Integer cohortFor15_24AgeForJan=kenyaEmrService.getCohortBasedOnAge(age1,age2,janStartDate, janEndDate);
-		Integer cohortFor15_24AgeForFeb=kenyaEmrService.getCohortBasedOnGender("F",febStartDate,febEndDate);
-		Integer cohortFor15_24AgeForMarch=kenyaEmrService.getCohortBasedOnGender("F",marchStartDate,marchEndDate);
+		Integer cohortFor15_24AgeForFeb=kenyaEmrService.getCohortBasedOnAge(age1,age2,febStartDate,febEndDate);
+		Integer cohortFor15_24AgeForMarch=kenyaEmrService.getCohortBasedOnAge(age1,age2,marchStartDate,marchEndDate);
 		
 		age1=25;
 		age2=60;
 		Integer cohortFor25_60AgeForJan=kenyaEmrService.getCohortBasedOnAge(age1,age2,janStartDate, janEndDate);
-		Integer cohortFor25_60AgeForFeb=kenyaEmrService.getCohortBasedOnGender("F",febStartDate,febEndDate);
-		Integer cohortFor25_60AgeForMarch=kenyaEmrService.getCohortBasedOnGender("F",marchStartDate,marchEndDate);
+		Integer cohortFor25_60AgeForFeb=kenyaEmrService.getCohortBasedOnAge(age1,age2,febStartDate,febEndDate);
+		Integer cohortFor25_60AgeForMarch=kenyaEmrService.getCohortBasedOnAge(age1,age2,marchStartDate,marchEndDate);
 		
 		Integer noOfCohortAliveAndOnArtForJan=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,janStartDate,janEndDate);
 		Integer noOfCohortAliveAndOnArtForFeb=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,febStartDate,febEndDate);
 		Integer noOfCohortAliveAndOnArtForMarch=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,marchStartDate,marchEndDate);
 		
-		List<DrugOrderProcessed> noOfOriginalFirstLineRegimenForJan=kenyaEmrService.getOriginalFirstLineRegimen(janStartDate,janEndDate);
-		List<DrugOrderProcessed> noOfOriginalFirstLineRegimenForFeb=kenyaEmrService.getOriginalFirstLineRegimen(febStartDate,febEndDate);
-		List<DrugOrderProcessed> noOfOriginalFirstLineRegimenForMarch=kenyaEmrService.getOriginalFirstLineRegimen(marchStartDate,marchEndDate);
+		Set<Patient> noOfOriginalFirstLineRegimenForJan=kenyaEmrService.getOriginalFirstLineRegimen(janStartDate,janEndDate);
+		Set<Patient> noOfOriginalFirstLineRegimenForFeb=kenyaEmrService.getOriginalFirstLineRegimen(febStartDate,febEndDate);
+		Set<Patient> noOfOriginalFirstLineRegimenForMarch=kenyaEmrService.getOriginalFirstLineRegimen(marchStartDate,marchEndDate);
 		
-		List<DrugOrderProcessed> noOfAlternateFirstLineRegimenForJan=kenyaEmrService.getAlternateFirstLineRegimen(janStartDate,janEndDate);
-		List<DrugOrderProcessed> noOfAlternateFirstLineRegimenForFeb=kenyaEmrService.getAlternateFirstLineRegimen(febStartDate,febEndDate);
-		List<DrugOrderProcessed> noOfAlternateFirstLineRegimenForMarch=kenyaEmrService.getAlternateFirstLineRegimen(marchStartDate,marchEndDate);
+		Set<Patient> noOfAlternateFirstLineRegimenForJan=kenyaEmrService.getAlternateFirstLineRegimen(janStartDate,janEndDate);
+		Set<Patient> noOfAlternateFirstLineRegimenForFeb=kenyaEmrService.getAlternateFirstLineRegimen(febStartDate,febEndDate);
+		Set<Patient> noOfAlternateFirstLineRegimenForMarch=kenyaEmrService.getAlternateFirstLineRegimen(marchStartDate,marchEndDate);
 		
-		List<DrugOrderProcessed> noOfSecondLineRegimenForJan=kenyaEmrService.getSecondLineRegimen(janStartDate,janEndDate);
-		List<DrugOrderProcessed> noOfSecondLineRegimenForFeb=kenyaEmrService.getSecondLineRegimen(febStartDate,febEndDate);
-		List<DrugOrderProcessed> noOfSecondLineRegimenForMarch=kenyaEmrService.getSecondLineRegimen(marchStartDate,marchEndDate);
+		Set<Patient> noOfSecondLineRegimenForJan=kenyaEmrService.getSecondLineRegimen(janStartDate,janEndDate);
+		Set<Patient> noOfSecondLineRegimenForFeb=kenyaEmrService.getSecondLineRegimen(febStartDate,febEndDate);
+		Set<Patient> noOfSecondLineRegimenForMarch=kenyaEmrService.getSecondLineRegimen(marchStartDate,marchEndDate);
 		
 		List<PatientProgram> noOfArtStoppedCohortForJan=kenyaEmrService.getNoOfArtStoppedCohort(program,janStartDate,janEndDate);
 		List<PatientProgram> noOfArtStoppedCohortForFeb=kenyaEmrService.getNoOfArtStoppedCohort(program,febStartDate,febEndDate);
@@ -255,37 +257,37 @@ public class GetQuaterlyReportFragmentController {
 		
 		Integer age1=0;
 		Integer age2=14;
-		Integer cohortFor0_14AgeForApril=kenyaEmrService.getCohortBasedOnGender("F",aprilStartDate,aprilEndDate);
-		Integer cohortFor0_14AgeForMay=kenyaEmrService.getCohortBasedOnGender("F",mayStartDate,mayEndDate);
-		Integer cohortFor0_14AgeForJune=kenyaEmrService.getCohortBasedOnGender("F",juneStartDate,juneEndDate);
+		Integer cohortFor0_14AgeForApril=kenyaEmrService.getCohortBasedOnAge(age1,age2,aprilStartDate,aprilEndDate);
+		Integer cohortFor0_14AgeForMay=kenyaEmrService.getCohortBasedOnAge(age1,age2,mayStartDate,mayEndDate);
+		Integer cohortFor0_14AgeForJune=kenyaEmrService.getCohortBasedOnAge(age1,age2,juneStartDate,juneEndDate);
 		
 		age1=15;
 		age2=24;
-		Integer cohortFor15_24AgeForApril=kenyaEmrService.getCohortBasedOnGender("F",aprilStartDate,aprilEndDate);
-		Integer cohortFor15_24AgeForMay=kenyaEmrService.getCohortBasedOnGender("F",mayStartDate,mayEndDate);
-		Integer cohortFor15_24AgeForJune=kenyaEmrService.getCohortBasedOnGender("F",juneStartDate,juneEndDate);
+		Integer cohortFor15_24AgeForApril=kenyaEmrService.getCohortBasedOnAge(age1,age2,aprilStartDate,aprilEndDate);
+		Integer cohortFor15_24AgeForMay=kenyaEmrService.getCohortBasedOnAge(age1,age2,mayStartDate,mayEndDate);
+		Integer cohortFor15_24AgeForJune=kenyaEmrService.getCohortBasedOnAge(age1,age2,juneStartDate,juneEndDate);
 		
 		age1=25;
 		age2=60;
-		Integer cohortFor25_60AgeForApril=kenyaEmrService.getCohortBasedOnGender("F",aprilStartDate,aprilEndDate);
-		Integer cohortFor25_60AgeForMay=kenyaEmrService.getCohortBasedOnGender("F",mayStartDate,mayEndDate);
-		Integer cohortFor25_60AgeForJune=kenyaEmrService.getCohortBasedOnGender("F",juneStartDate,juneEndDate);
+		Integer cohortFor25_60AgeForApril=kenyaEmrService.getCohortBasedOnAge(age1,age2,aprilStartDate,aprilEndDate);
+		Integer cohortFor25_60AgeForMay=kenyaEmrService.getCohortBasedOnAge(age1,age2,mayStartDate,mayEndDate);
+		Integer cohortFor25_60AgeForJune=kenyaEmrService.getCohortBasedOnAge(age1,age2,juneStartDate,juneEndDate);
 		
 		Integer noOfCohortAliveAndOnArtForApril=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,aprilStartDate,aprilEndDate);
 		Integer noOfCohortAliveAndOnArtForMay=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,mayStartDate,mayEndDate);
 		Integer noOfCohortAliveAndOnArtForJune=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,juneStartDate,juneEndDate);
 		
-		List<DrugOrderProcessed> noOfOriginalFirstLineRegimenForApril=kenyaEmrService.getOriginalFirstLineRegimen(aprilStartDate,aprilEndDate);
-		List<DrugOrderProcessed> noOfOriginalFirstLineRegimenForMay=kenyaEmrService.getOriginalFirstLineRegimen(mayStartDate,mayEndDate);
-		List<DrugOrderProcessed> noOfOriginalFirstLineRegimenForJune=kenyaEmrService.getOriginalFirstLineRegimen(juneStartDate,juneEndDate);
+		Set<Patient> noOfOriginalFirstLineRegimenForApril=kenyaEmrService.getOriginalFirstLineRegimen(aprilStartDate,aprilEndDate);
+		Set<Patient> noOfOriginalFirstLineRegimenForMay=kenyaEmrService.getOriginalFirstLineRegimen(mayStartDate,mayEndDate);
+		Set<Patient> noOfOriginalFirstLineRegimenForJune=kenyaEmrService.getOriginalFirstLineRegimen(juneStartDate,juneEndDate);
 		
-		List<DrugOrderProcessed> noOfAlternateFirstLineRegimenForApril=kenyaEmrService.getAlternateFirstLineRegimen(aprilStartDate,aprilEndDate);
-		List<DrugOrderProcessed> noOfAlternateFirstLineRegimenForMay=kenyaEmrService.getAlternateFirstLineRegimen(mayStartDate,mayEndDate);
-		List<DrugOrderProcessed> noOfAlternateFirstLineRegimenForJune=kenyaEmrService.getAlternateFirstLineRegimen(juneStartDate,juneEndDate);
+		Set<Patient> noOfAlternateFirstLineRegimenForApril=kenyaEmrService.getAlternateFirstLineRegimen(aprilStartDate,aprilEndDate);
+		Set<Patient> noOfAlternateFirstLineRegimenForMay=kenyaEmrService.getAlternateFirstLineRegimen(mayStartDate,mayEndDate);
+		Set<Patient> noOfAlternateFirstLineRegimenForJune=kenyaEmrService.getAlternateFirstLineRegimen(juneStartDate,juneEndDate);
 		
-		List<DrugOrderProcessed> noOfSecondLineRegimenForApril=kenyaEmrService.getSecondLineRegimen(aprilStartDate,aprilEndDate);
-		List<DrugOrderProcessed> noOfSecondLineRegimenForMay=kenyaEmrService.getSecondLineRegimen(mayStartDate,mayEndDate);
-		List<DrugOrderProcessed> noOfSecondLineRegimenForJune=kenyaEmrService.getSecondLineRegimen(juneStartDate,juneEndDate);
+		Set<Patient> noOfSecondLineRegimenForApril=kenyaEmrService.getSecondLineRegimen(aprilStartDate,aprilEndDate);
+		Set<Patient> noOfSecondLineRegimenForMay=kenyaEmrService.getSecondLineRegimen(mayStartDate,mayEndDate);
+		Set<Patient> noOfSecondLineRegimenForJune=kenyaEmrService.getSecondLineRegimen(juneStartDate,juneEndDate);
 		
 		List<PatientProgram> noOfArtStoppedCohortForApril=kenyaEmrService.getNoOfArtStoppedCohort(program,aprilStartDate,aprilEndDate);
 		List<PatientProgram> noOfArtStoppedCohortForMay=kenyaEmrService.getNoOfArtStoppedCohort(program,mayStartDate,mayEndDate);
@@ -347,13 +349,17 @@ public class GetQuaterlyReportFragmentController {
 		model.addAttribute("femaleCohortForMay",femaleCohortForMay);
 		model.addAttribute("femaleCohortForJune",femaleCohortForJune);
 		
-		model.addAttribute("cohortFor0_14AgeForApril",cohortFor0_14AgeForApril.SIZE);
-		model.addAttribute("cohortFor0_14AgeForMay",cohortFor0_14AgeForMay.SIZE);
-		model.addAttribute("cohortFor0_14AgeForJune",cohortFor0_14AgeForJune.SIZE);
+		model.addAttribute("cohortFor0_14AgeForApril",cohortFor0_14AgeForApril);
+		model.addAttribute("cohortFor0_14AgeForMay",cohortFor0_14AgeForMay);
+		model.addAttribute("cohortFor0_14AgeForJune",cohortFor0_14AgeForJune);
 		
-		model.addAttribute("cohortFor15_24AgeForApril",cohortFor15_24AgeForApril.SIZE);
-		model.addAttribute("cohortFor15_24AgeForMay",cohortFor15_24AgeForMay.SIZE);
-		model.addAttribute("cohortFor15_24AgeForJune",cohortFor15_24AgeForJune.SIZE);
+		model.addAttribute("cohortFor15_24AgeForApril",cohortFor15_24AgeForApril);
+		model.addAttribute("cohortFor15_24AgeForMay",cohortFor15_24AgeForMay);
+		model.addAttribute("cohortFor15_24AgeForJune",cohortFor15_24AgeForJune);
+		
+		model.addAttribute("cohortFor25_60AgeForApril",cohortFor25_60AgeForApril);
+		model.addAttribute("cohortFor25_60AgeForMay",cohortFor25_60AgeForMay);
+		model.addAttribute("cohortFor25_60AgeForJune",cohortFor25_60AgeForJune);
 		
 		model.addAttribute("noOfCohortAliveAndOnArtForApril",noOfCohortAliveAndOnArtForApril);
 		model.addAttribute("noOfCohortAliveAndOnArtForMay",noOfCohortAliveAndOnArtForMay);
@@ -406,10 +412,6 @@ public class GetQuaterlyReportFragmentController {
 		model.addAttribute("noOfPatientPickedUpArvForTwelveMonthForApril",noOfPatientPickedUpArvForTwelveMonthForApril.size());
 		model.addAttribute("noOfPatientPickedUpArvForTwelveMonthForMay",noOfPatientPickedUpArvForTwelveMonthForMay.size());
 		model.addAttribute("noOfPatientPickedUpArvForTwelveMonthForJune",noOfPatientPickedUpArvForTwelveMonthForJune.size());
-		
-		model.addAttribute("cohortFor25_60AgeForApril",cohortFor25_60AgeForApril.SIZE);
-		model.addAttribute("cohortFor25_60AgeForMay",cohortFor25_60AgeForMay.SIZE);
-		model.addAttribute("cohortFor25_60AgeForJune",cohortFor25_60AgeForJune.SIZE);
 	}
 	
     if(quaterly!=null && quaterly.equals("Third Quater")){
@@ -448,37 +450,37 @@ public class GetQuaterlyReportFragmentController {
 		
 		Integer age1=0;
 		Integer age2=14;
-		Integer cohortFor0_14AgeForJuly=kenyaEmrService.getCohortBasedOnGender("F",julyStartDate,julyEndDate);
-		Integer cohortFor0_14AgeForAugust=kenyaEmrService.getCohortBasedOnGender("F",augustStartDate,augustEndDate);
-		Integer cohortFor0_14AgeForSeptember=kenyaEmrService.getCohortBasedOnGender("F",septemberStartDate,septemberEndDate);
+		Integer cohortFor0_14AgeForJuly=kenyaEmrService.getCohortBasedOnAge(age1,age2,julyStartDate,julyEndDate);
+		Integer cohortFor0_14AgeForAugust=kenyaEmrService.getCohortBasedOnAge(age1,age2,augustStartDate,augustEndDate);
+		Integer cohortFor0_14AgeForSeptember=kenyaEmrService.getCohortBasedOnAge(age1,age2,septemberStartDate,septemberEndDate);
 		
 		age1=15;
 		age2=24;
-		Integer cohortFor15_24AgeForJuly=kenyaEmrService.getCohortBasedOnGender("F",julyStartDate,julyEndDate);
-		Integer cohortFor15_24AgeForAugust=kenyaEmrService.getCohortBasedOnGender("F",augustStartDate,augustEndDate);
-		Integer cohortFor15_24AgeForSeptember=kenyaEmrService.getCohortBasedOnGender("F",septemberStartDate,septemberEndDate);
+		Integer cohortFor15_24AgeForJuly=kenyaEmrService.getCohortBasedOnAge(age1,age2,julyStartDate,julyEndDate);
+		Integer cohortFor15_24AgeForAugust=kenyaEmrService.getCohortBasedOnAge(age1,age2,augustStartDate,augustEndDate);
+		Integer cohortFor15_24AgeForSeptember=kenyaEmrService.getCohortBasedOnAge(age1,age2,septemberStartDate,septemberEndDate);
 		
 		age1=25;
 		age2=60;
-		Integer cohortFor25_60AgeForJuly=kenyaEmrService.getCohortBasedOnGender("F",julyStartDate,julyEndDate);
-		Integer cohortFor25_60AgeForAugust=kenyaEmrService.getCohortBasedOnGender("F",augustStartDate,augustEndDate);
-		Integer cohortFor25_60AgeForSeptember=kenyaEmrService.getCohortBasedOnGender("F",septemberStartDate,septemberEndDate);
+		Integer cohortFor25_60AgeForJuly=kenyaEmrService.getCohortBasedOnAge(age1,age2,julyStartDate,julyEndDate);
+		Integer cohortFor25_60AgeForAugust=kenyaEmrService.getCohortBasedOnAge(age1,age2,augustStartDate,augustEndDate);
+		Integer cohortFor25_60AgeForSeptember=kenyaEmrService.getCohortBasedOnAge(age1,age2,septemberStartDate,septemberEndDate);
 		
 		Integer noOfCohortAliveAndOnArtForJuly=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,julyStartDate,julyEndDate);
 		Integer noOfCohortAliveAndOnArtForAugust=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,augustStartDate,augustEndDate);
 		Integer noOfCohortAliveAndOnArtForSeptember=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,septemberStartDate,septemberEndDate);
 		
-		List<DrugOrderProcessed> noOfOriginalFirstLineRegimenForJuly=kenyaEmrService.getOriginalFirstLineRegimen(julyStartDate,julyEndDate);
-		List<DrugOrderProcessed> noOfOriginalFirstLineRegimenForAugust=kenyaEmrService.getOriginalFirstLineRegimen(augustStartDate,augustEndDate);
-		List<DrugOrderProcessed> noOfOriginalFirstLineRegimenForSeptember=kenyaEmrService.getOriginalFirstLineRegimen(septemberStartDate,septemberEndDate);
+		Set<Patient> noOfOriginalFirstLineRegimenForJuly=kenyaEmrService.getOriginalFirstLineRegimen(julyStartDate,julyEndDate);
+		Set<Patient> noOfOriginalFirstLineRegimenForAugust=kenyaEmrService.getOriginalFirstLineRegimen(augustStartDate,augustEndDate);
+		Set<Patient> noOfOriginalFirstLineRegimenForSeptember=kenyaEmrService.getOriginalFirstLineRegimen(septemberStartDate,septemberEndDate);
 		
-		List<DrugOrderProcessed> noOfAlternateFirstLineRegimenForJuly=kenyaEmrService.getAlternateFirstLineRegimen(julyStartDate,julyEndDate);
-		List<DrugOrderProcessed> noOfAlternateFirstLineRegimenForAugust=kenyaEmrService.getAlternateFirstLineRegimen(augustStartDate,augustEndDate);
-		List<DrugOrderProcessed> noOfAlternateFirstLineRegimenForSeptember=kenyaEmrService.getAlternateFirstLineRegimen(septemberStartDate,septemberEndDate);
+		Set<Patient> noOfAlternateFirstLineRegimenForJuly=kenyaEmrService.getAlternateFirstLineRegimen(julyStartDate,julyEndDate);
+		Set<Patient> noOfAlternateFirstLineRegimenForAugust=kenyaEmrService.getAlternateFirstLineRegimen(augustStartDate,augustEndDate);
+		Set<Patient> noOfAlternateFirstLineRegimenForSeptember=kenyaEmrService.getAlternateFirstLineRegimen(septemberStartDate,septemberEndDate);
 		
-		List<DrugOrderProcessed> noOfSecondLineRegimenForJuly=kenyaEmrService.getSecondLineRegimen(julyStartDate,julyEndDate);
-		List<DrugOrderProcessed> noOfSecondLineRegimenForAugust=kenyaEmrService.getSecondLineRegimen(augustStartDate,augustEndDate);
-		List<DrugOrderProcessed> noOfSecondLineRegimenForSeptember=kenyaEmrService.getSecondLineRegimen(septemberStartDate,septemberEndDate);
+		Set<Patient> noOfSecondLineRegimenForJuly=kenyaEmrService.getSecondLineRegimen(julyStartDate,julyEndDate);
+		Set<Patient> noOfSecondLineRegimenForAugust=kenyaEmrService.getSecondLineRegimen(augustStartDate,augustEndDate);
+		Set<Patient> noOfSecondLineRegimenForSeptember=kenyaEmrService.getSecondLineRegimen(septemberStartDate,septemberEndDate);
 		
 		List<PatientProgram> noOfArtStoppedCohortForJuly=kenyaEmrService.getNoOfArtStoppedCohort(program,julyStartDate,julyEndDate);
 		List<PatientProgram> noOfArtStoppedCohortForAugust=kenyaEmrService.getNoOfArtStoppedCohort(program,augustStartDate,augustEndDate);
@@ -540,13 +542,17 @@ public class GetQuaterlyReportFragmentController {
 		model.addAttribute("femaleCohortForAugust",femaleCohortForAugust);
 		model.addAttribute("femaleCohortForSeptember",femaleCohortForSeptember);
 	
-		model.addAttribute("cohortFor0_14AgeForJuly",cohortFor0_14AgeForJuly.SIZE);
-		model.addAttribute("cohortFor0_14AgeForAugust",cohortFor0_14AgeForAugust.SIZE);
-		model.addAttribute("cohortFor0_14AgeForSeptember",cohortFor0_14AgeForSeptember.SIZE);
+		model.addAttribute("cohortFor0_14AgeForJuly",cohortFor0_14AgeForJuly);
+		model.addAttribute("cohortFor0_14AgeForAugust",cohortFor0_14AgeForAugust);
+		model.addAttribute("cohortFor0_14AgeForSeptember",cohortFor0_14AgeForSeptember);
 		
-		model.addAttribute("cohortFor15_24AgeForJuly",cohortFor15_24AgeForJuly.SIZE);
-		model.addAttribute("cohortFor15_24AgeForAugust",cohortFor15_24AgeForAugust.SIZE);
-		model.addAttribute("cohortFor15_24AgeForSeptember",cohortFor15_24AgeForSeptember.SIZE);
+		model.addAttribute("cohortFor15_24AgeForJuly",cohortFor15_24AgeForJuly);
+		model.addAttribute("cohortFor15_24AgeForAugust",cohortFor15_24AgeForAugust);
+		model.addAttribute("cohortFor15_24AgeForSeptember",cohortFor15_24AgeForSeptember);
+		
+		model.addAttribute("cohortFor25_60AgeForJuly",cohortFor25_60AgeForJuly);
+		model.addAttribute("cohortFor25_60AgeForAugust",cohortFor25_60AgeForAugust);
+		model.addAttribute("cohortFor25_60AgeForSeptember",cohortFor25_60AgeForSeptember);
 		
 		model.addAttribute("noOfCohortAliveAndOnArtForJuly",noOfCohortAliveAndOnArtForJuly);
 		model.addAttribute("noOfCohortAliveAndOnArtForAugust",noOfCohortAliveAndOnArtForAugust);
@@ -599,10 +605,6 @@ public class GetQuaterlyReportFragmentController {
 		model.addAttribute("noOfPatientPickedUpArvForTwelveMonthForJuly",noOfPatientPickedUpArvForTwelveMonthForJuly.size());
 		model.addAttribute("noOfPatientPickedUpArvForTwelveMonthForAugust",noOfPatientPickedUpArvForTwelveMonthForAugust.size());
 		model.addAttribute("noOfPatientPickedUpArvForTwelveMonthForSeptember",noOfPatientPickedUpArvForTwelveMonthForSeptember.size());
-		
-		model.addAttribute("cohortFor25_60AgeForJuly",cohortFor25_60AgeForJuly.SIZE);
-		model.addAttribute("cohortFor25_60AgeForAugust",cohortFor25_60AgeForAugust.SIZE);
-		model.addAttribute("cohortFor25_60AgeForSeptember",cohortFor25_60AgeForSeptember.SIZE);
 	}
     
     if(quaterly!=null && quaterly.equals("Fourth Quater")){
@@ -641,37 +643,37 @@ public class GetQuaterlyReportFragmentController {
 		
 		Integer age1=0;
 		Integer age2=14;
-		Integer cohortFor0_14AgeForOctober=kenyaEmrService.getCohortBasedOnGender("F",octoberStartDate,octoberStartDate);
-		Integer cohortFor0_14AgeForNovember=kenyaEmrService.getCohortBasedOnGender("F",novemberStartDate,novemberStartDate);
-		Integer cohortFor0_14AgeForDecember=kenyaEmrService.getCohortBasedOnGender("F",decemberStartDate,decemberEndDate);
+		Integer cohortFor0_14AgeForOctober=kenyaEmrService.getCohortBasedOnAge(age1,age2,octoberStartDate,octoberStartDate);
+		Integer cohortFor0_14AgeForNovember=kenyaEmrService.getCohortBasedOnAge(age1,age2,novemberStartDate,novemberStartDate);
+		Integer cohortFor0_14AgeForDecember=kenyaEmrService.getCohortBasedOnAge(age1,age2,decemberStartDate,decemberEndDate);
 		
 		age1=15;
 		age2=24;
-		Integer cohortFor15_24AgeForOctober=kenyaEmrService.getCohortBasedOnGender("F",octoberStartDate,octoberStartDate);
-		Integer cohortFor15_24AgeForNovember=kenyaEmrService.getCohortBasedOnGender("F",novemberStartDate,novemberStartDate);
-		Integer cohortFor15_24AgeForDecember=kenyaEmrService.getCohortBasedOnGender("F",decemberStartDate,decemberEndDate);
+		Integer cohortFor15_24AgeForOctober=kenyaEmrService.getCohortBasedOnAge(age1,age2,octoberStartDate,octoberStartDate);
+		Integer cohortFor15_24AgeForNovember=kenyaEmrService.getCohortBasedOnAge(age1,age2,novemberStartDate,novemberStartDate);
+		Integer cohortFor15_24AgeForDecember=kenyaEmrService.getCohortBasedOnAge(age1,age2,decemberStartDate,decemberEndDate);
 		
 		age1=25;
 		age2=60;
-		Integer cohortFor25_60AgeForOctober=kenyaEmrService.getCohortBasedOnGender("F",octoberStartDate,octoberStartDate);
-		Integer cohortFor25_60AgeForNovember=kenyaEmrService.getCohortBasedOnGender("F",novemberStartDate,novemberStartDate);
-		Integer cohortFor25_60AgeForDecember=kenyaEmrService.getCohortBasedOnGender("F",decemberStartDate,decemberEndDate);
+		Integer cohortFor25_60AgeForOctober=kenyaEmrService.getCohortBasedOnAge(age1,age2,octoberStartDate,octoberStartDate);
+		Integer cohortFor25_60AgeForNovember=kenyaEmrService.getCohortBasedOnAge(age1,age2,novemberStartDate,novemberStartDate);
+		Integer cohortFor25_60AgeForDecember=kenyaEmrService.getCohortBasedOnAge(age1,age2,decemberStartDate,decemberEndDate);
 		
 		Integer noOfCohortAliveAndOnArtForOctober=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,octoberStartDate,octoberStartDate);
 		Integer noOfCohortAliveAndOnArtForNovember=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,novemberStartDate,novemberStartDate);
 		Integer noOfCohortAliveAndOnArtForDecember=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,decemberStartDate,decemberEndDate);
 		
-		List<DrugOrderProcessed> noOfOriginalFirstLineRegimenForOctober=kenyaEmrService.getOriginalFirstLineRegimen(octoberStartDate,octoberStartDate);
-		List<DrugOrderProcessed> noOfOriginalFirstLineRegimenForNovember=kenyaEmrService.getOriginalFirstLineRegimen(novemberStartDate,novemberStartDate);
-		List<DrugOrderProcessed> noOfOriginalFirstLineRegimenForDecember=kenyaEmrService.getOriginalFirstLineRegimen(decemberStartDate,decemberEndDate);
+		Set<Patient> noOfOriginalFirstLineRegimenForOctober=kenyaEmrService.getOriginalFirstLineRegimen(octoberStartDate,octoberStartDate);
+		Set<Patient> noOfOriginalFirstLineRegimenForNovember=kenyaEmrService.getOriginalFirstLineRegimen(novemberStartDate,novemberStartDate);
+		Set<Patient> noOfOriginalFirstLineRegimenForDecember=kenyaEmrService.getOriginalFirstLineRegimen(decemberStartDate,decemberEndDate);
 		
-		List<DrugOrderProcessed> noOfAlternateFirstLineRegimenForOctober=kenyaEmrService.getAlternateFirstLineRegimen(octoberStartDate,octoberStartDate);
-		List<DrugOrderProcessed> noOfAlternateFirstLineRegimenForNovember=kenyaEmrService.getAlternateFirstLineRegimen(novemberStartDate,novemberStartDate);
-		List<DrugOrderProcessed> noOfAlternateFirstLineRegimenForDecember=kenyaEmrService.getAlternateFirstLineRegimen(decemberStartDate,decemberEndDate);
+		Set<Patient> noOfAlternateFirstLineRegimenForOctober=kenyaEmrService.getAlternateFirstLineRegimen(octoberStartDate,octoberStartDate);
+		Set<Patient> noOfAlternateFirstLineRegimenForNovember=kenyaEmrService.getAlternateFirstLineRegimen(novemberStartDate,novemberStartDate);
+		Set<Patient> noOfAlternateFirstLineRegimenForDecember=kenyaEmrService.getAlternateFirstLineRegimen(decemberStartDate,decemberEndDate);
 		
-		List<DrugOrderProcessed> noOfSecondLineRegimenForOctober=kenyaEmrService.getSecondLineRegimen(octoberStartDate,octoberStartDate);
-		List<DrugOrderProcessed> noOfSecondLineRegimenForNovember=kenyaEmrService.getSecondLineRegimen(novemberStartDate,novemberStartDate);
-		List<DrugOrderProcessed> noOfSecondLineRegimenForDecember=kenyaEmrService.getSecondLineRegimen(decemberStartDate,decemberEndDate);
+		Set<Patient> noOfSecondLineRegimenForOctober=kenyaEmrService.getSecondLineRegimen(octoberStartDate,octoberStartDate);
+		Set<Patient> noOfSecondLineRegimenForNovember=kenyaEmrService.getSecondLineRegimen(novemberStartDate,novemberStartDate);
+		Set<Patient> noOfSecondLineRegimenForDecember=kenyaEmrService.getSecondLineRegimen(decemberStartDate,decemberEndDate);
 		
 		List<PatientProgram> noOfArtStoppedCohortForOctober=kenyaEmrService.getNoOfArtStoppedCohort(program,octoberStartDate,octoberStartDate);
 		List<PatientProgram> noOfArtStoppedCohortForNovember=kenyaEmrService.getNoOfArtStoppedCohort(program,novemberStartDate,novemberStartDate);
@@ -734,13 +736,17 @@ public class GetQuaterlyReportFragmentController {
 		model.addAttribute("femaleCohortForNovember",femaleCohortForNovember);
 		model.addAttribute("femaleCohortForDecember",femaleCohortForDecember);
 		
-		model.addAttribute("cohortFor0_14AgeForOctober",cohortFor0_14AgeForOctober.SIZE);
-		model.addAttribute("cohortFor0_14AgeForNovember",cohortFor0_14AgeForNovember.SIZE);
-		model.addAttribute("cohortFor0_14AgeForDecember",cohortFor0_14AgeForDecember.SIZE);
+		model.addAttribute("cohortFor0_14AgeForOctober",cohortFor0_14AgeForOctober);
+		model.addAttribute("cohortFor0_14AgeForNovember",cohortFor0_14AgeForNovember);
+		model.addAttribute("cohortFor0_14AgeForDecember",cohortFor0_14AgeForDecember);
 		
-		model.addAttribute("cohortFor15_24AgeForOctober",cohortFor15_24AgeForOctober.SIZE);
-		model.addAttribute("cohortFor15_24AgeForNovember",cohortFor15_24AgeForNovember.SIZE);
-		model.addAttribute("cohortFor15_24AgeForDecember",cohortFor15_24AgeForDecember.SIZE);
+		model.addAttribute("cohortFor15_24AgeForOctober",cohortFor15_24AgeForOctober);
+		model.addAttribute("cohortFor15_24AgeForNovember",cohortFor15_24AgeForNovember);
+		model.addAttribute("cohortFor15_24AgeForDecember",cohortFor15_24AgeForDecember);
+		
+		model.addAttribute("cohortFor25_60AgeForOctober",cohortFor25_60AgeForOctober);
+		model.addAttribute("cohortFor25_60AgeForNovember",cohortFor25_60AgeForNovember);
+		model.addAttribute("cohortFor25_60AgeForDecember",cohortFor25_60AgeForDecember);
 		
 		model.addAttribute("noOfCohortAliveAndOnArtForOctober",noOfCohortAliveAndOnArtForOctober);
 		model.addAttribute("noOfCohortAliveAndOnArtNovember",noOfCohortAliveAndOnArtForNovember);
@@ -793,10 +799,6 @@ public class GetQuaterlyReportFragmentController {
 		model.addAttribute("noOfPatientPickedUpArvForTwelveMonthForOctober",noOfPatientPickedUpArvForTwelveMonthForOctober.size());
 		model.addAttribute("noOfPatientPickedUpArvForTwelveMonthNovember",noOfPatientPickedUpArvForTwelveMonthForNovember.size());
 		model.addAttribute("noOfPatientPickedUpArvForTwelveMonthForDecember",noOfPatientPickedUpArvForTwelveMonthForDecember.size());
-		
-		model.addAttribute("cohortFor25_60AgeForOctober",cohortFor25_60AgeForOctober.SIZE);
-		model.addAttribute("cohortFor25_60AgeForNovember",cohortFor25_60AgeForNovember.SIZE);
-		model.addAttribute("cohortFor25_60AgeForDecember",cohortFor25_60AgeForDecember.SIZE);
     }
 		
 		model.addAttribute("year",year);

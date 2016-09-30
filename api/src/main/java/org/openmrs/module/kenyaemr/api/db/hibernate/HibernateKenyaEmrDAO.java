@@ -575,7 +575,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		return getTotalNoOfCohort(startDate,endDate)-patientList.size();
 		}
 	
-	public List<DrugOrderProcessed> getOriginalFirstLineRegimen(String startDate,String endDate) {
+	public Set<Patient> getOriginalFirstLineRegimen(String startDate,String endDate) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class,"drugOrderProcessed");
 		criteria.add(Restrictions.eq("regimenChangeType", "Start"));
 		criteria.add(Restrictions.eq("typeOfRegimen", "First line Anti-retoviral drugs"));
@@ -587,10 +587,15 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return criteria.list();
+		List<DrugOrderProcessed> drugOrderProcesseds=criteria.list();
+		Set<Patient> dops=new LinkedHashSet<Patient>();
+		for(DrugOrderProcessed drugOrderProcessed:drugOrderProcesseds){
+			dops.add(drugOrderProcessed.getPatient());	
+		}
+		return dops;
 	}
 	
-	public List<DrugOrderProcessed> getAlternateFirstLineRegimen(String startDate,String endDate) {
+	public Set<Patient> getAlternateFirstLineRegimen(String startDate,String endDate) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class,"drugOrderProcessed");
 		criteria.add(Restrictions.eq("regimenChangeType", "Substitute"));
 		criteria.add(Restrictions.eq("typeOfRegimen", "First line Anti-retoviral drugs"));
@@ -602,10 +607,15 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return criteria.list();
+		List<DrugOrderProcessed> drugOrderProcesseds=criteria.list();
+		Set<Patient> dops=new LinkedHashSet<Patient>();
+		for(DrugOrderProcessed drugOrderProcessed:drugOrderProcesseds){
+			dops.add(drugOrderProcessed.getPatient());	
+		}
+		return dops;
 	}
 	
-	public List<DrugOrderProcessed> getSecondLineRegimen(String startDate,String endDate) {
+	public Set<Patient> getSecondLineRegimen(String startDate,String endDate) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class,"drugOrderProcessed");
 		
 		List<String> typeOfRegimen=new ArrayList<String>();
@@ -622,7 +632,12 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return criteria.list();
+		List<DrugOrderProcessed> drugOrderProcesseds=criteria.list();
+		Set<Patient> dops=new LinkedHashSet<Patient>();
+		for(DrugOrderProcessed drugOrderProcessed:drugOrderProcesseds){
+			dops.add(drugOrderProcessed.getPatient());	
+		}
+		return dops;
 	}
 	
 	public List<PatientProgram> getNoOfArtStoppedCohort(Program program,String startDate,String endDate) {
@@ -677,6 +692,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		criteria.add(Restrictions.isNull("voided"));
 		return criteria.list();
 		}
 	
@@ -695,6 +711,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		criteria.add(Restrictions.isNull("voided"));
 		return criteria.list();
 		}
 		
@@ -711,6 +728,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		criteria.add(Restrictions.isNull("voided"));
 		return criteria.list();
 		}
 		
@@ -727,6 +745,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		criteria.add(Restrictions.isNull("voided"));
 		return criteria.list();
 		}
 		
@@ -743,6 +762,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		criteria.add(Restrictions.isNull("voided"));
 		return criteria.list();
 		}
 		
@@ -758,6 +778,8 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		criteria.add(Restrictions.isNull("voided"));
+		//getNoOfPatientLostToFollowUp(startDate,endDate);
 		return criteria.list();
 		}
 		
@@ -773,10 +795,11 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		criteria.add(Restrictions.isNull("voided"));
 		return criteria.list();
 		}
 		
-		@Override
+		
 	public List<DrugOrderProcessed> getDrugOrderProcessedByPatient(Patient patient) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class);
 		criteria.add(Restrictions.eq("patient", patient));

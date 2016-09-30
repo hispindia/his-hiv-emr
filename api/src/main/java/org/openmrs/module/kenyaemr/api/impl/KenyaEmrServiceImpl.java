@@ -461,15 +461,15 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 		return dao.getNoOfCohortAliveAndOnArt(program,startDate,endDate);
 	}
 	
-	public List<DrugOrderProcessed> getOriginalFirstLineRegimen(String startDate,String endDate){
+	public Set<Patient> getOriginalFirstLineRegimen(String startDate,String endDate){
 		return dao.getOriginalFirstLineRegimen(startDate,endDate);
 	}
 	
-	public List<DrugOrderProcessed> getAlternateFirstLineRegimen(String startDate,String endDate){
+	public Set<Patient> getAlternateFirstLineRegimen(String startDate,String endDate){
 		return dao.getAlternateFirstLineRegimen(startDate,endDate);
 	}
 	
-	public List<DrugOrderProcessed> getSecondLineRegimen(String startDate,String endDate){
+	public Set<Patient> getSecondLineRegimen(String startDate,String endDate){
 		return dao.getSecondLineRegimen(startDate,endDate);
 	}
 	

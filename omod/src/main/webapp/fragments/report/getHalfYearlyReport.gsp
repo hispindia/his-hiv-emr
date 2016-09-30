@@ -261,7 +261,7 @@ ${patientProgramForDecember}
 </tr>
 
 <tr>
-<td>Age 25-60+yr</td>
+<td>Age 25-60yr</td>
 <% if (halfYearly=='First Half') { %>
 <td>${cohortFor25_60AgeForJan} </td>
 <td>${cohortFor25_60AgeForFeb} </td>
