@@ -105,8 +105,9 @@ public class ImportPatientsListFragmentController {
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		MultipartFile multipartModuleFile = multipartRequest.getFile("upload");
 		InputStream inputStream = multipartModuleFile.getInputStream();
-
+		
 		Workbook workbook = new XSSFWorkbook(inputStream);
+		
 		Sheet firstSheet = workbook.getSheetAt(0);
 		Iterator<Row> iterator = firstSheet.iterator();
 		int rowCount = 0;
@@ -203,12 +204,12 @@ public class ImportPatientsListFragmentController {
 									legacyData.get(4), location);
 						}
 
-						if (legacyData.get(5) != null) {
-							wrapper.setArtRegistrationNumber(legacyData.get(5),
+						if (legacyData.get(6) != null) {
+							wrapper.setArtRegistrationNumber(legacyData.get(6),
 									location);
 						}
 
-						if (legacyData.get(6) != null) {
+						if (legacyData.get(5) != null) {
 							wrapper.setNapArtRegistrationNumber(
 									legacyData.get(5), location);
 						}
@@ -928,7 +929,7 @@ public class ImportPatientsListFragmentController {
 
 		int noOfSheets = workbook.getNumberOfSheets();
 
-		if (noOfSheets < 1) {
+		if (noOfSheets > 1) {
 			Sheet secondSheet = workbook.getSheetAt(1);
 			Iterator<Row> iteratorSecond = secondSheet.iterator();
 			int rowCountVisit = 0;
@@ -977,6 +978,7 @@ public class ImportPatientsListFragmentController {
 					location = Context.getService(KenyaEmrService.class)
 							.getDefaultLocation();
 
+					if (legacyData.get(3) != null && legacyData.get(3) != "") {
 					try {
 
 						PatientIdentifierType pt = Context.getPatientService()
@@ -1017,9 +1019,12 @@ public class ImportPatientsListFragmentController {
 						Date curDate = new Date();
 						Date dateVisit = null;
 						try {
-							dateVisit = formatter.parse(legacyData.get(3));
+							if (legacyData.get(3) != null && legacyData.get(3) != "") {
+								dateVisit = formatter.parse(legacyData.get(3));
+							}
 
 						} catch (ParseException e) {
+							
 							e.printStackTrace();
 						}
 						DateFormat visitDateInExcel = new SimpleDateFormat(
@@ -1027,8 +1032,7 @@ public class ImportPatientsListFragmentController {
 						String dateCheck = "";
 						SimpleDateFormat mysqlDateTimeFormatter = new SimpleDateFormat(
 								"dd-MMM-yy HH:mm:ss");
-
-						if (legacyData.get(3) != null) {
+						if (legacyData.get(3) != null && legacyData.get(3) != "") {
 							Date curDatenew = new Date();
 							dateCheck = visitDateInExcel.format(dateVisit);
 							try {
@@ -1043,7 +1047,7 @@ public class ImportPatientsListFragmentController {
 								e.printStackTrace();
 							}
 						}
-
+						
 						List<Visit> visits = Context.getVisitService()
 								.getActiveVisitsByPatient(patient);
 
@@ -2542,7 +2546,10 @@ public class ImportPatientsListFragmentController {
 					catch (IndexOutOfBoundsException e) {
 						e.printStackTrace();
 					}
-
+					}
+					else{
+						break;
+					}
 				}
 
 				rowCountVisit++;
