@@ -28,6 +28,7 @@ import org.openmrs.module.kenyaemr.calculation.library.InProgramCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.RecordedDeceasedCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.art.OnAlternateFirstLineArtCalculation;
 import org.openmrs.module.kenyaemr.metadata.HivMetadata;
+import org.openmrs.module.kenyaemr.reporting.library.shared.hiv.HivCohortLibrary;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.module.reporting.cohort.definition.AgeCohortDefinition;
 import org.openmrs.module.reporting.cohort.definition.CodedObsCohortDefinition;
@@ -39,6 +40,7 @@ import org.openmrs.module.reporting.cohort.definition.ProgramEnrollmentCohortDef
 import org.openmrs.module.reporting.common.SetComparator;
 import org.openmrs.module.reporting.common.TimeQualifier;
 import org.openmrs.module.reporting.evaluation.parameter.Parameter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -51,6 +53,8 @@ import java.util.Date;
 @Component
 public class CommonCohortLibrary {
 	private CommonCohortLibrary commonCohorts;
+	@Autowired
+	private HivCohortLibrary hivCohortLibrary;
 	/**
 	 * Patients who are female
 	 * @return the cohort definition
@@ -184,7 +188,7 @@ public class CommonCohortLibrary {
 	}
 	public CohortDefinition risk5()
 	{  Concept risk = Dictionary.getConcept(Dictionary.HIV_RISK_FACTOR);
-		Concept risk5 = Dictionary.getConcept(Dictionary.RISK_FACTOR_MOTHERTOCHILD);
+		Concept risk5 = Dictionary.getConcept(Dictionary.RISK_FACTOR_BLOODTRANS);
 	CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		
 		cd.setName("Risk5");
@@ -201,7 +205,7 @@ public class CommonCohortLibrary {
 	}
 	public CohortDefinition risk6()
 	{  Concept risk = Dictionary.getConcept(Dictionary.HIV_RISK_FACTOR);
-		Concept risk6 = Dictionary.getConcept(Dictionary.RISK_FACTOR_BLOODTRANS);
+		Concept risk6 = Dictionary.getConcept(Dictionary.RISK_FACTOR_MOTHERTOCHILD);
 	CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		
 		cd.setName("Risk6");
@@ -398,10 +402,16 @@ public class CommonCohortLibrary {
             cd.setName("Patients HIV positive TB patients who have received ART");
             cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
 	        cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
-	    	
+	        cd.addSearch("dead", ReportUtils.map(hivCohortLibrary.reasonOfoutcome(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+    		cd.addSearch("transferout", ReportUtils.map(hivCohortLibrary.reasonOfoutcometransfer(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+    		cd.addSearch("lostmissing", ReportUtils.map(hivCohortLibrary.reasonOfoutcomeMissing(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+
 			cd.addSearch("givenDrugs", ReportUtils.map(hasObs(tbPatients), "onOrBefore=${onOrBefore}"));
             cd.addSearch("enrolled", ReportUtils.map(enrolled(programs),"enrolledOnOrBefore=${onOrBefore}"));
-            cd.setCompositionString("givenDrugs AND enrolled");
+            cd.addSearch("completeProgram", ReportUtils.map(compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.ART)), "completedOnOrBefore=${onOrBefore}"));
+    		cd.addSearch("completedProgram", ReportUtils.map(compltedProgram(), "completedOnOrBefore=${onOrBefore}"));
+            
+            cd.setCompositionString("givenDrugs AND enrolled AND NOT(completeProgram OR completedProgram) AND NOT (dead OR transferout OR lostmissing)");
             
             
             return cd;

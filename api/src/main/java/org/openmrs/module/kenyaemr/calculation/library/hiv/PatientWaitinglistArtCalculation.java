@@ -51,11 +51,19 @@ public class PatientWaitinglistArtCalculation  extends AbstractPatientCalculatio
         for (Integer ptId : cohort) {
             if (inHIV.contains(ptId)) {
                
-                  if(!(inArt.contains(ptId)))
+                  if((inArt.contains(ptId)))
+                  {
+                	  inArtlist=false;
+                  }
+                  else
                   {
                 	  inArtlist=true;
                   }
                 
+            }
+            else
+            {
+            	inArtlist=false;
             }
             ret.put(ptId, new BooleanResult(inArtlist, this, context));
         }

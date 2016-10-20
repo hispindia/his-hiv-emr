@@ -3,12 +3,14 @@ package org.openmrs.module.kenyaemr.calculation.library.hiv;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.openmrs.api.context.Context;
 import org.openmrs.calculation.patient.PatientCalculationContext;
 import org.openmrs.calculation.result.CalculationResultMap;
 import org.openmrs.module.kenyacore.calculation.AbstractPatientCalculation;
 import org.openmrs.module.kenyacore.calculation.BooleanResult;
+import org.openmrs.module.kenyacore.calculation.Filters;
 import org.openmrs.module.kenyaemr.api.KenyaEmrService;
 import org.openmrs.module.kenyaemr.model.DrugOrderProcessed;
 
@@ -24,8 +26,9 @@ public class TDF3TCNVPCalculation extends AbstractPatientCalculation {
     public CalculationResultMap evaluate(Collection<Integer> cohort, Map<String, Object> arg1, PatientCalculationContext context) {
 
 		
+		Set<Integer> alive = Filters.alive(cohort, context);
 		CalculationResultMap ret = new CalculationResultMap();
-		for (Integer ptId : cohort) {
+		for (Integer ptId : alive) {
 			boolean onOrigFirstLine = false;
 			 KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
 		 	   List<DrugOrderProcessed> drugorderprocess = kenyaEmrService.getAllfirstLine();
@@ -36,11 +39,12 @@ public class TDF3TCNVPCalculation extends AbstractPatientCalculation {
 		 	  if((ptId.equals(order.getPatient().getPatientId()) && (order.getDrugRegimen().equals("TDF/3TC/NVP")) && (order.getDoseRegimen().equals("300/300/200 mg"))))
 		 		 {  
 		 			onOrigFirstLine=true; 
+		 			if(order.getDiscontinuedDate()!=null)
+				 	  { 
+				 		 onOrigFirstLine=false; 
+				 	  }
 		 		 }
-		 	 if(order.getDiscontinuedDate()!=null)
-		 	  { 
-		 		 onOrigFirstLine=false; 
-		 	  }
+		 	 
 		 	  }
 		}
 			

@@ -292,16 +292,34 @@ public class ArtCohortLibrary {
 	public CohortDefinition onOriginalFirstLine() {
 		CalculationCohortDefinition cd = new CalculationCohortDefinition(new OnOriginalFirstLineArtCalculation());
 		cd.setName("on original first line regimen");
-		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
-		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-		return cd;
+		 cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+			cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		
+		
+		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(hivCohortLibrary.totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
 	}
 	public CohortDefinition onSubstitueFirstLine() {
 		CalculationCohortDefinition cd = new CalculationCohortDefinition(new OnSubsituteFirstLineArtCalculation());
 		cd.setName("on subsitute first line regimen");
 		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-		return cd;
+		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(hivCohortLibrary.totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
 	}
 	
 	public CohortDefinition onSwitchSecondLine() {
@@ -309,14 +327,30 @@ public class ArtCohortLibrary {
 		cd.setName("on subsitute first line regimen");
 		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-		return cd;
+		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(hivCohortLibrary.totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
 	}
 	public CohortDefinition onSwitchThirdLine() {
 		CalculationCohortDefinition cd = new CalculationCohortDefinition(new OnSwitchThirdLineArtCalculation());
 		cd.setName("on subsitute first line regimen");
 		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-		return cd;
+		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(hivCohortLibrary.totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
 	}
 	
 	/**
@@ -465,9 +499,11 @@ public class ArtCohortLibrary {
 		cd.setName("started ART");
 		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		cd.addSearch("transferIn", ReportUtils.map(hivCohortLibrary.restartedProgram(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
 		cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
-		cd.addSearch("completeProgram", ReportUtils.map(commonCohorts.compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.ART)), "completedOnOrBefore=${onOrBefore}"));
-		cd.setCompositionString("enrolled AND NOT completeProgram ");
+	//	cd.addSearch("completeProgram", ReportUtils.map(commonCohorts.compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.ART)), "completedOnOrBefore=${onOrBefore}"));
+		//cd.addSearch("completehivProgram", ReportUtils.map(commonCohorts.compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.HIV)), "completedOnOrBefore=${onOrBefore}"));
+		cd.setCompositionString("enrolled AND NOT transferIn");
 		return cd;
 	}
 	public CohortDefinition startArt() {
@@ -479,6 +515,7 @@ public class ArtCohortLibrary {
 	cd.setCompositionString("enrolled");
 	return cd;
 }
+
 
 
 	/**
@@ -523,23 +560,22 @@ public class ArtCohortLibrary {
 		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
 		cd.addSearch("startedArt", ReportUtils.map(startsART(), "onOrAfter=${onOrBefore-1m},onOrBefore=${onOrBefore}"));
-		
 		cd.addSearch("completeProgram", ReportUtils.map(commonCohorts.compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.ART)), "completedOnOrBefore=${onOrBefore}"));
-		cd.setCompositionString("startedArt  AND NOT completeProgram");
+		cd.setCompositionString("startedArt AND NOT completeProgram");
 		return  cd;
 	}
      
 	public CohortDefinition startedArtExcludingTransferinsOnDates()
 	{ 
 		CompositionCohortDefinition cd = new CompositionCohortDefinition();
-		cd.setName("Started ART excluding transfer ins on date in this facility");
+		cd.setName("Started ART total");
 		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-		cd.addSearch("startedArt", ReportUtils.map( startArt(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		//cd.addSearch("startedArt", ReportUtils.map( startsART(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
 		cd.addSearch("transferIn", ReportUtils.map(hivCohortLibrary.restartedProgram(), "onOrBefore=${onOrBefore}"));
-		cd.addSearch("begining", ReportUtils.map(startedArtOnDate(), "onOrBefore=${onOrBefore}"));
-		cd.addSearch("completeProgram", ReportUtils.map(commonCohorts.compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.ART)), "completedOnOrBefore=${onOrBefore}"));
-		cd.setCompositionString("startedArt OR  transferIn OR begining AND NOT completeProgram");
+		cd.addSearch("begining", ReportUtils.map(startsART(), "onOrAfter=${onOrAfter-1m},onOrBefore=${onOrBefore}"));
+		//cd.addSearch("completeProgram", ReportUtils.map(commonCohorts.compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.ART)), "completedOnOrBefore=${onOrBefore}"));
+		cd.setCompositionString("begining OR transferIn");
 		return  cd;
 	}
 	

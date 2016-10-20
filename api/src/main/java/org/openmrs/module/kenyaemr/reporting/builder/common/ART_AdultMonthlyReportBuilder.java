@@ -407,7 +407,7 @@ public class ART_AdultMonthlyReportBuilder extends AbstractReportBuilder{
 			List<ColumnParameters> allColumns = Arrays.asList(female,male,total);
 			List<String> indSuffixes = Arrays.asList("FM","MA", "TT");  
 	                
-			EmrReportingUtils.addRow(dsd, "N1", "No. of ", ReportUtils.map(hivIndicators.notInART(), indParams), allColumns,indSuffixes);
+			EmrReportingUtils.addRow(dsd, "N1", "No. of ", ReportUtils.map(hivIndicators.inHIV(), indParams), allColumns,indSuffixes);
 			return dsd;
 		}
 		

@@ -250,9 +250,11 @@ public class HivCohortLibrary {
             cd.setName("enrolled excluding transfers in HIV care not from entry points");
             cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
             cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+           
             cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
             cd.addSearch("entrypoint", ReportUtils.map(commonCohorts.hasObs(entrypoint ,reason), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
             cd.addSearch("entrypointOne", ReportUtils.map(commonCohorts.hasObs(entrypoint ,reason1), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+          //  cd.addSearch("completeProgram", ReportUtils.map(commonCohorts.compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.ART)), "completedOnOrBefore=${onOrBefore}"));
             cd.setCompositionString("enrolled AND (entrypointOne OR entrypoint)");
             return cd;
         }
@@ -306,13 +308,13 @@ public class HivCohortLibrary {
             cd.setName("outcome result of patient due to death");
             cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
             cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-            cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
+         //   cd.addSearch("enrolled", ReportUtils.map(artCohortsstartedArtExcludingTransferinsOnDates,"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
             cd.addSearch("outcomeReason1", ReportUtils.map(reasonOfoutcome(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
             cd.addSearch("outcomeReason2", ReportUtils.map(reasonOfoutcometransfer(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
             cd.addSearch("outcomeReason3", ReportUtils.map(reasonOfoutcomeMissing(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
-            cd.addSearch("complete", ReportUtils.map(stoppArt(),"onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+            cd.addSearch("stop", ReportUtils.map(stoppArt(),"onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
             cd.addSearch("completeprog",ReportUtils.map(artCohorts.startedArtExcludingTransferinsOnDates(),"onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
-            cd.setCompositionString("enrolled AND completeprog AND NOT outcomeReason1 AND NOT outcomeReason2 AND NOT outcomeReason3 AND NOT complete");
+            cd.setCompositionString("completeprog AND NOT (outcomeReason1 OR outcomeReason2 OR outcomeReason3 OR stop)");
             return cd;
         }
 
@@ -417,15 +419,31 @@ public class HivCohortLibrary {
       		cd.setName("on AZT3TCEFV regimen");
       		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
    		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-      		return cd;
+   	 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+	  comp.setName("patients who are in this mnth and before");
+	 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+	comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		
+	comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.setCompositionString("art AND regimen");
+		return comp;
       	}
        
        public CohortDefinition onAZT3TCNVP() {
      		CalculationCohortDefinition cd = new CalculationCohortDefinition(new AZT3TCNVPCalculation());
      		cd.setName("on AZT3TCNVP regimen");
      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
-  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-     		return cd;
+  		    cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+  		  CompositionCohortDefinition comp = new CompositionCohortDefinition();
+ 		  comp.setName("patients who are in this mnth and before");
+ 		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+ 		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+ 			
+ 		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+ 		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+ 		comp.setCompositionString("art AND regimen");
+ 			return comp;
      	}
        
        public CohortDefinition onTDF3TCNVP() {
@@ -433,7 +451,15 @@ public class HivCohortLibrary {
     		cd.setName("on TDF3TCNVP regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
     	}
        
        public CohortDefinition onTDF3TCEFV() {
@@ -441,7 +467,15 @@ public class HivCohortLibrary {
    		cd.setName("on TDF3TCEFV regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
    	}
        
        public CohortDefinition onTDFFTCNVP() {
@@ -449,7 +483,15 @@ public class HivCohortLibrary {
       		cd.setName("on TDFFTCNVP regimen");
       		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
    		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-      		return cd;
+   	 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+	  comp.setName("patients who are in this mnth and before");
+	 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+	comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		
+	comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.setCompositionString("art AND regimen");
+		return comp;
       	}
        
        public CohortDefinition onTDFFTCEFV() {
@@ -457,14 +499,31 @@ public class HivCohortLibrary {
      		cd.setName("on TDFFTCEFV regimen");
      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-     		return cd;
+  		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
      	}
        public CohortDefinition onTDFFTCEF() {
     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new TDFFTCEFVSixhundredCalculation());
     		cd.setName("on TDFFTCEFV regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
- 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		    cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+ 		   CompositionCohortDefinition comp = new CompositionCohortDefinition();
+ 		  comp.setName("patients who are in this mnth and before");
+ 		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+ 		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+ 			
+ 		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+ 		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+ 		comp.setCompositionString("art AND regimen");
+ 			return comp;
+    		
     	}
        
        public CohortDefinition onD4T3TCNVP() {
@@ -472,14 +531,30 @@ public class HivCohortLibrary {
     		cd.setName("on d4T3TCNVP regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
     	}
        public CohortDefinition onD4T3TCEFV() {
    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new D4T3TCEFVCalculation());
    		cd.setName("on d4T3TCEFV regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
    	}
        
        public CohortDefinition onRegimenNotDose() {
@@ -487,7 +562,15 @@ public class HivCohortLibrary {
       		cd.setName("on d4T3TCEFV regimen");
       		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
    		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-      		return cd;
+   	 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+	  comp.setName("patients who are in this mnth and before");
+	 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+	comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		
+	comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.setCompositionString("art AND regimen");
+		return comp;
       	}
        
        public CohortDefinition onAZT3TCLPVr() {
@@ -495,7 +578,15 @@ public class HivCohortLibrary {
      		cd.setName("on AZT3TCLPVr regimen");
      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-     		return cd;
+  		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
      	}
        
        public CohortDefinition onTDF3TCLPVr() {
@@ -503,7 +594,15 @@ public class HivCohortLibrary {
     		cd.setName("on TDF3TCLPVr regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
     	}
        
        public CohortDefinition onTDFFTCLPVr() {
@@ -511,14 +610,30 @@ public class HivCohortLibrary {
    		cd.setName("on TDFFTCLPVr regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
    	}  
        public CohortDefinition onTDFABCLPVr() {
       		CalculationCohortDefinition cd = new CalculationCohortDefinition(new TDFABCLPVrCalculation());
       		cd.setName("on TDFABCLPVr regimen");
       		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
    		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-      		return cd;
+   	 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+	  comp.setName("patients who are in this mnth and before");
+	 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+	comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		
+	comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.setCompositionString("art AND regimen");
+		return comp;
       	}
        
        public CohortDefinition onabc3tcatvr() {
@@ -526,35 +641,75 @@ public class HivCohortLibrary {
      		cd.setName("on regimen");
      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-     		return cd;
+  		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
      	}
        public CohortDefinition onazt3tcatvr() {
     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new AZT3TCATVrCalculation());
     		cd.setName("on regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
     	}
        public CohortDefinition ontdf3tcatvr() {
    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new TDF3TCATVrCalculation());
    		cd.setName("on regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
    	}
        public CohortDefinition onD4T3TCplusNVP() {
      		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseCalculation());
      		cd.setName("on d4T3TCplusNVP regimen");
      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-     		return cd;
+  		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
      	}
        public CohortDefinition onD4T3TCLr() {
     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new D4T3TCLrCalculation());
     		cd.setName("on d4T3TCLr regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
     	}
        
        public CohortDefinition onD4T3TCplusEFV() {
@@ -562,14 +717,30 @@ public class HivCohortLibrary {
    		cd.setName("on d4T3TCplusEFV regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
    	}
        public CohortDefinition onD4T3TCplusABC() {
       		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedD4T3TCplusABCCalculation());
       		cd.setName("on d4T3TCplusABC regimen");
       		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
    		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-      		return cd;
+   	 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+	  comp.setName("patients who are in this mnth and before");
+	 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+	comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		
+	comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.setCompositionString("art AND regimen");
+		return comp;
       	}
       
        public CohortDefinition onAZT3TCplusRAL() {
@@ -577,7 +748,15 @@ public class HivCohortLibrary {
      		cd.setName("on AZT3TCplusRAL regimen");
      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-     		return cd;
+  		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
      	}
        
        public CohortDefinition onAZT3TCplusATVr() {
@@ -585,7 +764,15 @@ public class HivCohortLibrary {
     		cd.setName("on AZT3TCplusATVr regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
     	}
        
        public CohortDefinition onABC3TCplusRAL() {
@@ -593,14 +780,30 @@ public class HivCohortLibrary {
    		cd.setName("on ABC3TCplusRAL regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
    	}
        public CohortDefinition onTDF3TCplusEFV() {
       		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedTDF3TCplusEFVCalculation());
       		cd.setName("on TDF3TCplusEFV regimen");
       		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
    		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-      		return cd;
+   	 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+	  comp.setName("patients who are in this mnth and before");
+	 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+	comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		
+	comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.setCompositionString("art AND regimen");
+		return comp;
       	}
        
        public CohortDefinition onTDF3TCplusNVP() {
@@ -608,63 +811,135 @@ public class HivCohortLibrary {
      		cd.setName("on TDF3TCplusNVP regimen");
      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-     		return cd;
+  		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
      	}
        public CohortDefinition onTDF3TCplusLPVr() {
     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedTDF3TCplusLPVrCalculation());
     		cd.setName("on TDF3TCplusLPVr regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
     	}
        public CohortDefinition onTDF3TCplusRAL() {
    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedTDF3TCplusRALCalculation());
    		cd.setName("on TDF3TCplusRAL regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
    	}
        public CohortDefinition onTDF3TCplusATVr() {
       		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedTDF3TCplusATVrCalculation());
       		cd.setName("on TDF3TCplusATVr regimen");
       		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
    		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-      		return cd;
+   	 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+	  comp.setName("patients who are in this mnth and before");
+	 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+	comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		
+	comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.setCompositionString("art AND regimen");
+		return comp;
       	}
        public CohortDefinition onABC3TCplusATVr() {
      		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedABC3TCplusATVrCalculation());
      		cd.setName("on ABC3TCplusATVr regimen");
      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-     		return cd;
+  		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
      	}
        public CohortDefinition onAZT3TCplusNVP() {
     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseAZT3TCplusNVPCalculation());
     		cd.setName("on AZT3TCplusNVP regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
     	}
        public CohortDefinition onAZT3TCplusLPVr() {
    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseAZT3TCplusLPVrCalculation());
    		cd.setName("on AZT3TCplusLPVr regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
    	}
        public CohortDefinition onAZT3TCplusEFVtwo() {
       		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseAZT3TCplusEFVTwoCalculation());
       		cd.setName("on AZT3TCplusEFV regimen");
       		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
    		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-      		return cd;
+   	 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+	  comp.setName("patients who are in this mnth and before");
+	 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+	comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		
+	comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.setCompositionString("art AND regimen");
+		return comp;
       	}
        public CohortDefinition onAZT3TCplusEFVsix() {
       		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseAZT3TCplusEFVSixCalculation());
       		cd.setName("on AZT3TCplusEFV regimen");
       		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
    		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-      		return cd;
+   	 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+	  comp.setName("patients who are in this mnth and before");
+	 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+	comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		
+	comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.setCompositionString("art AND regimen");
+		return comp;
       	}
        
        public CohortDefinition onABC3TCplusEFVtwo() {
@@ -672,7 +947,15 @@ public class HivCohortLibrary {
      		cd.setName("on ABC3TCplusEFV Two hundred EFV regimen");
      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-     		return cd;
+  		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
      	}
        
        public CohortDefinition onABC3TCplusEFVsix() {
@@ -680,14 +963,30 @@ public class HivCohortLibrary {
     		cd.setName("on ABC3TCplusEFV Six hundred EFV regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
     	}
        public CohortDefinition onAZT3TCplusABC() {
    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseAZT3TCplusABCCalculation());
    		cd.setName("on AZT3TCplusABC regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
    	}
        
        public CohortDefinition onABC3TCplusNVP() {
@@ -695,7 +994,15 @@ public class HivCohortLibrary {
       		cd.setName("on ABC3TCplusNVP regimen");
       		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
    		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-      		return cd;
+   	 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+	  comp.setName("patients who are in this mnth and before");
+	 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+	comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		
+	comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.setCompositionString("art AND regimen");
+		return comp;
       	}
        
        public CohortDefinition onTdfFtcDtg() {
@@ -703,21 +1010,45 @@ public class HivCohortLibrary {
      		cd.setName("on TDFFTCDTG regimen");
      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-     		return cd;
+  		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
      	}
        public CohortDefinition onTdf3tcDtg() {
     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new TDF3TCDTGCalculation());
     		cd.setName("on TDF3TCDTG regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
     	}
        public CohortDefinition onAbcFtcEfv() {
    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new ABCFTCEFVCalculation());
    		cd.setName("on ABCFTCEFV regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
    	}
        
        public CohortDefinition onAbc3tcDtg() {
@@ -725,14 +1056,30 @@ public class HivCohortLibrary {
       		cd.setName("on ABC3TCDTG regimen");
       		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
    		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-      		return cd;
+   	 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+	  comp.setName("patients who are in this mnth and before");
+	 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+	comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		
+	comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.setCompositionString("art AND regimen");
+		return comp;
       	}
        public CohortDefinition onAbcftcDtg() {
      		CalculationCohortDefinition cd = new CalculationCohortDefinition(new ABCFTCDTGCalculation());
      		cd.setName("on ABCFTCDTG regimen");
      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-     		return cd;
+  		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
      	}
        
        public CohortDefinition onAbc3tcNvp() {
@@ -740,7 +1087,15 @@ public class HivCohortLibrary {
     		cd.setName("on ABC3TCNVP regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
     	}
        
        public CohortDefinition onAbcftcNvp() {
@@ -748,14 +1103,30 @@ public class HivCohortLibrary {
    		cd.setName("on ABCFTCNVP regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
    	}
        public CohortDefinition onAbc3tcEfv() {
       		CalculationCohortDefinition cd = new CalculationCohortDefinition(new ABC3TCEFVCalculation());
       		cd.setName("on ABC3TCEFV regimen");
       		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
    		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-      		return cd;
+   	 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+	  comp.setName("patients who are in this mnth and before");
+	 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+	comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		
+	comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.setCompositionString("art AND regimen");
+		return comp;
       	}
        
        public CohortDefinition onTdf3tcNvp() {
@@ -763,7 +1134,15 @@ public class HivCohortLibrary {
      		cd.setName("on TDF3TC+NVP regimen");
      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-     		return cd;
+  		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
      	}
        
        public CohortDefinition onTdf3tcplusefvtwo() {
@@ -771,14 +1150,30 @@ public class HivCohortLibrary {
     		cd.setName("on TDF3TC+EFV regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
     	}
        public CohortDefinition onTdf3tcplusefvsix() {
    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseTDF3TCplusEFVSixCalculation());
    		cd.setName("on TDF3TC+EFV regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
    	}
        
        public CohortDefinition onTdfftcplusnvp() {
@@ -786,7 +1181,15 @@ public class HivCohortLibrary {
       		cd.setName("on TDFFTC+NVP regimen");
       		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
    		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-      		return cd;
+   	 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+	  comp.setName("patients who are in this mnth and before");
+	 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+	comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		
+	comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.setCompositionString("art AND regimen");
+		return comp;
       	}
        
        public CohortDefinition onTdfftcplusefv() {
@@ -794,7 +1197,15 @@ public class HivCohortLibrary {
      		cd.setName("on TDFFTC+EFV regimen");
      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-     		return cd;
+  		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
      	}
        
        public CohortDefinition onTdfftcplusefvsix() {
@@ -802,28 +1213,60 @@ public class HivCohortLibrary {
     		cd.setName("on TDFFTC+EFV regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
     	}
        public CohortDefinition ond4t3tcplusnvp() {
    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseD4T3TCplusNVPCalculation());
    		cd.setName("on d4T3TC+NVP regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
    	}
        public CohortDefinition onD4t3tcplusefvsix() {
       		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseD4T3TCplusEFVCalculation());
       		cd.setName("on d4T3TC+EFV regimen");
       		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
    		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-      		return cd;
+   	 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+	  comp.setName("patients who are in this mnth and before");
+	 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+	comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		
+	comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.setCompositionString("art AND regimen");
+		return comp;
       	}
        public CohortDefinition onabc3tcplusefv() {
      		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseABC3TCplusEFVCalculation());
      		cd.setName("on ABC3TC+EFV regimen");
      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-     		return cd;
+  		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
      	}
        
        public CohortDefinition ontdf3tcpluslpvr() {
@@ -831,7 +1274,15 @@ public class HivCohortLibrary {
     		cd.setName("on TDF/3TC + LPV/r regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
     	}
        
        public CohortDefinition ontdfftcpluslpvr() {
@@ -839,7 +1290,15 @@ public class HivCohortLibrary {
      		cd.setName("on TDF/FTC + LPV/r regimen");
      		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
   		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-     		return cd;
+  		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
      	}
        
        public CohortDefinition ontdfabcpluslpvr() {
@@ -847,7 +1306,15 @@ public class HivCohortLibrary {
     		cd.setName("on TDF+ABC+ LPV/r  regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
     	}
        
        public CohortDefinition onabc3tcpluslpvr() {
@@ -855,7 +1322,15 @@ public class HivCohortLibrary {
    		cd.setName("on ABC/3TC+ LPV/r regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		  comp.setName("patients who are in this mnth and before");
+		 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			
+		comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("art AND regimen");
+			return comp;
    	}
        
        public CohortDefinition onazt3tcplustdfpluslpvr() {
@@ -863,7 +1338,15 @@ public class HivCohortLibrary {
       		cd.setName("on AZT/3TC+ TDF+ LPV/r regimen");
       		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
    		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-      		return cd;
+   	 CompositionCohortDefinition comp = new CompositionCohortDefinition();
+	  comp.setName("patients who are in this mnth and before");
+	 comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+	comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		
+	comp.addSearch("art", ReportUtils.map(totalArtpatient(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.addSearch("regimen", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	comp.setCompositionString("art AND regimen");
+		return comp;
       	}
 	/**
 	 * Patients with a CD4 result between {onOrAfter} and {onOrBefore}
@@ -904,7 +1387,9 @@ public class HivCohortLibrary {
 		        cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
                 cd.addSearch("givenDrugs", ReportUtils.map(commonCohorts.hasObs(tbPatients), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
                 cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
-                cd.setCompositionString("givenDrugs AND enrolled");
+        		cd.addSearch("completeProgram", ReportUtils.map(commonCohorts.compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.ART)), "completedOnOrBefore=${onOrBefore}"));
+        		cd.addSearch("completedProgram", ReportUtils.map(commonCohorts.compltedProgram(), "completedOnOrBefore=${onOrBefore}"));
+                cd.setCompositionString("givenDrugs AND enrolled AND NOT (completeProgram OR completedProgram)");
                 
                 
                 return cd;
@@ -915,10 +1400,10 @@ public class HivCohortLibrary {
             cd.setName("waiting list for ART");
             cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
             cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
-         
+            
             cd.addSearch("enrolledHIV", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.HIV)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
-            cd.addSearch("completeProgram", ReportUtils.map(commonCohorts.compltedProgram(), "completedOnOrBefore=${onOrBefore}"));
-            cd.setCompositionString("enrolledHIV AND NOT completeProgram ");
+          
+            cd.setCompositionString("enrolledHIV ");
             return cd;
         }
         public CohortDefinition notinitializedART(){
@@ -930,8 +1415,8 @@ public class HivCohortLibrary {
             cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
             cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
             cd.addSearch("onwaitinglistArt", ReportUtils.map(comp, "onDate=${onOrBefore}"));
-            cd.addSearch("enrolledHIV", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.HIV)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
-            cd.setCompositionString("enrolledHIV AND onwaitinglistArt ");
+      //      cd.addSearch("enrolledHIV", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.HIV)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
+            cd.setCompositionString("onwaitinglistArt ");
             return cd;
         }
         
@@ -1054,7 +1539,7 @@ public class HivCohortLibrary {
         
         public CohortDefinition riskFactors5(){
         	Concept risk = Dictionary.getConcept(Dictionary.HIV_RISK_FACTOR);
-        	Concept risk5 = Dictionary.getConcept(Dictionary.RISK_FACTOR_MOTHERTOCHILD);
+        	Concept risk5 = Dictionary.getConcept(Dictionary.RISK_FACTOR_BLOODTRANS);
         	
             CompositionCohortDefinition cd = new CompositionCohortDefinition();
             cd.setName("patient with risk 5");
@@ -1067,7 +1552,7 @@ public class HivCohortLibrary {
         
         public CohortDefinition riskFactors6(){
         	Concept risk = Dictionary.getConcept(Dictionary.HIV_RISK_FACTOR);
-        	Concept risk6 = Dictionary.getConcept(Dictionary.RISK_FACTOR_BLOODTRANS);
+        	Concept risk6 = Dictionary.getConcept(Dictionary.RISK_FACTOR_MOTHERTOCHILD);
         	
             CompositionCohortDefinition cd = new CompositionCohortDefinition();
             cd.setName("patient with risk 6");
