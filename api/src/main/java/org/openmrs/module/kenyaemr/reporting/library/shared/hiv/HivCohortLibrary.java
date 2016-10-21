@@ -90,6 +90,7 @@ import org.openmrs.module.kenyaemr.calculation.library.hiv.art.LevelOfAdherenceC
 import org.openmrs.module.kenyaemr.calculation.library.hiv.art.NewHIVPatientEnrolledCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.art.OnAlternateFirstLineArtCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.art.OnOriginalFirstLineArtCalculation;
+import org.openmrs.module.kenyaemr.calculation.library.tb.TbPatientClassificationCalculation;
 import org.openmrs.module.kenyaemr.metadata.HivMetadata;
 import org.openmrs.module.kenyaemr.reporting.library.shared.common.CommonCohortLibrary;
 import org.openmrs.module.kenyaemr.reporting.library.shared.hiv.art.ArtCohortLibrary;
@@ -1380,16 +1381,20 @@ public class HivCohortLibrary {
         
         public CohortDefinition receivedART(){
             Concept tbPatients = Dictionary.getConcept(Dictionary.TB_PATIENT);
-              
+            Concept tbPatientsstatus = Dictionary.getConcept(Dictionary.TB_Rx);
                 CompositionCohortDefinition cd = new CompositionCohortDefinition();
                 cd.setName("Patients HIV positive TB patients who have received ART");
                 cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
 		        cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
-                cd.addSearch("givenDrugs", ReportUtils.map(commonCohorts.hasObs(tbPatients), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		        cd.addSearch("dead", ReportUtils.map(reasonOfoutcome(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	    		cd.addSearch("transferout", ReportUtils.map(reasonOfoutcometransfer(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	    		cd.addSearch("lostmissing", ReportUtils.map(reasonOfoutcomeMissing(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+
+                cd.addSearch("givenDrugs", ReportUtils.map(commonCohorts.hasObs(tbPatients,tbPatientsstatus), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
                 cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
         		cd.addSearch("completeProgram", ReportUtils.map(commonCohorts.compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.ART)), "completedOnOrBefore=${onOrBefore}"));
         		cd.addSearch("completedProgram", ReportUtils.map(commonCohorts.compltedProgram(), "completedOnOrBefore=${onOrBefore}"));
-                cd.setCompositionString("givenDrugs AND enrolled AND NOT (completeProgram OR completedProgram)");
+                cd.setCompositionString("givenDrugs AND enrolled AND NOT (completeProgram OR completedProgram) AND NOT (dead OR transferout OR lostmissing)");
                 
                 
                 return cd;

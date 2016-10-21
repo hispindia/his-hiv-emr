@@ -397,7 +397,7 @@ public class CommonCohortLibrary {
 	}
     public CohortDefinition receiveART(Program programs){
         Concept tbPatients = Dictionary.getConcept(Dictionary.TB_PATIENT);
-           
+        Concept tbPatientsstatus = Dictionary.getConcept(Dictionary.TB_Rx);
             CompositionCohortDefinition cd = new CompositionCohortDefinition();
             cd.setName("Patients HIV positive TB patients who have received ART");
             cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
@@ -406,8 +406,8 @@ public class CommonCohortLibrary {
     		cd.addSearch("transferout", ReportUtils.map(hivCohortLibrary.reasonOfoutcometransfer(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
     		cd.addSearch("lostmissing", ReportUtils.map(hivCohortLibrary.reasonOfoutcomeMissing(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
 
-			cd.addSearch("givenDrugs", ReportUtils.map(hasObs(tbPatients), "onOrBefore=${onOrBefore}"));
-            cd.addSearch("enrolled", ReportUtils.map(enrolled(programs),"enrolledOnOrBefore=${onOrBefore}"));
+			cd.addSearch("givenDrugs", ReportUtils.map(hasObs(tbPatients,tbPatientsstatus), "onOrBefore=${onOrBefore}"));
+            cd.addSearch("enrolled", ReportUtils.map(enrolled(programs),"enrolledOnOrAfter=${onOrAfter-1m},enrolledOnOrBefore=${onOrBefore}"));
             cd.addSearch("completeProgram", ReportUtils.map(compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.ART)), "completedOnOrBefore=${onOrBefore}"));
     		cd.addSearch("completedProgram", ReportUtils.map(compltedProgram(), "completedOnOrBefore=${onOrBefore}"));
             

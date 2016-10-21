@@ -64,7 +64,7 @@ public class CommonIndicatorLibrary {
 	
 	public CohortIndicator enrolledCumulativeTB(Program program) { 
 		return cohortIndicator("total patients HIV positive TB  " + program.getName() + " receive ART",
-				ReportUtils.map(commonCohorts.receiveART(program), "onOrBefore=${endDate}"));
+				ReportUtils.map(commonCohorts.receiveART(program), "onOrAfter=${startDate},onOrBefore=${endDate}"));
 	}
 	
 }
