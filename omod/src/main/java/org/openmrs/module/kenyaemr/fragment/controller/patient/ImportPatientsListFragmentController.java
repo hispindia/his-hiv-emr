@@ -117,815 +117,602 @@ public class ImportPatientsListFragmentController {
 		while (iterator.hasNext()) {
 			Row nextRow = iterator.next();
 			Iterator<Cell> cellIterator = nextRow.cellIterator();
-			if (rowCount > 0) {
-				ArrayList<String> legacyData = new ArrayList<String>();
+			
+			try {
+				if (rowCount > 0) {
+					ArrayList<String> legacyData = new ArrayList<String>();
 
-				while (cellIterator.hasNext()) {
-					Cell cell = cellIterator.next();
-					switch (cell.getCellType()) {
-					case Cell.CELL_TYPE_STRING:
-						legacyData.add(cell.getColumnIndex(),
-								cell.getStringCellValue());
-						break;
-					case Cell.CELL_TYPE_NUMERIC:
-						if (HSSFDateUtil.isCellDateFormatted(cell)) {
+					while (cellIterator.hasNext()) {
+						Cell cell = cellIterator.next();
+						switch (cell.getCellType()) {
+						case Cell.CELL_TYPE_STRING:
 							legacyData.add(cell.getColumnIndex(),
-									String.valueOf(cell.getDateCellValue()));
-						} else {
+									cell.getStringCellValue());
+							break;
+						case Cell.CELL_TYPE_NUMERIC:
+							if (HSSFDateUtil.isCellDateFormatted(cell)) {
+								legacyData.add(cell.getColumnIndex(),
+										String.valueOf(cell.getDateCellValue()));
+							} else {
 
-							legacyData.add(cell.getColumnIndex(),
-									NumberToTextConverter.toText(cell
-											.getNumericCellValue()));
+								legacyData.add(cell.getColumnIndex(),
+										NumberToTextConverter.toText(cell
+												.getNumericCellValue()));
+							}
+							break;
+						case Cell.CELL_TYPE_BLANK:
+							legacyData.add(cell.getColumnIndex(), null);
+							break;
 						}
-						break;
-					case Cell.CELL_TYPE_BLANK:
-						legacyData.add(cell.getColumnIndex(), null);
-						break;
 					}
-				}
-				int i = 0;
-				for (String s : legacyData) {
+					int i = 0;
+					for (String s : legacyData) {
 
-					i++;
-				}
-				/*
-				 * Start Patient Creation
-				 */
-				try {
-					if (legacyData.get(0) != null) {
-						Patient toSave = new Patient(); // Creating a new
-														// patient
-														// and
-						// person
-						PersonName personName = new PersonName();
-						PersonAddress personAddress = new PersonAddress();
-						Location location;
+						i++;
+					}
+					/*
+					 * Start Patient Creation
+					 */
+					try {
+						if (legacyData.get(0) != null) {
+							Patient toSave = new Patient(); // Creating a new
+															// patient
+															// and
+							// person
+							PersonName personName = new PersonName();
+							PersonAddress personAddress = new PersonAddress();
+							Location location;
 
-						SimpleDateFormat formatter = new SimpleDateFormat(
-								"E MMM dd HH:mm:ss Z yyyy");
-						Date dateBith = new Date();
-						try {
-							dateBith = (Date) formatter
-									.parse(legacyData.get(2));
-
-						} catch (ParseException e) {
-							e.printStackTrace();
-						}
-
-						toSave.setGender(legacyData.get(3));
-						toSave.setBirthdate(dateBith);
-						toSave.setBirthdateEstimated(false);
-						toSave.setDead(false);
-						/*
-						 * toSave.setDeathDate(deathDate);
-						 * toSave.setCauseOfDeath(dead ? Dictionary
-						 * .getConcept(CAUSE_OF_DEATH_PLACEHOLDER) : null);
-						 */
-
-						if (legacyData.get(1) != "") {
-							personName.setGivenName(legacyData.get(1));
-							personName.setFamilyName("(NULL)");
-							toSave.addName(personName);
-						}
-
-						// toSave.
-						personAddress.setAddress1(legacyData.get(9));
-						personAddress.setCountyDistrict(legacyData.get(10));
-						toSave.addAddress(personAddress);
-
-						PatientWrapper wrapper = new PatientWrapper(toSave);
-
-						wrapper.getPerson().setTelephoneContact(
-								legacyData.get(8));
-
-						location = Context.getService(KenyaEmrService.class)
-								.getDefaultLocation();
-
-						if (legacyData.get(4) != null) {
-							wrapper.setPreArtRegistrationNumber(
-									legacyData.get(4), location);
-						}
-
-						if (legacyData.get(6) != null) {
-							wrapper.setArtRegistrationNumber(legacyData.get(6),
-									location);
-						}
-
-						if (legacyData.get(5) != null) {
-							wrapper.setNapArtRegistrationNumber(
-									legacyData.get(5), location);
-						}
-
-						// Algorithm to generate system generated patient
-						// Identifier
-						Calendar now = Calendar.getInstance();
-						String shortName = Context
-								.getAdministrationService()
-								.getGlobalProperty(
-										OpenmrsConstants.GLOBAL_PROPERTY_PATIENT_IDENTIFIER_PREFIX);
-
-						String noCheck = shortName
-								+ String.valueOf(now.get(Calendar.YEAR))
-										.substring(2, 4)
-								+ String.valueOf(now.get(Calendar.MONTH) + 1)
-								+ String.valueOf(now.get(Calendar.DATE))
-
-								+ String.valueOf(now.get(Calendar.HOUR))
-								+ String.valueOf(now.get(Calendar.MINUTE))
-								+ String.valueOf(now.get(Calendar.SECOND))
-								+ String.valueOf(new Random()
-										.nextInt(9999 - 999 + 1));
-
-						wrapper.setSystemPatientId(noCheck + "-"
-								+ generateCheckdigit(noCheck), location);
-
-						wrapper.setNextOfKinName(legacyData.get(11));
-						wrapper.setNextOfKinContact(legacyData.get(12));
-
-						if (legacyData.get(13) != null) {
-							wrapper.setPreviousHivTestStatus("Yes");
-							wrapper.setPreviousHivTestPlace(legacyData.get(14));
-
-							Date capturedTestDate = new Date();
+							SimpleDateFormat formatter = new SimpleDateFormat(
+									"E MMM dd HH:mm:ss Z yyyy");
+							Date dateBith = new Date();
 							try {
-								capturedTestDate = formatter.parse(legacyData
-										.get(13));
+								dateBith = (Date) formatter
+										.parse(legacyData.get(2));
 
 							} catch (ParseException e) {
 								e.printStackTrace();
 							}
 
-							DateFormat testDate = new SimpleDateFormat(
-									"dd-MMMM-yyyy");
-							wrapper.setPreviousHivTestDate(testDate
-									.format(capturedTestDate));
-						} else {
-							wrapper.setPreviousHivTestStatus("No");
-						}
+							toSave.setGender(legacyData.get(3));
+							toSave.setBirthdate(dateBith);
+							toSave.setBirthdateEstimated(false);
+							toSave.setDead(false);
+							/*
+							 * toSave.setDeathDate(deathDate);
+							 * toSave.setCauseOfDeath(dead ? Dictionary
+							 * .getConcept(CAUSE_OF_DEATH_PLACEHOLDER) : null);
+							 */
 
-						wrapper.setPreviousClinicName(legacyData.get(16));
-
-						// Make sure everyone gets an OpenMRS ID
-						PatientIdentifierType openmrsIdType = MetadataUtils
-								.existing(
-										PatientIdentifierType.class,
-										CommonMetadata._PatientIdentifierType.OPENMRS_ID);
-						PatientIdentifier openmrsId = toSave
-								.getPatientIdentifier(openmrsIdType);
-
-						if (openmrsId == null) {
-							String generated = Context.getService(
-									IdentifierSourceService.class)
-									.generateIdentifier(openmrsIdType,
-											"Registration");
-							openmrsId = new PatientIdentifier(generated,
-									openmrsIdType, location);
-							toSave.addIdentifier(openmrsId);
-
-							if (!toSave.getPatientIdentifier().isPreferred()) {
-								openmrsId.setPreferred(true);
+							if (legacyData.get(1) != "") {
+								personName.setGivenName(legacyData.get(1));
+								personName.setFamilyName("(NULL)");
+								toSave.addName(personName);
 							}
-						}
 
-						Patient ret = Context.getPatientService().savePatient(
-								toSave);
+							// toSave.
+							personAddress.setAddress1(legacyData.get(9));
+							personAddress.setCountyDistrict(legacyData.get(10));
+							toSave.addAddress(personAddress);
 
-						// Explicitly save all identifier objects including
-						// voided
-						for (PatientIdentifier identifier : toSave
-								.getIdentifiers()) {
-							Context.getPatientService().savePatientIdentifier(
-									identifier);
-						}
+							PatientWrapper wrapper = new PatientWrapper(toSave);
 
-						/*
-						 * End Patient Creation
-						 */
+							wrapper.getPerson().setTelephoneContact(
+									legacyData.get(8));
 
-						// With value text and Date
-						if (legacyData.get(15) != null) {
+							location = Context.getService(KenyaEmrService.class)
+									.getDefaultLocation();
 
-							Date dateTransfer = null;
-							if (legacyData.get(17) != null) {
+							if (legacyData.get(4) != null) {
+								wrapper.setPreArtRegistrationNumber(
+										legacyData.get(4), location);
+							}
+
+							if (legacyData.get(6) != null) {
+								wrapper.setArtRegistrationNumber(legacyData.get(6),
+										location);
+							}
+
+							if (legacyData.get(5) != null) {
+								wrapper.setNapArtRegistrationNumber(
+										legacyData.get(5), location);
+							}
+
+							// Algorithm to generate system generated patient
+							// Identifier
+							Calendar now = Calendar.getInstance();
+							String shortName = Context
+									.getAdministrationService()
+									.getGlobalProperty(
+											OpenmrsConstants.GLOBAL_PROPERTY_PATIENT_IDENTIFIER_PREFIX);
+
+							String noCheck = shortName
+									+ String.valueOf(now.get(Calendar.YEAR))
+											.substring(2, 4)
+									+ String.valueOf(now.get(Calendar.MONTH) + 1)
+									+ String.valueOf(now.get(Calendar.DATE))
+
+									+ String.valueOf(now.get(Calendar.HOUR))
+									+ String.valueOf(now.get(Calendar.MINUTE))
+									+ String.valueOf(now.get(Calendar.SECOND))
+									+ String.valueOf(new Random()
+											.nextInt(9999 - 999 + 1));
+
+							wrapper.setSystemPatientId(noCheck + "-"
+									+ generateCheckdigit(noCheck), location);
+
+							wrapper.setNextOfKinName(legacyData.get(11));
+							wrapper.setNextOfKinContact(legacyData.get(12));
+
+							if (legacyData.get(13) != null) {
+								wrapper.setPreviousHivTestStatus("Yes");
+								wrapper.setPreviousHivTestPlace(legacyData.get(14));
+
+								Date capturedTestDate = new Date();
 								try {
-									dateTransfer = formatter.parse(legacyData
-											.get(17));
+									capturedTestDate = formatter.parse(legacyData
+											.get(13));
 
 								} catch (ParseException e) {
 									e.printStackTrace();
 								}
+
+								DateFormat testDate = new SimpleDateFormat(
+										"dd-MMMM-yyyy");
+								wrapper.setPreviousHivTestDate(testDate
+										.format(capturedTestDate));
+							} else {
+								wrapper.setPreviousHivTestStatus("No");
 							}
 
-							Concept enrollementConcept = Context
-									.getConceptService()
-									.getConcept(
-											Integer.parseInt(legacyData.get(15)));
+							wrapper.setPreviousClinicName(legacyData.get(16));
 
-							handleOncePerPatientObs(
-									ret,
-									Dictionary
-											.getConcept(Dictionary.METHOD_OF_ENROLLMENT),
-									enrollementConcept, "", dateTransfer, null);
-						}
+							// Make sure everyone gets an OpenMRS ID
+							PatientIdentifierType openmrsIdType = MetadataUtils
+									.existing(
+											PatientIdentifierType.class,
+											CommonMetadata._PatientIdentifierType.OPENMRS_ID);
+							PatientIdentifier openmrsId = toSave
+									.getPatientIdentifier(openmrsIdType);
 
-						if (legacyData.get(7) != null) {
-							Concept ingoConcept = Context
-									.getConceptService()
-									.getConcept(
-											Integer.parseInt(legacyData.get(7)));
-							handleOncePerPatientObs(
-									ret,
-									Dictionary.getConcept(Dictionary.INGO_NAME),
-									ingoConcept, "", null, null);
-						}
+							if (openmrsId == null) {
+								String generated = Context.getService(
+										IdentifierSourceService.class)
+										.generateIdentifier(openmrsIdType,
+												"Registration");
+								openmrsId = new PatientIdentifier(generated,
+										openmrsIdType, location);
+								toSave.addIdentifier(openmrsId);
 
-						/**
-						 ** Start : Visit, Encounter and Program creation for
-						 * Patient entered as Legacy Data Visit start date
-						 **/
-						Date curDate = new Date();
-						Date dateVisit = null;
-						try {
-							dateVisit = formatter.parse(legacyData.get(18));
-
-						} catch (ParseException e) {
-							e.printStackTrace();
-						}
-
-						DateFormat visitDateInExcel = new SimpleDateFormat(
-								"dd-MMM-yyyy");
-						String dateCheck = visitDateInExcel.format(dateVisit);
-						SimpleDateFormat mysqlDateTimeFormatter = new SimpleDateFormat(
-								"dd-MMM-yy HH:mm:ss");
-
-						if (legacyData.get(18) != null) {
-							try {
-								dateVisit = mysqlDateTimeFormatter
-										.parse(dateCheck + " "
-												+ curDate.getHours() + ":"
-												+ curDate.getMinutes() + ":"
-												+ curDate.getSeconds());
-							} catch (ParseException e) {
-								dateVisit = curDate;
-								// TODO Auto-generated catch block
-								e.printStackTrace();
+								if (!toSave.getPatientIdentifier().isPreferred()) {
+									openmrsId.setPreferred(true);
+								}
 							}
-						}
 
-						Visit visit = new Visit();
-						visit.setPatient(ret);
-						visit.setStartDatetime(dateVisit);
-						visit.setVisitType(MetadataUtils.existing(
-								VisitType.class,
-								CommonMetadata._VisitType.OUTPATIENT));
-						visit.setLocation(Context.getService(
-								KenyaEmrService.class).getDefaultLocation());
+							Patient ret = Context.getPatientService().savePatient(
+									toSave);
 
-						VisitAttributeType attrType = Context
-								.getService(VisitService.class)
-								.getVisitAttributeTypeByUuid(
-										CommonMetadata._VisitAttributeType.NEW_PATIENT);
-						if (attrType != null) {
-							VisitAttribute attr = new VisitAttribute();
-							attr.setAttributeType(attrType);
-							attr.setVisit(visit);
-							attr.setDateCreated(curDate);
-							attr.setValue(true);
-							visit.addAttribute(attr);
-						}
+							// Explicitly save all identifier objects including
+							// voided
+							for (PatientIdentifier identifier : toSave
+									.getIdentifiers()) {
+								Context.getPatientService().savePatientIdentifier(
+										identifier);
+							}
 
-						Visit visitSave = Context.getVisitService().saveVisit(
-								visit);
+							/*
+							 * End Patient Creation
+							 */
 
-						EncounterType hivEnrollEncType = MetadataUtils
-								.existing(
-										EncounterType.class,
-										HivMetadata._EncounterType.HIV_ENROLLMENT);
+							// With value text and Date
+							if (legacyData.get(15) != null) {
 
-						EncounterType registrationEncType = MetadataUtils
-								.existing(
-										EncounterType.class,
-										CommonMetadata._EncounterType.REGISTRATION);
+								Date dateTransfer = null;
+								if (legacyData.get(17) != null) {
+									try {
+										dateTransfer = formatter.parse(legacyData
+												.get(17));
 
-						Encounter hivEnrollmentEncounter = new Encounter();
+									} catch (ParseException e) {
+										e.printStackTrace();
+									}
+								}
 
-						hivEnrollmentEncounter
-								.setEncounterType(hivEnrollEncType);
-						hivEnrollmentEncounter.setPatient(ret);
-						hivEnrollmentEncounter.setLocation(Context.getService(
-								KenyaEmrService.class).getDefaultLocation());
-
-						hivEnrollmentEncounter.setDateCreated(curDate);
-						hivEnrollmentEncounter.setEncounterDatetime(dateVisit);
-
-						hivEnrollmentEncounter.setForm(MetadataUtils.existing(
-								Form.class, HivMetadata._Form.HIV_ENROLLMENT));
-						hivEnrollmentEncounter.setVisit(visitSave);
-						hivEnrollmentEncounter.setVoided(false);
-						Encounter enHivNew = Context.getEncounterService()
-								.saveEncounter(hivEnrollmentEncounter);
-
-						PatientProgram patientProgram = new PatientProgram();
-						patientProgram.setPatient(ret);
-						patientProgram.setProgram(MetadataUtils.existing(
-								Program.class, HivMetadata._Program.HIV));
-						patientProgram.setDateEnrolled(enHivNew
-								.getEncounterDatetime());
-						patientProgram.setDateCreated(curDate);
-						Context.getProgramWorkflowService().savePatientProgram(
-								patientProgram);
-
-						Encounter personalEncounter = new Encounter();
-
-						personalEncounter.setEncounterType(hivEnrollEncType);
-						personalEncounter.setPatient(ret);
-
-						personalEncounter.setDateCreated(curDate);
-						personalEncounter.setEncounterDatetime(dateVisit);
-						personalEncounter.setLocation(Context.getService(
-								KenyaEmrService.class).getDefaultLocation());
-
-						personalEncounter
-								.setForm(MetadataUtils.existing(Form.class,
-										Metadata.Form.HIV_PERSONAL_HISTORY));
-						personalEncounter.setVisit(visitSave);
-						personalEncounter.setVoided(false);
-						Encounter enpersonalrecordresultNew = Context
-								.getEncounterService().saveEncounter(
-										personalEncounter);
-						if (legacyData.get(19) != null) {
-
-							Concept literate = Context
-									.getConceptService()
-									.getConcept(
-											Integer.parseInt(legacyData.get(19)));
-							handleOncePerPatientObs(ret,
-									Dictionary.getConcept(Dictionary.LITERATE),
-									literate, "", null, null,
-									enpersonalrecordresultNew, null);
-
-						}
-						if (legacyData.get(21) != null) {
-
-							String value = legacyData.get(21);
-
-							String[] valueList = value.split("\\s*,\\s*");
-
-							for (String riskname : valueList) {
-
-								Concept riskConcept = Context
-										.getConceptService().getConcept(
-												riskname);
+								Concept enrollementConcept = Context
+										.getConceptService()
+										.getConcept(
+												Integer.parseInt(legacyData.get(15)));
 
 								handleOncePerPatientObs(
 										ret,
 										Dictionary
-												.getConcept(Dictionary.HIV_RISK_FACTOR),
-										riskConcept, "", null, null,
+												.getConcept(Dictionary.METHOD_OF_ENROLLMENT),
+										enrollementConcept, "", dateTransfer, null);
+							}
+
+							if (legacyData.get(7) != null) {
+								Concept ingoConcept = Context
+										.getConceptService()
+										.getConcept(
+												Integer.parseInt(legacyData.get(7)));
+								handleOncePerPatientObs(
+										ret,
+										Dictionary.getConcept(Dictionary.INGO_NAME),
+										ingoConcept, "", null, null);
+							}
+
+							/**
+							 ** Start : Visit, Encounter and Program creation for
+							 * Patient entered as Legacy Data Visit start date
+							 **/
+							Date curDate = new Date();
+							Date dateVisit = null;
+							try {
+								dateVisit = formatter.parse(legacyData.get(18));
+
+							} catch (ParseException e) {
+								e.printStackTrace();
+							}
+
+							DateFormat visitDateInExcel = new SimpleDateFormat(
+									"dd-MMM-yyyy");
+							String dateCheck = visitDateInExcel.format(dateVisit);
+							SimpleDateFormat mysqlDateTimeFormatter = new SimpleDateFormat(
+									"dd-MMM-yy HH:mm:ss");
+
+							if (legacyData.get(18) != null) {
+								try {
+									dateVisit = mysqlDateTimeFormatter
+											.parse(dateCheck + " "
+													+ curDate.getHours() + ":"
+													+ curDate.getMinutes() + ":"
+													+ curDate.getSeconds());
+								} catch (ParseException e) {
+									dateVisit = curDate;
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}
+
+							Visit visit = new Visit();
+							visit.setPatient(ret);
+							visit.setStartDatetime(dateVisit);
+							visit.setVisitType(MetadataUtils.existing(
+									VisitType.class,
+									CommonMetadata._VisitType.OUTPATIENT));
+							visit.setLocation(Context.getService(
+									KenyaEmrService.class).getDefaultLocation());
+
+							VisitAttributeType attrType = Context
+									.getService(VisitService.class)
+									.getVisitAttributeTypeByUuid(
+											CommonMetadata._VisitAttributeType.NEW_PATIENT);
+							if (attrType != null) {
+								VisitAttribute attr = new VisitAttribute();
+								attr.setAttributeType(attrType);
+								attr.setVisit(visit);
+								attr.setDateCreated(curDate);
+								attr.setValue(true);
+								visit.addAttribute(attr);
+							}
+
+							Visit visitSave = Context.getVisitService().saveVisit(
+									visit);
+
+							EncounterType hivEnrollEncType = MetadataUtils
+									.existing(
+											EncounterType.class,
+											HivMetadata._EncounterType.HIV_ENROLLMENT);
+
+							EncounterType registrationEncType = MetadataUtils
+									.existing(
+											EncounterType.class,
+											CommonMetadata._EncounterType.REGISTRATION);
+
+							Encounter hivEnrollmentEncounter = new Encounter();
+
+							hivEnrollmentEncounter
+									.setEncounterType(hivEnrollEncType);
+							hivEnrollmentEncounter.setPatient(ret);
+							hivEnrollmentEncounter.setLocation(Context.getService(
+									KenyaEmrService.class).getDefaultLocation());
+
+							hivEnrollmentEncounter.setDateCreated(curDate);
+							hivEnrollmentEncounter.setEncounterDatetime(dateVisit);
+
+							hivEnrollmentEncounter.setForm(MetadataUtils.existing(
+									Form.class, HivMetadata._Form.HIV_ENROLLMENT));
+							hivEnrollmentEncounter.setVisit(visitSave);
+							hivEnrollmentEncounter.setVoided(false);
+							Encounter enHivNew = Context.getEncounterService()
+									.saveEncounter(hivEnrollmentEncounter);
+
+							PatientProgram patientProgram = new PatientProgram();
+							patientProgram.setPatient(ret);
+							patientProgram.setProgram(MetadataUtils.existing(
+									Program.class, HivMetadata._Program.HIV));
+							patientProgram.setDateEnrolled(enHivNew
+									.getEncounterDatetime());
+							patientProgram.setDateCreated(curDate);
+							Context.getProgramWorkflowService().savePatientProgram(
+									patientProgram);
+
+							Encounter personalEncounter = new Encounter();
+
+							personalEncounter.setEncounterType(hivEnrollEncType);
+							personalEncounter.setPatient(ret);
+
+							personalEncounter.setDateCreated(curDate);
+							personalEncounter.setEncounterDatetime(dateVisit);
+							personalEncounter.setLocation(Context.getService(
+									KenyaEmrService.class).getDefaultLocation());
+
+							personalEncounter
+									.setForm(MetadataUtils.existing(Form.class,
+											Metadata.Form.HIV_PERSONAL_HISTORY));
+							personalEncounter.setVisit(visitSave);
+							personalEncounter.setVoided(false);
+							Encounter enpersonalrecordresultNew = Context
+									.getEncounterService().saveEncounter(
+											personalEncounter);
+							if (legacyData.get(19) != null) {
+
+								Concept literate = Context
+										.getConceptService()
+										.getConcept(
+												Integer.parseInt(legacyData.get(19)));
+								handleOncePerPatientObs(ret,
+										Dictionary.getConcept(Dictionary.LITERATE),
+										literate, "", null, null,
+										enpersonalrecordresultNew, null);
+
+							}
+							if (legacyData.get(21) != null) {
+
+								String value = legacyData.get(21);
+
+								String[] valueList = value.split("\\s*,\\s*");
+
+								for (String riskname : valueList) {
+
+									Concept riskConcept = Context
+											.getConceptService().getConcept(
+													riskname);
+
+									handleOncePerPatientObs(
+											ret,
+											Dictionary
+													.getConcept(Dictionary.HIV_RISK_FACTOR),
+											riskConcept, "", null, null,
+											enpersonalrecordresultNew, null);
+
+								}
+
+							}
+							if (legacyData.get(22) != null) {
+
+								Concept idssubstituion = Context
+										.getConceptService()
+										.getConcept(
+												Integer.parseInt(legacyData.get(22)));
+								handleOncePerPatientObs(
+										ret,
+										Dictionary
+												.getConcept(Dictionary.IDU_PERSONAL_HISTORY),
+										idssubstituion, "", null, null,
 										enpersonalrecordresultNew, null);
 
 							}
 
-						}
-						if (legacyData.get(22) != null) {
+							if (legacyData.get(23) != null) {
 
-							Concept idssubstituion = Context
-									.getConceptService()
-									.getConcept(
-											Integer.parseInt(legacyData.get(22)));
-							handleOncePerPatientObs(
-									ret,
-									Dictionary
-											.getConcept(Dictionary.IDU_PERSONAL_HISTORY),
-									idssubstituion, "", null, null,
-									enpersonalrecordresultNew, null);
+								Concept idssubstituionvalue = Context
+										.getConceptService()
+										.getConcept(
+												Integer.parseInt(legacyData.get(23)));
+								handleOncePerPatientObs(
+										ret,
+										Dictionary
+												.getConcept(Dictionary.IDU_NAME_PERSONAL_HISTORY),
+										idssubstituionvalue, "", null, null,
+										enpersonalrecordresultNew, null);
 
-						}
+							}
+							if (legacyData.get(29) != null) {
 
-						if (legacyData.get(23) != null) {
+								Concept employedvalue = Context
+										.getConceptService()
+										.getConcept(
+												Integer.parseInt(legacyData.get(29)));
+								handleOncePerPatientObs(ret,
+										Dictionary.getConcept(Dictionary.EMPLOYED),
+										employedvalue, "", null, null,
+										enpersonalrecordresultNew, null);
+							}
 
-							Concept idssubstituionvalue = Context
-									.getConceptService()
-									.getConcept(
-											Integer.parseInt(legacyData.get(23)));
-							handleOncePerPatientObs(
-									ret,
-									Dictionary
-											.getConcept(Dictionary.IDU_NAME_PERSONAL_HISTORY),
-									idssubstituionvalue, "", null, null,
-									enpersonalrecordresultNew, null);
+							if (legacyData.get(30) != null) {
 
-						}
-						if (legacyData.get(29) != null) {
+								Concept alcoholicvalue = Context
+										.getConceptService()
+										.getConcept(
+												Integer.parseInt(legacyData.get(30)));
+								handleOncePerPatientObs(
+										ret,
+										Dictionary
+												.getConcept(Dictionary.ALCOHOLIC_TYPE),
+										alcoholicvalue, "", null, null,
+										enpersonalrecordresultNew, null);
+							}
 
-							Concept employedvalue = Context
-									.getConceptService()
-									.getConcept(
-											Integer.parseInt(legacyData.get(29)));
-							handleOncePerPatientObs(ret,
-									Dictionary.getConcept(Dictionary.EMPLOYED),
-									employedvalue, "", null, null,
-									enpersonalrecordresultNew, null);
-						}
+							Encounter familyEncounter = new Encounter();
 
-						if (legacyData.get(30) != null) {
+							familyEncounter.setEncounterType(registrationEncType);
+							familyEncounter.setPatient(ret);
 
-							Concept alcoholicvalue = Context
-									.getConceptService()
-									.getConcept(
-											Integer.parseInt(legacyData.get(30)));
-							handleOncePerPatientObs(
-									ret,
-									Dictionary
-											.getConcept(Dictionary.ALCOHOLIC_TYPE),
-									alcoholicvalue, "", null, null,
-									enpersonalrecordresultNew, null);
-						}
+							familyEncounter.setDateCreated(curDate);
+							familyEncounter.setEncounterDatetime(dateVisit);
+							familyEncounter.setLocation(Context.getService(
+									KenyaEmrService.class).getDefaultLocation());
 
-						Encounter familyEncounter = new Encounter();
+							familyEncounter.setForm(MetadataUtils.existing(
+									Form.class, Metadata.Form.HIV_FAMILY_HISTORY));
+							familyEncounter.setVisit(visitSave);
+							familyEncounter.setVoided(false);
+							Encounter enfamilyrecordresultNew = Context
+									.getEncounterService().saveEncounter(
+											familyEncounter);
+							if (legacyData.get(20) != null) {
 
-						familyEncounter.setEncounterType(registrationEncType);
-						familyEncounter.setPatient(ret);
+								Concept martalstatus = Context
+										.getConceptService()
+										.getConcept(
+												Integer.parseInt(legacyData.get(20)));
+								handleOncePerPatientObs(
+										ret,
+										Dictionary
+												.getConcept(Dictionary.CIVIL_STATUS),
+										martalstatus, "", null, null,
+										enfamilyrecordresultNew, null);
+							}
+							Encounter drugEncounter = new Encounter();
 
-						familyEncounter.setDateCreated(curDate);
-						familyEncounter.setEncounterDatetime(dateVisit);
-						familyEncounter.setLocation(Context.getService(
-								KenyaEmrService.class).getDefaultLocation());
+							drugEncounter.setEncounterType(hivEnrollEncType);
+							drugEncounter.setPatient(ret);
 
-						familyEncounter.setForm(MetadataUtils.existing(
-								Form.class, Metadata.Form.HIV_FAMILY_HISTORY));
-						familyEncounter.setVisit(visitSave);
-						familyEncounter.setVoided(false);
-						Encounter enfamilyrecordresultNew = Context
-								.getEncounterService().saveEncounter(
-										familyEncounter);
-						if (legacyData.get(20) != null) {
+							drugEncounter.setDateCreated(curDate);
+							drugEncounter.setEncounterDatetime(dateVisit);
+							drugEncounter.setLocation(Context.getService(
+									KenyaEmrService.class).getDefaultLocation());
 
-							Concept martalstatus = Context
-									.getConceptService()
-									.getConcept(
-											Integer.parseInt(legacyData.get(20)));
-							handleOncePerPatientObs(
-									ret,
-									Dictionary
-											.getConcept(Dictionary.CIVIL_STATUS),
-									martalstatus, "", null, null,
-									enfamilyrecordresultNew, null);
-						}
-						Encounter drugEncounter = new Encounter();
+							drugEncounter.setForm(MetadataUtils.existing(
+									Form.class, Metadata.Form.HIV_DRUG_HISTORY));
+							drugEncounter.setVisit(visitSave);
+							drugEncounter.setVoided(false);
+							Encounter endrugrecordresultNew = Context
+									.getEncounterService().saveEncounter(
+											drugEncounter);
+							if (legacyData.get(24) != null) {
 
-						drugEncounter.setEncounterType(hivEnrollEncType);
-						drugEncounter.setPatient(ret);
+								Concept drughistoryart = Context
+										.getConceptService()
+										.getConcept(
+												Integer.parseInt(legacyData.get(24)));
 
-						drugEncounter.setDateCreated(curDate);
-						drugEncounter.setEncounterDatetime(dateVisit);
-						drugEncounter.setLocation(Context.getService(
-								KenyaEmrService.class).getDefaultLocation());
+								handleOncePerPatientObs(
+										ret,
+										Dictionary
+												.getConcept(Dictionary.DRUG_HISTORY_ART_RECEIVED),
+										drughistoryart, "", null, null,
+										endrugrecordresultNew, null);
 
-						drugEncounter.setForm(MetadataUtils.existing(
-								Form.class, Metadata.Form.HIV_DRUG_HISTORY));
-						drugEncounter.setVisit(visitSave);
-						drugEncounter.setVoided(false);
-						Encounter endrugrecordresultNew = Context
-								.getEncounterService().saveEncounter(
-										drugEncounter);
-						if (legacyData.get(24) != null) {
+							}
+							if (legacyData.get(25) != null) {
 
-							Concept drughistoryart = Context
-									.getConceptService()
-									.getConcept(
-											Integer.parseInt(legacyData.get(24)));
+								Concept drughistoryarttype = Context
+										.getConceptService()
+										.getConcept(
+												Integer.parseInt(legacyData.get(25)));
 
-							handleOncePerPatientObs(
-									ret,
-									Dictionary
-											.getConcept(Dictionary.DRUG_HISTORY_ART_RECEIVED),
-									drughistoryart, "", null, null,
-									endrugrecordresultNew, null);
+								handleOncePerPatientObs(
+										ret,
+										Dictionary
+												.getConcept(Dictionary.DRUG_HISTORY_ART_RECEIVED_TYPE),
+										drughistoryarttype, "", null, null,
+										endrugrecordresultNew, null);
 
-						}
-						if (legacyData.get(25) != null) {
-
-							Concept drughistoryarttype = Context
-									.getConceptService()
-									.getConcept(
-											Integer.parseInt(legacyData.get(25)));
-
-							handleOncePerPatientObs(
-									ret,
-									Dictionary
-											.getConcept(Dictionary.DRUG_HISTORY_ART_RECEIVED_TYPE),
-									drughistoryarttype, "", null, null,
-									endrugrecordresultNew, null);
-
-						}
-						if (legacyData.get(26) != null) {
-							// String text="";
-
-							boolean value = false;
-							Obs drugtreatmentGroup = new Obs();
-							drugtreatmentGroup.setPerson(ret);
-							drugtreatmentGroup.setConcept(Dictionary
-									.getConcept(Dictionary.DRUG_HISTORY_GROUP));
-
-							drugtreatmentGroup.setObsDatetime(new Date());
-
-							// Added value coded as per default obs object
-							// format.
-							drugtreatmentGroup.setValueCoded(null);
-							// drugtreatmentGroup.setValueText(text);
-							drugtreatmentGroup
-									.setLocation(Context.getService(
-											KenyaEmrService.class)
-											.getDefaultLocation());
-
-							drugtreatmentGroup
-									.setEncounter(endrugrecordresultNew);
-
-							drugtreatmentGroup.setValueBoolean(value);
-							Obs drugtreat = Context.getObsService().saveObs(
-									drugtreatmentGroup,
-									"KenyaEMR History Details");
-
+							}
 							if (legacyData.get(26) != null) {
+								// String text="";
 
-								Concept place = Context.getConceptService()
-										.getConcept(
-												Integer.parseInt(legacyData
-														.get(26)));
-								handleOncePerPatientObs(
-										ret,
-										Dictionary
-												.getConcept(Dictionary.DRUG_HISTORY_ART_RECEIVED_PLACE),
-										place, "", null, null,
-										endrugrecordresultNew, drugtreat);
+								boolean value = false;
+								Obs drugtreatmentGroup = new Obs();
+								drugtreatmentGroup.setPerson(ret);
+								drugtreatmentGroup.setConcept(Dictionary
+										.getConcept(Dictionary.DRUG_HISTORY_GROUP));
+
+								drugtreatmentGroup.setObsDatetime(new Date());
+
+								// Added value coded as per default obs object
+								// format.
+								drugtreatmentGroup.setValueCoded(null);
+								// drugtreatmentGroup.setValueText(text);
+								drugtreatmentGroup
+										.setLocation(Context.getService(
+												KenyaEmrService.class)
+												.getDefaultLocation());
+
+								drugtreatmentGroup
+										.setEncounter(endrugrecordresultNew);
+
+								drugtreatmentGroup.setValueBoolean(value);
+								Obs drugtreat = Context.getObsService().saveObs(
+										drugtreatmentGroup,
+										"KenyaEMR History Details");
+
+								if (legacyData.get(26) != null) {
+
+									Concept place = Context.getConceptService()
+											.getConcept(
+													Integer.parseInt(legacyData
+															.get(26)));
+									handleOncePerPatientObs(
+											ret,
+											Dictionary
+													.getConcept(Dictionary.DRUG_HISTORY_ART_RECEIVED_PLACE),
+											place, "", null, null,
+											endrugrecordresultNew, drugtreat);
+								}
+
+								if (legacyData.get(27) != null) {
+
+									Concept drugarv = Context.getConceptService()
+											.getConcept(
+													Integer.parseInt(legacyData
+															.get(27)));
+									handleOncePerPatientObs(
+											ret,
+											Dictionary
+													.getConcept(Dictionary.DRUG_REGIMEN_DRUG_HISTORY),
+											drugarv, "", null, null,
+											endrugrecordresultNew, drugtreat);
+								}
+
+								if (legacyData.get(28) != null) {
+
+									Double dur = 0.0;
+									Integer durationreslt = 0;
+
+									durationreslt = Integer.parseInt(legacyData
+											.get(28));
+									dur = durationreslt.doubleValue();
+
+									handleOncePerPatientObs(
+											ret,
+											Dictionary
+													.getConcept(Dictionary.DRUG_DURATION),
+											null, null, null, dur,
+											endrugrecordresultNew, drugtreat);
+
+								}
+
 							}
 
-							if (legacyData.get(27) != null) {
-
-								Concept drugarv = Context.getConceptService()
-										.getConcept(
-												Integer.parseInt(legacyData
-														.get(27)));
-								handleOncePerPatientObs(
-										ret,
-										Dictionary
-												.getConcept(Dictionary.DRUG_REGIMEN_DRUG_HISTORY),
-										drugarv, "", null, null,
-										endrugrecordresultNew, drugtreat);
-							}
-
-							if (legacyData.get(28) != null) {
-
-								Double dur = 0.0;
-								Integer durationreslt = 0;
-
-								durationreslt = Integer.parseInt(legacyData
-										.get(28));
-								dur = durationreslt.doubleValue();
-
-								handleOncePerPatientObs(
-										ret,
-										Dictionary
-												.getConcept(Dictionary.DRUG_DURATION),
-										null, null, null, dur,
-										endrugrecordresultNew, drugtreat);
-
-							}
+							/*
+							 * End : Visit, Encounter and Program creation for
+							 * Patient entered as Legacy Data
+							 */
 
 						}
-
-						/*
-						 * End : Visit, Encounter and Program creation for
-						 * Patient entered as Legacy Data
-						 */
-
-						/*
-						 * Personal History encounter
-						 * 
-						 * Encounter personalHistoryEncounter = new Encounter();
-						 * 
-						 * personalHistoryEncounter.setEncounterType(
-						 * hivEnrollEncType);
-						 * personalHistoryEncounter.setPatient(ret);
-						 * personalHistoryEncounter
-						 * .setLocation(Context.getService(
-						 * KenyaEmrService.class).getDefaultLocation());
-						 * 
-						 * personalHistoryEncounter.setDateCreated(curDate);
-						 * personalHistoryEncounter
-						 * .setEncounterDatetime(visitSave .getStartDatetime());
-						 * 
-						 * personalHistoryEncounter
-						 * .setForm(MetadataUtils.existing(Form.class,
-						 * HivMetadata._Form.HIV_PERSONAL_HISTORY));
-						 * 
-						 * personalHistoryEncounter.setVoided(false); Encounter
-						 * enPersonalHistoryNew = Context
-						 * .getEncounterService().saveEncounter(
-						 * personalHistoryEncounter);
-						 * 
-						 * // Risk Factor if (legacyData.get(20)!=null) {
-						 * Concept riskFactor = Context.getConceptService()
-						 * .getConcept( Integer.parseInt(legacyData.get(20)));
-						 * handleOncePerPatientObs( ret, Dictionary
-						 * .getConcept(Dictionary.HIV_RISK_FACTOR), riskFactor,
-						 * "", null,null, enPersonalHistoryNew, null); }
-						 * 
-						 * // Literacy if (legacyData.get(18)!=null) { Concept
-						 * literate = Context.getConceptService() .getConcept(
-						 * Integer.parseInt(legacyData.get(18)));
-						 * handleOncePerPatientObs(ret,
-						 * Dictionary.getConcept(Dictionary.LITERATE), literate,
-						 * "", null,null, enPersonalHistoryNew, null); }
-						 * 
-						 * // Employed if (legacyData.get(30)!=null) { Concept
-						 * employed = Context.getConceptService() .getConcept(
-						 * Integer.parseInt(legacyData.get(30)));
-						 * handleOncePerPatientObs(ret,
-						 * Dictionary.getConcept(Dictionary.EMPLOYED), employed,
-						 * "", null, null,enPersonalHistoryNew, null); }
-						 * 
-						 * // Alcoholic if (legacyData.get(31)!=null) { Concept
-						 * alcoholic = Context.getConceptService() .getConcept(
-						 * Integer.parseInt(legacyData.get(31)));
-						 * handleOncePerPatientObs(ret, Dictionary
-						 * .getConcept(Dictionary.ALCOHOLIC_TYPE), alcoholic,
-						 * "", null, null,enPersonalHistoryNew, null); }
-						 * 
-						 * // IDU Substitute if (legacyData.get(21)!=null) {
-						 * Concept iduSubstitute = Context.getConceptService()
-						 * .getConcept( Integer.parseInt(legacyData.get(21)));
-						 * handleOncePerPatientObs(ret,
-						 * 
-						 * Dictionary.getConcept(Dictionary.IDU_PERSONAL_HISTORY)
-						 * , iduSubstitute, "", null,null, enPersonalHistoryNew,
-						 * null); }
-						 * 
-						 * // IDU Substitute type if (legacyData.get(22)!=null)
-						 * { Concept iduSubstituteType =
-						 * Context.getConceptService() .getConcept(
-						 * Integer.parseInt(legacyData.get(22)));
-						 * handleOncePerPatientObs( ret, Dictionary
-						 * .getConcept(Dictionary.IDU_NAME_PERSONAL_HISTORY),
-						 * iduSubstituteType, "",null, null,
-						 * enPersonalHistoryNew, null); }
-						 */
-						/*
-						 * Family History encounter
-						 * 
-						 * Encounter familyHistoryEncounter = new Encounter();
-						 * 
-						 * familyHistoryEncounter
-						 * .setEncounterType(registrationEncType);
-						 * familyHistoryEncounter.setPatient(ret);
-						 * familyHistoryEncounter
-						 * .setLocation(Context.getService(
-						 * KenyaEmrService.class).getDefaultLocation());
-						 * 
-						 * familyHistoryEncounter.setDateCreated(curDate);
-						 * familyHistoryEncounter.setEncounterDatetime(visitSave
-						 * .getStartDatetime());
-						 * 
-						 * familyHistoryEncounter.setForm(MetadataUtils.existing(
-						 * Form.class, HivMetadata._Form.FAMILY_HISTORY));
-						 * 
-						 * familyHistoryEncounter.setVoided(false); Encounter
-						 * enFamilyHistoryNew = Context
-						 * .getEncounterService().saveEncounter(
-						 * familyHistoryEncounter);
-						 * 
-						 * // Married if (legacyData.get(22)!=null) { Concept
-						 * married = Context.getConceptService() .getConcept(
-						 * Integer.parseInt(legacyData.get(19)));
-						 * handleOncePerPatientObs(ret,
-						 * Dictionary.getConcept(Dictionary.CIVIL_STATUS),
-						 * married, "", null, null,enFamilyHistoryNew, null); }
-						 */
-						/*
-						 * Obstertric History encounter
-						 * 
-						 * Encounter obstetricHistoryEncounter = new
-						 * Encounter();
-						 * 
-						 * obstetricHistoryEncounter
-						 * .setEncounterType(registrationEncType);
-						 * obstetricHistoryEncounter.setPatient(ret);
-						 * obstetricHistoryEncounter
-						 * .setLocation(Context.getService(
-						 * KenyaEmrService.class).getDefaultLocation());
-						 * 
-						 * obstetricHistoryEncounter.setDateCreated(curDate);
-						 * obstetricHistoryEncounter.(visitSave
-						 * .getStartDatetime());
-						 * 
-						 * obstetricHistoryEncounter.setForm(MetadataUtils.existing
-						 * ( Form.class, HivMetadata._Form.FAMILY_HISTORY));
-						 * 
-						 * obstetricHistoryEncounter.setVoided(false); Encounter
-						 * enObstetricHistoryNew = Context
-						 * .getEncounterService().saveEncounter(
-						 * obstetricHistoryEncounter);
-						 * 
-						 * // Pregnancy if (legacyData.get(23)!=null) { Concept
-						 * pregnancy = Context.getConceptService() .getConcept(
-						 * Integer.parseInt(legacyData.get(23)));
-						 * handleOncePerPatientObs( ret, Dictionary
-						 * .getConcept(Dictionary.PREGNANCY_STATUS), pregnancy,
-						 * "", null,null, enObstetricHistoryNew, null); }
-						 * 
-						 * // Family Planning if (legacyData.get(24)!=null) {
-						 * Concept pregnancy = Context.getConceptService()
-						 * .getConcept( Integer.parseInt(legacyData.get(24)));
-						 * handleOncePerPatientObs( ret, Dictionary
-						 * .getConcept(Dictionary.FAMILY_PLANNING), pregnancy,
-						 * "", null, null,enObstetricHistoryNew, null); }
-						 */
-						/*
-						 * Drug History encounter
-						 * 
-						 * Encounter drugHistoryEncounter = new Encounter();
-						 * 
-						 * drugHistoryEncounter.setEncounterType(hivEnrollEncType
-						 * ); drugHistoryEncounter.setPatient(ret);
-						 * drugHistoryEncounter.setLocation(Context.getService(
-						 * KenyaEmrService.class).getDefaultLocation());
-						 * 
-						 * drugHistoryEncounter.setDateCreated(curDate);
-						 * drugHistoryEncounter.setEncounterDatetime(visitSave
-						 * .getStartDatetime());
-						 * 
-						 * drugHistoryEncounter.setForm(MetadataUtils.existing(
-						 * Form.class, HivMetadata._Form.FAMILY_HISTORY));
-						 * 
-						 * drugHistoryEncounter.setVoided(false); Encounter
-						 * enDrugHistoryNew = Context.getEncounterService()
-						 * .saveEncounter(drugHistoryEncounter);
-						 * 
-						 * // Previous ART if (legacyData.get(25)!=null) {
-						 * Concept previousArt = Context.getConceptService()
-						 * .getConcept( Integer.parseInt(legacyData.get(25)));
-						 * handleOncePerPatientObs( ret,
-						 * 
-						 * Dictionary
-						 * .getConcept(Dictionary.DRUG_HISTORY_ART_RECEIVED),
-						 * previousArt, "", null,null, enDrugHistoryNew, null);
-						 * }
-						 * 
-						 * // Previous ART Type if (legacyData.get(26)!=null) {
-						 * Concept previousArtType = Context.getConceptService()
-						 * .getConcept( Integer.parseInt(legacyData.get(25)));
-						 * handleOncePerPatientObs( ret, Dictionary
-						 * .getConcept(Dictionary
-						 * .DRUG_HISTORY_ART_RECEIVED_TYPE), previousArtType,
-						 * "", null, null,enDrugHistoryNew, null); }
-						 * 
-						 * Obs drugGroup = null; // Create group for Drug
-						 * History if (legacyData.get(28)!=null) { Obs o = new
-						 * Obs(); o.setPerson(ret); o.setConcept(Dictionary
-						 * .getConcept(Dictionary.DRUG_HISTORY_GROUP));
-						 * o.setObsDatetime(new Date()); // Added value coded as
-						 * per default obs object format.
-						 * o.setValueCoded(Context
-						 * .getConceptService().getConcept(1066));
-						 * o.setLocation(
-						 * Context.getService(KenyaEmrService.class)
-						 * .getDefaultLocation());
-						 * o.setEncounter(enDrugHistoryNew); drugGroup =
-						 * Context.getObsService().saveObs(o,
-						 * "KenyaEMR History Details");
-						 * 
-						 * // Duration if (legacyData.get(29)!=null) { double
-						 * duration = Integer.parseInt(legacyData.get(29));
-						 * handleOncePerPatientObs( ret, Dictionary
-						 * .getConcept(Dictionary.DRUG_DURATION), null, "",
-						 * null,duration, enDrugHistoryNew,
-						 * drugGroup.getObsGroupId()); }
-						 * 
-						 * // Place if (legacyData.get(27)!=null) { Concept
-						 * place = Context .getConceptService() .getConcept(
-						 * Integer.parseInt(legacyData.get(27)));
-						 * handleOncePerPatientObs( ret, Dictionary
-						 * .getConcept(Dictionary
-						 * .DRUG_HISTORY_ART_RECEIVED_PLACE), place, "",
-						 * null,null, enDrugHistoryNew,
-						 * drugGroup.getObsGroupId()); }
-						 * 
-						 * // Regimen Concept place =
-						 * Context.getConceptService().getConcept(
-						 * Integer.parseInt(legacyData.get(28)));
-						 * handleOncePerPatientObs( ret, Dictionary
-						 * .getConcept(Dictionary.DRUG_REGIMEN_DRUG_HISTORY),
-						 * place, "", null, null,enDrugHistoryNew, drugGroup
-						 * .getObsGroupId());
-						 * 
-						 * }
-						 */
+					} catch (IndexOutOfBoundsException e) {
+						break;
 					}
-				} catch (IndexOutOfBoundsException e) {
-					e.printStackTrace();
-				}
+				}				
 			}
+			catch (IndexOutOfBoundsException e) {
+				break;
+			}
+			
+
 			rowCount++;
 		}
 
