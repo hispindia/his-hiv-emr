@@ -615,7 +615,7 @@ td>${noOfPatientWithCD4ForJan} </td>
 </tr>
 
 <tr>
-<td>A-Normal activity:</td>
+<td>A-Normal activity</td>
 <% if (quaterly=='First Quater') { %>
 <td>${noOfPatientNormalActivityForJan} </td>
 <td>${noOfPatientNormalActivityForFeb} </td>

@@ -385,7 +385,7 @@ ${patientProgramForDecember}
 </tr>
 
 <tr>
-<td>A-Normal activity:</td>
+<td>A-Normal activity</td>
 <td>${noOfPatientNormalActivityForJan} </td>
 <td>${noOfPatientNormalActivityForFeb} </td>
 <td>${noOfPatientNormalActivityForMarch} </td>

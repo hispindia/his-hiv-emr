@@ -5,6 +5,7 @@ import java.util.Date;
 import org.openmrs.Concept;
 import org.openmrs.DrugOrder;
 import org.openmrs.Patient;
+import org.openmrs.Visit;
 
 public class DrugOrderProcessed implements java.io.Serializable {
 	private static final long serialVersionUID = 4757208144130681309L;
@@ -26,6 +27,8 @@ public class DrugOrderProcessed implements java.io.Serializable {
 	private String drugRegimen;
 	private String regimenChangeType;
 	private String typeOfRegimen;
+	private Date startDate;
+	private Visit visit;
 
 	public Integer getId() {
 		return id;
@@ -169,5 +172,21 @@ public class DrugOrderProcessed implements java.io.Serializable {
 
 	public void setRegimenChangeType(String regimenChangeType) {
 		this.regimenChangeType = regimenChangeType;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Visit getVisit() {
+		return visit;
+	}
+
+	public void setVisit(Visit visit) {
+		this.visit = visit;
 	}
 }

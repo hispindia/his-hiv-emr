@@ -15,6 +15,7 @@ import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
 import org.openmrs.DrugOrder;
 import org.openmrs.Obs;
+import org.openmrs.Order;
 import org.openmrs.Patient;
 import org.openmrs.Person;
 import org.openmrs.api.context.Context;
@@ -122,7 +123,19 @@ public class DrugOrderListFragmentController {
 			String issuedQuantity = request.getParameter(drugOrderProcessedId+"issueQuantity");	
 			if(issuedQuantity!=null){
 			DrugOrderProcessed drugOrderProces=kes.getDrugOrderProcesedById(drugOrderProcessId);
-			drugOrderProces.setProcessedDate(new Date());
+			Date curDate = new Date();
+			Date date = new Date();
+			SimpleDateFormat mysqlDateTimeFormatter = new SimpleDateFormat("dd-MMM-yy HH:mm:ss");
+			Order order=Context.getOrderService().getOrder(drugOrderProces.getDrugOrder().getOrderId());
+			String modifiedDate= new SimpleDateFormat("dd-MMM-yyyy").format(order.getEncounter().getEncounterDatetime());
+				try {
+					date = mysqlDateTimeFormatter.parse(modifiedDate
+							+ " " + curDate.getHours() + ":" + curDate.getMinutes()
+							+ ":" + curDate.getSeconds());
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			drugOrderProces.setProcessedDate(date);
 			drugOrderProces.setProcessedStatus(true);
 			drugOrderProces.setQuantityPostProcess(Integer.parseInt(issuedQuantity));
 			kes.saveDrugOrderProcessed(drugOrderProces);
@@ -131,7 +144,19 @@ public class DrugOrderListFragmentController {
 				Integer notDispensedReason= Integer.parseInt(request.getParameter(drugOrderProcessedId+"notDispensedReason"));	
 				Concept notDispensedReasonConcept = Context.getConceptService().getConcept(notDispensedReason);
 				DrugOrderProcessed drugOrderProces=kes.getDrugOrderProcesedById(drugOrderProcessId);
-				drugOrderProces.setDiscontinuedDate(new Date());
+				Date curDate = new Date();
+				Date date = new Date();
+				SimpleDateFormat mysqlDateTimeFormatter = new SimpleDateFormat("dd-MMM-yy HH:mm:ss");
+				Order order=Context.getOrderService().getOrder(drugOrderProces.getDrugOrder().getOrderId());
+				String modifiedDate= new SimpleDateFormat("dd-MMM-yyyy").format(order.getEncounter().getEncounterDatetime());
+					try {
+						date = mysqlDateTimeFormatter.parse(modifiedDate
+								+ " " + curDate.getHours() + ":" + curDate.getMinutes()
+								+ ":" + curDate.getSeconds());
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+				drugOrderProces.setDiscontinuedDate(date);
 				drugOrderProces.setDiscontinuedReason(notDispensedReasonConcept);
 				kes.saveDrugOrderProcessed(drugOrderProces);	
 			}
@@ -143,13 +168,24 @@ public class DrugOrderListFragmentController {
 			if(issuedQuantity!=null){
 			DrugObsProcessed drugObsProcessed=new DrugObsProcessed();
 			Obs obs=Context.getObsService().getObs(obsGrouppId);
+			Date curDate = new Date();
+			Date date = new Date();
+			SimpleDateFormat mysqlDateTimeFormatter = new SimpleDateFormat("dd-MMM-yy HH:mm:ss");
+			String modifiedDate= new SimpleDateFormat("dd-MMM-yyyy").format(obs.getEncounter().getEncounterDatetime());
+				try {
+					date = mysqlDateTimeFormatter.parse(modifiedDate
+							+ " " + curDate.getHours() + ":" + curDate.getMinutes()
+							+ ":" + curDate.getSeconds());
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 			obs.setComment("1");
 			kes.saveOrUpdateObs(obs);
 
 			drugObsProcessed.setObs(obs);
 			drugObsProcessed.setPatient(patient);
-			drugObsProcessed.setCreatedDate(new Date());
-			drugObsProcessed.setProcessedDate(new Date());
+			drugObsProcessed.setCreatedDate(obs.getEncounter().getEncounterDatetime());
+			drugObsProcessed.setProcessedDate(date);
 			drugObsProcessed.setQuantityPostProcess(Integer.parseInt(issuedQuantity));
 			kes.saveDrugObsProcessed(drugObsProcessed);
 			}

@@ -138,5 +138,13 @@
 		CREATE TABLE IF NOT EXISTS drug_obs_processed (id integer not null auto_increment, obs integer,patient_id integer,created_date datetime,processed_date datetime,quantity_postprocess integer,primary key (id));
 		</sql>
 	</changeSet>
+	
+	<changeSet id="${project.parent.artifactId}-20161019-1127" author="ghanshyam">
+		<comment>
+		</comment>
+		<sql>
+		ALTER TABLE drug_order_processed ADD(start_date datetime DEFAULT NULL,visit_id integer);
+		</sql>
+	</changeSet>
 
 </databaseChangeLog>

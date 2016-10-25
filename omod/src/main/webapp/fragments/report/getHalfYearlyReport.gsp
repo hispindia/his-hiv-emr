@@ -492,7 +492,7 @@ ${patientProgramForDecember}
 </tr>
 
 <tr>
-<td>A-Normal activity:</td>
+<td>A-Normal activity</td>
 <% if (halfYearly=='First Half') { %>
 <td>${noOfPatientNormalActivityForJan} </td>
 <td>${noOfPatientNormalActivityForFeb} </td>

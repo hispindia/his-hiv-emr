@@ -28,5 +28,7 @@
 		<property name="drugRegimen" column="drug_regimen" />
 		<property name="regimenChangeType" column="regimen_change_type" />
 		<property name="typeOfRegimen" column="type_of_regimen" />
+		<property name="startDate" column="start_date"  />
+		<many-to-one name="visit" column="visit_id" class="org.openmrs.Visit" foreign-key="fk_visitIdfordrugorderprocessed"/>
 	</class>
 </hibernate-mapping>

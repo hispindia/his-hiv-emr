@@ -429,15 +429,15 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 		return dao.getObsByScheduledDate(date);
 	}
 	
-	public List<PatientProgram> getPatientProgram(Program program,String startDate,String endDate){
+	public Set<Patient> getPatientProgram(Program program,String startDate,String endDate){
 		return dao.getPatientProgram(program,startDate,endDate);
 	}
 	
-	public List<Obs> getNoOfPatientTransferredIn(String startDate,String endDate){
+	public Set<Patient> getNoOfPatientTransferredIn(String startDate,String endDate){
 		return dao.getNoOfPatientTransferredIn(startDate,endDate);
 	}
 	
-	public List<Obs> getNoOfPatientTransferredOut(String startDate,String endDate){
+	public Set<Patient> getNoOfPatientTransferredOut(String startDate,String endDate){
 		return dao.getNoOfPatientTransferredOut(startDate,endDate);
 	}
 	
@@ -445,43 +445,43 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 		return dao.getVisitsByPatient(patient);
 	}
 	
-	public Integer getTotalNoOfCohort(String startDate,String endDate){
+	public Set<Patient> getTotalNoOfCohort(String startDate,String endDate){
 		return dao.getTotalNoOfCohort(startDate,endDate);
 	}
 	
-	public Integer getCohortBasedOnGender(String gender,String startDate,String endDate){
+	public Set<Patient> getCohortBasedOnGender(String gender,String startDate,String endDate){
 		return dao.getCohortBasedOnGender(gender,startDate,endDate);
 	}
 	
-	public Integer getCohortBasedOnAge(Integer age1,Integer age2,String startDate,String endDate){
+	public Set<Patient> getCohortBasedOnAge(Integer age1,Integer age2,String startDate,String endDate){
 		return dao.getCohortBasedOnAge(age1,age2,startDate,endDate);
 	}
 	
-	public Integer getNoOfCohortAliveAndOnArt(Program program,String startDate,String endDate){
+	public Set<Patient> getNoOfCohortAliveAndOnArt(Program program,String startDate,String endDate){
 		return dao.getNoOfCohortAliveAndOnArt(program,startDate,endDate);
 	}
 	
-	public Set<Patient> getOriginalFirstLineRegimen(String startDate,String endDate){
-		return dao.getOriginalFirstLineRegimen(startDate,endDate);
+	public Set<Patient> getOriginalFirstLineRegimen(Program program,String startDate,String endDate){
+		return dao.getOriginalFirstLineRegimen(program,startDate,endDate);
 	}
 	
-	public Set<Patient> getAlternateFirstLineRegimen(String startDate,String endDate){
-		return dao.getAlternateFirstLineRegimen(startDate,endDate);
+	public Set<Patient> getAlternateFirstLineRegimen(Program program,String startDate,String endDate){
+		return dao.getAlternateFirstLineRegimen(program,startDate,endDate);
 	}
 	
-	public Set<Patient> getSecondLineRegimen(String startDate,String endDate){
-		return dao.getSecondLineRegimen(startDate,endDate);
+	public Set<Patient> getSecondLineRegimen(Program program,String startDate,String endDate){
+		return dao.getSecondLineRegimen(program,startDate,endDate);
 	}
 	
-	public List<PatientProgram> getNoOfArtStoppedCohort(Program program,String startDate,String endDate){
+	public Set<Patient> getNoOfArtStoppedCohort(Program program,String startDate,String endDate){
 		return dao.getNoOfArtStoppedCohort(program,startDate,endDate);
 	}
 	
-	public List<PatientProgram> getNoOfArtDiedCohort(Program program,String startDate,String endDate){
+	public Set<Patient> getNoOfArtDiedCohort(Program program,String startDate,String endDate){
 		return dao.getNoOfArtDiedCohort(program,startDate,endDate);
 	}
 	
-	public List<Obs> getNoOfPatientLostToFollowUp(String startDate,String endDate){
+	public Set<Patient> getNoOfPatientLostToFollowUp(String startDate,String endDate){
 		return dao.getNoOfPatientLostToFollowUp(startDate,endDate);
 	}
 	
@@ -501,11 +501,11 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 		return dao.getNoOfPatientBedriddenMoreThanFifty(startDate,endDate);
 	}
 	
-	public List<Obs> getNoOfPatientPickedUpArvForSixMonth(String startDate,String endDate){
+	public Set<Patient> getNoOfPatientPickedUpArvForSixMonth(String startDate,String endDate){
 		return dao.getNoOfPatientPickedUpArvForSixMonth(startDate,endDate);
 	}
 	
-	public List<Obs> getNoOfPatientPickedUpArvForTwelveMonth(String startDate,String endDate){
+	public Set<Patient> getNoOfPatientPickedUpArvForTwelveMonth(String startDate,String endDate){
 		return dao.getNoOfPatientPickedUpArvForTwelveMonth(startDate,endDate);
 	}
 	

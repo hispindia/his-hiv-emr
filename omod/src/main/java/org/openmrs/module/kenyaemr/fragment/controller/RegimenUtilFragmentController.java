@@ -210,6 +210,13 @@ public class RegimenUtilFragmentController {
 			Encounter encounter=null;
 			KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
 			
+			List<Visit> visits=Context.getVisitService().getActiveVisitsByPatient(patient);
+			Visit visit=new Visit();
+			for(Visit vst:visits){
+				visit=vst;
+			}
+			
+			
 			Date curDate = new Date();
 			SimpleDateFormat mysqlDateTimeFormatter = new SimpleDateFormat(
 					"dd-MMM-yy HH:mm:ss");
@@ -334,6 +341,8 @@ public class RegimenUtilFragmentController {
 				drugOrderProcessed.setDrugRegimen(drugRegimen);
 				drugOrderProcessed.setRegimenChangeType(changeType.name());
 				drugOrderProcessed.setTypeOfRegimen(typeOfRegimen);	
+				drugOrderProcessed.setStartDate(date);
+				drugOrderProcessed.setVisit(visit);
 				kenyaEmrService.saveDrugOrderProcessed(drugOrderProcessed);
 			   }
 			}
@@ -345,7 +354,7 @@ public class RegimenUtilFragmentController {
 						    DrugOrderProcessed drugOrderProcess=kenyaEmrService.getDrugOrderProcessed(drugOrder);
 						    if(drugOrderProcess!=null){
 						    	dop=drugOrderProcess;
-							drugOrderProcess.setDiscontinuedDate(new Date());
+							drugOrderProcess.setDiscontinuedDate(date);
 							kenyaEmrService.saveDrugOrderProcessed(drugOrderProcess);
 							}
 						    else{
@@ -367,7 +376,9 @@ public class RegimenUtilFragmentController {
 							drugOrderProcessed.setDurationPreProcess(duration);
 							drugOrderProcessed.setDrugRegimen(dop.getDrugRegimen());
 							drugOrderProcessed.setRegimenChangeType(changeType.name());
-							drugOrderProcessed.setTypeOfRegimen(dop.getTypeOfRegimen());	
+							drugOrderProcessed.setTypeOfRegimen(dop.getTypeOfRegimen());
+							drugOrderProcessed.setStartDate(date);
+							drugOrderProcessed.setVisit(visit);
 							kenyaEmrService.saveDrugOrderProcessed(drugOrderProcessed);
 					}	
 				}
@@ -454,10 +465,12 @@ public class RegimenUtilFragmentController {
 									drugOrderProcessed.setDrugRegimen(drugRegimen);
 									drugOrderProcessed.setRegimenChangeType(changeType.name());
 									drugOrderProcessed.setTypeOfRegimen(typeOfRegimen);	
+									drugOrderProcessed.setStartDate(date);
+									drugOrderProcessed.setVisit(visit);
 									kenyaEmrService.saveDrugOrderProcessed(drugOrderProcessed);	
 								}
 								else{
-									dop.setDiscontinuedDate(new Date());
+									dop.setDiscontinuedDate(date);
 									kenyaEmrService.saveDrugOrderProcessed(dop);
 									drugOrder.setDiscontinued(true);
 									drugOrder.setDiscontinuedDate(date);
@@ -489,7 +502,9 @@ public class RegimenUtilFragmentController {
 									drugOrderProcessed.setDurationPreProcess(duration);	
 									drugOrderProcessed.setDrugRegimen(drugRegimen);
 									drugOrderProcessed.setRegimenChangeType(changeType.name());
-									drugOrderProcessed.setTypeOfRegimen(typeOfRegimen);	
+									drugOrderProcessed.setTypeOfRegimen(typeOfRegimen);
+									drugOrderProcessed.setStartDate(date);
+									drugOrderProcessed.setVisit(visit);
 									kenyaEmrService.saveDrugOrderProcessed(drugOrderProcessed);
 								}
 							}
@@ -523,6 +538,8 @@ public class RegimenUtilFragmentController {
 				drugOrderProcessed.setDrugRegimen(drugRegimen);
 				drugOrderProcessed.setRegimenChangeType(changeType.name());
 				drugOrderProcessed.setTypeOfRegimen(typeOfRegimen);	
+				drugOrderProcessed.setStartDate(date);
+				drugOrderProcessed.setVisit(visit);
 				kenyaEmrService.saveDrugOrderProcessed(drugOrderProcessed);
 				}
 			  }
@@ -534,7 +551,7 @@ public class RegimenUtilFragmentController {
 				
 				for(DrugOrder drugOrder:drugOrders){
 					DrugOrderProcessed dop=kenyaEmrService.getLastDrugOrderProcessedNotDiscontinued(drugOrder);	
-					dop.setDiscontinuedDate(new Date());
+					dop.setDiscontinuedDate(date);
 					drugOrder.setDiscontinued(true);
 					drugOrder.setDiscontinuedDate(date);
 					drugOrder.setDiscontinuedBy(Context.getAuthenticatedUser());

@@ -14,6 +14,18 @@
 
 package org.openmrs.module.kenyaemr.api.db.hibernate;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -41,20 +53,6 @@ import org.openmrs.module.kenyaemr.api.db.KenyaEmrDAO;
 import org.openmrs.module.kenyaemr.model.DrugInfo;
 import org.openmrs.module.kenyaemr.model.DrugObsProcessed;
 import org.openmrs.module.kenyaemr.model.DrugOrderProcessed;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
-import javax.validation.constraints.Size;
 
 /**
  * Hibernate specific data access functions. This class should not be used directly.
@@ -297,6 +295,14 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		return (DrugOrderProcessed) criteria.uniqueResult();
 	}
 	
+	public DrugOrderProcessed getLastDrugOrderProcessedByPatient(Patient patient) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class,"drugOrderProcessed");
+		criteria.add(Restrictions.eq("patient", patient));
+		criteria.addOrder(Order.desc("createdDate"));
+		criteria.setMaxResults(1);
+		return (DrugOrderProcessed) criteria.uniqueResult();
+	}
+	
 	public DrugOrderProcessed getLastDrugOrderProcessedNotDiscontinued(DrugOrder drugOrder) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class,"drugOrderProcessed");
 		criteria.add(Restrictions.eq("drugOrder", drugOrder));
@@ -434,7 +440,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	return criteria.list();
 	}
 	
-	public List<PatientProgram> getPatientProgram(Program program,String startDate,String endDate) {
+	public Set<Patient> getPatientProgram(Program program,String startDate,String endDate) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PatientProgram.class,"patientProgram");
 		criteria.add(Restrictions.eq("program", program));
 		String startFromDate = startDate + " 00:00:00";
@@ -445,11 +451,16 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		Set<Patient> patients=new HashSet<Patient>();
+		List<PatientProgram> ppgms=criteria.list();
+		for(PatientProgram ppgm:ppgms){
+			patients.add(ppgm.getPatient());
+		}
 		
-		return criteria.list();
+		return patients;
 		}
 	
-	public List<Obs> getNoOfPatientTransferredIn(String startDate,String endDate) {
+	public Set<Patient> getNoOfPatientTransferredIn(String startDate,String endDate) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
 		Collection<Concept> conList=new	ArrayList<Concept>();
 		conList.add(Context.getConceptService().getConceptByUuid("4b73234a-15db-49a0-b089-c26c239fe90d"));
@@ -463,10 +474,15 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return criteria.list();
+		Set<Patient> patients=new HashSet<Patient>();
+		List<Obs> obss=criteria.list();
+		for(Obs obs:obss){
+			patients.add(obs.getPatient());
+		}
+		return patients;
 		}
 	
-	public List<Obs> getNoOfPatientTransferredOut(String startDate,String endDate) {
+	public Set<Patient> getNoOfPatientTransferredOut(String startDate,String endDate) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
 		Concept conceptTransferredOut=Context.getConceptService().getConceptByUuid("159492AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		criteria.add(Restrictions.eq("valueCoded", conceptTransferredOut));
@@ -478,7 +494,12 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return criteria.list();
+		Set<Patient> patients=new HashSet<Patient>();
+		List<Obs> obss=criteria.list();
+		for(Obs obs:obss){
+			patients.add(obs.getPatient());
+		}
+		return patients;
 		}
 	
 	public Visit getVisitsByPatient(Patient patient) {
@@ -489,17 +510,26 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		return (Visit) criteria.uniqueResult();
 		}
 	
-	public Integer getTotalNoOfCohort(String startDate,String endDate) {
+	public Set<Patient> getTotalNoOfCohort(String startDate,String endDate) {
 		Program program=Context.getProgramWorkflowService().getProgramByUuid("96ec813f-aaf0-45b2-add6-e661d5bf79d6");
-		Integer noOfPaientOnART=getPatientProgram(program,startDate,endDate).size();
-		Integer noOfPaientTransferredOut=getNoOfPatientTransferredOut(startDate,endDate).size();
-		return noOfPaientOnART-noOfPaientTransferredOut;
+		Set<Patient> paientOnART=getPatientProgram(program,startDate,endDate);
+		Set<Patient> paientTransferredOut=getNoOfPatientTransferredOut(startDate,endDate);
+		Set<Patient> totalCohort=new LinkedHashSet<Patient>();
+		for(Patient patient:paientOnART){
+		if(paientTransferredOut.contains(patient)){
+			
+		}
+		else{
+			totalCohort.add(patient);	
+		}
+		}
+		return totalCohort;
 		}
 	
-	public Integer getCohortBasedOnGender(String gender,String startDate,String endDate) {
+	public Set<Patient> getCohortBasedOnGender(String gender,String startDate,String endDate) {
 		Program program=Context.getProgramWorkflowService().getProgramByUuid("96ec813f-aaf0-45b2-add6-e661d5bf79d6");
-		List<PatientProgram> noOfPatientOnCohort=getPatientProgram(program,startDate,endDate);
-		List<Obs> noOfPaientTransferredOut=getNoOfPatientTransferredOut(startDate,endDate);
+		Set<Patient> patientOnCohort=getPatientProgram(program,startDate,endDate);
+		Set<Patient> paientTransferredOut=getNoOfPatientTransferredOut(startDate,endDate);
 		
 		List<Person> personList=getListOfPatient(gender);
 		List<Patient> patientList=new LinkedList<Patient>();
@@ -508,26 +538,29 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 			patientList.add(patient);
 		}
 		
-		Integer noOfPatientOnART=0;
-		for(PatientProgram patientProgram:noOfPatientOnCohort){
-			if(patientList.contains(patientProgram.getPatient())){
-				noOfPatientOnART++;	
-			}	
+		Set<Patient> cohortAfterTransferredOut=new LinkedHashSet<Patient>();
+		Set<Patient> cohortBasedOnGender=new LinkedHashSet<Patient>();
+		for(Patient patient:patientOnCohort){
+		if(paientTransferredOut.contains(patient)){
+			
+		}
+		else{
+			cohortAfterTransferredOut.add(patient);	
+		}
 		}
 		
-		Integer noOfPatientTransferredOut=0;
-		for(Obs obs:noOfPaientTransferredOut){
-			if(patientList.contains(obs.getPatient())){
-				noOfPatientTransferredOut++;	
-			}	
+		for(Patient patient:cohortAfterTransferredOut){
+		if(patientList.contains(patient)){
+			cohortBasedOnGender.add(patient);			
 		}
-		return noOfPatientOnART-noOfPatientTransferredOut;
+		}
+		return cohortBasedOnGender;
 		}
 	
-	public Integer getCohortBasedOnAge(Integer age1,Integer age2,String startDate,String endDate) {
+	public Set<Patient> getCohortBasedOnAge(Integer age1,Integer age2,String startDate,String endDate) {
 		Program program=Context.getProgramWorkflowService().getProgramByUuid("96ec813f-aaf0-45b2-add6-e661d5bf79d6");
-		List<PatientProgram> noOfPatientOnCohort=getPatientProgram(program,startDate,endDate);
-		List<Obs> noOfPaientTransferredOut=getNoOfPatientTransferredOut(startDate,endDate);
+		Set<Patient> patientOnCohort=getPatientProgram(program,startDate,endDate);
+		Set<Patient> paientTransferredOut=getNoOfPatientTransferredOut(startDate,endDate);
 		
 		List<Person> personList=getListOfPatient(age1,age2);
 		List<Patient> patientList=new LinkedList<Patient>();
@@ -538,86 +571,158 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 			}
 		}
 		
-		Integer noOfPatientOnART=0;
-		for(PatientProgram patientProgram:noOfPatientOnCohort){
-			if(patientList.contains(patientProgram.getPatient())){
-				noOfPatientOnART++;	
+		Set<Patient> cohortAfterTransferredOut=new LinkedHashSet<Patient>();
+		Set<Patient> cohortBasedOnAge=new LinkedHashSet<Patient>();
+		for(Patient patient:patientOnCohort){
+		if(paientTransferredOut.contains(patient)){
+			
+		}
+		else{
+			cohortAfterTransferredOut.add(patient);	
+		}
+		}
+		
+		for(Patient patient:cohortAfterTransferredOut){
+		if(patientList.contains(patient)){
+			cohortBasedOnAge.add(patient);			
+		}
+		}
+		return cohortBasedOnAge;
+		}
+	
+	public Set<Patient> getNoOfCohortAliveAndOnArt(Program program,String startDate,String endDate) {
+		Set<Patient> patients=new LinkedHashSet<Patient>();
+		Set<Patient> noOfArtStoppedCohorts=getNoOfArtStoppedCohort(program,startDate,endDate);
+		Set<Patient> noOfArtDiedCohorts=getNoOfArtDiedCohort(program,startDate,endDate);
+		Set<Patient> noOfPatientLostToFollowUps=getNoOfPatientLostToFollowUp(startDate,endDate);
+		Set<Patient> transferredOutPatient=getNoOfPatientTransferredOut(startDate,endDate);
+		Set<Patient> noOfHIVStoppedCohorts=getNoOfHIVStoppedCohort(startDate,endDate);
+		
+		patients.addAll(noOfArtStoppedCohorts);
+		patients.addAll(noOfArtDiedCohorts);
+		patients.addAll(noOfPatientLostToFollowUps);
+		patients.addAll(transferredOutPatient);
+		patients.addAll(noOfHIVStoppedCohorts);
+		
+		Set<Patient> totalCohort=getTotalNoOfCohort(startDate,endDate);
+		Set<Patient> patientSet=new LinkedHashSet<Patient>();
+		
+		for(Patient patient:totalCohort){
+			if(patients.contains(patient)){
+				
+			}
+			else{
+				patientSet.add(patient);	
 			}	
 		}
-		
-		Integer noOfPatientTransferredOut=0;
-		for(Obs obs:noOfPaientTransferredOut){
-			if(patientList.contains(obs.getPatient())){
-				noOfPatientTransferredOut++;	
-			}	
-		}
-		return noOfPatientOnART-noOfPatientTransferredOut;
+	
+		return patientSet;
 		}
 	
-	public Integer getNoOfCohortAliveAndOnArt(Program program,String startDate,String endDate) {
-		Set<Patient> patientList=new LinkedHashSet<Patient>();
-		List<PatientProgram> noOfArtStoppedCohorts=getNoOfArtStoppedCohort(program,startDate,endDate);
-		List<PatientProgram> noOfArtDiedCohorts=getNoOfArtDiedCohort(program,startDate,endDate);
-		List<Obs> noOfPatientLostToFollowUps=getNoOfPatientLostToFollowUp(startDate,endDate);
-		
-		for(PatientProgram noOfArtStoppedCohort:noOfArtStoppedCohorts){
-			patientList.add(noOfArtStoppedCohort.getPatient());	
-		}
-		
-        for(PatientProgram noOfArtDiedCohort:noOfArtDiedCohorts){
-        	patientList.add(noOfArtDiedCohort.getPatient());		
-		}
-        
-        for(Obs noOfPatientLostToFollowUp:noOfPatientLostToFollowUps){
-        	patientList.add(noOfPatientLostToFollowUp.getPatient());	
-		}
-	
-		return getTotalNoOfCohort(startDate,endDate)-patientList.size();
-		}
-	
-	public Set<Patient> getOriginalFirstLineRegimen(String startDate,String endDate) {
+	public Set<Patient> getOriginalFirstLineRegimen(Program program,String startDate,String endDate) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class,"drugOrderProcessed");
 		criteria.add(Restrictions.eq("regimenChangeType", "Start"));
 		criteria.add(Restrictions.eq("typeOfRegimen", "First line Anti-retoviral drugs"));
 		String startFromDate = startDate + " 00:00:00";
 		String endFromDate = endDate + " 23:59:59";
 		try {
-			criteria.add(Restrictions.and(Restrictions.ge("createdDate", formatter.parse(startFromDate)),
-				    Restrictions.le("createdDate", formatter.parse(endFromDate))));
+			criteria.add(Restrictions.and(Restrictions.ge("startDate", formatter.parse(startFromDate)),
+				    Restrictions.le("startDate", formatter.parse(endFromDate))));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		List<DrugOrderProcessed> drugOrderProcesseds=criteria.list();
+		Set<Patient> afasr=getAlternateFirstLineRegimen(program,startDate,endDate);
+		afasr.addAll(getSecondLineRegimen(program,startDate,endDate));
 		Set<Patient> dops=new LinkedHashSet<Patient>();
 		for(DrugOrderProcessed drugOrderProcessed:drugOrderProcesseds){
-			dops.add(drugOrderProcessed.getPatient());	
+			
+			if(afasr.contains(drugOrderProcessed.getPatient())){
+			
+			}
+			else{
+				dops.add(drugOrderProcessed.getPatient());		
+			}
 		}
-		return dops;
+		
+		Set<Patient> patients=new LinkedHashSet<Patient>();
+		Set<Patient> noOfArtStoppedCohorts=getNoOfArtStoppedCohort(program,startDate,endDate);
+		Set<Patient> noOfArtDiedCohorts=getNoOfArtDiedCohort(program,startDate,endDate);
+		Set<Patient> noOfPatientLostToFollowUps=getNoOfPatientLostToFollowUp(startDate,endDate);
+		Set<Patient> transferredOutPatient=getNoOfPatientTransferredOut(startDate,endDate);
+		Set<Patient> noOfHIVStoppedCohorts=getNoOfHIVStoppedCohort(startDate,endDate);
+		
+		patients.addAll(noOfArtStoppedCohorts);
+		patients.addAll(noOfArtDiedCohorts);
+		patients.addAll( noOfPatientLostToFollowUps);
+		patients.addAll(transferredOutPatient);
+		patients.addAll(noOfHIVStoppedCohorts);
+		
+		Set<Patient> patientSet=new LinkedHashSet<Patient>();
+		
+		for(Patient dop:dops){
+			if(patients.contains(dop)){
+				
+			}
+			else{
+				patientSet.add(dop);	
+			}	
+		}
+		return patientSet;
 	}
 	
-	public Set<Patient> getAlternateFirstLineRegimen(String startDate,String endDate) {
+	public Set<Patient> getAlternateFirstLineRegimen(Program program,String startDate,String endDate) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class,"drugOrderProcessed");
 		criteria.add(Restrictions.eq("regimenChangeType", "Substitute"));
 		criteria.add(Restrictions.eq("typeOfRegimen", "First line Anti-retoviral drugs"));
 		String startFromDate = startDate + " 00:00:00";
 		String endFromDate = endDate + " 23:59:59";
 		try {
-			criteria.add(Restrictions.and(Restrictions.ge("createdDate", formatter.parse(startFromDate)),
-				    Restrictions.le("createdDate", formatter.parse(endFromDate))));
+			criteria.add(Restrictions.and(Restrictions.ge("startDate", formatter.parse(startFromDate)),
+				    Restrictions.le("startDate", formatter.parse(endFromDate))));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		List<DrugOrderProcessed> drugOrderProcesseds=criteria.list();
 		Set<Patient> dops=new LinkedHashSet<Patient>();
 		for(DrugOrderProcessed drugOrderProcessed:drugOrderProcesseds){
-			dops.add(drugOrderProcessed.getPatient());	
+			DrugOrderProcessed dop=getLastDrugOrderProcessedByPatient(drugOrderProcessed.getPatient());
+			if(dop.getRegimenChangeType().equals("Switch")){
+				
+			}
+			else{
+				dops.add(drugOrderProcessed.getPatient());			
+			}
 		}
-		return dops;
+		
+		Set<Patient> patients=new LinkedHashSet<Patient>();
+		Set<Patient> noOfArtStoppedCohorts=getNoOfArtStoppedCohort(program,startDate,endDate);
+		Set<Patient> noOfArtDiedCohorts=getNoOfArtDiedCohort(program,startDate,endDate);
+		Set<Patient> noOfPatientLostToFollowUps=getNoOfPatientLostToFollowUp(startDate,endDate);
+		Set<Patient> transferredOutPatient=getNoOfPatientTransferredOut(startDate,endDate);
+		Set<Patient> noOfHIVStoppedCohorts=getNoOfHIVStoppedCohort(startDate,endDate);
+		
+		patients.addAll(noOfArtStoppedCohorts);
+		patients.addAll(noOfArtDiedCohorts);
+		patients.addAll( noOfPatientLostToFollowUps);
+		patients.addAll(transferredOutPatient);
+		patients.addAll(noOfHIVStoppedCohorts);
+		
+		Set<Patient> patientSet=new LinkedHashSet<Patient>();
+		
+		for(Patient dop:dops){
+			if(patients.contains(dop)){
+				
+			}
+			else{
+				patientSet.add(dop);		
+			}	
+		}
+		return patientSet;
 	}
 	
-	public Set<Patient> getSecondLineRegimen(String startDate,String endDate) {
+	public Set<Patient> getSecondLineRegimen(Program program,String startDate,String endDate) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class,"drugOrderProcessed");
-		
 		List<String> typeOfRegimen=new ArrayList<String>();
 		typeOfRegimen.add("Second line ART");
 		typeOfRegimen.add("Fixed dose combinations (FDCs)");
@@ -627,20 +732,50 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		String startFromDate = startDate + " 00:00:00";
 		String endFromDate = endDate + " 23:59:59";
 		try {
-			criteria.add(Restrictions.and(Restrictions.ge("createdDate", formatter.parse(startFromDate)),
-				    Restrictions.le("createdDate", formatter.parse(endFromDate))));
+			criteria.add(Restrictions.and(Restrictions.ge("startDate", formatter.parse(startFromDate)),
+				    Restrictions.le("startDate", formatter.parse(endFromDate))));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		List<DrugOrderProcessed> drugOrderProcesseds=criteria.list();
 		Set<Patient> dops=new LinkedHashSet<Patient>();
 		for(DrugOrderProcessed drugOrderProcessed:drugOrderProcesseds){
-			dops.add(drugOrderProcessed.getPatient());	
+			DrugOrderProcessed dop=getLastDrugOrderProcessedByPatient(drugOrderProcessed.getPatient());
+			if(dop.getRegimenChangeType().equals("Substitute")){
+				
+			}
+			else{
+				dops.add(drugOrderProcessed.getPatient());			
+			}
 		}
-		return dops;
+		
+		Set<Patient> patients=new LinkedHashSet<Patient>();
+		Set<Patient> noOfArtStoppedCohorts=getNoOfArtStoppedCohort(program,startDate,endDate);
+		Set<Patient> noOfArtDiedCohorts=getNoOfArtDiedCohort(program,startDate,endDate);
+		Set<Patient> noOfPatientLostToFollowUps=getNoOfPatientLostToFollowUp(startDate,endDate);
+		Set<Patient> transferredOutPatient=getNoOfPatientTransferredOut(startDate,endDate);
+		Set<Patient> noOfHIVStoppedCohorts=getNoOfHIVStoppedCohort(startDate,endDate);
+		
+		patients.addAll(noOfArtStoppedCohorts);
+		patients.addAll(noOfArtDiedCohorts);
+		patients.addAll( noOfPatientLostToFollowUps);
+		patients.addAll(transferredOutPatient);
+		patients.addAll(noOfHIVStoppedCohorts);
+		
+		Set<Patient> patientSet=new LinkedHashSet<Patient>();
+		
+		for(Patient dop:dops){
+			if(patients.contains(dop)){
+				
+			}
+			else{
+				patientSet.add(dop);
+			}	
+		}
+		return patientSet;
 	}
 	
-	public List<PatientProgram> getNoOfArtStoppedCohort(Program program,String startDate,String endDate) {
+	public Set<Patient> getNoOfArtStoppedCohort(Program program,String startDate,String endDate) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PatientProgram.class,"patientProgram");
 		criteria.add(Restrictions.eq("program", program));
 		criteria.add(Restrictions.isNotNull("dateCompleted"));
@@ -652,11 +787,48 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return criteria.list();
+		List<PatientProgram> ppgms=criteria.list();
+		Set<Patient> artStoppedCohort=new LinkedHashSet<Patient>();
+		
+		for(PatientProgram ppgm:ppgms){
+		Obs obs=getOutCome(ppgm.getPatient(),startFromDate,endFromDate);
+		if(obs!=null){
+			Date date1=ppgm.getDateCompleted();
+			Date date2=obs.getObsDatetime();
+			if(date1.compareTo(date2)>0){
+				artStoppedCohort.add(ppgm.getPatient());	
+			}
+		}
+		else{
+			artStoppedCohort.add(ppgm.getPatient());	
+		}
+		}
+		return artStoppedCohort;
+		}
+	
+	public Set<Patient> getNoOfHIVStoppedCohort(String startDate,String endDate) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PatientProgram.class,"patientProgram");
+		Program program=Context.getProgramWorkflowService().getProgramByUuid("dfdc6d40-2f2f-463d-ba90-cc97350441a8");
+		criteria.add(Restrictions.eq("program", program));
+		criteria.add(Restrictions.isNotNull("dateCompleted"));
+		String startFromDate = startDate + " 00:00:00";
+		String endFromDate = endDate + " 23:59:59";
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("dateCompleted", formatter.parse(startFromDate)),
+				    Restrictions.le("dateCompleted", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		List<PatientProgram> ppgms=criteria.list();
+		Set<Patient> patients=new LinkedHashSet<Patient>();
+		for(PatientProgram ppgm:ppgms){
+		patients.add(ppgm.getPatient());	
+		}
+		return patients;
 		}
 	
 	
-	public List<PatientProgram> getNoOfArtDiedCohort(Program program,String startDate,String endDate) {
+	public Set<Patient> getNoOfArtDiedCohort(Program program,String startDate,String endDate) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PatientProgram.class,"patientProgram");
 		criteria.add(Restrictions.eq("program", program));
 		criteria.add(Restrictions.isNull("dateCompleted"));
@@ -670,16 +842,21 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 			patientList.add(patient);
 		}
 		
-		List<PatientProgram> patientProgram=new ArrayList<PatientProgram>();
+		List<PatientProgram> ppgms=new ArrayList<PatientProgram>();
+		Set<Patient> patients=new LinkedHashSet<Patient>();
 		if(patientList.size()!=0){
 			criteria.add(Restrictions.in("patient", patientList));
-			patientProgram=criteria.list();	
+			ppgms=criteria.list();	
 		}
 		
-		return patientProgram;
+		for(PatientProgram ppgm:ppgms){
+		patients.add(ppgm.getPatient());	
+		}
+		
+		return patients;
 		}
 	
-	public List<Obs> getNoOfPatientLostToFollowUp(String startDate,String endDate) {
+	public Set<Patient> getNoOfPatientLostToFollowUp(String startDate,String endDate) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
 		Concept conceptLostToFollowUp=Context.getConceptService().getConceptByUuid("5240AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
@@ -692,8 +869,13 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		criteria.add(Restrictions.isNull("voided"));
-		return criteria.list();
+		criteria.add(Restrictions.eq("voided",false));
+		List<Obs> obss=criteria.list();
+		Set<Patient> patients=new LinkedHashSet<Patient>();
+		for(Obs obs:obss){
+			patients.add(obs.getPatient());	
+		}
+		return patients;
 		}
 	
 	public List<Obs> getNoOfPatientWithCD4(String startDate,String endDate) {
@@ -711,7 +893,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		criteria.add(Restrictions.isNull("voided"));
+		criteria.add(Restrictions.eq("voided",false));
 		return criteria.list();
 		}
 		
@@ -728,7 +910,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		criteria.add(Restrictions.isNull("voided"));
+		criteria.add(Restrictions.eq("voided",false));
 		return criteria.list();
 		}
 		
@@ -745,7 +927,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		criteria.add(Restrictions.isNull("voided"));
+		criteria.add(Restrictions.eq("voided",false));
 		return criteria.list();
 		}
 		
@@ -762,43 +944,95 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		criteria.add(Restrictions.isNull("voided"));
+		criteria.add(Restrictions.eq("voided",false));
 		return criteria.list();
 		}
 		
-		public List<Obs> getNoOfPatientPickedUpArvForSixMonth(String startDate,String endDate) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
-		Concept conceptLostToFollowUp=Context.getConceptService().getConceptByUuid("5240AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-		criteria.add(Restrictions.eq("valueCoded", conceptLostToFollowUp));
-		String startFromDate = startDate + " 00:00:00";
-		String endFromDate = endDate + " 23:59:59";
-		try {
-			criteria.add(Restrictions.and(Restrictions.ge("obsDatetime", formatter.parse(startFromDate)),
-				    Restrictions.le("obsDatetime", formatter.parse(endFromDate))));
-		} catch (ParseException e) {
-			e.printStackTrace();
+		public Set<Patient> getNoOfPatientPickedUpArvForSixMonth(String startDate,String endDate) {
+		Set<Patient> listOfVisitedPatients=getListOfVisitedPatient(startDate,endDate);
+		Set<Patient> patients=new HashSet<Patient>();
+		for(Patient patient:listOfVisitedPatients){
+		List<Visit> visits=Context.getVisitService().getVisitsByPatient(patient);
+		if(visits.size()>5){
+			Integer count=1;
+			Integer token=1;
+			Integer startVisit=visits.size()-5;
+			Date startVisitDate=new Date();
+			Date endVisitDate=new Date();
+			for(Visit visit:visits){
+			if(count==1){
+		         endVisitDate=visit.getStartDatetime();	
+			}
+			if(count==startVisit){
+				startVisitDate=visit.getStartDatetime();	
+			}
+			count++;
+			}
+			
+			for(Visit visit:visits){
+				List<DrugOrderProcessed> drugOrderProcesseds=getDrugOrderProcessedByVisit(visit);	
+				if(drugOrderProcesseds.size()>0){
+				token++;	
+				}
+				else{
+				token=1;	
+				}
+			}
+			
+			for(Visit visit:visits){
+			List<Obs> lostToFollowUp=getLostToFollowUpObs(visit.getPatient(),startVisitDate,endVisitDate);
+			List<DrugOrderProcessed> drugOrderProcesseds=getDrugOrderProcessedByVisit(visit);
+			if(lostToFollowUp.size()==0 && drugOrderProcesseds.size()>0 && token==6){
+				patients.add(visit.getPatient());
+			}
+		   }
+		  }
 		}
-		criteria.add(Restrictions.isNull("voided"));
-		//getNoOfPatientLostToFollowUp(startDate,endDate);
-		return criteria.list();
-		}
-		
-		public List<Obs> getNoOfPatientPickedUpArvForTwelveMonth(String startDate,String endDate) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
-		Concept conceptLostToFollowUp=Context.getConceptService().getConceptByUuid("5240AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-		criteria.add(Restrictions.eq("valueCoded", conceptLostToFollowUp));
-		String startFromDate = startDate + " 00:00:00";
-		String endFromDate = endDate + " 23:59:59";
-		try {
-			criteria.add(Restrictions.and(Restrictions.ge("obsDatetime", formatter.parse(startFromDate)),
-				    Restrictions.le("obsDatetime", formatter.parse(endFromDate))));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		criteria.add(Restrictions.isNull("voided"));
-		return criteria.list();
-		}
-		
+		return patients;
+	   }
+	   
+		public Set<Patient> getNoOfPatientPickedUpArvForTwelveMonth(String startDate,String endDate) {
+		Set<Patient> listOfVisitedPatients=getListOfVisitedPatient(startDate,endDate);
+		Set<Patient> patients=new HashSet<Patient>();
+		for(Patient patient:listOfVisitedPatients){
+		List<Visit> visits=Context.getVisitService().getVisitsByPatient(patient);
+		if(visits.size()>11){
+			Integer count=1;
+			Integer token=1;
+			Integer startVisit=visits.size()-11;
+			Date startVisitDate=new Date();
+			Date endVisitDate=new Date();
+			for(Visit visit:visits){
+			if(count==1){
+				endVisitDate=visit.getStartDatetime();	
+			}
+	        if(count==startVisit){
+	        	startVisitDate=visit.getStartDatetime();	
+			}
+			count++;
+			}
+			
+			for(Visit visit:visits){
+				List<DrugOrderProcessed> drugOrderProcesseds=getDrugOrderProcessedByVisit(visit);	
+				if(drugOrderProcesseds.size()>0){
+				token++;	
+				}
+				else{
+				token=1;	
+				}
+			}
+				
+			for(Visit visit:visits){
+			List<Obs> lostToFollowUp=getLostToFollowUpObs(visit.getPatient(),startVisitDate,endVisitDate);
+			List<DrugOrderProcessed> drugOrderProcesseds=getDrugOrderProcessedByVisit(visit);
+			if(lostToFollowUp.size()==0 && drugOrderProcesseds.size()>0 && token==12){
+				patients.add(visit.getPatient());
+			}
+		   }
+		  }
+		 }
+		return patients;
+	   }
 		
 	public List<DrugOrderProcessed> getDrugOrderProcessedByPatient(Patient patient) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class);
@@ -848,5 +1082,61 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		criteria.add(Restrictions.ge("personId", 38));
 		return criteria.list();	
 	}
-
+	
+	public Set<Patient> getListOfVisitedPatient(String startDate,String endDate) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Visit.class,"visit");
+		String startFromDate = startDate + " 00:00:00";
+		String endFromDate = endDate + " 23:59:59";
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("startDatetime", formatter.parse(startFromDate)),
+				    Restrictions.le("startDatetime", formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		List<Visit> visits=criteria.list();
+		Set<Patient> patients=new LinkedHashSet<Patient>();
+		for(Visit visit:visits){
+			patients.add(visit.getPatient());
+		}
+		return patients;
+	}
+	
+	public List<DrugOrderProcessed> getDrugOrderProcessedByVisit(Visit visit) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class,"drugOrderProcessed");
+		criteria.add(Restrictions.eq("visit", visit));
+		//criteria.addOrder(Order.asc("createdDate"));
+		return criteria.list();
+	}
+	
+	public List<Obs> getLostToFollowUpObs(Patient patient,Date startVisitDate,Date endVisitDate) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
+		Concept conceptLostToFollowUp=Context.getConceptService().getConceptByUuid("5240AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		Person person=patient;
+		criteria.add(Restrictions.eq("person", person));
+		criteria.add(Restrictions.eq("valueCoded", conceptLostToFollowUp));
+		criteria.add(Restrictions.and(Restrictions.ge("obsDatetime",startVisitDate),Restrictions.le("obsDatetime",endVisitDate)));
+		return criteria.list();
+	}
+	
+	public Obs getOutCome(Patient patient,String startFromDate,String endFromDate) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Obs.class,"obs");
+		List<Concept> conceptList=new ArrayList<Concept>();
+		Concept conceptDied=Context.getConceptService().getConceptByUuid("160034AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		Concept conceptLostToFollowUp=Context.getConceptService().getConceptByUuid("5240AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		Concept conceptTransferredOut=Context.getConceptService().getConceptByUuid("159492AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		conceptList.add(conceptDied);
+		conceptList.add(conceptLostToFollowUp);
+		conceptList.add(conceptTransferredOut);
+		Person person=patient;
+		criteria.add(Restrictions.eq("person", person));
+		criteria.add(Restrictions.in("valueCoded", conceptList));
+		try {
+			criteria.add(Restrictions.and(Restrictions.ge("obsDatetime",formatter.parse(startFromDate)),Restrictions.le("obsDatetime",formatter.parse(endFromDate))));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		criteria.addOrder(Order.desc("obsDatetime"));
+		return (Obs) criteria.uniqueResult();
+	}
 }
