@@ -118,7 +118,6 @@ public class GetYearlyReportFragmentController {
 		Set<Patient> maleCohortForAugust=kenyaEmrService.getCohortBasedOnGender("M",augustStartDate,augustEndDate);
 		Set<Patient> maleCohortForSeptember=kenyaEmrService.getCohortBasedOnGender("M",septemberStartDate,septemberEndDate);
 		Set<Patient> maleCohortForOctober=kenyaEmrService.getCohortBasedOnGender("M",octoberStartDate,octoberEndDate);
-		System.out.println("aaaaaaaaaaaaaaaaaaaaaa"+maleCohortForOctober);
 		Set<Patient> maleCohortForNovember=kenyaEmrService.getCohortBasedOnGender("M",novemberStartDate,novemberEndDate);
 		Set<Patient> maleCohortForDecember=kenyaEmrService.getCohortBasedOnGender("M",decemberStartDate,decemberEndDate);
 		
