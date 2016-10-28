@@ -559,7 +559,7 @@ public class ArtCohortLibrary {
 		cd.setName("Started ART excluding transfer ins on date in this facility");
 		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-		cd.addSearch("startedArt", ReportUtils.map(startsART(), "onOrAfter=${onOrBefore-1m},onOrBefore=${onOrBefore}"));
+		cd.addSearch("startedArt", ReportUtils.map(startsART(), "onOrAfter=${onOrAfter-1m},onOrBefore=${onOrAfter-1d}"));
 		cd.addSearch("completeProgram", ReportUtils.map(commonCohorts.compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.ART)), "completedOnOrBefore=${onOrBefore}"));
 		cd.setCompositionString("startedArt AND NOT completeProgram");
 		return  cd;

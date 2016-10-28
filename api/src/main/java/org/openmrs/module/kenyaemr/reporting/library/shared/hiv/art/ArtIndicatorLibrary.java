@@ -111,7 +111,7 @@ public class ArtIndicatorLibrary {
 	 * @return the indicator
 	 */
 	public CohortIndicator startedArtCumulative() { 
-		return cohortIndicator("patients who have ever started ART", map(artCohorts.startedArtOnDate(), "onOrBefore=${startDate}"));
+		return cohortIndicator("patients who have ever started ART", map(artCohorts.startedArtOnDate(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
 	}
 	
 	public CohortIndicator startedArtCumulativeResult() { 

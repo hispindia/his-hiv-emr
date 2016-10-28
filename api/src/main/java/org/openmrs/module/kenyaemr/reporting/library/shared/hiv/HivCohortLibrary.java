@@ -261,16 +261,17 @@ public class HivCohortLibrary {
         }
 
         public CohortDefinition reasonOfoutcome(){
-        	Concept outcome = Dictionary.getConcept(Dictionary.REASON_FOR_PROGRAM_DISCONTINUATION);
-        	Concept reason = Dictionary.getConcept(Dictionary.DIED);
+        // 	Concept outcome = Dictionary.getConcept(Dictionary.REASON_FOR_PROGRAM_DISCONTINUATION);
+       // 	Concept reason = Dictionary.getConcept(Dictionary.DIED);
 
             CompositionCohortDefinition cd = new CompositionCohortDefinition();
             cd.setName("outcome result of patient due to death");
             cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
             cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-            cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
-            cd.addSearch("outcomeReason", ReportUtils.map(commonCohorts.hasObs(outcome ,reason), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
-            cd.setCompositionString("enrolled AND  outcomeReason");
+           // cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
+           // cd.addSearch("outcomeReason", ReportUtils.map(commonCohorts.hasObs(outcome ,reason), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+            cd.addSearch("deceased", ReportUtils.map(commonCohorts.deceasedPatients(), "onDate=${onOrBefore}"));
+            cd.setCompositionString("deceased");
             return cd;
         }
         
@@ -1412,7 +1413,7 @@ public class HivCohortLibrary {
             return cd;
         }
         public CohortDefinition notinitializedART(){
-        	CalculationCohortDefinition comp = new CalculationCohortDefinition(new PatientWaitinglistArtCalculation());
+             	CalculationCohortDefinition comp = new CalculationCohortDefinition(new PatientWaitinglistArtCalculation());
     		comp.setName("On CTX on date");
     		comp.addParameter(new Parameter("onDate", "On Date", Date.class));
             CompositionCohortDefinition cd = new CompositionCohortDefinition();
@@ -1420,8 +1421,9 @@ public class HivCohortLibrary {
             cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
             cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
             cd.addSearch("onwaitinglistArt", ReportUtils.map(comp, "onDate=${onOrBefore}"));
+            cd.addSearch("completeProgram", ReportUtils.map(commonCohorts.compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.ART)), "completedOnOrBefore=${onOrBefore}"));
       //      cd.addSearch("enrolledHIV", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.HIV)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
-            cd.setCompositionString("onwaitinglistArt ");
+            cd.setCompositionString("onwaitinglistArt AND NOT completeProgram");
             return cd;
         }
         
