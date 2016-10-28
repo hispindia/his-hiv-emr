@@ -627,7 +627,7 @@ public class ART_ChildMonthlyReportBuilder extends AbstractReportBuilder{
 
 			String indParams = "startDate=${startDate},endDate=${endDate}";
 			List<ColumnParameters> allColumns = Arrays.asList(female,male,total);
-			List<String> indSuffixes = Arrays.asList("CM","CF", "TT"); 
+			List<String> indSuffixes = Arrays.asList("CF","CM", "TT"); 
 			EmrReportingUtils.addRow(dsd, "V1", "No. on original 1st line regimen", ReportUtils.map(artIndicators.onoriginal(), indParams), allColumns, indSuffixes);
 			
 			
