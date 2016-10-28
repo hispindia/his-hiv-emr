@@ -45,6 +45,7 @@ import org.openmrs.module.kenyaemr.api.KenyaEmrService;
 import org.openmrs.module.kenyaemr.metadata.ArtMetadata;
 import org.openmrs.module.kenyaemr.metadata.CommonMetadata;
 import org.openmrs.module.kenyaemr.metadata.HivMetadata;
+import org.openmrs.module.kenyaemr.model.DrugObsProcessed;
 import org.openmrs.module.kenyaemr.model.DrugOrderProcessed;
 import org.openmrs.module.kenyaemr.wrapper.PatientWrapper;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
@@ -117,7 +118,7 @@ public class ImportPatientsListFragmentController {
 		while (iterator.hasNext()) {
 			Row nextRow = iterator.next();
 			Iterator<Cell> cellIterator = nextRow.cellIterator();
-			
+
 			try {
 				if (rowCount > 0) {
 					ArrayList<String> legacyData = new ArrayList<String>();
@@ -131,8 +132,10 @@ public class ImportPatientsListFragmentController {
 							break;
 						case Cell.CELL_TYPE_NUMERIC:
 							if (HSSFDateUtil.isCellDateFormatted(cell)) {
-								legacyData.add(cell.getColumnIndex(),
-										String.valueOf(cell.getDateCellValue()));
+								legacyData
+										.add(cell.getColumnIndex(), String
+												.valueOf(cell
+														.getDateCellValue()));
 							} else {
 
 								legacyData.add(cell.getColumnIndex(),
@@ -167,8 +170,8 @@ public class ImportPatientsListFragmentController {
 									"E MMM dd HH:mm:ss Z yyyy");
 							Date dateBith = new Date();
 							try {
-								dateBith = (Date) formatter
-										.parse(legacyData.get(2));
+								dateBith = (Date) formatter.parse(legacyData
+										.get(2));
 
 							} catch (ParseException e) {
 								e.printStackTrace();
@@ -200,7 +203,8 @@ public class ImportPatientsListFragmentController {
 							wrapper.getPerson().setTelephoneContact(
 									legacyData.get(8));
 
-							location = Context.getService(KenyaEmrService.class)
+							location = Context
+									.getService(KenyaEmrService.class)
 									.getDefaultLocation();
 
 							if (legacyData.get(4) != null) {
@@ -209,8 +213,8 @@ public class ImportPatientsListFragmentController {
 							}
 
 							if (legacyData.get(6) != null) {
-								wrapper.setArtRegistrationNumber(legacyData.get(6),
-										location);
+								wrapper.setArtRegistrationNumber(
+										legacyData.get(6), location);
 							}
 
 							if (legacyData.get(5) != null) {
@@ -246,12 +250,13 @@ public class ImportPatientsListFragmentController {
 
 							if (legacyData.get(13) != null) {
 								wrapper.setPreviousHivTestStatus("Yes");
-								wrapper.setPreviousHivTestPlace(legacyData.get(14));
+								wrapper.setPreviousHivTestPlace(legacyData
+										.get(14));
 
 								Date capturedTestDate = new Date();
 								try {
-									capturedTestDate = formatter.parse(legacyData
-											.get(13));
+									capturedTestDate = formatter
+											.parse(legacyData.get(13));
 
 								} catch (ParseException e) {
 									e.printStackTrace();
@@ -284,20 +289,21 @@ public class ImportPatientsListFragmentController {
 										openmrsIdType, location);
 								toSave.addIdentifier(openmrsId);
 
-								if (!toSave.getPatientIdentifier().isPreferred()) {
+								if (!toSave.getPatientIdentifier()
+										.isPreferred()) {
 									openmrsId.setPreferred(true);
 								}
 							}
 
-							Patient ret = Context.getPatientService().savePatient(
-									toSave);
+							Patient ret = Context.getPatientService()
+									.savePatient(toSave);
 
 							// Explicitly save all identifier objects including
 							// voided
 							for (PatientIdentifier identifier : toSave
 									.getIdentifiers()) {
-								Context.getPatientService().savePatientIdentifier(
-										identifier);
+								Context.getPatientService()
+										.savePatientIdentifier(identifier);
 							}
 
 							/*
@@ -310,8 +316,8 @@ public class ImportPatientsListFragmentController {
 								Date dateTransfer = null;
 								if (legacyData.get(17) != null) {
 									try {
-										dateTransfer = formatter.parse(legacyData
-												.get(17));
+										dateTransfer = formatter
+												.parse(legacyData.get(17));
 
 									} catch (ParseException e) {
 										e.printStackTrace();
@@ -319,25 +325,27 @@ public class ImportPatientsListFragmentController {
 								}
 
 								Concept enrollementConcept = Context
-										.getConceptService()
-										.getConcept(
-												Integer.parseInt(legacyData.get(15)));
+										.getConceptService().getConcept(
+												Integer.parseInt(legacyData
+														.get(15)));
 
 								handleOncePerPatientObs(
 										ret,
 										Dictionary
 												.getConcept(Dictionary.METHOD_OF_ENROLLMENT),
-										enrollementConcept, "", dateTransfer, null);
+										enrollementConcept, "", dateTransfer,
+										null);
 							}
 
 							if (legacyData.get(7) != null) {
 								Concept ingoConcept = Context
-										.getConceptService()
-										.getConcept(
-												Integer.parseInt(legacyData.get(7)));
+										.getConceptService().getConcept(
+												Integer.parseInt(legacyData
+														.get(7)));
 								handleOncePerPatientObs(
 										ret,
-										Dictionary.getConcept(Dictionary.INGO_NAME),
+										Dictionary
+												.getConcept(Dictionary.INGO_NAME),
 										ingoConcept, "", null, null);
 							}
 
@@ -356,7 +364,8 @@ public class ImportPatientsListFragmentController {
 
 							DateFormat visitDateInExcel = new SimpleDateFormat(
 									"dd-MMM-yyyy");
-							String dateCheck = visitDateInExcel.format(dateVisit);
+							String dateCheck = visitDateInExcel
+									.format(dateVisit);
 							SimpleDateFormat mysqlDateTimeFormatter = new SimpleDateFormat(
 									"dd-MMM-yy HH:mm:ss");
 
@@ -365,7 +374,8 @@ public class ImportPatientsListFragmentController {
 									dateVisit = mysqlDateTimeFormatter
 											.parse(dateCheck + " "
 													+ curDate.getHours() + ":"
-													+ curDate.getMinutes() + ":"
+													+ curDate.getMinutes()
+													+ ":"
 													+ curDate.getSeconds());
 								} catch (ParseException e) {
 									dateVisit = curDate;
@@ -396,8 +406,8 @@ public class ImportPatientsListFragmentController {
 								visit.addAttribute(attr);
 							}
 
-							Visit visitSave = Context.getVisitService().saveVisit(
-									visit);
+							Visit visitSave = Context.getVisitService()
+									.saveVisit(visit);
 
 							EncounterType hivEnrollEncType = MetadataUtils
 									.existing(
@@ -414,14 +424,17 @@ public class ImportPatientsListFragmentController {
 							hivEnrollmentEncounter
 									.setEncounterType(hivEnrollEncType);
 							hivEnrollmentEncounter.setPatient(ret);
-							hivEnrollmentEncounter.setLocation(Context.getService(
-									KenyaEmrService.class).getDefaultLocation());
+							hivEnrollmentEncounter.setLocation(Context
+									.getService(KenyaEmrService.class)
+									.getDefaultLocation());
 
 							hivEnrollmentEncounter.setDateCreated(curDate);
-							hivEnrollmentEncounter.setEncounterDatetime(dateVisit);
+							hivEnrollmentEncounter
+									.setEncounterDatetime(dateVisit);
 
-							hivEnrollmentEncounter.setForm(MetadataUtils.existing(
-									Form.class, HivMetadata._Form.HIV_ENROLLMENT));
+							hivEnrollmentEncounter.setForm(MetadataUtils
+									.existing(Form.class,
+											HivMetadata._Form.HIV_ENROLLMENT));
 							hivEnrollmentEncounter.setVisit(visitSave);
 							hivEnrollmentEncounter.setVoided(false);
 							Encounter enHivNew = Context.getEncounterService()
@@ -434,22 +447,25 @@ public class ImportPatientsListFragmentController {
 							patientProgram.setDateEnrolled(enHivNew
 									.getEncounterDatetime());
 							patientProgram.setDateCreated(curDate);
-							Context.getProgramWorkflowService().savePatientProgram(
-									patientProgram);
+							Context.getProgramWorkflowService()
+									.savePatientProgram(patientProgram);
 
 							Encounter personalEncounter = new Encounter();
 
-							personalEncounter.setEncounterType(hivEnrollEncType);
+							personalEncounter
+									.setEncounterType(hivEnrollEncType);
 							personalEncounter.setPatient(ret);
 
 							personalEncounter.setDateCreated(curDate);
 							personalEncounter.setEncounterDatetime(dateVisit);
-							personalEncounter.setLocation(Context.getService(
-									KenyaEmrService.class).getDefaultLocation());
-
 							personalEncounter
-									.setForm(MetadataUtils.existing(Form.class,
-											Metadata.Form.HIV_PERSONAL_HISTORY));
+									.setLocation(Context.getService(
+											KenyaEmrService.class)
+											.getDefaultLocation());
+
+							personalEncounter.setForm(MetadataUtils.existing(
+									Form.class,
+									Metadata.Form.HIV_PERSONAL_HISTORY));
 							personalEncounter.setVisit(visitSave);
 							personalEncounter.setVoided(false);
 							Encounter enpersonalrecordresultNew = Context
@@ -457,12 +473,14 @@ public class ImportPatientsListFragmentController {
 											personalEncounter);
 							if (legacyData.get(19) != null) {
 
-								Concept literate = Context
-										.getConceptService()
+								Concept literate = Context.getConceptService()
 										.getConcept(
-												Integer.parseInt(legacyData.get(19)));
-								handleOncePerPatientObs(ret,
-										Dictionary.getConcept(Dictionary.LITERATE),
+												Integer.parseInt(legacyData
+														.get(19)));
+								handleOncePerPatientObs(
+										ret,
+										Dictionary
+												.getConcept(Dictionary.LITERATE),
 										literate, "", null, null,
 										enpersonalrecordresultNew, null);
 
@@ -492,9 +510,9 @@ public class ImportPatientsListFragmentController {
 							if (legacyData.get(22) != null) {
 
 								Concept idssubstituion = Context
-										.getConceptService()
-										.getConcept(
-												Integer.parseInt(legacyData.get(22)));
+										.getConceptService().getConcept(
+												Integer.parseInt(legacyData
+														.get(22)));
 								handleOncePerPatientObs(
 										ret,
 										Dictionary
@@ -507,9 +525,9 @@ public class ImportPatientsListFragmentController {
 							if (legacyData.get(23) != null) {
 
 								Concept idssubstituionvalue = Context
-										.getConceptService()
-										.getConcept(
-												Integer.parseInt(legacyData.get(23)));
+										.getConceptService().getConcept(
+												Integer.parseInt(legacyData
+														.get(23)));
 								handleOncePerPatientObs(
 										ret,
 										Dictionary
@@ -521,11 +539,13 @@ public class ImportPatientsListFragmentController {
 							if (legacyData.get(29) != null) {
 
 								Concept employedvalue = Context
-										.getConceptService()
-										.getConcept(
-												Integer.parseInt(legacyData.get(29)));
-								handleOncePerPatientObs(ret,
-										Dictionary.getConcept(Dictionary.EMPLOYED),
+										.getConceptService().getConcept(
+												Integer.parseInt(legacyData
+														.get(29)));
+								handleOncePerPatientObs(
+										ret,
+										Dictionary
+												.getConcept(Dictionary.EMPLOYED),
 										employedvalue, "", null, null,
 										enpersonalrecordresultNew, null);
 							}
@@ -533,9 +553,9 @@ public class ImportPatientsListFragmentController {
 							if (legacyData.get(30) != null) {
 
 								Concept alcoholicvalue = Context
-										.getConceptService()
-										.getConcept(
-												Integer.parseInt(legacyData.get(30)));
+										.getConceptService().getConcept(
+												Integer.parseInt(legacyData
+														.get(30)));
 								handleOncePerPatientObs(
 										ret,
 										Dictionary
@@ -546,16 +566,20 @@ public class ImportPatientsListFragmentController {
 
 							Encounter familyEncounter = new Encounter();
 
-							familyEncounter.setEncounterType(registrationEncType);
+							familyEncounter
+									.setEncounterType(registrationEncType);
 							familyEncounter.setPatient(ret);
 
 							familyEncounter.setDateCreated(curDate);
 							familyEncounter.setEncounterDatetime(dateVisit);
-							familyEncounter.setLocation(Context.getService(
-									KenyaEmrService.class).getDefaultLocation());
+							familyEncounter
+									.setLocation(Context.getService(
+											KenyaEmrService.class)
+											.getDefaultLocation());
 
 							familyEncounter.setForm(MetadataUtils.existing(
-									Form.class, Metadata.Form.HIV_FAMILY_HISTORY));
+									Form.class,
+									Metadata.Form.HIV_FAMILY_HISTORY));
 							familyEncounter.setVisit(visitSave);
 							familyEncounter.setVoided(false);
 							Encounter enfamilyrecordresultNew = Context
@@ -564,9 +588,9 @@ public class ImportPatientsListFragmentController {
 							if (legacyData.get(20) != null) {
 
 								Concept martalstatus = Context
-										.getConceptService()
-										.getConcept(
-												Integer.parseInt(legacyData.get(20)));
+										.getConceptService().getConcept(
+												Integer.parseInt(legacyData
+														.get(20)));
 								handleOncePerPatientObs(
 										ret,
 										Dictionary
@@ -581,11 +605,14 @@ public class ImportPatientsListFragmentController {
 
 							drugEncounter.setDateCreated(curDate);
 							drugEncounter.setEncounterDatetime(dateVisit);
-							drugEncounter.setLocation(Context.getService(
-									KenyaEmrService.class).getDefaultLocation());
+							drugEncounter
+									.setLocation(Context.getService(
+											KenyaEmrService.class)
+											.getDefaultLocation());
 
-							drugEncounter.setForm(MetadataUtils.existing(
-									Form.class, Metadata.Form.HIV_DRUG_HISTORY));
+							drugEncounter
+									.setForm(MetadataUtils.existing(Form.class,
+											Metadata.Form.HIV_DRUG_HISTORY));
 							drugEncounter.setVisit(visitSave);
 							drugEncounter.setVoided(false);
 							Encounter endrugrecordresultNew = Context
@@ -594,9 +621,9 @@ public class ImportPatientsListFragmentController {
 							if (legacyData.get(24) != null) {
 
 								Concept drughistoryart = Context
-										.getConceptService()
-										.getConcept(
-												Integer.parseInt(legacyData.get(24)));
+										.getConceptService().getConcept(
+												Integer.parseInt(legacyData
+														.get(24)));
 
 								handleOncePerPatientObs(
 										ret,
@@ -609,9 +636,9 @@ public class ImportPatientsListFragmentController {
 							if (legacyData.get(25) != null) {
 
 								Concept drughistoryarttype = Context
-										.getConceptService()
-										.getConcept(
-												Integer.parseInt(legacyData.get(25)));
+										.getConceptService().getConcept(
+												Integer.parseInt(legacyData
+														.get(25)));
 
 								handleOncePerPatientObs(
 										ret,
@@ -627,8 +654,9 @@ public class ImportPatientsListFragmentController {
 								boolean value = false;
 								Obs drugtreatmentGroup = new Obs();
 								drugtreatmentGroup.setPerson(ret);
-								drugtreatmentGroup.setConcept(Dictionary
-										.getConcept(Dictionary.DRUG_HISTORY_GROUP));
+								drugtreatmentGroup
+										.setConcept(Dictionary
+												.getConcept(Dictionary.DRUG_HISTORY_GROUP));
 
 								drugtreatmentGroup.setObsDatetime(new Date());
 
@@ -636,18 +664,17 @@ public class ImportPatientsListFragmentController {
 								// format.
 								drugtreatmentGroup.setValueCoded(null);
 								// drugtreatmentGroup.setValueText(text);
-								drugtreatmentGroup
-										.setLocation(Context.getService(
-												KenyaEmrService.class)
-												.getDefaultLocation());
+								drugtreatmentGroup.setLocation(Context
+										.getService(KenyaEmrService.class)
+										.getDefaultLocation());
 
 								drugtreatmentGroup
 										.setEncounter(endrugrecordresultNew);
 
 								drugtreatmentGroup.setValueBoolean(value);
-								Obs drugtreat = Context.getObsService().saveObs(
-										drugtreatmentGroup,
-										"KenyaEMR History Details");
+								Obs drugtreat = Context.getObsService()
+										.saveObs(drugtreatmentGroup,
+												"KenyaEMR History Details");
 
 								if (legacyData.get(26) != null) {
 
@@ -665,8 +692,8 @@ public class ImportPatientsListFragmentController {
 
 								if (legacyData.get(27) != null) {
 
-									Concept drugarv = Context.getConceptService()
-											.getConcept(
+									Concept drugarv = Context
+											.getConceptService().getConcept(
 													Integer.parseInt(legacyData
 															.get(27)));
 									handleOncePerPatientObs(
@@ -706,12 +733,10 @@ public class ImportPatientsListFragmentController {
 					} catch (IndexOutOfBoundsException e) {
 						break;
 					}
-				}				
-			}
-			catch (IndexOutOfBoundsException e) {
+				}
+			} catch (IndexOutOfBoundsException e) {
 				break;
 			}
-			
 
 			rowCount++;
 		}
@@ -990,153 +1015,12 @@ public class ImportPatientsListFragmentController {
 
 									}
 
-									EncounterType regEnrollEncType = MetadataUtils
-											.existing(
-													EncounterType.class,
-													CommonMetadata._EncounterType.REGIMEN_ORDER);
-									Encounter regEncounter = new Encounter();
-									regEncounter
-											.setEncounterType(regEnrollEncType);
-									regEncounter.setPatient(patient);
-									regEncounter
-											.setLocation(Context
-													.getLocationService()
-													.getLocationByUuid(
-															"8d6c993e-c2cc-11de-8d13-0010c6dffd0f"));
-
-									regEncounter.setDateCreated(curDate);
-									regEncounter
-											.setEncounterDatetime(dateVisit);
-									regEncounter.setVisit(v);
-
-									regEncounter.setVoided(false);
-
-									Encounter enregNew = Context
-											.getEncounterService()
-											.saveEncounter(regEncounter);
-									Order ordersave = new Order();
-
+									/*
+									 * Changes code
+									 */
 									String reg = "";
-									Order oo = new Order();
 
 									if (!legacyData.get(4).isEmpty()) {
-
-										DrugOrder dod = new DrugOrder();
-
-										dod.setOrderType(Context
-												.getOrderService()
-												.getOrderType(2));
-										dod.setConcept(Context
-												.getConceptService()
-												.getConcept(
-														Integer.parseInt(legacyData
-																.get(4))));
-										dod.setEncounter(enregNew);
-
-										dod.setStartDate(dateVisit);
-										dod.setDateCreated(curDate);
-										dod.setPatient(patient);
-										dod.setUnits("tab");
-										if (legacyData.get(4).equals("163494")
-												|| legacyData.get(4).equals(
-														"163495")
-												|| legacyData.get(4).equals(
-														"163496")
-												|| legacyData.get(4).equals(
-														"162959")
-												|| legacyData.get(4).equals(
-														"163503")
-												|| legacyData.get(4).equals(
-														"163505")
-												|| legacyData.get(4).equals(
-														"163506")
-												|| legacyData.get(4).equals(
-														" 163507")
-												|| legacyData.get(4).equals(
-														"163508")
-												|| legacyData.get(4).equals(
-														"163510")) {
-
-											dod.setFrequency("od");
-										} else {
-											dod.setFrequency("bd");
-										}
-
-										ordersave = Context.getOrderService()
-												.saveOrder(dod);
-										List<Order> ord = Context
-												.getOrderService()
-												.getOrdersByPatient(patient);
-										for (Order ooo : ord) {
-											if (!legacyData.get(36).isEmpty()) {
-												Date discontinuedDate = new Date();
-												discontinuedDate = (Date) formatter
-														.parse(legacyData
-																.get(36));
-
-												String dtechk = visitDateInExcel
-														.format(discontinuedDate);
-												try {
-													Date curDat = new Date();
-													List<Visit> visitdrug = Context
-															.getVisitService()
-															.getVisitsByPatient(
-																	patient);
-
-													for (Visit visdr : visitdrug) {
-														if (visdr
-																.getStopDatetime() != null) {
-															if (oo.getDiscontinuedDate() == null) {
-																discontinuedDate = mysqlDateTimeFormatter
-																		.parse(dtechk
-																				+ " "
-																				+ curDat.getHours()
-																				+ ":"
-																				+ curDat.getMinutes()
-																				+ ":"
-																				+ curDat.getSeconds());
-
-																oo.setDiscontinuedDate(discontinuedDate);
-															}
-														}
-													}
-
-												} catch (ParseException e) {
-													e.printStackTrace();
-												}
-
-											}
-											if (!legacyData.get(35).isEmpty()) {
-												List<Visit> visitdrug = Context
-														.getVisitService()
-														.getVisitsByPatient(
-																patient);
-
-												Concept discontinuedReason = Context
-														.getConceptService()
-														.getConcept(
-																Integer.parseInt(legacyData
-																		.get(35)));
-
-												for (Visit visdr : visitdrug) {
-													if (visdr.getStopDatetime() != null) {
-														if (oo.getDiscontinuedReason() == null) {
-															if (ooo.getConcept() != oo
-																	.getConcept()) {
-																oo.setDiscontinuedReason(discontinuedReason);
-															}
-														}
-													}
-												}
-
-											}
-
-											oo = ooo;
-
-											ordersave = Context
-													.getOrderService()
-													.saveOrder(oo);
-										}
 
 										Concept regimenConcept = Context
 												.getConceptService()
@@ -1149,17 +1033,17 @@ public class ImportPatientsListFragmentController {
 										KenyaEmrService kes = (KenyaEmrService) Context
 												.getService(KenyaEmrService.class);
 
+										List<DrugOrderProcessed> dopp = kes
+												.getDrugOrderProcessedByPatient(patient);
+
+										// Created drug order processed
 										DrugOrderProcessed orderprocess = new DrugOrderProcessed();
-										orderprocess
-												.setDrugOrder(Context
-														.getOrderService()
-														.getDrugOrder(
-																ordersave
-																		.getOrderId()));
+
 										orderprocess.setPatient(patient);
 										orderprocess.setDrugRegimen(reg);
 										orderprocess.setCreatedDate(dateVisit);
-
+										orderprocess.setStartDate(dateVisit);
+										orderprocess.setVisit(v);
 										orderprocess
 												.setRoute(Context
 														.getConceptService()
@@ -1234,13 +1118,14 @@ public class ImportPatientsListFragmentController {
 													.setDoseRegimen(legacyData
 															.get(5));
 										}
+										String cahngeRegimenType = "";
 										if (patient.getAge() > 14) {
 											for (String firstline : firstlineConcept) {
 												if (legacyData.get(4).equals(
 														firstline)) {
 													orderprocess
 															.setTypeOfRegimen("First line Anti-retoviral drugs");
-													;
+													cahngeRegimenType = "First line Anti-retoviral drugs";
 												}
 											}
 											for (String secndline : secondlineConcept) {
@@ -1248,7 +1133,7 @@ public class ImportPatientsListFragmentController {
 														secndline)) {
 													orderprocess
 															.setTypeOfRegimen("Second line ART");
-
+													cahngeRegimenType = "Second line ART";
 												}
 											}
 											for (String thirdline : thirdlineConcept) {
@@ -1256,7 +1141,7 @@ public class ImportPatientsListFragmentController {
 														thirdline)) {
 													orderprocess
 															.setTypeOfRegimen("HIV/HBV co-infection");
-
+													cahngeRegimenType = "HIV/HBV co-infection";
 												}
 											}
 										} else {
@@ -1265,62 +1150,232 @@ public class ImportPatientsListFragmentController {
 														child)) {
 													orderprocess
 															.setTypeOfRegimen("ARV drugs for child");
+													cahngeRegimenType = "ARV drugs for child";
 
 												}
 											}
 										}
-										List<DrugOrderProcessed> dopp = kes
-												.getDrugOrderProcessedByPatient(patient);
-										DrugOrderProcessed drugproce = new DrugOrderProcessed();
-										drugproce = kes
-												.saveDrugOrderProcessed(orderprocess);
-										DrugOrderProcessed drugprocess = new DrugOrderProcessed();
 
 										if (dopp.size() == 0) {
-											drugprocess = drugproce;
-											drugprocess
+											orderprocess
 													.setRegimenChangeType("Start");
+											// Encounter Created
+											EncounterType regEnrollEncType = MetadataUtils
+													.existing(
+															EncounterType.class,
+															CommonMetadata._EncounterType.REGIMEN_ORDER);
+
+											Encounter regEncounter = new Encounter();
+											regEncounter
+													.setEncounterType(regEnrollEncType);
+											regEncounter.setPatient(patient);
+											regEncounter
+													.setLocation(Context
+															.getLocationService()
+															.getLocationByUuid(
+																	"8d6c993e-c2cc-11de-8d13-0010c6dffd0f"));
+
+											regEncounter
+													.setDateCreated(curDate);
+											regEncounter
+													.setEncounterDatetime(dateVisit);
+											regEncounter.setVisit(v);
+
+											regEncounter.setVoided(false);
+
+											// Save encounter
+											Encounter enregNew = Context
+													.getEncounterService()
+													.saveEncounter(regEncounter);
+
+											// Create order
+											Order ordersave = new Order();
+
+											// Create Drug order
+											DrugOrder dod = new DrugOrder();
+
+											dod.setOrderType(Context
+													.getOrderService()
+													.getOrderType(2));
+											dod.setConcept(Context
+													.getConceptService()
+													.getConcept(
+															Integer.parseInt(legacyData
+																	.get(4))));
+											dod.setEncounter(enregNew);
+
+											dod.setStartDate(dateVisit);
+											dod.setDateCreated(curDate);
+											dod.setPatient(patient);
+											dod.setUnits("tab");
+											if (legacyData.get(4).equals(
+													"163494")
+													|| legacyData.get(4)
+															.equals("163495")
+													|| legacyData.get(4)
+															.equals("163496")
+													|| legacyData.get(4)
+															.equals("162959")
+													|| legacyData.get(4)
+															.equals("163503")
+													|| legacyData.get(4)
+															.equals("163505")
+													|| legacyData.get(4)
+															.equals("163506")
+													|| legacyData.get(4)
+															.equals(" 163507")
+													|| legacyData.get(4)
+															.equals("163508")
+													|| legacyData.get(4)
+															.equals("163510")) {
+
+												dod.setFrequency("od");
+											} else {
+												dod.setFrequency("bd");
+											}
+
+											// /Save drug order
+											ordersave = Context
+													.getOrderService()
+													.saveOrder(dod);
+
+											orderprocess.setDrugOrder(dod);
+
 										}
-										for (DrugOrderProcessed dd : dopp) {
-											drugprocess = drugproce;
 
-											if (dd.getDrugRegimen().equals(
-													drugprocess
-															.getDrugRegimen()))
-
-											{
-												if (dd.getDoseRegimen()
-														.equals(drugprocess
-																.getDoseRegimen())
-														&& dd.getTypeOfRegimen()
-																.equals(drugprocess
-																		.getTypeOfRegimen())) {
-													drugprocess
-															.setRegimenChangeType("Continue");
-
-												}
+										if (dopp.size() > 0) {
+											DrugOrderProcessed dd = dopp
+													.get(dopp.size() - 1);
+											System.out.println(dd.getId());
+											// for (DrugOrderProcessed dd :
+											// dopp) {
+											if (dd.getDrugRegimen().equals(reg)
+													&& !legacyData.get(5)
+															.isEmpty()
+													&& dd.getDoseRegimen()
+															.equals(legacyData
+																	.get(5))
+													&& dd.getTypeOfRegimen()
+															.equals(cahngeRegimenType)) {
+												orderprocess
+														.setRegimenChangeType("Continue");
+												orderprocess.setDrugOrder(dd
+														.getDrugOrder());
 
 											} else {
 												if (dd.getTypeOfRegimen()
-														.equals(drugprocess
-																.getTypeOfRegimen())) {
-													drugprocess
+														.equals(cahngeRegimenType)) {
+													orderprocess
 															.setRegimenChangeType("Substitue");
-												} else {
-													drugprocess
+												} else if (dd
+														.getTypeOfRegimen()
+														.equals(cahngeRegimenType)) {
+													orderprocess
 															.setRegimenChangeType("Switch");
 												}
+												// Encounter Created
+												EncounterType regEnrollEncType = MetadataUtils
+														.existing(
+																EncounterType.class,
+																CommonMetadata._EncounterType.REGIMEN_ORDER);
+
+												Encounter regEncounter = new Encounter();
+												regEncounter
+														.setEncounterType(regEnrollEncType);
+												regEncounter
+														.setPatient(patient);
+												regEncounter
+														.setLocation(Context
+																.getLocationService()
+																.getLocationByUuid(
+																		"8d6c993e-c2cc-11de-8d13-0010c6dffd0f"));
+
+												regEncounter
+														.setDateCreated(curDate);
+												regEncounter
+														.setEncounterDatetime(dateVisit);
+												regEncounter.setVisit(v);
+
+												regEncounter.setVoided(false);
+
+												// Save encounter
+												Encounter enregNew = Context
+														.getEncounterService()
+														.saveEncounter(
+																regEncounter);
+
+												// Create order
+												Order ordersave = new Order();
+
+												// Create Drug order
+												DrugOrder dod = new DrugOrder();
+
+												dod.setOrderType(Context
+														.getOrderService()
+														.getOrderType(2));
+												dod.setConcept(Context
+														.getConceptService()
+														.getConcept(
+																Integer.parseInt(legacyData
+																		.get(4))));
+												dod.setEncounter(enregNew);
+
+												dod.setStartDate(dateVisit);
+												dod.setDateCreated(curDate);
+												dod.setPatient(patient);
+												dod.setUnits("tab");
+												if (legacyData.get(4).equals(
+														"163494")
+														|| legacyData
+																.get(4)
+																.equals("163495")
+														|| legacyData
+																.get(4)
+																.equals("163496")
+														|| legacyData
+																.get(4)
+																.equals("162959")
+														|| legacyData
+																.get(4)
+																.equals("163503")
+														|| legacyData
+																.get(4)
+																.equals("163505")
+														|| legacyData
+																.get(4)
+																.equals("163506")
+														|| legacyData
+																.get(4)
+																.equals(" 163507")
+														|| legacyData
+																.get(4)
+																.equals("163508")
+														|| legacyData
+																.get(4)
+																.equals("163510")) {
+
+													dod.setFrequency("od");
+												} else {
+													dod.setFrequency("bd");
+												}
+
+												// /Save drug order
+												ordersave = Context
+														.getOrderService()
+														.saveOrder(dod);
+
+												orderprocess.setDrugOrder(dod);
 
 											}
 
-											drugprocess = dd;
 										}
-										kes.saveDrugOrderProcessed(drugprocess);
 
+										kes.saveDrugOrderProcessed(orderprocess);
+
+										Order oo = new Order();
 										DrugOrderProcessed drugoo = new DrugOrderProcessed();
-										List<DrugOrderProcessed> druordpro = kes
-												.getDrugOrderProcessedByPatient(patient);
-										for (DrugOrderProcessed ooo : druordpro) {
+
+										for (DrugOrderProcessed ooo : dopp) {
 											if (!legacyData.get(36).isEmpty()) {
 												Date discontinuedDate = new Date();
 												discontinuedDate = (Date) formatter
@@ -1388,6 +1443,8 @@ public class ImportPatientsListFragmentController {
 											kes.saveDrugOrderProcessed(drugoo);
 										}
 									}
+
+
 									EncounterType labEnrollEncType = MetadataUtils
 											.existing(
 													EncounterType.class,
@@ -2246,119 +2303,258 @@ public class ImportPatientsListFragmentController {
 												null);
 									}
 
-									EncounterType otherMedicationEnrollEncType = MetadataUtils
-											.existing(
-													EncounterType.class,
-													CommonMetadata._EncounterType.CONSULTATION);
-									Encounter otherMedEncounter = new Encounter();
+									// For OI or PROPHYLAXIS
+									if (!legacyData.get(33).isEmpty()
+											|| !legacyData.get(34).isEmpty()) {
 
-									otherMedEncounter
-											.setEncounterType(otherMedicationEnrollEncType);
-									otherMedEncounter.setPatient(patient);
+										// For Duration of Medication
+										if (!legacyData.get(6).isEmpty()) {
 
-									otherMedEncounter.setDateCreated(curDate);
-									otherMedEncounter
-											.setEncounterDatetime(dateVisit);
-									otherMedEncounter.setLocation(Context
-											.getService(KenyaEmrService.class)
-											.getDefaultLocation());
-
-									otherMedEncounter
-											.setForm(MetadataUtils
+											EncounterType otherMedicationEnrollEncType = MetadataUtils
 													.existing(
-															Form.class,
-															CommonMetadata._Form.OTHER_MEDICATIONS));
-									otherMedEncounter.setVisit(v);
-									otherMedEncounter.setVoided(false);
-									Encounter enotherresultNew = Context
-											.getEncounterService()
-											.saveEncounter(otherMedEncounter);
-									if (!legacyData.get(33).isEmpty()) {
-										String text = "";
-										Obs prophylGroup = new Obs();
-										prophylGroup.setPerson(patient);
-										prophylGroup
-												.setConcept(Context
-														.getConceptService()
-														.getConceptByUuid(
-																"163022AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"));
-										prophylGroup.setObsDatetime(new Date());
-										prophylGroup.setValueCoded(null);
-										prophylGroup.setValueText(text);
-										prophylGroup.setLocation(Context
-												.getService(
-														KenyaEmrService.class)
-												.getDefaultLocation());
+															EncounterType.class,
+															CommonMetadata._EncounterType.CONSULTATION);
+											Encounter otherMedEncounter = new Encounter();
 
-										prophylGroup
-												.setEncounter(enotherresultNew);
-										Obs prophyl = Context
-												.getObsService()
-												.saveObs(prophylGroup,
-														"KenyaEMR History Details");
+											otherMedEncounter
+													.setEncounterType(otherMedicationEnrollEncType);
+											otherMedEncounter
+													.setPatient(patient);
 
-										if (!legacyData.get(33).isEmpty()) {
+											otherMedEncounter
+													.setDateCreated(curDate);
+											otherMedEncounter
+													.setEncounterDatetime(dateVisit);
+											otherMedEncounter
+													.setLocation(Context
+															.getService(
+																	KenyaEmrService.class)
+															.getDefaultLocation());
 
-											Concept oivalue = Context
-													.getConceptService()
-													.getConcept(
-															Integer.parseInt(legacyData
-																	.get(33)));
-											handleOncePerPatientObs(
-													patient,
-													Dictionary
-															.getConcept(Dictionary.PROPHYLAXIS),
-													oivalue, "", null, null,
-													enotherresultNew, prophyl);
+											otherMedEncounter
+													.setForm(MetadataUtils
+															.existing(
+																	Form.class,
+																	CommonMetadata._Form.OTHER_MEDICATIONS));
+											otherMedEncounter.setVisit(v);
+											otherMedEncounter.setVoided(false);
+											Encounter enotherresultNew = Context
+													.getEncounterService()
+													.saveEncounter(
+															otherMedEncounter);
 
+											String duration = legacyData.get(6);
+											Double durationDouble = Double
+													.parseDouble(duration);
+											int durationInteger = Integer
+													.parseInt(legacyData.get(6));
+
+											/*
+											 * PROPHYLAXIS start
+											 */
+
+											if (!legacyData.get(33).isEmpty()) {
+
+												String value = legacyData
+														.get(33);
+
+												String[] valueList = value
+														.split("\\s*,\\s*");
+
+												for (String prop : valueList) {
+													// Group for each Drug
+													String text = "";
+													Obs prophylGroup = new Obs();
+													prophylGroup
+															.setPerson(patient);
+													prophylGroup
+															.setConcept(Context
+																	.getConceptService()
+																	.getConceptByUuid(
+																			"163022AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"));
+													prophylGroup
+															.setObsDatetime(new Date());
+													prophylGroup
+															.setValueCoded(null);
+													prophylGroup
+															.setValueText(text);
+													prophylGroup
+															.setLocation(Context
+																	.getService(
+																			KenyaEmrService.class)
+																	.getDefaultLocation());
+
+													prophylGroup
+															.setEncounter(enotherresultNew);
+													prophylGroup
+															.setComment("1");
+													Obs prophyl = Context
+															.getObsService()
+															.saveObs(
+																	prophylGroup,
+																	"KenyaEMR History Details");
+
+													Concept oivalue = Context
+															.getConceptService()
+															.getConcept(prop);
+
+													// CPT for CTX
+													if (oivalue
+															.getUuid()
+															.toString()
+															.equals("105281AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")) {
+														handleOncePerPatientObs(
+																patient,
+																Dictionary
+																		.getConcept(Dictionary.CPT_VALUE),
+																Context.getConceptService()
+																		.getConcept(
+																				1065),
+																"",
+																null,
+																null,
+																enotherresultNew,
+																null);
+													}
+
+													// IPT for Isoniazid
+													if (oivalue
+															.getUuid()
+															.toString()
+															.equals("78280AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")) {
+														handleOncePerPatientObs(
+																patient,
+																Dictionary
+																		.getConcept(Dictionary.IPT_VALUE),
+																Context.getConceptService()
+																		.getConcept(
+																				1065),
+																"",
+																null,
+																null,
+																enotherresultNew,
+																null);
+													}
+
+													handleOncePerPatientObs(
+															patient,
+															Dictionary
+																	.getConcept(Dictionary.PROPHYLAXIS),
+															oivalue, "", null,
+															null,
+															enotherresultNew,
+															prophyl);
+
+													handleOncePerPatientObs(
+															patient,
+															Dictionary
+																	.getConcept(Dictionary.MEDICATION_DURATION),
+															null, "", null,
+															durationDouble,
+															enotherresultNew,
+															prophyl);
+
+													// Capture Drug in Drug obs
+													// processed
+													DrugObsProcessed dop = new DrugObsProcessed();
+													dop.setObs(prophyl);
+													dop.setCreatedDate(curDate);
+													dop.setPatient(patient);
+													dop.setProcessedDate(dateVisit);
+													dop.setQuantityPostProcess(durationInteger);
+
+													KenyaEmrService kes = (KenyaEmrService) Context
+															.getService(KenyaEmrService.class);
+													kes.saveDrugObsProcessed(dop);
+												}
+
+											}
+
+											/*
+											 * PROPHYLAXIS End
+											 */
+
+											if (!legacyData.get(34).isEmpty()) {
+
+												String value = legacyData
+														.get(34);
+
+												String[] valueList = value
+														.split("\\s*,\\s*");
+
+												for (String oil : valueList) {
+													// Group for each Drug
+													String text = "";
+													Obs oitreatmentGroup = new Obs();
+													oitreatmentGroup
+															.setPerson(patient);
+													oitreatmentGroup
+															.setConcept(Context
+																	.getConceptService()
+																	.getConceptByUuid(
+																			"163021AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"));
+
+													oitreatmentGroup
+															.setObsDatetime(new Date());
+
+													oitreatmentGroup
+															.setValueCoded(null);
+													oitreatmentGroup
+															.setValueText(text);
+													oitreatmentGroup
+															.setLocation(Context
+																	.getService(
+																			KenyaEmrService.class)
+																	.getDefaultLocation());
+
+													oitreatmentGroup
+															.setEncounter(enotherresultNew);
+													oitreatmentGroup.setComment("1");
+													Obs oitreat = Context
+															.getObsService()
+															.saveObs(
+																	oitreatmentGroup,
+																	"KenyaEMR History Details");
+
+													Concept oivalue = Context
+															.getConceptService()
+															.getConcept(oil);
+
+													handleOncePerPatientObs(
+															patient,
+															Dictionary
+																	.getConcept(Dictionary.OI_TREATMENT_DRUG),
+															oivalue, "", null,
+															null,
+															enotherresultNew,
+															oitreat);
+
+													handleOncePerPatientObs(
+															patient,
+															Dictionary
+																	.getConcept(Dictionary.MEDICATION_DURATION),
+															null, "", null,
+															durationDouble,
+															enotherresultNew,
+															oitreat);
+
+													// Capture Drug in Drug obs
+													// processed
+													DrugObsProcessed dop = new DrugObsProcessed();
+													dop.setObs(oitreat);
+													dop.setCreatedDate(curDate);
+													dop.setPatient(patient);
+													dop.setProcessedDate(dateVisit);
+													dop.setQuantityPostProcess(durationInteger);
+
+													KenyaEmrService kes = (KenyaEmrService) Context
+															.getService(KenyaEmrService.class);
+													kes.saveDrugObsProcessed(dop);
+												}
+											}
 										}
-
 									}
-									if (!legacyData.get(34).isEmpty()) {
-										String text = "";
-										Obs oitreatmentGroup = new Obs();
-										oitreatmentGroup.setPerson(patient);
-										oitreatmentGroup
-												.setConcept(Context
-														.getConceptService()
-														.getConceptByUuid(
-																"163021AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"));
 
-										oitreatmentGroup
-												.setObsDatetime(new Date());
-
-										oitreatmentGroup.setValueCoded(null);
-										oitreatmentGroup.setValueText(text);
-										oitreatmentGroup.setLocation(Context
-												.getService(
-														KenyaEmrService.class)
-												.getDefaultLocation());
-
-										oitreatmentGroup
-												.setEncounter(enotherresultNew);
-
-										Obs oitreat = Context
-												.getObsService()
-												.saveObs(oitreatmentGroup,
-														"KenyaEMR History Details");
-
-										if (!legacyData.get(34).isEmpty()) {
-
-											Concept oitreatvalue = Context
-													.getConceptService()
-													.getConcept(
-															Integer.parseInt(legacyData
-																	.get(34)));
-											handleOncePerPatientObs(
-													patient,
-													Dictionary
-															.getConcept(Dictionary.OI_TREATMENT_DRUG),
-													oitreatvalue, "", null,
-													null, enotherresultNew,
-													oitreat);
-
-										}
-									}
 									EncounterType recordEncType = MetadataUtils
 											.existing(
 													EncounterType.class,
