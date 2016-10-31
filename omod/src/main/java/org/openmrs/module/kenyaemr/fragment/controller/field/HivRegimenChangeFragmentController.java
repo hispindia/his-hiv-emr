@@ -45,6 +45,10 @@ public class HivRegimenChangeFragmentController {
 		model.addAttribute("drugOrderProcessed", drugOrderProcessed);
 		SimpleDateFormat formatterExt = new SimpleDateFormat("dd-MMM-yyyy");
 		Date startDate=new Date();
+		startDate=drugOrderProcessed.getStartDate();
+		String date = formatterExt.format(startDate);
+		model.addAttribute("date", date);
+	/*	
 		String category="ARV";
 		Concept masterSet = regimenManager.getMasterSetConcept(category);
 		RegimenChangeHistory history = RegimenChangeHistory.forPatient(patient, masterSet);
@@ -60,7 +64,7 @@ public class HivRegimenChangeFragmentController {
 		else{
 			model.addAttribute("date", "");	
 		}
-
+*/
 	}
 
 }

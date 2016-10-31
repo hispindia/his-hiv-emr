@@ -1246,7 +1246,6 @@ public class ImportPatientsListFragmentController {
 										if (dopp.size() > 0) {
 											DrugOrderProcessed dd = dopp
 													.get(dopp.size() - 1);
-											System.out.println(dd.getId());
 											// for (DrugOrderProcessed dd :
 											// dopp) {
 											if (dd.getDrugRegimen().equals(reg)
