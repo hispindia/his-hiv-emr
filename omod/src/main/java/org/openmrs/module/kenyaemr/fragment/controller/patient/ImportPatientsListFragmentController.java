@@ -1912,34 +1912,36 @@ public class ImportPatientsListFragmentController {
 												null, entbOIresultNew, null);
 									}
 									int flag = 0;
-									EncounterType HivdiscontEnrollEncType = MetadataUtils
-											.existing(
-													EncounterType.class,
-													HivMetadata._EncounterType.HIV_DISCONTINUATION);
-									Encounter hivDiscontEncounter = new Encounter();
 
-									hivDiscontEncounter
-											.setEncounterType(HivdiscontEnrollEncType);
-									hivDiscontEncounter.setPatient(patient);
-
-									hivDiscontEncounter.setDateCreated(curDate);
-									hivDiscontEncounter
-											.setEncounterDatetime(dateVisit);
-									hivDiscontEncounter.setLocation(Context
-											.getService(KenyaEmrService.class)
-											.getDefaultLocation());
-
-									hivDiscontEncounter
-											.setForm(MetadataUtils
-													.existing(
-															Form.class,
-															HivMetadata._Form.HIV_DISCONTINUATION));
-									hivDiscontEncounter.setVisit(v);
-									hivDiscontEncounter.setVoided(false);
-									Encounter enhivDiscontresultNew = Context
-											.getEncounterService()
-											.saveEncounter(hivDiscontEncounter);
 									if (!legacyData.get(20).isEmpty()) {
+										
+										EncounterType HivdiscontEnrollEncType = MetadataUtils
+												.existing(
+														EncounterType.class,
+														HivMetadata._EncounterType.HIV_DISCONTINUATION);
+										Encounter hivDiscontEncounter = new Encounter();
+
+										hivDiscontEncounter
+												.setEncounterType(HivdiscontEnrollEncType);
+										hivDiscontEncounter.setPatient(patient);
+
+										hivDiscontEncounter.setDateCreated(curDate);
+										hivDiscontEncounter
+												.setEncounterDatetime(dateVisit);
+										hivDiscontEncounter.setLocation(Context
+												.getService(KenyaEmrService.class)
+												.getDefaultLocation());
+
+										hivDiscontEncounter
+												.setForm(MetadataUtils
+														.existing(
+																Form.class,
+																HivMetadata._Form.HIV_DISCONTINUATION));
+										hivDiscontEncounter.setVisit(v);
+										hivDiscontEncounter.setVoided(false);
+										Encounter enhivDiscontresultNew = Context
+												.getEncounterService()
+												.saveEncounter(hivDiscontEncounter);
 
 										Concept endOfFollowup = Context
 												.getConceptService()
@@ -2048,33 +2050,35 @@ public class ImportPatientsListFragmentController {
 
 									}
 
-									EncounterType ArtdiscontEnrollEncType = MetadataUtils
-											.existing(
-													EncounterType.class,
-													ArtMetadata._EncounterType.STOP_ART);
-									Encounter artDiscontEncounter = new Encounter();
 
-									artDiscontEncounter
-											.setEncounterType(ArtdiscontEnrollEncType);
-									artDiscontEncounter.setPatient(patient);
+									if (!legacyData.get(23).isEmpty() && !legacyData.get(24).isEmpty()) {
+										
+										EncounterType ArtdiscontEnrollEncType = MetadataUtils
+												.existing(
+														EncounterType.class,
+														ArtMetadata._EncounterType.STOP_ART);
+										Encounter artDiscontEncounter = new Encounter();
 
-									artDiscontEncounter.setDateCreated(curDate);
-									artDiscontEncounter
-											.setEncounterDatetime(dateVisit);
-									artDiscontEncounter.setLocation(Context
-											.getService(KenyaEmrService.class)
-											.getDefaultLocation());
+										artDiscontEncounter
+												.setEncounterType(ArtdiscontEnrollEncType);
+										artDiscontEncounter.setPatient(patient);
 
-									artDiscontEncounter
-											.setForm(MetadataUtils.existing(
-													Form.class,
-													ArtMetadata._Form.STOP_ART));
-									artDiscontEncounter.setVisit(v);
-									artDiscontEncounter.setVoided(false);
-									Encounter enartDiscontresultNew = Context
-											.getEncounterService()
-											.saveEncounter(artDiscontEncounter);
-									if (!legacyData.get(23).isEmpty()) {
+										artDiscontEncounter.setDateCreated(curDate);
+										artDiscontEncounter
+												.setEncounterDatetime(dateVisit);
+										artDiscontEncounter.setLocation(Context
+												.getService(KenyaEmrService.class)
+												.getDefaultLocation());
+
+										artDiscontEncounter
+												.setForm(MetadataUtils.existing(
+														Form.class,
+														ArtMetadata._Form.STOP_ART));
+										artDiscontEncounter.setVisit(v);
+										artDiscontEncounter.setVoided(false);
+										Encounter enartDiscontresultNew = Context
+												.getEncounterService()
+												.saveEncounter(artDiscontEncounter);
 										Date programcmpleteDate = null;
 										Date curDatenew = new Date();
 										try {
@@ -2100,23 +2104,25 @@ public class ImportPatientsListFragmentController {
 
 										Context.getProgramWorkflowService()
 												.savePatientProgram(pp);
-									}
-									if (!legacyData.get(24).isEmpty()) {
-										Concept endOfArt = Context
-												.getConceptService()
-												.getConcept(
-														Integer.parseInt(legacyData
-																.get(24)));
+										
+										if (!legacyData.get(24).isEmpty()) {
+											Concept endOfArt = Context
+													.getConceptService()
+													.getConcept(
+															Integer.parseInt(legacyData
+																	.get(24)));
 
-										handleOncePerPatientObs(
-												patient,
-												Context.getConceptService()
-														.getConceptByUuid(
-																"1252AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"),
-												endOfArt, null, null, null,
-												enartDiscontresultNew, null);
+											handleOncePerPatientObs(
+													patient,
+													Context.getConceptService()
+															.getConceptByUuid(
+																	"1252AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"),
+													endOfArt, null, null, null,
+													enartDiscontresultNew, null);
 
+										}
 									}
+									
 									EncounterType consultEnrollEncType = MetadataUtils
 											.existing(
 													EncounterType.class,
