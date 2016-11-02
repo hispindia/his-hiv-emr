@@ -490,6 +490,7 @@ public class CommonCohortLibrary {
 		ProgramEnrollmentCohortDefinition cd = new ProgramEnrollmentCohortDefinition();
 		cd.setName("Those patients who completed program on date");
 		cd.addParameter(new Parameter("completedOnOrBefore", "Complete Date", Date.class));
+		cd.addParameter(new Parameter("completedOnOrAfter", "Complete Date", Date.class));
 		cd.setPrograms(Arrays.asList(program));
 		return cd;
 	}
@@ -501,7 +502,8 @@ public class CommonCohortLibrary {
 	public  CohortDefinition deceasedPatients() {
 		CalculationCohortDefinition cd = new CalculationCohortDefinition(new DeceasedPatientsCalculation());
 		cd.setName("deceases patients on date");
-		cd.addParameter(new Parameter("onDate", "On Date", Date.class));
+		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
 		return cd;
 	}
 

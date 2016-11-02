@@ -22,6 +22,7 @@ import org.openmrs.module.kenyacore.report.ReportUtils;
 import org.openmrs.module.kenyacore.report.cohort.definition.CalculationCohortDefinition;
 import org.openmrs.module.kenyacore.report.cohort.definition.DateObsValueBetweenCohortDefinition;
 import org.openmrs.module.kenyaemr.Dictionary;
+import org.openmrs.module.kenyaemr.calculation.library.DeceasedPatientsCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.ABC3TCATVrCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.ABC3TCDTGCalculation;
 import org.openmrs.module.kenyaemr.calculation.library.hiv.ABC3TCEFVCalculation;
@@ -261,18 +262,22 @@ public class HivCohortLibrary {
         }
 
         public CohortDefinition reasonOfoutcome(){
-        // 	Concept outcome = Dictionary.getConcept(Dictionary.REASON_FOR_PROGRAM_DISCONTINUATION);
-       // 	Concept reason = Dictionary.getConcept(Dictionary.DIED);
-
-            CompositionCohortDefinition cd = new CompositionCohortDefinition();
-            cd.setName("outcome result of patient due to death");
-            cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
-            cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+         	//Concept outcome = Dictionary.getConcept(Dictionary.REASON_FOR_PROGRAM_DISCONTINUATION);
+        //	Concept reason = Dictionary.getConcept(Dictionary.DIED);
+        	CalculationCohortDefinition cd = new CalculationCohortDefinition(new DeceasedPatientsCalculation());
+    		cd.setName("deceases patients on date");
+    		cd.addParameter(new Parameter("onDate", "On Date", Date.class));
+    	//	cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+            CompositionCohortDefinition comp = new CompositionCohortDefinition();
+            comp.setName("outcome result of patient due to death");
+            comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+            comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
            // cd.addSearch("enrolled", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.ART)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
-           // cd.addSearch("outcomeReason", ReportUtils.map(commonCohorts.hasObs(outcome ,reason), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
-            cd.addSearch("deceased", ReportUtils.map(commonCohorts.deceasedPatients(), "onDate=${onOrBefore}"));
-            cd.setCompositionString("deceased");
-            return cd;
+            comp.addSearch("outcomeReason", ReportUtils.map(artCohorts.startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+         //   cd.addSearch("deceasedprev", ReportUtils.map(commonCohorts.deceasedPatients(), "onOrAfter=${onOrAfter-1m},onOrBefore=${onOrAfter-1d}"));
+            comp.addSearch("deceased", ReportUtils.map(cd, "onDate=${onOrBefore}"));
+            comp.setCompositionString("deceased AND outcomeReason");
+            return comp;
         }
         
         public CohortDefinition reasonOfoutcometransfer(){

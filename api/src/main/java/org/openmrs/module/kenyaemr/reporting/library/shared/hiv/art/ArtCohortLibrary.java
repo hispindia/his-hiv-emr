@@ -560,8 +560,9 @@ public class ArtCohortLibrary {
 		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
 		cd.addSearch("startedArt", ReportUtils.map(startsART(), "onOrAfter=${onOrAfter-1m},onOrBefore=${onOrAfter-1d}"));
-		cd.addSearch("completeProgram", ReportUtils.map(commonCohorts.compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.ART)), "completedOnOrBefore=${onOrBefore}"));
-		cd.setCompositionString("startedArt AND NOT completeProgram");
+		 cd.addSearch("deceased", ReportUtils.map(commonCohorts.deceasedPatients(), "onOrAfter=${onOrAfter-1m},onOrBefore=${onOrAfter-1d}"));
+		 cd.addSearch("completeProgram", ReportUtils.map(commonCohorts.compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.ART)), "completedOnOrAfter=${onOrAfter-1m},completedOnOrBefore=${onOrAfter-1d}"));
+		cd.setCompositionString("startedArt AND NOT (deceased OR completeProgram)");
 		return  cd;
 	}
      
@@ -573,9 +574,12 @@ public class ArtCohortLibrary {
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
 		//cd.addSearch("startedArt", ReportUtils.map( startsART(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
 		cd.addSearch("transferIn", ReportUtils.map(hivCohortLibrary.restartedProgram(), "onOrBefore=${onOrBefore}"));
-		cd.addSearch("begining", ReportUtils.map(startsART(), "onOrAfter=${onOrAfter-1m},onOrBefore=${onOrBefore}"));
+		cd.addSearch("begining", ReportUtils.map(startsART(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		cd.addSearch("start", ReportUtils.map(startedArtOnDate(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		 //cd.addSearch("completeProgram", ReportUtils.map(commonCohorts.compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.ART)), "completedOnOrAfter=${onOrAfter-1m},completedOnOrBefore=${onOrAfter-1d}"));
+
 		//cd.addSearch("completeProgram", ReportUtils.map(commonCohorts.compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.ART)), "completedOnOrBefore=${onOrBefore}"));
-		cd.setCompositionString("begining OR transferIn");
+		cd.setCompositionString("begining OR transferIn OR start");
 		return  cd;
 	}
 	
