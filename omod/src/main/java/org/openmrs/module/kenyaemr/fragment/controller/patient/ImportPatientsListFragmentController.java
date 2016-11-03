@@ -128,7 +128,7 @@ public class ImportPatientsListFragmentController {
 						switch (cell.getCellType()) {
 						case Cell.CELL_TYPE_STRING:
 							legacyData.add(cell.getColumnIndex(),
-									cell.getStringCellValue());
+									cell.getStringCellValue().trim());
 							break;
 						case Cell.CELL_TYPE_NUMERIC:
 							if (HSSFDateUtil.isCellDateFormatted(cell)) {
@@ -750,7 +750,6 @@ public class ImportPatientsListFragmentController {
 			while (iteratorSecond.hasNext()) {
 				Row nextRow = iteratorSecond.next();
 				Iterator<Cell> cellIterator = nextRow.cellIterator();
-
 				try {
 
 					if (rowCountVisit > 0) {
@@ -758,11 +757,10 @@ public class ImportPatientsListFragmentController {
 
 						while (cellIterator.hasNext()) {
 							Cell cell = cellIterator.next();
-
 							switch (cell.getCellType()) {
 							case Cell.CELL_TYPE_STRING:
 								legacyData.add(cell.getColumnIndex(),
-										cell.getStringCellValue());
+										cell.getStringCellValue().trim());
 								break;
 							case Cell.CELL_TYPE_NUMERIC:
 								if (HSSFDateUtil.isCellDateFormatted(cell)) {
@@ -784,7 +782,6 @@ public class ImportPatientsListFragmentController {
 
 						int i = 0;
 						for (String s : legacyData) {
-
 							i++;
 						}
 						Person person = null;
@@ -810,9 +807,8 @@ public class ImportPatientsListFragmentController {
 											.getPatientIdentifiers(
 													legacyData.get(0)
 															.toString(), pt);
-
+									
 									for (PatientIdentifier p : patList) {
-
 										patient = Context
 												.getPatientService()
 												.getPatient(
