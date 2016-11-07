@@ -598,6 +598,7 @@ public class ImportPatientsListFragmentController {
 										martalstatus, "", null, null,
 										enfamilyrecordresultNew, null, visitSave);
 							}
+							
 							Encounter drugEncounter = new Encounter();
 
 							drugEncounter.setEncounterType(hivEnrollEncType);
@@ -618,6 +619,7 @@ public class ImportPatientsListFragmentController {
 							Encounter endrugrecordresultNew = Context
 									.getEncounterService().saveEncounter(
 											drugEncounter);
+							
 							if (legacyData.get(24) != null) {
 
 								Concept drughistoryart = Context
@@ -631,8 +633,9 @@ public class ImportPatientsListFragmentController {
 												.getConcept(Dictionary.DRUG_HISTORY_ART_RECEIVED),
 										drughistoryart, "", null, null,
 										endrugrecordresultNew, null, visitSave);
-
+								
 							}
+							
 							if (legacyData.get(25) != null) {
 
 								Concept drughistoryarttype = Context
@@ -648,9 +651,9 @@ public class ImportPatientsListFragmentController {
 										endrugrecordresultNew, null, visitSave);
 
 							}
-							if (legacyData.get(26) != null) {
-								// String text="";
-
+							
+							if (legacyData.get(26) != null && legacyData.get(27) != null && legacyData.get(28) != null) {
+								
 								boolean value = false;
 								Obs drugtreatmentGroup = new Obs();
 								drugtreatmentGroup.setPerson(ret);
@@ -662,7 +665,7 @@ public class ImportPatientsListFragmentController {
 
 								// Added value coded as per default obs object
 								// format.
-								drugtreatmentGroup.setValueCoded(null);
+								//drugtreatmentGroup.setValueCoded(null);
 								// drugtreatmentGroup.setValueText(text);
 								drugtreatmentGroup.setLocation(Context
 										.getService(KenyaEmrService.class)
@@ -675,7 +678,6 @@ public class ImportPatientsListFragmentController {
 								Obs drugtreat = Context.getObsService()
 										.saveObs(drugtreatmentGroup,
 												"KenyaEMR History Details");
-
 								if (legacyData.get(26) != null) {
 
 									Concept place = Context.getConceptService()
@@ -690,6 +692,8 @@ public class ImportPatientsListFragmentController {
 											endrugrecordresultNew, drugtreat, visitSave);
 								}
 
+								
+								
 								if (legacyData.get(27) != null) {
 
 									Concept drugarv = Context
@@ -712,7 +716,6 @@ public class ImportPatientsListFragmentController {
 									durationreslt = Integer.parseInt(legacyData
 											.get(28));
 									dur = durationreslt.doubleValue();
-
 									handleOncePerPatientObs(
 											ret,
 											Dictionary
@@ -2814,8 +2817,13 @@ public class ImportPatientsListFragmentController {
 		if (obsGroup != null) {
 			o.setObsGroup(obsGroup);
 		}
-		en.addObs(o);
-		// Context.getObsService().saveObs(o, "KenyaEMR History Details");
+		//en.addObs(o);
+		try{
+			Context.getObsService().saveObs(o, "KenyaEMR History Details");
+		}
+		catch (RuntimeException e) {
+			en.addObs(o);
+		}
 	}
 
 	protected void handleOncePerPatientObs(Patient patient, Concept question,
