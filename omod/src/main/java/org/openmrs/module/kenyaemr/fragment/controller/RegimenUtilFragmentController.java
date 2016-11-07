@@ -233,7 +233,7 @@ public class RegimenUtilFragmentController {
 			
 			String drugRegimenn="";
 			String dosee="";
-			if (changeType == RegimenChangeType.Start || changeType == RegimenChangeType.Substitute || changeType == RegimenChangeType.Switch) {
+			if (changeType == RegimenChangeType.Start || changeType == RegimenChangeType.Restart || changeType == RegimenChangeType.Substitute || changeType == RegimenChangeType.Switch) {
 			if (srNo != null) {
 				for (String srn : srNo) {
 					Concept drugConcept=null;
