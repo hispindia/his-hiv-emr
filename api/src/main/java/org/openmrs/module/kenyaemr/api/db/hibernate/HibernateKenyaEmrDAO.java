@@ -477,7 +477,10 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		Set<Patient> patients=new HashSet<Patient>();
 		List<Obs> obss=criteria.list();
 		for(Obs obs:obss){
-			patients.add(obs.getPatient());
+			Patient patient=Context.getPatientService().getPatient(obs.getPersonId());
+			if(patient!=null){
+			patients.add(patient);
+			}
 		}
 		return patients;
 		}
@@ -534,8 +537,10 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		List<Person> personList=getListOfPatient(gender);
 		List<Patient> patientList=new LinkedList<Patient>();
 		for(Person person:personList){
-			Patient patient=(Patient) person;
+			Patient patient=Context.getPatientService().getPatient(person.getPersonId());
+			if(patient!=null){
 			patientList.add(patient);
+			}
 		}
 		
 		Set<Patient> cohortAfterTransferredOut=new LinkedHashSet<Patient>();
@@ -565,9 +570,11 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		List<Person> personList=getListOfPatient(age1,age2);
 		List<Patient> patientList=new LinkedList<Patient>();
 		for(Person person:personList){
-			if(person.getAge()>=age1 && person.getAge()<=age2){
-			Patient patient=(Patient) person;
+			if(person.getAge()!=null && person.getAge()>=age1 && person.getAge()<=age2){
+			Patient patient=Context.getPatientService().getPatient(person.getPersonId());
+			if(patient!=null){
 			patientList.add(patient);
+			}
 			}
 		}
 		
@@ -838,8 +845,10 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		List<Person> personList=getListOfDiedPatient(startDate,endDate);
 		List<Patient> patientList=new LinkedList<Patient>();
 		for(Person person:personList){
-			Patient patient=(Patient) person;
+			Patient patient=Context.getPatientService().getPatient(person.getPersonId());
+			if(patient!=null){
 			patientList.add(patient);
+			}
 		}
 		
 		List<PatientProgram> ppgms=new ArrayList<PatientProgram>();
@@ -1137,6 +1146,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 			e.printStackTrace();
 		}
 		criteria.addOrder(Order.desc("obsDatetime"));
+		criteria.setMaxResults(1);
 		return (Obs) criteria.uniqueResult();
 	}
 }
