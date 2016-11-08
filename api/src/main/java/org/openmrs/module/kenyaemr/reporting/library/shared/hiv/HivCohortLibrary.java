@@ -241,25 +241,13 @@ public class HivCohortLibrary {
 		CalculationCohortDefinition last = new CalculationCohortDefinition(new LastOutcomeStopArtCalculation());
 		last.setName("last outcome of a  patients on date");
 		last.addParameter(new Parameter("onDate", "On Date", Date.class));
-	/*	CalculationCohortDefinition last1 = new CalculationCohortDefinition(new LastOutcomeTransferCalculation());
-		last1.setName("last1 outcome of a  patients on date");
-		last1.addParameter(new Parameter("onDate", "On Date", Date.class));
-		CalculationCohortDefinition last2 = new CalculationCohortDefinition(new LastOutcomeResultCalculation());
-		last2.setName("last2 outcome of a  patients on date");
-		last2.addParameter(new Parameter("onDate", "On Date", Date.class));
-		CalculationCohortDefinition last3 = new CalculationCohortDefinition(new LastOutcomeLossCalculation());
-		last3.setName("last3 outcome of a  patients on date");
-		last3.addParameter(new Parameter("onDate", "On Date", Date.class));*/
 		CompositionCohortDefinition cd = new CompositionCohortDefinition();
 		cd.setName("Started ART excluding transfer ins on date in this facility");
 		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-		//cd.addSearch("startedArt", ReportUtils.map(artCohorts.startArt(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+	
         cd.addSearch("startedArt", ReportUtils.map(artCohorts.startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
 		cd.addSearch("completeProgram", ReportUtils.map(commonCohorts.compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.ART)), "completedOnOrBefore=${onOrBefore}"));
-	//	cd.addSearch("transferout", ReportUtils.map(last1, "onDate=${onOrBefore}"));
-    //    cd.addSearch("lost", ReportUtils.map(last3, "onDate=${onOrBefore}"));
-	//	cd.addSearch("dead", ReportUtils.map(last2, "onDate=${onOrBefore}"));
 		cd.addSearch("last", ReportUtils.map(last, "onDate=${onOrBefore}"));
 		cd.setCompositionString("last AND startedArt AND completeProgram");
 		return cd;
@@ -346,7 +334,6 @@ public class HivCohortLibrary {
             cd.setName("outcome result of patient due to death");
             cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
             cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-         //   cd.addSearch("enrolled", ReportUtils.map(artCohortsstartedArtExcludingTransferinsOnDates,"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
             cd.addSearch("outcomeReason1", ReportUtils.map(reasonOfoutcome(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
             cd.addSearch("outcomeReason2", ReportUtils.map(reasonOfoutcometransfer(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
             cd.addSearch("outcomeReason3", ReportUtils.map(reasonOfoutcomeMissing(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
@@ -1439,7 +1426,7 @@ public class HivCohortLibrary {
         public CohortDefinition initializedHIV(){
         
             CompositionCohortDefinition cd = new CompositionCohortDefinition();
-            cd.setName("waiting list for ART");
+            cd.setName("initalized list for ART");
             cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
             cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
             
@@ -1457,9 +1444,10 @@ public class HivCohortLibrary {
             cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
             cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
             cd.addSearch("onwaitinglistArt", ReportUtils.map(comp, "onDate=${onOrBefore}"));
+            cd.addSearch("enrolledHIV", ReportUtils.map(initializedHIV(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
             cd.addSearch("completeProgram", ReportUtils.map(commonCohorts.compltedProgram(MetadataUtils.existing(Program.class, Metadata.Program.ART)), "completedOnOrBefore=${onOrBefore}"));
       //      cd.addSearch("enrolledHIV", ReportUtils.map(commonCohorts.enrolled(MetadataUtils.existing(Program.class, Metadata.Program.HIV)),"enrolledOnOrAfter=${onOrAfter},enrolledOnOrBefore=${onOrBefore}"));
-            cd.setCompositionString("onwaitinglistArt AND NOT completeProgram");
+            cd.setCompositionString("onwaitinglistArt AND enrolledHIV AND NOT completeProgram");
             return cd;
         }
         

@@ -77,11 +77,40 @@ public class OnOriginalFirstLineArtCalculation extends AbstractPatientCalculatio
 			 	  }
 		 		
 		 	  }
+		 	  else if((ptId.equals(order.getPatient().getPatientId())&&(order.getRegimenChangeType().equals("Restart")) &&(order.getTypeOfRegimen().equals("Fixed dose combinations (FDCs)"))))
+		 	  { if(order.getDrugRegimen().equals(drugorder.getDrugRegimen()))
+	 		  { 
+	 			 onOrigFirstLine = false;
+	 			
+	 		  }
+	 		  else
+	 		  {  onOrigFirstLine = true;
+	 			drugorder=order;
+	 			ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
+	 		  }
+	 		 if(order.getDiscontinuedDate()!=null)
+		 	  { 
+		 		 onOrigFirstLine=false; 
+		 		ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
+		 	  }
+	 		
+	 	  }
+		 		  
 		 	  }
 		 	 
 		 	  else
 		 	  {
 		 		 if((ptId.equals(order.getPatient().getPatientId()) &&(order.getRegimenChangeType().equals("Start")) &&(order.getTypeOfRegimen().equals("First line Anti-retoviral drugs"))))
+		 		 { 
+		 			onOrigFirstLine=true; 
+		 			ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
+		 			 if(order.getDiscontinuedDate()!=null)
+				 	  { 
+				 		 onOrigFirstLine=false; 
+				 		ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
+				 	  }
+		 		 }
+		 		 else if((ptId.equals(order.getPatient().getPatientId()) &&(order.getRegimenChangeType().equals("Restart")) &&(order.getTypeOfRegimen().equals("First line Anti-retoviral drugs"))))
 		 		 { 
 		 			onOrigFirstLine=true; 
 		 			ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
@@ -115,7 +144,30 @@ public class OnOriginalFirstLineArtCalculation extends AbstractPatientCalculatio
 			 	  }
 		 		
 		 	  }
+		 			 else  if((ptId.equals(order.getPatient().getPatientId())&&(order.getRegimenChangeType().equals("Restart")) &&(order.getTypeOfRegimen().equals("Fixed dose combinations (FDCs)"))))
+				 		 
+				 	  {
+				 	  if(order.getDrugRegimen().equals(drugorder.getDrugRegimen()))
+				 		  { 
+				 			 onOrigFirstLine = false;
+				 			
+				 		  }
+				 		  else
+				 		  { 
+				 			  onOrigFirstLine = true;
+				 			drugorder=order;
+				 			ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
+				 		  }
+				 		 if(order.getDiscontinuedDate()!=null)
+					 	  { 
+					 		 onOrigFirstLine=false; 
+					 		ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
+					 	  }
+				 		
+				 	  }
+		 				 
 		 		 }
+		 		 
 		 	  }  
 		 	  }
 		}

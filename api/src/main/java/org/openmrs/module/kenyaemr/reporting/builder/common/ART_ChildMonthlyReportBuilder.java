@@ -648,7 +648,7 @@ public class ART_ChildMonthlyReportBuilder extends AbstractReportBuilder{
 
 			String indParams = "startDate=${startDate},endDate=${endDate}";
 			List<ColumnParameters> allColumns = Arrays.asList(female,male,total);
-			List<String> indSuffixes = Arrays.asList("CM","CF", "TT"); 
+			List<String> indSuffixes = Arrays.asList("CF","CM", "TT"); 
 			EmrReportingUtils.addRow(dsd, "W1", "No. on substituted 1st line regimen", ReportUtils.map(artIndicators.onsubsitute(), indParams), allColumns, indSuffixes);
 			
 			
@@ -670,7 +670,7 @@ public class ART_ChildMonthlyReportBuilder extends AbstractReportBuilder{
 
 			String indParams = "startDate=${startDate},endDate=${endDate}";
 			List<ColumnParameters> allColumns = Arrays.asList(female,male,total);
-			List<String> indSuffixes = Arrays.asList("CM","CF", "TT"); 
+			List<String> indSuffixes = Arrays.asList("CF","CM", "TT"); 
 			EmrReportingUtils.addRow(dsd, "X1", "No. switched to 2nd line regimen", ReportUtils.map(artIndicators.onswitchsecond(), indParams), allColumns, indSuffixes);
 			
 			
@@ -692,7 +692,7 @@ public class ART_ChildMonthlyReportBuilder extends AbstractReportBuilder{
 
 			String indParams = "startDate=${startDate},endDate=${endDate}";
 			List<ColumnParameters> allColumns = Arrays.asList(female,male,total);
-			List<String> indSuffixes = Arrays.asList("CM","CF", "TT"); 
+			List<String> indSuffixes = Arrays.asList("CF","CM", "TT"); 
 			EmrReportingUtils.addRow(dsd, "Y1", "No. switched to 3rd line regimen", ReportUtils.map(artIndicators.onswitchthird(), indParams), allColumns, indSuffixes);
 			
 			
