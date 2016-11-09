@@ -33,7 +33,7 @@ public class OnSwitchLineArtCalculation extends AbstractPatientCalculation {
 		 	  { 
 		 		if(order.getPatient().getAge()<=14) 
 		 		{
-		 	  if((ptId.equals(order.getPatient().getPatientId())&&(order.getRegimenChangeType().equals("Switch")) &&(order.getTypeOfRegimen().equals("Fixed dose combinations (FDCs)"))))
+		 	  if((ptId.equals(order.getPatient().getPatientId())&&(order.getRegimenChangeType().equals("Switch")) &&(order.getTypeOfRegimen().equals("Fixed dose combinations (FDCs)"))&&(!(order.getDrugRegimen().equals("AZT/3TC+TDF+LPV/r")))))
 		 	  { if(order.getDrugRegimen().equals(drugorder.getDrugRegimen()))
 		 		  { 
 		 			 onOrigFirstLine = false;
