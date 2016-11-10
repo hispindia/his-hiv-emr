@@ -642,91 +642,182 @@ public class ArtCohortLibrary {
   		cd.setName("on AZT3TCNVP regimen");
   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-  		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
   	}
 	 public CohortDefinition onAZT3TCEFV() {
    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new AZT3TCEFVStockDispensedCalculation());
    		cd.setName("on AZT3TCEFV regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
    	}
 	 public CohortDefinition onTDF3TCNVP() {
  		CalculationCohortDefinition cd = new CalculationCohortDefinition(new TDF3TCNVPStockDispensedCalculation());
  		cd.setName("on TDF3TCNVP regimen");
  		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
- 		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
  	}
      public CohortDefinition onTDF3TCEFV() {
    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new TDF3TCEFVStockDispensedCalculation());
    		cd.setName("on TDF3TCEFV regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
    	}
      public CohortDefinition onTDFFTCNVP() {
    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new TDFFTCNVPStockDispensedCalculation());
    		cd.setName("on TDFFTCNVP regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
    	}
      public CohortDefinition onTDFFTCEFV() {
   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new TDFFTCEFVStockDispensedCalculation());
   		cd.setName("on TDFFTCEFV regimen");
   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-  		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
   	}
      public CohortDefinition onTDFFTCEF() {
  		CalculationCohortDefinition cd = new CalculationCohortDefinition(new TDFFTCEFVSixhundredStockDispensedCalculation());
  		cd.setName("on TDFFTCEFV regimen");
  		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
- 		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
  	}
      public CohortDefinition onAZT3TCplusNVP() {
  		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseAZT3TCplusNVPStockDispensedCalculation());
  		cd.setName("on AZT3TCplusNVP regimen");
  		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
- 		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
  	}
      public CohortDefinition onAZT3TCplusEFVtwo() {
    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseAZT3TCplusEFVTwoStockDispensedCalculation());
    		cd.setName("on AZT3TCplusEFV regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
    	}
      public CohortDefinition onTdf3tcNvp() {
   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseTDF3TCplusNVPStockDispensedCalculation());
   		cd.setName("on TDF3TC+NVP regimen");
   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-  		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
   	}
      public CohortDefinition onTdf3tcplusefvtwo() {
  		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseTDF3TCplusEFVTwoStockDispensedCalculation());
  		cd.setName("on TDF3TC+EFV regimen");
  		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
- 		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
  	}
      public CohortDefinition onTdf3tcplusefvsix() {
     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseTDF3TCplusEFVSixStockDispensedCalculation());
     		cd.setName("on TDF3TC+EFV regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
     	}
      public CohortDefinition onTdfftcplusnvp() {
    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseTDFFTCplusNVPStockDispensedCalculation());
    		cd.setName("on TDFFTC+NVP regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
    	}
     
      public CohortDefinition onTdfftcplusefv() {
@@ -734,210 +825,420 @@ public class ArtCohortLibrary {
   		cd.setName("on TDFFTC+EFV regimen");
   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-  		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
   	}
      public CohortDefinition onTdfftcplusefvsix() {
  		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseTDFFTCplusEFVStockDispensedCalculation());
  		cd.setName("on TDFFTC+EFV regimen");
  		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
- 		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
  	}
      public CohortDefinition onD4T3TCNVP() {
  		CalculationCohortDefinition cd = new CalculationCohortDefinition(new D4T3TCNVPStockDispensedCalculation());
  		cd.setName("on d4T3TCNVP regimen");
  		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
- 		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
  	}
      public CohortDefinition ond4t3tcplusnvp() {
     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseD4T3TCplusNVPStockDispensedCalculation());
     		cd.setName("on d4T3TC+NVP regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
     	}
      public CohortDefinition onD4T3TCEFV() {
     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new D4T3TCEFVStockDispensedCalculation());
     		cd.setName("on d4T3TCEFV regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
     	}
      public CohortDefinition onD4t3tcplusefvsix() {
    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseD4T3TCplusEFVStockDispensedCalculation());
    		cd.setName("on d4T3TC+EFV regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
    	}
      public CohortDefinition onTdfFtcDtg() {
   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new TDFFTCDTGStockDispensedCalculation());
   		cd.setName("on TDFFTCDTG regimen");
   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-  		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
   	}
      public CohortDefinition onTdf3tcDtg() {
  		CalculationCohortDefinition cd = new CalculationCohortDefinition(new TDF3TCDTGStockDispensedCalculation());
  		cd.setName("on TDF3TCDTG regimen");
  		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
- 		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
  	}
      public CohortDefinition onabc3tcplusefv() {
   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseABC3TCplusEFVStockDispensedCalculation());
   		cd.setName("on ABC3TC+EFV regimen");
   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-  		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
   	}
      public CohortDefinition onAbc3tcDtg() {
    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new ABC3TCDTGStockDispensedCalculation());
    		cd.setName("on ABC3TCDTG regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
    	}
      public CohortDefinition onAbc3tcNvp() {
  		CalculationCohortDefinition cd = new CalculationCohortDefinition(new ABC3TCNVPStockDispensedCalculation());
  		cd.setName("on ABC3TCNVP regimen");
  		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
- 		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
  	}
      public CohortDefinition onAbcFtcEfv() {
    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new ABCFTCEFVStockDispensedCalculation());
    		cd.setName("on ABCFTCEFV regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
    	}
      public CohortDefinition onAbcftcDtg() {
   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new ABCFTCDTGStockDispensedCalculation());
   		cd.setName("on ABCFTCDTG regimen");
   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-  		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
   	}
      public CohortDefinition onAbcftcNvp() {
     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new ABCFTCNVPStockDispensedCalculation());
     		cd.setName("on ABCFTCNVP regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
     	}
      public CohortDefinition onAZT3TCLPVr() {
   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new AZT3TCLPVrStockDispensedCalculation());
   		cd.setName("on AZT3TCLPVr regimen");
   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-  		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
   	}
      public CohortDefinition onAZT3TCplusLPVr() {
     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseAZT3TCplusLPVrStockDispensedCalculation());
     		cd.setName("on AZT3TCplusLPVr regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
     	}
      public CohortDefinition onTDF3TCLPVr() {
  		CalculationCohortDefinition cd = new CalculationCohortDefinition(new TDF3TCLPVrStockDispensedCalculation());
  		cd.setName("on TDF3TCLPVr regimen");
  		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
- 		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
  	}
      public CohortDefinition ontdf3tcpluslpvr() {
  		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseTDF3TCplusLPVrStockDispensedCalculation());
  		cd.setName("on TDF/3TC + LPV/r regimen");
  		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
- 		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
  	}
      public CohortDefinition onTDFFTCLPVr() {
     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new TDFFTCLPVrStockDispensedCalculation());
     		cd.setName("on TDFFTCLPVr regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
     	} 
      public CohortDefinition ontdfftcpluslpvr() {
   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseTDFFTCplusLPVrStockDispensedCalculation());
   		cd.setName("on TDF/FTC + LPV/r regimen");
   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-  		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
   	}
      public CohortDefinition onTDFABCLPVr() {
    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new TDFABCLPVrStockDispensedCalculation());
    		cd.setName("on TDFABCLPVr regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
    	}
      public CohortDefinition ontdfabcpluslpvr() {
  		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseTDFABCplusLPVrStockDispensedCalculation());
  		cd.setName("on TDF+ABC+ LPV/r  regimen");
  		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
- 		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
  	}
      public CohortDefinition onabc3tcpluslpvr() {
     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseABC3TCplusLPVrStockDispensedCalculation());
     		cd.setName("on ABC/3TC+ LPV/r regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
     	}
      public CohortDefinition onabc3tcatvr() {
   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new ABC3TCATVrStockDispensedCalculation());
   		cd.setName("on regimen");
   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-  		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
   	}
      public CohortDefinition onazt3tcatvr() {
  		CalculationCohortDefinition cd = new CalculationCohortDefinition(new AZT3TCATVrStockDispensedCalculation());
  		cd.setName("on regimen");
  		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
- 		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
  	}
      public CohortDefinition ontdf3tcatvr() {
     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new TDF3TCATVrStockDispensedCalculation());
     		cd.setName("on regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
     	}
      public CohortDefinition onazt3tcplustdfpluslpvr() {
    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseAZT3TCplusTDFplusLPVrStockDispensedCalculation());
    		cd.setName("on AZT/3TC+ TDF+ LPV/r regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
    	}
      public CohortDefinition onAZT3TCplusEFVsix() {
    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseAZT3TCplusEFVSixStockDispensedCalculation());
    		cd.setName("on AZT3TCplusEFV regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
    	}
      public CohortDefinition onABC3TCplusNVP() {
    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseABC3TCplusNVPStockDispensedCalculation());
    		cd.setName("on ABC3TCplusNVP regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
    	}
      public CohortDefinition onABC3TCplusEFVtwo() {
   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseABC3TCplusEFVTwoStockDispensedCalculation());
   		cd.setName("on ABC3TCplusEFV Two hundred EFV regimen");
   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-  		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
   	}
      
      public CohortDefinition onABC3TCplusEFVsix() {
@@ -945,104 +1246,209 @@ public class ArtCohortLibrary {
   		cd.setName("on ABC3TCplusEFV Six hundred EFV regimen");
   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-  		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
   	}
      public CohortDefinition onAZT3TCplusABC() {
     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseAZT3TCplusABCStockDispensedCalculation());
     		cd.setName("on AZT3TCplusABC regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
     	}
      public CohortDefinition onD4T3TCplusNVP() {
   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedDoseStockDispensedCalculation());
   		cd.setName("on d4T3TCplusNVP regimen");
   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-  		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
   	}
      public CohortDefinition onD4T3TCLr() {
  		CalculationCohortDefinition cd = new CalculationCohortDefinition(new D4T3TCLrStockDispensedCalculation());
  		cd.setName("on d4T3TCLr regimen");
  		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
- 		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
  	}
      public CohortDefinition onD4T3TCplusEFV() {
     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedD4T3TCplusEFVStockDispensedCalculation());
     		cd.setName("on d4T3TCplusEFV regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
     	}
      public CohortDefinition onD4T3TCplusABC() {
    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedD4T3TCplusABCStockDispensedCalculation());
    		cd.setName("on d4T3TCplusABC regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
    	}
      public CohortDefinition onAZT3TCplusRAL() {
   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedAZT3TCplusRALStockDispensedCalculation());
   		cd.setName("on AZT3TCplusRAL regimen");
   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-  		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
   	}
      public CohortDefinition onAZT3TCplusATVr() {
  		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedAZT3TCplusATVrStockDispensedCalculation());
  		cd.setName("on AZT3TCplusATVr regimen");
  		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
- 		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
  	}
      public CohortDefinition onABC3TCplusRAL() {
     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedABC3TCplusRALStockDispensedCalculation());
     		cd.setName("on ABC3TCplusRAL regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
     	}
      public CohortDefinition onTDF3TCplusEFV() {
    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedTDF3TCplusEFVStockDispensedCalculation());
    		cd.setName("on TDF3TCplusEFV regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
    	}
      public CohortDefinition onTDF3TCplusNVP() {
   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedTDF3TCplusNVPStockDispensedCalculation());
   		cd.setName("on TDF3TCplusNVP regimen");
   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-  		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
   	}
      public CohortDefinition onTDF3TCplusLPVr() {
  		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedTDF3TCplusLPVrStockDispensedCalculation());
  		cd.setName("on TDF3TCplusLPVr regimen");
  		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
- 		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
  	}
      public CohortDefinition onTDF3TCplusRAL() {
     		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedTDF3TCplusRALStockDispensedCalculation());
     		cd.setName("on TDF3TCplusRAL regimen");
     		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
  		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-    		return cd;
+ 		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
     	}
      public CohortDefinition onTDF3TCplusATVr() {
    		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedTDF3TCplusATVrStockDispensedCalculation());
    		cd.setName("on TDF3TCplusATVr regimen");
    		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-   		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
    	}
      public CohortDefinition onABC3TCplusATVr() {
   		CalculationCohortDefinition cd = new CalculationCohortDefinition(new FixedABC3TCplusATVrStockDispensedCalculation());
   		cd.setName("on ABC3TCplusATVr regimen");
   		cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 		cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-  		return cd;
+		CompositionCohortDefinition comp = new CompositionCohortDefinition();
+		comp.setName("Stock dispensed");
+		comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+		comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+		comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		comp.setCompositionString("enrolledExcludingTransfers AND level");
+		return comp;
   	}
 }

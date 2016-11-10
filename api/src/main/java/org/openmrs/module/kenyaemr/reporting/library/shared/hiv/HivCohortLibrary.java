@@ -210,7 +210,15 @@ public class HivCohortLibrary {
 			cd.setName("on ART on date");
 			cd.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
 			cd.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
-			return cd;
+			CompositionCohortDefinition comp = new CompositionCohortDefinition();
+			comp.setName("level of adherence for those patient on art");
+			comp.addParameter(new Parameter("onOrAfter", "After Date", Date.class));
+			comp.addParameter(new Parameter("onOrBefore", "Before Date", Date.class));
+			comp.addSearch("enrolledExcludingTransfers", ReportUtils.map(artCohorts.startedArtExcludingTransferinsOnDates(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+			comp.addSearch("level", ReportUtils.map(cd, "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+			comp.setCompositionString("enrolledExcludingTransfers AND level");
+			return comp;
+		
 		}
 	//=============
 		public CohortDefinition hivCohort() {
