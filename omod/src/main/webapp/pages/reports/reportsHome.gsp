@@ -65,7 +65,7 @@
                         
                         <div class="ke-stack-item ke-navigable" onclick="quaterlyReportView();">
 	                    ${ ui.includeFragment("kenyaui", "widget/icon", [ iconProvider: "kenyaui", icon: iconPath, tooltip: "View report" ]) }
-	                    <b>Quaterly Report</b>
+	                    <b>Quarterly Report</b>
 	                    <div class="ke-extra"></div>
                         </div>
                         

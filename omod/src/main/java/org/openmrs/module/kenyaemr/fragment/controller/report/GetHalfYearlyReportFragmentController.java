@@ -89,29 +89,29 @@ public class GetHalfYearlyReportFragmentController {
 		Integer age1=0;
 		Integer age2=14;
 		Set<Patient> cohortFor0_14AgeForJan=kenyaEmrService.getCohortBasedOnAge(age1,age2,janStartDate, janEndDate);
-		Set<Patient> cohortFor0_14AgeForFeb=kenyaEmrService.getCohortBasedOnGender("F",febStartDate,febEndDate);
-		Set<Patient> cohortFor0_14AgeForMarch=kenyaEmrService.getCohortBasedOnGender("F",marchStartDate,marchEndDate);
-		Set<Patient> cohortFor0_14AgeForApril=kenyaEmrService.getCohortBasedOnGender("F",aprilStartDate,aprilEndDate);
-		Set<Patient> cohortFor0_14AgeForMay=kenyaEmrService.getCohortBasedOnGender("F",mayStartDate,mayEndDate);
-		Set<Patient> cohortFor0_14AgeForJune=kenyaEmrService.getCohortBasedOnGender("F",juneStartDate,juneEndDate);
+		Set<Patient> cohortFor0_14AgeForFeb=kenyaEmrService.getCohortBasedOnAge(age1,age2,febStartDate,febEndDate);
+		Set<Patient> cohortFor0_14AgeForMarch=kenyaEmrService.getCohortBasedOnAge(age1,age2,marchStartDate,marchEndDate);
+		Set<Patient> cohortFor0_14AgeForApril=kenyaEmrService.getCohortBasedOnAge(age1,age2,aprilStartDate,aprilEndDate);
+		Set<Patient> cohortFor0_14AgeForMay=kenyaEmrService.getCohortBasedOnAge(age1,age2,mayStartDate,mayEndDate);
+		Set<Patient> cohortFor0_14AgeForJune=kenyaEmrService.getCohortBasedOnAge(age1,age2,juneStartDate,juneEndDate);
 		
 		age1=15;
 		age2=24;
 		Set<Patient> cohortFor15_24AgeForJan=kenyaEmrService.getCohortBasedOnAge(age1,age2,janStartDate, janEndDate);
-		Set<Patient> cohortFor15_24AgeForFeb=kenyaEmrService.getCohortBasedOnGender("F",febStartDate,febEndDate);
-		Set<Patient> cohortFor15_24AgeForMarch=kenyaEmrService.getCohortBasedOnGender("F",marchStartDate,marchEndDate);
-		Set<Patient> cohortFor15_24AgeForApril=kenyaEmrService.getCohortBasedOnGender("F",aprilStartDate,aprilEndDate);
-		Set<Patient> cohortFor15_24AgeForMay=kenyaEmrService.getCohortBasedOnGender("F",mayStartDate,mayEndDate);
-		Set<Patient> cohortFor15_24AgeForJune=kenyaEmrService.getCohortBasedOnGender("F",juneStartDate,juneEndDate);
+		Set<Patient> cohortFor15_24AgeForFeb=kenyaEmrService.getCohortBasedOnAge(age1,age2,febStartDate,febEndDate);
+		Set<Patient> cohortFor15_24AgeForMarch=kenyaEmrService.getCohortBasedOnAge(age1,age2,marchStartDate,marchEndDate);
+		Set<Patient> cohortFor15_24AgeForApril=kenyaEmrService.getCohortBasedOnAge(age1,age2,aprilStartDate,aprilEndDate);
+		Set<Patient> cohortFor15_24AgeForMay=kenyaEmrService.getCohortBasedOnAge(age1,age2,mayStartDate,mayEndDate);
+		Set<Patient> cohortFor15_24AgeForJune=kenyaEmrService.getCohortBasedOnAge(age1,age2,juneStartDate,juneEndDate);
 		
 		age1=25;
 		age2=60;
 		Set<Patient> cohortFor25_60AgeForJan=kenyaEmrService.getCohortBasedOnAge(age1,age2,janStartDate, janEndDate);
-		Set<Patient> cohortFor25_60AgeForFeb=kenyaEmrService.getCohortBasedOnGender("F",febStartDate,febEndDate);
-		Set<Patient> cohortFor25_60AgeForMarch=kenyaEmrService.getCohortBasedOnGender("F",marchStartDate,marchEndDate);
-		Set<Patient> cohortFor25_60AgeForApril=kenyaEmrService.getCohortBasedOnGender("F",aprilStartDate,aprilEndDate);
-		Set<Patient> cohortFor25_60AgeForMay=kenyaEmrService.getCohortBasedOnGender("F",mayStartDate,mayEndDate);
-		Set<Patient> cohortFor25_60AgeForJune=kenyaEmrService.getCohortBasedOnGender("F",juneStartDate,juneEndDate);
+		Set<Patient> cohortFor25_60AgeForFeb=kenyaEmrService.getCohortBasedOnAge(age1,age2,febStartDate,febEndDate);
+		Set<Patient> cohortFor25_60AgeForMarch=kenyaEmrService.getCohortBasedOnAge(age1,age2,marchStartDate,marchEndDate);
+		Set<Patient> cohortFor25_60AgeForApril=kenyaEmrService.getCohortBasedOnAge(age1,age2,aprilStartDate,aprilEndDate);
+		Set<Patient> cohortFor25_60AgeForMay=kenyaEmrService.getCohortBasedOnAge(age1,age2,mayStartDate,mayEndDate);
+		Set<Patient> cohortFor25_60AgeForJune=kenyaEmrService.getCohortBasedOnAge(age1,age2,juneStartDate,juneEndDate);
 		
 		Set<Patient> noOfCohortAliveAndOnArtForJan=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,janStartDate,janEndDate);
 		Set<Patient> noOfCohortAliveAndOnArtForFeb=kenyaEmrService.getNoOfCohortAliveAndOnArt(program,febStartDate,febEndDate);

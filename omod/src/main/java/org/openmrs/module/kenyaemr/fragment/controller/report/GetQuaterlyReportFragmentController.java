@@ -26,7 +26,7 @@ public class GetQuaterlyReportFragmentController {
 	
 	Program program=Context.getProgramWorkflowService().getProgramByUuid("96ec813f-aaf0-45b2-add6-e661d5bf79d6");
 	
-	if(quaterly!=null && quaterly.equals("First Quater")){
+	if(quaterly!=null && quaterly.equals("First Quarter")){
     	String janStartDate=year+"-"+"01"+"-"+"01";
 		String janEndDate=year+"-"+"01"+"-"+"31";
 		
@@ -219,7 +219,7 @@ public class GetQuaterlyReportFragmentController {
 		model.addAttribute("noOfPatientPickedUpArvForTwelveMonthForMarch",noOfPatientPickedUpArvForTwelveMonthForMarch.size());
       }
 	
-	if(quaterly!=null && quaterly.equals("Second Quater")){
+	if(quaterly!=null && quaterly.equals("Second Quarter")){
 		String aprilStartDate=year+"-"+"04"+"-"+"01";
 		String aprilEndDate=year+"-"+"04"+"-"+"30";
 		
@@ -412,7 +412,7 @@ public class GetQuaterlyReportFragmentController {
 		model.addAttribute("noOfPatientPickedUpArvForTwelveMonthForJune",noOfPatientPickedUpArvForTwelveMonthForJune.size());
 	}
 	
-    if(quaterly!=null && quaterly.equals("Third Quater")){
+    if(quaterly!=null && quaterly.equals("Third Quarter")){
     	String julyStartDate=year+"-"+"07"+"-"+"01";
 		String julyEndDate=year+"-"+"07"+"-"+"31";
 		
@@ -605,7 +605,7 @@ public class GetQuaterlyReportFragmentController {
 		model.addAttribute("noOfPatientPickedUpArvForTwelveMonthForSeptember",noOfPatientPickedUpArvForTwelveMonthForSeptember.size());
 	}
     
-    if(quaterly!=null && quaterly.equals("Fourth Quater")){
+    if(quaterly!=null && quaterly.equals("Fourth Quarter")){
     	String octoberStartDate=year+"-"+"10"+"-"+"01";
 		String octoberEndDate=year+"-"+"10"+"-"+"31";
 		

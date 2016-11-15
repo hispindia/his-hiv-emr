@@ -5,7 +5,7 @@
 
 <form id="hfgjjbb">
 
-	<label class="ke-field-label">Quaterly Selection:</label>
+	<label class="ke-field-label">Quarterly Selection:</label>
 	<span class="ke-field-content">
 		<select style='width: 155px;height: 30px;' type="text" id="quaterly" name="quaterly" >
 <% listOfYear.each { year -> %>
@@ -66,7 +66,7 @@ jQuery.ajax({
 		link.href = uri + base64(format(template, ctx));
 
 		link.style = 'visibility:hidden';
-		link.download ='${ currDate } - quaterly report.xls';
+		link.download ='${ currDate } - quarterly report.xls';
 
 		document.body.appendChild(link);
 		link.click();

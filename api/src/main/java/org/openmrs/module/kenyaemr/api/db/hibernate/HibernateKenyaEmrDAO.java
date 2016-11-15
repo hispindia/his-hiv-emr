@@ -628,8 +628,12 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	
 	public Set<Patient> getOriginalFirstLineRegimen(Program program,String startDate,String endDate) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugOrderProcessed.class,"drugOrderProcessed");
+		List<String> typeOfRegimen=new ArrayList<String>();
+		typeOfRegimen.add("First line Anti-retoviral drugs");
+		typeOfRegimen.add("Fixed dose combinations (FDCs)");
+		
 		criteria.add(Restrictions.eq("regimenChangeType", "Start"));
-		criteria.add(Restrictions.eq("typeOfRegimen", "First line Anti-retoviral drugs"));
+		criteria.add(Restrictions.in("typeOfRegimen", typeOfRegimen));
 		String startFromDate = startDate + " 00:00:00";
 		String endFromDate = endDate + " 23:59:59";
 		try {
