@@ -108,7 +108,6 @@ public class ImportPatientsListFragmentController {
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		MultipartFile multipartModuleFile = multipartRequest.getFile("upload");
 		InputStream inputStream = multipartModuleFile.getInputStream();
-
 		Workbook workbook = new XSSFWorkbook(inputStream);
 
 		Sheet firstSheet = workbook.getSheetAt(0);
@@ -121,14 +120,17 @@ public class ImportPatientsListFragmentController {
 
 			try {
 				if (rowCount > 0) {
+					
 					ArrayList<String> legacyData = new ArrayList<String>();
-
-					while (cellIterator.hasNext()) {
+					int columnCount=0;
+					while (cellIterator.hasNext() && columnCount< 31) {
+						
 						Cell cell = cellIterator.next();
 						switch (cell.getCellType()) {
 						case Cell.CELL_TYPE_STRING:
 							legacyData.add(cell.getColumnIndex(),
 									cell.getStringCellValue().trim());
+							
 							break;
 						case Cell.CELL_TYPE_NUMERIC:
 							if (HSSFDateUtil.isCellDateFormatted(cell)) {
@@ -136,21 +138,24 @@ public class ImportPatientsListFragmentController {
 										.add(cell.getColumnIndex(), String
 												.valueOf(cell
 														.getDateCellValue()));
+								
 							} else {
 
 								legacyData.add(cell.getColumnIndex(),
 										NumberToTextConverter.toText(cell
 												.getNumericCellValue()));
+								
 							}
 							break;
 						case Cell.CELL_TYPE_BLANK:
 							legacyData.add(cell.getColumnIndex(), null);
 							break;
 						}
+						columnCount++;
 					}
 					int i = 0;
 					for (String s : legacyData) {
-
+						
 						i++;
 					}
 					/*
@@ -189,6 +194,7 @@ public class ImportPatientsListFragmentController {
 
 							if (legacyData.get(1) != "") {
 								personName.setGivenName(legacyData.get(1));
+								
 								personName.setFamilyName("(NULL)");
 								toSave.addName(personName);
 							}
@@ -757,30 +763,35 @@ public class ImportPatientsListFragmentController {
 
 					if (rowCountVisit > 0) {
 						ArrayList<String> legacyData = new ArrayList<String>();
-
-						while (cellIterator.hasNext()) {
+                            int columnCount=0;
+						while (cellIterator.hasNext() && columnCount<44) {
 							Cell cell = cellIterator.next();
+							
 							switch (cell.getCellType()) {
 							case Cell.CELL_TYPE_STRING:
 								legacyData.add(cell.getColumnIndex(),
 										cell.getStringCellValue().trim());
+								
 								break;
 							case Cell.CELL_TYPE_NUMERIC:
 								if (HSSFDateUtil.isCellDateFormatted(cell)) {
 									legacyData.add(cell.getColumnIndex(),
 											String.valueOf(cell
 													.getDateCellValue()));
+									
 								} else {
 
 									legacyData.add(cell.getColumnIndex(),
 											NumberToTextConverter.toText(cell
 													.getNumericCellValue()));
+									
 								}
 								break;
 							case Cell.CELL_TYPE_BLANK:
 								legacyData.add(cell.getColumnIndex(), "");
 								break;
 							}
+							columnCount++;
 						}
 
 						int i = 0;
