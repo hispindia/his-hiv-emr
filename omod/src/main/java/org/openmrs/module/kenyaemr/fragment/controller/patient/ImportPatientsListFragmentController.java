@@ -117,20 +117,18 @@ public class ImportPatientsListFragmentController {
 		while (iterator.hasNext()) {
 			Row nextRow = iterator.next();
 			Iterator<Cell> cellIterator = nextRow.cellIterator();
-
 			try {
 				if (rowCount > 0) {
 					
 					ArrayList<String> legacyData = new ArrayList<String>();
 					int columnCount=0;
+					
 					while (cellIterator.hasNext() && columnCount< 31) {
-						
 						Cell cell = cellIterator.next();
 						switch (cell.getCellType()) {
 						case Cell.CELL_TYPE_STRING:
 							legacyData.add(cell.getColumnIndex(),
 									cell.getStringCellValue().trim());
-							
 							break;
 						case Cell.CELL_TYPE_NUMERIC:
 							if (HSSFDateUtil.isCellDateFormatted(cell)) {
@@ -144,7 +142,6 @@ public class ImportPatientsListFragmentController {
 								legacyData.add(cell.getColumnIndex(),
 										NumberToTextConverter.toText(cell
 												.getNumericCellValue()));
-								
 							}
 							break;
 						case Cell.CELL_TYPE_BLANK:
@@ -155,7 +152,6 @@ public class ImportPatientsListFragmentController {
 					}
 					int i = 0;
 					for (String s : legacyData) {
-						
 						i++;
 					}
 					/*
@@ -771,7 +767,6 @@ public class ImportPatientsListFragmentController {
 							case Cell.CELL_TYPE_STRING:
 								legacyData.add(cell.getColumnIndex(),
 										cell.getStringCellValue().trim());
-								
 								break;
 							case Cell.CELL_TYPE_NUMERIC:
 								if (HSSFDateUtil.isCellDateFormatted(cell)) {
@@ -784,7 +779,7 @@ public class ImportPatientsListFragmentController {
 									legacyData.add(cell.getColumnIndex(),
 											NumberToTextConverter.toText(cell
 													.getNumericCellValue()));
-									
+
 								}
 								break;
 							case Cell.CELL_TYPE_BLANK:
@@ -2062,6 +2057,17 @@ public class ImportPatientsListFragmentController {
 
 
 									if (!legacyData.get(23).isEmpty() && !legacyData.get(24).isEmpty()) {
+										PatientProgram activeArtProgram =null;
+										Collection<PatientProgram> artProgram = Context
+												.getProgramWorkflowService()
+												.getPatientPrograms(
+														patient);
+										for(PatientProgram artProg : artProgram){
+											if(artProg.getProgram().getUuid().equals("96ec813f-aaf0-45b2-add6-e661d5bf79d6") && artProg.getDateCompleted()==null){
+												activeArtProgram=artProg;
+											}
+										}
+										
 										
 										EncounterType ArtdiscontEnrollEncType = MetadataUtils
 												.existing(
@@ -2107,13 +2113,13 @@ public class ImportPatientsListFragmentController {
 															+ ":"
 															+ curDatenew
 																	.getSeconds());
-											pp.setDateCompleted(programcmpleteDate);
+											activeArtProgram.setDateCompleted(programcmpleteDate);
 										} catch (ParseException e) {
 											e.printStackTrace();
 										}
 
 										Context.getProgramWorkflowService()
-												.savePatientProgram(pp);
+												.savePatientProgram(activeArtProgram);
 										
 										if (!legacyData.get(24).isEmpty()) {
 											Concept endOfArt = Context
