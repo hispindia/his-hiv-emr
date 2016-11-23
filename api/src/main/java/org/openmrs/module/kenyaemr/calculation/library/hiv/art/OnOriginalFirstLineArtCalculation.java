@@ -77,6 +77,29 @@ public class OnOriginalFirstLineArtCalculation extends AbstractPatientCalculatio
 			 	  }
 		 		
 		 	  }
+		 	  
+		 	  else if((ptId.equals(order.getPatient().getPatientId()) &&(order.getRegimenChangeType().equals("Start")) &&(order.getTypeOfRegimen().equals("ARV drugs for child"))))
+		 		 { 
+		 			onOrigFirstLine=true; 
+		 			ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
+		 			 if(order.getDiscontinuedDate()!=null)
+				 	  { 
+				 		 onOrigFirstLine=false; 
+				 		ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
+				 	  }
+		 		 }
+		 		 else if((ptId.equals(order.getPatient().getPatientId()) &&(order.getRegimenChangeType().equals("Restart")) &&(order.getTypeOfRegimen().equals("ARV drugs for child"))))
+		 		 { 
+		 			onOrigFirstLine=true; 
+		 			ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
+		 			 if(order.getDiscontinuedDate()!=null)
+				 	  { 
+				 		 onOrigFirstLine=false; 
+				 		ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
+				 	  }
+		 		 }
+		 	  
+		 	  
 		 	  else if((ptId.equals(order.getPatient().getPatientId())&&(order.getRegimenChangeType().equals("Restart")) &&(order.getTypeOfRegimen().equals("Fixed dose combinations (FDCs)"))))
 		 	  { if(order.getDrugRegimen().equals(drugorder.getDrugRegimen()))
 	 		  { 

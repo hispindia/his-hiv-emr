@@ -631,6 +631,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		List<String> typeOfRegimen=new ArrayList<String>();
 		typeOfRegimen.add("First line Anti-retoviral drugs");
 		typeOfRegimen.add("Fixed dose combinations (FDCs)");
+		typeOfRegimen.add("ARV drugs for child");
 		
 		criteria.add(Restrictions.eq("regimenChangeType", "Start"));
 		criteria.add(Restrictions.in("typeOfRegimen", typeOfRegimen));

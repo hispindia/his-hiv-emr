@@ -51,6 +51,26 @@ public class OnSwitchLineArtCalculation extends AbstractPatientCalculation {
 			 	  }
 		 		
 		 	  }
+		 	  else if((ptId.equals(order.getPatient().getPatientId())&&(order.getRegimenChangeType().equals("Switch")) &&(order.getTypeOfRegimen().equals("ARV drugs for child"))&&(!(order.getDrugRegimen().equals("AZT/TDF/3TC/LPV/r"))))){
+		 		 if(order.getDrugRegimen().equals(drugorder.getDrugRegimen()))
+		 		  { 
+		 			 onOrigFirstLine = false;
+		 			
+		 		  }
+		 		  else
+		 		  {  onOrigFirstLine = true;
+		 			drugorder=order;
+		 			ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
+		 		  }
+		 		 if(order.getDiscontinuedDate()!=null)
+			 	  { 
+			 		 onOrigFirstLine=false; 
+			 		ret.put(ptId, new BooleanResult(onOrigFirstLine, this, context));
+			 	  }
+		 		
+		 	    
+		 	  }
+		 	  
 		 		}
 		 		else
 		 		{  

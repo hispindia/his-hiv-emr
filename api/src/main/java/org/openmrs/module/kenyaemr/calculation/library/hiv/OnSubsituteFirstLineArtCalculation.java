@@ -57,6 +57,27 @@ public class OnSubsituteFirstLineArtCalculation extends AbstractPatientCalculati
 			 	  }
 		 		
 		 	  }
+		 	  else if((ptId.equals(order.getPatient().getPatientId())&&(order.getRegimenChangeType().equals("Substitute")) &&(order.getTypeOfRegimen().equals("ARV drugs for child")))){
+		 		 if(order.getDrugRegimen().equals(drugorder.getDrugRegimen()))
+		 		  { 
+		 			 onOrigFirstLines = false;
+		 			
+		 		  }
+		 		  else
+		 		  {  onOrigFirstLines = true;
+		 			drugorder=order;
+		 			ret.put(ptId, new BooleanResult(onOrigFirstLines, this, context));
+		 		  }
+		 		 if(order.getDiscontinuedDate()!=null)
+			 	  { 
+			 		 onOrigFirstLines=false; 
+			 		ret.put(ptId, new BooleanResult(onOrigFirstLines, this, context));
+			 	  }
+		 		
+		 	    
+		 	  }
+		 	  
+		 	  
 		 		 }
 		 		 else
 		 		 {

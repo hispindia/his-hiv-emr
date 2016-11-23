@@ -28,6 +28,7 @@ import org.openmrs.module.kenyacore.calculation.CalculationUtils;
 import org.openmrs.module.kenyacore.calculation.Calculations;
 
 import java.util.Set;
+
 import org.openmrs.Program;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.kenyacore.calculation.Filters;
@@ -40,6 +41,7 @@ import org.openmrs.module.kenyaemr.metadata.HivMetadata;
 import org.openmrs.module.metadatadeploy.MetadataUtils;
 import org.openmrs.Concept;
 import org.openmrs.DrugOrder;
+import org.openmrs.Obs;
 
 /**
  * Calculates whether patients who have level of adherence
@@ -81,6 +83,8 @@ public class LevelOfAdherenceCalculation extends AbstractPatientCalculation impl
 		CalculationResultMap dosesReceived = Calculations.lastObs(Dictionary.getConcept(Dictionary.NUMBER_OF_DOSES_RECEIVED_BEFORE_ENROLLMENT), inHivProgram, context);
 		CalculationResultMap dosesMissed = Calculations.lastObs(Dictionary.getConcept(Dictionary.NUMBER_OF_MISSED_DOSES_IN_LAST_30_DAYS),inHivProgram, context);
 		
+		CalculationResultMap percentageCalculation = Calculations.lastObs(Dictionary.getConcept(Dictionary.ART_ADHERENCE),inHivProgram, context);
+		
 		CalculationResultMap ret = new CalculationResultMap();
 		for (Integer ptId : cohort) {
 			boolean resultFlag = false;
@@ -89,6 +93,7 @@ public class LevelOfAdherenceCalculation extends AbstractPatientCalculation impl
 			if (inHivProgram.contains(ptId)) {
 				Double lastCD4Count = EmrCalculationUtils.numericObsResultForPatient(dosesReceived, ptId);
 				Double oldCD4Count = EmrCalculationUtils.numericObsResultForPatient(dosesMissed, ptId);
+				Obs o = EmrCalculationUtils.obsResultForPatient(percentageCalculation, ptId);
 				if(lastCD4Count!=null && oldCD4Count !=null){
 					
 					Double persentage = oldCD4Count/lastCD4Count*100;
@@ -97,7 +102,20 @@ public class LevelOfAdherenceCalculation extends AbstractPatientCalculation impl
 						resultFlag = true;
 					}
 				}
-				
+				else if(o!=null && o.getValueText()!=null){
+					if(o.getValueText().equals(">95%") && minPercentage==0){
+						resultFlag = true;
+					}
+					else if(o.getValueText().equals("80-95%") && minPercentage==5){
+						resultFlag = true;
+					}
+					else if(o.getValueText().equals("<80%") && minPercentage==20){
+						resultFlag = true;
+					}
+					else if(minPercentage==0 && maxPercentage==100){
+						resultFlag = true;
+					}
+				}
 			}
 			ret.put(ptId, new BooleanResult(resultFlag, this, context));
 		}

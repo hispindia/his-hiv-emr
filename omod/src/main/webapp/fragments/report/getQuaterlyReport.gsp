@@ -1,20 +1,20 @@
 <table style='width: 100%' class="ke-table-vertical">
 <tr>
-<th>
-Cohort Analysis for the ${year}
-</th>
+	<th>
+	Cohort Analysis for the ${year}
+	</th>
 
-<% if (quaterly=='First Quarter') { %>
-<th>
-Jan Cohort
-</th>
-<th>
-Feb Cohort
-</th>
-<th>
-March Cohort
-</th>
-<% } %>
+	<% if (quaterly=='First Quarter') { %>
+		<th>
+			Jan Cohort
+		</th>
+		<th>
+			Feb Cohort
+		</th>
+		<th>
+			March Cohort
+		</th>
+	<% } %>
 
 <% if (quaterly=='Second Quarter') { %>
 <th>
@@ -170,7 +170,7 @@ ${patientProgramForDecember}
 <tr>
 <td><font face="verdana" color="green">Total  Cohort for Respective month (s)</font></td>
 <% if (quaterly=='First Quarter') { %>
-<<td>${totalCohortForJan} </td>
+<td>${totalCohortForJan} </td>
 <td>${totalCohortForFeb} </td>
 <td>${totalCohortForMarch} </td>
 <% } %>
@@ -254,7 +254,7 @@ ${patientProgramForDecember}
 <tr>
 <td>Age 0-14yr </td>
 <% if (quaterly=='First Quarter') { %>
-<<td>${cohortFor0_14AgeForJan} </td>
+<td>${cohortFor0_14AgeForJan} </td>
 <td>${cohortFor0_14AgeForFeb} </td>
 <td>${cohortFor0_14AgeForMarch} </td>
 <% } %>
@@ -400,7 +400,7 @@ ${patientProgramForDecember}
 <% } %>
 
 <% if (quaterly=='Second Quarter') { %>
-<<td>${noOfAlternateFirstLineRegimenForApril} </td>
+<td>${noOfAlternateFirstLineRegimenForApril} </td>
 <td>${noOfAlternateFirstLineRegimenForMay} </td>
 <td>${noOfAlternateFirstLineRegimenForJune} </td>
 <% } %>
@@ -562,7 +562,7 @@ ${patientProgramForDecember}
 <tr>
 <td>Number of Patient with CD4 > or equal to 200  </td>
 <% if (quaterly=='First Quarter') { %>
-td>${noOfPatientWithCD4ForJan} </td>
+<td>${noOfPatientWithCD4ForJan} </td>
 <td>${noOfPatientWithCD4ForFeb} </td>
 <td>${noOfPatientWithCD4ForMarch} </td>
 <% } %>
@@ -674,7 +674,7 @@ td>${noOfPatientWithCD4ForJan} </td>
 <tr>
 <td>C-Bedridden for more than 50%</td>
 <% if (quaterly=='First Quarter') { %>
-<<td>${noOfPatientBedriddenMoreThanFiftyForJan} </td>
+<td>${noOfPatientBedriddenMoreThanFiftyForJan} </td>
 <td>${noOfPatientBedriddenMoreThanFiftyForFeb} </td>
 <td>${noOfPatientBedriddenMoreThanFiftyForMarch} </td>
 <% } %>

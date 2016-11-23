@@ -2039,11 +2039,12 @@ public class ImportPatientsListFragmentController {
 												for (PatientProgram prog : hivprogram) {
 													if (prog.getPatient()
 															.equals(patient)) {
-
-														prog.setDateCompleted(programcmpleteDate);
-														Context.getProgramWorkflowService()
-																.savePatientProgram(
-																		prog);
+														if(prog.getProgram().getUuid().equals("dfdc6d40-2f2f-463d-ba90-cc97350441a8") && prog.getDateCompleted()==null){
+															prog.setDateCompleted(programcmpleteDate);
+															Context.getProgramWorkflowService()
+																	.savePatientProgram(
+																			prog);
+														}
 
 													}
 												}
@@ -2067,7 +2068,6 @@ public class ImportPatientsListFragmentController {
 												activeArtProgram=artProg;
 											}
 										}
-										
 										
 										EncounterType ArtdiscontEnrollEncType = MetadataUtils
 												.existing(
@@ -2113,7 +2113,9 @@ public class ImportPatientsListFragmentController {
 															+ ":"
 															+ curDatenew
 																	.getSeconds());
-											activeArtProgram.setDateCompleted(programcmpleteDate);
+											if(activeArtProgram!=null){
+												activeArtProgram.setDateCompleted(programcmpleteDate);
+											}
 										} catch (ParseException e) {
 											e.printStackTrace();
 										}
