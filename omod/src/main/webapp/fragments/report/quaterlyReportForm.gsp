@@ -15,12 +15,89 @@
 	</span>
 	
 	<input type="button" value="View" onclick="viewQuaterlyReport();"/>
-	<input type="button" value="Export" onclick="exportQuaterlyReportToExcel('exportQuaterlyReport');"/>
+	<input type="button" value="Export" onclick="quarterIndex();"/>
 	<input type="button" value="Cancel" onclick="ke_cancel_quaterly();"/>
 </form>
 
 
 <script type="text/javascript">
+var count=0;
+var today = new Date();
+var currentYear = today.getFullYear(); 
+
+function quarterIndex(){
+	var quaterly=jQuery('#quaterly').val();
+	if(quaterly=="First Quarter"){
+		
+		jQuery.ajax({
+				type : "GET",
+				url : getContextPath_quaterly() + "/kenyaemr/reports/getQuaterlyReport.page",
+				data : ({
+					quaterly:"First Quarter"
+				}),
+				success : function(data) {
+				jQuery("#exportQuaterlyReport").html(data);	
+				}
+         });
+		count=0;
+		exportQuaterlyReportToExcel('exportQuaterlyReport');
+		confirm("First Quarter-"+currentYear);
+		exportQuaterlyReportToExcel('exportQuaterlyReport');
+	}
+	else if(quaterly=="Second Quarter"){
+			
+			jQuery.ajax({
+					type : "GET",
+					url : getContextPath_quaterly() + "/kenyaemr/reports/getQuaterlyReport.page",
+					data : ({
+						quaterly:"Second Quarter"
+					}),
+					success : function(data) {
+					jQuery("#exportQuaterlyReport").html(data);	
+					}
+	         });
+			count=0;
+			exportQuaterlyReportToExcel('exportQuaterlyReport');
+			confirm("Second Quarter-"+currentYear);
+			exportQuaterlyReportToExcel('exportQuaterlyReport');
+		}
+	else if(quaterly=="Third Quarter"){
+			
+			jQuery.ajax({
+					type : "GET",
+					url : getContextPath_quaterly() + "/kenyaemr/reports/getQuaterlyReport.page",
+					data : ({
+						quaterly:"Third Quarter"
+					}),
+					success : function(data) {
+					jQuery("#exportQuaterlyReport").html(data);	
+					}
+	         });
+			count=0;
+			exportQuaterlyReportToExcel('exportQuaterlyReport');
+			confirm("Third Quarter-"+currentYear);
+			exportQuaterlyReportToExcel('exportQuaterlyReport');
+		}		
+	
+	else {
+		jQuery.ajax({
+				type : "GET",
+				url : getContextPath_quaterly() + "/kenyaemr/reports/getQuaterlyReport.page",
+				data : ({
+					quaterly:"Fourth Quarter"
+				}),
+				success : function(data) {
+				jQuery("#exportQuaterlyReport").html(data);	
+				}
+         });
+		count=0;
+		exportQuaterlyReportToExcel('exportQuaterlyReport');
+		confirm("Fourth Quarter-"+currentYear);
+		exportQuaterlyReportToExcel('exportQuaterlyReport');
+	}
+}
+
+
 //View Report
 function viewQuaterlyReport() {
 var quaterly=jQuery('#quaterly').val();
@@ -38,29 +115,16 @@ jQuery.ajax({
   });
 }
 
-//Excel export
 var exportQuaterlyReportToExcel = (function() {
 			
-var quaterly=jQuery('#quaterly').val();
-jQuery('#exportQuaterlyReport').empty();
-jQuery.ajax({
-				type : "GET",
-				url : getContextPath_quaterly() + "/kenyaemr/reports/getQuaterlyReport.page",
-				data : ({
-					quaterly:quaterly
-				}),
-				success : function(data) {
-				jQuery("#exportQuaterlyReport").html(data);	
-				}
-         });
-         
+			
 		var uri = 'data:application/vnd.ms-excel;base64,'
 		, template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table >{table}</table></body></html>'
 		, base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
 		, format = function(s, c) { return s.replace(/{(\\w+)}/g, function(m, p) { return c[p]; }) }
 		return function(table, name) {
 		if (!table.nodeType) table = document.getElementById(table)
-		var ctx = {worksheet: name || 'White Card', table: table.innerHTML}
+		var ctx = {worksheet: name || 'Cohort report', table: table.innerHTML}
 		
 		var link = document.createElement("a");
 		link.href = uri + base64(format(template, ctx));
@@ -69,10 +133,17 @@ jQuery.ajax({
 		link.download ='${ currDate } - quarterly report.xls';
 
 		document.body.appendChild(link);
-		link.click();
+		
+		if(count>0){
+	  		link.click();
+		}
+		count++;
 		
 		}
-	})()
+	})();
+	
+
+	
 
 // get context path in order to build controller url
 	function getContextPath_quaterly() {
@@ -88,5 +159,4 @@ function ke_cancel_quaterly() {
 </script>
 
 <div class="ke-page-content" id="exportQuaterlyReport" hidden="hidden">
-
 </div>
