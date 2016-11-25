@@ -30,6 +30,7 @@ function quarterIndex(){
 	if(quaterly=="First Quarter"){
 		
 		jQuery.ajax({
+		async : false,
 				type : "GET",
 				url : getContextPath_quaterly() + "/kenyaemr/reports/getQuaterlyReport.page",
 				data : ({
@@ -41,12 +42,13 @@ function quarterIndex(){
          });
 		count=0;
 		exportQuaterlyReportToExcel('exportQuaterlyReport');
-		confirm("First Quarter-"+currentYear);
+	//	confirm("First Quarter-"+currentYear);
 		exportQuaterlyReportToExcel('exportQuaterlyReport');
 	}
 	else if(quaterly=="Second Quarter"){
 			
 			jQuery.ajax({
+			async : false,
 					type : "GET",
 					url : getContextPath_quaterly() + "/kenyaemr/reports/getQuaterlyReport.page",
 					data : ({
@@ -58,12 +60,13 @@ function quarterIndex(){
 	         });
 			count=0;
 			exportQuaterlyReportToExcel('exportQuaterlyReport');
-			confirm("Second Quarter-"+currentYear);
+	//		confirm("Second Quarter-"+currentYear);
 			exportQuaterlyReportToExcel('exportQuaterlyReport');
 		}
 	else if(quaterly=="Third Quarter"){
 			
 			jQuery.ajax({
+			async : false,
 					type : "GET",
 					url : getContextPath_quaterly() + "/kenyaemr/reports/getQuaterlyReport.page",
 					data : ({
@@ -75,12 +78,13 @@ function quarterIndex(){
 	         });
 			count=0;
 			exportQuaterlyReportToExcel('exportQuaterlyReport');
-			confirm("Third Quarter-"+currentYear);
+	//		confirm("Third Quarter-"+currentYear);
 			exportQuaterlyReportToExcel('exportQuaterlyReport');
 		}		
 	
 	else {
 		jQuery.ajax({
+		async : false,
 				type : "GET",
 				url : getContextPath_quaterly() + "/kenyaemr/reports/getQuaterlyReport.page",
 				data : ({
@@ -92,7 +96,7 @@ function quarterIndex(){
          });
 		count=0;
 		exportQuaterlyReportToExcel('exportQuaterlyReport');
-		confirm("Fourth Quarter-"+currentYear);
+	//	confirm("Fourth Quarter-"+currentYear);
 		exportQuaterlyReportToExcel('exportQuaterlyReport');
 	}
 }

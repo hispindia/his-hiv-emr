@@ -30,6 +30,7 @@ function  halfYearIndex(){
 	var halfYearly=jQuery('#halfYearly').val();
 	if(halfYearly=="First Half"){
 		jQuery.ajax({
+		async : false,
 				type : "GET",
 				url : getContextPath_halfyearly() + "/kenyaemr/reports/getHalfYearlyReport.page",
 				data : ({
@@ -41,11 +42,12 @@ function  halfYearIndex(){
          });
 		count=0;
 		exportHalfYearlyReportToExcel('exportHalfYearlyReport');
-		confirm("First Half-"+currentYear);
+//	confirm("If entrie's are wrong or empty try again");
 		exportHalfYearlyReportToExcel('exportHalfYearlyReport');
 	}
 	else {
 		jQuery.ajax({
+		async : false,
 				type : "GET",
 				url : getContextPath_halfyearly() + "/kenyaemr/reports/getHalfYearlyReport.page",
 				data : ({
@@ -57,7 +59,7 @@ function  halfYearIndex(){
          });
 		count=0;
 		exportHalfYearlyReportToExcel('exportHalfYearlyReport');
-		confirm("Second Half-"+currentYear);
+	//	confirm("If entrie's are wrong or empty try again");
 		exportHalfYearlyReportToExcel('exportHalfYearlyReport');
 	}
 }
@@ -67,9 +69,9 @@ function  halfYearIndex(){
 
 //View Report
 function viewHalfYearlyReport() {
+
 var halfYearly=jQuery('#halfYearly').val();
 
-alert(halfYearly);
 jQuery('#viewHalfYearlyReport').empty();
 
 jQuery.ajax({
