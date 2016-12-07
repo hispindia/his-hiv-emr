@@ -303,7 +303,20 @@ kenyaemrApp.controller('PatientSearchResults', ['$scope', '$http', function($sco
 			
 			$.each(data, function(i, item){
 	            $.each(this,function(j) {
-	        
+	            	var strength = this.strength;
+	            	if(strength==null){
+	            		strength="";
+	            	}
+	            	var formulation = this.formulation;
+	            	if(formulation==null){
+	            		formulation="";
+	            	}
+	            	
+	            	var frequency = this.frequency;
+	            	if(frequency==null){
+	            		frequency="";
+	            	}
+	           
 	            	htmlText=htmlText
 	            	 +"<tr>"
 	            	 +"<td>"
@@ -313,13 +326,13 @@ kenyaemrApp.controller('PatientSearchResults', ['$scope', '$http', function($sco
 	                 +this.drug
 	                 +"</td>"
 	                 +"<td>"
-	                 +this.strength
+	                 + strength
 	                 +"</td>"
 	                 +"<td>"
-	                 +this.formulation
+	                 + formulation
 	                 +"</td>"
 	                 +"<td>"
-	                 +this.frequency
+	                 + frequency
 	                 +"</td>"
 	                 +"<td>"
 	                 +this.duration
