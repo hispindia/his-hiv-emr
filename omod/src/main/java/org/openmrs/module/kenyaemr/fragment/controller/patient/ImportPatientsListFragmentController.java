@@ -1409,6 +1409,10 @@ public class ImportPatientsListFragmentController {
 																				+ curDat.getSeconds());
 
 																drugoo.setDiscontinuedDate(discontinuedDate);
+																Order orderPrevious = Context.getOrderService().getOrder(ooo.getDrugOrder().getOrderId());
+																orderPrevious.setDiscontinuedDate(discontinuedDate);
+																Context.getOrderService().saveOrder(orderPrevious);
+																break;
 															}
 														}
 													}
@@ -1436,6 +1440,12 @@ public class ImportPatientsListFragmentController {
 																	.equals(drugoo
 																			.getDrugRegimen())) {
 																drugoo.setDiscontinuedReason(discontinuedReason);
+																Order orderPrevious = Context.getOrderService().getOrder(ooo.getDrugOrder().getOrderId());
+																orderPrevious.setDiscontinued(true);
+																orderPrevious.setDiscontinuedBy(Context.getUserService().getUserByUsername("admin"));
+																orderPrevious.setDiscontinuedReason(discontinuedReason);
+																Context.getOrderService().saveOrder(orderPrevious);
+																break;
 															}
 														}
 													}
