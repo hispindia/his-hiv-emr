@@ -1378,7 +1378,6 @@ public class ImportPatientsListFragmentController {
 
 										Order oo = new Order();
 										DrugOrderProcessed drugoo = new DrugOrderProcessed();
-
 										for (DrugOrderProcessed ooo : dopp) {
 											if (!legacyData.get(36).isEmpty()) {
 												Date discontinuedDate = new Date();
@@ -1408,10 +1407,7 @@ public class ImportPatientsListFragmentController {
 																				+ ":"
 																				+ curDat.getSeconds());
 
-																drugoo.setDiscontinuedDate(discontinuedDate);
-																Order orderPrevious = Context.getOrderService().getOrder(ooo.getDrugOrder().getOrderId());
-																orderPrevious.setDiscontinuedDate(discontinuedDate);
-																Context.getOrderService().saveOrder(orderPrevious);
+																drugoo.setDiscontinuedDate(dateVisit);
 																break;
 															}
 														}
@@ -1434,16 +1430,17 @@ public class ImportPatientsListFragmentController {
 																		.get(35)));
 
 												for (Visit visdr : visitdrug) {
+													Order orderPrevious = Context.getOrderService().getOrder(ooo.getDrugOrder().getOrderId());
 													if (visdr.getStopDatetime() != null) {
-														if (oo.getDiscontinuedReason() == null) {
+														if (orderPrevious.getDiscontinuedReason() == null) {
 															if (!ooo.getDrugRegimen()
 																	.equals(drugoo
 																			.getDrugRegimen())) {
 																drugoo.setDiscontinuedReason(discontinuedReason);
-																Order orderPrevious = Context.getOrderService().getOrder(ooo.getDrugOrder().getOrderId());
 																orderPrevious.setDiscontinued(true);
 																orderPrevious.setDiscontinuedBy(Context.getUserService().getUserByUsername("admin"));
 																orderPrevious.setDiscontinuedReason(discontinuedReason);
+																orderPrevious.setDiscontinuedDate(dateVisit);
 																Context.getOrderService().saveOrder(orderPrevious);
 																break;
 															}
