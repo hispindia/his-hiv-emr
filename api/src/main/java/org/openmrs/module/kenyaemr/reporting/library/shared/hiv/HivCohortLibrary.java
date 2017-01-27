@@ -352,7 +352,7 @@ public class HivCohortLibrary {
         }
 
        public CohortDefinition onCTX(){
-    	   Concept oi = Dictionary.getConcept(Dictionary.OI_TREATMENT_DRUG);
+    	   Concept oi = Dictionary.getConcept(Dictionary.PROPHYLAXIS);
     	   Concept ctx = Dictionary.getConcept(Dictionary.SULFAMETHOXAZOLE_TRIMETHOPRIM);
         	
             CompositionCohortDefinition cd = new CompositionCohortDefinition();
