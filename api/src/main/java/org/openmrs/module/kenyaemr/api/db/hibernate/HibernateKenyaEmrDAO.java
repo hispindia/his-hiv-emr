@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.sql.DataSource;
+
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -53,6 +55,8 @@ import org.openmrs.module.kenyaemr.api.db.KenyaEmrDAO;
 import org.openmrs.module.kenyaemr.model.DrugInfo;
 import org.openmrs.module.kenyaemr.model.DrugObsProcessed;
 import org.openmrs.module.kenyaemr.model.DrugOrderProcessed;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
  * Hibernate specific data access functions. This class should not be used
@@ -66,6 +70,9 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	SimpleDateFormat formatterExt = new SimpleDateFormat("yyyy-MM-dd");
 
 	private SessionFactory sessionFactory;
+	
+	@Autowired
+	private DataSource dataSource;
 
 	/**
 	 * Sets the session factory
@@ -84,6 +91,14 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	 */
 	private Session getCurrentSession() {
 		return sessionFactory.getCurrentSession();
+	}
+
+	public DataSource getDataSource() {
+		return dataSource;
+	}
+
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
 	}
 
 	@Override
@@ -1502,5 +1517,17 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		criteria.addOrder(Order.desc("obsDatetime"));
 		criteria.setMaxResults(1);
 		return (Obs) criteria.uniqueResult();
+	}
+	
+	public Integer getPatientCount(){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String query="SELECT COUNT(*) FROM patient;";
+		/*
+		SqlRowSet rs = jdbcTemplate.queryForRowSet( query );
+		while ( rs.next() )
+	     {                
+	         String deValue =  rs.getString( 1 );
+	     }*/
+		return jdbcTemplate.queryForInt(query);	
 	}
 }

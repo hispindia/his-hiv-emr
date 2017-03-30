@@ -98,4 +98,5 @@ public interface KenyaEmrDAO {
 	public Set<Patient> getNoOfPatientPickedUpArvForSixMonth(String startDate,String endDate);
 	public Set<Patient> getNoOfPatientPickedUpArvForTwelveMonth(String startDate,String endDate);
 	public List<DrugOrderProcessed> getDrugOrderProcessedByPatient(Patient patient);
+	public Integer getPatientCount();
 }

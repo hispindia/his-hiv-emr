@@ -514,4 +514,8 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 		// TODO Auto-generated method stub
 		return dao.getDrugOrderProcessedByPatient(patient);
 	}
+	
+	public Integer getPatientCount() {
+		return dao.getPatientCount();
+	}
 }
