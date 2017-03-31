@@ -518,4 +518,8 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 	public Integer getPatientCount() {
 		return dao.getPatientCount();
 	}
+	
+	public Integer noOfDeathReported(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.noOfDeathReported(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
 }

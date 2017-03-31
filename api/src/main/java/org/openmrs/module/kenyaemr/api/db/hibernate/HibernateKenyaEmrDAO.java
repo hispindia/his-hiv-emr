@@ -1530,4 +1530,79 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	     }*/
 		return jdbcTemplate.queryForInt(query);	
 	}
+	
+	public Integer noOfDeathReported(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String query="select count(*)  tot "
++"from"
++"("
+		        +"select pp.patient_id "
+                +"from patient_program pp "
+                +"inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART' "
+                +"inner join person p on p.person_id=pp.patient_id " 
+                +"and gender like "+"'"+gender+"'"
+                +" and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) >"+ageCategory 
+                +" where date(date_enrolled) between "+startOfPeriod+ " and "+endOfPeriod
+                +" and date(p.death_date) between "+startOfPeriod+ " and "+endOfPeriod
+                +" group by pp.patient_id "
+        +"union "
+        +"select *"
+        +" from" 
+        +"("
+                +"select pp.patient_id "
+                +"from patient_program pp "
+                +"inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART' "
+                +"inner join person p on p.person_id=pp.patient_id " 
+                +"and gender like "+"'"+gender+"'"
+                +" and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))>"+ageCategory 
+                +" where date(date_enrolled) between DATE_SUB("+startOfPeriod+", INTERVAL 1 MONTH) and DATE_SUB("+endOfPeriod+", INTERVAL 1 MONTH) "
+                +"and case when date_completed is not null then date_completed >"+startOfPeriod+" else 1=1 end "
+                +"group by pp.patient_id "
+        +")sag"
++")sag3 "
++"inner join " 
++"("
+        +"select patient_id " 
++"from"
++"("
+        +"select patient_id,case when max(ifnull(art,0))> max(ifnull(hiv,0)) then max(art) else max(hiv) end dd,"
+        +"case when max(ifnull(art,0))> max(ifnull(hiv,0)) then 'art' else 'hiv' end dd1,value_coded "
+        +"from" 
+                +"("
+                +"select pid, patient_id,case when sag.name like 'ART' then dd end 'art',"
+                +"case when sag.name like 'HIV' then dd end 'hiv',value_coded "
+                +"from " 
+                +"("
+                        +"select s.* from " 
+                        +"("
+                                +"select pp.patient_id,pp.date_enrolled,pp.date_completed dd,pr.name,pp.patient_program_id pid,o.value_coded "
+                                +"from patient_program pp "
+                                +"inner join program pr on pr.program_id=pp.program_id "
+                                +"inner join person p on p.person_id=pp.patient_id " 
+                                +"left join obs o on o.person_id = pp.patient_id and o.concept_id=161555 " 
+                                +"and gender like "+"'"+gender+"'"
+                                +" and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))>"+ageCategory 
+                                +" where pp.date_completed is not null "
+                                +"and date(pp.date_completed) between "+startOfPeriod+" and "+endOfPeriod
+                                +" and case when o.concept_id is not null then o.obs_datetime between pp.date_enrolled and pp.date_completed else 1=1 end "
+                                +" and case when o.concept_id is not null then o.value_coded=160034 else 1=1 end "
+                        +")s "
+                        +"left join " 
+                        +"("
+                                +"select patient_id "
+                                +"from patient_program pp "
+                                +"inner join program pr on pr.program_id=pp.program_id and pr.name like 'HIV' "
+                                +"where pp.date_completed is null "
+                                +"group by pp.patient_id "
+                        +")s1 on s.patient_id=s1.patient_id "
+                        +"where s1.patient_id is null"
+                +")sag"
+        +")sag1 "
+        +"group by patient_id "
++")sag2 "
++"where case when dd1 like 'hiv' then sag2.value_coded is not null end "
++")sag4 "
++"on sag3.patient_id=sag4.patient_id";
+		return jdbcTemplate.queryForInt(query);	
+	}
 }

@@ -11,5 +11,10 @@ public class GetNapMonthlyReportForAdultFragmentController {
 			FragmentModel model, UiUtils ui) {
     KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
 	model.addAttribute("patientcount",kenyaEmrService.getPatientCount());
+	String gender="F";
+	String ageCategory=">14";
+	String startOfPeriod="2017-01-01";
+	String endOfPeriod="2017-01-31";
+	model.addAttribute("noOfDeathReported",kenyaEmrService.noOfDeathReported(gender,ageCategory,startOfPeriod,endOfPeriod));
   }
 }
