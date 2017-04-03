@@ -1554,7 +1554,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
                 +"inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART' "
                 +"inner join person p on p.person_id=pp.patient_id " 
                 +"and gender like "+"'"+gender+"'"
-                +" and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))>"+ageCategory 
+                +" and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory 
                 +" where date(date_enrolled) between DATE_SUB("+startOfPeriod+", INTERVAL 1 MONTH) and DATE_SUB("+endOfPeriod+", INTERVAL 1 MONTH) "
                 +"and case when date_completed is not null then date_completed >"+startOfPeriod+" else 1=1 end "
                 +"group by pp.patient_id "
@@ -1581,7 +1581,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
                                 +"inner join person p on p.person_id=pp.patient_id " 
                                 +"left join obs o on o.person_id = pp.patient_id and o.concept_id=161555 " 
                                 +"and gender like "+"'"+gender+"'"
-                                +" and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))>"+ageCategory 
+                                +" and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory 
                                 +" where pp.date_completed is not null "
                                 +"and date(pp.date_completed) between "+startOfPeriod+" and "+endOfPeriod
                                 +" and case when o.concept_id is not null then o.obs_datetime between pp.date_enrolled and pp.date_completed else 1=1 end "

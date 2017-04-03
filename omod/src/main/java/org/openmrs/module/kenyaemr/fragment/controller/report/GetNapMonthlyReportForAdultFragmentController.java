@@ -19,6 +19,7 @@ public class GetNapMonthlyReportForAdultFragmentController {
 	SimpleDateFormat formatterExt = new SimpleDateFormat("yyyy-MM-dd");
 	String startOfPeriod = formatterExt.format(startDate);
 	String endOfPeriod = formatterExt.format(endDate);
-	model.addAttribute("noOfDeathReported",kenyaEmrService.noOfDeathReported("Female",ageCategory,startOfPeriod,endOfPeriod));
+	model.addAttribute("noOfDeathReportedForMale",kenyaEmrService.noOfDeathReported("M",ageCategory,startOfPeriod,endOfPeriod));
+	model.addAttribute("noOfDeathReportedForFemale",kenyaEmrService.noOfDeathReported("F",ageCategory,startOfPeriod,endOfPeriod));
   }
 }
