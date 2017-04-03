@@ -10,17 +10,15 @@ import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.springframework.web.bind.annotation.RequestParam;
 
 public class GetNapMonthlyReportForAdultFragmentController {
-	public void controller(@RequestParam("year") String year,
-			@RequestParam("startDate") Date startDate,
+	public void controller(@RequestParam("startDate") Date startDate,
 			@RequestParam("endDate") Date endDate,
 			@RequestParam("ageCategory") String ageCategory,
 			FragmentModel model, UiUtils ui) {
     KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
 	model.addAttribute("patientcount",kenyaEmrService.getPatientCount());
-	String gender="F";
 	SimpleDateFormat formatterExt = new SimpleDateFormat("yyyy-MM-dd");
 	String startOfPeriod = formatterExt.format(startDate);
 	String endOfPeriod = formatterExt.format(endDate);
-	model.addAttribute("noOfDeathReported",kenyaEmrService.noOfDeathReported(gender,ageCategory,startOfPeriod,endOfPeriod));
+	model.addAttribute("noOfDeathReported",kenyaEmrService.noOfDeathReported("Female",ageCategory,startOfPeriod,endOfPeriod));
   }
 }

@@ -25,18 +25,15 @@
 <script type="text/javascript">
 //View Report
 function viewReport() {
-//var year=jQuery('#year').val();
 var startDate=jQuery('#start-date').val();
 var endDate=jQuery('#end-date').val();
 var ageCategory=">14";
-var year=2017;
 jQuery('#viewReport').empty();
 
 jQuery.ajax({
 				type : "GET",
 				url : getContextPath() + "/kenyaemr/reports/getNapMonthlyReportForAdult.page",
 				data : ({
-					year:year,
 					startDate:startDate,
 					endDate:endDate,
 					ageCategory:ageCategory

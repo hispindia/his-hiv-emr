@@ -1,1 +1,1 @@
-${ ui.includeFragment("kenyaemr", "report/getNapMonthlyReportForAdult",[year:year]) }
+${ ui.includeFragment("kenyaemr", "report/getNapMonthlyReportForAdult") }
