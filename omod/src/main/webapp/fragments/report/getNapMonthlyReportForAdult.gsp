@@ -80,9 +80,9 @@ Total
 </tr>
 
 <tr>
-<td>No. of death reported at the end of this month</td>
+<td>5.1 No. of death reported at the end of this month</td>
 <td>${noOfDeathReportedForMale}</td>
-<td>${noOfDeathReportedForFemale} </td>
-<td> </td>
+<td>${noOfDeathReportedForFemale}</td>
+<td>${noOfDeathReportedTotal}</td>
 </tr>
 </table>

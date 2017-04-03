@@ -1541,9 +1541,9 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
                 +"inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART' "
                 +"inner join person p on p.person_id=pp.patient_id " 
                 +"and gender like "+"'"+gender+"'"
-                +" and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) >"+ageCategory 
-                +" where date(date_enrolled) between "+startOfPeriod+ " and "+endOfPeriod
-                +" and date(p.death_date) between "+startOfPeriod+ " and "+endOfPeriod
+                +" and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory 
+                +" where date(date_enrolled) between "+"'"+startOfPeriod+"'"+ " and "+"'"+endOfPeriod+"'"
+                +" and date(p.death_date) between "+"'"+startOfPeriod+"'"+ " and "+"'"+endOfPeriod+"'"
                 +" group by pp.patient_id "
         +"union "
         +"select *"
@@ -1555,8 +1555,8 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
                 +"inner join person p on p.person_id=pp.patient_id " 
                 +"and gender like "+"'"+gender+"'"
                 +" and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory 
-                +" where date(date_enrolled) between DATE_SUB("+startOfPeriod+", INTERVAL 1 MONTH) and DATE_SUB("+endOfPeriod+", INTERVAL 1 MONTH) "
-                +"and case when date_completed is not null then date_completed >"+startOfPeriod+" else 1=1 end "
+                +" where date(date_enrolled) between DATE_SUB("+"'"+startOfPeriod+"'"+", INTERVAL 1 MONTH) and DATE_SUB("+"'"+endOfPeriod+"'"+", INTERVAL 1 MONTH) "
+                +"and case when date_completed is not null then date_completed >"+"'"+startOfPeriod+"'"+" else 1=1 end "
                 +"group by pp.patient_id "
         +")sag"
 +")sag3 "
@@ -1583,7 +1583,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
                                 +"and gender like "+"'"+gender+"'"
                                 +" and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory 
                                 +" where pp.date_completed is not null "
-                                +"and date(pp.date_completed) between "+startOfPeriod+" and "+endOfPeriod
+                                +"and date(pp.date_completed) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"
                                 +" and case when o.concept_id is not null then o.obs_datetime between pp.date_enrolled and pp.date_completed else 1=1 end "
                                 +" and case when o.concept_id is not null then o.value_coded=160034 else 1=1 end "
                         +")s "
