@@ -519,7 +519,35 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 		return dao.getPatientCount();
 	}
 	
-	public Integer noOfDeathReported(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
-		return dao.noOfDeathReported(gender,ageCategory,startOfPeriod,endOfPeriod);
+	public Integer getNoOfNewPatientEnrolledInHivCare(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfNewPatientEnrolledInHivCare(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientTreatedForOpportunisticInfections(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientTreatedForOpportunisticInfections(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfMedicallyEligiblePatientsWaitingForART(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfMedicallyEligiblePatientsWaitingForART(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getCumulativeNoOfActiveFollowUpPatientsStartedAtBegOfMonth(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getCumulativeNoOfActiveFollowUpPatientsStartedAtBegOfMonth(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfNewPatientsStartedOnART(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfNewPatientsStartedOnART(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientsOnARTTransferredIn(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientsOnARTTransferredIn(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getCumulativeNoOfActiveFollowUpPatientsStartedAtEndOfMonth(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getCumulativeNoOfActiveFollowUpPatientsStartedAtEndOfMonth(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfDeathReported(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfDeathReported(gender,ageCategory,startOfPeriod,endOfPeriod);
 	}
 }
