@@ -183,4 +183,12 @@ public interface KenyaEmrService extends OpenmrsService {
 	public Integer getNoOfPatientsOnARTTransferredIn(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
 	public Integer getCumulativeNoOfActiveFollowUpPatientsStartedAtEndOfMonth(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
 	public Integer getNoOfDeathReported(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientsTransferredOutUnderARV(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientsLostToFollowUp(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientsStopppedART(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientsOnART(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientsOnOriginalFirstLineRegim(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientsSubstitutedFirstLineRegim(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientsSubstitutedSecondLineRegim(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientsSubstitutedThirdLineRegim(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
 }

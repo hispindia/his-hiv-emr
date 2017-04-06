@@ -550,4 +550,36 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 	public Integer getNoOfDeathReported(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
 		return dao.getNoOfDeathReported(gender,ageCategory,startOfPeriod,endOfPeriod);
 	}
+	
+	public Integer getNoOfPatientsTransferredOutUnderARV(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientsTransferredOutUnderARV(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientsLostToFollowUp(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientsLostToFollowUp(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientsStopppedART(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientsStopppedART(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientsOnART(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientsOnART(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientsOnOriginalFirstLineRegim(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientsOnOriginalFirstLineRegim(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientsSubstitutedFirstLineRegim(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientsSubstitutedFirstLineRegim(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientsSubstitutedSecondLineRegim(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientsSubstitutedSecondLineRegim(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientsSubstitutedThirdLineRegim(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientsSubstitutedThirdLineRegim(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
 }

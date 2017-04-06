@@ -85,4 +85,60 @@ Total
 <td>${noOfDeathReportedForFemale}</td>
 <td>${noOfDeathReportedTotal}</td>
 </tr>
+
+<tr>
+<td>5.2 No. of patients transferred out under ARV at the end of this month</td>
+<td>${noOfPatientsTransferredOutUnderARVForMale}</td>
+<td>${noOfPatientsTransferredOutUnderARVForFemale}</td>
+<td>${noOfPatientsTransferredOutUnderARVTotal}</td>
+</tr>
+
+<tr>
+<td>5.3 No. of patients missing/lost to follow-up at the end of this month</td>
+<td>${noOfPatientsLostToFollowUpForMale}</td>
+<td>${noOfPatientsLostToFollowUpForFemale}</td>
+<td>${noOfPatientsLostToFollowUpTotal}</td>
+</tr>
+
+<tr>
+<td>5.4 No. of patients stopping ART at the end of this month</td>
+<td>${noOfPatientsStopppedARTForMale}</td>
+<td>${noOfPatientsStopppedARTForFemale}</td>
+<td>${noOfPatientsStopppedARTTotal}</td>
+</tr>
+
+<tr>
+<td>5.5 No. of patients on ART at the end of this month {=4.4- (5.1+5.2+5.3+5.4)}</td>
+<td>${noOfPatientsOnARTForMale}</td>
+<td>${noOfPatientsOnARTForFemale}</td>
+<td>${noOfPatientsOnARTTotal}</td>
+</tr>
+
+<tr>
+<td>w 5.5.1 Among them, no. on original 1st line regimen</td>
+<td>${noOfPatientsOnOriginalFirstLineRegimForMale}</td>
+<td>${noOfPatientsOnOriginalFirstLineRegimForFemale}</td>
+<td>${noOfPatientsOnOriginalFirstLineRegimTotal}</td>
+</tr>
+
+<tr>
+<td>w 5.5.2 No. on substituted 1st line regimen</td>
+<td>${noOfPatientsSubstitutedFirstLineRegimForMale}</td>
+<td>${noOfPatientsSubstitutedFirstLineRegimForFemale}</td>
+<td>${noOfPatientsSubstitutedFirstLineRegimTotal}</td>
+</tr>
+
+<tr>
+<td>w 5.5.3 No. switched to 2nd line regimen</td>
+<td>${noOfPatientsSubstitutedSecondLineRegimForMale}</td>
+<td>${noOfPatientsSubstitutedSecondLineRegimForFemale}</td>
+<td>${noOfPatientsSubstitutedSecondLineRegimTotal}</td>
+</tr>
+
+<tr>
+<td>w 5.5.4 No. switched to 3rd line regimen</td>
+<td>${noOfPatientsSubstitutedThirdLineRegimForMale}</td>
+<td>${noOfPatientsSubstitutedThirdLineRegimForFemale}</td>
+<td>${noOfPatientsSubstitutedThirdLineRegimTotal}</td>
+</tr>
 </table>
