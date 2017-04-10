@@ -1531,78 +1531,1634 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		return jdbcTemplate.queryForInt(query);	
 	}
 	
-	public Integer noOfDeathReported(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+
+	//1
+	public Integer getNoOfNewPatientEnrolledInHivCare(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		String query="select count(*)  tot "
-+"from"
-+"("
-		        +"select pp.patient_id "
-                +"from patient_program pp "
-                +"inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART' "
-                +"inner join person p on p.person_id=pp.patient_id " 
-                +"and gender like "+"'"+gender+"'"
+		String query=" select count(*)" +
+" from (" +
+" select e.encounter_id,e.encounter_datetime,e.patient_id,p.birthdate "+
+" from encounter e " +
+" inner join encounter_type et on et.encounter_type_id=e.encounter_type and et.name like 'HIV Enrollment'" +
+" inner join person p on e.patient_id=p.person_id "+
+" where e.form_id=8" +
+" AND e.encounter_datetime between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
+" and gender like "+"'"+gender+"'" +
+" and TIMESTAMPDIFF(YEAR,(p.birthdate),(e.encounter_datetime))" + ageCategory +
+" group by patient_id" +
+" order by e.patient_id,e.encounter_datetime" +
+" )sag";
+		return jdbcTemplate.queryForInt(query);	
+	}
+	//2
+	public Integer getNoOfPatientTreatedForOpportunisticInfections(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String query=" select count(*)" +
+" from(" +
+" select o.person_id"+
+" from obs o"+
+" inner join person p on p.person_id=o.person_id "+
+" and gender like "+"'"+gender+"'" +
+" and TIMESTAMPDIFF(YEAR,(p.birthdate),(o.obs_datetime))"+ ageCategory +
+" where o.concept_id=163079"+
+" and o.obs_datetime between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
+" group by o.person_id"+
+" )sag";
+		return jdbcTemplate.queryForInt(query);	
+	}
+	//3
+	public Integer getNoOfMedicallyEligiblePatientsWaitingForART(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String query=" select count(*) tot" +
+" from (" +
+        " select sag.patient_id" +
+       " from "+
+       " ( " +
+                " select e.patient_id,e.encounter_datetime"+
+                " from encounter e"+
+                " inner join encounter_type et on et.encounter_type_id=e.encounter_type and et.name like 'HIV Enrollment'"+
+                " inner join person p on p.person_id=e.patient_id and p.dead=0" +
+                " and gender like "+"'"+gender+"'" +
+                " and TIMESTAMPDIFF(YEAR,(p.birthdate),(e.encounter_datetime))"+ ageCategory +
+                " where  e.encounter_datetime between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
+                " and e.form_id=8"+
+        " )sag"+
+        " left join "+
+       " ("+
+               " select e.patient_id"+
+               " from encounter e"+
+               " inner join encounter_type et on et.encounter_type_id=e.encounter_type and et.name like 'ART'"+
+               " inner join person p on p.person_id=e.patient_id and p.dead=0"+
+               " and gender like "+"'"+gender+"'" +
+               " and TIMESTAMPDIFF(YEAR,(p.birthdate),(e.encounter_datetime))"+ ageCategory +
+               " where  e.encounter_datetime between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
+               " and e.form_id=31"+
+       " )sag1"+
+       " on sag.patient_id=sag1.patient_id"+
+       " where sag1.patient_id is null"+
+       " group by sag.patient_id"+
+" )sag3";
+		return jdbcTemplate.queryForInt(query);	
+	}
+	//4.1
+	public Integer getCumulativeNoOfActiveFollowUpPatientsStartedAtBegOfMonth(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String query=" select count(*) tot" +
+" from (" +
+       " select pp.patient_id"+
+       " from patient_program pp"+
+       " inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART'"+
+       " inner join person p on p.person_id=pp.patient_id "+
+       " and gender like "+"'"+gender+"'" +
+       " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ ageCategory +
+       " where date_enrolled between DATE_SUB("+"'"+startOfPeriod+"'"+", INTERVAL 1 MONTH) and DATE_SUB("+"'"+endOfPeriod+"'"+" , INTERVAL 1 MONTH)"+
+       " and case when date_completed is not null then date_completed > "+"'"+startOfPeriod+"'"+" else 1=1 end"+
+       " group by pp.patient_id "+
+" )sag";
+		System.out.println("hiii1"+query);
+		return jdbcTemplate.queryForInt(query);	
+	}
+	
+	//4.2 
+	public Integer getNoOfNewPatientsStartedOnART(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String query=" select count(pp.patient_id) tot " +
+" from patient_program pp" +
+" inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART'"+
+" left join obs o on o.person_id=pp.patient_id and o.concept_id=160540 "+
+" inner join person p on p.person_id=pp.patient_id "+
+       " and gender like "+"'"+gender+"'" +
+       " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ ageCategory +
+" where date(date_enrolled) between "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+" and case when date_completed is not null then date_completed > "+"'"+endOfPeriod+"'"+ "else 1=1 end "+
+" and case when o.person_id is not null then o.value_coded not in (162870,162871) else 1=1 end";
+		System.out.println("hiii2"+query);
+		return jdbcTemplate.queryForInt(query);	
+	}
+	//4.3 
+	public Integer getNoOfPatientsOnARTTransferredIn(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String query=" select count(pp.patient_id) tot "+
+" from patient_program pp "+
+" inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART'"+
+" inner join obs o on o.person_id=pp.patient_id and o.concept_id=160540 and o.value_coded in (162870,162871)"+
+" inner join person p on p.person_id=pp.patient_id "+
+" and gender like "+"'"+gender+"'"+
+" and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ ageCategory+
+" where date(date_enrolled) between "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+" and case when date_completed is not null then date_completed > "+"'"+endOfPeriod+"'"+ " else 1=1 end ";
+		System.out.println("hiii3"+query);
+		return jdbcTemplate.queryForInt(query);	
+	}
+	//4.4
+	public Integer getCumulativeNoOfActiveFollowUpPatientsStartedAtEndOfMonth(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String query=" select count(*) tot "+
+" from"+
+" (" +
+       " select pp.patient_id,'initiate'"+
+       " from patient_program pp"+
+       " inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART'"+
+       " inner join person p on p.person_id=pp.patient_id "+
+       " and gender like "+"'"+gender+"'"+
+       " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "+ ageCategory+
+       " where date(date_enrolled) between "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+       " group by pp.patient_id"+
+
+       " union"+
+
+       " select *"+
+       " from "+
+       " ("+
+               " select pp.patient_id,'before'"+
+               " from patient_program pp"+
+               " inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART'"+
+               " inner join person p on p.person_id=pp.patient_id "+
+               " and gender like "+"'"+gender+"'"+
+               " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ ageCategory+
+               " where date(date_enrolled) between DATE_SUB("+"'"+startOfPeriod+"'"+", INTERVAL 1 MONTH) and DATE_SUB("+"'"+endOfPeriod+"'"+", INTERVAL 1 MONTH)"+
+               " and case when date_completed is not null then date_completed > "+"'"+endOfPeriod+"'"+" else 1=1 end"+
+               " group by pp.patient_id"+
+       " )sag"+
+" )sag1";
+		System.out.println("hiii4"+query);
+		return jdbcTemplate.queryForInt(query);	
+	}
+	//5.1
+	public Integer getNoOfDeathReported(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String query=" select count(*)  tot "
++" from"
++" ("
+		        +" select pp.patient_id "
+                +" from patient_program pp "
+                +" inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART' "
+                +" inner join person p on p.person_id=pp.patient_id " 
+                +" and gender like "+"'"+gender+"'"
                 +" and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory 
                 +" where date(date_enrolled) between "+"'"+startOfPeriod+"'"+ " and "+"'"+endOfPeriod+"'"
                 +" and date(p.death_date) between "+"'"+startOfPeriod+"'"+ " and "+"'"+endOfPeriod+"'"
                 +" group by pp.patient_id "
-        +"union "
-        +"select *"
+        +" union "
+        +" select *"
         +" from" 
-        +"("
-                +"select pp.patient_id "
-                +"from patient_program pp "
-                +"inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART' "
-                +"inner join person p on p.person_id=pp.patient_id " 
-                +"and gender like "+"'"+gender+"'"
+        +" ("
+                +" select pp.patient_id "
+                +" from patient_program pp "
+                +" inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART' "
+                +" inner join person p on p.person_id=pp.patient_id " 
+                +" and gender like "+"'"+gender+"'"
                 +" and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory 
                 +" where date(date_enrolled) between DATE_SUB("+"'"+startOfPeriod+"'"+", INTERVAL 1 MONTH) and DATE_SUB("+"'"+endOfPeriod+"'"+", INTERVAL 1 MONTH) "
-                +"and case when date_completed is not null then date_completed >"+"'"+startOfPeriod+"'"+" else 1=1 end "
-                +"group by pp.patient_id "
-        +")sag"
-+")sag3 "
-+"inner join " 
-+"("
-        +"select patient_id " 
-+"from"
-+"("
-        +"select patient_id,case when max(ifnull(art,0))> max(ifnull(hiv,0)) then max(art) else max(hiv) end dd,"
-        +"case when max(ifnull(art,0))> max(ifnull(hiv,0)) then 'art' else 'hiv' end dd1,value_coded "
-        +"from" 
-                +"("
-                +"select pid, patient_id,case when sag.name like 'ART' then dd end 'art',"
-                +"case when sag.name like 'HIV' then dd end 'hiv',value_coded "
-                +"from " 
-                +"("
-                        +"select s.* from " 
-                        +"("
-                                +"select pp.patient_id,pp.date_enrolled,pp.date_completed dd,pr.name,pp.patient_program_id pid,o.value_coded "
-                                +"from patient_program pp "
-                                +"inner join program pr on pr.program_id=pp.program_id "
-                                +"inner join person p on p.person_id=pp.patient_id " 
-                                +"left join obs o on o.person_id = pp.patient_id and o.concept_id=161555 " 
-                                +"and gender like "+"'"+gender+"'"
+                +" and case when date_completed is not null then date_completed >"+"'"+startOfPeriod+"'"+" else 1=1 end "
+                +" group by pp.patient_id "
+        +" )sag"
++" )sag3 "
++" inner join " 
++" ("
+        +" select patient_id " 
++" from"
++" ("
+        +" select patient_id,case when max(ifnull(art,0))> max(ifnull(hiv,0)) then max(art) else max(hiv) end dd,"
+        +" case when max(ifnull(art,0))> max(ifnull(hiv,0)) then 'art' else 'hiv' end dd1,value_coded "
+        +" from" 
+                +" ("
+                +" select pid, patient_id,case when sag.name like 'ART' then dd end 'art',"
+                +" case when sag.name like 'HIV' then dd end 'hiv',value_coded "
+                +" from " 
+                +" ("
+                        +" select s.* from " 
+                        +" ("
+                                +" select pp.patient_id,pp.date_enrolled,pp.date_completed dd,pr.name,pp.patient_program_id pid,o.value_coded "
+                                +" from patient_program pp "
+                                +" inner join program pr on pr.program_id=pp.program_id "
+                                +" inner join person p on p.person_id=pp.patient_id " 
+                                +" left join obs o on o.person_id = pp.patient_id and o.concept_id=161555 " 
+                                +" and gender like "+"'"+gender+"'"
                                 +" and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory 
                                 +" where pp.date_completed is not null "
-                                +"and date(pp.date_completed) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"
+                                +" and date(pp.date_completed) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"
                                 +" and case when o.concept_id is not null then o.obs_datetime between pp.date_enrolled and pp.date_completed else 1=1 end "
                                 +" and case when o.concept_id is not null then o.value_coded=160034 else 1=1 end "
-                        +")s "
-                        +"left join " 
-                        +"("
-                                +"select patient_id "
-                                +"from patient_program pp "
-                                +"inner join program pr on pr.program_id=pp.program_id and pr.name like 'HIV' "
-                                +"where pp.date_completed is null "
-                                +"group by pp.patient_id "
-                        +")s1 on s.patient_id=s1.patient_id "
-                        +"where s1.patient_id is null"
-                +")sag"
-        +")sag1 "
-        +"group by patient_id "
-+")sag2 "
-+"where case when dd1 like 'hiv' then sag2.value_coded is not null end "
-+")sag4 "
-+"on sag3.patient_id=sag4.patient_id";
+                        +" )s "
+                        +" left join " 
+                        +" ("
+                                +" select patient_id "
+                                +" from patient_program pp "
+                                +" inner join program pr on pr.program_id=pp.program_id and pr.name like 'HIV' "
+                                +" where pp.date_completed is null "
+                                +" group by pp.patient_id "
+                        +" )s1 on s.patient_id=s1.patient_id "
+                        +" where s1.patient_id is null"
+                +" )sag"
+        +" )sag1 "
+        +" group by patient_id "
++" )sag2 "
++" where case when dd1 like 'hiv' then sag2.value_coded is not null end "
++" )sag4 "
++" on sag3.patient_id=sag4.patient_id";
 		return jdbcTemplate.queryForInt(query);	
 	}
+		//5.2
+	public Integer getNoOfPatientsTransferredOutUnderARV(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String query=" select count(*)  tot"+
+"from"+
+"("+
+
+               " select pp.patient_id"+
+               " from patient_program pp"+
+               " inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART'"+
+               " inner join person p on p.person_id=pp.patient_id "+
+               " and gender like "+"'"+gender+"'"+
+               " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "+ageCategory +
+               " where date(date_enrolled) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
+               " group by pp.patient_id"+
+
+       " union"+
+
+       " select *"+
+       " from "+
+       " ("+
+               " select pp.patient_id"+
+               " from patient_program pp"+
+               " inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART'"+
+               " inner join person p on p.person_id=pp.patient_id "+
+               " and gender like "+"'"+gender+"'"+
+               " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+               " where date(date_enrolled) between DATE_SUB("+"'"+startOfPeriod+"'"+", INTERVAL 1 MONTH) and DATE_SUB("+"'"+endOfPeriod+"'"+", INTERVAL 1 MONTH)"+
+               " and case when date_completed is not null then date_completed > "+"'"+endOfPeriod+"'"+" else 1=1 end"+
+               " group by pp.patient_id"+
+       " )sag"+
+
+")sag3"+
+"inner join "+
+"("+
+        " select patient_id "+
+"from"+
+"("+
+       " select patient_id,case when max(ifnull(art,0))> max(ifnull(hiv,0)) then max(art) else max(hiv) end dd,"+
+       " case when max(ifnull(art,0))> max(ifnull(hiv,0)) then 'art' else 'hiv' end dd1,value_coded"+
+       " from "+
+               " ("+
+               " select pid, patient_id,case when sag.name like 'ART' then dd end 'art',"+
+               " case when sag.name like 'HIV' then dd end 'hiv',value_coded"+
+               " from "+
+               " ("+
+                       " select s.* from "+
+                       " ("+
+                               " select pp.patient_id,pp.date_enrolled,pp.date_completed dd,pr.name,pp.patient_program_id pid,o.value_coded"+
+                               " from patient_program pp"+
+                               " inner join program pr on pr.program_id=pp.program_id #and pr.name like 'ART'"+
+                               " inner join person p on p.person_id=pp.patient_id "+
+                               " left join obs o on o.person_id = pp.patient_id and o.concept_id=161555 "+
+                               " and gender like "+"'"+gender+"'"+
+                               " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+                               " where pp.date_completed is not null"+
+                               " and date(pp.date_completed) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
+                               " and case when o.concept_id is not null then o.obs_datetime between pp.date_enrolled and pp.date_completed else 1=1 end"+
+                               " and case when o.concept_id is not null then o.value_coded=159492 else 1=1 end"+
+                       " )s"+
+                       " left join "+
+                        
+                       " ("+
+                               " select patient_id"+
+                               " from patient_program pp"+
+                               " inner join program pr on pr.program_id=pp.program_id and pr.name like 'HIV'"+
+                               " where pp.date_completed is null"+
+                               " group by pp.patient_id"+
+                       " )s1 on s.patient_id=s1.patient_id"+
+                       " where s1.patient_id is null"+
+                ")sag"+
+       " )sag1"+
+       " group by patient_id"+
+")sag2"+
+"where case when dd1 like 'hiv' then sag2.value_coded is not null end"+
+")sag4"+
+"on sag3.patient_id=sag4.patient_id";
+
+		return jdbcTemplate.queryForInt(query);	
+	}
+	//5.3
+	public Integer getNoOfPatientsLostToFollowUp(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String query=" select count(*)  tot"+
+"from"+
+"("+
+
+               " select pp.patient_id"+
+               " from patient_program pp"+
+               " inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART'"+
+               " inner join person p on p.person_id=pp.patient_id "+
+               " and gender like "+"'"+gender+"'"+
+               " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+               " where date(date_enrolled) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
+               " group by pp.patient_id"+
+
+       " union"+
+
+       " select *"+
+       " from "+
+       " ("+
+              "  select pp.patient_id"+
+              "  from patient_program pp"+
+              "  inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART'"+
+              "  inner join person p on p.person_id=pp.patient_id "+
+              "  and gender like "+"'"+gender+"'"+
+              "  and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+              "  where date(date_enrolled) between DATE_SUB("+"'"+startOfPeriod+"'"+", INTERVAL 1 MONTH) and DATE_SUB("+"'"+endOfPeriod+"'"+", INTERVAL 1 MONTH)"+
+              "  and case when date_completed is not null then date_completed > "+"'"+endOfPeriod+"'"+" else 1=1 end"+
+              "  group by pp.patient_id"+
+        " )sag"+
+
+")sag3"+
+"inner join "+
+"("+
+       " select patient_id "+
+"from"+
+"("+
+       " select patient_id,case when max(ifnull(art,0))> max(ifnull(hiv,0)) then max(art) else max(hiv) end dd,"+
+       " case when max(ifnull(art,0))> max(ifnull(hiv,0)) then 'art' else 'hiv' end dd1,value_coded"+
+       " from "+
+               " ("+
+               " select pid, patient_id,case when sag.name like 'ART' then dd end 'art',"+
+               " case when sag.name like 'HIV' then dd end 'hiv',value_coded"+
+               " from "+
+               " ("+
+                     "   select s.* from "+
+                     "   ("+
+                     "           select pp.patient_id,pp.date_enrolled,pp.date_completed dd,pr.name,pp.patient_program_id pid,o.value_coded"+
+                     "           from patient_program pp"+
+                     "           inner join program pr on pr.program_id=pp.program_id #and pr.name like 'ART'"+
+                     "           inner join person p on p.person_id=pp.patient_id "+
+                     "           left join obs o on o.person_id = pp.patient_id and o.concept_id=161555 "+
+                     "           and gender like "+"'"+gender+"'"+
+                     "           and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+                     "           where pp.date_completed is not null"+
+                     "           and date(pp.date_completed) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
+                     "           and case when o.concept_id is not null then o.obs_datetime between pp.date_enrolled and pp.date_completed else 1=1 end"+
+                     "           and case when o.concept_id is not null then o.value_coded=5240 else 1=1 end"+
+                     "   )s"+
+                     "   left join "+
+                        
+                     "   ("+
+                              "  select patient_id"+
+                               " from patient_program pp"+
+                               " inner join program pr on pr.program_id=pp.program_id and pr.name like 'HIV'"+
+                               " where pp.date_completed is null"+
+                               " group by pp.patient_id"+
+                      "  )s1 on s.patient_id=s1.patient_id"+
+                      "  where s1.patient_id is null"+
+               " )sag"+
+      "  )sag1"+
+      "  group by patient_id"+
+        
+")sag2"+
+"where case when dd1 like 'hiv' then sag2.value_coded is not null end"+
+")sag4"+
+"on sag3.patient_id=sag4.patient_id";
+
+		return jdbcTemplate.queryForInt(query);	
+	}
+	//5.4
+	public Integer getNoOfPatientsStopppedART(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String query=" select count(* ) tot"+
+"from"+
+"("+
+       " select pp.patient_id"+
+               " from patient_program pp"+
+               " inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART'"+
+               " inner join person p on p.person_id=pp.patient_id "+
+               " and gender like "+"'"+gender+"'"+
+               " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))" +ageCategory +
+               " where date(date_enrolled) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
+               " group by pp.patient_id"+
+
+       " union"+
+
+       " select *"+
+       " from "+
+       " ("+
+               " select pp.patient_id"+
+               " from patient_program pp"+
+               " inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART'"+
+               " inner join person p on p.person_id=pp.patient_id "+
+               " and gender like "+"'"+gender+"'"+
+               " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+               " where date(date_enrolled) between DATE_SUB("+"'"+startOfPeriod+"'"+", INTERVAL 1 MONTH) and DATE_SUB("+"'"+endOfPeriod+"'"+", INTERVAL 1 MONTH)"+
+               " and case when date_completed is not null then date_completed > "+"'"+endOfPeriod+"'"+" else 1=1 end"+
+               " group by pp.patient_id"+
+       ")sag"+
+")sag3"+
+"inner join "+
+"("+
+       " select sag2.patient_id from"+
+       " ("+
+               " select patient_id,case when max(ifnull(art,0))> max(ifnull(hiv,0)) then max(art) else max(hiv) end dd,"+
+               " case when max(ifnull(art,0))> max(ifnull(hiv,0)) then 'art' else 'hiv' end dd1"+
+               " from "+
+                        "("+
+                       " select pid, patient_id,case when sag.name like 'ART' then dd end 'art',"+
+                       " case when sag.name like 'HIV' then dd end 'hiv'"+
+                       " from "+
+                       " ("+
+                              " select pp.patient_id,pp.date_enrolled,pp.date_completed dd,pr.name,pp.patient_program_id pid"+
+                              " from patient_program pp"+
+                               " inner join program pr on pr.program_id=pp.program_id #and pr.name like 'ART'"+
+                               " inner join person p on p.person_id=pp.patient_id "+
+                                      "  and gender like "+"'"+gender+"'"+
+                                       " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+                                " where pp.date_completed is not null"+
+                               " and date(pp.date_completed) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
+                                
+                       " )sag"+
+               " )sag1"+
+               " group by patient_id"+
+       " )sag2"+
+       " left join "+
+       " ("+
+               " select pp.patient_id,pp.date_enrolled"+
+               " from patient_program pp"+
+               " inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART'"+
+               " inner join person p on p.person_id=pp.patient_id "+
+                       " and gender like "+"'"+gender+"'"+
+                       " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+               " where pp.date_completed is null"+
+               " and date(pp.date_enrolled) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
+       " )sag3"+
+       " on sag2.patient_id=sag3.patient_id"+
+       " where sag2.dd1 like 'art'"+
+       " and case when sag3.date_enrolled is not null then sag3.date_enrolled < sag2.dd else 1=1 end"+
+" )sag4"+
+" on sag3.patient_id=sag4.patient_id";
+
+		return jdbcTemplate.queryForInt(query);	
+	}
+	//5.5
+	public Integer getNoOfPatientsOnART(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String query=" select count(* ) tot"+
+				" from"+
+				" ("+
+				       " select pp.patient_id"+
+				                " from patient_program pp"+
+				               " inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART'"+
+				               " inner join person p on p.person_id=pp.patient_id "+
+				               " and gender like "+"'"+gender+"'"+
+				               " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "+ageCategory +
+				               " where date(date_enrolled) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
+				               " group by pp.patient_id"+
+
+				       " union"+
+
+				       " select *"+
+				       " from "+
+				       " ("+
+				               " select pp.patient_id"+
+				               " from patient_program pp"+
+				               " inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART'"+
+				               " inner join person p on p.person_id=pp.patient_id "+
+				               " and gender like "+"'"+gender+"'"+
+				               " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+				               " where date(date_enrolled) between DATE_SUB("+"'"+startOfPeriod+"'"+", INTERVAL 1 MONTH) and DATE_SUB("+"'"+endOfPeriod+"'"+", INTERVAL 1 MONTH)"+
+				               " and case when date_completed is not null then date_completed > "+"'"+endOfPeriod+"'"+" else 1=1 end"+
+				               " group by pp.patient_id"+
+				       " )sag"+
+				" )sag3"+
+				" left join "+
+				" ("+
+				       " select sag2.patient_id from"+
+				       " ("+
+				              "  select patient_id,case when max(ifnull(art,0))> max(ifnull(hiv,0)) then max(art) else max(hiv) end dd,"+
+				              "  case when max(ifnull(art,0))> max(ifnull(hiv,0)) then 'art' else 'hiv' end dd1"+
+				               " from "+
+				                       " ("+
+				                       " select pid, patient_id,case when sag.name like 'ART' then dd end 'art',"+
+				                       " case when sag.name like 'HIV' then dd end 'hiv'"+
+				                       " from "+
+				                       " ("+
+				                              "  select pp.patient_id,pp.date_enrolled,pp.date_completed dd,pr.name,pp.patient_program_id pid"+
+				                              "  from patient_program pp"+
+				                              "  inner join program pr on pr.program_id=pp.program_id #and pr.name like 'ART'"+
+				                              "  inner join person p on p.person_id=pp.patient_id "+
+				                                       " and gender like "+"'"+gender+"'"+
+				                                       " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+				                               " where pp.date_completed is not null"+
+				                               " and date(pp.date_completed) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
+				                       " )sag"+
+				               " )sag1"+
+				               " group by patient_id"+
+				       " )sag2"+
+				       " left join "+
+				       " ("+
+				               " select patient_id,case when max(ifnull(art,0))> max(ifnull(hiv,0)) then max(art) else max(hiv) end dd,"+
+				               " case when max(ifnull(art,0))> max(ifnull(hiv,0)) then 'art' else 'hiv' end dd1"+
+				               " from "+
+				                      "  ("+
+				                       " select pid, patient_id,case when sag.name like 'ART' then dd end 'art',"+
+				                       " case when sag.name like 'HIV' then dd end 'hiv'"+
+				                       " from "+
+				                       " ("+
+				                              "  select pp.patient_id,pp.date_enrolled dd,pr.name,pp.patient_program_id pid"+
+				                              "  from patient_program pp"+
+				                              "  inner join program pr on pr.program_id=pp.program_id #and pr.name like 'ART'"+
+				                              "  inner join person p on p.person_id=pp.patient_id "+
+				                                       " and gender like "+"'"+gender+"'"+
+				                                       " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+				                               " where pp.date_completed is null"+
+				                               " and date(pp.date_enrolled) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
+				                       " )sag"+
+				               " )sag1"+
+				               " group by patient_id"+
+				       " )sag3"+
+				        "  where case when sag3.patient_id is not null and sag2.dd1=sag3.dd1 then sag2.dd>sag3.dd else 1=1 end"+
+				" )sag4"+
+				" on sag3.patient_id=sag4.patient_id"+
+				" where sag4.patient_id is null";
+
+		return jdbcTemplate.queryForInt(query);	
+	}
+	//5.5.1
+	public Integer getNoOfPatientsOnOriginalFirstLineRegim(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String query=" select count(*) from "+
+" ("+
+" select sag3.patient_id"+
+" from"+
+" ("+
+       " select pp.patient_id"+
+               " from patient_program pp"+
+               " inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART'"+
+               " inner join person p on p.person_id=pp.patient_id "+
+               " and gender like "+"'"+gender+"'"+
+               " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "+ageCategory +
+               " where date(date_enrolled) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
+               " group by pp.patient_id"+
+
+       " union"+
+
+       " select *"+
+       " from "+
+       " ("+
+               " select pp.patient_id"+
+               " from patient_program pp"+
+               " inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART'"+
+               " inner join person p on p.person_id=pp.patient_id "+
+               " and gender like "+"'"+gender+"'"+
+               " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "+ageCategory +
+               " where date(date_enrolled) between DATE_SUB("+"'"+startOfPeriod+"'"+", INTERVAL 1 MONTH) and DATE_SUB("+"'"+endOfPeriod+"'"+", INTERVAL 1 MONTH)"+
+               " and case when date_completed is not null then date_completed > "+"'"+endOfPeriod+"'"+" else 1=1 end"+
+               " group by pp.patient_id"+
+       " )sag"+
+" )sag3"+
+" left join"+ 
+" ("+
+       " select sag2.patient_id from"+
+       " ("+
+               " select patient_id,case when max(ifnull(art,0))> max(ifnull(hiv,0)) then max(art) else max(hiv) end dd,"+
+               " case when max(ifnull(art,0))> max(ifnull(hiv,0)) then 'art' else 'hiv' end dd1"+
+               " from"+ 
+                       " ("+
+                       " select pid, patient_id,case when sag.name like 'ART' then dd end 'art',"+
+                       " case when sag.name like 'HIV' then dd end 'hiv'"+
+                       " from "+
+                       " ("+
+                               " select pp.patient_id,pp.date_enrolled,pp.date_completed dd,pr.name,pp.patient_program_id pid"+
+                               " from patient_program pp"+
+                               " inner join program pr on pr.program_id=pp.program_id #and pr.name like 'ART'"+
+                               " inner join person p on p.person_id=pp.patient_id "+
+                                       " and gender like "+"'"+gender+"'"+
+                                       " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+                               " where pp.date_completed is not null"+
+                               " and date(pp.date_completed) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
+                       " )sag"+
+               " )sag1"+
+               " group by patient_id"+
+        " )sag2"+
+        " left join "+
+        " ("+
+               " select patient_id,case when max(ifnull(art,0))> max(ifnull(hiv,0)) then max(art) else max(hiv) end dd,"+
+               " case when max(ifnull(art,0))> max(ifnull(hiv,0)) then 'art' else 'hiv' end dd1"+
+               " from "+
+                       " ("+
+                       " select pid, patient_id,case when sag.name like 'ART' then dd end 'art',"+
+                       " case when sag.name like 'HIV' then dd end 'hiv'"+
+                       " from "+
+                       " ("+
+                              "  select pp.patient_id,pp.date_enrolled dd,pr.name,pp.patient_program_id pid"+
+                              " from patient_program pp"+
+                              "  inner join program pr on pr.program_id=pp.program_id #and pr.name like 'ART'"+
+                               " inner join person p on p.person_id=pp.patient_id "+
+                                      "  and gender like "+"'"+gender+"'"+
+                                      "  and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+                              "  where pp.date_completed is null"+
+                              "  and date(pp.date_enrolled) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
+                       " )sag"+
+              "  )sag1"+
+               " group by patient_id"+
+       " )sag3"+
+       " on sag2.patient_id=sag3.patient_id"+
+      "  where case when sag3.patient_id is not null and sag2.dd1=sag3.dd1 then sag2.dd>sag3.dd else 1=1 end"+
+" )sag4"+
+" on sag3.patient_id=sag4.patient_id"+
+" where sag4.patient_id is null"+
+
+" )sag5"+
+" inner join"+
+" ("+
+       " select sag.patient_id  "+
+       " from "+
+       " ("+
+       " select patient_id,start_date,regimen_change_type"+
+       " from drug_order_processed d"+
+       " where d.start_date BETWEEN DATE_SUB("+"'"+startOfPeriod+"'"+", INTERVAL 1 MONTH) and "+"'"+endOfPeriod+"'"+
+       " and d.regimen_change_type in ('Start','Restart')"+
+       " and d.type_of_regimen in ('First line Anti-retoviral drugs','Fixed dose combinations (FDCs)')"+
+       " group by patient_id,d.regimen_change_type"+
+       " )sag"+
+       " left join "+
+       " ("+
+       " select patient_id,start_date,regimen_change_type"+
+       " from drug_order_processed d"+
+       " where d.start_date BETWEEN DATE_SUB("+"'"+startOfPeriod+"'"+", INTERVAL 1 MONTH) and "+"'"+endOfPeriod+"'"+
+       " and d.regimen_change_type in ('Substitute','Switch')"+
+       " group by patient_id,d.regimen_change_type"+
+       " )sag1"+
+       " on sag.patient_id=sag1.patient_id"+
+       " where case when sag1.patient_id is not null then sag1.start_date < sag.start_date else sag1.patient_id is null end "+
+" )sag6"+
+" on sag5.patient_id=sag6.patient_id";
+
+		return jdbcTemplate.queryForInt(query);	
+	}
+	//5.5.2
+	public Integer getNoOfPatientsSubstitutedFirstLineRegim(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String query=" select count(*) tot"+
+"from "+
+" ("+
+" select sag3.patient_id"+
+" from"+
+" ("+
+       " select pp.patient_id"+
+               " from patient_program pp"+
+               " inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART'"+
+               " inner join person p on p.person_id=pp.patient_id" +
+               " and gender like "+"'"+gender+"'"+
+               " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+               " where date(date_enrolled) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
+               " group by pp.patient_id"+
+
+        " union"+
+
+       " select *"+
+       " from "+
+       " ("+
+               " select pp.patient_id"+
+               " from patient_program pp"+
+               " inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART'"+
+               " inner join person p on p.person_id=pp.patient_id "+
+               " and gender like "+"'"+gender+"'"+
+               " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+               " where date(date_enrolled) between DATE_SUB("+"'"+startOfPeriod+"'"+", INTERVAL 1 MONTH) and DATE_SUB("+"'"+endOfPeriod+"'"+", INTERVAL 1 MONTH)"+
+               " and case when date_completed is not null then date_completed > "+"'"+endOfPeriod+"'"+" else 1=1 end"+
+               " group by pp.patient_id"+
+       " )sag"+
+" )sag3"+
+" left join "+
+" ("+
+       " select sag2.patient_id from"+
+       " ("+
+               " select patient_id,case when max(ifnull(art,0))> max(ifnull(hiv,0)) then max(art) else max(hiv) end dd,"+
+               " case when max(ifnull(art,0))> max(ifnull(hiv,0)) then 'art' else 'hiv' end dd1"+
+               " from "+
+                       " ("+
+                       " select pid, patient_id,case when sag.name like 'ART' then dd end 'art',"+
+                       " case when sag.name like 'HIV' then dd end 'hiv'"+
+                       " from "+
+                       " ("+
+                              "  select pp.patient_id,pp.date_enrolled,pp.date_completed dd,pr.name,pp.patient_program_id pid"+
+                              "  from patient_program pp"+
+                              "  inner join program pr on pr.program_id=pp.program_id #and pr.name like 'ART'"+
+                              "  inner join person p on p.person_id=pp.patient_id "+
+                                      "  and gender like "+"'"+gender+"'"+
+                                       " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+                               " where pp.date_completed is not null"+
+                               " and date(pp.date_completed) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
+                      " )sag"+
+              " )sag1"+
+              "  group by patient_id"+
+       " )sag2"+
+       " left join "+
+       " ("+
+                " select patient_id,case when max(ifnull(art,0))> max(ifnull(hiv,0)) then max(art) else max(hiv) end dd,"+
+                " case when max(ifnull(art,0))> max(ifnull(hiv,0)) then 'art' else 'hiv' end dd1"+
+                " from "+
+                " ("+
+                        " select pid, patient_id,case when sag.name like 'ART' then dd end 'art',"+
+                       " case when sag.name like 'HIV' then dd end 'hiv'"+
+                       " from "+
+                       " ("+
+                               " select pp.patient_id,pp.date_enrolled dd,pr.name,pp.patient_program_id pid"+
+                               " from patient_program pp"+
+                               " inner join program pr on pr.program_id=pp.program_id #and pr.name like 'ART'"+
+                               " inner join person p on p.person_id=pp.patient_id "+
+                                       " and gender like "+"'"+gender+"'"+
+                                       " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+                               " and date(pp.date_enrolled) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
+                      " )sag"+
+               " )sag1"+
+               " group by patient_id"+
+       " )sag3"+
+       " on sag2.patient_id=sag3.patient_id"+
+       " where case when sag3.patient_id is not null and sag2.dd1=sag3.dd1 then sag2.dd>sag3.dd else 1=1 end"+
+" )sag4"+
+" on sag3.patient_id=sag4.patient_id"+
+" where sag4.patient_id is null"+
+
+ " )sag5"+
+" inner join"+
+" ("+
+
+       " select patient_id,start_date,regimen_change_type"+
+       " from drug_order_processed d"+
+       " where d.start_date BETWEEN DATE_SUB("+"'"+startOfPeriod+"'"+", INTERVAL 1 MONTH) and "+"'"+endOfPeriod+"'"+
+       " and d.regimen_change_type in ('Substitute')  and d.type_of_regimen in ('First line Anti-retoviral drugs','Fixed dose combinations (FDCs)')"+
+       " group by patient_id,d.regimen_change_type"+
+" )sag6";
+
+		return jdbcTemplate.queryForInt(query);	
+	}
+	//5.5.3
+	public Integer getNoOfPatientsSubstitutedSecondLineRegim(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String query=" select count(*) tot "+
+	" from "+
+	" ( "+
+	" select sag3.patient_id"+
+	" from "+
+	" ( "+
+	       " select pp.patient_id"+
+	               " from patient_program pp "+
+	               " inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART'"+
+	               " inner join person p on p.person_id=pp.patient_id "+
+	               " and gender like "+"'"+gender+"'"+
+	               " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "+ageCategory +
+	               " where date(date_enrolled) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
+	               " group by pp.patient_id"+
+
+	       " union"+
+
+	       " select *"+
+	       " from "+
+	       " ("+
+	               " select pp.patient_id"+
+	               " from patient_program pp"+
+	               " inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART'"+
+	               " inner join person p on p.person_id=pp.patient_id "+
+	               " and gender like "+"'"+gender+"'"+
+	               " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+	               " where date(date_enrolled) between DATE_SUB("+"'"+startOfPeriod+"'"+", INTERVAL 1 MONTH) and DATE_SUB("+"'"+endOfPeriod+"'"+", INTERVAL 1 MONTH)"+
+	               " and case when date_completed is not null then date_completed > "+"'"+endOfPeriod+"'"+" else 1=1 end"+
+	               " group by pp.patient_id"+
+	       " )sag"+
+	" )sag3"+
+	" left join "+
+	" ( "+
+	       " select sag2.patient_id from "+
+	       " ("+
+	               " select patient_id,case when max(ifnull(art,0))> max(ifnull(hiv,0)) then max(art) else max(hiv) end dd,"+
+	               " case when max(ifnull(art,0))> max(ifnull(hiv,0)) then 'art' else 'hiv' end dd1"+
+	               " from " +
+	                      " ( "+
+	                       " select pid, patient_id,case when sag.name like 'ART' then dd end 'art',"+
+	                      "  case when sag.name like 'HIV' then dd end 'hiv'"+
+	                      " from "+
+	                       " ("+
+	                               " select pp.patient_id,pp.date_enrolled,pp.date_completed dd,pr.name,pp.patient_program_id pid"+
+	                               " from patient_program pp"+
+	                               " inner join program pr on pr.program_id=pp.program_id #and pr.name like 'ART'"+
+	                               " inner join person p on p.person_id=pp.patient_id "+
+	                                       " and gender like "+"'"+gender+"'"+
+	                                       " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+	                               " where pp.date_completed is not null"+
+	                               " and date(pp.date_completed) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
+	                       " )sag"+
+	             " )sag1 "+
+	              "  group by patient_id"+
+	       " )sag2"+
+	       " left join "+
+	       " ( "+
+	               " select patient_id,case when max(ifnull(art,0))> max(ifnull(hiv,0)) then max(art) else max(hiv) end dd,"+
+	               " case when max(ifnull(art,0))> max(ifnull(hiv,0)) then 'art' else 'hiv' end dd1"+
+	               " from "+
+	                       " ("+
+	                        " select pid, patient_id,case when sag.name like 'ART' then dd end 'art',"+
+	                       " case when sag.name like 'HIV' then dd end 'hiv'"+
+	                       " from "+
+	                       " ("+
+	                              "  select pp.patient_id,pp.date_enrolled dd,pr.name,pp.patient_program_id pid"+
+	                              "  from patient_program pp"+
+	                              "  inner join program pr on pr.program_id=pp.program_id #and pr.name like 'ART'"+
+	                              "  inner join person p on p.person_id=pp.patient_id "+
+	                                      "  and gender like "+"'"+gender+"'"+
+	                                      "  and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+	                               " where pp.date_completed is null"+
+	                               " and date(pp.date_enrolled) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
+	                      " )sag"+
+	               " )sag1"+
+	               " group by patient_id"+
+	       " )sag3 "+
+	      "  on sag2.patient_id=sag3.patient_id "+
+	       " where case when sag3.patient_id is not null and sag2.dd1=sag3.dd1 then sag2.dd>sag3.dd else 1=1 end"+
+	" )sag4 "+
+	" on sag3.patient_id=sag4.patient_id "+
+	" where sag4.patient_id is null"+
+
+	 " )sag5"+
+	" inner join"+
+	" ("+
+
+	       " select patient_id,start_date,regimen_change_type"+
+	       " from drug_order_processed d"+
+	       " where d.start_date BETWEEN DATE_SUB("+"'"+startOfPeriod+"'"+", INTERVAL 1 MONTH) and "+"'"+endOfPeriod+"'"+
+	       " and d.regimen_change_type in ('Switch')  and d.type_of_regimen in ('Second line ART','Fixed dose combinations (FDCs)')"+
+	        " group by patient_id,d.regimen_change_type"+
+	" )sag6"+
+	" on sag5.patient_id=sag6.patient_id";
+	return jdbcTemplate.queryForInt(query);	
+	}
+	//5.5.4
+	public Integer getNoOfPatientsSubstitutedThirdLineRegim(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String query="select count(*) tot"+
+" from "+
+" ("+
+" select sag3.patient_id"+
+" from"+
+" ("+
+        " select pp.patient_id"+
+               " from patient_program pp"+
+               " inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART'"+
+               " inner join person p on p.person_id=pp.patient_id "+
+               " and gender like "+"'"+gender+"'"+
+               " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "+ageCategory +
+               " where date(date_enrolled) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
+               " group by pp.patient_id"+
+
+       " union"+
+
+       " select *"+
+       " from "+
+       " ("+
+               " select pp.patient_id"+
+               " from patient_program pp"+
+               " inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART'"+
+               " inner join person p on p.person_id=pp.patient_id "+
+               " and gender like "+"'"+gender+"'"+
+               " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+               " where date(date_enrolled) between DATE_SUB("+"'"+startOfPeriod+"'"+", INTERVAL 1 MONTH) and DATE_SUB("+"'"+endOfPeriod+"'"+", INTERVAL 1 MONTH)"+
+               " and case when date_completed is not null then date_completed > "+"'"+endOfPeriod+"'"+" else 1=1 end"+
+               " group by pp.patient_id"+
+       " )sag"+
+" )sag3"+
+" left join "+
+" ("+
+       " select sag2.patient_id from"+
+       " ("+
+               " select patient_id,case when max(ifnull(art,0))> max(ifnull(hiv,0)) then max(art) else max(hiv) end dd,"+
+               " case when max(ifnull(art,0))> max(ifnull(hiv,0)) then 'art' else 'hiv' end dd1"+
+               " from "+
+                      " ("+
+                       " select pid, patient_id,case when sag.name like 'ART' then dd end 'art',"+
+                       " case when sag.name like 'HIV' then dd end 'hiv'"+
+                       " from "+
+                      " ("+
+                               " select pp.patient_id,pp.date_enrolled,pp.date_completed dd,pr.name,pp.patient_program_id pid"+
+                               " from patient_program pp"+
+                               " inner join program pr on pr.program_id=pp.program_id #and pr.name like 'ART'"+
+                               " inner join person p on p.person_id=pp.patient_id "+
+                                       " and gender like "+"'"+gender+"'"+
+                                       " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+                               " where pp.date_completed is not null"+
+                               " and date(pp.date_completed) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
+                        " )sag"+
+               " )sag1"+
+               " group by patient_id"+
+       " )sag2"+
+       " left join "+
+       " ("+
+              "  select patient_id,case when max(ifnull(art,0))> max(ifnull(hiv,0)) then max(art) else max(hiv) end dd,"+
+              "  case when max(ifnull(art,0))> max(ifnull(hiv,0)) then 'art' else 'hiv' end dd1"+
+              "  from "+
+                       " ("+
+                       " select pid, patient_id,case when sag.name like 'ART' then dd end 'art',"+
+                       " case when sag.name like 'HIV' then dd end 'hiv'"+
+                       " from "+
+                       " ("+
+                               " select pp.patient_id,pp.date_enrolled dd,pr.name,pp.patient_program_id pid"+
+                               " from patient_program pp"+
+                               " inner join program pr on pr.program_id=pp.program_id #and pr.name like 'ART'"+
+                               " inner join person p on p.person_id=pp.patient_id "+
+                                       " and gender like "+"'"+gender+"'"+
+                                       " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+                              "  where pp.date_completed is null"+
+                              "  and date(pp.date_enrolled) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
+                        " )sag"+
+               " )sag1"+
+               " group by patient_id"+
+       " )sag3"+
+       " on sag2.patient_id=sag3.patient_id"+
+       " where case when sag3.patient_id is not null and sag2.dd1=sag3.dd1 then sag2.dd>sag3.dd else 1=1 end"+
+" )sag4"+
+" on sag3.patient_id=sag4.patient_id"+
+" where sag4.patient_id is null"+
+
+" )sag5"+
+" inner join"+
+" ("+
+       " select patient_id,start_date,regimen_change_type"+
+       " from drug_order_processed d"+
+       " where d.start_date BETWEEN DATE_SUB("+"'"+startOfPeriod+"'"+", INTERVAL 1 MONTH) and "+"'"+endOfPeriod+"'"+
+       " and d.regimen_change_type in ('Switch')  and d.type_of_regimen in ('Fixed dose combinations (FDCs)')"+
+       " and d.drug_regimen like 'AZT/3TC+TDF+LPV/r'"+
+       " group by patient_id,d.regimen_change_type"+
+" )sag6"+
+" on sag5.patient_id=sag6.patient_id";
+	return jdbcTemplate.queryForInt(query);	
+	}
+	//6.1
+/*	public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String query="SELECT COUNT(*) tot"+
+" FROM"+
+" ( SELECT tb1.patient_id"+
+" FROM"+
+" ("+
+       " SELECT pp.patient_id"+
+       " FROM patient_program pp"+
+       " INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART'"+
+       " INNER JOIN person p ON p.person_id=pp.patient_id "+
+       " INNER JOIN obs o  ON o.person_id=pp.patient_id"+
+       " AND o.concept_id LIKE '162872'"+
+       " AND o.value_coded LIKE '1663'"+
+       " AND gender LIKE "+"'"+gender+"'"+
+       " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "+ageCategory +
+       " WHERE DATE(date_enrolled) BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+       " GROUP BY pp.patient_id"+
+       " )tb1"+
+       " LEFT JOIN "+
+       " ("+
+        
+" SELECT p.person_id"+
+" FROM person p"+
+" INNER JOIN encounter e ON e.patient_id=p.person_id"+
+" INNER JOIN encounter_type et ON et.encounter_type_id=e.encounter_type AND et.name LIKE 'ART'"+
+" AND gender LIKE "+"'"+gender+"'"+
+" WHERE p.dead=1 "+
+" AND death_date BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+" AND TIMESTAMPDIFF(YEAR,(p.birthdate),(p.death_date))"+ageCategory +
+" GROUP BY p.person_id"+
+
+" UNION"+
+
+" SELECT pp.patient_id"+
+" FROM patient_program pp"+
+" INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'HIV'"+
+" INNER JOIN obs o ON o.person_id = pp.patient_id AND o.concept_id=161555 "+
+" INNER JOIN person p ON p.person_id=pp.patient_id "+
+" AND gender LIKE "+"'"+gender+"'"+
+" AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "+ageCategory +
+" WHERE o.obs_datetime BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+" AND o.obs_datetime BETWEEN pp.date_enrolled AND pp.date_completed"+
+" AND o.value_coded=5240"+
+" UNION "+
+" SELECT pp.patient_id"+
+" FROM patient_program pp"+
+" INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART'"+
+" INNER JOIN person p ON p.person_id=pp.patient_id "+
+" LEFT JOIN obs o ON o.person_id = pp.patient_id AND o.concept_id=161555 "+
+" AND gender LIKE "+"'"+gender+"'"+
+" AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+" WHERE pp.date_completed IS NOT NULL"+
+" AND DATE(pp.date_completed) BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+" AND CASE WHEN o.concept_id IS NOT NULL THEN o.obs_datetime BETWEEN pp.date_enrolled AND pp.date_completed ELSE 1=1 END"+
+" AND CASE WHEN o.concept_id IS NOT NULL THEN o.value_coded=159492 ELSE 1=1 END"+
+" )tb2"+
+" ON tb1.patient_id=tb2.person_id"+
+" WHERE tb2.person_id IS  NULL"+
+" GROUP BY tb1.patient_id"+
+" )tb";
+	return jdbcTemplate.queryForInt(query);	
+	}
+	//6.2
+	public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String query="SELECT COUNT(*) tot"+
+" FROM"+
+" ( SELECT tb1.patient_id"+
+" FROM"+
+" ("+
+       " SELECT pp.patient_id"+
+       " FROM patient_program pp"+
+       " INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART'"+
+       " INNER JOIN person p ON p.person_id=pp.patient_id "+
+       " INNER JOIN obs o  ON o.person_id=pp.patient_id"+
+       " AND o.concept_id LIKE '162872'"+
+       " AND o.value_coded LIKE '1663'"+
+       " AND gender LIKE "+"'"+gender+"'"+
+       " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+       " WHERE DATE(date_enrolled) BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+       " GROUP BY pp.patient_id"+
+       " UNION"+
+
+       " SELECT *"+
+       " FROM "+
+       " ("+
+               " SELECT pp.patient_id"+
+               " FROM patient_program pp"+
+               " INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART'"+
+               " INNER JOIN person p ON p.person_id=pp.patient_id "+
+               " INNER JOIN obs o  ON o.person_id=pp.patient_id"+
+               " AND o.concept_id LIKE '162872'"+
+               " AND o.value_coded LIKE '1663'"+
+               " AND gender LIKE "+"'"+gender+"'"+
+               " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+               " WHERE DATE(date_enrolled) BETWEEN DATE_SUB("+"'"+startOfPeriod+"'"+", INTERVAL 1 MONTH) AND DATE_SUB("+"'"+endOfPeriod+"'"+", INTERVAL 1 MONTH)"+
+               " AND CASE WHEN date_completed IS NOT NULL THEN date_completed >"+"'"+endOfPeriod+"'"+" ELSE 1=1 END"+
+               " GROUP BY pp.patient_id"+
+       " )sag"+
+       " )tb1"+
+       " LEFT JOIN "+
+       " ("+
+        
+" SELECT p.person_id"+
+" FROM person p"+
+" INNER JOIN encounter e ON e.patient_id=p.person_id"+
+" INNER JOIN encounter_type et ON et.encounter_type_id=e.encounter_type AND et.name LIKE 'ART'"+
+" AND gender LIKE "+"'"+gender+"'"+
+" WHERE p.dead=1 "+
+" AND death_date BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+" AND TIMESTAMPDIFF(YEAR,(p.birthdate),(p.death_date))"+ageCategory +
+" GROUP BY p.person_id"+
+
+" UNION"+
+
+" SELECT pp.patient_id"+
+" FROM patient_program pp"+
+" INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'HIV'"+
+" INNER JOIN obs o ON o.person_id = pp.patient_id AND o.concept_id=161555 "+
+" INNER JOIN person p ON p.person_id=pp.patient_id "+
+" AND gender LIKE "+"'"+gender+"'"+
+" AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "+ageCategory +
+" WHERE o.obs_datetime BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+" AND o.obs_datetime BETWEEN pp.date_enrolled AND pp.date_completed"+
+" AND o.value_coded=5240"+
+" UNION "+
+" SELECT pp.patient_id"+
+" FROM patient_program pp"+
+" INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART'"+
+" INNER JOIN person p ON p.person_id=pp.patient_id "+
+" LEFT JOIN obs o ON o.person_id = pp.patient_id AND o.concept_id=161555 "+
+" AND gender LIKE "+"'"+gender+"'"+
+" AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+" WHERE pp.date_completed IS NOT NULL"+
+" AND DATE(pp.date_completed) BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+" AND CASE WHEN o.concept_id IS NOT NULL THEN o.obs_datetime BETWEEN pp.date_enrolled AND pp.date_completed ELSE 1=1 END"+
+" AND CASE WHEN o.concept_id IS NOT NULL THEN o.value_coded=159492 ELSE 1=1 END"+
+" )tb2"+
+" ON tb1.patient_id=tb2.person_id"+
+" WHERE tb2.person_id IS  NULL"+
+" GROUP BY tb1.patient_id"+
+" )tb";
+	return jdbcTemplate.queryForInt(query);	
+	}
+	//7.1
+	public Integer noOfpatientstop(String ageCategory,String startOfPeriod,String endOfPeriod){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String query="SELECT COUNT(*) tot"+
+	" FROM"+
+	" ( SELECT adherence.patient_id"+
+	" FROM"+
+	" ("+
+	       " SELECT pp.patient_id"+
+	       " FROM patient_program pp"+
+	       " INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART'"+
+	       " INNER JOIN person p ON p.person_id=pp.patient_id "+
+	       " INNER JOIN obs o ON o.person_id=pp.patient_id"+
+	       " AND o.concept_id LIKE '162945'"+
+	       " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "+ageCategory +
+	       " WHERE DATE(date_enrolled) BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+	       " GROUP BY pp.patient_id"+
+
+	       " UNION"+
+
+	      "  SELECT *"+
+	       " FROM "+
+	       " ("+
+	               " SELECT pp.patient_id"+
+	               " FROM patient_program pp"+
+	               " INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART'"+
+	               " INNER JOIN person p ON p.person_id=pp.patient_id "+
+	               " INNER JOIN drug_order_processed d ON d.patient_id=pp.patient_id"+
+	               " INNER JOIN obs o ON o.person_id=pp.patient_id"+
+	               " AND o.concept_id LIKE '162945'"+
+	               " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+	               " WHERE DATE(date_enrolled) BETWEEN DATE_SUB("+"'"+startOfPeriod+"'"+" , INTERVAL 1 MONTH) AND DATE_SUB("+"'"+endOfPeriod+"'"+", INTERVAL 1 MONTH)"+
+	               " AND CASE WHEN date_completed IS NOT NULL THEN date_completed >"+"'"+endOfPeriod+"'"+" ELSE 1=1 END"+
+	               " GROUP BY pp.patient_id"+
+	       " )sag"+
+	       " )adherence"+
+	       " LEFT JOIN "+
+	       " ("+
+	        
+	" SELECT p.person_id"+
+	" FROM person p"+
+	" INNER JOIN encounter e ON e.patient_id=p.person_id"+
+	" INNER JOIN encounter_type et ON et.encounter_type_id=e.encounter_type AND et.name LIKE 'ART'"+
+	" WHERE p.dead=1 "+
+	" AND death_date BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+	" AND TIMESTAMPDIFF(YEAR,(p.birthdate),(p.death_date))"+ageCategory +
+	" GROUP BY p.person_id"+
+	" UNION "+
+	" SELECT pp.patient_id"+
+	" FROM patient_program pp"+
+	" INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART'"+
+	" INNER JOIN person p ON p.person_id=pp.patient_id "+
+	" AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+	" WHERE pp.date_completed IS NOT NULL"+
+	" AND DATE(pp.date_completed) BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+	" )adherence1"+
+	" ON adherence.patient_id=adherence1.person_id"+
+	" WHERE adherence1.person_id IS  NULL"+
+	" GROUP BY adherence.patient_id"+
+	" )adherence2";
+	return jdbcTemplate.queryForInt(query);	
+	}
+	//7.2.1
+	public Integer noOfpatientstop(String ageCategory,String startOfPeriod,String endOfPeriod){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String query="SELECT COUNT(*) tot"+
+" FROM"+
+" ( SELECT adherence.patient_id"+
+" FROM"+
+" ("+
+       " SELECT pp.patient_id"+
+       " FROM patient_program pp"+
+       " INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART'"+
+       " INNER JOIN person p ON p.person_id=pp.patient_id "+
+       " INNER JOIN obs o ON o.person_id=pp.patient_id"+
+       " AND o.concept_id LIKE '162945'"+
+       " AND o.value_text ='>95%' AND o.voided=0"+
+       " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "+ageCategory +
+       " WHERE DATE(date_enrolled) BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+
+       " UNION"+
+
+       " SELECT *"+
+       " FROM "+
+       " ("+
+               " SELECT pp.patient_id"+
+               " FROM patient_program pp"+
+               " INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART'"+
+               " INNER JOIN person p ON p.person_id=pp.patient_id "+
+               " INNER JOIN drug_order_processed d ON d.patient_id=pp.patient_id"+
+              "  INNER JOIN obs o ON o.person_id=pp.patient_id"+
+               " AND o.concept_id LIKE '162945'"+
+               " AND o.value_text ='>95%'  AND o.voided=0"+
+              "  AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+               " WHERE DATE(date_enrolled) BETWEEN DATE_SUB("+"'"+startOfPeriod+"'"+" , INTERVAL 1 MONTH) AND DATE_SUB("+"'"+endOfPeriod+"'"+", INTERVAL 1 MONTH)"+
+              "  AND CASE WHEN date_completed IS NOT NULL THEN date_completed >"+"'"+endOfPeriod+"'"+" ELSE 1=1 END"+
+              "  GROUP BY pp.patient_id"+
+       " )sag"+
+       " )adherence"+
+      "  LEFT JOIN "+
+        		
+        "("+
+        
+" SELECT p.person_id"+
+" FROM person p"+
+" INNER JOIN encounter e ON e.patient_id=p.person_id"+
+" INNER JOIN encounter_type et ON et.encounter_type_id=e.encounter_type AND et.name LIKE 'ART'"+
+" WHERE p.dead=1 "+
+" AND death_date BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+" AND TIMESTAMPDIFF(YEAR,(p.birthdate),(p.death_date))"+ageCategory +
+" GROUP BY p.person_id"+
+" UNION "+
+" SELECT pp.patient_id"+
+" FROM patient_program pp"+
+" INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART'"+
+" INNER JOIN person p ON p.person_id=pp.patient_id "+
+" AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+" WHERE pp.date_completed IS NOT NULL"+
+" AND DATE(pp.date_completed) BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+   " UNION "+
+" SELECT pp.patient_id"+
+" FROM patient_program pp"+
+" INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'HIV'"+
+ " INNER JOIN person p ON p.person_id=pp.patient_id "+
+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+" WHERE pp.date_completed IS NOT NULL"+
+" AND DATE(pp.date_completed) < "+"'"+startOfPeriod+"'"+
+" )adherence1"+
+" ON adherence.patient_id=adherence1.person_id"+
+" WHERE adherence1.person_id IS  NULL"+
+" GROUP BY adherence.patient_id"+
+")adherence2";
+	return jdbcTemplate.queryForInt(query);	
+	}
+	//7.2.2
+	public Integer noOfpatientstop(String ageCategory,String startOfPeriod,String endOfPeriod){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String query="SELECT COUNT(*) tot"+
+" FROM"+
+" ( SELECT adherence.patient_id"+
+" FROM"+
+" ("+
+       " SELECT pp.patient_id"+
+       " FROM patient_program pp"+
+       " INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART'"+
+       " INNER JOIN person p ON p.person_id=pp.patient_id "+
+       " INNER JOIN obs o ON o.person_id=pp.patient_id"+
+       " AND o.concept_id LIKE '162945'"+
+       " AND o.value_text ='80-95 %' AND o.voided=0"+
+       " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "+ageCategory +
+       " WHERE DATE(date_enrolled) BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+
+       " UNION"+
+
+       " SELECT *"+
+       " FROM "+
+       " ("+
+               " SELECT pp.patient_id"+
+               " FROM patient_program pp"+
+               " INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART'"+
+               " INNER JOIN person p ON p.person_id=pp.patient_id "+
+               " INNER JOIN drug_order_processed d ON d.patient_id=pp.patient_id"+
+              "  INNER JOIN obs o ON o.person_id=pp.patient_id"+
+               " AND o.concept_id LIKE '162945'"+
+               " AND o.value_text ='80-95 %'  AND o.voided=0"+
+              "  AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+               " WHERE DATE(date_enrolled) BETWEEN DATE_SUB("+"'"+startOfPeriod+"'"+" , INTERVAL 1 MONTH) AND DATE_SUB("+"'"+endOfPeriod+"'"+", INTERVAL 1 MONTH)"+
+              "  AND CASE WHEN date_completed IS NOT NULL THEN date_completed >"+"'"+endOfPeriod+"'"+" ELSE 1=1 END"+
+              "  GROUP BY pp.patient_id"+
+       " )sag"+
+       " )adherence"+
+      "  LEFT JOIN "+
+        		
+        "("+
+        
+" SELECT p.person_id"+
+" FROM person p"+
+" INNER JOIN encounter e ON e.patient_id=p.person_id"+
+" INNER JOIN encounter_type et ON et.encounter_type_id=e.encounter_type AND et.name LIKE 'ART'"+
+" WHERE p.dead=1 "+
+" AND death_date BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+" AND TIMESTAMPDIFF(YEAR,(p.birthdate),(p.death_date))"+ageCategory +
+" GROUP BY p.person_id"+
+" UNION "+
+" SELECT pp.patient_id"+
+" FROM patient_program pp"+
+" INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART'"+
+" INNER JOIN person p ON p.person_id=pp.patient_id "+
+" AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+" WHERE pp.date_completed IS NOT NULL"+
+" AND DATE(pp.date_completed) BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+   " UNION "+
+" SELECT pp.patient_id"+
+" FROM patient_program pp"+
+" INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'HIV'"+
+ " INNER JOIN person p ON p.person_id=pp.patient_id "+
+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+" WHERE pp.date_completed IS NOT NULL"+
+" AND DATE(pp.date_completed) < "+"'"+startOfPeriod+"'"+
+" )adherence1"+
+" ON adherence.patient_id=adherence1.person_id"+
+" WHERE adherence1.person_id IS  NULL"+
+" GROUP BY adherence.patient_id"+
+")adherence2";
+	return jdbcTemplate.queryForInt(query);	
+	}
+	//7.2.3
+	public Integer noOfpatientstop(String ageCategory,String startOfPeriod,String endOfPeriod){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String query="SELECT COUNT(*) tot"+
+" FROM"+
+" ( SELECT adherence.patient_id"+
+" FROM"+
+" ("+
+       " SELECT pp.patient_id"+
+       " FROM patient_program pp"+
+       " INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART'"+
+       " INNER JOIN person p ON p.person_id=pp.patient_id "+
+       " INNER JOIN obs o ON o.person_id=pp.patient_id"+
+       " AND o.concept_id LIKE '162945'"+
+       " AND o.value_text ='<80%' AND o.voided=0"+
+       " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "+ageCategory +
+       " WHERE DATE(date_enrolled) BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+
+       " UNION"+
+
+       " SELECT *"+
+       " FROM "+
+       " ("+
+               " SELECT pp.patient_id"+
+               " FROM patient_program pp"+
+               " INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART'"+
+               " INNER JOIN person p ON p.person_id=pp.patient_id "+
+               " INNER JOIN drug_order_processed d ON d.patient_id=pp.patient_id"+
+              "  INNER JOIN obs o ON o.person_id=pp.patient_id"+
+               " AND o.concept_id LIKE '162945'"+
+               " AND o.value_text ='<80%'  AND o.voided=0"+
+              "  AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+               " WHERE DATE(date_enrolled) BETWEEN DATE_SUB("+"'"+startOfPeriod+"'"+" , INTERVAL 1 MONTH) AND DATE_SUB("+"'"+endOfPeriod+"'"+", INTERVAL 1 MONTH)"+
+              "  AND CASE WHEN date_completed IS NOT NULL THEN date_completed >"+"'"+endOfPeriod+"'"+" ELSE 1=1 END"+
+              "  GROUP BY pp.patient_id"+
+       " )sag"+
+       " )adherence"+
+      "  LEFT JOIN "+
+        		
+        "("+
+        
+" SELECT p.person_id"+
+" FROM person p"+
+" INNER JOIN encounter e ON e.patient_id=p.person_id"+
+" INNER JOIN encounter_type et ON et.encounter_type_id=e.encounter_type AND et.name LIKE 'ART'"+
+" WHERE p.dead=1 "+
+" AND death_date BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+" AND TIMESTAMPDIFF(YEAR,(p.birthdate),(p.death_date))"+ageCategory +
+" GROUP BY p.person_id"+
+" UNION "+
+" SELECT pp.patient_id"+
+" FROM patient_program pp"+
+" INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART'"+
+" INNER JOIN person p ON p.person_id=pp.patient_id "+
+" AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+" WHERE pp.date_completed IS NOT NULL"+
+" AND DATE(pp.date_completed) BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+   " UNION "+
+" SELECT pp.patient_id"+
+" FROM patient_program pp"+
+" INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'HIV'"+
+ " INNER JOIN person p ON p.person_id=pp.patient_id "+
+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
+" WHERE pp.date_completed IS NOT NULL"+
+" AND DATE(pp.date_completed) < "+"'"+startOfPeriod+"'"+
+" )adherence1"+
+" ON adherence.patient_id=adherence1.person_id"+
+" WHERE adherence1.person_id IS  NULL"+
+" GROUP BY adherence.patient_id"+
+")adherence2";
+	return jdbcTemplate.queryForInt(query);	
+	}
+	//8.1
+	public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String query="SELECT COUNT(*)"+
+" FROM("+
+" SELECT DISTINCT o.person_id"+
+   " FROM obs o "+
+       " INNER JOIN concept_name cn ON o.value_coded = cn.concept_id "+
+       " INNER JOIN person p ON p.person_id = o.person_id"+
+   " WHERE o.concept_id IN (SELECT concept_id "+
+                          "  FROM concept "+
+                          "  WHERE concept_id IN('162886') "+
+                          "  AND concept_name_type = 'FULLY_SPECIFIED') "+
+   " AND cn.concept_id IN ('162887') AND o.voided=0"+
+   " AND p.gender Like "+"'"+gender+"'"+
+   " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.obs_datetime))"+ageCategory +
+   " AND p.birthdate IS NOT NULL"+
+   " AND DATE(obs_datetime) BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+   " )performanceA";
+	return jdbcTemplate.queryForInt(query);	
+	}
+	//8.2
+		public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			String query="SELECT COUNT(*)"+
+" FROM("+
+" SELECT DISTINCT o.person_id"+
+   " FROM obs o "+
+       " INNER JOIN concept_name cn ON o.value_coded = cn.concept_id "+
+       " INNER JOIN person p ON p.person_id = o.person_id"+
+   " WHERE o.concept_id IN (SELECT concept_id "+
+                           " FROM concept "+
+                           " WHERE concept_id IN('162886') "+
+                           " AND concept_name_type = 'FULLY_SPECIFIED') "+
+   " AND cn.concept_id IN ('162888') AND o.voided=0"+
+   " AND p.gender Like "+"'"+gender+"'"+
+   " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.obs_datetime))"+ageCategory +
+   " AND p.birthdate IS NOT NULL"+
+   " AND DATE(obs_datetime) BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+   " )performanceB";
+		return jdbcTemplate.queryForInt(query);	
+		}
+		//8.3
+		public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			String query="SELECT COUNT(*)"+
+" FROM("+
+" SELECT DISTINCT o.person_id"+
+   " FROM obs o "+
+       " INNER JOIN concept_name cn ON o.value_coded = cn.concept_id "+
+       " INNER JOIN person p ON p.person_id = o.person_id"+
+   " WHERE o.concept_id IN (SELECT concept_id "+
+                          "  FROM concept "+
+                           " WHERE concept_id IN('162886') "+
+                           " AND concept_name_type = 'FULLY_SPECIFIED') "+
+   " AND cn.concept_id IN ('162889')  AND o.voided=0"+
+   " AND p.gender Like "+"'"+gender+"'"+
+   " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.obs_datetime))"+ageCategory +
+   " AND p.birthdate IS NOT NULL"+
+   " AND DATE(obs_datetime) BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+   " )performanceC";
+		return jdbcTemplate.queryForInt(query);	
+		}
+		//9.1
+		public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			String query="SELECT COUNT(*)"+
+" FROM("+
+" SELECT DISTINCT o.person_id"+
+   " FROM obs o "+
+       " INNER JOIN concept_name cn ON o.value_coded = cn.concept_id "+
+       " INNER JOIN person p ON p.person_id = o.person_id"+
+   " WHERE o.concept_id IN (SELECT concept_id "+
+                           " FROM concept "+
+                           " WHERE concept_id IN('160581') "+
+                           " AND concept_name_type = 'FULLY_SPECIFIED') "+
+   " AND cn.concept_id IN ('162914')  AND o.voided=0"+
+   " AND p.gender Like "+"'"+gender+"'"+
+   " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.obs_datetime))"+ageCategory +
+   " AND p.birthdate IS NOT NULL"+
+   " AND DATE(obs_datetime) BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+   " )risk1";
+		return jdbcTemplate.queryForInt(query);	
+		}
+		//9.2
+		public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			String query="SELECT COUNT(*)"+
+" FROM("+
+" SELECT DISTINCT o.person_id"+
+   " FROM obs o "+
+       " INNER JOIN concept_name cn ON o.value_coded = cn.concept_id "+
+       " INNER JOIN person p ON p.person_id = o.person_id"+
+   " WHERE o.concept_id IN (SELECT concept_id "+
+                           " FROM concept "+
+                           " WHERE concept_id IN('160581') "+
+                           " AND concept_name_type = 'FULLY_SPECIFIED') "+
+   " AND cn.concept_id IN ('160578')  AND o.voided=0"+
+   " AND p.gender Like "+"'"+gender+"'"+
+   " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.obs_datetime))"+ageCategory +
+   " AND p.birthdate IS NOT NULL"+
+   " AND DATE(obs_datetime) BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+   " )risk2";
+		return jdbcTemplate.queryForInt(query);	
+		}
+		//9.3
+		public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			String query="SELECT COUNT(*)"+
+" FROM("+
+" SELECT DISTINCT o.person_id"+
+   " FROM obs o "+
+       " INNER JOIN concept_name cn ON o.value_coded = cn.concept_id "+
+       " INNER JOIN person p ON p.person_id = o.person_id"+
+   " WHERE o.concept_id IN (SELECT concept_id "+
+                           " FROM concept "+
+                           " WHERE concept_id IN('160581') "+
+                           " AND concept_name_type = 'FULLY_SPECIFIED') "+
+   " AND cn.concept_id IN ('160579')  AND o.voided=0"+
+   " AND p.gender Like "+"'"+gender+"'"+
+   " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.obs_datetime))"+ageCategory +
+   " AND p.birthdate IS NOT NULL"+
+   " AND DATE(obs_datetime) BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+   " )risk3";
+		return jdbcTemplate.queryForInt(query);	
+		}
+		//9.4
+		public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			String query="SELECT COUNT(*)"+
+" FROM("+
+" SELECT DISTINCT o.person_id"+
+   " FROM obs o "+
+       " INNER JOIN concept_name cn ON o.value_coded = cn.concept_id "+
+       " INNER JOIN person p ON p.person_id = o.person_id"+
+   " WHERE o.concept_id IN (SELECT concept_id "+
+                           " FROM concept "+
+                           " WHERE concept_id IN('160581') "+
+                           " AND concept_name_type = 'FULLY_SPECIFIED') "+
+   " AND cn.concept_id IN ('162915')  AND o.voided=0"+
+   " AND p.gender Like "+"'"+gender+"'"+
+   " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.obs_datetime))"+ageCategory +
+   " AND p.birthdate IS NOT NULL"+
+   " AND DATE(obs_datetime) BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+   " )risk4";
+		return jdbcTemplate.queryForInt(query);	
+		}
+		//9.5
+		public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			String query="SELECT COUNT(*)"+
+" FROM("+
+" SELECT DISTINCT o.person_id"+
+   " FROM obs o "+
+       " INNER JOIN concept_name cn ON o.value_coded = cn.concept_id "+
+       " INNER JOIN person p ON p.person_id = o.person_id"+
+   " WHERE o.concept_id IN (SELECT concept_id "+
+                           " FROM concept "+
+                           " WHERE concept_id IN('160581') "+
+                           " AND concept_name_type = 'FULLY_SPECIFIED') "+
+   " AND cn.concept_id IN ('1063')  AND o.voided=0"+
+   " AND p.gender Like "+"'"+gender+"'"+
+   " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.obs_datetime))"+ageCategory +
+   " AND p.birthdate IS NOT NULL"+
+   " AND DATE(obs_datetime) BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+   " )risk5";
+		return jdbcTemplate.queryForInt(query);	
+		}
+		//9.6
+		public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			String query="SELECT COUNT(*)"+
+" FROM("+
+" SELECT DISTINCT o.person_id"+
+   " FROM obs o "+
+       " INNER JOIN concept_name cn ON o.value_coded = cn.concept_id "+
+       " INNER JOIN person p ON p.person_id = o.person_id"+
+   " WHERE o.concept_id IN (SELECT concept_id "+
+                           " FROM concept "+
+                           " WHERE concept_id IN('160581') "+
+                           " AND concept_name_type = 'FULLY_SPECIFIED') "+
+   " AND cn.concept_id IN ('162916')  AND o.voided=0"+
+   " AND p.gender Like "+"'"+gender+"'"+
+   " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.obs_datetime))"+ageCategory +
+   " AND p.birthdate IS NOT NULL"+
+   " AND DATE(obs_datetime) BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+   " )risk6";
+		return jdbcTemplate.queryForInt(query);	
+		}
+		//9.7
+		public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			String query="SELECT COUNT(*)"+
+" FROM("+
+" SELECT DISTINCT o.person_id"+
+   " FROM obs o "+
+       " INNER JOIN concept_name cn ON o.value_coded = cn.concept_id "+
+       " INNER JOIN person p ON p.person_id = o.person_id"+
+   " WHERE o.concept_id IN (SELECT concept_id "+
+                           " FROM concept "+
+                           " WHERE concept_id IN('160581') "+
+                           " AND concept_name_type = 'FULLY_SPECIFIED') "+
+   " AND cn.concept_id IN ('1067')  AND o.voided=0"+
+   " AND p.gender Like "+"'"+gender+"'"+
+   " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.obs_datetime))"+ageCategory +
+   " AND p.birthdate IS NOT NULL"+
+   " AND DATE(obs_datetime) BETWEEN "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+   " )risk7";
+		return jdbcTemplate.queryForInt(query);	
+		}
+		//10.1
+		public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			String query="SELECT COUNT(*)"+
+" FROM("+
+" SELECT DISTINCT o.person_id"+
+     " FROM obs o "+
+       " INNER JOIN concept_name cn ON o.value_coded = cn.concept_id "+
+       " INNER JOIN person p ON p.person_id = o.person_id"+
+  "  WHERE o.concept_id IN (SELECT concept_id "+
+                           " FROM concept "+
+                           " WHERE concept_id IN('1283') "+
+                           " AND concept_name_type = 'FULLY_SPECIFIED') "+
+   " AND cn.concept_id IN ('5497') "+
+   " AND p.gender Like "+"'"+gender+"'"+
+   " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.obs_datetime))"+ageCategory +
+   " AND p.birthdate IS NOT NULL"+
+   " AND DATE(obs_datetime) BETWEEN  "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+   " )cd";
+		return jdbcTemplate.queryForInt(query);	
+		}
+		//10.2
+		public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			String query="SELECT COUNT(*)"+
+" FROM("+
+" SELECT DISTINCT o.person_id"+
+   " FROM obs o "+
+       " INNER JOIN concept_name cn ON o.value_coded = cn.concept_id "+
+       " INNER JOIN person p ON p.person_id = o.person_id"+
+   " WHERE o.concept_id IN (SELECT concept_id "+
+                           " FROM concept "+
+                           " WHERE concept_id IN('1283') "+
+                           " AND concept_name_type = 'FULLY_SPECIFIED') "+
+  "  AND cn.concept_id IN ('856') "+
+   " AND p.gender Like "+"'"+gender+"'"+
+  "  AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.obs_datetime))"+ageCategory +
+   " AND p.birthdate IS NOT NULL"+
+   " AND DATE(obs_datetime) BETWEEN  "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
+   " )viral";
+		return jdbcTemplate.queryForInt(query);	
+		}*/
 }
