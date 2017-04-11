@@ -1762,11 +1762,11 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		//5.2
 	public Integer getNoOfPatientsTransferredOutUnderARV(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		String query=" select count(*)  tot"+
+		String query="select count(*)  tot "+
 "from"+
 "("+
 
-               " select pp.patient_id"+
+               "select pp.patient_id"+
                " from patient_program pp"+
                " inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART'"+
                " inner join person p on p.person_id=pp.patient_id "+
@@ -1792,7 +1792,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
        " )sag"+
 
 ")sag3"+
-"inner join "+
+" inner join "+
 "("+
         " select patient_id "+
 "from"+
@@ -1809,7 +1809,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
                        " ("+
                                " select pp.patient_id,pp.date_enrolled,pp.date_completed dd,pr.name,pp.patient_program_id pid,o.value_coded"+
                                " from patient_program pp"+
-                               " inner join program pr on pr.program_id=pp.program_id #and pr.name like 'ART'"+
+                               " inner join program pr on pr.program_id=pp.program_id"+
                                " inner join person p on p.person_id=pp.patient_id "+
                                " left join obs o on o.person_id = pp.patient_id and o.concept_id=161555 "+
                                " and gender like "+"'"+gender+"'"+
@@ -1833,9 +1833,9 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
        " )sag1"+
        " group by patient_id"+
 ")sag2"+
-"where case when dd1 like 'hiv' then sag2.value_coded is not null end"+
+" where case when dd1 like 'hiv' then sag2.value_coded is not null end"+
 ")sag4"+
-"on sag3.patient_id=sag4.patient_id";
+" on sag3.patient_id=sag4.patient_id";
 
 		return jdbcTemplate.queryForInt(query);	
 	}
@@ -1843,7 +1843,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	public Integer getNoOfPatientsLostToFollowUp(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		String query=" select count(*)  tot"+
-"from"+
+" from"+
 "("+
 
                " select pp.patient_id"+
@@ -1854,9 +1854,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
                " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
                " where date(date_enrolled) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
                " group by pp.patient_id"+
-
        " union"+
-
        " select *"+
        " from "+
        " ("+
@@ -1872,7 +1870,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
         " )sag"+
 
 ")sag3"+
-"inner join "+
+" inner join "+
 "("+
        " select patient_id "+
 "from"+
@@ -1889,7 +1887,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
                      "   ("+
                      "           select pp.patient_id,pp.date_enrolled,pp.date_completed dd,pr.name,pp.patient_program_id pid,o.value_coded"+
                      "           from patient_program pp"+
-                     "           inner join program pr on pr.program_id=pp.program_id #and pr.name like 'ART'"+
+                     "           inner join program pr on pr.program_id=pp.program_id "+
                      "           inner join person p on p.person_id=pp.patient_id "+
                      "           left join obs o on o.person_id = pp.patient_id and o.concept_id=161555 "+
                      "           and gender like "+"'"+gender+"'"+
@@ -1914,9 +1912,9 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
       "  group by patient_id"+
         
 ")sag2"+
-"where case when dd1 like 'hiv' then sag2.value_coded is not null end"+
+" where case when dd1 like 'hiv' then sag2.value_coded is not null end"+
 ")sag4"+
-"on sag3.patient_id=sag4.patient_id";
+" on sag3.patient_id=sag4.patient_id";
 
 		return jdbcTemplate.queryForInt(query);	
 	}
@@ -1924,7 +1922,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	public Integer getNoOfPatientsStopppedART(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		String query=" select count(* ) tot"+
-"from"+
+" from"+
 "("+
        " select pp.patient_id"+
                " from patient_program pp"+
@@ -1936,7 +1934,6 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
                " group by pp.patient_id"+
 
        " union"+
-
        " select *"+
        " from "+
        " ("+
@@ -1951,7 +1948,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
                " group by pp.patient_id"+
        ")sag"+
 ")sag3"+
-"inner join "+
+" inner join "+
 "("+
        " select sag2.patient_id from"+
        " ("+
@@ -1965,7 +1962,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
                        " ("+
                               " select pp.patient_id,pp.date_enrolled,pp.date_completed dd,pr.name,pp.patient_program_id pid"+
                               " from patient_program pp"+
-                               " inner join program pr on pr.program_id=pp.program_id #and pr.name like 'ART'"+
+                               " inner join program pr on pr.program_id=pp.program_id "+
                                " inner join person p on p.person_id=pp.patient_id "+
                                       "  and gender like "+"'"+gender+"'"+
                                        " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
@@ -2040,7 +2037,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				                       " ("+
 				                              "  select pp.patient_id,pp.date_enrolled,pp.date_completed dd,pr.name,pp.patient_program_id pid"+
 				                              "  from patient_program pp"+
-				                              "  inner join program pr on pr.program_id=pp.program_id #and pr.name like 'ART'"+
+				                              "  inner join program pr on pr.program_id=pp.program_id "+
 				                              "  inner join person p on p.person_id=pp.patient_id "+
 				                                       " and gender like "+"'"+gender+"'"+
 				                                       " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
@@ -2062,7 +2059,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				                       " ("+
 				                              "  select pp.patient_id,pp.date_enrolled dd,pr.name,pp.patient_program_id pid"+
 				                              "  from patient_program pp"+
-				                              "  inner join program pr on pr.program_id=pp.program_id #and pr.name like 'ART'"+
+				                              "  inner join program pr on pr.program_id=pp.program_id "+
 				                              "  inner join person p on p.person_id=pp.patient_id "+
 				                                       " and gender like "+"'"+gender+"'"+
 				                                       " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
@@ -2126,7 +2123,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
                        " ("+
                                " select pp.patient_id,pp.date_enrolled,pp.date_completed dd,pr.name,pp.patient_program_id pid"+
                                " from patient_program pp"+
-                               " inner join program pr on pr.program_id=pp.program_id #and pr.name like 'ART'"+
+                               " inner join program pr on pr.program_id=pp.program_id "+
                                " inner join person p on p.person_id=pp.patient_id "+
                                        " and gender like "+"'"+gender+"'"+
                                        " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
@@ -2148,7 +2145,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
                        " ("+
                               "  select pp.patient_id,pp.date_enrolled dd,pr.name,pp.patient_program_id pid"+
                               " from patient_program pp"+
-                              "  inner join program pr on pr.program_id=pp.program_id #and pr.name like 'ART'"+
+                              "  inner join program pr on pr.program_id=pp.program_id "+
                                " inner join person p on p.person_id=pp.patient_id "+
                                       "  and gender like "+"'"+gender+"'"+
                                       "  and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
@@ -2195,7 +2192,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	//5.5.2
 	public Integer getNoOfPatientsSubstitutedFirstLineRegim(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		String query=" select count(*) tot"+
+		String query=" select count(*) tot "+
 "from "+
 " ("+
 " select sag3.patient_id"+
@@ -2240,7 +2237,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
                        " ("+
                               "  select pp.patient_id,pp.date_enrolled,pp.date_completed dd,pr.name,pp.patient_program_id pid"+
                               "  from patient_program pp"+
-                              "  inner join program pr on pr.program_id=pp.program_id #and pr.name like 'ART'"+
+                              "  inner join program pr on pr.program_id=pp.program_id "+
                               "  inner join person p on p.person_id=pp.patient_id "+
                                       "  and gender like "+"'"+gender+"'"+
                                        " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
@@ -2262,7 +2259,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
                        " ("+
                                " select pp.patient_id,pp.date_enrolled dd,pr.name,pp.patient_program_id pid"+
                                " from patient_program pp"+
-                               " inner join program pr on pr.program_id=pp.program_id #and pr.name like 'ART'"+
+                               " inner join program pr on pr.program_id=pp.program_id "+
                                " inner join person p on p.person_id=pp.patient_id "+
                                        " and gender like "+"'"+gender+"'"+
                                        " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
@@ -2338,7 +2335,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	                       " ("+
 	                               " select pp.patient_id,pp.date_enrolled,pp.date_completed dd,pr.name,pp.patient_program_id pid"+
 	                               " from patient_program pp"+
-	                               " inner join program pr on pr.program_id=pp.program_id #and pr.name like 'ART'"+
+	                               " inner join program pr on pr.program_id=pp.program_id "+
 	                               " inner join person p on p.person_id=pp.patient_id "+
 	                                       " and gender like "+"'"+gender+"'"+
 	                                       " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
@@ -2360,7 +2357,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	                       " ("+
 	                              "  select pp.patient_id,pp.date_enrolled dd,pr.name,pp.patient_program_id pid"+
 	                              "  from patient_program pp"+
-	                              "  inner join program pr on pr.program_id=pp.program_id #and pr.name like 'ART'"+
+	                              "  inner join program pr on pr.program_id=pp.program_id "+
 	                              "  inner join person p on p.person_id=pp.patient_id "+
 	                                      "  and gender like "+"'"+gender+"'"+
 	                                      "  and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
@@ -2437,7 +2434,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
                       " ("+
                                " select pp.patient_id,pp.date_enrolled,pp.date_completed dd,pr.name,pp.patient_program_id pid"+
                                " from patient_program pp"+
-                               " inner join program pr on pr.program_id=pp.program_id #and pr.name like 'ART'"+
+                               " inner join program pr on pr.program_id=pp.program_id "+
                                " inner join person p on p.person_id=pp.patient_id "+
                                        " and gender like "+"'"+gender+"'"+
                                        " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
@@ -2459,7 +2456,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
                        " ("+
                                " select pp.patient_id,pp.date_enrolled dd,pr.name,pp.patient_program_id pid"+
                                " from patient_program pp"+
-                               " inner join program pr on pr.program_id=pp.program_id #and pr.name like 'ART'"+
+                               " inner join program pr on pr.program_id=pp.program_id "+
                                " inner join person p on p.person_id=pp.patient_id "+
                                        " and gender like "+"'"+gender+"'"+
                                        " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
