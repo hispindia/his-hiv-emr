@@ -41,6 +41,12 @@
 	                            <b>NAP MONTHLY REPORT(Adult)</b>
 	                            <div class="ke-extra"></div>
                             </div>
+                            
+                            <div class="ke-stack-item ke-navigable" onclick="napMonthlyReportForChild();">
+	                            ${ ui.includeFragment("kenyaui", "widget/icon", [ iconProvider: "kenyaui", icon: iconPath, tooltip: "View report" ]) }
+	                            <b>NAP MONTHLY REPORT(Child)</b>
+	                            <div class="ke-extra"></div>
+                            </div>
 							</div>
 						</div>
 					</td>
@@ -100,5 +106,9 @@ ui.navigate('kenyaemr', 'reports/quaterlyReport');
 
 function napMonthlyReportForAdult() {
 ui.navigate('kenyaemr', 'reports/napMonthlyReportForAdult');
+}
+
+function napMonthlyReportForChild() {
+ui.navigate('kenyaemr', 'reports/napMonthlyReportForChild');
 }
 </script>

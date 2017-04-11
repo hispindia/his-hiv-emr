@@ -191,4 +191,5 @@ public interface KenyaEmrService extends OpenmrsService {
 	public Integer getNoOfPatientsSubstitutedFirstLineRegim(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
 	public Integer getNoOfPatientsSubstitutedSecondLineRegim(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
 	public Integer getNoOfPatientsSubstitutedThirdLineRegim(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientsHavingRegimen(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen,String doseRegimen);
 }

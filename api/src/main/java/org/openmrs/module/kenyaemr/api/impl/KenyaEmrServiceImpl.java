@@ -582,4 +582,8 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 	public Integer getNoOfPatientsSubstitutedThirdLineRegim(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
 		return dao.getNoOfPatientsSubstitutedThirdLineRegim(gender,ageCategory,startOfPeriod,endOfPeriod);
 	}
+	
+	public Integer getNoOfPatientsHavingRegimen(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen,String doseRegimen) {
+		return dao.getNoOfPatientsHavingRegimen(ageCategory,startOfPeriod,endOfPeriod,drugRegimen,doseRegimen);
+	}
 }
