@@ -141,4 +141,67 @@ Total
 <td>${noOfPatientsSubstitutedThirdLineRegimForFemale}</td>
 <td>${noOfPatientsSubstitutedThirdLineRegimTotal}</td>
 </tr>
+
+<tr>
+<td>6. TB/HIV  programme</td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+
+<tr>
+<td>6.1 No. of  HIV positive TB patients who have received ART during this month</td>
+<td>${noOfHIVPositiveTBPatientsForMale}</td>
+<td>${noOfHIVPositiveTBPatientsForFemale}</td>
+<td>${noOfHIVPositiveTBPatientsTotal}</td>
+</tr>
+
+<tr>
+<td>6.2  Cumulative no. of HIV positive TB patients who received ART at the end of this month</td>
+<td>${cumulativeNoOfHIVPositiveTBPatientsForMale}</td>
+<td>${cumulativeNoOfHIVPositiveTBPatientsForFemale}</td>
+<td>${cumulativeNoOfHIVPositiveTBPatientsTotal}</td>
+</tr>
+
+<tr>
+<td>7. TREATMENT ADHERENCE</td>
+<td> </td>
+<td> </td>
+<td>Total </td>
+</tr>
+
+<tr>
+<td>7.1 No. of patients assessed for adherence during this month</td>
+<td></td>
+<td></td>
+<td>${noOfPatientsAssessedForAdherenceDuringThisMonth}</td>
+</tr>
+
+<tr>
+<td>7.2 Of those assessed for adherence, level of adherence in the last month</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>7.2.1 < 5% of doses missed in a period of 30 days</td>
+<td></td>
+<td>${nNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelOnePer}</td>
+<td>${noOfPatientsAssessedForAdherenceDuringTheLastMonthLevelOneTot}</td>
+</tr>
+
+<tr>
+<td>7.2.2 (5-20)% of doses missed in a period of 30 days</td>
+<td></td>
+<td>${noOfPatientsAssessedForAdherenceDuringTheLastMonthLevelTwoPer}</td>
+<td>${noOfPatientsAssessedForAdherenceDuringTheLastMonthLevelTwoTot}</td>
+</tr>
+
+<tr>
+<td>7.2.3 (5-20)% of doses missed in a period of 30 days</td>
+<td></td>
+<td>${noOfPatientsAssessedForAdherenceDuringTheLastMonthLevelThreePer}</td>
+<td>${noOfPatientsAssessedForAdherenceDuringTheLastMonthLevelThreeTot}</td>
+</tr>
 </table>

@@ -193,6 +193,11 @@ public interface KenyaEmrService extends OpenmrsService {
 	public Integer getNoOfHIVPositiveTBPatients(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
 	public Integer getCumulativeNoOfHIVPositiveTBPatients(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
 	public Integer getNoOfPatientsAssessedForAdherenceDuringThisMonth(String ageCategory,String startOfPeriod,String endOfPeriod);
-	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonth(String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelOnePer(String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelOneTot(String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelTwoPer(String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelTwoTot(String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelThreePer(String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelThreeTot(String ageCategory,String startOfPeriod,String endOfPeriod);
 	public Integer getNoOfPatientsHavingRegimen(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen,String doseRegimen);
 }

@@ -595,8 +595,28 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 		return dao.getNoOfPatientsAssessedForAdherenceDuringThisMonth(ageCategory,startOfPeriod,endOfPeriod);
 	}
 	
-	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonth(String ageCategory,String startOfPeriod,String endOfPeriod) {
-		return dao.getNoOfPatientsAssessedForAdherenceDuringTheLastMonth(ageCategory,startOfPeriod,endOfPeriod);
+	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelOnePer(String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelOnePer(ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelOneTot(String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelOneTot(ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelTwoPer(String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelTwoPer(ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelTwoTot(String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelTwoTot(ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelThreePer(String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelThreePer(ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelThreeTot(String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelThreeTot(ageCategory,startOfPeriod,endOfPeriod);
 	}
 	
 	public Integer getNoOfPatientsHavingRegimen(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen,String doseRegimen) {
