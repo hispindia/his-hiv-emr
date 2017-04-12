@@ -583,7 +583,24 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 		return dao.getNoOfPatientsSubstitutedThirdLineRegim(gender,ageCategory,startOfPeriod,endOfPeriod);
 	}
 	
+	public Integer getNoOfHIVPositiveTBPatients(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfHIVPositiveTBPatients(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getCumulativeNoOfHIVPositiveTBPatients(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getCumulativeNoOfHIVPositiveTBPatients(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientsAssessedForAdherenceDuringThisMonth(String ageCategory,String startOfPeriod,String endOfPeriod){
+		return dao.getNoOfPatientsAssessedForAdherenceDuringThisMonth(ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonth(String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientsAssessedForAdherenceDuringTheLastMonth(ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
 	public Integer getNoOfPatientsHavingRegimen(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen,String doseRegimen) {
 		return dao.getNoOfPatientsHavingRegimen(ageCategory,startOfPeriod,endOfPeriod,drugRegimen,doseRegimen);
 	}
+
 }
