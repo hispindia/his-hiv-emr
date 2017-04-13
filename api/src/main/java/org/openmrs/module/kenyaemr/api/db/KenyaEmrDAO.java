@@ -118,11 +118,20 @@ public interface KenyaEmrDAO {
 	public Integer getNoOfHIVPositiveTBPatients(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
 	public Integer getCumulativeNoOfHIVPositiveTBPatients(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
 	public Integer getNoOfPatientsAssessedForAdherenceDuringThisMonth(String ageCategory,String startOfPeriod,String endOfPeriod);
-	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelOnePer(String ageCategory,String startOfPeriod,String endOfPeriod);
 	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelOneTot(String ageCategory,String startOfPeriod,String endOfPeriod);
-	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelTwoPer(String ageCategory,String startOfPeriod,String endOfPeriod);
 	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelTwoTot(String ageCategory,String startOfPeriod,String endOfPeriod);
-	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelThreePer(String ageCategory,String startOfPeriod,String endOfPeriod);
 	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelThreeTot(String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientsOnPerformanceScaleA(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientsOnPerformanceScaleB(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientsOnPerformanceScaleC(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientSWithRiskFactorsCodeOne(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientSWithRiskFactorsCodeTwo(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientSWithRiskFactorsCodeThree(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientSWithRiskFactorsCodeFour(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientSWithRiskFactorsCodeFive(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientSWithRiskFactorsCodeSix(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientSWithRiskFactorsCodeSeven(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
 	public Integer getNoOfPatientsHavingRegimen(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen,String doseRegimen);
+	public Integer getNoOfPatientsTestedForCD4Count(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientsTestedForViralLoad(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
 }

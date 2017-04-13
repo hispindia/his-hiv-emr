@@ -595,28 +595,64 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 		return dao.getNoOfPatientsAssessedForAdherenceDuringThisMonth(ageCategory,startOfPeriod,endOfPeriod);
 	}
 	
-	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelOnePer(String ageCategory,String startOfPeriod,String endOfPeriod) {
-		return dao.getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelOnePer(ageCategory,startOfPeriod,endOfPeriod);
-	}
-	
 	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelOneTot(String ageCategory,String startOfPeriod,String endOfPeriod) {
 		return dao.getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelOneTot(ageCategory,startOfPeriod,endOfPeriod);
-	}
-	
-	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelTwoPer(String ageCategory,String startOfPeriod,String endOfPeriod) {
-		return dao.getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelTwoPer(ageCategory,startOfPeriod,endOfPeriod);
 	}
 	
 	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelTwoTot(String ageCategory,String startOfPeriod,String endOfPeriod) {
 		return dao.getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelTwoTot(ageCategory,startOfPeriod,endOfPeriod);
 	}
 	
-	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelThreePer(String ageCategory,String startOfPeriod,String endOfPeriod) {
-		return dao.getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelThreePer(ageCategory,startOfPeriod,endOfPeriod);
-	}
-	
 	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelThreeTot(String ageCategory,String startOfPeriod,String endOfPeriod) {
 		return dao.getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelThreeTot(ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientsOnPerformanceScaleA(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientsOnPerformanceScaleA(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientsOnPerformanceScaleB(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientsOnPerformanceScaleB(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientsOnPerformanceScaleC(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientsOnPerformanceScaleC(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientSWithRiskFactorsCodeOne(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientSWithRiskFactorsCodeOne(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientSWithRiskFactorsCodeTwo(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientSWithRiskFactorsCodeTwo(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientSWithRiskFactorsCodeThree(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientSWithRiskFactorsCodeThree(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientSWithRiskFactorsCodeFour(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientSWithRiskFactorsCodeFour(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientSWithRiskFactorsCodeFive(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientSWithRiskFactorsCodeFive(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientSWithRiskFactorsCodeSix(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientSWithRiskFactorsCodeSix(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientSWithRiskFactorsCodeSeven(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientSWithRiskFactorsCodeSeven(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientsTestedForCD4Count(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientsTestedForCD4Count(gender,ageCategory,startOfPeriod,endOfPeriod);
+	}
+	
+	public Integer getNoOfPatientsTestedForViralLoad(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		return dao.getNoOfPatientsTestedForViralLoad(gender,ageCategory,startOfPeriod,endOfPeriod);
 	}
 	
 	public Integer getNoOfPatientsHavingRegimen(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen,String doseRegimen) {
