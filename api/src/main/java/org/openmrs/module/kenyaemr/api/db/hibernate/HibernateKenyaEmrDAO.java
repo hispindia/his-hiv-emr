@@ -1757,11 +1757,13 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 +" where case when dd1 like 'hiv' then sag2.value_coded is not null end "
 +" )sag4 "
 +" on sag3.patient_id=sag4.patient_id";
+		
 		return jdbcTemplate.queryForInt(query);	
 	}
 		//5.2
 	public Integer getNoOfPatientsTransferredOutUnderARV(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		
 		String query="select count(*)  tot "+
 "from"+
 "("+
@@ -1836,7 +1838,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 " where case when dd1 like 'hiv' then sag2.value_coded is not null end"+
 ")sag4"+
 " on sag3.patient_id=sag4.patient_id";
-
+		
 		return jdbcTemplate.queryForInt(query);	
 	}
 	//5.3
@@ -1915,7 +1917,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 " where case when dd1 like 'hiv' then sag2.value_coded is not null end"+
 ")sag4"+
 " on sag3.patient_id=sag4.patient_id";
-
+		
 		return jdbcTemplate.queryForInt(query);	
 	}
 	//5.4
@@ -2069,7 +2071,8 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				               " )sag1"+
 				               " group by patient_id"+
 				       " )sag3"+
-				        "  where case when sag3.patient_id is not null and sag2.dd1=sag3.dd1 then sag2.dd>sag3.dd else 1=1 end"+
+				         " on sag2.patient_id=sag3.patient_id " + 
+				        " where case when sag3.patient_id is not null and sag2.dd1=sag3.dd1 then sag2.dd > sag3.dd else 1=1 end"+
 				" )sag4"+
 				" on sag3.patient_id=sag4.patient_id"+
 				" where sag4.patient_id is null";
@@ -2486,7 +2489,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	return jdbcTemplate.queryForInt(query);	
 	}
 	//6.1
-/*	public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+	public Integer getNoOfHIVPositiveTBPatients(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		String query="SELECT COUNT(*) tot"+
 " FROM"+
@@ -2550,7 +2553,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	return jdbcTemplate.queryForInt(query);	
 	}
 	//6.2
-	public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+	public Integer getCumulativeNoOfHIVPositiveTBPatients(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		String query="SELECT COUNT(*) tot"+
 " FROM"+
@@ -2632,7 +2635,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	return jdbcTemplate.queryForInt(query);	
 	}
 	//7.1
-	public Integer noOfpatientstop(String ageCategory,String startOfPeriod,String endOfPeriod){
+	public Integer getNoOfPatientsAssessedForAdherenceDuringThisMonth(String ageCategory,String startOfPeriod,String endOfPeriod){
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		String query="SELECT COUNT(*) tot"+
 	" FROM"+
@@ -2694,7 +2697,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	return jdbcTemplate.queryForInt(query);	
 	}
 	//7.2.1
-	public Integer noOfpatientstop(String ageCategory,String startOfPeriod,String endOfPeriod){
+	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelOneTot(String ageCategory,String startOfPeriod,String endOfPeriod){
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		String query="SELECT COUNT(*) tot"+
 " FROM"+
@@ -2765,7 +2768,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	return jdbcTemplate.queryForInt(query);	
 	}
 	//7.2.2
-	public Integer noOfpatientstop(String ageCategory,String startOfPeriod,String endOfPeriod){
+	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelTwoTot(String ageCategory,String startOfPeriod,String endOfPeriod){
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		String query="SELECT COUNT(*) tot"+
 " FROM"+
@@ -2836,7 +2839,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	return jdbcTemplate.queryForInt(query);	
 	}
 	//7.2.3
-	public Integer noOfpatientstop(String ageCategory,String startOfPeriod,String endOfPeriod){
+	public Integer getNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelThreeTot(String ageCategory,String startOfPeriod,String endOfPeriod){
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		String query="SELECT COUNT(*) tot"+
 " FROM"+
@@ -2907,7 +2910,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	return jdbcTemplate.queryForInt(query);	
 	}
 	//8.1
-	public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+	public Integer getNoOfPatientsOnPerformanceScaleA(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		String query="SELECT COUNT(*)"+
 " FROM("+
@@ -2928,7 +2931,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	return jdbcTemplate.queryForInt(query);	
 	}
 	//8.2
-		public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		public Integer getNoOfPatientsOnPerformanceScaleB(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			String query="SELECT COUNT(*)"+
 " FROM("+
@@ -2949,7 +2952,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		return jdbcTemplate.queryForInt(query);	
 		}
 		//8.3
-		public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		public Integer getNoOfPatientsOnPerformanceScaleC(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			String query="SELECT COUNT(*)"+
 " FROM("+
@@ -2970,7 +2973,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		return jdbcTemplate.queryForInt(query);	
 		}
 		//9.1
-		public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		public Integer getNoOfPatientSWithRiskFactorsCodeOne(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			String query="SELECT COUNT(*)"+
 " FROM("+
@@ -2991,7 +2994,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		return jdbcTemplate.queryForInt(query);	
 		}
 		//9.2
-		public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		public Integer getNoOfPatientSWithRiskFactorsCodeTwo(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			String query="SELECT COUNT(*)"+
 " FROM("+
@@ -3012,7 +3015,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		return jdbcTemplate.queryForInt(query);	
 		}
 		//9.3
-		public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		public Integer getNoOfPatientSWithRiskFactorsCodeThree(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			String query="SELECT COUNT(*)"+
 " FROM("+
@@ -3033,7 +3036,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		return jdbcTemplate.queryForInt(query);	
 		}
 		//9.4
-		public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		public Integer getNoOfPatientSWithRiskFactorsCodeFour(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			String query="SELECT COUNT(*)"+
 " FROM("+
@@ -3054,7 +3057,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		return jdbcTemplate.queryForInt(query);	
 		}
 		//9.5
-		public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		public Integer getNoOfPatientSWithRiskFactorsCodeFive(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			String query="SELECT COUNT(*)"+
 " FROM("+
@@ -3075,7 +3078,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		return jdbcTemplate.queryForInt(query);	
 		}
 		//9.6
-		public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		public Integer getNoOfPatientSWithRiskFactorsCodeSix(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			String query="SELECT COUNT(*)"+
 " FROM("+
@@ -3096,7 +3099,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		return jdbcTemplate.queryForInt(query);	
 		}
 		//9.7
-		public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		public Integer getNoOfPatientSWithRiskFactorsCodeSeven(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			String query="SELECT COUNT(*)"+
 " FROM("+
@@ -3117,7 +3120,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		return jdbcTemplate.queryForInt(query);	
 		}
 		//10.1
-		public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		public Integer getNoOfPatientsTestedForCD4Count(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			String query="SELECT COUNT(*)"+
 " FROM("+
@@ -3138,7 +3141,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 		return jdbcTemplate.queryForInt(query);	
 		}
 		//10.2
-		public Integer noOfpatientstop(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
+		public Integer getNoOfPatientsTestedForViralLoad(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			String query="SELECT COUNT(*)"+
 " FROM("+
@@ -3157,7 +3160,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
    " AND DATE(obs_datetime) BETWEEN  "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
    " )viral";
 		return jdbcTemplate.queryForInt(query);	
-		}*/
+		}
 	
 	public Integer getNoOfPatientsHavingRegimen(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen,String doseRegimen){
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
