@@ -3311,8 +3311,62 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 					+")regime";
 			return jdbcTemplate.queryForInt(query);		
 		}
+		
+		public Integer getNoOfPatientsHavingThirdLineRegimen(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen,String doseRegimen){
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			String query="SELECT COUNT(*) tot "
+					+"FROM "
+					+"(SELECT drug1.patient_id "
+					+"FROM"
+					+"("
+					        +"SELECT pp.patient_id "
+					        +"FROM patient_program pp "
+					        +"INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART' "
+					        +"INNER JOIN person p ON p.person_id=pp.patient_id "
+					        +"INNER JOIN drug_order_processed d ON d.patient_id=pp.patient_id "
+					        +"AND drug_regimen LIKE "+"'"+drugRegimen+"'"
+					        +" AND dose_regimen LIKE "+"'"+doseRegimen+"'"
+					        +" AND processed_status =1 "
+					        +"AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "+ageCategory
+					        +" WHERE DATE(date_enrolled) BETWEEN "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"
+					        +" GROUP BY pp.patient_id "
+					        +"UNION "
+					        +"SELECT * "
+					        +"FROM " 
+					        +"("
+					                +"SELECT pp.patient_id "
+					                +"FROM patient_program pp "
+					                +"INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART' "
+					                +"INNER JOIN person p ON p.person_id=pp.patient_id "
+					                +"INNER JOIN drug_order_processed d ON d.patient_id=pp.patient_id "
+					                +"AND drug_regimen LIKE "+"'"+drugRegimen+"'"
+					                +" AND dose_regimen LIKE "+"'"+doseRegimen+"'"
+					                +" AND processed_status =1 "
+					                +"AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "+ageCategory
+					                +" WHERE DATE(date_enrolled) BETWEEN DATE_SUB("+"'"+startOfPeriod+"'"+", INTERVAL 1 MONTH) and DATE_SUB("+"'"+endOfPeriod+"'"+", INTERVAL 1 MONTH) "
+					                +"AND CASE WHEN date_completed IS NOT NULL THEN date_completed >"+"'"+endOfPeriod+"'"+"ELSE 1=1 END "
+					                +"GROUP BY pp.patient_id "
+					        +")sag"
+					        +")drug1 "
+					        +"LEFT JOIN "
+					        +"("
+					+"SELECT p.person_id "
+					+"FROM person p "
+					+"INNER JOIN encounter e ON e.patient_id=p.person_id "
+					+"INNER JOIN encounter_type et ON et.encounter_type_id=e.encounter_type AND et.name LIKE 'ART' "
+					+"WHERE p.dead=1 "
+					+" AND death_date BETWEEN "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"
+					+" AND TIMESTAMPDIFF(YEAR,(p.birthdate),(p.death_date))>"+ageCategory
+					+" GROUP BY p.person_id "
+					+")drug2 "
+					+"ON drug1.patient_id=drug2.person_id "
+					+"WHERE drug2.person_id IS  NULL "
+					+"GROUP BY drug1.patient_id "
+					+")regime";
+			return jdbcTemplate.queryForInt(query);		
+		}
 	
-	public Integer getNoOfPatientsHavingRegimen(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen,String doseRegimen){
+	public Integer getNoOfChildPatientsHavingRegimen(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen,String doseRegimen){
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		String query="SELECT COUNT(*) tot "
 +"FROM "
@@ -3386,6 +3440,80 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
         		+")regime";
 		return jdbcTemplate.queryForInt(query);	
 	}
+	
+	public Integer getNoOfChildPatientsHavingRegimenWithoutDose(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen){
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String query="SELECT COUNT(*) tot "
++"FROM "
++"( SELECT drug1.patient_id "
++"FROM "
++"("
+        +"SELECT pp.patient_id "
+        +"FROM patient_program pp "
+        +"INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART' "
+        +"INNER JOIN person p ON p.person_id=pp.patient_id "
+        +"INNER JOIN drug_order_processed d ON d.patient_id=pp.patient_id "
+        +"AND drug_regimen LIKE "+"'"+drugRegimen+"'"
+        +" AND type_of_regimen LIKE 'Fixed dose combinations (FDCs)' "
+        +"AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory
+        +" WHERE DATE(date_enrolled) BETWEEN "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"
+        +" GROUP BY pp.patient_id "
+        +"UNION " 
+        +"SELECT * "
+        +"FROM "
+        +"("
+                +"SELECT pp.patient_id "
+                +"FROM patient_program pp "
+                +"INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART' "
+                +"INNER JOIN person p ON p.person_id=pp.patient_id "
+                +"INNER JOIN drug_order_processed d ON d.patient_id=pp.patient_id "
+                +"AND drug_regimen LIKE "+"'"+drugRegimen+"'"
+                +" AND type_of_regimen LIKE 'Fixed dose combinations (FDCs)' "
+                +"AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory
+                +" WHERE DATE(date_enrolled) BETWEEN DATE_SUB("+"'"+startOfPeriod+"'"+", INTERVAL 1 MONTH) and DATE_SUB("+"'"+endOfPeriod+"'"+", INTERVAL 1 MONTH) "
+                +" AND CASE WHEN date_completed IS NOT NULL THEN date_completed >"+"'"+endOfPeriod+"'"+" else 1=1 end "
+                +"GROUP BY pp.patient_id "
+        +")sag"
+        +")drug1 "
+        +"LEFT JOIN"
+        +"("
+        		+"SELECT p.person_id "
+        		+"FROM person p "
+        		+"INNER JOIN encounter e ON e.patient_id=p.person_id "
+        		+"INNER JOIN encounter_type et ON et.encounter_type_id=e.encounter_type AND et.name LIKE 'ART' "
+        		+"WHERE p.dead=1 "
+        		+"AND death_date BETWEEN "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"
+        		+" AND TIMESTAMPDIFF(YEAR,(p.birthdate),(p.death_date))"+ageCategory
+        		+" GROUP BY p.person_id "
+        		+"UNION "
+        		+"SELECT pp.patient_id "
+        		+"FROM patient_program pp "
+        		+"INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'HIV' "
+        		+"INNER JOIN obs o ON o.person_id = pp.patient_id AND o.concept_id=161555 "
+        		+"INNER JOIN person p ON p.person_id=pp.patient_id "
+        		+" and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory 
+        		+" WHERE o.obs_datetime BETWEEN "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"
+        		+" AND o.obs_datetime BETWEEN pp.date_enrolled AND pp.date_completed "
+        		+" AND o.value_coded=5240 "
+        		+"UNION "
+        		+"SELECT pp.patient_id "
+        		+"FROM patient_program pp "
+        		+"INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART' "
+        		+"INNER JOIN person p ON p.person_id=pp.patient_id "
+        		+"LEFT JOIN obs o ON o.person_id = pp.patient_id AND o.concept_id=161555 "
+        		+"AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory
+        		+"WHERE pp.date_completed IS NOT NULL "
+        		+"AND DATE(pp.date_completed) BETWEEN "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"
+        		+" AND CASE WHEN o.concept_id IS NOT NULL THEN o.obs_datetime BETWEEN pp.date_enrolled AND pp.date_completed ELSE 1=1 END "
+        		+"AND CASE WHEN o.concept_id IS NOT NULL THEN o.value_coded=159492 ELSE 1=1 END "
+        		+")drug2 "
+        		+"ON drug1.patient_id=drug2.person_id "
+        		+"WHERE drug2.person_id IS  NULL "
+        		+"GROUP BY drug1.patient_id "
+        		+")regime";
+		return jdbcTemplate.queryForInt(query);	
+	}
+	
 	//stock dispensed
 	public Integer getNoOfPatientsstockdispensed(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen,String doseRegimen){
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);

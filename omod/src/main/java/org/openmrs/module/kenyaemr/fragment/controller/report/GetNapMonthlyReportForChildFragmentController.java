@@ -118,6 +118,8 @@ public class GetNapMonthlyReportForChildFragmentController {
 	Integer noOfPatientsTestedForViralLoadForMale=kenyaEmrService.getNoOfPatientsTestedForViralLoad("M",ageCategory,startOfPeriod,endOfPeriod);
 	Integer noOfPatientsTestedForViralLoadForFemale=kenyaEmrService.getNoOfPatientsTestedForViralLoad("F",ageCategory,startOfPeriod,endOfPeriod);
 	
+	Integer noOfChildPatientsHavingRegimen1=kenyaEmrService.getNoOfChildPatientsHavingRegimen(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC+NVP","60/30+50 mg");
+	
 	//Integer noOfPatientsHavingRegimen=kenyaEmrService.getNoOfPatientsHavingRegimen(ageCategory,startOfPeriod,endOfPeriod,drugRegimen,doseRegimen);
 	
 	model.addAttribute("noOfNewPatientEnrolledInHivCareForMale",noOfNewPatientEnrolledInHivCareForMale);
@@ -240,5 +242,6 @@ public class GetNapMonthlyReportForChildFragmentController {
 	model.addAttribute("noOfPatientsTestedForViralLoadForMale",noOfPatientsTestedForViralLoadForMale);
 	model.addAttribute("noOfPatientsTestedForViralLoadForFemale",noOfPatientsTestedForViralLoadForFemale);
 	model.addAttribute("noOfPatientsTestedForViralLoadTotal",noOfPatientsTestedForViralLoadForMale+noOfPatientsTestedForViralLoadForFemale);
+	model.addAttribute("noOfChildPatientsHavingRegimen1", noOfChildPatientsHavingRegimen1);
   }
 }

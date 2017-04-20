@@ -1,3 +1,4 @@
+<div>
 <table style='width: 100%' class="ke-table-vertical">
 <tr>
 <font size="3" color="red">A- MEDICAL CARE</font>
@@ -275,3 +276,57 @@ Total
 </tr>
 </table>
 </table>
+</div>
+
+<div>
+<table style='width: 100%' class="ke-table-vertical">
+<tr>
+<font size="3" color="red">B- PHARMACY</font>
+</tr>
+<br/>
+<tr>
+<font size="3" color="blue">11. REGIMEN AT THE END OF THE MONTH</font>
+</tr>
+<tr>
+<th>
+<font size="2" color="blue">Regimen</font>
+</th>
+<th>
+<font size="2" color="blue">Type of Regimen</font>
+</th>
+<th>
+<font size="2" color="blue">No. of Child ART patients</font>
+</th>
+<th>
+<font size="2" color="blue">Remark</font>
+</th>
+</tr>
+<tr>
+<td>AZT/3TC+NVP (60/30+50)mg</td>
+<td>1st Line regimen</td>
+<td>${noOfChildPatientsHavingRegimen1}</td>
+</tr>
+</table>
+</div>
+
+<div>
+<table style='width: 100%' class="ke-table-vertical">
+<tr>
+<font size="3" color="red">Drug-Stocks</font>
+</tr>
+<br/>
+<tr>
+<th>
+<font size="2" color="blue">Name of the drug (list ARV and OI drugs)</font>
+</th>
+<th>
+<font size="2" color="blue">Stock dispensed during the month(C)</font>
+</th>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tr>
+</table>
+</div>

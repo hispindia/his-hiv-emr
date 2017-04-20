@@ -316,6 +316,11 @@ Total
 <td>2nd Line regimen</td>
 <td>${noOfPatientsHavingSecondLineRegimen1}</td>
 </tr>
+<tr>
+<td>AZT300/3TC150 + TDF300+ LPV/r 200/50</td>
+<td>HIV and HBV coinfection</td>
+<td>${noOfPatientsHavingThirdLineRegimen1}</td>
+</tr>
 </table>
 </div>
 
@@ -493,4 +498,5 @@ Total
 <td>AZT300/3TC150 + TDF300+ LPV/r200/50</td>
 <td>${noOfPatientsHavingstockDispensed40}</td>
 </tr>
+</table>
 </div>

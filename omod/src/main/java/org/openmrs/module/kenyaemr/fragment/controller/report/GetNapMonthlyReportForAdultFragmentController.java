@@ -121,6 +121,8 @@ public class GetNapMonthlyReportForAdultFragmentController {
 	Integer noOfPatientsHavingFirstLineRegimen1=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC/NVP","300/150/200 mg");
 	
 	Integer noOfPatientsHavingSecondLineRegimen1=kenyaEmrService.getNoOfPatientsHavingSecondLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC/LPV/r","300/150/200/50 mg");
+	
+	Integer noOfPatientsHavingThirdLineRegimen1=kenyaEmrService.getNoOfPatientsHavingThirdLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC+TDF+LPV/r","300/150+300+200/50 mg");
 	// stock dispensed
 	Integer noOfPatientsstockDispensed1=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC/NVP","300/150/200 mg");
 	Integer noOfPatientsstockDispensed2=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC+NVP","300/150+200 mg");
@@ -289,6 +291,8 @@ public class GetNapMonthlyReportForAdultFragmentController {
 	model.addAttribute("noOfPatientsHavingFirstLineRegimen1", noOfPatientsHavingFirstLineRegimen1);
 	
 	model.addAttribute("noOfPatientsHavingSecondLineRegimen1", noOfPatientsHavingSecondLineRegimen1);
+	
+	model.addAttribute("noOfPatientsHavingThirdLineRegimen1", noOfPatientsHavingThirdLineRegimen1);
 	//stock dispensed
 	model.addAttribute("noOfPatientsHavingstockDispensed1", noOfPatientsstockDispensed1);
 	model.addAttribute("noOfPatientsHavingstockDispensed2", noOfPatientsstockDispensed2);
