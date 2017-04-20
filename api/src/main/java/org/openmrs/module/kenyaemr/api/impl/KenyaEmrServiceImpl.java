@@ -552,6 +552,7 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 	}
 	
 	public Integer getNoOfPatientsTransferredOutUnderARV(String gender,String ageCategory,String startOfPeriod,String endOfPeriod) {
+		
 		return dao.getNoOfPatientsTransferredOutUnderARV(gender,ageCategory,startOfPeriod,endOfPeriod);
 	}
 	
@@ -666,5 +667,14 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 	public Integer getNoOfPatientsHavingSecondLineRegimen(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen,String doseRegimen) {
 		return dao.getNoOfPatientsHavingSecondLineRegimen(ageCategory,startOfPeriod,endOfPeriod,drugRegimen,doseRegimen);
 	}
-
+    
+	//stock dispensed
+	public Integer getNoOfPatientsstockdispensed(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen,String doseRegimen) {
+		return dao.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,drugRegimen,doseRegimen);
+	}
+	
+	public Integer getNoOfPatientsstockdispensedWithoutDose(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen) {
+		return dao.getNoOfPatientsstockdispensedWithoutDose(ageCategory,startOfPeriod,endOfPeriod,drugRegimen);
+	}
+	
 }

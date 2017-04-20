@@ -121,8 +121,49 @@ public class GetNapMonthlyReportForAdultFragmentController {
 	Integer noOfPatientsHavingFirstLineRegimen1=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC/NVP","300/150/200 mg");
 	
 	Integer noOfPatientsHavingSecondLineRegimen1=kenyaEmrService.getNoOfPatientsHavingSecondLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC/LPV/r","300/150/200/50 mg");
+	// stock dispensed
+	Integer noOfPatientsstockDispensed1=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC/NVP","300/150/200 mg");
+	Integer noOfPatientsstockDispensed2=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC+NVP","300/150+200 mg");
+	Integer noOfPatientsstockDispensed3=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC/EFV","300/150/600 mg");
+	Integer noOfPatientsstockDispensed4=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC+EFV","300/150+600 mg");
+	Integer noOfPatientsstockDispensed5=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"TDF/3TC/NVP","300/300/200 mg");
+	Integer noOfPatientsstockDispensed6=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"TDF/3TC+NVP","300/300+200 mg");
+	Integer noOfPatientsstockDispensed7=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"TDF/3TC/EFV","300/300/600 mg");
+	Integer noOfPatientsstockDispensed8=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"TDF/3TC+EFV","300/300+400 mg");
+	Integer noOfPatientsstockDispensed9=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"TDF/3TC+EFV","300/300+600 mg");
+	Integer noOfPatientsstockDispensed10=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"TDF/FTC/NVP","300/200/200 mg");
+	Integer noOfPatientsstockDispensed11=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"TDF/FTC+NVP","300/200+200 mg");
+	Integer noOfPatientsstockDispensed12=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"TDF/FTC/EFV","300/200/200 mg");
+	Integer noOfPatientsstockDispensed13=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"TDF/FTC+EFV","300/200+400 mg");
+	Integer noOfPatientsstockDispensed14=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"TDF/FTC/EFV","300/200/600 mg");
+	Integer noOfPatientsstockDispensed15=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"TDF/FTC+EFV","300/200+600 mg");
+	Integer noOfPatientsstockDispensed16=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"d4T/3TC/NVP","30/150/200 mg");
+	Integer noOfPatientsstockDispensed17=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"d4T/3TC+NVP","30/150+200 mg");
+	Integer noOfPatientsstockDispensed18=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"d4T/3TC/EFV","30/150/600 mg");
+	Integer noOfPatientsstockDispensed19=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"d4T/3TC+EFV","30/150+600 mg");
+	Integer noOfPatientsstockDispensed20=kenyaEmrService.getNoOfPatientsstockdispensedWithoutDose(ageCategory,startOfPeriod,endOfPeriod,"TDF/FTC/DTG");
+	Integer noOfPatientsstockDispensed21=kenyaEmrService.getNoOfPatientsstockdispensedWithoutDose(ageCategory,startOfPeriod,endOfPeriod,"TDF/3TC/DTG");
+	Integer noOfPatientsstockDispensed22=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"ABC/3TC+EFV","600/300+600 mg");
+	Integer noOfPatientsstockDispensed23=kenyaEmrService.getNoOfPatientsstockdispensedWithoutDose(ageCategory,startOfPeriod,endOfPeriod,"ABC/3TC/DTG");
+	Integer noOfPatientsstockDispensed24=kenyaEmrService.getNoOfPatientsstockdispensedWithoutDose(ageCategory,startOfPeriod,endOfPeriod,"ABC/3TC/NVP");
+	Integer noOfPatientsstockDispensed25=kenyaEmrService.getNoOfPatientsstockdispensedWithoutDose(ageCategory,startOfPeriod,endOfPeriod,"ABC/FTC/EFV");
+	Integer noOfPatientsstockDispensed26=kenyaEmrService.getNoOfPatientsstockdispensedWithoutDose(ageCategory,startOfPeriod,endOfPeriod,"ABC/FTC/DTG");
+	Integer noOfPatientsstockDispensed27=kenyaEmrService.getNoOfPatientsstockdispensedWithoutDose(ageCategory,startOfPeriod,endOfPeriod,"ABC/FTC/NVP");
+	Integer noOfPatientsstockDispensed28=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC/LPV/r","300/150/200/50 mg");
+	Integer noOfPatientsstockDispensed29=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC+LPV/r","300/150+200/50 mg");
+	Integer noOfPatientsstockDispensed30=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"TDF/3TC/LPV/r","300/300/200/50 mg");
+	Integer noOfPatientsstockDispensed31=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"TDF/3TC+LPV/r","300/300+200/50 mg");
+	Integer noOfPatientsstockDispensed32=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"TDF/FTC/LPV/r","300/200/200/50 mg");
+	Integer noOfPatientsstockDispensed33=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"TDF/FTC+LPV/r","300/200+200/50 mg");
+	Integer noOfPatientsstockDispensed34=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"TDF/ABC/LPV/r","300/300/200/50 mg");
+	Integer noOfPatientsstockDispensed35=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"TDF+ABC+LPV/r","300+300+200/50 mg");
+	Integer noOfPatientsstockDispensed36=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"ABC/3TC+LPV/r","600/300+200/50 mg");
+	Integer noOfPatientsstockDispensed37=kenyaEmrService.getNoOfPatientsstockdispensedWithoutDose(ageCategory,startOfPeriod,endOfPeriod,"ABC/3TC/ATV/r");
+	Integer noOfPatientsstockDispensed38=kenyaEmrService.getNoOfPatientsstockdispensedWithoutDose(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC/ATV/r");
+	Integer noOfPatientsstockDispensed39=kenyaEmrService.getNoOfPatientsstockdispensedWithoutDose(ageCategory,startOfPeriod,endOfPeriod,"TDF/3TC/ATV/r");
+	Integer noOfPatientsstockDispensed40=kenyaEmrService.getNoOfPatientsstockdispensed(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC+TDF+LPV/r","300/150+300+200/50 mg");
 	
-	//Integer noOfPatientsHavingRegimen=kenyaEmrService.getNoOfPatientsHavingRegimen(ageCategory,startOfPeriod,endOfPeriod,drugRegimen,doseRegimen);
+	
 	
 	model.addAttribute("noOfNewPatientEnrolledInHivCareForMale",noOfNewPatientEnrolledInHivCareForMale);
 	model.addAttribute("noOfNewPatientEnrolledInHivCareForFemale",noOfNewPatientEnrolledInHivCareForFemale);
@@ -248,5 +289,46 @@ public class GetNapMonthlyReportForAdultFragmentController {
 	model.addAttribute("noOfPatientsHavingFirstLineRegimen1", noOfPatientsHavingFirstLineRegimen1);
 	
 	model.addAttribute("noOfPatientsHavingSecondLineRegimen1", noOfPatientsHavingSecondLineRegimen1);
-  }
+	//stock dispensed
+	model.addAttribute("noOfPatientsHavingstockDispensed1", noOfPatientsstockDispensed1);
+	model.addAttribute("noOfPatientsHavingstockDispensed2", noOfPatientsstockDispensed2);
+	model.addAttribute("noOfPatientsHavingstockDispensed3", noOfPatientsstockDispensed3);
+	model.addAttribute("noOfPatientsHavingstockDispensed4", noOfPatientsstockDispensed4);
+	model.addAttribute("noOfPatientsHavingstockDispensed5", noOfPatientsstockDispensed5);
+	model.addAttribute("noOfPatientsHavingstockDispensed6", noOfPatientsstockDispensed6);
+	model.addAttribute("noOfPatientsHavingstockDispensed7", noOfPatientsstockDispensed7);
+	model.addAttribute("noOfPatientsHavingstockDispensed8", noOfPatientsstockDispensed8);
+	model.addAttribute("noOfPatientsHavingstockDispensed9", noOfPatientsstockDispensed9);
+	model.addAttribute("noOfPatientsHavingstockDispensed10", noOfPatientsstockDispensed10);
+	model.addAttribute("noOfPatientsHavingstockDispensed11", noOfPatientsstockDispensed11);
+	model.addAttribute("noOfPatientsHavingstockDispensed12", noOfPatientsstockDispensed12);
+	model.addAttribute("noOfPatientsHavingstockDispensed13", noOfPatientsstockDispensed13);
+	model.addAttribute("noOfPatientsHavingstockDispensed14", noOfPatientsstockDispensed14);
+	model.addAttribute("noOfPatientsHavingstockDispensed15", noOfPatientsstockDispensed15);
+	model.addAttribute("noOfPatientsHavingstockDispensed16", noOfPatientsstockDispensed16);
+	model.addAttribute("noOfPatientsHavingstockDispensed17", noOfPatientsstockDispensed17);
+	model.addAttribute("noOfPatientsHavingstockDispensed18", noOfPatientsstockDispensed18);
+	model.addAttribute("noOfPatientsHavingstockDispensed19", noOfPatientsstockDispensed19);
+	model.addAttribute("noOfPatientsHavingstockDispensed20", noOfPatientsstockDispensed20);
+	model.addAttribute("noOfPatientsHavingstockDispensed21", noOfPatientsstockDispensed21);
+	model.addAttribute("noOfPatientsHavingstockDispensed22", noOfPatientsstockDispensed22);
+	model.addAttribute("noOfPatientsHavingstockDispensed23", noOfPatientsstockDispensed23);
+	model.addAttribute("noOfPatientsHavingstockDispensed24", noOfPatientsstockDispensed24);
+	model.addAttribute("noOfPatientsHavingstockDispensed25", noOfPatientsstockDispensed25);
+	model.addAttribute("noOfPatientsHavingstockDispensed26", noOfPatientsstockDispensed26);
+	model.addAttribute("noOfPatientsHavingstockDispensed27", noOfPatientsstockDispensed27);
+	model.addAttribute("noOfPatientsHavingstockDispensed28", noOfPatientsstockDispensed28);
+	model.addAttribute("noOfPatientsHavingstockDispensed29", noOfPatientsstockDispensed29);
+	model.addAttribute("noOfPatientsHavingstockDispensed30", noOfPatientsstockDispensed30);
+	model.addAttribute("noOfPatientsHavingstockDispensed31", noOfPatientsstockDispensed31);
+	model.addAttribute("noOfPatientsHavingstockDispensed32", noOfPatientsstockDispensed32);
+	model.addAttribute("noOfPatientsHavingstockDispensed33", noOfPatientsstockDispensed33);
+	model.addAttribute("noOfPatientsHavingstockDispensed34", noOfPatientsstockDispensed34);
+	model.addAttribute("noOfPatientsHavingstockDispensed35", noOfPatientsstockDispensed35);
+	model.addAttribute("noOfPatientsHavingstockDispensed36", noOfPatientsstockDispensed36);
+	model.addAttribute("noOfPatientsHavingstockDispensed37", noOfPatientsstockDispensed37);
+	model.addAttribute("noOfPatientsHavingstockDispensed38", noOfPatientsstockDispensed38);
+	model.addAttribute("noOfPatientsHavingstockDispensed39", noOfPatientsstockDispensed39);
+	model.addAttribute("noOfPatientsHavingstockDispensed40", noOfPatientsstockDispensed40);
+	}
 }

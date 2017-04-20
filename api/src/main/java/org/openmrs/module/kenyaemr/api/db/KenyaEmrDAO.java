@@ -136,4 +136,8 @@ public interface KenyaEmrDAO {
 	public Integer getNoOfPatientsTestedForViralLoad(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
 	public Integer getNoOfPatientsHavingFirstLineRegimen(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen,String doseRegimen);
 	public Integer getNoOfPatientsHavingSecondLineRegimen(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen,String doseRegimen);
+    // stock dispensed
+	public Integer getNoOfPatientsstockdispensed(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen,String doseRegimen);
+	public Integer getNoOfPatientsstockdispensedWithoutDose(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen);
+    
 }

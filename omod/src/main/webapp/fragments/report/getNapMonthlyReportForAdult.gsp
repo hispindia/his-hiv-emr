@@ -318,3 +318,179 @@ Total
 </tr>
 </table>
 </div>
+
+<div>
+<table style='width: 100%' class="ke-table-vertical">
+<tr>
+<font size="3" color="red">Drug-Stocks</font>
+</tr>
+<br/>
+<tr>
+<th>
+<font size="2" color="blue">Name of the drug (list ARV and OI drugs)</font>
+</th>
+<th>
+<font size="2" color="blue">Stock dispensed during the month(C)</font>
+</th>
+</tr>
+<tr>
+<td>AZT/3TC/NVP (300/150/200)mg</td>
+<td>${noOfPatientsHavingstockDispensed1}</td>
+</tr>
+<tr>
+<td>AZT300/3TC150+NVP200</td>
+<td>${noOfPatientsHavingstockDispensed2}</td>
+</tr>
+<tr>
+<td>AZT/3TC/EFV (300/150/600)mg</td>
+<td>${noOfPatientsHavingstockDispensed3}</td>
+</tr>
+<tr>
+<td>AZT300/3TC150+EFV600</td>
+<td>${noOfPatientsHavingstockDispensed4}</td>
+</tr>
+<tr>
+<td>TDF/3TC/NVP (300/300/200)mg</td>
+<td>${noOfPatientsHavingstockDispensed5}</td>
+</tr>
+<tr>
+<td>TDF300/3TC300 + NVP200</td>
+<td>${noOfPatientsHavingstockDispensed6}</td>
+</tr>
+<tr>
+<td>TDF/3TC/EFV (300/300/600)mg</td>
+<td>${noOfPatientsHavingstockDispensed7}</td>
+</tr>
+<tr>
+<td>TDF300/3TC300+EFV400</td>
+<td>${noOfPatientsHavingstockDispensed8}</td>
+</tr>
+<tr>
+<td>TDF300/3TC300+EFV600</td>
+<td>${noOfPatientsHavingstockDispensed9}</td>
+</tr>
+<tr>
+<td>TDF/FTC/NVP (300/200/200)mg</td>
+<td>${noOfPatientsHavingstockDispensed10}</td>
+</tr>
+<tr>
+<td>TDF300/FTC200+NVP200</td>
+<td>${noOfPatientsHavingstockDispensed11}</td>
+</tr>
+<tr>
+<td>TDF/FTC/EFV (300/200/200)mg</td>
+<td>${noOfPatientsHavingstockDispensed12}</td>
+</tr>
+<tr>
+<td>TDF300/FTC200+EFV400</td>
+<td>${noOfPatientsHavingstockDispensed13}</td>
+</tr>
+<tr>
+<td>TDF/FTC/EFV (300/200/600)mg</td>
+<td>${noOfPatientsHavingstockDispensed14}</td>
+</tr>
+<tr>
+<td>TDF300/FTC200+EFV600</td>
+<td>${noOfPatientsHavingstockDispensed15}</td>
+</tr>
+<tr>
+<td>d4T/3TC/NVP (30/150/200)mg</td>
+<td>${noOfPatientsHavingstockDispensed16}</td>
+</tr>
+<tr>
+<td>d4T30/3TC150+NVP200</td>
+<td>${noOfPatientsHavingstockDispensed17}</td>
+</tr>
+<tr>
+<td>d4T/3TC/EFV (30/150/600)mg</td>
+<td>${noOfPatientsHavingstockDispensed18}</td>
+</tr>
+<tr>
+<td>d4T30/3TC150+EFV600</td>
+<td>${noOfPatientsHavingstockDispensed19}</td>
+</tr>
+<tr>
+<td>TDF/FTC/DTG</td>
+<td>${noOfPatientsHavingstockDispensed20}</td>
+</tr>
+<tr>
+<td>TDF/3TC/DTG</td>
+<td>${noOfPatientsHavingstockDispensed21}</td>
+</tr>
+<tr>
+<td>ABC600/3TC300 + EFV600</td>
+<td>${noOfPatientsHavingstockDispensed22}</td>
+</tr>
+<tr>
+<td>ABC/3TC/DTG</td>
+<td>${noOfPatientsHavingstockDispensed23}</td>
+</tr>
+<tr>
+<td>ABC/3TC/NVP</td>
+<td>${noOfPatientsHavingstockDispensed24}</td>
+</tr>
+<tr>
+<td>ABC/FTC/EFV</td>
+<td>${noOfPatientsHavingstockDispensed25}</td>
+</tr>
+<tr>
+<td>ABC/FTC/DTG</td>
+<td>${noOfPatientsHavingstockDispensed26}</td>
+</tr>
+<tr>
+<td>ABC/FTC/NVP</td>
+<td>${noOfPatientsHavingstockDispensed27}</td>
+</tr>
+<tr>
+<td>AZT/3TC/LPV/r (300/150/200/50)mg</td>
+<td>${noOfPatientsHavingstockDispensed28}</td>
+</tr>
+<tr>
+<td>AZT300/3TC150 + LPV/r200/50</td>
+<td>${noOfPatientsHavingstockDispensed29}</td>
+</tr>
+<tr>
+<td>TDF/3TC/LPV/r (300/300/200/50)mg</td>
+<td>${noOfPatientsHavingstockDispensed30}</td>
+</tr>
+<tr>
+<td>TDF300/3TC300 + LPV/r200/50</td>
+<td>${noOfPatientsHavingstockDispensed31}</td>
+</tr>
+<tr>
+<td>TDF/FTC/LPV/r (300/200/200/50)mg</td>
+<td>${noOfPatientsHavingstockDispensed32}</td>
+</tr>
+<tr>
+<td>TDF300/FTC200 + LPV/r200/50</td>
+<td>${noOfPatientsHavingstockDispensed33}</td>
+</tr>
+<tr>
+<td>TDF/ABC/LPV/r(300/300/200/50)mg</td>
+<td>${noOfPatientsHavingstockDispensed34}</td>
+</tr>
+<tr>
+<td>TDF/3TC/NVP (300/300/200)mg</td>
+<td>${noOfPatientsHavingstockDispensed35}</td>
+</tr>
+<tr>
+<td>ABC600/3TC300+ LPV/r200/50</td>
+<td>${noOfPatientsHavingstockDispensed36}</td>
+</tr>
+<tr>
+<td>ABC/3TC/ATV/r</td>
+<td>${noOfPatientsHavingstockDispensed37}</td>
+</tr>
+<tr>
+<td>AZT/3TC/ATV/r</td>
+<td>${noOfPatientsHavingstockDispensed38}</td>
+</tr>
+<tr>
+<td>TDF/3TC/ATV/r</td>
+<td>${noOfPatientsHavingstockDispensed39}</td>
+</tr>
+<tr>
+<td>AZT300/3TC150 + TDF300+ LPV/r200/50</td>
+<td>${noOfPatientsHavingstockDispensed40}</td>
+</tr>
+</div>
