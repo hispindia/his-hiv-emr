@@ -1615,7 +1615,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
        " and case when date_completed is not null then date_completed > "+"'"+startOfPeriod+"'"+" else 1=1 end"+
        " group by pp.patient_id "+
 " )sag";
-		System.out.println("hiii1"+query);
+		
 		return jdbcTemplate.queryForInt(query);	
 	}
 	
@@ -1632,7 +1632,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 " where date(date_enrolled) between "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
 " and case when date_completed is not null then date_completed > "+"'"+endOfPeriod+"'"+ "else 1=1 end "+
 " and case when o.person_id is not null then o.value_coded not in (162870,162871) else 1=1 end";
-		System.out.println("hiii2"+query);
+		
 		return jdbcTemplate.queryForInt(query);	
 	}
 	//4.3 
@@ -1647,7 +1647,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ ageCategory+
 " where date(date_enrolled) between "+"'"+startOfPeriod+"'"+" AND "+"'"+endOfPeriod+"'"+
 " and case when date_completed is not null then date_completed > "+"'"+endOfPeriod+"'"+ " else 1=1 end ";
-		System.out.println("hiii3"+query);
+		
 		return jdbcTemplate.queryForInt(query);	
 	}
 	//4.4
@@ -1681,7 +1681,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
                " group by pp.patient_id"+
        " )sag"+
 " )sag1";
-		System.out.println("hiii4"+query);
+		
 		return jdbcTemplate.queryForInt(query);	
 	}
 	//5.1
@@ -3290,7 +3290,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 					+"INNER JOIN obs o ON o.person_id = pp.patient_id AND o.concept_id=161555 " 
 					+"INNER JOIN person p ON p.person_id=pp.patient_id "
 					+"AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) " 
-					+"WHERE o.obs_datetime "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"
+					+"WHERE o.obs_datetime BETWEEN "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"
 					+" AND o.obs_datetime BETWEEN pp.date_enrolled AND pp.date_completed "
 					+"AND o.value_coded=5240 "
 					+"UNION "
@@ -3305,7 +3305,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 					 +" AND CASE WHEN o.concept_id IS NOT NULL THEN o.obs_datetime BETWEEN pp.date_enrolled AND pp.date_completed ELSE 1=1 END "
 					 +"AND CASE WHEN o.concept_id IS NOT NULL THEN o.value_coded=159492 ELSE 1=1 END "
 					+")drug2"
-					+"ON drug1.patient_id=drug2.person_id "
+					+" ON drug1.patient_id=drug2.person_id "
 					+"WHERE drug2.person_id IS  NULL "
 					+"GROUP BY drug1.patient_id "
 					+")regime";
