@@ -91,7 +91,6 @@ public class GetNapMonthlyReportForAdultFragmentController {
 	Integer noOfPatientsOnPerformanceScaleCForMale=kenyaEmrService.getNoOfPatientsOnPerformanceScaleC("M",ageCategory,startOfPeriod,endOfPeriod);
 	Integer noOfPatientsOnPerformanceScaleCForFemale=kenyaEmrService.getNoOfPatientsOnPerformanceScaleC("F",ageCategory,startOfPeriod,endOfPeriod);
 	
-	//
 	Integer noOfPatientSWithRiskFactorsCodeOneForMale=kenyaEmrService.getNoOfPatientSWithRiskFactorsCodeOne("M",ageCategory,startOfPeriod,endOfPeriod);
 	Integer noOfPatientSWithRiskFactorsCodeOneForFemale=kenyaEmrService.getNoOfPatientSWithRiskFactorsCodeOne("F",ageCategory,startOfPeriod,endOfPeriod);
 	
@@ -118,6 +117,10 @@ public class GetNapMonthlyReportForAdultFragmentController {
 	
 	Integer noOfPatientsTestedForViralLoadForMale=kenyaEmrService.getNoOfPatientsTestedForViralLoad("M",ageCategory,startOfPeriod,endOfPeriod);
 	Integer noOfPatientsTestedForViralLoadForFemale=kenyaEmrService.getNoOfPatientsTestedForViralLoad("F",ageCategory,startOfPeriod,endOfPeriod);
+	
+	Integer noOfPatientsHavingFirstLineRegimen1=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC/NVP","300/150/200 mg");
+	
+	Integer noOfPatientsHavingSecondLineRegimen1=kenyaEmrService.getNoOfPatientsHavingSecondLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC/LPV/r","300/150/200/50 mg");
 	
 	//Integer noOfPatientsHavingRegimen=kenyaEmrService.getNoOfPatientsHavingRegimen(ageCategory,startOfPeriod,endOfPeriod,drugRegimen,doseRegimen);
 	
@@ -213,33 +216,26 @@ public class GetNapMonthlyReportForAdultFragmentController {
 	model.addAttribute("noOfPatientsOnPerformanceScaleCForFemale",noOfPatientsOnPerformanceScaleCForFemale);
 	model.addAttribute("noOfPatientsOnPerformanceScaleCTotal",noOfPatientsOnPerformanceScaleCForMale+noOfPatientsOnPerformanceScaleCForFemale);
 	
-	model.addAttribute("noOfPatientSWithRiskFactorsCodeOneForMale",noOfPatientSWithRiskFactorsCodeOneForFemale);
+	model.addAttribute("noOfPatientSWithRiskFactorsCodeOneForMale",noOfPatientSWithRiskFactorsCodeOneForMale);
 	model.addAttribute("noOfPatientSWithRiskFactorsCodeOneForFemale",noOfPatientSWithRiskFactorsCodeOneForFemale);
-	model.addAttribute("noOfPatientSWithRiskFactorsCodeOneTotal",noOfPatientSWithRiskFactorsCodeOneForMale+noOfPatientSWithRiskFactorsCodeOneForFemale);
 	
-	model.addAttribute("noOfPatientSWithRiskFactorsCodeTwoForMale",noOfPatientSWithRiskFactorsCodeTwoForFemale);
+	model.addAttribute("noOfPatientSWithRiskFactorsCodeTwoForMale",noOfPatientSWithRiskFactorsCodeTwoForMale);
 	model.addAttribute("noOfPatientSWithRiskFactorsCodeTwoForFemale",noOfPatientSWithRiskFactorsCodeTwoForFemale);
-	model.addAttribute("noOfPatientSWithRiskFactorsCodeTwoTotal",noOfPatientSWithRiskFactorsCodeTwoForMale+noOfPatientSWithRiskFactorsCodeTwoForFemale);
 	
-	model.addAttribute("noOfPatientSWithRiskFactorsCodeThreeForMale",noOfPatientSWithRiskFactorsCodeThreeForFemale);
+	model.addAttribute("noOfPatientSWithRiskFactorsCodeThreeForMale",noOfPatientSWithRiskFactorsCodeThreeForMale);
 	model.addAttribute("noOfPatientSWithRiskFactorsCodeThreeForFemale",noOfPatientSWithRiskFactorsCodeThreeForFemale);
-	model.addAttribute("noOfPatientSWithRiskFactorsCodeThreeTotal",noOfPatientSWithRiskFactorsCodeThreeForMale+noOfPatientSWithRiskFactorsCodeThreeForFemale);
 	
-	model.addAttribute("noOfPatientSWithRiskFactorsCodeFourForMale",noOfPatientSWithRiskFactorsCodeFourForFemale);
+	model.addAttribute("noOfPatientSWithRiskFactorsCodeFourForMale",noOfPatientSWithRiskFactorsCodeFourForMale);
 	model.addAttribute("noOfPatientSWithRiskFactorsCodeFourForFemale",noOfPatientSWithRiskFactorsCodeFourForFemale);
-	model.addAttribute("noOfPatientSWithRiskFactorsCodeFourTotal",noOfPatientSWithRiskFactorsCodeFourForMale+noOfPatientSWithRiskFactorsCodeFourForFemale);
 	
-	model.addAttribute("noOfPatientSWithRiskFactorsCodeFiveForMale",noOfPatientSWithRiskFactorsCodeFiveForFemale);
+	model.addAttribute("noOfPatientSWithRiskFactorsCodeFiveForMale",noOfPatientSWithRiskFactorsCodeFiveForMale);
 	model.addAttribute("noOfPatientSWithRiskFactorsCodeFiveForFemale",noOfPatientSWithRiskFactorsCodeFiveForFemale);
-	model.addAttribute("noOfPatientSWithRiskFactorsCodeFiveTotal",noOfPatientSWithRiskFactorsCodeFiveForMale+noOfPatientSWithRiskFactorsCodeFiveForFemale);
 	
-	model.addAttribute("noOfPatientSWithRiskFactorsCodeSixForMale",noOfPatientSWithRiskFactorsCodeSixForFemale);
+	model.addAttribute("noOfPatientSWithRiskFactorsCodeSixForMale",noOfPatientSWithRiskFactorsCodeSixForMale);
 	model.addAttribute("noOfPatientSWithRiskFactorsCodeSixForFemale",noOfPatientSWithRiskFactorsCodeSixForFemale);
-	model.addAttribute("noOfPatientSWithRiskFactorsCodeSixTotal",noOfPatientSWithRiskFactorsCodeSixForMale+noOfPatientSWithRiskFactorsCodeSixForFemale);
 	
-	model.addAttribute("noOfPatientSWithRiskFactorsCodeSevenForMale",noOfPatientSWithRiskFactorsCodeSevenForFemale);
+	model.addAttribute("noOfPatientSWithRiskFactorsCodeSevenForMale",noOfPatientSWithRiskFactorsCodeSevenForMale);
 	model.addAttribute("noOfPatientSWithRiskFactorsCodeSevenForFemale",noOfPatientSWithRiskFactorsCodeSevenForFemale);
-	model.addAttribute("noOfPatientSWithRiskFactorsCodeSevenTotal",noOfPatientSWithRiskFactorsCodeSevenForMale+noOfPatientSWithRiskFactorsCodeSevenForFemale);
 	
 	model.addAttribute("noOfPatientsTestedForCD4CountForMale",noOfPatientsTestedForCD4CountForMale);
 	model.addAttribute("noOfPatientsTestedForCD4CountForFemale",noOfPatientsTestedForCD4CountForFemale);
@@ -248,5 +244,9 @@ public class GetNapMonthlyReportForAdultFragmentController {
 	model.addAttribute("noOfPatientsTestedForViralLoadForMale",noOfPatientsTestedForViralLoadForMale);
 	model.addAttribute("noOfPatientsTestedForViralLoadForFemale",noOfPatientsTestedForViralLoadForFemale);
 	model.addAttribute("noOfPatientsTestedForViralLoadTotal",noOfPatientsTestedForViralLoadForMale+noOfPatientsTestedForViralLoadForFemale);
+	
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen1", noOfPatientsHavingFirstLineRegimen1);
+	
+	model.addAttribute("noOfPatientsHavingSecondLineRegimen1", noOfPatientsHavingSecondLineRegimen1);
   }
 }

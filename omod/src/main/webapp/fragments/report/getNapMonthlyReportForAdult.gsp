@@ -1,3 +1,4 @@
+<div>
 <table style='width: 100%' class="ke-table-vertical">
 <tr>
 <font size="3" color="red">A- MEDICAL CARE</font>
@@ -167,41 +168,153 @@ Total
 <td>7. TREATMENT ADHERENCE</td>
 <td> </td>
 <td> </td>
-<td>Total </td>
-</tr>
-
-<tr>
-<td>7.1 No. of patients assessed for adherence during this month</td>
-<td></td>
-<td></td>
-<td>${noOfPatientsAssessedForAdherenceDuringThisMonth}</td>
-</tr>
-
-<tr>
-<td>7.2 Of those assessed for adherence, level of adherence in the last month</td>
-<td></td>
-<td></td>
-<td></td>
+<td> </td>
 </tr>
 
 <tr>
 <td>7.2.1 < 5% of doses missed in a period of 30 days</td>
 <td></td>
-<td>${nNoOfPatientsAssessedForAdherenceDuringTheLastMonthLevelOnePer}</td>
+<td></td>
 <td>${noOfPatientsAssessedForAdherenceDuringTheLastMonthLevelOneTot}</td>
 </tr>
 
 <tr>
 <td>7.2.2 (5-20)% of doses missed in a period of 30 days</td>
 <td></td>
-<td>${noOfPatientsAssessedForAdherenceDuringTheLastMonthLevelTwoPer}</td>
+<td></td>
 <td>${noOfPatientsAssessedForAdherenceDuringTheLastMonthLevelTwoTot}</td>
 </tr>
 
 <tr>
-<td>7.2.3 (5-20)% of doses missed in a period of 30 days</td>
+<td>7.2.3 >20% of doses missed in a period of 30 days</td>
 <td></td>
-<td>${noOfPatientsAssessedForAdherenceDuringTheLastMonthLevelThreePer}</td>
+<td></td>
 <td>${noOfPatientsAssessedForAdherenceDuringTheLastMonthLevelThreeTot}</td>
 </tr>
+
+<tr>
+<td>8. Performance scale</td>
+<td> </td>
+<td> </td>
+<td> </td>
+</tr>
+
+<tr>
+<td>8.1 Performance Scale A</td>
+<td>${noOfPatientsOnPerformanceScaleAForMale}</td>
+<td>${noOfPatientsOnPerformanceScaleAForFemale}</td>
+<td>${noOfPatientsOnPerformanceScaleATotal}</td>
+</tr>
+
+<tr>
+<td>8.2 Performance Scale B</td>
+<td>${noOfPatientsOnPerformanceScaleBForMale}</td>
+<td>${noOfPatientsOnPerformanceScaleBForFemale}</td>
+<td>${noOfPatientsOnPerformanceScaleBTotal}</td>
+</tr>
+
+<tr>
+<td>8.3 Performance Scale C</td>
+<td>${noOfPatientsOnPerformanceScaleCForMale}</td>
+<td>${noOfPatientsOnPerformanceScaleCForFemale}</td>
+<td>${noOfPatientsOnPerformanceScaleCTotal}</td>
+</tr>
+
+<tr>
+<td>10. LAB</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>10.1 No. of patients tested for CD4 count</td>
+<td>${noOfPatientsTestedForCD4CountForMale}</td>
+<td>${noOfPatientsTestedForCD4CountForFemale}</td>
+<td>${noOfPatientsTestedForCD4CountTotal}</td>
+</tr>
+
+<tr>
+<td>10.2 No. of patients tested for viral load</td>
+<td>${noOfPatientsTestedForViralLoadForMale}</td>
+<td>${noOfPatientsTestedForViralLoadForFemale}</td>
+<td>${noOfPatientsTestedForViralLoadTotal}</td>
+</tr>
+
+<table style='width: 100%' class="ke-table-vertical">
+<tr>
+<th>9.Risk Factors Code</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+</tr>
+
+<tr>
+<td>Male</td>
+<td>${noOfPatientSWithRiskFactorsCodeOneForMale}</td>
+<td>${noOfPatientSWithRiskFactorsCodeTwoForMale}</td>
+<td>${noOfPatientSWithRiskFactorsCodeThreeForMale}</td>
+<td>${noOfPatientSWithRiskFactorsCodeFourForMale}</td>
+<td>${noOfPatientSWithRiskFactorsCodeFiveForMale}</td>
+<td>${noOfPatientSWithRiskFactorsCodeSixForMale}</td>
+<td>${noOfPatientSWithRiskFactorsCodeSevenForMale}</td>
+</tr>
+
+<tr>
+<td>Female</td>
+<td>${noOfPatientSWithRiskFactorsCodeOneForFemale}</td>
+<td>${noOfPatientSWithRiskFactorsCodeTwoForFemale}</td>
+<td>${noOfPatientSWithRiskFactorsCodeThreeForFemale}</td>
+<td>${noOfPatientSWithRiskFactorsCodeFourForFemale}</td>
+<td>${noOfPatientSWithRiskFactorsCodeFiveForFemale}</td>
+<td>${noOfPatientSWithRiskFactorsCodeSixForFemale}</td>
+<td>${noOfPatientSWithRiskFactorsCodeSevenForFemale}</td>
+</tr>
 </table>
+</table>
+</div>
+
+<div>
+<table style='width: 100%' class="ke-table-vertical">
+<tr>
+<font size="3" color="red">B- PHARMACY</font>
+</tr>
+<br/>
+<tr>
+<font size="3" color="blue">11. REGIMEN AT THE END OF THE MONTH</font>
+</tr>
+<tr>
+<th>
+<font size="2" color="blue">Regimen</font>
+</th>
+<th>
+<font size="2" color="blue">Type of Regimen</font>
+</th>
+<th>
+<font size="2" color="blue">No. of Adult ART patients</font>
+</th>
+<th>
+<font size="2" color="blue">Remark</font>
+</th>
+</tr>
+<tr>
+<td>AZT/3TC/NVP (300/150/200)mg</td>
+<td>1st Line regimen</td>
+<td>${noOfPatientsHavingFirstLineRegimen1}</td>
+</tr>
+<tr>
+<td>AZT300/3TC150+NVP200</td>
+<td>1st Line regimen</td>
+<td> </td>
+</tr>
+<tr>
+<td>AZT/3TC/LPV/r (300/150/200/50)mg</td>
+<td>2nd Line regimen</td>
+<td>${noOfPatientsHavingSecondLineRegimen1}</td>
+</tr>
+</table>
+</div>

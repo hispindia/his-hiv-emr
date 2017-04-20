@@ -38,13 +38,13 @@
 							
 							<div class="ke-stack-item ke-navigable" onclick="napMonthlyReportForAdult();">
 	                            ${ ui.includeFragment("kenyaui", "widget/icon", [ iconProvider: "kenyaui", icon: iconPath, tooltip: "View report" ]) }
-	                            <b>NAP MONTHLY REPORT(Adult)</b>
+	                            <font color="green">NAP MONTHLY REPORT(Adult) New</font> 
 	                            <div class="ke-extra"></div>
                             </div>
                             
                             <div class="ke-stack-item ke-navigable" onclick="napMonthlyReportForChild();">
 	                            ${ ui.includeFragment("kenyaui", "widget/icon", [ iconProvider: "kenyaui", icon: iconPath, tooltip: "View report" ]) }
-	                            <b>NAP MONTHLY REPORT(Child)</b>
+	                            <font color="green">NAP MONTHLY REPORT(Child) New</font> 
 	                            <div class="ke-extra"></div>
                             </div>
 							</div>
