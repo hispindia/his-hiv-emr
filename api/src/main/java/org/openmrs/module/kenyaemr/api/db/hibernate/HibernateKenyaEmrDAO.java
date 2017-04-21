@@ -3429,7 +3429,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
         		+"INNER JOIN person p ON p.person_id=pp.patient_id "
         		+"LEFT JOIN obs o ON o.person_id = pp.patient_id AND o.concept_id=161555 "
         		+"AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory
-        		+"WHERE pp.date_completed IS NOT NULL "
+        		+" WHERE pp.date_completed IS NOT NULL "
         		+"AND DATE(pp.date_completed) BETWEEN "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"
         		+" AND CASE WHEN o.concept_id IS NOT NULL THEN o.obs_datetime BETWEEN pp.date_enrolled AND pp.date_completed ELSE 1=1 END "
         		+"AND CASE WHEN o.concept_id IS NOT NULL THEN o.value_coded=159492 ELSE 1=1 END "
@@ -3444,8 +3444,8 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	public Integer getNoOfChildPatientsHavingRegimenWithoutDose(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen){
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		String query="SELECT COUNT(*) tot "
-+"FROM "
-+"( SELECT drug1.patient_id "
++"FROM"
++"(SELECT drug1.patient_id "
 +"FROM "
 +"("
         +"SELECT pp.patient_id "
@@ -3460,7 +3460,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
         +" GROUP BY pp.patient_id "
         +"UNION " 
         +"SELECT * "
-        +"FROM "
+        +"FROM"
         +"("
                 +"SELECT pp.patient_id "
                 +"FROM patient_program pp "
@@ -3491,10 +3491,10 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
         		+"INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'HIV' "
         		+"INNER JOIN obs o ON o.person_id = pp.patient_id AND o.concept_id=161555 "
         		+"INNER JOIN person p ON p.person_id=pp.patient_id "
-        		+" and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory 
+        		+"and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory 
         		+" WHERE o.obs_datetime BETWEEN "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"
         		+" AND o.obs_datetime BETWEEN pp.date_enrolled AND pp.date_completed "
-        		+" AND o.value_coded=5240 "
+        		+"AND o.value_coded=5240 "
         		+"UNION "
         		+"SELECT pp.patient_id "
         		+"FROM patient_program pp "
@@ -3502,7 +3502,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
         		+"INNER JOIN person p ON p.person_id=pp.patient_id "
         		+"LEFT JOIN obs o ON o.person_id = pp.patient_id AND o.concept_id=161555 "
         		+"AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory
-        		+"WHERE pp.date_completed IS NOT NULL "
+        		+" WHERE pp.date_completed IS NOT NULL "
         		+"AND DATE(pp.date_completed) BETWEEN "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"
         		+" AND CASE WHEN o.concept_id IS NOT NULL THEN o.obs_datetime BETWEEN pp.date_enrolled AND pp.date_completed ELSE 1=1 END "
         		+"AND CASE WHEN o.concept_id IS NOT NULL THEN o.value_coded=159492 ELSE 1=1 END "

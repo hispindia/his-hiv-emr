@@ -292,19 +292,96 @@ Total
 <font size="2" color="blue">Regimen</font>
 </th>
 <th>
-<font size="2" color="blue">Type of Regimen</font>
-</th>
-<th>
 <font size="2" color="blue">No. of Child ART patients</font>
-</th>
-<th>
-<font size="2" color="blue">Remark</font>
 </th>
 </tr>
 <tr>
 <td>AZT/3TC+NVP (60/30+50)mg</td>
-<td>1st Line regimen</td>
 <td>${noOfChildPatientsHavingRegimen1}</td>
+</tr>
+<tr>
+<td>AZT/3TC+LPV/r (60/30+100/25)mg</td>
+<td>${noOfPatientsHavingstockDispensed2}</td>
+</tr>
+<tr>
+<td>AZT/3TC+EFV (60/30+200)mg</td>
+<td>${noOfPatientsHavingstockDispensed3}</td>
+</tr>
+<tr>
+<td>AZT/3TC+EFV (60/30+600)mg</td>
+<td>${noOfPatientsHavingstockDispensed4}</td>
+</tr>
+<tr>
+<td>ABC/3TC+NVP (60/30+50)mg</td>
+<td>${noOfPatientsHavingstockDispensed5}</td>
+</tr>
+<tr>
+<td>ABC/3TC+EFV (60/30+200)mg</td>
+<td>${noOfPatientsHavingstockDispensed6}</td>
+</tr>
+<tr>
+<td>ABC/3TC+EFV (60/30+600)mg</td>
+<td>${noOfPatientsHavingstockDispensed7}</td>
+</tr>
+<tr>
+<td>ABC/3TC+LPV/r (60/30+100/25)mg</td>
+<td>${noOfPatientsHavingstockDispensed8}</td>
+</tr>
+<tr>
+<td>AZT/3TC+ABC (60/30+60)mg</td>
+<td>${noOfPatientsHavingstockDispensed9}</td>
+</tr>
+<tr>
+<td>d4T+3TC+NVP</td>
+<td>${noOfPatientsHavingstockDispensed10}</td>
+</tr>
+<tr>
+<td>d4T+3TC+LPV/r</td>
+<td>${noOfPatientsHavingstockDispensed11}</td>
+</tr>
+<tr>
+<td>d4T+3TC+EFV</td>
+<td>${noOfPatientsHavingstockDispensed12}</td>
+</tr>
+<tr>
+<td>d4T+3TC+ABC</td>
+<td>${noOfPatientsHavingstockDispensed13}</td>
+</tr>
+<tr>
+<td>AZT+3TC+RAL</td>
+<td>${noOfPatientsHavingstockDispensed14}</td>
+</tr>
+<tr>
+<td>AZT+3TC+ATV/r</td>
+<td>${noOfPatientsHavingstockDispensed15}</td>
+</tr>
+<tr>
+<td>ABC+3TC+RAL</td>
+<td>${noOfPatientsHavingstockDispensed16}</td>
+</tr>
+<tr>
+<td>TDF+3TC+EFV</td>
+<td>${noOfPatientsHavingstockDispensed17}</td>
+</tr>
+<tr>
+<td>TDF+3TC+NVP</td>
+<td>${noOfPatientsHavingstockDispensed18}</td>
+</tr>
+<tr>
+<td>TDF+3TC+LPV/r</td>
+<td>${noOfPatientsHavingstockDispensed19}</td>
+</tr>
+<tr>
+<td>TDF+3TC+RAL</td>
+<td>${noOfPatientsHavingstockDispensed20}</td>
+</tr>
+<tr>
+<td>TDF+3TC+ATV/r</td>
+<td>${noOfPatientsHavingstockDispensed21}</td>
+</tr>
+<tr>
+<td>ABC+3TC+ATV/r</td>
+<td>${noOfPatientsHavingstockDispensed22}</td>
 </tr>
 </table>
 </div>
@@ -312,7 +389,7 @@ Total
 <div>
 <table style='width: 100%' class="ke-table-vertical">
 <tr>
-<font size="3" color="red">Drug-Stocks</font>
+<font size="3" color="blue">12.Drug-Stocks</font>
 </tr>
 <br/>
 <tr>
@@ -324,8 +401,92 @@ Total
 </th>
 </tr>
 <tr>
-<td></td>
-<td></td>
+<td>AZT/3TC+NVP (60/30+50)mg</td>
+<td>${noOfPatientsHavingstockDispensed1}</td>
+</tr>
+<tr>
+<td>AZT/3TC+LPV/r (60/30+100/25)mg</td>
+<td>${noOfPatientsHavingstockDispensed2}</td>
+</tr>
+<tr>
+<td>AZT/3TC+EFV (60/30+200)mg</td>
+<td>${noOfPatientsHavingstockDispensed3}</td>
+</tr>
+<tr>
+<td>AZT/3TC+EFV (60/30+600)mg</td>
+<td>${noOfPatientsHavingstockDispensed4}</td>
+</tr>
+<tr>
+<td>ABC/3TC+NVP (60/30+50)mg</td>
+<td>${noOfPatientsHavingstockDispensed5}</td>
+</tr>
+<tr>
+<td>ABC/3TC+EFV (60/30+200)mg</td>
+<td>${noOfPatientsHavingstockDispensed6}</td>
+</tr>
+<tr>
+<td>ABC/3TC+EFV (60/30+600)mg</td>
+<td>${noOfPatientsHavingstockDispensed7}</td>
+</tr>
+<tr>
+<td>ABC/3TC+LPV/r (60/30+100/25)mg</td>
+<td>${noOfPatientsHavingstockDispensed8}</td>
+</tr>
+<tr>
+<td>AZT/3TC+ABC (60/30+60)mg</td>
+<td>${noOfPatientsHavingstockDispensed9}</td>
+</tr>
+<tr>
+<td>d4T+3TC+NVP</td>
+<td>${noOfPatientsHavingstockDispensed10}</td>
+</tr>
+<tr>
+<td>d4T+3TC+LPV/r</td>
+<td>${noOfPatientsHavingstockDispensed11}</td>
+</tr>
+<tr>
+<td>d4T+3TC+EFV</td>
+<td>${noOfPatientsHavingstockDispensed12}</td>
+</tr>
+<tr>
+<td>d4T+3TC+ABC</td>
+<td>${noOfPatientsHavingstockDispensed13}</td>
+</tr>
+<tr>
+<td>AZT+3TC+RAL</td>
+<td>${noOfPatientsHavingstockDispensed14}</td>
+</tr>
+<tr>
+<td>AZT+3TC+ATV/r</td>
+<td>${noOfPatientsHavingstockDispensed15}</td>
+</tr>
+<tr>
+<td>ABC+3TC+RAL</td>
+<td>${noOfPatientsHavingstockDispensed16}</td>
+</tr>
+<tr>
+<td>TDF+3TC+EFV</td>
+<td>${noOfPatientsHavingstockDispensed17}</td>
+</tr>
+<tr>
+<td>TDF+3TC+NVP</td>
+<td>${noOfPatientsHavingstockDispensed18}</td>
+</tr>
+<tr>
+<td>TDF+3TC+LPV/r</td>
+<td>${noOfPatientsHavingstockDispensed19}</td>
+</tr>
+<tr>
+<td>TDF+3TC+RAL</td>
+<td>${noOfPatientsHavingstockDispensed20}</td>
+</tr>
+<tr>
+<td>TDF+3TC+ATV/r</td>
+<td>${noOfPatientsHavingstockDispensed21}</td>
+</tr>
+<tr>
+<td>ABC+3TC+ATV/r</td>
+<td>${noOfPatientsHavingstockDispensed22}</td>
 </tr>
 </tr>
 </table>

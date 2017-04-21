@@ -309,7 +309,7 @@ Total
 <tr>
 <td>AZT300/3TC150+NVP200</td>
 <td>1st Line regimen</td>
-<td> </td>
+<td>${noOfPatientsHavingFirstLineRegimen2}</td>
 </tr>
 <tr>
 <td>AZT/3TC/LPV/r (300/150/200/50)mg</td>
@@ -327,7 +327,7 @@ Total
 <div>
 <table style='width: 100%' class="ke-table-vertical">
 <tr>
-<font size="3" color="red">Drug-Stocks</font>
+<font size="3" color="blue">12.Drug-Stocks</font>
 </tr>
 <br/>
 <tr>

@@ -119,6 +119,7 @@ public class GetNapMonthlyReportForAdultFragmentController {
 	Integer noOfPatientsTestedForViralLoadForFemale=kenyaEmrService.getNoOfPatientsTestedForViralLoad("F",ageCategory,startOfPeriod,endOfPeriod);
 	
 	Integer noOfPatientsHavingFirstLineRegimen1=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC/NVP","300/150/200 mg");
+	Integer noOfPatientsHavingFirstLineRegimen2=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC+NVP","300/150+200 mg");
 	
 	Integer noOfPatientsHavingSecondLineRegimen1=kenyaEmrService.getNoOfPatientsHavingSecondLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC/LPV/r","300/150/200/50 mg");
 	
@@ -289,6 +290,7 @@ public class GetNapMonthlyReportForAdultFragmentController {
 	model.addAttribute("noOfPatientsTestedForViralLoadTotal",noOfPatientsTestedForViralLoadForMale+noOfPatientsTestedForViralLoadForFemale);
 	
 	model.addAttribute("noOfPatientsHavingFirstLineRegimen1", noOfPatientsHavingFirstLineRegimen1);
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen2", noOfPatientsHavingFirstLineRegimen2);
 	
 	model.addAttribute("noOfPatientsHavingSecondLineRegimen1", noOfPatientsHavingSecondLineRegimen1);
 	
