@@ -120,6 +120,31 @@ public class GetNapMonthlyReportForAdultFragmentController {
 	
 	Integer noOfPatientsHavingFirstLineRegimen1=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC/NVP","300/150/200 mg");
 	Integer noOfPatientsHavingFirstLineRegimen2=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC+NVP","300/150+200 mg");
+	Integer noOfPatientsHavingFirstLineRegimen3=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC/EFV","300/150/600 mg");
+	Integer noOfPatientsHavingFirstLineRegimen4=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC+EFV","300/150+600 mg");
+	Integer noOfPatientsHavingFirstLineRegimen5=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"TDF/3TC/NVP","300/300/200 mg");
+	Integer noOfPatientsHavingFirstLineRegimen6=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"TDF/3TC+NVP","300/300+200 mg");
+	Integer noOfPatientsHavingFirstLineRegimen7=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"TDF/3TC/EFV","300/300/600 mg");
+	Integer noOfPatientsHavingFirstLineRegimen8=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"TDF/3TC+EFV","300/300+400 mg");
+	Integer noOfPatientsHavingFirstLineRegimen9=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"TDF/3TC+EFV","300/300+600 mg");
+	Integer noOfPatientsHavingFirstLineRegimen10=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"TDF/FTC/NVP","300/200/200 mg");
+	Integer noOfPatientsHavingFirstLineRegimen11=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"TDF/FTC+NVP","300/200+200 mg");
+	Integer noOfPatientsHavingFirstLineRegimen12=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"TDF/FTC/EFV","300/200/200 mg");
+	Integer noOfPatientsHavingFirstLineRegimen13=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"TDF/FTC+EFV","300/200+400 mg");
+	Integer noOfPatientsHavingFirstLineRegimen14=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"TDF/FTC/EFV","300/200/600 mg");
+	Integer noOfPatientsHavingFirstLineRegimen15=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"TDF/FTC+EFV","300/200+600 mg");
+	Integer noOfPatientsHavingFirstLineRegimen16=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"d4T/3TC/NVP","30/150/200 mg");
+	Integer noOfPatientsHavingFirstLineRegimen17=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"d4T/3TC+NVP","30/150+200 mg");
+	Integer noOfPatientsHavingFirstLineRegimen18=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"d4T/3TC/EFV","30/150/600 mg");
+	Integer noOfPatientsHavingFirstLineRegimen19=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"d4T/3TC+EFV","30/150+600 mg");
+	Integer noOfPatientsHavingFirstLineRegimen20=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimenWithoutDose(ageCategory,startOfPeriod,endOfPeriod,"TDF/FTC/DTG");
+	Integer noOfPatientsHavingFirstLineRegimen21=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimenWithoutDose(ageCategory,startOfPeriod,endOfPeriod,"TDF/3TC/DTG");
+	Integer noOfPatientsHavingFirstLineRegimen22=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"ABC/3TC+EFV","600/300+600 mg");
+	Integer noOfPatientsHavingFirstLineRegimen23=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimenWithoutDose(ageCategory,startOfPeriod,endOfPeriod,"ABC/3TC/DTG");
+	Integer noOfPatientsHavingFirstLineRegimen24=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimenWithoutDose(ageCategory,startOfPeriod,endOfPeriod,"ABC/3TC/NVP");
+	Integer noOfPatientsHavingFirstLineRegimen25=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimenWithoutDose(ageCategory,startOfPeriod,endOfPeriod,"ABC/FTC/EFV");
+	Integer noOfPatientsHavingFirstLineRegimen26=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimenWithoutDose(ageCategory,startOfPeriod,endOfPeriod,"ABC/FTC/DTG");
+	Integer noOfPatientsHavingFirstLineRegimen27=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimenWithoutDose(ageCategory,startOfPeriod,endOfPeriod,"ABC/FTC/NVP");
 	
 	Integer noOfPatientsHavingSecondLineRegimen1=kenyaEmrService.getNoOfPatientsHavingSecondLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC/LPV/r","300/150/200/50 mg");
 	
@@ -291,6 +316,31 @@ public class GetNapMonthlyReportForAdultFragmentController {
 	
 	model.addAttribute("noOfPatientsHavingFirstLineRegimen1", noOfPatientsHavingFirstLineRegimen1);
 	model.addAttribute("noOfPatientsHavingFirstLineRegimen2", noOfPatientsHavingFirstLineRegimen2);
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen3", noOfPatientsHavingFirstLineRegimen3);
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen4", noOfPatientsHavingFirstLineRegimen4);
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen5", noOfPatientsHavingFirstLineRegimen5);
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen6", noOfPatientsHavingFirstLineRegimen6);
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen7", noOfPatientsHavingFirstLineRegimen7);
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen8", noOfPatientsHavingFirstLineRegimen8);
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen9", noOfPatientsHavingFirstLineRegimen9);
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen10", noOfPatientsHavingFirstLineRegimen10);
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen11", noOfPatientsHavingFirstLineRegimen11);
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen12", noOfPatientsHavingFirstLineRegimen12);
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen13", noOfPatientsHavingFirstLineRegimen13);
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen14", noOfPatientsHavingFirstLineRegimen14);
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen15", noOfPatientsHavingFirstLineRegimen15);
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen16", noOfPatientsHavingFirstLineRegimen16);
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen17", noOfPatientsHavingFirstLineRegimen17);
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen18", noOfPatientsHavingFirstLineRegimen18);
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen19", noOfPatientsHavingFirstLineRegimen19);
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen20", noOfPatientsHavingFirstLineRegimen20);
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen21", noOfPatientsHavingFirstLineRegimen21);
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen22", noOfPatientsHavingFirstLineRegimen22);
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen23", noOfPatientsHavingFirstLineRegimen23);
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen24", noOfPatientsHavingFirstLineRegimen24);
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen25", noOfPatientsHavingFirstLineRegimen25);
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen26", noOfPatientsHavingFirstLineRegimen26);
+	model.addAttribute("noOfPatientsHavingFirstLineRegimen27", noOfPatientsHavingFirstLineRegimen27);
 	
 	model.addAttribute("noOfPatientsHavingSecondLineRegimen1", noOfPatientsHavingSecondLineRegimen1);
 	

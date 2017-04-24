@@ -209,11 +209,11 @@ public interface KenyaEmrService extends OpenmrsService {
 	public Integer getNoOfPatientsTestedForCD4Count(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
 	public Integer getNoOfPatientsTestedForViralLoad(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
 	public Integer getNoOfPatientsHavingFirstLineRegimen(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen,String doseRegimen);
+	public Integer getNoOfPatientsHavingFirstLineRegimenWithoutDose(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen);
 	public Integer getNoOfPatientsHavingSecondLineRegimen(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen,String doseRegimen);
 	public Integer getNoOfPatientsHavingThirdLineRegimen(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen,String doseRegimen);
 	public Integer getNoOfChildPatientsHavingRegimen(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen,String doseRegimen);
 	public Integer getNoOfChildPatientsHavingRegimenWithoutDose(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen);
-//stock dispensed
 	public Integer getNoOfPatientsstockdispensed(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen,String doseRegimen);
 	public Integer getNoOfPatientsstockdispensedWithoutDose(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen);
 	

@@ -312,6 +312,132 @@ Total
 <td>${noOfPatientsHavingFirstLineRegimen2}</td>
 </tr>
 <tr>
+<td>AZT/3TC/EFV (300/150/600)mg</td>
+<td>1st Line regimen</td>
+<td>${noOfPatientsHavingFirstLineRegimen3}</td>
+</tr>
+<tr>
+<td>AZT300/3TC150+EFV600</td>
+<td>1st Line regimen</td>
+<td>${noOfPatientsHavingFirstLineRegimen4}</td>
+</tr>
+<tr>
+<td>TDF/3TC/NVP (300/300/200)mg</td>
+<td>1st Line regimen</td>
+<td>${noOfPatientsHavingFirstLineRegimen5}</td>
+</tr>
+<tr>
+<td>TDF300/3TC300 + NVP200</td>
+<td>1st Line regimen</td>
+<td>${noOfPatientsHavingFirstLineRegimen6}</td>
+</tr>
+<tr>
+<td>TDF/3TC/EFV (300/300/600)mg</td>
+<td>1st Line regimen</td>
+<td>${noOfPatientsHavingFirstLineRegimen7}</td>
+</tr>
+<tr>
+<td>TDF300/3TC300+EFV400</td>
+<td>1st Line regimen</td>
+<td>${noOfPatientsHavingFirstLineRegimen8}</td>
+</tr>
+<tr>
+<td>TDF300/3TC300+EFV600</td>
+<td>1st Line regimen</td>
+<td>${noOfPatientsHavingFirstLineRegimen9}</td>
+</tr>
+<tr>
+<td>TDF/FTC/NVP (300/200/200)mg</td>
+<td>1st Line regimen</td>
+<td>${noOfPatientsHavingFirstLineRegimen10}</td>
+</tr>
+<tr>
+<td>TDF300/FTC200+NVP200</td>
+<td>1st Line regimen</td>
+<td>${noOfPatientsHavingFirstLineRegimen11}</td>
+</tr>
+<tr>
+<td>TDF/FTC/EFV (300/200/200)mg</td>
+<td>1st Line regimen</td>
+<td>${noOfPatientsHavingFirstLineRegimen12}</td>
+</tr>
+<tr>
+<td>TDF300/FTC200+EFV400</td>
+<td>1st Line regimen</td>
+<td>${noOfPatientsHavingFirstLineRegimen13}</td>
+</tr>
+<tr>
+<td>TDF/FTC/EFV (300/200/600)mg</td>
+<td>1st Line regimen</td>
+<td>${noOfPatientsHavingFirstLineRegimen14}</td>
+</tr>
+<tr>
+<td>TDF300/FTC200+EFV600</td>
+<td>1st Line regimen</td>
+<td>${noOfPatientsHavingFirstLineRegimen15}</td>
+</tr>
+<tr>
+<td>d4T/3TC/NVP (30/150/200)mg</td>
+<td>1st Line regimen</td>
+<td>${noOfPatientsHavingFirstLineRegimen16}</td>
+</tr>
+<tr>
+<td>d4T30/3TC150+NVP200</td>
+<td>1st Line regimen</td>
+<td>${noOfPatientsHavingFirstLineRegimen17}</td>
+</tr>
+<tr>
+<td>d4T/3TC/EFV (30/150/600)mg</td>
+<td>1st Line regimen</td>
+<td>${noOfPatientsHavingFirstLineRegimen18}</td>
+</tr>
+<tr>
+<td>d4T30/3TC150+EFV600</td>
+<td>1st Line regimen</td>
+<td>${noOfPatientsHavingFirstLineRegimen19}</td>
+</tr>
+<tr>
+<td>TDF/FTC/DTG</td>
+<td>1st Line regimen</td>
+<td>${noOfPatientsHavingFirstLineRegimen20}</td>
+</tr>
+<tr>
+<td>TDF/3TC/DTG</td>
+<td>1st Line regimen</td>
+<td>${noOfPatientsHavingFirstLineRegimen21}</td>
+</tr>
+<tr>
+<td>ABC600/3TC300 + EFV600</td>
+<td>1st Line regimen</td>
+<td>${noOfPatientsHavingFirstLineRegimen22}</td>
+</tr>
+<tr>
+<td>ABC/3TC/DTG</td>
+<td>1st Line regimen</td>
+<td>${noOfPatientsHavingFirstLineRegimen23}</td>
+</tr>
+<tr>
+<td>ABC/3TC/NVP</td>
+<td>1st Line regimen</td>
+<td>${noOfPatientsHavingFirstLineRegimen24}</td>
+</tr>
+<tr>
+<td>ABC/FTC/EFV</td>
+<td>1st Line regimen</td>
+<td>${noOfPatientsHavingFirstLineRegimen25}</td>
+</tr>
+<tr>
+<td>ABC/FTC/DTG</td>
+<td>1st Line regimen</td>
+<td>${noOfPatientsHavingFirstLineRegimen26}</td>
+</tr>
+<tr>
+<td>ABC/FTC/NVP</td>
+<td>1st Line regimen</td>
+<td>${noOfPatientsHavingFirstLineRegimen27}</td>
+</tr>
+
+<tr>
 <td>AZT/3TC/LPV/r (300/150/200/50)mg</td>
 <td>2nd Line regimen</td>
 <td>${noOfPatientsHavingSecondLineRegimen1}</td>
