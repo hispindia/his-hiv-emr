@@ -17,7 +17,7 @@
 	</span>
 	
 	<input type="button" value="View" onclick="viewReport();"/>
-	<input type="button" value="Export" onclick="exportYearlyReportToExcel('exportYearlyReport');"/>
+	<input type="button" value="Export" onclick="exportNAPChildReport();"/>
 	<input type="button" value="Cancel" onclick="ke_cancel();"/>
 </form>
 
@@ -40,6 +40,28 @@ jQuery.ajax({
 				}),
 				success : function(data) {
 				jQuery("#viewReport").html(data);	
+				}
+  });
+}
+
+function exportNAPChildReport() {
+var startDate=jQuery('#start-date').val();
+var endDate=jQuery('#end-date').val();
+var ageCategory="<=14";
+jQuery('#viewReport').empty();
+
+jQuery.ajax({
+				type : "GET",
+				url : getContextPath() + "/kenyaemr/reports/getNapMonthlyReportForChild.page",
+				data : ({
+					startDate:startDate,
+					endDate:endDate,
+					ageCategory:ageCategory
+				}),
+				success : function(data) {
+				jQuery("#viewReport").html(data);
+				var uri = 'data:application/vnd.ms-excel,';
+                window.open(uri +  encodeURIComponent(jQuery('#viewReport').html()));	
 				}
   });
 }
