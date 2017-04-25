@@ -61,7 +61,15 @@ jQuery.ajax({
 				success : function(data) {
 				jQuery("#viewReport").html(data);
 				var uri = 'data:application/vnd.ms-excel,';
-                window.open(uri +  encodeURIComponent(jQuery('#viewReport').html()));	
+				var link = document.createElement("a");
+                //window.open(uri +  encodeURIComponent(jQuery('#viewReport').html()));	
+                link.href = uri + encodeURIComponent(jQuery('#viewReport').html());
+                
+                link.style = 'visibility:hidden';
+		        link.download ='${ currDate } - nap child report.xls';
+		        
+		        document.body.appendChild(link);
+		        link.click();
 				}
   });
 }
