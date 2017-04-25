@@ -443,6 +443,62 @@ Total
 <td>${noOfPatientsHavingSecondLineRegimen1}</td>
 </tr>
 <tr>
+<td>AZT300/3TC150 + LPV/r  200/50</td>
+<td>2nd Line regimen</td>
+<td>${noOfPatientsHavingSecondLineRegimen2}</td>
+</tr>
+<tr>
+<td>TDF/3TC/LPV/r (300/300/200/50)mg</td>
+<td>2nd Line regimen</td>
+<td>${noOfPatientsHavingSecondLineRegimen3}</td>
+</tr>
+<tr>
+<td>TDF300/3TC300 + LPV/r 200/50</td>
+<td>2nd Line regimen</td>
+<td>${noOfPatientsHavingSecondLineRegimen4}</td>
+</tr>
+<tr>
+<td>TDF/FTC/LPV/r (300/200/200/50)mg</td>
+<td>2nd Line regimen</td>
+<td>${noOfPatientsHavingSecondLineRegimen5}</td>
+</tr>
+<tr>
+<td>TDF300/FTC200 + LPV/r 200/50</td>
+<td>2nd Line regimen</td>
+<td>${noOfPatientsHavingSecondLineRegimen6}</td>
+</tr>
+<tr>
+<td>TDF/ABC/LPV/r (300/300/200/50)mg</td>
+<td>2nd Line regimen</td>
+<td>${noOfPatientsHavingSecondLineRegimen7}</td>
+</tr>
+<tr>
+<td>TDF300+ABC300+ LPV/r 200/50</td>
+<td>2nd Line regimen</td>
+<td>${noOfPatientsHavingSecondLineRegimen8}</td>
+</tr>
+<tr>
+<td>ABC600/3TC300+ LPV/r 200/50</td>
+<td>2nd Line regimen</td>
+<td>${noOfPatientsHavingSecondLineRegimen9}</td>
+</tr>
+<tr>
+<td>ABC/3TC/ATV/r</td>
+<td>2nd Line regimen</td>
+<td>${noOfPatientsHavingSecondLineRegimen10}</td>
+</tr>
+<tr>
+<td>AZT/3TC/ATV/r</td>
+<td>2nd Line regimen</td>
+<td>${noOfPatientsHavingSecondLineRegimen11}</td>
+</tr>
+<tr>
+<td>TDF/3TC/ATV/r</td>
+<td>2nd Line regimen</td>
+<td>${noOfPatientsHavingSecondLineRegimen12}</td>
+</tr>
+
+<tr>
 <td>AZT300/3TC150 + TDF300+ LPV/r 200/50</td>
 <td>HIV and HBV coinfection</td>
 <td>${noOfPatientsHavingThirdLineRegimen1}</td>

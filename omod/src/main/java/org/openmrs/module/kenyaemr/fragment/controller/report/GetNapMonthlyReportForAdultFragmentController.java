@@ -147,6 +147,17 @@ public class GetNapMonthlyReportForAdultFragmentController {
 	Integer noOfPatientsHavingFirstLineRegimen27=kenyaEmrService.getNoOfPatientsHavingFirstLineRegimenWithoutDose(ageCategory,startOfPeriod,endOfPeriod,"ABC/FTC/NVP");
 	
 	Integer noOfPatientsHavingSecondLineRegimen1=kenyaEmrService.getNoOfPatientsHavingSecondLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC/LPV/r","300/150/200/50 mg");
+	Integer noOfPatientsHavingSecondLineRegimen2=kenyaEmrService.getNoOfPatientsHavingSecondLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC+LPV/r","300/150+200/50 mg");
+	Integer noOfPatientsHavingSecondLineRegimen3=kenyaEmrService.getNoOfPatientsHavingSecondLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"TDF/3TC/LPV/r","300/300/200/50 mg");
+	Integer noOfPatientsHavingSecondLineRegimen4=kenyaEmrService.getNoOfPatientsHavingSecondLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"TDF/3TC+LPV/r","300/300/200/50 mg");
+	Integer noOfPatientsHavingSecondLineRegimen5=kenyaEmrService.getNoOfPatientsHavingSecondLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"TDF/FTC/LPV/r","300/200/200/50 mg");
+	Integer noOfPatientsHavingSecondLineRegimen6=kenyaEmrService.getNoOfPatientsHavingSecondLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"TDF/FTC+LPV/r","300/200+200/50 mg");
+	Integer noOfPatientsHavingSecondLineRegimen7=kenyaEmrService.getNoOfPatientsHavingSecondLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"TDF/ABC/LPV/r","300/300/200/50 mg");
+	Integer noOfPatientsHavingSecondLineRegimen8=kenyaEmrService.getNoOfPatientsHavingSecondLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"TDF/ABC+LPV/r","300/300/200/50 mg");
+	Integer noOfPatientsHavingSecondLineRegimen9=kenyaEmrService.getNoOfPatientsHavingSecondLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"ABC/3TC+LPV/r","600/300+200/50 mg");
+	Integer noOfPatientsHavingSecondLineRegimen10=kenyaEmrService.getNoOfPatientsHavingSecondLineRegimenWithoutDose(ageCategory,startOfPeriod,endOfPeriod,"ABC/3TC/ATV/r");
+	Integer noOfPatientsHavingSecondLineRegimen11=kenyaEmrService.getNoOfPatientsHavingSecondLineRegimenWithoutDose(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC/ATV/r");
+	Integer noOfPatientsHavingSecondLineRegimen12=kenyaEmrService.getNoOfPatientsHavingSecondLineRegimenWithoutDose(ageCategory,startOfPeriod,endOfPeriod,"TDF/3TC/ATV/r");
 	
 	Integer noOfPatientsHavingThirdLineRegimen1=kenyaEmrService.getNoOfPatientsHavingThirdLineRegimen(ageCategory,startOfPeriod,endOfPeriod,"AZT/3TC+TDF+LPV/r","300/150+300+200/50 mg");
 	// stock dispensed
@@ -343,6 +354,17 @@ public class GetNapMonthlyReportForAdultFragmentController {
 	model.addAttribute("noOfPatientsHavingFirstLineRegimen27", noOfPatientsHavingFirstLineRegimen27);
 	
 	model.addAttribute("noOfPatientsHavingSecondLineRegimen1", noOfPatientsHavingSecondLineRegimen1);
+	model.addAttribute("noOfPatientsHavingSecondLineRegimen2", noOfPatientsHavingSecondLineRegimen2);
+	model.addAttribute("noOfPatientsHavingSecondLineRegimen3", noOfPatientsHavingSecondLineRegimen3);
+	model.addAttribute("noOfPatientsHavingSecondLineRegimen4", noOfPatientsHavingSecondLineRegimen4);
+	model.addAttribute("noOfPatientsHavingSecondLineRegimen5", noOfPatientsHavingSecondLineRegimen5);
+	model.addAttribute("noOfPatientsHavingSecondLineRegimen6", noOfPatientsHavingSecondLineRegimen6);
+	model.addAttribute("noOfPatientsHavingSecondLineRegimen7", noOfPatientsHavingSecondLineRegimen7);
+	model.addAttribute("noOfPatientsHavingSecondLineRegimen8", noOfPatientsHavingSecondLineRegimen8);
+	model.addAttribute("noOfPatientsHavingSecondLineRegimen9", noOfPatientsHavingSecondLineRegimen9);
+	model.addAttribute("noOfPatientsHavingSecondLineRegimen10", noOfPatientsHavingSecondLineRegimen10);
+	model.addAttribute("noOfPatientsHavingSecondLineRegimen11", noOfPatientsHavingSecondLineRegimen11);
+	model.addAttribute("noOfPatientsHavingSecondLineRegimen12", noOfPatientsHavingSecondLineRegimen12);
 	
 	model.addAttribute("noOfPatientsHavingThirdLineRegimen1", noOfPatientsHavingThirdLineRegimen1);
 	//stock dispensed
