@@ -17,6 +17,7 @@ public class GetNapMonthlyReportForChildFragmentController {
     KenyaEmrService kenyaEmrService = (KenyaEmrService) Context.getService(KenyaEmrService.class);
 	model.addAttribute("patientcount",kenyaEmrService.getPatientCount());
 	SimpleDateFormat formatterExt = new SimpleDateFormat("yyyy-MM-dd");
+	SimpleDateFormat formatterExtt = new SimpleDateFormat("dd-MMM-yyyy");
 	String startOfPeriod = formatterExt.format(startDate);
 	String endOfPeriod = formatterExt.format(endDate);
 	
@@ -333,5 +334,9 @@ public class GetNapMonthlyReportForChildFragmentController {
 	model.addAttribute("noOfPatientsHavingstockDispensed20", noOfPatientsstockDispensed20);
 	model.addAttribute("noOfPatientsHavingstockDispensed21", noOfPatientsstockDispensed21);
 	model.addAttribute("noOfPatientsHavingstockDispensed22", noOfPatientsstockDispensed22);
+	
+	model.addAttribute("startDate", formatterExtt.format(startDate));
+	model.addAttribute("endDate", formatterExtt.format(endDate));
+	model.addAttribute("location", Context.getService(KenyaEmrService.class).getDefaultLocation());
   }
 }

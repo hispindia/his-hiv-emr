@@ -1,7 +1,42 @@
+<div style="text-align:center">
+<table style='width: 100%' class="ke-table-vertical">
+<font size="3" color="blue" style="text-align:center">National AIDS Programme</font>
+<br/>
+<font size="3" color="blue">Monthly Report on Antiretroviral Therapy (Adult)</font>
+</table>
+</div>
+
 <div>
 <table style='width: 100%' class="ke-table-vertical">
 <tr>
+<td>i. Name of the Treatment Unit</td>
+<td>${location}</td>
+</tr>
+
+<tr>
+<td>ii. Name of the Township</td>
+<td> </td>
+</tr>
+
+<tr>
+<td>iii. Name of the State/Region</td>
+<td> </td>
+</tr>
+
+<tr>
+<td>iv. Report for the period</td>
+<td>Start Date:${startDate}</td>
+<td>End Date:${endDate}</td>
+</tr>
+</table
+</div>
+
+<div>
+<table style='width: 100%' class="ke-table-vertical">
+<tr>
+<td>
 <font size="3" color="red">A- MEDICAL CARE</font>
+</td>
 </tr>
 <tr>
 <th>

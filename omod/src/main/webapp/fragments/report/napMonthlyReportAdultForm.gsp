@@ -27,6 +27,11 @@
 function viewReport() {
 var startDate=jQuery('#start-date').val();
 var endDate=jQuery('#end-date').val();
+if(startDate=="" || endDate==""){
+alert("Provide Start Date and End Date");
+return false;
+}
+else{
 var ageCategory=">14";
 jQuery('#viewReport').empty();
 
@@ -43,10 +48,16 @@ jQuery.ajax({
 				}
   });
 }
+}
 
 function exportNAPAdultReport() {
 var startDate=jQuery('#start-date').val();
 var endDate=jQuery('#end-date').val();
+if(startDate=="" || endDate==""){
+alert("Provide Start Date and End Date");
+return false;
+}
+else{
 var ageCategory=">14";
 jQuery('#viewReport').empty();
 
@@ -72,6 +83,7 @@ jQuery.ajax({
 		        link.click();
 				}
   });
+}
 }
 
 //Excel export
