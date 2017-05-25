@@ -207,6 +207,20 @@ Total
 </tr>
 
 <tr>
+<td>7.1. No. of patients assessed for adherence during this month</td>
+<td></td>
+<td></td>
+<td>${noOfPatientsAssessedForAdherenceDuringThisMonth}</td>
+</tr>
+
+<tr>
+<td>7.2. Of those assessed for adherence, level of adherence in the last month</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
 <td>7.2.1 < 5% of doses missed in a period of 30 days</td>
 <td></td>
 <td></td>
@@ -256,21 +270,21 @@ Total
 </tr>
 
 <tr>
-<td>10. LAB</td>
+<td>9. LAB</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 
 <tr>
-<td>10.1 No. of patients tested for CD4 count</td>
+<td>9.1 No. of patients tested for CD4 count</td>
 <td>${noOfPatientsTestedForCD4CountForMale}</td>
 <td>${noOfPatientsTestedForCD4CountForFemale}</td>
 <td>${noOfPatientsTestedForCD4CountTotal}</td>
 </tr>
 
 <tr>
-<td>10.2 No. of patients tested for viral load</td>
+<td>9.2 No. of patients tested for viral load</td>
 <td>${noOfPatientsTestedForViralLoadForMale}</td>
 <td>${noOfPatientsTestedForViralLoadForFemale}</td>
 <td>${noOfPatientsTestedForViralLoadTotal}</td>
@@ -278,14 +292,14 @@ Total
 
 <table style='width: 100%' class="ke-table-vertical">
 <tr>
-<th>9.Risk Factors Code</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>4</th>
-<th>5</th>
-<th>6</th>
-<th>7</th>
+<td>10.Risk Factors Code</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
 </tr>
 
 <tr>

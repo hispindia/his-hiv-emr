@@ -71,14 +71,15 @@ jQuery.ajax({
 				}),
 				success : function(data) {
 				jQuery("#viewReport").html(data);
-				var uri = 'data:application/vnd.ms-excel,';
+				var uri = "data:application/vnd.ms-excel;base64,";
+				var table_div = document.getElementById('viewReport');
+                var table_html = table_div.innerHTML;
+                var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table >{table}</table></body></html>';
 				var link = document.createElement("a");
-                //window.open(uri +  encodeURIComponent(jQuery('#viewReport').html()));	
-                link.href = uri + encodeURIComponent(jQuery('#viewReport').html());
-                
+                var ctx = {worksheet: 'nap adult report', table: table_html};
+                link.href = uri + base64(format(template, ctx));
                 link.style = 'visibility:hidden';
 		        link.download ='${ currDate } - nap adult report.xls';
-		        
 		        document.body.appendChild(link);
 		        link.click();
 				}
@@ -86,42 +87,13 @@ jQuery.ajax({
 }
 }
 
-//Excel export
-var exportYearlyReportToExcel = (function() {
-			
-var year=jQuery('#year').val();
-year=2017;
-jQuery('#exportYearlyReport').empty();
-jQuery.ajax({
-				type : "GET",
-				url : getContextPath() + "/kenyaemr/reports/getYearlyReport.page",
-				data : ({
-					year:year
-				}),
-				success : function(data) {
-				jQuery("#exportYearlyReport").html(data);	
-				}
-         });
-         
-		var uri = 'data:application/vnd.ms-excel;base64,'
-		, template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table >{table}</table></body></html>'
-		, base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
-		, format = function(s, c) { return s.replace(/{(\\w+)}/g, function(m, p) { return c[p]; }) }
-		return function(table, name) {
-		if (!table.nodeType) table = document.getElementById(table)
-		var ctx = {worksheet: name || 'White Card', table: table.innerHTML}
-		
-		var link = document.createElement("a");
-		link.href = uri + base64(format(template, ctx));
+function base64(s) {
+return window.btoa(unescape(encodeURIComponent(s)));
+}
 
-		link.style = 'visibility:hidden';
-		link.download ='${ currDate } - yearly report.xls';
-
-		document.body.appendChild(link);
-		link.click();
-		
-		}
-	})()
+function format(s, c) {
+return s.replace(/{(\\w+)}/g, function(m, p) { return c[p]; });
+}
 
 // get context path in order to build controller url
 	function getContextPath() {
