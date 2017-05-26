@@ -660,12 +660,20 @@ public class KenyaEmrServiceImpl extends BaseOpenmrsService implements KenyaEmrS
 		return dao.getNoOfPatientsHavingFirstLineRegimen(ageCategory,startOfPeriod,endOfPeriod,drugRegimen,doseRegimen);
 	}
 	
+	public Integer getNoOfPatientsHavingFirstLineRegimenFromFixedDose(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen,String doseRegimen) {
+		return dao.getNoOfPatientsHavingFirstLineRegimenFromFixedDose(ageCategory,startOfPeriod,endOfPeriod,drugRegimen,doseRegimen);
+	}
+	
 	public Integer getNoOfPatientsHavingFirstLineRegimenWithoutDose(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen) {
 		return dao.getNoOfPatientsHavingFirstLineRegimenWithoutDose(ageCategory,startOfPeriod,endOfPeriod,drugRegimen);
 	}
 	
 	public Integer getNoOfPatientsHavingSecondLineRegimen(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen,String doseRegimen) {
 		return dao.getNoOfPatientsHavingSecondLineRegimen(ageCategory,startOfPeriod,endOfPeriod,drugRegimen,doseRegimen);
+	}
+	
+	public Integer getNoOfPatientsHavingSecondLineRegimenFromFixedDose(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen,String doseRegimen) {
+		return dao.getNoOfPatientsHavingSecondLineRegimenFromFixedDose(ageCategory,startOfPeriod,endOfPeriod,drugRegimen,doseRegimen);
 	}
 	
 	public Integer getNoOfPatientsHavingSecondLineRegimenWithoutDose(String ageCategory,String startOfPeriod,String endOfPeriod,String drugRegimen) {
