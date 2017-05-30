@@ -1819,7 +1819,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
                                " where pp.date_completed is not null"+
                                " and date(pp.date_completed) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
                                " and case when o.concept_id is not null then o.obs_datetime between pp.date_enrolled and pp.date_completed else 1=1 end"+
-                               " and case when o.concept_id is not null then o.value_coded=159492 else 1=1 end"+
+                               " and case when o.concept_id is not null then o.value_coded=159492 and o.voided=0 else 1=1 end"+
                        " )s"+
                        " left join "+
                         
@@ -1897,7 +1897,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
                      "           where pp.date_completed is not null"+
                      "           and date(pp.date_completed) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
                      "           and case when o.concept_id is not null then o.obs_datetime between pp.date_enrolled and pp.date_completed else 1=1 end"+
-                     "           and case when o.concept_id is not null then o.value_coded=5240 else 1=1 end"+
+                     "           and case when o.concept_id is not null then o.value_coded=5240 and o.voided=0 else 1=1 end"+
                      "   )s"+
                      "   left join "+
                         
@@ -2195,98 +2195,100 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	//5.5.2
 	public Integer getNoOfPatientsSubstitutedFirstLineRegim(String gender,String ageCategory,String startOfPeriod,String endOfPeriod){
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		String query=" select count(*) tot "+
-"from "+
-" ("+
-" select sag3.patient_id"+
-" from"+
-" ("+
-       " select pp.patient_id"+
-               " from patient_program pp"+
-               " inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART'"+
-               " inner join person p on p.person_id=pp.patient_id" +
-               " and gender like "+"'"+gender+"'"+
-               " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
-               " where date(date_enrolled) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
-               " group by pp.patient_id"+
+		String query="select count(*) tot "
+				+"from"
+				+"("
+				+"select sag3.patient_id "
+				+"from"
+				+"("
+				        +"select pp.patient_id "
+				                +"from patient_program pp "
+				                +"inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART' "
+				                +"inner join person p on p.person_id=pp.patient_id "
+				                +"and gender like 'M' "
+				                +"and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) >14 "
+				                +"where date(date_enrolled) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"
+				                +"group by pp.patient_id "
 
-        " union"+
+				        +"union "
 
-       " select *"+
-       " from "+
-       " ("+
-               " select pp.patient_id"+
-               " from patient_program pp"+
-               " inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART'"+
-               " inner join person p on p.person_id=pp.patient_id "+
-               " and gender like "+"'"+gender+"'"+
-               " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
-               " where date(date_enrolled) between DATE_SUB("+"'"+startOfPeriod+"'"+", INTERVAL 1 MONTH) and DATE_SUB("+"'"+endOfPeriod+"'"+", INTERVAL 1 MONTH)"+
-               " and case when date_completed is not null then date_completed > "+"'"+endOfPeriod+"'"+" else 1=1 end"+
-               " group by pp.patient_id"+
-       " )sag"+
-" )sag3"+
-" left join "+
-" ("+
-       " select sag2.patient_id from"+
-       " ("+
-               " select patient_id,case when max(ifnull(art,0))> max(ifnull(hiv,0)) then max(art) else max(hiv) end dd,"+
-               " case when max(ifnull(art,0))> max(ifnull(hiv,0)) then 'art' else 'hiv' end dd1"+
-               " from "+
-                       " ("+
-                       " select pid, patient_id,case when sag.name like 'ART' then dd end 'art',"+
-                       " case when sag.name like 'HIV' then dd end 'hiv'"+
-                       " from "+
-                       " ("+
-                              "  select pp.patient_id,pp.date_enrolled,pp.date_completed dd,pr.name,pp.patient_program_id pid"+
-                              "  from patient_program pp"+
-                              "  inner join program pr on pr.program_id=pp.program_id "+
-                              "  inner join person p on p.person_id=pp.patient_id "+
-                                      "  and gender like "+"'"+gender+"'"+
-                                       " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
-                               " where pp.date_completed is not null"+
-                               " and date(pp.date_completed) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
-                      " )sag"+
-              " )sag1"+
-              "  group by patient_id"+
-       " )sag2"+
-       " left join "+
-       " ("+
-                " select patient_id,case when max(ifnull(art,0))> max(ifnull(hiv,0)) then max(art) else max(hiv) end dd,"+
-                " case when max(ifnull(art,0))> max(ifnull(hiv,0)) then 'art' else 'hiv' end dd1"+
-                " from "+
-                " ("+
-                        " select pid, patient_id,case when sag.name like 'ART' then dd end 'art',"+
-                       " case when sag.name like 'HIV' then dd end 'hiv'"+
-                       " from "+
-                       " ("+
-                               " select pp.patient_id,pp.date_enrolled dd,pr.name,pp.patient_program_id pid"+
-                               " from patient_program pp"+
-                               " inner join program pr on pr.program_id=pp.program_id "+
-                               " inner join person p on p.person_id=pp.patient_id "+
-                                       " and gender like "+"'"+gender+"'"+
-                                       " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ageCategory +
-                               " and date(pp.date_enrolled) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"+
-                      " )sag"+
-               " )sag1"+
-               " group by patient_id"+
-       " )sag3"+
-       " on sag2.patient_id=sag3.patient_id"+
-       " where case when sag3.patient_id is not null and sag2.dd1=sag3.dd1 then sag2.dd>sag3.dd else 1=1 end"+
-" )sag4"+
-" on sag3.patient_id=sag4.patient_id"+
-" where sag4.patient_id is null"+
+				        +"select * "
+				        +"from "
+				        +"("
+				                +"select pp.patient_id "
+				                +"from patient_program pp "
+				                +"inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART' "
+				                +"inner join person p on p.person_id=pp.patient_id "
+				                +"and gender like 'M' "
+				                +"and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))>14 "
+				                +"where date(date_enrolled) between DATE_SUB("+"'"+startOfPeriod+"'"+", INTERVAL 1 MONTH) and DATE_SUB("+"'"+endOfPeriod+"'"+", INTERVAL 1 MONTH) "
+				                +"and case when date_completed is not null then date_completed > "+"'"+endOfPeriod+"'"+" else 1=1 end "
+				                +"group by pp.patient_id"
+				        +")sag"
+				+")sag3 "
+				+"left join"
+				+"("
+				        +"select sag2.patient_id from"
+				        +"("
+				                +"select patient_id,case when max(ifnull(art,0))> max(ifnull(hiv,0)) then max(art) else max(hiv) end dd,"
+				                +"case when max(ifnull(art,0))> max(ifnull(hiv,0)) then 'art' else 'hiv' end dd1 "
+				                +"from"
+				                        +"("
+				                        +"select pid, patient_id,case when sag.name like 'ART' then dd end 'art',"
+				                        +"case when sag.name like 'HIV' then dd end 'hiv' "
+				                        +"from"
+				                        +"("
+				                                +"select pp.patient_id,pp.date_enrolled,pp.date_completed dd,pr.name,pp.patient_program_id pid "
+				                                +"from patient_program pp "
+				                                +"inner join program pr on pr.program_id=pp.program_id "
+				                                +"inner join person p on p.person_id=pp.patient_id "
+				                                        +"and gender like 'M' "
+				                                        +"and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))>14 "
+				                                +"where pp.date_completed is not null "
+				                                +"and date(pp.date_completed) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"
+				                        +")sag"
+				                +")sag1 "
+				                +"group by patient_id"
+				        +")sag2 "
+				        +"left join"
+				        +"("
+				                +"select patient_id,case when max(ifnull(art,0))> max(ifnull(hiv,0)) then max(art) else max(hiv) end dd,"
+				                +"case when max(ifnull(art,0))> max(ifnull(hiv,0)) then 'art' else 'hiv' end dd1 "
+				                +"from"
+				                        +"("
+				                        +"select pid, patient_id,case when sag.name like 'ART' then dd end 'art',"
+				                        +"case when sag.name like 'HIV' then dd end 'hiv' "
+				                        +"from"
+				                        +"("
+				                                +"select pp.patient_id,pp.date_enrolled dd,pr.name,pp.patient_program_id pid "
+				                                +"from patient_program pp "
+				                                +"inner join program pr on pr.program_id=pp.program_id "
+				                                +"inner join person p on p.person_id=pp.patient_id " 
+				                                        +"and gender like 'M' " 
+				                                        +"and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))>14 "
+				                                +"where pp.date_completed is null "
+				                                +"and date(pp.date_enrolled) between "+"'"+startOfPeriod+"'"+" and "+"'"+endOfPeriod+"'"
+				                        +")sag"
+				                +")sag1 "
+				                +"group by patient_id"
+				        +")sag3 "
+				        +"on sag2.patient_id=sag3.patient_id "
+				        +"where case when sag3.patient_id is not null and sag2.dd1=sag3.dd1 then sag2.dd>sag3.dd else 1=1 end"
+				+")sag4 "
+				+"on sag3.patient_id=sag4.patient_id "
+				+"where sag4.patient_id is null"
 
- " )sag5"+
-" inner join"+
-" ("+
+				+")sag5 "
+				+"inner join"
+				+"("
 
-       " select patient_id,start_date,regimen_change_type"+
-       " from drug_order_processed d"+
-       " where d.start_date BETWEEN DATE_SUB("+"'"+startOfPeriod+"'"+", INTERVAL 1 MONTH) and "+"'"+endOfPeriod+"'"+
-       " and d.regimen_change_type in ('Substitute')  and d.type_of_regimen in ('First line Anti-retoviral drugs','Fixed dose combinations (FDCs)')"+
-       " group by patient_id,d.regimen_change_type"+
-" )sag6";
+				        +"select patient_id,start_date,regimen_change_type "
+				        +"from drug_order_processed d "
+				        +"where d.start_date BETWEEN DATE_SUB("+"'"+startOfPeriod+"'"+", INTERVAL 1 MONTH) and "+"'"+endOfPeriod+"'"
+				        +"and d.regimen_change_type in ('Substitute')  and d.type_of_regimen in ('First line Anti-retoviral drugs','Fixed dose combinations (FDCs)') "
+				        +"group by patient_id,d.regimen_change_type"
+				+")sag6 "
+				+"on sag5.patient_id=sag6.patient_id";
 
 		return jdbcTemplate.queryForInt(query);	
 	}
