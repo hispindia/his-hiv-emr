@@ -254,7 +254,7 @@ public class GetNapMonthlyReportForAdultFragmentController {
 	model.addAttribute("noOfPatientsOnARTTotal",noOfPatientsOnARTForMale+noOfPatientsOnARTForFemale);
 	
 	model.addAttribute("noOfPatientsOnOriginalFirstLineRegimForMale",noOfPatientsOnOriginalFirstLineRegimForMale);
-	model.addAttribute("noOfPatientsOnOriginalFirstLineRegimForFemale",noOfDeathReportedForFemale);
+	model.addAttribute("noOfPatientsOnOriginalFirstLineRegimForFemale",noOfPatientsOnOriginalFirstLineRegimForFemale);
 	model.addAttribute("noOfPatientsOnOriginalFirstLineRegimTotal",noOfPatientsOnOriginalFirstLineRegimForMale+noOfPatientsOnOriginalFirstLineRegimForFemale);
 	
 	model.addAttribute("noOfPatientsSubstitutedFirstLineRegimForMale",noOfPatientsSubstitutedFirstLineRegimForMale);
