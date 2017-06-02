@@ -2600,8 +2600,8 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART' "
 				+ "inner join person p on p.person_id=pp.patient_id "
 				+ "and gender like" + "'"+ gender + "'"
-				+ "and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ ageCategory
-				+ "where date(date_enrolled) between " + "'"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ ageCategory
+				+ " where date(date_enrolled) between " + "'"
 				+ startOfPeriod
 				+ "'"
 				+ " and "
@@ -2620,8 +2620,8 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART' "
 				+ "inner join person p on p.person_id=pp.patient_id "
 				+ "and gender like "  + "'"+ gender + "'"
-				+ "and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "+ ageCategory
-				+ "where date(date_enrolled) between DATE_SUB("
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "+ ageCategory
+				+ " where date(date_enrolled) between DATE_SUB("
 				+ "'"
 				+ startOfPeriod
 				+ "'"
@@ -2655,9 +2655,9 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "inner join program pr on pr.program_id=pp.program_id "
 				+ "inner join person p on p.person_id=pp.patient_id "
 				+ "and gender like "  + "'"+ gender + "'"
-				+ "and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "+ ageCategory
-				+ "where pp.date_completed is not null "
-				+ "and date(pp.date_completed) between "
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "+ ageCategory
+				+ " where pp.date_completed is not null "
+				+ " and date(pp.date_completed) between "
 				+ "'"
 				+ startOfPeriod
 				+ "'"
@@ -2685,7 +2685,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "inner join person p on p.person_id=pp.patient_id "
 				+ "and gender like "  + "'"+ gender + "'"
 				+ "and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "+ ageCategory
-				+ "where pp.date_completed is null "
+				+ " where pp.date_completed is null "
 				+ "and date(pp.date_enrolled) between "
 				+ "'"
 				+ startOfPeriod
