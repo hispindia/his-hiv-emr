@@ -4984,7 +4984,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "INNER JOIN person p ON p.person_id=pp.patient_id "
 				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
 				+ ageCategory
-				+ " WHERE o.obs_datetime BETWEEN "
+				+ " WHERE DATE(o.obs_datetime) BETWEEN "
 				+ "'"
 				+ startOfPeriod
 				+ "'"
@@ -4992,7 +4992,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ endOfPeriod
 				+ "'"
-				+ " AND o.obs_datetime BETWEEN pp.date_enrolled AND pp.date_completed "
+				+ " AND DATE(o.obs_datetime) BETWEEN pp.date_enrolled AND pp.date_completed "
 				+ " AND o.value_coded=5240 "
 				+ "UNION "
 				+ "SELECT pp.patient_id "
