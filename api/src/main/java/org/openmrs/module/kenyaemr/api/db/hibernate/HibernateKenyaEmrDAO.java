@@ -2550,7 +2550,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " ("
 				+ " SELECT patient_id,start_date,regimen_change_type"
 				+ " FROM drug_order_processed d"
-				+ "  WHERE d.start_date BETWEEN DATE_SUB("
+				+ "  WHERE DATE(d.start_date) BETWEEN DATE_SUB("
 				+ "'"
 				+ startOfPeriod
 				+ "'"
@@ -2558,15 +2558,16 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ endOfPeriod
 				+ "'"
-				+ "  AND d.regimen_change_type IN ('Start','Restart')"
-				+ " AND d.type_of_regimen IN ('First line Anti-retoviral drugs','Fixed dose combinations (FDCs)')"
-				+ " GROUP BY patient_id,d.regimen_change_type"
+				+ " AND d.discontinued_date IS NULL "
+				+ "AND d.regimen_change_type IN ('Start','Restart') "
+				+ "AND d.type_of_regimen IN ('First line Anti-retoviral drugs','Fixed dose combinations (FDCs)') "
+				+ "GROUP BY patient_id,d.regimen_change_type"
 				+ " )sag"
 				+ " LEFT JOIN "
 				+ "  ("
 				+ " SELECT patient_id,start_date,regimen_change_type"
 				+ "  FROM drug_order_processed d"
-				+ "  WHERE d.start_date BETWEEN DATE_SUB("
+				+ "  WHERE DATE(d.start_date) BETWEEN DATE_SUB("
 				+ "'"
 				+ startOfPeriod
 				+ "'"
@@ -2574,8 +2575,9 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ endOfPeriod
 				+ "'"
-				+ "  AND d.regimen_change_type IN ('Substitute','Switch')"
-				+ "  GROUP BY patient_id,d.regimen_change_type"
+				+ " AND d.discontinued_date IS NULL "
+				+ "AND d.regimen_change_type IN ('Substitute','Switch') "
+				+ "GROUP BY patient_id,d.regimen_change_type"
 				+ " )sag1"
 				+ "  ON sag.patient_id=sag1.patient_id"
 				+ " WHERE CASE WHEN sag1.patient_id IS NOT NULL THEN sag1.start_date < sag.start_date ELSE sag1.patient_id IS NULL END "
@@ -2710,7 +2712,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 
 				+ "select patient_id,start_date,regimen_change_type "
 				+ "from drug_order_processed d "
-				+ "where d.start_date BETWEEN DATE_SUB("
+				+ "where DATE(d.start_date) BETWEEN DATE_SUB("
 				+ "'"
 				+ startOfPeriod
 				+ "'"
@@ -2718,6 +2720,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ endOfPeriod
 				+ "'"
+				+ " AND d.discontinued_date IS NULL "
 				+ "and d.regimen_change_type in ('Substitute')  and d.type_of_regimen in ('First line Anti-retoviral drugs','Fixed dose combinations (FDCs)') "
 				+ "group by patient_id,d.regimen_change_type"
 				+ ")sag6 "
@@ -2727,7 +2730,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 	}
 
 	// 5.5.3
-	public Integer getNoOfPatientsSubstitutedSecondLineRegim(String gender,
+	public Integer getNoOfPatientsSwitchedToSecondLineRegim(String gender,
 			String ageCategory, String startOfPeriod, String endOfPeriod) {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		String query = " select count(*) tot "
@@ -2871,7 +2874,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 
 				" select patient_id,start_date,regimen_change_type"
 				+ " from drug_order_processed d"
-				+ " where d.start_date BETWEEN DATE_SUB("
+				+ " where DATE(d.start_date) BETWEEN DATE_SUB("
 				+ "'"
 				+ startOfPeriod
 				+ "'"
@@ -2879,15 +2882,17 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ endOfPeriod
 				+ "'"
-				+ " and d.regimen_change_type in ('Switch')  and d.type_of_regimen in ('Second line ART','Fixed dose combinations (FDCs)')"
-				+ " group by patient_id,d.regimen_change_type"
+				+ " AND d.discontinued_date IS NULL "
+				+ "and d.regimen_change_type in ('Switch')  and d.type_of_regimen in ('Second line ART','Fixed dose combinations (FDCs)') "
+				+ "AND drug_regimen!='AZT/3TC+TDF+LPV/r' "
+				+ "group by patient_id,d.regimen_change_type"
 				+ " )sag6"
 				+ " on sag5.patient_id=sag6.patient_id";
 		return jdbcTemplate.queryForInt(query);
 	}
 
 	// 5.5.4
-	public Integer getNoOfPatientsSubstitutedThirdLineRegim(String gender,
+	public Integer getNoOfPatientsSwitchedToThirdLineRegim(String gender,
 			String ageCategory, String startOfPeriod, String endOfPeriod) {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		String query = "select count(*) tot"
@@ -3029,7 +3034,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " ("
 				+ " select patient_id,start_date,regimen_change_type"
 				+ " from drug_order_processed d"
-				+ " where d.start_date BETWEEN DATE_SUB("
+				+ " where DATE(d.start_date) BETWEEN DATE_SUB("
 				+ "'"
 				+ startOfPeriod
 				+ "'"
@@ -3037,8 +3042,9 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ endOfPeriod
 				+ "'"
-				+ " and d.regimen_change_type in ('Switch')  and d.type_of_regimen in ('Fixed dose combinations (FDCs)')"
-				+ " and d.drug_regimen like 'AZT/3TC+TDF+LPV/r'"
+				+ " AND d.discontinued_date IS NULL "
+				+ "and d.regimen_change_type in ('Switch')  and d.type_of_regimen in ('Fixed dose combinations (FDCs)') "
+				+ "and d.drug_regimen like 'AZT/3TC+TDF+LPV/r'"
 				+ " group by patient_id,d.regimen_change_type"
 				+ " )sag6"
 				+ " on sag5.patient_id=sag6.patient_id";
@@ -4044,6 +4050,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ doseRegimen
 				+ "'"
+				+ " AND discontinued_date IS NULL "
 				+ "AND type_of_regimen LIKE 'First line Anti-retoviral drugs'"
 				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
 				+ ageCategory
@@ -4073,6 +4080,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ doseRegimen
 				+ "'"
+				+ " AND discontinued_date IS NULL "
 				+ " AND type_of_regimen LIKE 'First line Anti-retoviral drugs' "
 				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
 				+ ageCategory
@@ -4175,6 +4183,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ doseRegimen
 				+ "'"
+				+ " AND discontinued_date IS NULL "
 				+ "AND type_of_regimen LIKE 'Fixed dose combinations (FDCs)'"
 				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
 				+ ageCategory
@@ -4204,6 +4213,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ doseRegimen
 				+ "'"
+				+ " AND discontinued_date IS NULL "
 				+ " AND type_of_regimen LIKE 'Fixed dose combinations (FDCs)' "
 				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
 				+ ageCategory
@@ -4302,6 +4312,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "AND drug_regimen LIKE " + "'"
 				+ drugRegimen
 				+ "'"
+				+ " AND discontinued_date IS NULL "
 				+ "AND type_of_regimen LIKE 'First line Anti-retoviral drugs'"
 				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
 				+ ageCategory
@@ -4327,6 +4338,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ drugRegimen
 				+ "'"
+				+ " AND discontinued_date IS NULL "
 				+ " AND type_of_regimen LIKE 'First line Anti-retoviral drugs' "
 				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
 				+ ageCategory
@@ -4429,6 +4441,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ doseRegimen
 				+ "'"
+				+ " AND discontinued_date IS NULL "
 				+ " AND type_of_regimen LIKE 'Second line ART' "
 				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
 				+ ageCategory
@@ -4458,6 +4471,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ doseRegimen
 				+ "'"
+				+ " AND discontinued_date IS NULL "
 				+ "AND type_of_regimen LIKE 'Second line ART' "
 				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
 				+ ageCategory
@@ -4560,6 +4574,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ doseRegimen
 				+ "'"
+				+ " AND discontinued_date IS NULL "
 				+ " AND type_of_regimen LIKE 'Fixed dose combinations (FDCs)' "
 				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
 				+ ageCategory
@@ -4589,6 +4604,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ doseRegimen
 				+ "'"
+				+ " AND discontinued_date IS NULL "
 				+ "AND type_of_regimen LIKE 'Fixed dose combinations (FDCs)' "
 				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
 				+ ageCategory
@@ -4687,6 +4703,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "AND drug_regimen LIKE " + "'"
 				+ drugRegimen
 				+ "'"
+				+ " AND discontinued_date IS NULL "
 				+ " AND type_of_regimen LIKE 'Second line ART' "
 				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
 				+ ageCategory
@@ -4712,6 +4729,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ drugRegimen
 				+ "'"
+				+ " AND discontinued_date IS NULL "
 				+ "AND type_of_regimen LIKE 'Second line ART' "
 				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
 				+ ageCategory
@@ -4814,7 +4832,6 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ doseRegimen
 				+ "'"
-				+ " AND processed_status =1 "
 				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN "
@@ -4843,7 +4860,6 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ doseRegimen
 				+ "'"
-				+ " AND processed_status =1 "
 				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN DATE_SUB("
@@ -5011,7 +5027,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ endOfPeriod
 				+ "'"
-				+ " AND CASE WHEN o.concept_id IS NOT NULL THEN o.obs_datetime BETWEEN pp.date_enrolled AND pp.date_completed ELSE 1=1 END "
+				+ " AND CASE WHEN o.concept_id IS NOT NULL THEN DATE(o.obs_datetime) BETWEEN pp.date_enrolled AND pp.date_completed ELSE 1=1 END "
 				+ "AND CASE WHEN o.concept_id IS NOT NULL THEN o.value_coded=159492 ELSE 1=1 END "
 				+ ")drug2 "
 				+ "ON drug1.patient_id=drug2.person_id "

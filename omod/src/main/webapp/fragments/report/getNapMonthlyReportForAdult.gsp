@@ -166,16 +166,16 @@ Total
 
 <tr>
 <td>w 5.5.3 No. switched to 2nd line regimen</td>
-<td>${noOfPatientsSubstitutedSecondLineRegimForMale}</td>
-<td>${noOfPatientsSubstitutedSecondLineRegimForFemale}</td>
-<td>${noOfPatientsSubstitutedSecondLineRegimTotal}</td>
+<td>${noOfPatientsSwitchedToSecondLineRegimForMale}</td>
+<td>${noOfPatientsSwitchedToSecondLineRegimForFemale}</td>
+<td>${noOfPatientsSwitchedToSecondLineRegimTotal}</td>
 </tr>
 
 <tr>
 <td>w 5.5.4 No. switched to 3rd line regimen</td>
-<td>${noOfPatientsSubstitutedThirdLineRegimForMale}</td>
-<td>${noOfPatientsSubstitutedThirdLineRegimForFemale}</td>
-<td>${noOfPatientsSubstitutedThirdLineRegimTotal}</td>
+<td>${noOfPatientsSwitchedToThirdLineRegimForMale}</td>
+<td>${noOfPatientsSwitchedToThirdLineRegimForFemale}</td>
+<td>${noOfPatientsSwitchedToThirdLineRegimTotal}</td>
 </tr>
 
 <tr>

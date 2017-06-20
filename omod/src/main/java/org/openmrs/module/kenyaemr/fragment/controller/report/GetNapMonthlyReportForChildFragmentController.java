@@ -63,11 +63,11 @@ public class GetNapMonthlyReportForChildFragmentController {
 	Integer noOfPatientsSubstitutedFirstLineRegimForMale=kenyaEmrService.getNoOfPatientsSubstitutedFirstLineRegim("M",ageCategory,startOfPeriod,endOfPeriod);
 	Integer noOfPatientsSubstitutedFirstLineRegimForFemale=kenyaEmrService.getNoOfPatientsSubstitutedFirstLineRegim("F",ageCategory,startOfPeriod,endOfPeriod);
 	
-	Integer noOfPatientsSubstitutedSecondLineRegimForMale=kenyaEmrService.getNoOfPatientsSubstitutedSecondLineRegim("M",ageCategory,startOfPeriod,endOfPeriod);
-	Integer noOfPatientsSubstitutedSecondLineRegimForFemale=kenyaEmrService.getNoOfPatientsSubstitutedSecondLineRegim("F",ageCategory,startOfPeriod,endOfPeriod);
+	Integer noOfPatientsSwitchedToSecondLineRegimForMale=kenyaEmrService.getNoOfPatientsSwitchedToSecondLineRegim("M",ageCategory,startOfPeriod,endOfPeriod);
+	Integer noOfPatientsSwitchedToSecondLineRegimForFemale=kenyaEmrService.getNoOfPatientsSwitchedToSecondLineRegim("F",ageCategory,startOfPeriod,endOfPeriod);
 	
-	Integer noOfPatientsSubstitutedThirdLineRegimForMale=kenyaEmrService.getNoOfPatientsSubstitutedThirdLineRegim("M",ageCategory,startOfPeriod,endOfPeriod);
-	Integer noOfPatientsSubstitutedThirdLineRegimForFemale=kenyaEmrService.getNoOfPatientsSubstitutedThirdLineRegim("F",ageCategory,startOfPeriod,endOfPeriod);
+	Integer noOfPatientsSwitchedToThirdLineRegimForMale=kenyaEmrService.getNoOfPatientsSwitchedToThirdLineRegim("M",ageCategory,startOfPeriod,endOfPeriod);
+	Integer noOfPatientsSwitchedToThirdLineRegimForFemale=kenyaEmrService.getNoOfPatientsSwitchedToThirdLineRegim("F",ageCategory,startOfPeriod,endOfPeriod);
 	
 	Integer noOfHIVPositiveTBPatientsForMale=kenyaEmrService.getNoOfHIVPositiveTBPatients("M",ageCategory,startOfPeriod,endOfPeriod);
 	Integer noOfHIVPositiveTBPatientsForFemale=kenyaEmrService.getNoOfHIVPositiveTBPatients("F",ageCategory,startOfPeriod,endOfPeriod);
@@ -223,13 +223,13 @@ public class GetNapMonthlyReportForChildFragmentController {
 	model.addAttribute("noOfPatientsSubstitutedFirstLineRegimForFemale",noOfPatientsSubstitutedFirstLineRegimForFemale);
 	model.addAttribute("noOfPatientsSubstitutedFirstLineRegimTotal",noOfPatientsSubstitutedFirstLineRegimForMale+noOfPatientsSubstitutedFirstLineRegimForFemale);
 	
-	model.addAttribute("noOfPatientsSubstitutedSecondLineRegimForMale",noOfPatientsSubstitutedSecondLineRegimForMale);
-	model.addAttribute("noOfPatientsSubstitutedSecondLineRegimForFemale",noOfPatientsSubstitutedSecondLineRegimForFemale);
-	model.addAttribute("noOfPatientsSubstitutedSecondLineRegimTotal",noOfPatientsSubstitutedSecondLineRegimForMale+noOfPatientsSubstitutedSecondLineRegimForFemale);
+	model.addAttribute("noOfPatientsSwitchedToSecondLineRegimForMale",noOfPatientsSwitchedToSecondLineRegimForMale);
+	model.addAttribute("noOfPatientsSwitchedToSecondLineRegimForFemale",noOfPatientsSwitchedToSecondLineRegimForFemale);
+	model.addAttribute("noOfPatientsSwitchedToSecondLineRegimTotal",noOfPatientsSwitchedToSecondLineRegimForMale+noOfPatientsSwitchedToSecondLineRegimForFemale);
 	
-	model.addAttribute("noOfPatientsSubstitutedThirdLineRegimForMale",noOfPatientsSubstitutedThirdLineRegimForMale);
-	model.addAttribute("noOfPatientsSubstitutedThirdLineRegimForFemale",noOfPatientsSubstitutedThirdLineRegimForFemale);
-	model.addAttribute("noOfPatientsSubstitutedThirdLineRegimTotal",noOfPatientsSubstitutedThirdLineRegimForMale+noOfPatientsSubstitutedThirdLineRegimForFemale);
+	model.addAttribute("noOfPatientsSwitchedToThirdLineRegimForMale",noOfPatientsSwitchedToThirdLineRegimForMale);
+	model.addAttribute("noOfPatientsSwitchedToThirdLineRegimForFemale",noOfPatientsSwitchedToThirdLineRegimForFemale);
+	model.addAttribute("noOfPatientsSwitchedToThirdLineRegimTotal",noOfPatientsSwitchedToThirdLineRegimForMale+noOfPatientsSwitchedToThirdLineRegimForFemale);
 	
 	model.addAttribute("noOfHIVPositiveTBPatientsForMale",noOfHIVPositiveTBPatientsForMale);
 	model.addAttribute("noOfHIVPositiveTBPatientsForFemale",noOfHIVPositiveTBPatientsForFemale);
@@ -287,7 +287,7 @@ public class GetNapMonthlyReportForChildFragmentController {
 	model.addAttribute("noOfPatientsTestedForViralLoadForMale",noOfPatientsTestedForViralLoadForMale);
 	model.addAttribute("noOfPatientsTestedForViralLoadForFemale",noOfPatientsTestedForViralLoadForFemale);
 	model.addAttribute("noOfPatientsTestedForViralLoadTotal",noOfPatientsTestedForViralLoadForMale+noOfPatientsTestedForViralLoadForFemale);
-	model.addAttribute("noOfChildPatientsHavingRegimen1", noOfChildPatientsHavingRegimen1);
+	
 	//REGIMEN AT THE END OF THE MONTH
 	model.addAttribute("noOfChildPatientsHavingRegimen1", noOfChildPatientsHavingRegimen1);
 	model.addAttribute("noOfChildPatientsHavingRegimen2", noOfChildPatientsHavingRegimen2);

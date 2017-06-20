@@ -164,16 +164,16 @@ Total
 
 <tr>
 <td>w 5.5.3 No. switched to 2nd line regimen</td>
-<td>${noOfPatientsSubstitutedSecondLineRegimForMale}</td>
-<td>${noOfPatientsSubstitutedSecondLineRegimForFemale}</td>
-<td>${noOfPatientsSubstitutedSecondLineRegimTotal}</td>
+<td>${noOfPatientsSwitchedToSecondLineRegimForMale}</td>
+<td>${noOfPatientsSwitchedToSecondLineRegimForFemale}</td>
+<td>${noOfPatientsSwitchedToSecondLineRegimTotal}</td>
 </tr>
 
 <tr>
 <td>w 5.5.4 No. switched to 3rd line regimen</td>
-<td>${noOfPatientsSubstitutedThirdLineRegimForMale}</td>
-<td>${noOfPatientsSubstitutedThirdLineRegimForFemale}</td>
-<td>${noOfPatientsSubstitutedThirdLineRegimTotal}</td>
+<td>${noOfPatientsSwitchedToThirdLineRegimForMale}</td>
+<td>${noOfPatientsSwitchedToThirdLineRegimForFemale}</td>
+<td>${noOfPatientsSwitchedToThirdLineRegimTotal}</td>
 </tr>
 
 <tr>
@@ -282,7 +282,7 @@ Total
 </tr>
 
 <tr>
-<td>9.2 No. of patients tested for viral load0</td>
+<td>9.2 No. of patients tested for viral load</td>
 <td>${noOfPatientsTestedForViralLoadForMale}</td>
 <td>${noOfPatientsTestedForViralLoadForFemale}</td>
 <td>${noOfPatientsTestedForViralLoadTotal}</td>
@@ -348,87 +348,87 @@ Total
 </tr>
 <tr>
 <td>AZT/3TC+LPV/r (60/30+100/25)mg</td>
-<td>${noOfPatientsHavingstockDispensed2}</td>
+<td>${noOfChildPatientsHavingRegimen2}</td>
 </tr>
 <tr>
 <td>AZT/3TC+EFV (60/30+200)mg</td>
-<td>${noOfPatientsHavingstockDispensed3}</td>
+<td>${noOfChildPatientsHavingRegimen3}</td>
 </tr>
 <tr>
 <td>AZT/3TC+EFV (60/30+600)mg</td>
-<td>${noOfPatientsHavingstockDispensed4}</td>
+<td>${noOfChildPatientsHavingRegimen4}</td>
 </tr>
 <tr>
 <td>ABC/3TC+NVP (60/30+50)mg</td>
-<td>${noOfPatientsHavingstockDispensed5}</td>
+<td>${noOfChildPatientsHavingRegimen5}</td>
 </tr>
 <tr>
 <td>ABC/3TC+EFV (60/30+200)mg</td>
-<td>${noOfPatientsHavingstockDispensed6}</td>
+<td>${noOfChildPatientsHavingRegimen6}</td>
 </tr>
 <tr>
 <td>ABC/3TC+EFV (60/30+600)mg</td>
-<td>${noOfPatientsHavingstockDispensed7}</td>
+<td>${noOfChildPatientsHavingRegimen7}</td>
 </tr>
 <tr>
 <td>ABC/3TC+LPV/r (60/30+100/25)mg</td>
-<td>${noOfPatientsHavingstockDispensed8}</td>
+<td>${noOfChildPatientsHavingRegimen8}</td>
 </tr>
 <tr>
 <td>AZT/3TC+ABC (60/30+60)mg</td>
-<td>${noOfPatientsHavingstockDispensed9}</td>
+<td>${noOfChildPatientsHavingRegimen9}</td>
 </tr>
 <tr>
 <td>d4T+3TC+NVP</td>
-<td>${noOfPatientsHavingstockDispensed10}</td>
+<td>${noOfChildPatientsHavingRegimen10}</td>
 </tr>
 <tr>
 <td>d4T+3TC+LPV/r</td>
-<td>${noOfPatientsHavingstockDispensed11}</td>
+<td>${noOfChildPatientsHavingRegimen11}</td>
 </tr>
 <tr>
 <td>d4T+3TC+EFV</td>
-<td>${noOfPatientsHavingstockDispensed12}</td>
+<td>${noOfChildPatientsHavingRegimen12}</td>
 </tr>
 <tr>
 <td>d4T+3TC+ABC</td>
-<td>${noOfPatientsHavingstockDispensed13}</td>
+<td>${noOfChildPatientsHavingRegimen13}</td>
 </tr>
 <tr>
 <td>AZT+3TC+RAL</td>
-<td>${noOfPatientsHavingstockDispensed14}</td>
+<td>${noOfChildPatientsHavingRegimen14}</td>
 </tr>
 <tr>
 <td>AZT+3TC+ATV/r</td>
-<td>${noOfPatientsHavingstockDispensed15}</td>
+<td>${noOfChildPatientsHavingRegimen15}</td>
 </tr>
 <tr>
 <td>ABC+3TC+RAL</td>
-<td>${noOfPatientsHavingstockDispensed16}</td>
+<td>${noOfChildPatientsHavingRegimen16}</td>
 </tr>
 <tr>
 <td>TDF+3TC+EFV</td>
-<td>${noOfPatientsHavingstockDispensed17}</td>
+<td>${noOfChildPatientsHavingRegimen17}</td>
 </tr>
 <tr>
 <td>TDF+3TC+NVP</td>
-<td>${noOfPatientsHavingstockDispensed18}</td>
+<td>${noOfChildPatientsHavingRegimen18}</td>
 </tr>
 <tr>
 <td>TDF+3TC+LPV/r</td>
-<td>${noOfPatientsHavingstockDispensed19}</td>
+<td>${noOfChildPatientsHavingRegimen19}</td>
 </tr>
 <tr>
 <td>TDF+3TC+RAL</td>
-<td>${noOfPatientsHavingstockDispensed20}</td>
+<td>${noOfChildPatientsHavingRegimen20}</td>
 </tr>
 <tr>
 <td>TDF+3TC+ATV/r</td>
-<td>${noOfPatientsHavingstockDispensed21}</td>
+<td>${noOfChildPatientsHavingRegimen21}</td>
 </tr>
 <tr>
 <td>ABC+3TC+ATV/r</td>
-<td>${noOfPatientsHavingstockDispensed22}</td>
+<td>${noOfChildPatientsHavingRegimen22}</td>
 </tr>
 </table>
 </div>

@@ -113,8 +113,8 @@ public interface KenyaEmrDAO {
 	public Integer getNoOfPatientsOnART(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
 	public Integer getNoOfPatientsOnOriginalFirstLineRegim(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
 	public Integer getNoOfPatientsSubstitutedFirstLineRegim(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
-	public Integer getNoOfPatientsSubstitutedSecondLineRegim(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
-	public Integer getNoOfPatientsSubstitutedThirdLineRegim(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientsSwitchedToSecondLineRegim(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
+	public Integer getNoOfPatientsSwitchedToThirdLineRegim(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
 	public Integer getNoOfHIVPositiveTBPatients(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
 	public Integer getCumulativeNoOfHIVPositiveTBPatients(String gender,String ageCategory,String startOfPeriod,String endOfPeriod);
 	public Integer getNoOfPatientsAssessedForAdherenceDuringThisMonth(String ageCategory,String startOfPeriod,String endOfPeriod);
