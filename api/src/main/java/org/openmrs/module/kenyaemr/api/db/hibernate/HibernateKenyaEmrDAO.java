@@ -2602,7 +2602,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART' "
 				+ "inner join person p on p.person_id=pp.patient_id "
 				+ "and gender like" + "'"+ gender + "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_created))"+ ageCategory
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"+ ageCategory
 				+ " where date(date_enrolled) between " + "'"
 				+ startOfPeriod
 				+ "'"
