@@ -1552,7 +1552,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(e.encounter_datetime))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(e.date_created))"
 				+ ageCategory + " group by patient_id"
 				+ " order by e.patient_id,e.encounter_datetime" + " )sag";
 		return jdbcTemplate.queryForInt(query);
@@ -1591,7 +1591,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " and gender like " + "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(e.encounter_datetime))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(e.date_created))"
 				+ ageCategory
 				+ " where  e.encounter_datetime between "
 				+ "'"
@@ -1613,7 +1613,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(e.encounter_datetime))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(e.date_created))"
 				+ ageCategory
 				+ " where  e.encounter_datetime between "
 				+ "'"
@@ -1647,7 +1647,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " where date_enrolled between DATE_SUB("
 				+ "'"
@@ -1677,7 +1677,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " inner join person p on p.person_id=pp.patient_id "
 				+ " and gender like " + "'" + gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " where date(date_enrolled) between "
 				+ "'"
@@ -1706,7 +1706,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " inner join obs o on o.person_id=pp.patient_id and o.concept_id=160540 and o.value_coded in (162870,162871)"
 				+ " inner join person p on p.person_id=pp.patient_id "
 				+ " and gender like " + "'" + gender + "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory + " where date(date_enrolled) between " + "'"
 				+ startOfPeriod + "'" + " AND " + "'" + endOfPeriod + "'"
 				+ ") b";
@@ -1731,7 +1731,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " and gender like " + "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " where date(date_enrolled) between "
 				+ "'"
@@ -1758,7 +1758,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " where date(date_enrolled) between DATE_SUB("
 				+ "'"
@@ -1793,7 +1793,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " and gender like " + "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " where date(date_enrolled) between "
 				+ "'"
@@ -1824,7 +1824,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " where date(date_enrolled) between DATE_SUB("
 				+ "'"
@@ -1867,7 +1867,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " where pp.date_completed is not null "
 				+ " and date(pp.date_completed) between "
@@ -1917,7 +1917,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " and gender like " + "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " where date(date_enrolled) between "
 				+ "'"
@@ -1944,7 +1944,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " where date(date_enrolled) between DATE_SUB("
 				+ "'"
@@ -1989,7 +1989,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " where pp.date_completed is not null"
 				+ " and date(pp.date_completed) between "
@@ -2040,7 +2040,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " and gender like " + "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " where date(date_enrolled) between "
 				+ "'"
@@ -2063,7 +2063,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ "  and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ "  and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ "  where date(date_enrolled) between DATE_SUB("
 				+ "'"
@@ -2108,7 +2108,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ "           and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ "           and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ "           where pp.date_completed is not null"
 				+ "           and date(pp.date_completed) between "
@@ -2159,7 +2159,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " and gender like " + "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " where date(date_enrolled) between "
 				+ "'"
@@ -2184,7 +2184,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " where date(date_enrolled) between DATE_SUB("
 				+ "'"
@@ -2223,7 +2223,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " where pp.date_completed is not null"
 				+ " and date(pp.date_completed) between "
@@ -2250,7 +2250,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " where pp.date_completed is null"
 				+ " and date(pp.date_enrolled) between "
@@ -2284,7 +2284,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " and gender like " + "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " where date(date_enrolled) between "
 				+ "'"
@@ -2311,7 +2311,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " where date(date_enrolled) between DATE_SUB("
 				+ "'"
@@ -2350,7 +2350,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " where pp.date_completed is not null"
 				+ " and date(pp.date_completed) between "
@@ -2383,7 +2383,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " where pp.date_completed is null"
 				+ " and date(pp.date_enrolled) between "
@@ -2423,7 +2423,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "  AND gender LIKE " + "'"
 				+ gender
 				+ "'"
-				+ "  AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ "  AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ "   WHERE DATE(date_enrolled) BETWEEN "
 				+ "'"
@@ -2450,7 +2450,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ "   AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ "   AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ "   WHERE DATE(date_enrolled) BETWEEN DATE_SUB("
 				+ "'"
@@ -2489,7 +2489,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE pp.date_completed IS NOT NULL"
 				+ " AND DATE(pp.date_completed) BETWEEN "
@@ -2522,7 +2522,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ "  WHERE pp.date_completed IS NULL"
 				+ "  AND DATE(pp.date_enrolled) BETWEEN "
@@ -2602,7 +2602,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART' "
 				+ "inner join person p on p.person_id=pp.patient_id "
 				+ "and gender like" + "'"+ gender + "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"+ ageCategory
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_created))"+ ageCategory
 				+ " where date(date_enrolled) between " + "'"
 				+ startOfPeriod
 				+ "'"
@@ -2622,7 +2622,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "inner join program pr on pr.program_id=pp.program_id and pr.name like 'ART' "
 				+ "inner join person p on p.person_id=pp.patient_id "
 				+ "and gender like "  + "'"+ gender + "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "+ ageCategory
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "+ ageCategory
 				+ " where date(date_enrolled) between DATE_SUB("
 				+ "'"
 				+ startOfPeriod
@@ -2657,7 +2657,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "inner join program pr on pr.program_id=pp.program_id "
 				+ "inner join person p on p.person_id=pp.patient_id "
 				+ "and gender like "  + "'"+ gender + "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "+ ageCategory
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "+ ageCategory
 				+ " where pp.date_completed is not null "
 				+ " and date(pp.date_completed) between "
 				+ "'"
@@ -2686,7 +2686,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "inner join program pr on pr.program_id=pp.program_id "
 				+ "inner join person p on p.person_id=pp.patient_id "
 				+ "and gender like "  + "'"+ gender + "'"
-				+ "and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "+ ageCategory
+				+ "and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "+ ageCategory
 				+ " where pp.date_completed is null "
 				+ "and date(pp.date_enrolled) between "
 				+ "'"
@@ -2746,7 +2746,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " and gender like " + "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " where date(date_enrolled) between "
 				+ "'"
@@ -2773,7 +2773,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " where date(date_enrolled) between DATE_SUB("
 				+ "'"
@@ -2812,7 +2812,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " where pp.date_completed is not null"
 				+ " and date(pp.date_completed) between "
@@ -2845,7 +2845,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ "  and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ "  and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " where pp.date_completed is null"
 				+ " and date(pp.date_enrolled) between "
@@ -2908,7 +2908,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " and gender like " + "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " where date(date_enrolled) between "
 				+ "'"
@@ -2935,7 +2935,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " where date(date_enrolled) between DATE_SUB("
 				+ "'"
@@ -2974,7 +2974,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " where pp.date_completed is not null"
 				+ " and date(pp.date_completed) between "
@@ -3007,7 +3007,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ "  where pp.date_completed is null"
 				+ "  and date(pp.date_enrolled) between "
@@ -3069,7 +3069,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " AND o.value_coded LIKE '1663'" + " AND gender LIKE " + "'"
 				+ gender
 				+ "'"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN "
 				+ "'"
@@ -3119,7 +3119,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE o.obs_datetime BETWEEN "
 				+ "'"
@@ -3141,7 +3141,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE pp.date_completed IS NOT NULL"
 				+ " AND DATE(pp.date_completed) BETWEEN "
@@ -3180,7 +3180,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " AND o.value_coded LIKE '1663'" + " AND gender LIKE " + "'"
 				+ gender
 				+ "'"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN "
 				+ "'"
@@ -3208,7 +3208,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN DATE_SUB("
 				+ "'"
@@ -3265,7 +3265,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE o.obs_datetime BETWEEN "
 				+ "'"
@@ -3287,7 +3287,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ gender
 				+ "'"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE pp.date_completed IS NOT NULL"
 				+ " AND DATE(pp.date_completed) BETWEEN "
@@ -3323,7 +3323,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " INNER JOIN person p ON p.person_id=pp.patient_id "
 				+ " INNER JOIN obs o ON o.person_id=pp.patient_id"
 				+ " AND o.concept_id LIKE '162945'"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN "
 				+ "'"
@@ -3349,7 +3349,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " INNER JOIN drug_order_processed d ON d.patient_id=pp.patient_id"
 				+ " INNER JOIN obs o ON o.person_id=pp.patient_id"
 				+ " AND o.concept_id LIKE '162945'"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN DATE_SUB("
 				+ "'"
@@ -3393,7 +3393,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " FROM patient_program pp"
 				+ " INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART'"
 				+ " INNER JOIN person p ON p.person_id=pp.patient_id "
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE pp.date_completed IS NOT NULL"
 				+ " AND DATE(pp.date_completed) BETWEEN "
@@ -3427,7 +3427,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " INNER JOIN obs o ON o.person_id=pp.patient_id"
 				+ " AND o.concept_id LIKE '162945'"
 				+ " AND o.value_text ='>95%' AND o.voided=0"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN "
 				+ "'"
@@ -3453,7 +3453,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "  INNER JOIN obs o ON o.person_id=pp.patient_id"
 				+ " AND o.concept_id LIKE '162945'"
 				+ " AND o.value_text ='>95%'  AND o.voided=0"
-				+ "  AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ "  AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN DATE_SUB("
 				+ "'"
@@ -3499,7 +3499,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " FROM patient_program pp"
 				+ " INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART'"
 				+ " INNER JOIN person p ON p.person_id=pp.patient_id "
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE pp.date_completed IS NOT NULL"
 				+ " AND DATE(pp.date_completed) BETWEEN "
@@ -3515,7 +3515,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " FROM patient_program pp"
 				+ " INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'HIV'"
 				+ " INNER JOIN person p ON p.person_id=pp.patient_id "
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE pp.date_completed IS NOT NULL"
 				+ " AND DATE(pp.date_completed) < "
@@ -3545,7 +3545,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " INNER JOIN obs o ON o.person_id=pp.patient_id"
 				+ " AND o.concept_id LIKE '162945'"
 				+ " AND o.value_text ='80-95 %' AND o.voided=0"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN "
 				+ "'"
@@ -3571,7 +3571,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "  INNER JOIN obs o ON o.person_id=pp.patient_id"
 				+ " AND o.concept_id LIKE '162945'"
 				+ " AND o.value_text ='80-95 %'  AND o.voided=0"
-				+ "  AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ "  AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN DATE_SUB("
 				+ "'"
@@ -3617,7 +3617,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " FROM patient_program pp"
 				+ " INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART'"
 				+ " INNER JOIN person p ON p.person_id=pp.patient_id "
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE pp.date_completed IS NOT NULL"
 				+ " AND DATE(pp.date_completed) BETWEEN "
@@ -3633,7 +3633,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " FROM patient_program pp"
 				+ " INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'HIV'"
 				+ " INNER JOIN person p ON p.person_id=pp.patient_id "
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE pp.date_completed IS NOT NULL"
 				+ " AND DATE(pp.date_completed) < "
@@ -3663,7 +3663,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " INNER JOIN obs o ON o.person_id=pp.patient_id"
 				+ " AND o.concept_id LIKE '162945'"
 				+ " AND o.value_text ='<80%' AND o.voided=0"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN "
 				+ "'"
@@ -3689,7 +3689,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "  INNER JOIN obs o ON o.person_id=pp.patient_id"
 				+ " AND o.concept_id LIKE '162945'"
 				+ " AND o.value_text ='<80%'  AND o.voided=0"
-				+ "  AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ "  AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN DATE_SUB("
 				+ "'"
@@ -3735,7 +3735,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " FROM patient_program pp"
 				+ " INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART'"
 				+ " INNER JOIN person p ON p.person_id=pp.patient_id "
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE pp.date_completed IS NOT NULL"
 				+ " AND DATE(pp.date_completed) BETWEEN "
@@ -3751,7 +3751,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " FROM patient_program pp"
 				+ " INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'HIV'"
 				+ " INNER JOIN person p ON p.person_id=pp.patient_id "
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE pp.date_completed IS NOT NULL"
 				+ " AND DATE(pp.date_completed) < "
@@ -4052,7 +4052,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ " AND discontinued_date IS NULL "
 				+ "AND type_of_regimen LIKE 'First line Anti-retoviral drugs'"
-				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN "
 				+ "'"
@@ -4082,7 +4082,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ " AND discontinued_date IS NULL "
 				+ " AND type_of_regimen LIKE 'First line Anti-retoviral drugs' "
-				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN DATE_SUB("
 				+ "'"
@@ -4124,7 +4124,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'HIV' "
 				+ "INNER JOIN obs o ON o.person_id = pp.patient_id AND o.concept_id=161555 "
 				+ "INNER JOIN person p ON p.person_id=pp.patient_id "
-				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE o.obs_datetime BETWEEN "
 				+ "'"
@@ -4142,7 +4142,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART' "
 				+ "INNER JOIN person p ON p.person_id=pp.patient_id "
 				+ "LEFT JOIN obs o ON o.person_id = pp.patient_id AND o.concept_id=161555 "
-				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE pp.date_completed IS NOT NULL "
 				+ "AND DATE(pp.date_completed) BETWEEN "
@@ -4185,7 +4185,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ " AND discontinued_date IS NULL "
 				+ "AND type_of_regimen LIKE 'Fixed dose combinations (FDCs)'"
-				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN "
 				+ "'"
@@ -4215,7 +4215,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ " AND discontinued_date IS NULL "
 				+ " AND type_of_regimen LIKE 'Fixed dose combinations (FDCs)' "
-				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN DATE_SUB("
 				+ "'"
@@ -4257,7 +4257,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'HIV' "
 				+ "INNER JOIN obs o ON o.person_id = pp.patient_id AND o.concept_id=161555 "
 				+ "INNER JOIN person p ON p.person_id=pp.patient_id "
-				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE o.obs_datetime BETWEEN "
 				+ "'"
@@ -4275,7 +4275,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART' "
 				+ "INNER JOIN person p ON p.person_id=pp.patient_id "
 				+ "LEFT JOIN obs o ON o.person_id = pp.patient_id AND o.concept_id=161555 "
-				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE pp.date_completed IS NOT NULL "
 				+ "AND DATE(pp.date_completed) BETWEEN "
@@ -4314,7 +4314,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ " AND discontinued_date IS NULL "
 				+ "AND type_of_regimen LIKE 'First line Anti-retoviral drugs'"
-				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN "
 				+ "'"
@@ -4340,7 +4340,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ " AND discontinued_date IS NULL "
 				+ " AND type_of_regimen LIKE 'First line Anti-retoviral drugs' "
-				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN DATE_SUB("
 				+ "'"
@@ -4382,7 +4382,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'HIV' "
 				+ "INNER JOIN obs o ON o.person_id = pp.patient_id AND o.concept_id=161555 "
 				+ "INNER JOIN person p ON p.person_id=pp.patient_id "
-				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE o.obs_datetime BETWEEN "
 				+ "'"
@@ -4400,7 +4400,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART' "
 				+ "INNER JOIN person p ON p.person_id=pp.patient_id "
 				+ "LEFT JOIN obs o ON o.person_id = pp.patient_id AND o.concept_id=161555 "
-				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE pp.date_completed IS NOT NULL "
 				+ "AND DATE(pp.date_completed) BETWEEN "
@@ -4443,7 +4443,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ " AND discontinued_date IS NULL "
 				+ " AND type_of_regimen LIKE 'Second line ART' "
-				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN "
 				+ "'"
@@ -4473,7 +4473,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ " AND discontinued_date IS NULL "
 				+ "AND type_of_regimen LIKE 'Second line ART' "
-				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN DATE_SUB("
 				+ "'"
@@ -4533,7 +4533,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART' "
 				+ "INNER JOIN person p ON p.person_id=pp.patient_id "
 				+ "LEFT JOIN obs o ON o.person_id = pp.patient_id AND o.concept_id=161555 "
-				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE pp.date_completed IS NOT NULL "
 				+ "AND DATE(pp.date_completed) BETWEEN "
@@ -4576,7 +4576,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ " AND discontinued_date IS NULL "
 				+ " AND type_of_regimen LIKE 'Fixed dose combinations (FDCs)' "
-				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN "
 				+ "'"
@@ -4606,7 +4606,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ " AND discontinued_date IS NULL "
 				+ "AND type_of_regimen LIKE 'Fixed dose combinations (FDCs)' "
-				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN DATE_SUB("
 				+ "'"
@@ -4666,7 +4666,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART' "
 				+ "INNER JOIN person p ON p.person_id=pp.patient_id "
 				+ "LEFT JOIN obs o ON o.person_id = pp.patient_id AND o.concept_id=161555 "
-				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE pp.date_completed IS NOT NULL "
 				+ "AND DATE(pp.date_completed) BETWEEN "
@@ -4705,7 +4705,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ " AND discontinued_date IS NULL "
 				+ " AND type_of_regimen LIKE 'Second line ART' "
-				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN "
 				+ "'"
@@ -4731,7 +4731,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ " AND discontinued_date IS NULL "
 				+ "AND type_of_regimen LIKE 'Second line ART' "
-				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN DATE_SUB("
 				+ "'"
@@ -4791,7 +4791,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART' "
 				+ "INNER JOIN person p ON p.person_id=pp.patient_id "
 				+ "LEFT JOIN obs o ON o.person_id = pp.patient_id AND o.concept_id=161555 "
-				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE pp.date_completed IS NOT NULL "
 				+ "AND DATE(pp.date_completed) BETWEEN "
@@ -4832,7 +4832,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ doseRegimen
 				+ "'"
-				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN "
 				+ "'"
@@ -4860,7 +4860,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ doseRegimen
 				+ "'"
-				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled)) "
+				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created)) "
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN DATE_SUB("
 				+ "'"
@@ -4927,7 +4927,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ " AND type_of_regimen LIKE 'Fixed dose combinations (FDCs)' "
 				+ " AND discontinued_date IS NULL "
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN "
 				+ "'"
@@ -4957,7 +4957,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ " AND type_of_regimen LIKE 'Fixed dose combinations (FDCs)' "
 				+ " AND discontinued_date IS NULL "
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN DATE_SUB("
 				+ "'"
@@ -5000,7 +5000,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'HIV' "
 				+ "INNER JOIN obs o ON o.person_id = pp.patient_id AND o.concept_id=161555 "
 				+ "INNER JOIN person p ON p.person_id=pp.patient_id "
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE DATE(o.obs_datetime) BETWEEN "
 				+ "'"
@@ -5018,7 +5018,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART' "
 				+ "INNER JOIN person p ON p.person_id=pp.patient_id "
 				+ "LEFT JOIN obs o ON o.person_id = pp.patient_id AND o.concept_id=161555 "
-				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ "AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE pp.date_completed IS NOT NULL "
 				+ "AND DATE(pp.date_completed) BETWEEN "
@@ -5057,7 +5057,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ " AND type_of_regimen LIKE 'Fixed dose combinations (FDCs)' "
 				+ " AND discontinued_date IS NULL "
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN "
 				+ "'"
@@ -5083,7 +5083,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "'"
 				+ " AND type_of_regimen LIKE 'Fixed dose combinations (FDCs)' "
 				+ " AND discontinued_date IS NULL "
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN DATE_SUB("
 				+ "'"
@@ -5126,7 +5126,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'HIV' "
 				+ "INNER JOIN obs o ON o.person_id = pp.patient_id AND o.concept_id=161555 "
 				+ "INNER JOIN person p ON p.person_id=pp.patient_id "
-				+ "and TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ "and TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE o.obs_datetime BETWEEN "
 				+ "'"
@@ -5144,7 +5144,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "INNER JOIN program pr ON pr.program_id=pp.program_id AND pr.name LIKE 'ART' "
 				+ "INNER JOIN person p ON p.person_id=pp.patient_id "
 				+ "LEFT JOIN obs o ON o.person_id = pp.patient_id AND o.concept_id=161555 "
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE pp.date_completed IS NOT NULL "
 				+ " AND DATE(pp.date_completed) BETWEEN "
@@ -5187,7 +5187,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ doseRegimen
 				+ "'"
 				+ " AND processed_status =1"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN "
 				+ "'"
@@ -5220,7 +5220,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ doseRegimen
 				+ "'"
 				+ " AND processed_status =1"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN DATE_SUB("
 				+ "'"
@@ -5283,7 +5283,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ drugRegimen
 				+ "'"
 				+ " AND processed_status =1"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ " WHERE DATE(date_enrolled) BETWEEN "
 				+ "'"
@@ -5312,7 +5312,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ drugRegimen
 				+ "'"
 				+ "  AND processed_status =1"
-				+ "  AND TIMESTAMPDIFF(YEAR,(p.birthdate),(date_enrolled))"
+				+ "  AND TIMESTAMPDIFF(YEAR,(p.birthdate),(pp.date_created))"
 				+ ageCategory
 				+ "  WHERE DATE(date_enrolled) BETWEEN DATE_SUB("
 				+ "'"
