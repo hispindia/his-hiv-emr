@@ -1567,7 +1567,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " from obs o"
 				+ " inner join person p on p.person_id=o.person_id "
 				+ " and gender like " + "'" + gender + "'"
-				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(o.obs_datetime))"
+				+ " and TIMESTAMPDIFF(YEAR,(p.birthdate),(o.date_created))"
 				+ ageCategory + " where o.concept_id=163079"
 				+ " and o.obs_datetime between " + "'" + startOfPeriod + "'"
 				+ " and " + "'" + endOfPeriod + "'" + " and  o.voided=0 "
@@ -3780,7 +3780,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ "  AND concept_name_type = 'FULLY_SPECIFIED') "
 				+ " AND cn.concept_id IN ('162887') AND o.voided=0"
 				+ " AND p.gender Like " + "'" + gender + "'"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.obs_datetime))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.date_created))"
 				+ ageCategory + " AND p.birthdate IS NOT NULL"
 				+ " AND DATE(obs_datetime) BETWEEN " + "'" + startOfPeriod
 				+ "'" + " AND " + "'" + endOfPeriod + "'" + " )performanceA";
@@ -3802,7 +3802,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " AND concept_name_type = 'FULLY_SPECIFIED') "
 				+ " AND cn.concept_id IN ('162888') AND o.voided=0"
 				+ " AND p.gender Like " + "'" + gender + "'"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.obs_datetime))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.date_created))"
 				+ ageCategory + " AND p.birthdate IS NOT NULL"
 				+ " AND DATE(obs_datetime) BETWEEN " + "'" + startOfPeriod
 				+ "'" + " AND " + "'" + endOfPeriod + "'" + " )performanceB";
@@ -3824,7 +3824,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " AND concept_name_type = 'FULLY_SPECIFIED') "
 				+ " AND cn.concept_id IN ('162889')  AND o.voided=0"
 				+ " AND p.gender Like " + "'" + gender + "'"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.obs_datetime))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.date_created))"
 				+ ageCategory + " AND p.birthdate IS NOT NULL"
 				+ " AND DATE(obs_datetime) BETWEEN " + "'" + startOfPeriod
 				+ "'" + " AND " + "'" + endOfPeriod + "'" + " )performanceC";
@@ -3846,7 +3846,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " AND concept_name_type = 'FULLY_SPECIFIED') "
 				+ " AND cn.concept_id IN ('162914')  AND o.voided=0"
 				+ " AND p.gender Like " + "'" + gender + "'"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.obs_datetime))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.date_created))"
 				+ ageCategory + " AND p.birthdate IS NOT NULL"
 				+ " AND DATE(obs_datetime) BETWEEN " + "'" + startOfPeriod
 				+ "'" + " AND " + "'" + endOfPeriod + "'" + " )risk1";
@@ -3868,7 +3868,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " AND concept_name_type = 'FULLY_SPECIFIED') "
 				+ " AND cn.concept_id IN ('160578')  AND o.voided=0"
 				+ " AND p.gender Like " + "'" + gender + "'"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.obs_datetime))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.date_created))"
 				+ ageCategory + " AND p.birthdate IS NOT NULL"
 				+ " AND DATE(obs_datetime) BETWEEN " + "'" + startOfPeriod
 				+ "'" + " AND " + "'" + endOfPeriod + "'" + " )risk2";
@@ -3890,7 +3890,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " AND concept_name_type = 'FULLY_SPECIFIED') "
 				+ " AND cn.concept_id IN ('160579')  AND o.voided=0"
 				+ " AND p.gender Like " + "'" + gender + "'"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.obs_datetime))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.date_created))"
 				+ ageCategory + " AND p.birthdate IS NOT NULL"
 				+ " AND DATE(obs_datetime) BETWEEN " + "'" + startOfPeriod
 				+ "'" + " AND " + "'" + endOfPeriod + "'" + " )risk3";
@@ -3912,7 +3912,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " AND concept_name_type = 'FULLY_SPECIFIED') "
 				+ " AND cn.concept_id IN ('162915')  AND o.voided=0"
 				+ " AND p.gender Like " + "'" + gender + "'"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.obs_datetime))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.date_created))"
 				+ ageCategory + " AND p.birthdate IS NOT NULL"
 				+ " AND DATE(obs_datetime) BETWEEN " + "'" + startOfPeriod
 				+ "'" + " AND " + "'" + endOfPeriod + "'" + " )risk4";
@@ -3934,7 +3934,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " AND concept_name_type = 'FULLY_SPECIFIED') "
 				+ " AND cn.concept_id IN ('1063')  AND o.voided=0"
 				+ " AND p.gender Like " + "'" + gender + "'"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.obs_datetime))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.date_created))"
 				+ ageCategory + " AND p.birthdate IS NOT NULL"
 				+ " AND DATE(obs_datetime) BETWEEN " + "'" + startOfPeriod
 				+ "'" + " AND " + "'" + endOfPeriod + "'" + " )risk5";
@@ -3956,7 +3956,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " AND concept_name_type = 'FULLY_SPECIFIED') "
 				+ " AND cn.concept_id IN ('162916')  AND o.voided=0"
 				+ " AND p.gender Like " + "'" + gender + "'"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.obs_datetime))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.date_created))"
 				+ ageCategory + " AND p.birthdate IS NOT NULL"
 				+ " AND DATE(obs_datetime) BETWEEN " + "'" + startOfPeriod
 				+ "'" + " AND " + "'" + endOfPeriod + "'" + " )risk6";
@@ -3978,7 +3978,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " AND concept_name_type = 'FULLY_SPECIFIED') "
 				+ " AND cn.concept_id IN ('1067')  AND o.voided=0"
 				+ " AND p.gender Like " + "'" + gender + "'"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.obs_datetime))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.date_created))"
 				+ ageCategory + " AND p.birthdate IS NOT NULL"
 				+ " AND DATE(obs_datetime) BETWEEN " + "'" + startOfPeriod
 				+ "'" + " AND " + "'" + endOfPeriod + "'" + " )risk7";
@@ -4000,7 +4000,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " AND concept_name_type = 'FULLY_SPECIFIED') "
 				+ " AND cn.concept_id IN ('5497') " + " AND p.gender Like "
 				+ "'" + gender + "'"
-				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.obs_datetime))"
+				+ " AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.date_created))"
 				+ ageCategory + " AND p.birthdate IS NOT NULL"
 				+ " AND DATE(obs_datetime) BETWEEN  " + "'" + startOfPeriod
 				+ "'" + " AND " + "'" + endOfPeriod + "'" + " )cd";
@@ -4022,7 +4022,7 @@ public class HibernateKenyaEmrDAO implements KenyaEmrDAO {
 				+ " AND concept_name_type = 'FULLY_SPECIFIED') "
 				+ "  AND cn.concept_id IN ('856') " + " AND p.gender Like "
 				+ "'" + gender + "'"
-				+ "  AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.obs_datetime))"
+				+ "  AND TIMESTAMPDIFF(YEAR,(p.birthdate),(o.date_created))"
 				+ ageCategory + " AND p.birthdate IS NOT NULL"
 				+ " AND DATE(obs_datetime) BETWEEN  " + "'" + startOfPeriod
 				+ "'" + " AND " + "'" + endOfPeriod + "'" + " )viral";
